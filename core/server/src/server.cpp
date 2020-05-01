@@ -1,5 +1,6 @@
-#include <vector>
 #include <pthread.h>
+#include <cstring>
+#include <vector>
 #include <core/server.hpp>
 
 using namespace core;
