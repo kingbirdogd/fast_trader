@@ -49,7 +49,7 @@ void server::start()
 		{
 #ifndef __APPLE__
 			cpu_set_t cpuset;
-			CPU_SET(_cpu_id, &cpuset);
+			CPU_SET(_cpu_core, &cpuset);
 			::pthread_setaffinity_np(self, sizeof(cpu_set_t), &cpuset);
 #endif
 		}
