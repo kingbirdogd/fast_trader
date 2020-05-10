@@ -14,7 +14,6 @@
 #include <srv/json_node.h>
 #include <srv/net.h>
 #include <srv/dbp_shm.h>
-//#include <srv/dbp_internal_crypto.h>
 typedef std::unordered_set<int> CISBrokerIDSet;
 class COmdMemOrderbook
 {
@@ -179,20 +178,11 @@ static CStreamVec omddStreams;
 static CBroker brokerStream;
 static COmddOrderidMap omdcOrderodMap;
 static dbp::shm::MemoryRef shm_Ref;
-static unsigned short int uTcpPort = 0;
-static std::string strTcpIp = "";
 static CActivateChannel mActivateChannel;
 
 inline std::string getString(char* _pszBuffer, unsigned int _uOfferSet, unsigned int _uSize)
 {
 	return std::string(_pszBuffer+_uOfferSet,_uSize);
-	/*
-	char szBuffer[2048];
-	std::memset (szBuffer, 0, 2048);
-	std::memcpy(szBuffer, _pszBuffer + _uOfferSet, _uSize);
-	szBuffer[_uSize] = 0;
-	return szBuffer;
-	*/
 }
 
 //Running Data Loading
@@ -973,29 +963,9 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 															commodityCode * mCommodityCode + std::stoi(expdate) * mExpdate + mstrike;
 
 													unsigned long orderbookid = OMD_GET_VALUE(pszBuffer, 4, unsigned int);
-
-													//flush_printf("tm:%llu, instrumentGroup %d \n", dbp::tools::srv::current(), instrumentGroup);
-													//flush_printf("tm:%llu, commodityCode %d \n", dbp::tools::srv::current(), commodityCode);
-													//flush_printf("tm:%llu, strike %d \n", dbp::tools::srv::current(), strike);
-													//flush_printf("tm:%llu, Expiry Date %s \n", dbp::tools::srv::current(), expdate.c_str());
-													//flush_printf("tm:%llu, Key %llu \n\n", dbp::tools::srv::current(), mykey);
-													//flush_printf("tm:%llu, OrderBook Id %lu \n\n", dbp::tools::srv::current(), orderbookid);
-
 													omdcOrderodMap[mykey] = orderbookid;
-
 													omddMap[orderbookid].m_uIdx = 0;
-												}/*
-												else if (303 == uMsgType)
-												{
-													omddMap[OMD_GET_VALUE(pszBuffer, 4, unsigned int)].m_uIdx = 0;
-												}*/
-												/*
-												else if (303 == uMsgType)
-												{
-													ofs_symbolmap << OMD_GET_STR(pszBuffer, 8, 32) << ","
-															<< OMD_GET_VALUE(pszBuffer, 4, unsigned int) << std::endl;
 												}
-												*/
 												break;
 											}
 											case CDefChannel::FINISHED:
@@ -1027,11 +997,8 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 			}
 		}
 		::close(iDefEopll);
-
 		ofs_symbolmap.close();
 		ofs_warrantmap.close();
-
-
 		itActivate = mActivateChannel.find("OmdcChannel");
 		if(itActivate != mActivateChannel.end())
 		{
@@ -1040,7 +1007,6 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 				::close(it->first);
 			}
 		}
-
 		itActivate = mActivateChannel.find("OmddChannel");
 		if(itActivate != mActivateChannel.end())
 		{
@@ -1049,8 +1015,6 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 				::close(it->first);
 			}
 		}
-
-
 		unsigned int uCnt = 0;
 		itActivate = mActivateChannel.find("OmdcChannel");
 		if(itActivate != mActivateChannel.end())
@@ -1061,7 +1025,6 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 				++uCnt;
 			}
 		}
-
 		uCnt = 0;
 		itActivate = mActivateChannel.find("OmddChannel");
 		if(itActivate != mActivateChannel.end())
@@ -1072,59 +1035,6 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 				++uCnt;
 			}
 		}
-		/*
-		std::string strTmpOut = szCacheFileName;
-		strTmpOut += ".tmp";
-		std::ofstream ofs(strTmpOut.c_str(), std::ios::binary);
-		if (ofs)
-		{
-			unsigned int uSize = 0;
-
-			itActivate = mActivateChannel.find("OmdcChannel");
-			if(itActivate != mActivateChannel.end())
-			{
-				unsigned int uSize = omdcMap.size();
-				ofs.write((char*)((void*)(&uSize)), sizeof(unsigned int));
-				for (COmdOmdcOrderMap::iterator it = omdcMap.begin(); it != omdcMap.end(); ++it)
-				{
-					ofs.write((char*)((void*)(&it->first)), sizeof(unsigned int));
-					ofs.write((char*)((void*)(&it->second.m_SPOrderBook.m_uLotSize)), sizeof(unsigned int));
-				}
-			}
-
-			itActivate = mActivateChannel.find("OmddChannel");
-			if(itActivate != mActivateChannel.end())
-			{
-				uSize = omddMap.size();
-				ofs.write((char*)((void*)(&uSize)), sizeof(unsigned int));
-				for (COmdOrderMap::iterator it = omddMap.begin(); it != omddMap.end(); ++it)
-				{
-					ofs.write((char*)((void*)(&it->first)), sizeof(unsigned int));
-				}
-
-
-				uSize = omdcOrderodMap.size();
-				ofs.write((char*)((void*)(&uSize)), sizeof(unsigned int));
-				for (COmddOrderidMap::iterator it = omdcOrderodMap.begin(); it != omdcOrderodMap.end(); ++it)
-				{
-					ofs.write((char*)((void*)(&it->first)), sizeof(unsigned long long));
-					ofs.write((char*)((void*)(&it->second)), sizeof(unsigned long));
-				}
-
-			}
-
-			itActivate = mActivateChannel.find("OmdcChannel");
-			if(itActivate != mActivateChannel.end())
-			{
-				uSize = specialSpreadTableSet.size();
-				ofs.write((char*)((void*)(&uSize)), sizeof(unsigned int));
-				for (CSpecialSpreadTableSet::iterator it = specialSpreadTableSet.begin(); it != specialSpreadTableSet.end(); ++it)
-				{
-					ofs.write((char*)((void*)(&(*it))), sizeof(unsigned int));
-				}
-			}
-			rename(strTmpOut.c_str(), szCacheFileName);
-		}*/
 	}
 	return true;
 }
@@ -1177,43 +1087,6 @@ inline static bool loadRetran(dbp::cfg::srv::json_node& _json)
 		proxy.m_strIp = strIp;
 		proxy.m_uPort = uPort;
 		retranVec.push_back(proxy);
-	}
-	return true;
-}
-inline static bool loadTcp(dbp::cfg::srv::json_node& _json)
-{
-	dbp::cfg::srv::json_node* pTCP_SERVER = _json.getMapNode("TCP_SERVER");
-	if (nullptr == pTCP_SERVER)
-	{
-		return false;
-	}
-	if (dbp::cfg::srv::json_node::JSON != pTCP_SERVER->getType())
-	{
-		return false;
-	}
-	dbp::cfg::srv::json_node* pPort = pTCP_SERVER->getMapNode("Port");
-	if (nullptr == pPort)
-	{
-		return false;
-	}
-	if (dbp::cfg::srv::json_node::INT != pPort->getType())
-	{
-		return false;
-	}
-	long long llPort = pPort->getInt();
-	if (llPort <= 0 || llPort > std::numeric_limits<unsigned short int>::max())
-	{
-		return false;
-	}
-	uTcpPort = (unsigned short int)llPort;
-	dbp::cfg::srv::json_node* pIp = pTCP_SERVER->getMapNode("Ip");
-	if (nullptr != pIp)
-	{
-		if (dbp::cfg::srv::json_node::STRING != pIp->getType())
-		{
-			return false;
-		}
-		pIp->getString(strTcpIp);
 	}
 	return true;
 }
@@ -1727,30 +1600,19 @@ inline static bool loadActivateChannel(dbp::cfg::srv::json_node& _json)
 inline static bool initJson(const char* _pszJsonPath)
 {
 	dbp::cfg::srv::json_node json;
-
-
-	//json << _pszJsonPath;
-
-
-	std::ifstream ifsBin(_pszJsonPath);
-	if (!ifsBin)
+	std::ifstream ifs(_pszJsonPath);
+	if (!ifs)
 	{
 		std::cerr << "Load Binary Json Error" << std::endl;
 		return false;
 	}
-	std::string strJson((std::istreambuf_iterator<char>(ifsBin)), std::istreambuf_iterator<char>());
-	//std::string strJson = dbp::crypto::decryptDbpAes256(strBase64);
-
-	//flush_printf("tm:%llu, Config Content %s \n", dbp::tools::srv::current(), strJson.c_str());
-
+	std::string strJson((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
 	if (!json.fromString(strJson.c_str()))
 	{
 		std::cerr << "Parse Json Error" << std::endl;
 		return false;
 	}
-	ifsBin.close();
-
-
+	ifs.close();
 	flush_printf("tm:%llu, initSOL_SOCKET \n", dbp::tools::srv::current());
 	if (!dbp::net::srv::initSOL_SOCKET(json))
 	{
@@ -1773,12 +1635,6 @@ inline static bool initJson(const char* _pszJsonPath)
 	if (!loadCpu(json))
 	{
 		std::cerr << "loadCpu fail" << std::endl;
-		return false;
-	}
-	flush_printf("tm:%llu, loadTcp \n", dbp::tools::srv::current());
-	if (!loadTcp(json))
-	{
-		std::cerr << "loadTcp fail" << std::endl;
 		return false;
 	}
 	flush_printf("tm:%llu, loadRetran \n", dbp::tools::srv::current());
@@ -1875,7 +1731,6 @@ inline static bool initJson(const char* _pszJsonPath)
 		shm_Ref.m_pOmdcTradable[it->second.m_SPOrderBook.m_uIdx].m_Tradable.m_uCode = it->first;
 		shm_Ref.m_pOmdcTradable[it->second.m_SPOrderBook.m_uIdx].m_Tradable.m_uLotSize = it->second.m_SPOrderBook.m_uLotSize;
 		shm_Ref.m_pOmdcTradable[it->second.m_SPOrderBook.m_uIdx].m_Position.m_uCode = it->first;
-		//std::cout << "OMDC,Code[" <<  shm_Ref.m_pOmdcTradable[it->second.m_SPOrderBook.m_uIdx].m_Tradable.m_uCode << "], LostSize:" << shm_Ref.m_pOmdcTradable[it->second.m_SPOrderBook.m_uIdx].m_Tradable.m_uLotSize  << std::endl;
 	}
 	for (COmdOrderMap::iterator it = omddMap.begin(); it != omddMap.end(); ++it)
 	{
