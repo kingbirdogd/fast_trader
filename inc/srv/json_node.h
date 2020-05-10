@@ -143,6 +143,10 @@ namespace dbp
 						{
 							break;
 						}
+						default:
+						{
+							break;
+						}
 					}
 					m_ValueType = NONE;
 				}
@@ -210,6 +214,10 @@ namespace dbp
 							self = geter;
 							break;
 						}
+						default:
+						{
+							break;
+						}
 					}
 				}
 				void Create(json_node&& value)
@@ -264,6 +272,10 @@ namespace dbp
 							self = geter;
 							break;
 						}
+						default:
+						{
+							break;
+						}
 					}
 				}
 				void Create(ValueType _ValueType = NONE)
@@ -304,6 +316,10 @@ namespace dbp
 							break;
 						}
 						case BOOL:
+						{
+							break;
+						}
+						default:
 						{
 							break;
 						}
@@ -744,6 +760,10 @@ namespace dbp
 						{
 							break;
 						}
+						default:
+						{
+							break;
+						}
 					}
 					return *pRt;
 				}
@@ -779,6 +799,10 @@ namespace dbp
 							break;
 						}
 						case BOOL:
+						{
+							break;
+						}
+						default:
 						{
 							break;
 						}
@@ -1362,6 +1386,10 @@ namespace dbp
 							}
 							break;
 						}
+						default:
+						{
+							break;
+						}
 					}
 					return *this;
 				}
@@ -1424,6 +1452,10 @@ namespace dbp
 							{
 								self = true;
 							}
+							break;
+						}
+						default:
+						{
 							break;
 						}
 					}
@@ -1489,6 +1521,10 @@ namespace dbp
 							}
 							break;
 						}
+						default:
+						{
+							break;
+						}
 					}
 					return *this;
 				}
@@ -1551,6 +1587,10 @@ namespace dbp
 							{
 								self = false;
 							}
+							break;
+						}
+						default:
+						{
 							break;
 						}
 					}
@@ -1623,6 +1663,10 @@ namespace dbp
 							{
 								self = true;
 							}
+							break;
+						}
+						default:
+						{
 							break;
 						}
 					}
@@ -1701,6 +1745,10 @@ namespace dbp
 							}
 							break;
 						}
+						default:
+						{
+							break;
+						}
 					}
 					return *this;
 				}
@@ -1775,6 +1823,10 @@ namespace dbp
 							{
 								self = false;
 							}
+							break;
+						}
+						default:
+						{
 							break;
 						}
 					}
@@ -1853,6 +1905,10 @@ namespace dbp
 							}
 							break;
 						}
+						default:
+						{
+							break;
+						}
 					}
 					return *this;
 				}
@@ -1928,6 +1984,10 @@ namespace dbp
 							{
 								self = false;
 							}
+							break;
+						}
+						default:
+						{
 							break;
 						}
 					}
@@ -2094,6 +2154,10 @@ namespace dbp
 							}
 							break;
 						}
+						default:
+						{
+							break;
+						}
 					}
 					return *this;
 				}
@@ -2168,6 +2232,10 @@ namespace dbp
 							{
 								self = true;
 							}
+							break;
+						}
+						default:
+						{
 							break;
 						}
 					}
@@ -2246,6 +2314,10 @@ namespace dbp
 							}
 							break;
 						}
+						default:
+						{
+							break;
+						}
 					}
 					return *this;
 				}
@@ -2320,6 +2392,10 @@ namespace dbp
 							{
 								self = false;
 							}
+							break;
+						}
+						default:
+						{
 							break;
 						}
 					}
@@ -2454,6 +2530,10 @@ namespace dbp
 							}
 							break;
 						}
+						default:
+						{
+							break;
+						}
 					}
 					return *this;
 				}
@@ -2550,6 +2630,10 @@ namespace dbp
 								std::string* pSelf = (std::string*)pPointer;
 								StringCopy (pSelf, value);
 							}
+							break;
+						}
+						default:
+						{
 							break;
 						}
 					}
@@ -2650,6 +2734,10 @@ namespace dbp
 							}
 							break;
 						}
+						default:
+						{
+							break;
+						}
 					}
 					return *this;
 				}
@@ -2746,6 +2834,10 @@ namespace dbp
 								std::string* pSelf = (std::string*)pPointer;
 								StringCopy (pSelf, value);
 							}
+							break;
+						}
+						default:
+						{
 							break;
 						}
 					}
@@ -2845,6 +2937,10 @@ namespace dbp
 								std::string* pSelf = (std::string*)pPointer;
 								StringCopy (pSelf, value);
 							}
+							break;
+						}
+						default:
+						{
 							break;
 						}
 					}
@@ -2959,6 +3055,10 @@ namespace dbp
 							}
 							break;
 						}
+						default:
+						{
+							break;
+						}
 					}
 					return *this;
 				}
@@ -3049,6 +3149,10 @@ namespace dbp
 							{
 								self = true;
 							}
+							break;
+						}
+						default:
+						{
 							break;
 						}
 					}
@@ -3143,6 +3247,10 @@ namespace dbp
 							}
 							break;
 						}
+						default:
+						{
+							break;
+						}
 					}
 					return *this;
 				}
@@ -3235,6 +3343,8 @@ namespace dbp
 							}
 							break;
 						}
+						default:
+							break;
 					}
 					return *this;
 				}
@@ -3327,6 +3437,10 @@ namespace dbp
 							}
 							break;
 						}
+						default:
+						{
+							break;
+						}
 					}
 					return *this;
 				}
@@ -3416,6 +3530,10 @@ namespace dbp
 									}
 									break;
 								}
+								default:
+								{
+									break;
+								}
 							}
 							break;
 						}
@@ -3490,6 +3608,10 @@ namespace dbp
 									{
 										self += 1;
 									}
+									break;
+								}
+								default:
+								{
 									break;
 								}
 							}
@@ -3569,6 +3691,10 @@ namespace dbp
 									catch (...)
 									{
 									}
+									break;
+								}
+								default:
+								{
 									break;
 								}
 							}
@@ -3658,7 +3784,13 @@ namespace dbp
 									}
 									break;
 								}
+								default:
+									break;
 							}
+							break;
+						}
+						default:
+						{
 							break;
 						}
 					}
@@ -3745,6 +3877,10 @@ namespace dbp
 									}
 									break;
 								}
+								default:
+								{
+									break;
+								}
 							}
 							break;
 						}
@@ -3799,6 +3935,10 @@ namespace dbp
 									{
 										self -= 1;
 									}
+									break;
+								}
+								default:
+								{
 									break;
 								}
 							}
@@ -3899,6 +4039,10 @@ namespace dbp
 									}
 									break;
 								}
+								default:
+								{
+									break;
+								}
 							}
 							break;
 						}
@@ -3966,7 +4110,13 @@ namespace dbp
 									}
 									break;
 								}
+								default:
+									break;
 							}
+							break;
+						}
+						default:
+						{
 							break;
 						}
 					}
@@ -4053,6 +4203,10 @@ namespace dbp
 									}
 									break;
 								}
+								default:
+								{
+									break;
+								}
 							}
 							break;
 						}
@@ -4107,6 +4261,10 @@ namespace dbp
 									{
 										self = 0;
 									}
+									break;
+								}
+								default:
+								{
 									break;
 								}
 							}
@@ -4207,6 +4365,10 @@ namespace dbp
 									}
 									break;
 								}
+								default:
+								{
+									break;
+								}
 							}
 							break;
 						}
@@ -4274,9 +4436,15 @@ namespace dbp
 									}
 									break;
 								}
+								default:
+								{
+									break;
+								}
 							}
 							break;
 						}
+						default:
+							break;
 					}
 					return *this;
 				}
@@ -4361,6 +4529,10 @@ namespace dbp
 									}
 									break;
 								}
+								default:
+								{
+									break;
+								}
 							}
 							break;
 						}
@@ -4415,6 +4587,10 @@ namespace dbp
 									{
 										self = 0;
 									}
+									break;
+								}
+								default:
+								{
 									break;
 								}
 							}
@@ -4515,6 +4691,10 @@ namespace dbp
 									}
 									break;
 								}
+								default:
+								{
+									break;
+								}
 							}
 							break;
 						}
@@ -4582,9 +4762,15 @@ namespace dbp
 									}
 									break;
 								}
+								default:
+								{
+									break;
+								}
 							}
 							break;
 						}
+						default:
+							break;
 					}
 					return *this;
 				}
@@ -4669,6 +4855,10 @@ namespace dbp
 									}
 									break;
 								}
+								default:
+								{
+									break;
+								}
 							}
 							break;
 						}
@@ -4726,6 +4916,10 @@ namespace dbp
 									{
 										self = 0;
 									}
+									break;
+								}
+								default:
+								{
 									break;
 								}
 							}
@@ -4826,6 +5020,10 @@ namespace dbp
 									}
 									break;
 								}
+								default:
+								{
+									break;
+								}
 							}
 							break;
 						}
@@ -4893,9 +5091,15 @@ namespace dbp
 									}
 									break;
 								}
+								default:
+								{
+									break;
+								}
 							}
 							break;
 						}
+						default:
+							break;
 					}
 					return *this;
 				}
@@ -5117,6 +5321,10 @@ namespace dbp
 								strGet += "false";
 							}
 						}
+						default:
+						{
+							break;
+						}
 					}
 				}
 				json_node& operator << (std::string strFilePath)
@@ -5235,6 +5443,8 @@ namespace dbp
 							lRt = self ? 1 : 0;
 							break;
 						}
+						default:
+							break;
 					}
 					return lRt;
 				}
@@ -5281,6 +5491,8 @@ namespace dbp
 							lRt = self;
 							break;
 						}
+						default:
+							break;
 					}
 					return lRt;
 				}
@@ -5334,6 +5546,8 @@ namespace dbp
 							lRt = self ? 1.0 : 0.0;
 							break;
 						}
+						default:
+							break;
 					}
 					return lRt;
 				}
@@ -5392,6 +5606,8 @@ namespace dbp
 							strGet = self ? "true" : "false";
 							break;
 						}
+						default:
+							break;
 					}
 				}
 				ValueType getType()
