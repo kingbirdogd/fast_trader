@@ -7,79 +7,54 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
-#include <unordered_map>
 #include <unordered_set>
-#include <dbp_cpu.h>
-#include <omd.h>
-#include <json_node.h>
+#include <json.hpp>
 #include <net.h>
 #include <global_memory.hpp>
 
-//Running Data Loading
-inline static bool loadCpu(dbp::cfg::srv::json_node& _json)
+using json = nlohmann::json;
+
+inline static bool loadCpu(json& _json)
 {
-	dbp::cfg::srv::json_node* pCPU = _json.getMapNode("CPU");
-	if (nullptr == pCPU)
+	try
 	{
-		std::cerr << "Can not found CPU node" << std::endl;
-		return false;
+		auto& cpu = _json["CPU"];
+		for (std::size_t i = 0; i < cpu.size(); ++i)
+		{
+			auto llValue = cpu[i].get<unsigned long long>();
+			if (llValue >= std::numeric_limits<int>::max())
+			{
+				std::cerr << "CPU[" << i << "] is not in Range" << std::endl;
+				return false;
+			}
+			int iVavlue = static_cast<int>(llValue);
+			if (!cpuInfo.setCpu(iVavlue))
+			{
+				std::cerr << "CPU[" << i << "] init fail" << std::endl;
+				return false;
+			}
+		}
 	}
-	if (dbp::cfg::srv::json_node::VECTOR != pCPU->getType())
+	catch(...)
 	{
-		std::cerr << "CPU node is not a json" << std::endl;
+		std::cerr << "loadCpu fail" << std::endl;
 		return false;
-	}
-	size_t uCpuSize = pCPU->getArraySize();
-	for (size_t i = 0; i < uCpuSize; ++i)
-	{
-		dbp::cfg::srv::json_node* pValue = pCPU->getArrayNode(i);
-		if (dbp::cfg::srv::json_node::INT != pValue->getType())
-		{
-			std::cerr << "CPU[" << i << "] is not a INT" << std::endl;
-			return false;
-		}
-		long long llValue = pValue->getInt();
-		if (llValue < 0 || llValue >= std::numeric_limits<int>::max())
-		{
-			std::cerr << "CPU[" << i << "] is not in Range" << std::endl;
-			return false;
-		}
-		int iVavlue = (int)llValue;
-		if (!cpuInfo.setCpu(iVavlue))
-		{
-			std::cerr << "CPU[" << i << "] init fail" << std::endl;
-			return false;
-		}
 	}
 	return true;
 }
-inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::string& strPath)
+inline static bool loadDefinition(json& _json)
 {
-	std::ofstream ofs_symbolmap(strPath + ".symbolmap.csv", std::ios_base::out | std::ios_base::trunc);
-	std::ofstream ofs_warrantmap(strPath + ".warrantmap.csv", std::ios_base::out | std::ios_base::trunc);
-	dbp::cfg::srv::json_node* pDefinition = _json.getMapNode("Definition");
-	if (nullptr == pDefinition)
-	{
-		std::cerr << "Can not found Definition node" << std::endl;
-		return false;
-	}
-	if (dbp::cfg::srv::json_node::JSON != pDefinition->getType())
-	{
-		std::cerr << "Definition node is not a json" << std::endl;
-		return false;
-	}
+	json cache;
+	auto itCache = _json.find("CatchPath");
 	std::string strCatchPath = "";
-	dbp::cfg::srv::json_node* pCatchPath = pDefinition->getMapNode("CatchPath");
-	if (nullptr != pCatchPath)
+	if (itCache != _json.end())
 	{
-		if (dbp::cfg::srv::json_node::STRING != pCatchPath->getType())
+		if (itCache->type() != json::value_t::string)
 		{
-			std::cerr << "CatchPath node is not a STRING" << std::endl;
-			return false;
+			strCatchPath = itCache->get<std::string>();
 		}
-		pCatchPath->getString(strCatchPath);
 	}
-	else
+	if (strCatchPath == "")
 	{
 		const char* pszHome = getenv("HOME");
 		if (nullptr == pszHome)
@@ -94,69 +69,58 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 	}
 	char szCacheFileName[512] = {0};
 	struct tm tmResult;
-	memset(szCacheFileName, 0, 64);
-	memset(&tmResult, 0, sizeof(struct tm));
+	std::memset(szCacheFileName, 0, 64);
+	std::memset(&tmResult, 0, sizeof(struct tm));
 	time_t iNowTime = time(0);
 	localtime_r(&iNowTime, &tmResult);
-	snprintf(szCacheFileName, 512, "%s/smfh_def_catch_%04d%02d%02d", strCatchPath.c_str(), tmResult.tm_year + 1900, tmResult.tm_mon + 1, tmResult.tm_mday);
-	std::ifstream ifs(szCacheFileName, std::ios::binary);
+	snprintf(szCacheFileName, 512, "%s/smfh_def_catch_%04d%02d%02d.json", strCatchPath.c_str(),
+			tmResult.tm_year + 1900,
+			tmResult.tm_mon + 1,
+			tmResult.tm_mday);
+	std::ifstream ifs(szCacheFileName);
 	bool bReload = true;
 	if (ifs)
 	{
-		bool bFail = false;
-		unsigned int uCodeCnt = 0;
-		unsigned int uCode = 0;
-		ifs.read((char*)((void*)(&uCodeCnt)), sizeof(unsigned int));
-		if (ifs)
+		std::string strDefJson((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
+		ifs.close();
+		try
 		{
-			if(!bFail)
+			cache = json::parse(strDefJson);
+			const auto& omdc = cache["omdc"].get<json::array_t>();
+			const auto& omdd = cache["omdd"].get<json::array_t>();
+			const auto& warrent = cache["warrent_map"].get<json::object_t>();
+			const auto& omdd_name = cache["omdd_name"].get<json::object_t>();
+			for (std::size_t i = 0; i < omdc.size(); ++i)
 			{
-				for (unsigned int i = 0; i < uCodeCnt; ++i)
-				{
-					ifs.read((char*)((void*)(&uCode)), sizeof(unsigned int));
-					if (!ifs)
-					{
-						bFail = true;
-						break;
-					}
-					omdcMap[uCode].m_Code = uCode;
-				}
+				const auto& code = omdc[i].get<unsigned int>();
+				omdcMap[code].m_Code = code;
 			}
-			if (!bFail)
+			for (std::size_t i = 0; i < omdd.size(); ++i)
 			{
-				ifs.read((char*)((void*)(&uCodeCnt)), sizeof(unsigned int));
-				if (ifs)
-				{
-					for (unsigned int i = 0; i < uCodeCnt; ++i)
-					{
-						ifs.read((char*)((void*)(&uCode)), sizeof(unsigned int));
-						if (!ifs)
-						{
-							bFail = true;
-							break;
-						}
-						omddMap[uCode].m_Code = uCode;
-					}
-
-				}
-				else
-				{
-					bFail = true;
-				}
+				const auto& code = omdd[i].get<unsigned int>();
+				omddMap[code].m_Code = code;
 			}
-		}
-		else
-		{
-			bFail = true;
-		}
-		if (bFail)
-		{
-			omdcMap.clear();
-			omddMap.clear();
-		}
-		else
-		{
+			for (auto it = warrent.begin(); it != warrent.end(); ++it)
+			{
+				const auto& key = it->first;
+				const auto& underlying = it->second.get<unsigned int>();
+				unsigned int warrent = static_cast<unsigned int>(std::stoul(key));
+				warrantToUnderlying[warrent] = underlying;
+				underlyingToWarrant[underlying] = warrent;
+			}
+			for (auto it = omdd_name.begin(); it != omdd_name.end(); ++it)
+			{
+				const auto& key = it->first;
+				const auto& name = it->second.get<std::string>();
+				unsigned int code = static_cast<unsigned int>(std::stoul(key));
+				codeToName[code] = name;
+				nameToCode[name] = code;
+			}
 			bReload = false;
+		}
+		catch(...)
+		{
+			cache = json();
 		}
 	}
 	else
@@ -165,361 +129,151 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 	}
 	if(bReload)
 	{
+		cache["omdc"] = json::array();
+		cache["omdd"] = json::array();
+		cache["warrent_map"] = json();
+		cache["omdd_name"] = json();
+		auto& Definition = _json["Definition"];
 		int iDefEopll = epoll_create(4);
 		if (-1 == iDefEopll)
 		{
 			std::cerr << "create epoll fail" << std::endl;
 			return false;
 		}
-
 		CDefMap omdcStatus;
 		auto itActivate = mActivateChannel.find("OmdcChannel");
 		if(itActivate != mActivateChannel.end())
 		{
-			dbp::cfg::srv::json_node* pOmdc = pDefinition->getMapNode("OMDC");
-			if (nullptr == pOmdc)
+			try
 			{
-				std::cerr << "OMDC node not found" << std::endl;
-				::close(iDefEopll);
-				return false;
-			}
-			if (dbp::cfg::srv::json_node::VECTOR != pOmdc->getType())
-			{
-				std::cerr << "OMDC node is not a std::vector" << std::endl;
-				::close(iDefEopll);
-				return false;
-			}
-			size_t uOmdcNodeSize = pOmdc->getArraySize();
-			if (0 == uOmdcNodeSize)
-			{
-				std::cerr << "OMDC node size is 0" << std::endl;
-				::close(iDefEopll);
-				return false;
-			}
-			for (size_t i = 0; i < uOmdcNodeSize; ++i)
-			{
-				std::string strInterfaceIp = "";
-				std::string strMulticastIp = "";
-				unsigned short int uMulticastPort = 0;
-				dbp::cfg::srv::json_node* pUdpNode = pOmdc->getArrayNode(i);
-				if (dbp::cfg::srv::json_node::JSON != pUdpNode->getType())
+				flush_printf("tm:%llu, Load Omdc Definition Config \n", dbp::tools::srv::current());
+				auto& Omdc = Definition["OMDC"];
+				if (0 == Omdc.size())
 				{
-					std::cerr << "OMDC node[" << i << "] is not a json" << std::endl;
+					std::cerr << "OMDC node size is 0" << std::endl;
 					::close(iDefEopll);
-					for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
 					return false;
 				}
-				dbp::cfg::srv::json_node* pInterfaceIp = pUdpNode->getMapNode("InterfaceIp");
-				if (nullptr == pInterfaceIp)
+				for (std::size_t i = 0; i < Omdc.size(); ++i)
 				{
-					std::cerr << "OMDC node[" << i << "] InterfaceIp not found" << std::endl;
-					::close(iDefEopll);
-					for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
+					auto& UdpNode = Omdc[i];
+					std::string strInterfaceIp = UdpNode["InterfaceIp"].get<std::string>();
+					std::string strMulticastIp = UdpNode["MulticastIp"].get<std::string>();
+					unsigned short int uMulticastPort = UdpNode["MulticastPort"].get<unsigned short int>();
+					int iUdpHandler = dbp::net::srv::getNoBlockReuseUdpListener(uMulticastPort, strMulticastIp, strInterfaceIp);
+					if (iUdpHandler <= 0)
 					{
-						::close(it->first);
-					}
-					return false;
-				}
-				if (dbp::cfg::srv::json_node::STRING != pInterfaceIp->getType())
-				{
-					std::cerr << "OMDC node[" << i << "] InterfaceIp not STRING" << std::endl;
-					::close(iDefEopll);
-					for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					return false;
-				}
-				pInterfaceIp->getString(strInterfaceIp);
-				dbp::cfg::srv::json_node* pMulticastIp = pUdpNode->getMapNode("MulticastIp");
-				if (nullptr == pMulticastIp)
-				{
-					std::cerr << "OMDC node[" << i << "] MulticastIp not found" << std::endl;
-					::close(iDefEopll);
-					for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					return false;
-				}
-				if (dbp::cfg::srv::json_node::STRING != pMulticastIp->getType())
-				{
-					std::cerr << "OMDC node[" << i << "] MulticastIp not STRING" << std::endl;
-					::close(iDefEopll);
-					for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					return false;
-				}
-				pMulticastIp->getString(strMulticastIp);
-				dbp::cfg::srv::json_node* pMulticastPort = pUdpNode->getMapNode("MulticastPort");
-				if (nullptr == pMulticastPort)
-				{
-					std::cerr << "OMDC node[" << i << "] MulticastPort not found" << std::endl;
-					::close(iDefEopll);
-					for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					return false;
-				}
-				if (dbp::cfg::srv::json_node::INT != pMulticastPort->getType())
-				{
-					std::cerr << "OMDC node[" << i << "] MulticastPort not INT" << std::endl;
-					::close(iDefEopll);
-					for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					return false;
-				}
-				long long llMulticastPort = pMulticastPort->getInt();
-				if (llMulticastPort <= 0 || llMulticastPort > 0xFFFF)
-				{
-					std::cerr << "OMDC node[" << i << "] MulticastPort not in Range" << std::endl;
-					::close(iDefEopll);
-					for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					return false;
-				}
-				uMulticastPort = (unsigned short int)llMulticastPort;
-				int iUdpHandler = dbp::net::srv::getNoBlockReuseUdpListener(uMulticastPort, strMulticastIp, strInterfaceIp);
-				if (iUdpHandler <= 0)
-				{
-					std::cerr << "OMDC node[" << i << "] Create Socket Error, MulticastIp:" << strMulticastIp <<
+						std::cerr << "OMDC node[" << i << "] Create Socket Error, MulticastIp:" << strMulticastIp <<
 						", MulticastPort:" << uMulticastPort <<
-						", InterfaceIp:" << strInterfaceIp << std::endl;
-					::close(iDefEopll);
-					for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
-					{
-						::close(it->first);
+							", InterfaceIp:" << strInterfaceIp << std::endl;
+						::close(iDefEopll);
+						for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
+						{
+							::close(it->first);
+						}
+						return false;
 					}
-					return false;
-				}
-				struct epoll_event objEvent;
-				memset(&objEvent, 0, sizeof(struct epoll_event));
-				objEvent.events = EPOLLIN | EPOLLET;
-				objEvent.data.fd = iUdpHandler;
-				if (0 != epoll_ctl(iDefEopll, EPOLL_CTL_ADD, objEvent.data.fd, &objEvent))
-				{
-					std::cerr << "OMDC node[" << i << "] Add to Epoll Error, MulticastIp:" << strMulticastIp <<
-						", MulticastPort:" << uMulticastPort <<
-						", InterfaceIp:" << strInterfaceIp << std::endl;
-					::close(iDefEopll);
-					for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
+					struct epoll_event objEvent;
+					std::memset(&objEvent, 0, sizeof(struct epoll_event));
+					objEvent.events = EPOLLIN | EPOLLET;
+					objEvent.data.fd = iUdpHandler;
+					if (0 != epoll_ctl(iDefEopll, EPOLL_CTL_ADD, objEvent.data.fd, &objEvent))
 					{
-						::close(it->first);
+						std::cerr << "OMDC node[" << i << "] Add to Epoll Error, MulticastIp:" << strMulticastIp <<
+							", MulticastPort:" << uMulticastPort <<
+							", InterfaceIp:" << strInterfaceIp << std::endl;
+						::close(iDefEopll);
+						for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
+						{
+							::close(it->first);
+						}
+						return false;
 					}
-					return false;
+					omdcStatus[iUdpHandler].m_Status = CDefChannel::NO_READY;
+					omdcStatus[iUdpHandler].m_uSeq = 0;
 				}
-				omdcStatus[iUdpHandler].m_Status = CDefChannel::NO_READY;
-				omdcStatus[iUdpHandler].m_uSeq = 0;
+			}
+			catch(...)
+			{
+				std::cerr << "OMDC load Json fail" << std::endl;
+				::close(iDefEopll);
+				return false;
 			}
 		}
 		CDefMap omddStatus;
 		itActivate = mActivateChannel.find("OmddChannel");
 		if(itActivate != mActivateChannel.end())
 		{
-			flush_printf("tm:%llu, Load Omdd Definition Config \n", dbp::tools::srv::current());
-			dbp::cfg::srv::json_node* pOmdd = pDefinition->getMapNode("OMDD");
-			if (nullptr == pOmdd)
+			try
 			{
-				std::cerr << "OMDD node not found" << std::endl;
+				flush_printf("tm:%llu, Load Omdd Definition Config \n", dbp::tools::srv::current());
+				auto& Omdd = Definition["OMDD"];
+				if (0 == Omdd.size())
+				{
+					std::cerr << "OMDD node size is 0" << std::endl;
+					::close(iDefEopll);
+					for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
+					{
+						::close(it->first);
+					}
+					return false;
+				}
+				for (size_t i = 0; i < Omdd.size(); ++i)
+				{
+					auto& UdpNode = Omdd[i];
+					std::string strInterfaceIp = UdpNode["InterfaceIp"].get<std::string>();
+					std::string strMulticastIp = UdpNode["MulticastIp"].get<std::string>();
+					unsigned short int uMulticastPort = UdpNode["MulticastPort"].get<unsigned short int>();
+					int iUdpHandler = dbp::net::srv::getNoBlockReuseUdpListener(uMulticastPort, strMulticastIp, strInterfaceIp);
+					if (iUdpHandler <= 0)
+					{
+						std::cerr << "OMDD node[" << i << "] Create Socket Error, MulticastIp:" << strMulticastIp <<
+								", MulticastPort:" << uMulticastPort <<
+								", InterfaceIp:" << strInterfaceIp << std::endl;
+						::close(iDefEopll);
+						for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
+						{
+							::close(it->first);
+						}
+						for (CDefMap::iterator it = omddStatus.begin(); it != omddStatus.end(); ++it)
+						{
+							::close(it->first);
+						}
+						return false;
+					}
+					struct epoll_event objEvent;
+					std::memset(&objEvent, 0, sizeof(struct epoll_event));
+					objEvent.events = EPOLLIN | EPOLLET;
+					objEvent.data.fd = iUdpHandler;
+					if (0 != epoll_ctl(iDefEopll, EPOLL_CTL_ADD, objEvent.data.fd, &objEvent))
+					{
+						std::cerr << "OMDD node[" << i << "] Add to Epoll Error, MulticastIp:" << strMulticastIp <<
+								", MulticastPort:" << uMulticastPort <<
+								", InterfaceIp:" << strInterfaceIp << std::endl;
+						::close(iDefEopll);
+						for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
+						{
+							::close(it->first);
+						}
+						for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
+						{
+							::close(it->first);
+						}
+						return false;
+					}
+					omddStatus[iUdpHandler].m_Status = CDefChannel::NO_READY;
+					omddStatus[iUdpHandler].m_uSeq = 0;
+				}
+			}
+			catch(...)
+			{
+				std::cerr << "OMDD load Json fail" << std::endl;
 				::close(iDefEopll);
 				for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
 				{
 					::close(it->first);
 				}
 				return false;
-			}
-			if (dbp::cfg::srv::json_node::VECTOR != pOmdd->getType())
-			{
-				std::cerr << "OMDD node is not a std::vector" << std::endl;
-				::close(iDefEopll);
-				for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
-				{
-					::close(it->first);
-				}
-				return false;
-			}
-			size_t uOmddNodeSize = pOmdd->getArraySize();
-			if (0 == uOmddNodeSize)
-			{
-				std::cerr << "OMDD node size is 0" << std::endl;
-				::close(iDefEopll);
-				for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
-				{
-					::close(it->first);
-				}
-				return false;
-			}
-			for (size_t i = 0; i < uOmddNodeSize; ++i)
-			{
-				std::string strInterfaceIp = "";
-				std::string strMulticastIp = "";
-				unsigned short int uMulticastPort = 0;
-				dbp::cfg::srv::json_node* pUdpNode = pOmdd->getArrayNode(i);
-				if (dbp::cfg::srv::json_node::JSON != pUdpNode->getType())
-				{
-					std::cerr << "OMDD node[" << i << "] is not a json" << std::endl;
-					::close(iDefEopll);
-					for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					for (CDefMap::iterator it = omddStatus.begin(); it != omddStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					return false;
-				}
-				dbp::cfg::srv::json_node* pInterfaceIp = pUdpNode->getMapNode("InterfaceIp");
-				if (nullptr == pInterfaceIp)
-				{
-					std::cerr << "OMDD node[" << i << "] InterfaceIp not found" << std::endl;
-					::close(iDefEopll);
-					for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					for (CDefMap::iterator it = omddStatus.begin(); it != omddStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					return false;
-				}
-				if (dbp::cfg::srv::json_node::STRING != pInterfaceIp->getType())
-				{
-					std::cerr << "OMDD node[" << i << "] InterfaceIp not STRING" << std::endl;
-					::close(iDefEopll);
-					for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					for (CDefMap::iterator it = omddStatus.begin(); it != omddStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					return false;
-				}
-				pInterfaceIp->getString(strInterfaceIp);
-				dbp::cfg::srv::json_node* pMulticastIp = pUdpNode->getMapNode("MulticastIp");
-				if (nullptr == pMulticastIp)
-				{
-					std::cerr << "OMDD node[" << i << "] MulticastIp not found" << std::endl;
-					::close(iDefEopll);
-					for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					for (CDefMap::iterator it = omddStatus.begin(); it != omddStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					return false;
-				}
-				if (dbp::cfg::srv::json_node::STRING != pMulticastIp->getType())
-				{
-					std::cerr << "OMDD node[" << i << "] MulticastIp not STRING" << std::endl;
-					::close(iDefEopll);
-					for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					for (CDefMap::iterator it = omddStatus.begin(); it != omddStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					return false;
-				}
-				pMulticastIp->getString(strMulticastIp);
-				dbp::cfg::srv::json_node* pMulticastPort = pUdpNode->getMapNode("MulticastPort");
-				if (nullptr == pMulticastPort)
-				{
-					std::cerr << "OMDD node[" << i << "] MulticastPort not found" << std::endl;
-					::close(iDefEopll);
-					for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					for (CDefMap::iterator it = omddStatus.begin(); it != omddStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					return false;
-				}
-				if (dbp::cfg::srv::json_node::INT != pMulticastPort->getType())
-				{
-					std::cerr << "OMDD node[" << i << "] MulticastPort not INT" << std::endl;
-					::close(iDefEopll);
-					for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					for (CDefMap::iterator it = omddStatus.begin(); it != omddStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					return false;
-				}
-				long long llMulticastPort = pMulticastPort->getInt();
-				if (llMulticastPort <= 0 || llMulticastPort > 0xFFFF)
-				{
-					std::cerr << "OMDD node[" << i << "] MulticastPort not in Range" << std::endl;
-					::close(iDefEopll);
-					for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					for (CDefMap::iterator it = omddStatus.begin(); it != omddStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					return false;
-				}
-
-				uMulticastPort = (unsigned short int)llMulticastPort;
-				int iUdpHandler = dbp::net::srv::getNoBlockReuseUdpListener(uMulticastPort, strMulticastIp, strInterfaceIp);
-				if (iUdpHandler <= 0)
-				{
-					std::cerr << "OMDD node[" << i << "] Create Socket Error, MulticastIp:" << strMulticastIp <<
-						", MulticastPort:" << uMulticastPort <<
-						", InterfaceIp:" << strInterfaceIp << std::endl;
-					::close(iDefEopll);
-					for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					for (CDefMap::iterator it = omddStatus.begin(); it != omddStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					return false;
-				}
-				struct epoll_event objEvent;
-				memset(&objEvent, 0, sizeof(struct epoll_event));
-				objEvent.events = EPOLLIN | EPOLLET;
-				objEvent.data.fd = iUdpHandler;
-				if (0 != epoll_ctl(iDefEopll, EPOLL_CTL_ADD, objEvent.data.fd, &objEvent))
-				{
-					std::cerr << "OMDD node[" << i << "] Add to Epoll Error, MulticastIp:" << strMulticastIp <<
-						", MulticastPort:" << uMulticastPort <<
-						", InterfaceIp:" << strInterfaceIp << std::endl;
-					::close(iDefEopll);
-					for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
-					{
-						::close(it->first);
-					}
-					return false;
-				}
-				omddStatus[iUdpHandler].m_Status = CDefChannel::NO_READY;
-				omddStatus[iUdpHandler].m_uSeq = 0;
 			}
 		}
 		unsigned int uFinished = 0;
@@ -594,18 +348,21 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 													memset(&objEvent, 0, sizeof(struct epoll_event));
 													objEvent.data.fd = iFd;
 													epoll_ctl(iDefEopll, EPOLL_CTL_DEL, iFd, &objEvent);
-
 													flush_printf("tm:%llu, Finish Omdc Definition Refresh \n\n", dbp::tools::srv::current());
 												}
 												else if (11 == uMsgType)
 												{
 													unsigned int uSecurityCode = OMD_GET_VALUE(pszBuffer, 4, unsigned int);
 													omdcMap[uSecurityCode].m_Code = uSecurityCode;
+													cache["omdc"].push_back(uSecurityCode);
 													auto instrument_Type = OMD_GET_STR(pszBuffer, 24, 4);
 													if (instrument_Type == "WRNT")
 													{
-														ofs_warrantmap << OMD_GET_VALUE(pszBuffer, 4, unsigned int) << ","
-																<< OMD_GET_VALUE(pszBuffer, 464, unsigned int) << std::endl;
+														auto warrant_code = OMD_GET_VALUE(pszBuffer, 4, unsigned int);
+														auto underlying_code = OMD_GET_VALUE(pszBuffer, 464, unsigned int);
+														warrantToUnderlying[warrant_code] = underlying_code;
+														underlyingToWarrant[underlying_code] = warrant_code;
+														cache["warrent_map"][std::to_string(warrant_code)] = underlying_code;
 													}
 												}
 												break;
@@ -689,7 +446,6 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 													memset(&objEvent, 0, sizeof(struct epoll_event));
 													objEvent.data.fd = iFd;
 													epoll_ctl(iDefEopll, EPOLL_CTL_DEL, iFd, &objEvent);
-
 													flush_printf("tm:%llu, Finish Omdd Definition Refresh \n\n", dbp::tools::srv::current());
 												}
 												else if (304 == uMsgType)
@@ -701,8 +457,11 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 													{
 														symbol = symbol.substr(0, idx);
 													}
-													ofs_symbolmap << symbol << "," << orderbookid << std::endl;
+													cache["omdd_name"][std::to_string(orderbookid)] = symbol;
 													omddMap[orderbookid].m_Code = orderbookid;
+													cache["omdd"].push_back(orderbookid);
+													codeToName[orderbookid] = symbol;
+													nameToCode[symbol] = orderbookid;
 												}
 												break;
 											}
@@ -735,8 +494,6 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 			}
 		}
 		::close(iDefEopll);
-		ofs_symbolmap.close();
-		ofs_warrantmap.close();
 		itActivate = mActivateChannel.find("OmdcChannel");
 		if(itActivate != mActivateChannel.end())
 		{
@@ -753,254 +510,65 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 				::close(it->first);
 			}
 		}
+		std::ofstream ofs(szCacheFileName);
+		ofs << cache.dump() << std::endl;
+		ofs.close();
 	}
 	return true;
 }
-inline static bool loadRetran(dbp::cfg::srv::json_node& _json)
+inline static bool loadRetran(json& _json)
 {
-	dbp::cfg::srv::json_node* pRetranProxy = _json.getMapNode("RetranProxy");
-	if (nullptr == pRetranProxy)
+	try
 	{
-		return false;
+		auto& RetranProxy = _json["RetranProxy"];
+		for (std::size_t i = 0; i < RetranProxy.size(); ++i)
+		{
+			auto& Node = RetranProxy[i];
+			CRetranProxy proxy;
+			proxy.m_strIp = Node["Ip"].get<std::string>();
+			proxy.m_uPort = Node["Port"].get<unsigned short int>();
+			retranVec.push_back(proxy);
+		}
 	}
-	if (dbp::cfg::srv::json_node::VECTOR != pRetranProxy->getType())
+	catch (...)
 	{
+		std::cerr << "load loadRetran fail" << std::endl;
 		return false;
-	}
-	size_t uSize = pRetranProxy->getArraySize();
-	for (size_t i = 0; i < uSize; ++i)
-	{
-		dbp::cfg::srv::json_node* pNode = pRetranProxy->getArrayNode(i);
-		if (dbp::cfg::srv::json_node::JSON != pNode->getType())
-		{
-			return false;
-		}
-		dbp::cfg::srv::json_node* pIp = pNode->getMapNode("Ip");
-		if (nullptr == pIp)
-		{
-			return false;
-		}
-		if (dbp::cfg::srv::json_node::STRING != pIp->getType())
-		{
-			return false;
-		}
-		dbp::cfg::srv::json_node* pPort = pNode->getMapNode("Port");
-		if (nullptr == pPort)
-		{
-			return false;
-		}
-		if (dbp::cfg::srv::json_node::INT != pPort->getType())
-		{
-			return false;
-		}
-		std::string strIp = "";
-		long long llPort = pPort->getInt();
-		if (llPort <= 0 || llPort > std::numeric_limits<unsigned short int>::max())
-		{
-			return false;
-		}
-		unsigned short int uPort = (unsigned short int)llPort;
-		pIp->getString(strIp);
-		CRetranProxy proxy;
-		proxy.m_strIp = strIp;
-		proxy.m_uPort = uPort;
-		retranVec.push_back(proxy);
 	}
 	return true;
 }
-inline static bool loadChannel(dbp::cfg::srv::json_node& _json, const char* pszName, CStreamVec& vec)
+inline static bool loadChannel(json& _json, const char* pszName, CStreamVec& vec)
 {
-	dbp::cfg::srv::json_node* pChannel = _json.getMapNode(pszName);
-	if (nullptr == pChannel)
+	try
 	{
-		return false;
-	}
-	if (dbp::cfg::srv::json_node::VECTOR != pChannel->getType())
+	auto& Channel = _json[pszName];
+	for (std::size_t i = 0; i < Channel.size(); ++i)
 	{
-		return false;
-	}
-	size_t uChannelSize = pChannel->getArraySize();
-	for (size_t i = 0; i < uChannelSize; ++i)
-	{
-		dbp::cfg::srv::json_node* pInterfaceIp = 0;
-		dbp::cfg::srv::json_node* pMulticastIp = 0;
-		dbp::cfg::srv::json_node* pMulticastPort = 0;
-		std::string strInterfaceIp = "";
-		std::string strMulticastIp = "";
-		long long llPort = 0;
-		unsigned short int uMulticastPort = 0;
-		dbp::cfg::srv::json_node* pChannelNode = pChannel->getArrayNode(i);
-		if (dbp::cfg::srv::json_node::JSON != pChannelNode->getType())
-		{
-			return false;
-		}
-		dbp::cfg::srv::json_node* pChannelId = pChannelNode->getMapNode("ChannelId");
-		if (nullptr == pChannelId)
-		{
-			return false;
-		}
-		if (dbp::cfg::srv::json_node::INT != pChannelId->getType())
-		{
-			return false;
-		}
-		long long llChannelId = pChannelId->getInt();
-		if (llChannelId <= 0 || llChannelId > std::numeric_limits<unsigned short int>::max())
-		{
-			return false;
-		}
-		unsigned short int uChannelId = (unsigned short int)llChannelId;
-		dbp::cfg::srv::json_node* pHot = pChannelNode->getMapNode("Hot");
-		if (nullptr == pHot)
-		{
-			return false;
-		}
-		if (dbp::cfg::srv::json_node::JSON != pHot->getType())
-		{
-			return false;
-		}
-		pInterfaceIp = pHot->getMapNode("InterfaceIp");
-		if (nullptr == pInterfaceIp)
-		{
-			return false;
-		}
-		if (dbp::cfg::srv::json_node::STRING != pInterfaceIp->getType())
-		{
-			return false;
-		}
-		pInterfaceIp->getString(strInterfaceIp);
-		pMulticastIp = pHot->getMapNode("MulticastIp");
-		if (nullptr == pMulticastIp)
-		{
-			return false;
-		}
-		if (dbp::cfg::srv::json_node::STRING != pMulticastIp->getType())
-		{
-			return false;
-		}
-		pMulticastIp->getString(strMulticastIp);
-		pMulticastPort = pHot->getMapNode("MulticastPort");
-		if (nullptr == pMulticastPort)
-		{
-			return false;
-		}
-		if (dbp::cfg::srv::json_node::INT != pMulticastPort->getType())
-		{
-			return false;
-		}
-		llPort = pMulticastPort->getInt();
-		if (llPort <= 0 || llPort > std::numeric_limits<unsigned short int>::max())
-		{
-			return false;
-		}
-		uMulticastPort = (unsigned short int)llPort;
-		int iHot = dbp::net::srv::getNoBlockReuseUdpListener(uMulticastPort, strMulticastIp, strInterfaceIp);
+		CStreamChannel channel;
+		auto& ChannelNode = Channel[i];
+		channel.m_uChannelId = ChannelNode["ChannelId"].get<unsigned short int>();
+		auto& Hot = ChannelNode["Hot"];
+		std::string InterfaceIp = Hot["InterfaceIp"].get<std::string>();
+		std::string MulticastIp = Hot["MulticastIp"].get<std::string>();
+		unsigned short int MulticastPort = Hot["MulticastPort"].get<unsigned short int>();
+		int iHot = dbp::net::srv::getNoBlockReuseUdpListener(MulticastPort, MulticastIp, InterfaceIp);
 		if (-1 == iHot)
 		{
 			return false;
 		}
-		dbp::cfg::srv::json_node* pRefresh = pChannelNode->getMapNode("Refresh");
-		if (nullptr == pRefresh)
-		{
-			close(iHot);
-			return false;
-		}
-		if (dbp::cfg::srv::json_node::JSON != pRefresh->getType())
-		{
-			close(iHot);
-			return false;
-		}
-		pInterfaceIp = pRefresh->getMapNode("InterfaceIp");
-		if (nullptr == pInterfaceIp)
-		{
-			close(iHot);
-			return false;
-		}
-		if (dbp::cfg::srv::json_node::STRING != pInterfaceIp->getType())
-		{
-			close(iHot);
-			return false;
-		}
-		pInterfaceIp->getString(strInterfaceIp);
-		pMulticastIp = pRefresh->getMapNode("MulticastIp");
-		if (nullptr == pMulticastIp)
-		{
-			close(iHot);
-			return false;
-		}
-		if (dbp::cfg::srv::json_node::STRING != pMulticastIp->getType())
-		{
-			close(iHot);
-			return false;
-		}
-		pMulticastIp->getString(strMulticastIp);
-		pMulticastPort = pRefresh->getMapNode("MulticastPort");
-		if (nullptr == pMulticastPort)
-		{
-			close(iHot);
-			return false;
-		}
-		if (dbp::cfg::srv::json_node::INT != pMulticastPort->getType())
-		{
-			close(iHot);
-			return false;
-		}
-		llPort = pMulticastPort->getInt();
-		if (llPort <= 0 || llPort > std::numeric_limits<unsigned short int>::max())
-		{
-			close(iHot);
-			return false;
-		}
-		uMulticastPort = (unsigned short int)llPort;
-		int iRefresh = dbp::net::srv::getNoBlockReuseUdpListener(uMulticastPort, strMulticastIp, strInterfaceIp);
+		auto& Refresh = ChannelNode["Refresh"];
+		InterfaceIp = Refresh["InterfaceIp"].get<std::string>();
+		MulticastIp = Refresh["MulticastIp"].get<std::string>();
+		MulticastPort = Refresh["MulticastPort"].get<unsigned short int>();
+		int iRefresh = dbp::net::srv::getNoBlockReuseUdpListener(MulticastPort, MulticastIp, InterfaceIp);
 		if (-1 == iRefresh)
 		{
 			close(iHot);
 			return false;
 		}
-		dbp::cfg::srv::json_node* pRetranProxyIndex = pChannelNode->getMapNode("RetranProxyIndex");
-		if (nullptr == pRetranProxyIndex)
-		{
-			close(iHot);
-			close(iRefresh);
-			return false;
-		}
-		if (dbp::cfg::srv::json_node::INT != pRetranProxyIndex->getType())
-		{
-			close(iHot);
-			close(iRefresh);
-			return false;
-		}
-		long long llRetranProxyIndex = pRetranProxyIndex->getInt();
-		if (llRetranProxyIndex < 0 || (unsigned long long)llRetranProxyIndex > std::numeric_limits<size_t>::max())
-		{
-			close(iHot);
-			close(iRefresh);
-			return false;
-		}
-		unsigned long long ullQueueSize = 1000000;
-		dbp::cfg::srv::json_node* pQueueSize = pChannelNode->getMapNode("QueueSize");
-		if (nullptr != pQueueSize)
-		{
-			if (dbp::cfg::srv::json_node::INT != pQueueSize->getType())
-			{
-				close(iHot);
-				close(iRefresh);
-				return false;
-			}
-			long long llQueueSize = pQueueSize->getInt();
-			if (llQueueSize <= 1000)
-			{
-				close(iHot);
-				close(iRefresh);
-				return false;
-			}
-			ullQueueSize = (unsigned long long)llQueueSize;
-		}
-		CStreamChannel channel;
+		channel.m_uRetranProxyIdx = ChannelNode["RetranProxyIndex"].get<std::size_t>();
 		channel.m_iHot = iHot;
 		channel.m_iRefresh = iRefresh;
-		channel.m_uRetranProxyIdx = (size_t)llRetranProxyIndex;
-		channel.m_uQueueSize = ullQueueSize;
 		if (channel.m_uRetranProxyIdx >= retranVec.size())
 		{
 			close(iHot);
@@ -1014,52 +582,40 @@ inline static bool loadChannel(dbp::cfg::srv::json_node& _json, const char* pszN
 			close(iRefresh);
 			return false;
 		}
-		channel.m_uChannelId = uChannelId;
 		channel.m_uChannelIdx = i;
 		vec.push_back(channel);
 	}
+	}
+	catch(...)
+	{
+		std::cerr << "load loadChannel: " << pszName << " fail" << std::endl;
+		return false;
+	}
 	return true;
 }
-inline static bool loadActivateChannel(dbp::cfg::srv::json_node& _json)
+inline static bool loadActivateChannel(json& _json)
 {
-	auto * pActivateChannel = _json.getMapNode("ActivateChannel");
-	if (nullptr == pActivateChannel)
+	try
 	{
-		return false;
+		auto& ActivateChannel = _json["ActivateChannel"];
+		for (std::size_t i = 0; i < ActivateChannel.size(); ++i)
+		{
+			auto& Node = ActivateChannel[i];
+			std::string strChannel = Node["Channel"].get<std::string>();
+			flush_printf("tm:%llu, Activate Channel = %s \n", dbp::tools::srv::current(), strChannel.c_str());
+		}
 	}
-	if (dbp::cfg::srv::json_node::VECTOR != pActivateChannel->getType())
+	catch(...)
 	{
+		std::cerr << "load loadActivateChannel fail" << std::endl;
 		return false;
-	}
-
-	size_t uSize = pActivateChannel->getArraySize();
-	for (size_t i = 0; i < uSize; ++i)
-	{
-		auto* pNode = pActivateChannel->getArrayNode(i);
-		if (dbp::cfg::srv::json_node::JSON != pNode->getType())
-		{
-			return false;
-		}
-                auto* pChannel = pNode->getMapNode("Channel");
-		if (nullptr == pChannel)
-		{
-			return false;
-		}
-		if (dbp::cfg::srv::json_node::STRING != pChannel->getType())
-		{
-			return false;
-		}
-		std::string strChannel = "";
-		pChannel->getString(strChannel);
-		mActivateChannel[strChannel] = "";
-		flush_printf("tm:%llu, Activate Channel = %s \n", dbp::tools::srv::current(), strChannel.c_str());
 	}
 	return true;
 }
 
 inline static bool initJson(const char* _pszJsonPath)
 {
-	dbp::cfg::srv::json_node json;
+	json j;
 	std::ifstream ifs(_pszJsonPath);
 	if (!ifs)
 	{
@@ -1067,98 +623,78 @@ inline static bool initJson(const char* _pszJsonPath)
 		return false;
 	}
 	std::string strJson((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
-	if (!json.fromString(strJson.c_str()))
+	ifs.close();
+	try
+	{
+		j = json::parse(strJson);
+	}
+	catch(...)
 	{
 		std::cerr << "Parse Json Error" << std::endl;
 		return false;
 	}
-	ifs.close();
 	flush_printf("tm:%llu, initSOL_SOCKET \n", dbp::tools::srv::current());
-	if (!dbp::net::srv::initSOL_SOCKET(json))
+	if (!dbp::net::srv::initSOL_SOCKET(j))
 	{
 		std::cerr << "initSOL_SOCKET fail" << std::endl;
 		return false;
 	}
 	flush_printf("tm:%llu, initSOL_TCP \n", dbp::tools::srv::current());
-	if (!dbp::net::srv::initSOL_TCP(json))
+	if (!dbp::net::srv::initSOL_TCP(j))
 	{
 		std::cerr << "initSOL_TCP fail" << std::endl;
 		return false;
 	}
 	flush_printf("tm:%llu, initIPPROTO_TCP \n", dbp::tools::srv::current());
-	if (!dbp::net::srv::initIPPROTO_TCP(json))
+	if (!dbp::net::srv::initIPPROTO_TCP(j))
 	{
 		std::cerr << "initIPPROTO_TCP fail" << std::endl;
 		return false;
 	}
 	flush_printf("tm:%llu, loadCpu \n", dbp::tools::srv::current());
-	if (!loadCpu(json))
+	if (!loadCpu(j))
 	{
 		std::cerr << "loadCpu fail" << std::endl;
 		return false;
 	}
 	flush_printf("tm:%llu, loadRetran \n", dbp::tools::srv::current());
-	if (!loadRetran(json))
+	if (!loadRetran(j))
 	{
 		std::cerr << "loadRetran fail" << std::endl;
 		return false;
 	}
 	flush_printf("tm:%llu, loadActivateChannel \n", dbp::tools::srv::current());
-	if (!loadActivateChannel(json))
+	if (!loadActivateChannel(j))
 	{
 		std::cerr << "loadActivateChannel fail" << std::endl;
 		return false;
 	}
 	flush_printf("tm:%llu, loadDefinition \n", dbp::tools::srv::current());
 
-	std::string strPath = "/tmp/smfh.shm";
-	dbp::cfg::srv::json_node* pShmPath = json.getMapNode("SHM_PATH");
-	if (nullptr != pShmPath)
-	{
-		if (dbp::cfg::srv::json_node::STRING != pShmPath->getType())
-		{
-			std::cerr << "SHM_PATH is not a STRING" << std::endl;
-			return false;
-		}
-		pShmPath->getString(strPath);
-	}
-
-	if (!loadDefinition(json, strPath))
+	if (!loadDefinition(j))
 	{
 		std::cerr << "loadDefinition fail" << std::endl;
 		return false;
 	}
-
 	auto itActivate = mActivateChannel.find("OmdcChannel");
 	if(itActivate != mActivateChannel.end())
 	{
 		flush_printf("tm:%llu, loadChannel = OmdcChannel \n", dbp::tools::srv::current());
-		if (!loadChannel(json, "OmdcChannel", omdcStreams))
+		if (!loadChannel(j, "OmdcChannel", omdcStreams))
 		{
 			std::cerr << "loadChannel OmdcChannel" << std::endl;
 			return false;
 		}
 	}
-
 	itActivate = mActivateChannel.find("OmddChannel");
 	if(itActivate != mActivateChannel.end())
 	{
 		flush_printf("tm:%llu, loadChannel = OmddChannel \n", dbp::tools::srv::current());
-		if (!loadChannel(json, "OmddChannel", omddStreams))
+		if (!loadChannel(j, "OmddChannel", omddStreams))
 		{
 			std::cerr << "loadChannel OmddChannel" << std::endl;
 			return false;
 		}
-	}
-	std::vector<unsigned long long> cvec;
-	std::vector<unsigned long long> dvec;
-	for (size_t i = 0; i < omdcStreams.size(); ++i)
-	{
-		cvec.push_back(omdcStreams[i].m_uQueueSize);
-	}
-	for (size_t i = 0; i < omddStreams.size(); ++i)
-	{
-		dvec.push_back(omddStreams[i].m_uQueueSize);
 	}
 	return true;
 }

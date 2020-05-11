@@ -13,6 +13,7 @@ using namespace dbp::omd;
 using namespace dbp::omd;
 using namespace dbp::net::srv;
 static char stdOutBuffer[65536] = {0};
+
 inline static bool start()
 {
 	auto itActivate = mActivateChannel.find("OmdcChannel");

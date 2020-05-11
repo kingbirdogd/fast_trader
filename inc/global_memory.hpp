@@ -3,6 +3,9 @@
 #ifndef TRADABLE_BOOK_SIZE
 #define TRADABLE_BOOK_SIZE 1
 #endif
+#include <unordered_map>
+#include <dbp_cpu.h>
+#include <omd.h>
 struct OrderItem
 {
 	unsigned long long m_uQuantity;
@@ -78,16 +81,14 @@ struct COmdOrderbook: public Tradable
 class CStreamChannel
 {
 public:
-	unsigned long long m_uQueueSize;
 	int m_iHot;
 	int m_iRefresh;
 	int m_iEpoll;
 	unsigned long long m_uChannelIdx;
-	size_t m_uRetranProxyIdx;
+	std::size_t m_uRetranProxyIdx;
 	unsigned short int m_uChannelId;
 public:
 	CStreamChannel():
-		m_uQueueSize(0),
 		m_iHot(0),
 		m_iRefresh(0),
 		m_iEpoll(0),
@@ -139,19 +140,26 @@ public:
 	}
 };
 
-static dbp::cpu::CpuInfo cpuInfo;
 typedef std::unordered_map<std::string, std::string> CActivateChannel;
 typedef void (*PFuncOmdMsgHandler)(dbp::omd::COmdMsgHeader* _pMsg, unsigned int _uSeq, unsigned long long _uChannelIdx, unsigned long long _uPkgTm);
 typedef std::vector<CRetranProxy> CRetranVec;
 typedef std::unordered_map<unsigned int, COmdOrderbook> COmdOrderMap;
+typedef std::unordered_map<unsigned int, unsigned int> CWarrants;
+typedef std::unordered_map<unsigned int, std::string> COmddCodeToNameMap;
+typedef std::unordered_map<std::string, unsigned int> COmddNameToCodeMap;
 typedef std::unordered_map<int, CDefChannel> CDefMap;
 typedef std::vector<CStreamChannel> CStreamVec;
-static COmdOrderMap omdcMap;
-static COmdOrderMap omddMap;
-static CRetranVec retranVec;
-static CStreamVec omdcStreams;
-static CStreamVec omddStreams;
-static CActivateChannel mActivateChannel;
+extern dbp::cpu::CpuInfo cpuInfo;
+extern COmdOrderMap omdcMap;
+extern COmdOrderMap omddMap;
+extern CWarrants warrantToUnderlying;
+extern CWarrants underlyingToWarrant;
+extern COmddCodeToNameMap codeToName;
+extern COmddNameToCodeMap nameToCode;
+extern CRetranVec retranVec;
+extern CStreamVec omdcStreams;
+extern CStreamVec omddStreams;
+extern CActivateChannel mActivateChannel;
 
 
 

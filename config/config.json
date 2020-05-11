@@ -58,12 +58,10 @@
 	"RetranProxy":
 	[
 		{
-			"Market": "omdc",
 			"Ip": "192.168.118.106",
 			"Port": 41000
 		},
 		{
-			"Market": "omdd",
 			"Ip": "192.168.118.131",
 			"Port": 31000
 		}
@@ -72,7 +70,6 @@
 	[
 		{
 			"ChannelId": 20,
-			"QueueSize": 1000000,
 			"Hot":
 			{
 				"InterfaceIp": "10.122.78.196",
@@ -89,7 +86,6 @@
 		},
 		{
 			"ChannelId": 21,
-			"QueueSize": 1000000,
 			"Hot":
 			{
 				"InterfaceIp": "10.122.78.196",
@@ -106,7 +102,6 @@
 		},
 		{
 			"ChannelId": 22,
-			"QueueSize": 1000000,
 			"Hot":
 			{
 				"InterfaceIp": "10.122.78.196",
@@ -126,7 +121,6 @@
 	[
 		{
 			"ChannelId": 131,
-			"QueueSize": 1000000,
 			"Hot":
 			{
 				"InterfaceIp": "10.123.132.196",
@@ -143,7 +137,6 @@
 		},
 		{
 			"ChannelId": 231,
-			"QueueSize": 1000000,
 			"Hot":
 			{
 				"InterfaceIp": "10.123.132.196",

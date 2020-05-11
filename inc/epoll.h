@@ -47,7 +47,7 @@ inline int epoll_create(int)
 }
 
 
-int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)
+inline int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)
 {
 	struct kevent ev[4];
 	int n = 0;

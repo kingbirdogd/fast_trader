@@ -9,12 +9,16 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <string>
-#include <json_node.h>
+#include <json.hpp>
+#include <iostream>
 #ifdef __APPLE__
 #define TCP_QUICKACK TCP_NODELAY
 #define SOL_TCP IPPROTO_TCP
 #define TCP_KEEPIDLE TCP_KEEPALIVE
 #endif
+
+using json = nlohmann::json;
+
 namespace dbp
 {
 	namespace net
@@ -59,245 +63,103 @@ namespace dbp
 					}
 				}
 			}
-			inline static bool initSOL_SOCKET(dbp::cfg::srv::json_node& _json)
+			inline static bool initSOL_SOCKET(json& _json)
 			{
-				dbp::cfg::srv::json_node* pSOL_SOCKET = _json.getMapNode("SOL_SOCKET");
-				if (nullptr == pSOL_SOCKET)
+				try
 				{
+					auto& SOL_SOCKET_Node = _json["SOL_SOCKET"];
+					auto bSO_KEEPALIVE = SOL_SOCKET_Node["SO_KEEPALIVE"].get<bool>();
+					if (bSO_KEEPALIVE)
+					{
+						iSO_KEEPALIVE = 1;
+					}
+					else
+					{
+						iSO_KEEPALIVE = 0;
+					}
+					unsigned long long uSO_RCVTIMEO =
+							SOL_SOCKET_Node["SO_RCVTIMEO"].get<unsigned long long>();
+					tvSO_RCVTIMEO.tv_sec = uSO_RCVTIMEO / 1000000;
+					tvSO_RCVTIMEO.tv_usec = uSO_RCVTIMEO % 1000000;
+					unsigned long long uSO_SNDTIMEO =
+							SOL_SOCKET_Node["SO_SNDTIMEO"].get<unsigned long long>();
+					tvSO_SNDTIMEO.tv_sec = uSO_SNDTIMEO / 1000000;
+					tvSO_SNDTIMEO.tv_usec = uSO_SNDTIMEO % 1000000;
+					int iSO_LINGER = SOL_SOCKET_Node["SO_LINGER"].get<int>();
+					if (0 == iSO_LINGER)
+					{
+						linSO_LINGER.l_onoff = 0;
+						linSO_LINGER.l_linger = 0;
+					}
+					else
+					{
+						linSO_LINGER.l_onoff = 1;
+						linSO_LINGER.l_linger = iSO_LINGER;
+					}
+					iSO_RCVBUF = SOL_SOCKET_Node["SO_RCVBUF"].get<int>();
+					iSO_SNDBUF = SOL_SOCKET_Node["SO_SNDBUF"].get<int>();
+				}
+				catch(...)
+				{
+					std::cerr << "load initSOL_SOCKET fail" <<  std::endl;
 					return false;
-				}
-				if (dbp::cfg::srv::json_node::JSON != pSOL_SOCKET->getType())
-				{
-					return false;
-				}
-				dbp::cfg::srv::json_node* pSO_KEEPALIVE = pSOL_SOCKET->getMapNode("SO_KEEPALIVE");
-				if (nullptr == pSO_KEEPALIVE)
-				{
-					return false;
-				}
-				if (dbp::cfg::srv::json_node::BOOL != pSO_KEEPALIVE->getType())
-				{
-					return false;
-				}
-				if (pSO_KEEPALIVE->getBool())
-				{
-					iSO_KEEPALIVE = 1;
-				}
-				else
-				{
-					iSO_KEEPALIVE = 0;
-				}
-				dbp::cfg::srv::json_node* pSO_RCVTIMEO = pSOL_SOCKET->getMapNode("SO_RCVTIMEO");
-				if (nullptr == pSO_RCVTIMEO)
-				{
-					return false;
-				}
-				if (dbp::cfg::srv::json_node::INT != pSO_RCVTIMEO->getType())
-				{
-					return false;
-				}
-				long long llSO_RCVTIMEO = pSO_RCVTIMEO->getInt();
-				if (llSO_RCVTIMEO <= 0)
-				{
-					return false;
-				}
-				unsigned long long uSO_RCVTIMEO = (int)llSO_RCVTIMEO;
-				tvSO_RCVTIMEO.tv_sec = uSO_RCVTIMEO / 1000000;
-				tvSO_RCVTIMEO.tv_usec = uSO_RCVTIMEO % 1000000;
-				dbp::cfg::srv::json_node* pSO_SNDTIMEO = pSOL_SOCKET->getMapNode("SO_SNDTIMEO");
-				if (nullptr == pSO_SNDTIMEO)
-				{
-					return false;
-				}
-				if (dbp::cfg::srv::json_node::INT != pSO_SNDTIMEO->getType())
-				{
-					return false;
-				}
-				long long llSO_SNDTIMEO = pSO_SNDTIMEO->getInt();
-				if (llSO_SNDTIMEO <= 0)
-				{
-					return false;
-				}
-				unsigned long long uSO_SNDTIMEO = (int)llSO_SNDTIMEO;
-				tvSO_SNDTIMEO.tv_sec = uSO_SNDTIMEO / 1000000;
-				tvSO_SNDTIMEO.tv_usec = uSO_SNDTIMEO % 1000000;
-				dbp::cfg::srv::json_node* pSO_LINGER = pSOL_SOCKET->getMapNode("SO_LINGER");
-				if (nullptr == pSO_LINGER)
-				{
-					return false;
-				}
-				if (dbp::cfg::srv::json_node::INT != pSO_LINGER->getType())
-				{
-					return false;
-				}
-				long long llSO_LINGER = pSO_LINGER->getInt();
-				if (llSO_LINGER < 0 || llSO_LINGER > std::numeric_limits<int>::max())
-				{
-					return false;
-				}
-				int iSO_LINGER = (int)llSO_LINGER;
-				if (0 == iSO_LINGER)
-				{
-					linSO_LINGER.l_onoff = 0;
-					linSO_LINGER.l_linger = 0;
-				}
-				else
-				{
-					linSO_LINGER.l_onoff = 1;
-					linSO_LINGER.l_linger = iSO_LINGER;
-				}
-				dbp::cfg::srv::json_node* pSO_RCVBUF = pSOL_SOCKET->getMapNode("SO_RCVBUF");
-				if (nullptr == pSO_RCVBUF)
-				{
-					return false;
-				}
-				if (dbp::cfg::srv::json_node::INT != pSO_RCVBUF->getType())
-				{
-					return false;
-				}
-				long long llSO_RCVBUF = pSO_RCVBUF->getInt();
-				if (llSO_RCVBUF <= 0 || llSO_RCVBUF > std::numeric_limits<int>::max())
-				{
-					return false;
-				}
-				iSO_RCVBUF = (int)llSO_RCVBUF;
-				dbp::cfg::srv::json_node* pSO_SNDBUF = pSOL_SOCKET->getMapNode("SO_SNDBUF");
-				if (nullptr == pSO_SNDBUF)
-				{
-					return false;
-				}
-				if (dbp::cfg::srv::json_node::INT != pSO_SNDBUF->getType())
-				{
-					return false;
-				}
-				long long llSO_SNDBUF = pSO_SNDBUF->getInt();
-				if (llSO_SNDBUF <= 0 || llSO_SNDBUF > std::numeric_limits<int>::max())
-				{
-					return false;
-				}
-				iSO_SNDBUF = (int)llSO_SNDBUF;
-				return true;
-			}
-			inline static bool initSOL_TCP(dbp::cfg::srv::json_node& _json)
-			{
-				dbp::cfg::srv::json_node* pSOL_TCP = _json.getMapNode("SOL_TCP");
-				if (nullptr == pSOL_TCP)
-				{
-					return false;
-				}
-				if (dbp::cfg::srv::json_node::JSON != pSOL_TCP->getType())
-				{
-					return false;
-				}
-				dbp::cfg::srv::json_node* pTCP_NODELAY = pSOL_TCP->getMapNode("TCP_NODELAY");
-				if (nullptr == pTCP_NODELAY)
-				{
-					return false;
-				}
-				if (dbp::cfg::srv::json_node::BOOL != pTCP_NODELAY->getType())
-				{
-					return false;
-				}
-				if (pTCP_NODELAY->getBool())
-				{
-					iTCP_NODELAY = 1;
-				}
-				else
-				{
-					iTCP_NODELAY = 0;
-				}
-				dbp::cfg::srv::json_node* pTCP_CORK = pSOL_TCP->getMapNode("TCP_CORK");
-				if (nullptr == pTCP_CORK)
-				{
-					return false;
-				}
-				if (dbp::cfg::srv::json_node::BOOL != pTCP_CORK->getType())
-				{
-					return false;
-				}
-				if (pTCP_CORK->getBool())
-				{
-					iTCP_CORK = 1;
-				}
-				else
-				{
-					iTCP_CORK = 0;
 				}
 				return true;
 			}
-			inline static bool initIPPROTO_TCP(dbp::cfg::srv::json_node& _json)
+			inline static bool initSOL_TCP(json& _json)
 			{
-				dbp::cfg::srv::json_node* pIPPROTO_TCP = _json.getMapNode("IPPROTO_TCP");
-				if (nullptr == pIPPROTO_TCP)
+				try
 				{
+					auto& SOL_TCP_Node = _json["SOL_TCP"];
+					bool bTCP_NODELAY = SOL_TCP_Node["TCP_NODELAY"].get<bool>();
+					if (bTCP_NODELAY)
+					{
+						iTCP_NODELAY = 1;
+					}
+					else
+					{
+						iTCP_NODELAY = 0;
+					}
+					bool bTCP_CORK = SOL_TCP_Node["TCP_CORK"].get<bool>();
+					if (bTCP_CORK)
+					{
+						iTCP_CORK = 1;
+					}
+					else
+					{
+						iTCP_CORK = 0;
+					}
+				}
+				catch(...)
+				{
+					std::cerr << "load initSOL_TCP fail" <<  std::endl;
 					return false;
 				}
-				if (dbp::cfg::srv::json_node::JSON != pIPPROTO_TCP->getType())
+				return true;
+			}
+			inline static bool initIPPROTO_TCP(json& _json)
+			{
+				try
 				{
+					auto& IPPROTO_TCP_Node = _json["IPPROTO_TCP"];
+					bool bTCP_QUICKACK = IPPROTO_TCP_Node["TCP_QUICKACK"].get<bool>();
+					if (bTCP_QUICKACK)
+					{
+						pfunc_recv = recv_quick_ack;
+					}
+					else
+					{
+						pfunc_recv = recv_noquick_ack;
+					}
+					iTCP_KEEPCNT = IPPROTO_TCP_Node["TCP_KEEPCNT"].get<int>();
+					iTCP_KEEPIDLE = IPPROTO_TCP_Node["TCP_KEEPIDLE"].get<int>();
+					iTCP_KEEPINTVL = IPPROTO_TCP_Node["TCP_KEEPINTVL"].get<int>();
+				}
+				catch (...)
+				{
+					std::cerr << "load initIPPROTO_TCP fail" <<  std::endl;
 					return false;
 				}
-				dbp::cfg::srv::json_node* pTCP_QUICKACK = pIPPROTO_TCP->getMapNode("TCP_QUICKACK");
-				if (nullptr == pTCP_QUICKACK)
-				{
-					return false;
-				}
-				if (dbp::cfg::srv::json_node::BOOL != pTCP_QUICKACK->getType())
-				{
-					return false;
-				}
-				if (pTCP_QUICKACK->getBool())
-				{
-					pfunc_recv = recv_quick_ack;
-				}
-				else
-				{
-					pfunc_recv = recv_noquick_ack;
-				}
-				dbp::cfg::srv::json_node* pTCP_KEEPCNT = pIPPROTO_TCP->getMapNode("TCP_KEEPCNT");
-				if (nullptr == pTCP_KEEPCNT)
-				{
-					return false;
-				}
-				if (dbp::cfg::srv::json_node::INT != pTCP_KEEPCNT->getType())
-				{
-					return false;
-				}
-				long long llTCP_KEEPCNT = pTCP_KEEPCNT->getInt();
-				if (llTCP_KEEPCNT <= 0 || llTCP_KEEPCNT > std::numeric_limits<int>::max())
-				{
-					return false;
-				}
-				iTCP_KEEPCNT = (int)llTCP_KEEPCNT;
-				dbp::cfg::srv::json_node* pTCP_KEEPIDLE = pIPPROTO_TCP->getMapNode("TCP_KEEPIDLE");
-				if (nullptr == pTCP_KEEPIDLE)
-				{
-					return false;
-				}
-				if (dbp::cfg::srv::json_node::INT != pTCP_KEEPIDLE->getType())
-				{
-					return false;
-				}
-				long long llTCP_KEEPIDLE = pTCP_KEEPIDLE->getInt();
-				if (llTCP_KEEPIDLE <= 0 || llTCP_KEEPIDLE > std::numeric_limits<int>::max())
-				{
-					return false;
-				}
-				iTCP_KEEPIDLE = (int)llTCP_KEEPIDLE;
-				dbp::cfg::srv::json_node* pTCP_KEEPINTVL = pIPPROTO_TCP->getMapNode("TCP_KEEPINTVL");
-				if (nullptr == pTCP_KEEPINTVL)
-				{
-					return false;
-				}
-				if (dbp::cfg::srv::json_node::INT != pTCP_KEEPINTVL->getType())
-				{
-					return false;
-				}
-				long long llTCP_KEEPINTVL = pTCP_KEEPINTVL->getInt();
-				if (llTCP_KEEPINTVL <= 0 || llTCP_KEEPINTVL > std::numeric_limits<int>::max())
-				{
-					return false;
-				}
-				iTCP_KEEPINTVL = (int)llTCP_KEEPINTVL;
 				return true;
 			}
 			inline static bool setSocketOpt(int sockfd)
