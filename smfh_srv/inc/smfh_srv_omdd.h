@@ -1,6 +1,7 @@
 #ifndef __SMFH_SRV_OMDD__
 #define __SMFH_SRV_OMDD__
 #include <tools.h>
+#include <global_memory.hpp>
 #include "smfh_srv_orderbook.h"
 inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long _uPkgTm)
 {
@@ -39,6 +40,7 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 			rOrderBook.m_TradeSide = TradeSide::NO_SIDE;
 		}
 	}
+	broadcastQueue.enqueue(rOrderBook);
 }
 
 #endif

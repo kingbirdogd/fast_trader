@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <dbp_cpu.h>
 #include <omd.h>
+#include <rapid_ring/ring_buffer_disruptor.hpp>
 struct OrderItem
 {
 	unsigned long long m_uQuantity;
@@ -148,6 +149,7 @@ typedef std::unordered_map<unsigned int, std::string> COmddCodeToNameMap;
 typedef std::unordered_map<std::string, unsigned int> COmddNameToCodeMap;
 typedef std::unordered_map<int, CDefChannel> CDefMap;
 typedef std::vector<CStreamChannel> CStreamVec;
+using CBroadCastQueue = rapid_ring::mp_ring_buffer_disruptor<Tradable, 2048000>;
 extern dbp::cpu::CpuInfo cpuInfo;
 extern COmdOrderMap omdcMap;
 extern COmdOrderMap omddMap;
@@ -159,6 +161,7 @@ extern CRetranVec retranVec;
 extern CStreamVec omdcStreams;
 extern CStreamVec omddStreams;
 extern CActivateChannel mActivateChannel;
+extern CBroadCastQueue broadcastQueue;
 
 
 

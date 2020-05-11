@@ -10,6 +10,7 @@ CRetranVec retranVec;
 CStreamVec omdcStreams;
 CStreamVec omddStreams;
 CActivateChannel mActivateChannel;
+CBroadCastQueue broadcastQueue;
 
 
 
