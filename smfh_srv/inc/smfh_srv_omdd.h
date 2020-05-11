@@ -1,7 +1,6 @@
 #ifndef __SMFH_SRV_OMDD__
 #define __SMFH_SRV_OMDD__
 #include <tools.h>
-#include <spin.h>
 #include "smfh_srv_orderbook.h"
 inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned int _uSeq, unsigned long long _uChannelIdx, unsigned long long _uPkgTm)
 {
