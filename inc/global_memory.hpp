@@ -141,7 +141,6 @@ public:
 };
 
 typedef std::unordered_map<std::string, std::string> CActivateChannel;
-typedef void (*PFuncOmdMsgHandler)(dbp::omd::COmdMsgHeader* _pMsg, unsigned int _uSeq, unsigned long long _uChannelIdx, unsigned long long _uPkgTm);
 typedef std::vector<CRetranProxy> CRetranVec;
 typedef std::unordered_map<unsigned int, COmdOrderbook> COmdOrderMap;
 typedef std::unordered_map<unsigned int, unsigned int> CWarrants;

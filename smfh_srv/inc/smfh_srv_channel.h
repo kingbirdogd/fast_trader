@@ -10,6 +10,7 @@
 #include "smfh_srv_omdc.h"
 #include "smfh_srv_omdd.h"
 
+typedef void (*PFuncOmdMsgHandler)(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long _uPkgTm);
 template <const PFuncOmdMsgHandler _Handler>
 class ChannelHandler
 {
@@ -201,7 +202,7 @@ public:
 
 																		for (unsigned int i =  uStartSeq - uOnRefreshStartIdx; i < Vec.size(); ++i)
 																		{
-																			_Handler(OMD_GET_POINTER(&Vec[i][0], 0, dbp::omd::COmdMsgHeader), uStartSeq + i, _channel.m_uChannelIdx, 0);
+																			_Handler(OMD_GET_POINTER(&Vec[i][0], 0, dbp::omd::COmdMsgHeader), 0);
 																		}
 																		struct epoll_event objEvent;
 																		memset(&objEvent, 0, sizeof(struct epoll_event));
@@ -217,7 +218,7 @@ public:
 															}
 															else if (bStartRefresh)
 															{
-																_Handler(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), 0, _channel.m_uChannelIdx, 0);
+																_Handler(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), 0);
 															}
 															pszBuffer += OMD_GET_VALUE(pszBuffer, 0, unsigned short int);
 														}
@@ -253,7 +254,7 @@ public:
 
 																		for (unsigned int i =  uStartSeq - uOnRefreshStartIdx; i < Vec.size(); ++i)
 																		{
-																			_Handler(OMD_GET_POINTER(&Vec[i][0], 0, dbp::omd::COmdMsgHeader), uStartSeq + i, _channel.m_uChannelIdx, 0);
+																			_Handler(OMD_GET_POINTER(&Vec[i][0], 0, dbp::omd::COmdMsgHeader), 0);
 																		}
 																		struct epoll_event objEvent;
 																		memset(&objEvent, 0, sizeof(struct epoll_event));
@@ -272,7 +273,7 @@ public:
 																		unsigned int ucode = OMD_GET_VALUE(pszBuffer, 4, unsigned int);
 																		flush_printf("tm:%llu, Handle Refresh , ChannelId:%u , Code:%u\n", dbp::tools::srv::current(), _channel.m_uChannelId, ucode);
 																	}
-																	_Handler(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), 0, _channel.m_uChannelIdx, 0);
+																	_Handler(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), 0);
 																}
 																pszBuffer += OMD_GET_VALUE(pszBuffer, 0, unsigned short int);
 															}
@@ -323,7 +324,7 @@ public:
 								pszBuffer += sizeof(dbp::omd::COmdPkgHeader);
 								for (unsigned char i = 0; i < pPkg->m_uMsgCnt; ++i)
 								{
-									_Handler(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), pPkg->m_uSeq + i, _channel.m_uChannelIdx, pPkg->m_uTimeStamp);
+									_Handler(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), pPkg->m_uTimeStamp);
 									pszBuffer += OMD_GET_VALUE(pszBuffer, 0, unsigned short int);
 									unsigned long long uTimeDiff = dbp::tools::srv::current() - uTimeStart;
 									uSum += uTimeDiff;
@@ -366,7 +367,7 @@ public:
 										unsigned char* retranBuffer = &buffer[0];
 										for (unsigned int i = 0; i < uCnt; ++i)
 										{
-											_Handler(OMD_GET_POINTER(retranBuffer, 0, dbp::omd::COmdMsgHeader), uHotSeq + i + 1, _channel.m_uChannelIdx, 0);
+											_Handler(OMD_GET_POINTER(retranBuffer, 0, dbp::omd::COmdMsgHeader), 0);
 											retranBuffer += OMD_GET_VALUE(retranBuffer, 0, unsigned short int);
 										}
 										uHotSeq = pPkg->m_uSeq;
@@ -410,14 +411,14 @@ public:
 										unsigned char* retranBuffer = &buffer[0];
 										for (unsigned int i = 0; i < uCnt; ++i)
 										{
-											_Handler(OMD_GET_POINTER(retranBuffer, 0, dbp::omd::COmdMsgHeader), uHotSeq + i + 1, _channel.m_uChannelIdx, 0);
+											_Handler(OMD_GET_POINTER(retranBuffer, 0, dbp::omd::COmdMsgHeader), 0);
 											retranBuffer += OMD_GET_VALUE(retranBuffer, 0, unsigned short int);
 										}
 										uHotSeq = pPkg->m_uSeq + pPkg->m_uMsgCnt - 1;
 										pszBuffer += sizeof(dbp::omd::COmdPkgHeader);
 										for (unsigned char i = 0; i < pPkg->m_uMsgCnt; ++i)
 										{
-											_Handler(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), pPkg->m_uSeq + i, _channel.m_uChannelIdx, pPkg->m_uTimeStamp);
+											_Handler(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), pPkg->m_uTimeStamp);
 											pszBuffer += OMD_GET_VALUE(pszBuffer, 0, unsigned short int);
 										}
 									}
@@ -442,7 +443,7 @@ public:
 									pszBuffer += sizeof(dbp::omd::COmdPkgHeader);
 									for (unsigned char i = 0; i < pPkg->m_uMsgCnt; ++i)
 									{
-										_Handler(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), pPkg->m_uSeq + i, _channel.m_uChannelIdx, pPkg->m_uTimeStamp);
+										_Handler(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), pPkg->m_uTimeStamp);
 										pszBuffer += OMD_GET_VALUE(pszBuffer, 0, unsigned short int);
 										unsigned long long uTimeDiff = dbp::tools::srv::current() - uTimeStart;
 										uSum += uTimeDiff;

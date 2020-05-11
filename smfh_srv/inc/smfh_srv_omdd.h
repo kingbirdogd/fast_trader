@@ -2,11 +2,8 @@
 #define __SMFH_SRV_OMDD__
 #include <tools.h>
 #include "smfh_srv_orderbook.h"
-inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned int _uSeq, unsigned long long _uChannelIdx, unsigned long long _uPkgTm)
+inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long _uPkgTm)
 {
-	if (_uSeq == 1){}
-	if (_uChannelIdx == 1){}
-	if (_uPkgTm == 1){}
 	unsigned int uSecurityCode = OMD_GET_VALUE(_pMsg, 4, unsigned int);
 	auto it = omddMap.find(uSecurityCode);
 	if (omddMap.end() == it)
@@ -14,6 +11,7 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned int _uSeq
 		return;
 	}
 	COmdOrderbook& rOrderBook = it->second;
+	rOrderBook.m_PkgTime = _uPkgTm;
 	if (353 == _pMsg->m_uMsgType)
 	{
 		rOrderBook.m_MsgType = MsgType::OMDD_BOOK;

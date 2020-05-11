@@ -2,11 +2,8 @@
 #define __SMFH_SRV_OMDC__
 #include <tools.h>
 #include "smfh_srv_orderbook.h"
-inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned int _uSeq, unsigned long long _uChannelIdx, unsigned long long _uPkgTm)
+inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long _uPkgTm)
 {
-	if (_uSeq == 1){}
-	if (_uChannelIdx == 1){}
-	if (_uPkgTm == 1){}
 	unsigned int uSecurityCode = OMD_GET_VALUE(_pMsg, 4, unsigned int);
 	auto it = omdcMap.find(uSecurityCode);
 	if (omdcMap.end() == it)
