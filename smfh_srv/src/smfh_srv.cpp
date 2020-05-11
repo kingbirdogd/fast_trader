@@ -34,16 +34,6 @@ inline static bool start()
 			return false;
 		}
 	}
-
-	itActivate = mActivateChannel.find("BrokerQueueChannel");
-	if(itActivate != mActivateChannel.end())
-	{
-		flush_printf("tm:%llu, Start BrokerQueueChannel \n", dbp::tools::srv::current());
-		if (!startBrokerQueueChannel())
-		{
-			return false;
-		}
-	}
 	return true;
 }
 inline static void closeAll()
@@ -83,21 +73,6 @@ inline static void closeAll()
 			close(omddStreams[i].m_iEpoll);
 			omddStreams[i].m_iEpoll = 0;
 		}
-	}
-	if (0 != brokerStream.m_Channel.m_iHot)
-	{
-		close(brokerStream.m_Channel.m_iHot);
-		brokerStream.m_Channel.m_iHot = 0;
-	}
-	if (0 != brokerStream.m_Channel.m_iRefresh)
-	{
-		close(brokerStream.m_Channel.m_iRefresh);
-		brokerStream.m_Channel.m_iRefresh = 0;
-	}
-	if (0 != brokerStream.m_Channel.m_iEpoll)
-	{
-		close(brokerStream.m_Channel.m_iEpoll);
-		brokerStream.m_Channel.m_iEpoll = 0;
 	}
 }
 inline static bool init(const char* _pszJsonPath)

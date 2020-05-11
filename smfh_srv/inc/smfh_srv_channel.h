@@ -10,7 +10,6 @@
 #include "smfh_srv_cfg.h"
 #include "smfh_srv_omdc.h"
 #include "smfh_srv_omdd.h"
-#include "smfh_srv_broker.h"
 
 template <const PFuncOmdMsgHandler _Handler>
 class ChannelHandler
@@ -518,10 +517,6 @@ inline static bool startOmdcChannel()
 inline static bool startOmddChannel()
 {
 	return ChannelHandler<handleOmdd>::handleChannelVec(omddStreams);
-}
-inline static bool startBrokerQueueChannel()
-{
-	return ChannelHandler<handleBroker>::handleChannel(brokerStream.m_Channel);
 }
 #endif
 

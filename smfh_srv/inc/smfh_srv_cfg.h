@@ -14,7 +14,6 @@
 #include <srv/json_node.h>
 #include <srv/net.h>
 #include <srv/dbp_shm.h>
-typedef std::unordered_set<int> CISBrokerIDSet;
 class COmdMemOrderbook
 {
 public:
@@ -92,31 +91,6 @@ public:
 	{
 	}
 };
-class CBroker
-{
-public:
-	CStreamChannel m_Channel;
-	CISBrokerIDSet m_CISBrokerIDSet;
-	unsigned int m_uLastWaitOrderBookCode;
-	bool m_bCodeChange;
-	bool m_bDataUpdate;
-	unsigned int m_iLastSPOrderBookIdx;
-public:
-	CBroker():
-		m_Channel(),
-		m_CISBrokerIDSet(),
-		m_uLastWaitOrderBookCode(0),
-		m_bCodeChange(false),
-		m_bDataUpdate(false),
-		m_iLastSPOrderBookIdx(0)
-	{
-	}
-	CBroker(const CBroker& book) = delete;
-	CBroker(CBroker&& book) = delete;
-	~CBroker()
-	{
-	}
-};
 class CDefChannel
 {
 public:
@@ -175,7 +149,6 @@ static CSpecialSpreadTableSet specialSpreadTableSet;
 static CRetranVec retranVec;
 static CStreamVec omdcStreams;
 static CStreamVec omddStreams;
-static CBroker brokerStream;
 static COmddOrderidMap omdcOrderodMap;
 static dbp::shm::MemoryRef shm_Ref;
 static CActivateChannel mActivateChannel;
@@ -1302,260 +1275,6 @@ inline static bool loadChannel(dbp::cfg::srv::json_node& _json, const char* pszN
 	}
 	return true;
 }
-inline static bool loadBrokerChannel(dbp::cfg::srv::json_node& _json)
-{
-	dbp::cfg::srv::json_node* pChannelNode = _json.getMapNode("BrokerQueueChannel");
-	if (nullptr == pChannelNode)
-	{
-		return false;
-	}
-	if (dbp::cfg::srv::json_node::JSON != pChannelNode->getType())
-	{
-		return false;
-	}
-	dbp::cfg::srv::json_node* pInterfaceIp = 0;
-	dbp::cfg::srv::json_node* pMulticastIp = 0;
-	dbp::cfg::srv::json_node* pMulticastPort = 0;
-	std::string strInterfaceIp = "";
-	std::string strMulticastIp = "";
-	long long llPort = 0;
-	unsigned short int uMulticastPort = 0;
-	dbp::cfg::srv::json_node* pChannelId = pChannelNode->getMapNode("ChannelId");
-	if (nullptr == pChannelId)
-	{
-		return false;
-	}
-	if (dbp::cfg::srv::json_node::INT != pChannelId->getType())
-	{
-		return false;
-	}
-	long long llChannelId = pChannelId->getInt();
-	if (llChannelId <= 0 || llChannelId > std::numeric_limits<unsigned short int>::max())
-	{
-		return false;
-	}
-	unsigned short int uChannelId = (unsigned short int)llChannelId;
-	dbp::cfg::srv::json_node* pHot = pChannelNode->getMapNode("Hot");
-	if (nullptr == pHot)
-	{
-		return false;
-	}
-	if (dbp::cfg::srv::json_node::JSON != pHot->getType())
-	{
-		return false;
-	}
-	pInterfaceIp = pHot->getMapNode("InterfaceIp");
-	if (nullptr == pInterfaceIp)
-	{
-		return false;
-	}
-	if (dbp::cfg::srv::json_node::STRING != pInterfaceIp->getType())
-	{
-		return false;
-	}
-	pInterfaceIp->getString(strInterfaceIp);
-	pMulticastIp = pHot->getMapNode("MulticastIp");
-	if (nullptr == pMulticastIp)
-	{
-		return false;
-	}
-	if (dbp::cfg::srv::json_node::STRING != pMulticastIp->getType())
-	{
-		return false;
-	}
-	pMulticastIp->getString(strMulticastIp);
-	pMulticastPort = pHot->getMapNode("MulticastPort");
-	if (nullptr == pMulticastPort)
-	{
-		return false;
-	}
-	if (dbp::cfg::srv::json_node::INT != pMulticastPort->getType())
-	{
-		return false;
-	}
-	llPort = pMulticastPort->getInt();
-	if (llPort <= 0 || llPort > std::numeric_limits<unsigned short int>::max())
-	{
-		return false;
-	}
-	uMulticastPort = (unsigned short int)llPort;
-	int iHot = dbp::net::srv::getNoBlockReuseUdpListener(uMulticastPort, strMulticastIp, strInterfaceIp);
-	if (-1 == iHot)
-	{
-		return false;
-	}
-	dbp::cfg::srv::json_node* pRefresh = pChannelNode->getMapNode("Refresh");
-	if (nullptr == pRefresh)
-	{
-		close(iHot);
-		return false;
-	}
-	if (dbp::cfg::srv::json_node::JSON != pRefresh->getType())
-	{
-		close(iHot);
-		return false;
-	}
-	pInterfaceIp = pRefresh->getMapNode("InterfaceIp");
-	if (nullptr == pInterfaceIp)
-	{
-		close(iHot);
-		return false;
-	}
-	if (dbp::cfg::srv::json_node::STRING != pInterfaceIp->getType())
-	{
-		close(iHot);
-		return false;
-	}
-	pInterfaceIp->getString(strInterfaceIp);
-	pMulticastIp = pRefresh->getMapNode("MulticastIp");
-	if (nullptr == pMulticastIp)
-	{
-		close(iHot);
-		return false;
-	}
-	if (dbp::cfg::srv::json_node::STRING != pMulticastIp->getType())
-	{
-		close(iHot);
-		return false;
-	}
-	pMulticastIp->getString(strMulticastIp);
-	pMulticastPort = pRefresh->getMapNode("MulticastPort");
-	if (nullptr == pMulticastPort)
-	{
-		close(iHot);
-		return false;
-	}
-	if (dbp::cfg::srv::json_node::INT != pMulticastPort->getType())
-	{
-		close(iHot);
-		return false;
-	}
-	llPort = pMulticastPort->getInt();
-	if (llPort <= 0 || llPort > std::numeric_limits<unsigned short int>::max())
-	{
-		close(iHot);
-		return false;
-	}
-	uMulticastPort = (unsigned short int)llPort;
-	int iRefresh = dbp::net::srv::getNoBlockReuseUdpListener(uMulticastPort, strMulticastIp, strInterfaceIp);
-	if (-1 == iRefresh)
-	{
-		close(iHot);
-		return false;
-	}
-	dbp::cfg::srv::json_node* pRetranProxyIndex = pChannelNode->getMapNode("RetranProxyIndex");
-	if (nullptr == pRetranProxyIndex)
-	{
-		close(iHot);
-		close(iRefresh);
-		return false;
-	}
-	if (dbp::cfg::srv::json_node::INT != pRetranProxyIndex->getType())
-	{
-		close(iHot);
-		close(iRefresh);
-		return false;
-	}
-	long long llRetranProxyIndex = pRetranProxyIndex->getInt();
-	if (llRetranProxyIndex < 0 || (unsigned long long)llRetranProxyIndex > std::numeric_limits<size_t>::max())
-	{
-		close(iHot);
-		close(iRefresh);
-		return false;
-	}
-
-	dbp::cfg::srv::json_node* pCISBrokerIDs = pChannelNode->getMapNode("CISBrokerIDs");
-	if (nullptr == pCISBrokerIDs)
-	{
-		close(iHot);
-		close(iRefresh);
-		return false;
-	}
-	if (dbp::cfg::srv::json_node::VECTOR != pCISBrokerIDs->getType())
-	{
-		close(iHot);
-		close(iRefresh);
-		return false;
-	}
-	size_t uIdCnt = pCISBrokerIDs->getArraySize();
-	if (0 == uIdCnt)
-	{
-		close(iHot);
-		close(iRefresh);
-		return false;
-	}
-
-	flush_printf("CISBrokerIDs uIdCnt=%zu\n", uIdCnt);
-
-	for (size_t i = 0; i < uIdCnt; ++i)
-	{
-		dbp::cfg::srv::json_node* pCISID = pCISBrokerIDs->getArrayNode(i);
-		if (dbp::cfg::srv::json_node::INT != pCISID->getType())
-		{
-			close(iHot);
-			close(iRefresh);
-			return false;
-		}
-		long long llCISID = pCISID->getInt();
-		if (llCISID <= 0 || llCISID >= std::numeric_limits<int>::max())
-		{
-			close(iHot);
-			close(iRefresh);
-			return false;
-		}
-		int iCISID = (int)llCISID;
-		if (brokerStream.m_CISBrokerIDSet.end() != brokerStream.m_CISBrokerIDSet.find(iCISID))
-		{
-			return false;
-		}
-
-		brokerStream.m_CISBrokerIDSet.insert(iCISID);
-	}
-
-	for(std::unordered_set<int>::iterator a = brokerStream.m_CISBrokerIDSet.begin(); a != brokerStream.m_CISBrokerIDSet.end(); ++a)
-	{
-		flush_printf("loop CISBrokerID=%d\n", *a);
-	}
-
-	unsigned long long ullQueueSize = 1000000;
-	dbp::cfg::srv::json_node* pQueueSize = pChannelNode->getMapNode("QueueSize");
-	if (nullptr != pQueueSize)
-	{
-		if (dbp::cfg::srv::json_node::INT != pQueueSize->getType())
-		{
-			close(iHot);
-			close(iRefresh);
-			return false;
-		}
-		long long llQueueSize = pQueueSize->getInt();
-		if (llQueueSize <= 1000)
-		{
-			close(iHot);
-			close(iRefresh);
-			return false;
-		}
-		ullQueueSize = (unsigned long long)llQueueSize;
-	}
-	brokerStream.m_Channel.m_iHot = iHot;
-	brokerStream.m_Channel.m_iRefresh = iRefresh;
-	brokerStream.m_Channel.m_uRetranProxyIdx = (size_t)llRetranProxyIndex;
-	brokerStream.m_Channel.m_uQueueSize = ullQueueSize;
-	if (brokerStream.m_Channel.m_uRetranProxyIdx >= retranVec.size())
-	{
-		close(iHot);
-		close(iRefresh);
-		return false;
-	}
-	brokerStream.m_Channel.m_iEpoll = epoll_create(2);
-	if (brokerStream.m_Channel.m_iEpoll <= 0)
-	{
-		close(iHot);
-		close(iRefresh);
-		return false;
-	}
-	brokerStream.m_Channel.m_uChannelId = uChannelId;
-	return true;
-}
 inline static bool loadActivateChannel(dbp::cfg::srv::json_node& _json)
 {
 	auto * pActivateChannel = _json.getMapNode("ActivateChannel");
@@ -1585,14 +1304,10 @@ inline static bool loadActivateChannel(dbp::cfg::srv::json_node& _json)
 		{
 			return false;
 		}
-
-                std::string strChannel = "";
+		std::string strChannel = "";
 		pChannel->getString(strChannel);
-
 		mActivateChannel[strChannel] = "";
-
 		flush_printf("tm:%llu, Activate Channel = %s \n", dbp::tools::srv::current(), strChannel.c_str());
-
 	}
 	return true;
 }
@@ -1690,16 +1405,6 @@ inline static bool initJson(const char* _pszJsonPath)
 			return false;
 		}
 	}
-	itActivate = mActivateChannel.find("BrokerQueueChannel");
-	if(itActivate != mActivateChannel.end())
-	{
-		flush_printf("tm:%llu, loadChannel = BrokerQueueChannel \n", dbp::tools::srv::current());
-		if (!loadBrokerChannel(json))
-		{
-			std::cerr << "loadChannel BrokerQueueChannel" << std::endl;
-			return false;
-		}
-	}
 	std::vector<unsigned long long> cvec;
 	std::vector<unsigned long long> dvec;
 	for (size_t i = 0; i < omdcStreams.size(); ++i)
@@ -1718,7 +1423,7 @@ inline static bool initJson(const char* _pszJsonPath)
 		(unsigned long long)omddMap.size(),
 		(unsigned long long)omdcStreams.size(),
 		(unsigned long long)omddStreams.size(),
-		brokerStream.m_Channel.m_uQueueSize,
+		4096,
 		cvec,
 		dvec
 	))
