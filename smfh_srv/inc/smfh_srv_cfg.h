@@ -21,13 +21,7 @@ inline static bool loadCpu(json& _json)
 		auto& cpu = _json["CPU"];
 		for (std::size_t i = 0; i < cpu.size(); ++i)
 		{
-			auto llValue = cpu[i].get<unsigned long long>();
-			if (llValue >= std::numeric_limits<int>::max())
-			{
-				std::cerr << "CPU[" << i << "] is not in Range" << std::endl;
-				return false;
-			}
-			int iVavlue = static_cast<int>(llValue);
+			int iVavlue = cpu[i].get<int>();
 			if (!cpuInfo.setCpu(iVavlue))
 			{
 				std::cerr << "CPU[" << i << "] init fail" << std::endl;
