@@ -1,4 +1,4 @@
-#include "../../tcp_service/inc/net/tcp_service.hpp"
+#include <net/tcp_service.hpp>
 
 #include <unistd.h>
 #include <errno.h>
@@ -8,6 +8,8 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <string.h>
+#include <string.h>
+#include <net.h>
 
 using namespace net;
 
@@ -175,13 +177,7 @@ void tcp_service::_bind()
 		::close(fd);
 		return;
 	}
-	auto flags = ::fcntl(fd, F_GETFL, 0);
-	if (flags < 2)
-	{
-		::close(fd);
-		return;
-	}
-	if (::fcntl(fd, F_SETFL, flags | O_NONBLOCK) < 0)
+	if (!dbp::net::srv::setNoBlock(fd))
 	{
 		::close(fd);
 		return;
@@ -212,13 +208,17 @@ void tcp_service::_accept()
 		}
 		return;
 	}
-	auto flags = ::fcntl(fd, F_GETFL, 0);
-	if (flags < 2)
+	if (!dbp::net::srv::setNoBlock(fd))
 	{
 		::close(fd);
 		return;
 	}
-	if (::fcntl(fd, F_SETFL, flags | O_NONBLOCK) < 0)
+	if (!dbp::net::srv::setSocketOpt(fd))
+	{
+		::close(fd);
+		return;
+	}
+	if (!dbp::net::srv::setTcpOpt(fd))
 	{
 		::close(fd);
 		return;

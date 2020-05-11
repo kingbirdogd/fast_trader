@@ -8,6 +8,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <poll.h>
+#include <net.h>
 
 #ifndef MSG_MORE
 #define MSG_MORE 0
@@ -30,21 +31,17 @@ void tcp_client::_connect()
 		close();
 		return;
 	}
-	int flags = fcntl(_sock, F_GETFL, 0);
-	if (flags == -1)
+	if (!dbp::net::srv::setNoBlock(_sock))
 	{
 		close();
 		return;
 	}
-	flags = fcntl(_sock, F_SETFL, flags | O_NONBLOCK);
-	if (flags == -1)
+	if (!dbp::net::srv::setSocketOpt(_sock))
 	{
 		close();
 		return;
 	}
-	int optval = 1;
-	std::size_t optlen = sizeof(optval);
-	if(setsockopt(_sock, SOL_SOCKET, SO_KEEPALIVE, &optval, optlen) < 0)
+	if (!dbp::net::srv::setTcpOpt(_sock))
 	{
 		close();
 		return;
