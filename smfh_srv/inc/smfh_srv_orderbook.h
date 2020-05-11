@@ -2,11 +2,11 @@
 #define __SMFH_SRV_ORDERBOOK__
 #include <omd.h>
 #include "smfh_srv_cfg.h"
-inline static void buildOmdcOrderBookNoFlag(dbp::omd::COmdMsgHeader* _pMsg, COmdMemOrderbook& rOrderBook)
+inline static void buildOmdcOrderBook(dbp::omd::COmdMsgHeader* _pMsg, COmdOrderbook& rOrderBook)
 {
 	unsigned char uNoEntries = OMD_GET_VALUE(_pMsg, 11, unsigned char);
 	char* pszMsgPointer = (char*)_pMsg + 12;
-	dbp::shm::OrderItem* pOrderArray = 0;
+	OrderItem* pOrderArray = 0;
 	for (unsigned char i = 0; i < uNoEntries; ++i)
 	{
 		unsigned long long uAggregateQuantity = OMD_GET_VALUE(pszMsgPointer, 0, unsigned long long);
@@ -25,7 +25,7 @@ inline static void buildOmdcOrderBookNoFlag(dbp::omd::COmdMsgHeader* _pMsg, COmd
 		}
 		if (74 == uUpdateAction)
 		{
-			memset(static_cast<void*>(pOrderArray), 0, sizeof(dbp::shm::OrderItem) * 10);
+			memset(static_cast<void*>(pOrderArray), 0, sizeof(OrderItem) * 10);
 		}
 		else if (1 == uUpdateAction)
 		{
@@ -35,14 +35,14 @@ inline static void buildOmdcOrderBookNoFlag(dbp::omd::COmdMsgHeader* _pMsg, COmd
 		}
 		else if (2 == uUpdateAction)
 		{
-			memmove(static_cast<void*>(pOrderArray + uPriceLevel - 1), static_cast<void*>(pOrderArray + uPriceLevel), sizeof(dbp::shm::OrderItem) * (10 - uPriceLevel));
+			memmove(static_cast<void*>(pOrderArray + uPriceLevel - 1), static_cast<void*>(pOrderArray + uPriceLevel), sizeof(OrderItem) * (10 - uPriceLevel));
 			pOrderArray[9].m_iPrice = 0;
 			pOrderArray[9].m_uQuantity = 0;
 			pOrderArray[9].m_uNumberOfOrder = 0;
 		}
 		else if (0 == uUpdateAction)
 		{
-			memmove(static_cast<void*>(pOrderArray + uPriceLevel), static_cast<void*>(pOrderArray + uPriceLevel - 1), sizeof(dbp::shm::OrderItem) * (10 - uPriceLevel));
+			memmove(static_cast<void*>(pOrderArray + uPriceLevel), static_cast<void*>(pOrderArray + uPriceLevel - 1), sizeof(OrderItem) * (10 - uPriceLevel));
 			pOrderArray[uPriceLevel - 1].m_iPrice = iPrice;
 			pOrderArray[uPriceLevel - 1].m_uQuantity = uAggregateQuantity;
 			pOrderArray[uPriceLevel - 1].m_uNumberOfOrder = uNumberOfOrders;
@@ -50,61 +50,11 @@ inline static void buildOmdcOrderBookNoFlag(dbp::omd::COmdMsgHeader* _pMsg, COmd
 		pszMsgPointer += 24;
 	}
 }
-inline static void buildOmdcOrderBook(dbp::omd::COmdMsgHeader* _pMsg, COmdMemOrderbook& rOrderBook, bool& bBidFlag, bool& bAskFlag)
+inline static void buildOmddOrderBook(dbp::omd::COmdMsgHeader* _pMsg, COmdOrderbook& rOrderBook)
 {
 	unsigned char uNoEntries = OMD_GET_VALUE(_pMsg, 11, unsigned char);
 	char* pszMsgPointer = (char*)_pMsg + 12;
-	dbp::shm::OrderItem* pOrderArray = 0;
-	for (unsigned char i = 0; i < uNoEntries; ++i)
-	{
-		unsigned long long uAggregateQuantity = OMD_GET_VALUE(pszMsgPointer, 0, unsigned long long);
-		int iPrice = OMD_GET_VALUE(pszMsgPointer, 8, int);
-		unsigned int uNumberOfOrders = OMD_GET_VALUE(pszMsgPointer, 12, unsigned int);
-		unsigned short int uSide = OMD_GET_VALUE(pszMsgPointer, 16, unsigned short int);
-		unsigned char uPriceLevel = (unsigned int)OMD_GET_VALUE(pszMsgPointer, 18, unsigned char);
-		unsigned char uUpdateAction = (unsigned int)OMD_GET_VALUE(pszMsgPointer, 19, unsigned char);
-		if (0 == uSide)
-		{
-			pOrderArray = &(rOrderBook.m_BidOrder[0]);
-			bBidFlag = true;
-		}
-		else
-		{
-			pOrderArray = &(rOrderBook.m_AskOrder[0]);
-			bAskFlag = true;
-		}
-		if (74 == uUpdateAction)
-		{
-			memset(static_cast<void*>(pOrderArray), 0, sizeof(dbp::shm::OrderItem) * 10);
-		}
-		else if (1 == uUpdateAction)
-		{
-			pOrderArray[uPriceLevel - 1].m_iPrice = iPrice;
-			pOrderArray[uPriceLevel - 1].m_uQuantity = uAggregateQuantity;
-			pOrderArray[uPriceLevel - 1].m_uNumberOfOrder = uNumberOfOrders;
-		}
-		else if (2 == uUpdateAction)
-		{
-			memmove(static_cast<void*>(pOrderArray + uPriceLevel - 1), static_cast<void*>(pOrderArray + uPriceLevel), sizeof(dbp::shm::OrderItem) * (10 - uPriceLevel));
-			pOrderArray[9].m_iPrice = 0;
-			pOrderArray[9].m_uQuantity = 0;
-			pOrderArray[9].m_uNumberOfOrder = 0;
-		}
-		else if (0 == uUpdateAction)
-		{
-			memmove(static_cast<void*>(pOrderArray + uPriceLevel), static_cast<void*>(pOrderArray + uPriceLevel - 1), sizeof(dbp::shm::OrderItem) * (10 - uPriceLevel));
-			pOrderArray[uPriceLevel - 1].m_iPrice = iPrice;
-			pOrderArray[uPriceLevel - 1].m_uQuantity = uAggregateQuantity;
-			pOrderArray[uPriceLevel - 1].m_uNumberOfOrder = uNumberOfOrders;
-		}
-		pszMsgPointer += 24;
-	}
-}
-inline static void buildOmddOrderBook(dbp::omd::COmdMsgHeader* _pMsg, COmdMemOrderbook& rOrderBook, bool& bBidFlag, bool& bAskFlag)
-{
-	unsigned char uNoEntries = OMD_GET_VALUE(_pMsg, 11, unsigned char);
-	char* pszMsgPointer = (char*)_pMsg + 12;
-	dbp::shm::OrderItem* pOrderArray = 0;
+	OrderItem* pOrderArray = 0;
 	for (unsigned char i = 0; i < uNoEntries; ++i)
 	{
 		unsigned long long uAggregateQuantity = OMD_GET_VALUE(pszMsgPointer, 0, unsigned long long);
@@ -120,16 +70,14 @@ inline static void buildOmddOrderBook(dbp::omd::COmdMsgHeader* _pMsg, COmdMemOrd
 		if (0 == uBidAsk)
 		{
 			pOrderArray = &(rOrderBook.m_BidOrder[0]);
-			bBidFlag = true;
 		}
 		else
 		{
 			pOrderArray = &(rOrderBook.m_AskOrder[0]);
-			bAskFlag = true;
 		}
 		if (74 == uAction)
 		{
-			memset(static_cast<void*>(pOrderArray), 0, sizeof(dbp::shm::OrderItem) * 11);
+			memset(static_cast<void*>(pOrderArray), 0, sizeof(OrderItem) * 11);
 		}
 		else if (1 == uAction)
 		{
@@ -141,7 +89,7 @@ inline static void buildOmddOrderBook(dbp::omd::COmdMsgHeader* _pMsg, COmdMemOrd
 		{
 			if (11 != uPriceLevel)
 			{
-				memmove(static_cast<void*>(pOrderArray + uPriceLevel - 1), static_cast<void*>(pOrderArray + uPriceLevel), sizeof(dbp::shm::OrderItem) * (10 - uPriceLevel));
+				memmove(static_cast<void*>(pOrderArray + uPriceLevel - 1), static_cast<void*>(pOrderArray + uPriceLevel), sizeof(OrderItem) * (10 - uPriceLevel));
 				pOrderArray[9].m_iPrice = 0;
 				pOrderArray[9].m_uQuantity = 0;
 				pOrderArray[9].m_uNumberOfOrder = 0;
@@ -157,7 +105,7 @@ inline static void buildOmddOrderBook(dbp::omd::COmdMsgHeader* _pMsg, COmdMemOrd
 		{
 			if (11 != uPriceLevel)
 			{
-				memmove(static_cast<void*>(pOrderArray + uPriceLevel), static_cast<void*>(pOrderArray + uPriceLevel - 1), sizeof(dbp::shm::OrderItem)* (10 - uPriceLevel));
+				memmove(static_cast<void*>(pOrderArray + uPriceLevel), static_cast<void*>(pOrderArray + uPriceLevel - 1), sizeof(OrderItem)* (10 - uPriceLevel));
 			}
 			pOrderArray[uPriceLevel - 1].m_iPrice = iPrice;
 			pOrderArray[uPriceLevel - 1].m_uQuantity = uAggregateQuantity;

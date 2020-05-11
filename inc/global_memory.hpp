@@ -1,0 +1,8 @@
+#ifndef INC_GLOBAL_MEMORY_HPP_
+#define INC_GLOBAL_MEMORY_HPP_
+
+
+
+
+
+#endif /* INC_GLOBAL_MEMORY_HPP_ */

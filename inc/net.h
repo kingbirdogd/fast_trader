@@ -9,7 +9,7 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <string>
-#include <srv/json_node.h>
+#include <json_node.h>
 #ifdef __APPLE__
 #define TCP_QUICKACK TCP_NODELAY
 #define SOL_TCP IPPROTO_TCP

@@ -10,61 +10,83 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <dbp_cpu.h>
-#include <srv/omd.h>
-#include <srv/json_node.h>
-#include <srv/net.h>
-#include <srv/dbp_shm.h>
-class COmdMemOrderbook
+#include <omd.h>
+#include <json_node.h>
+#include <net.h>
+#ifndef TRADABLE_BOOK_SIZE
+#define TRADABLE_BOOK_SIZE 1
+#endif
+struct OrderItem
 {
-public:
-	dbp::shm::OrderItem m_BidOrder[11];
-	dbp::shm::OrderItem m_AskOrder[11];
-public:
-	COmdMemOrderbook(const COmdMemOrderbook& book) = delete;
-	COmdMemOrderbook(COmdMemOrderbook&& book) = delete;
-	COmdMemOrderbook():
-		m_BidOrder{dbp::shm::OrderItem()},
-		m_AskOrder{dbp::shm::OrderItem()}
+	unsigned long long m_uQuantity;
+	unsigned int m_uNumberOfOrder;
+	int m_iPrice;
+	OrderItem():
+		m_uQuantity(0),
+		m_uNumberOfOrder(0),
+		m_iPrice(0)
 	{
 	}
-	~COmdMemOrderbook()
-	{
-	}
+	~OrderItem() = default;
 };
-class COmdOrderbook: public COmdMemOrderbook
+
+enum MsgType : unsigned char
 {
-public:
-	unsigned int m_uIdx;
-	unsigned int m_uLotSize;
-public:
-	COmdOrderbook(const COmdOrderbook& book) = delete;
-	COmdOrderbook(COmdOrderbook&& book) = delete;
+	NONE = 0x00,
+	OMDC_BOOK = 0x01,
+	OMDC_TRADE = 0x02,
+	OMDD_BOOK = 0x03,
+	OMDD_TRADE = 0x04,
+	COMMAND = 0x05
+};
+
+enum TradeSide : char
+{
+	NO_SIDE = 0,
+	SELL_SIDE = 1,
+	BUY_SIDE = -1
+};
+
+struct Tradable
+{
+	unsigned long long m_PkgTime;
+	unsigned long long m_MsgTime;
+	unsigned long long m_LastTradeQuantity;
+	unsigned int m_Code;
+	int m_LastTradePrice;
+	unsigned short int m_TradeType;
+	MsgType m_MsgType;
+	TradeSide m_TradeSide;
+	OrderItem m_Bid[TRADABLE_BOOK_SIZE];
+	OrderItem m_Ask[TRADABLE_BOOK_SIZE];
+	Tradable():
+		m_PkgTime(0),
+		m_MsgTime(0),
+		m_LastTradeQuantity(0),
+		m_Code(0),
+		m_LastTradePrice(0),
+		m_TradeType(0),
+		m_MsgType(MsgType::NONE),
+		m_TradeSide(TradeSide::NO_SIDE),
+		m_Bid{OrderItem()},
+		m_Ask{OrderItem()}
+	{
+	}
+	~Tradable() = default;
+};
+
+
+struct COmdOrderbook: public Tradable
+{
+	OrderItem m_BidOrder[11];
+	OrderItem m_AskOrder[11];
 	COmdOrderbook():
-		COmdMemOrderbook(),
-		m_uIdx(0),
-		m_uLotSize(0)
+		Tradable(),
+		m_BidOrder{OrderItem()},
+		m_AskOrder{OrderItem()}
 	{
 	}
-	~COmdOrderbook()
-	{
-	}
-};
-class COmdOmdcOrderbook
-{
-public:
-	COmdMemOrderbook m_SSOrderBook;
-	COmdOrderbook m_SPOrderBook;
-public:
-	COmdOmdcOrderbook(const COmdOmdcOrderbook& book) = delete;
-	COmdOmdcOrderbook(COmdOmdcOrderbook&& book) = delete;
-	COmdOmdcOrderbook():
-		m_SSOrderBook(),
-		m_SPOrderBook()
-	{
-	}
-	~COmdOmdcOrderbook()
-	{
-	}
+	~COmdOrderbook() = default;
 };
 class CStreamChannel
 {
@@ -130,27 +152,18 @@ public:
 	}
 };
 
-//CUP core
 static dbp::cpu::CpuInfo cpuInfo;
-//CUP core end
-
 typedef std::unordered_map<std::string, std::string> CActivateChannel;
 typedef void (*PFuncOmdMsgHandler)(dbp::omd::COmdMsgHeader* _pMsg, unsigned int _uSeq, unsigned long long _uChannelIdx, unsigned long long _uPkgTm);
 typedef std::vector<CRetranProxy> CRetranVec;
-typedef std::unordered_set<unsigned int> CSpecialSpreadTableSet;
 typedef std::unordered_map<unsigned int, COmdOrderbook> COmdOrderMap;
-typedef std::unordered_map<unsigned int, COmdOmdcOrderbook> COmdOmdcOrderMap;
-typedef std::unordered_map<unsigned long long, unsigned int> COmddOrderidMap;
 typedef std::unordered_map<int, CDefChannel> CDefMap;
 typedef std::vector<CStreamChannel> CStreamVec;
-static COmdOmdcOrderMap omdcMap;
+static COmdOrderMap omdcMap;
 static COmdOrderMap omddMap;
-static CSpecialSpreadTableSet specialSpreadTableSet;
 static CRetranVec retranVec;
 static CStreamVec omdcStreams;
 static CStreamVec omddStreams;
-static COmddOrderidMap omdcOrderodMap;
-static dbp::shm::MemoryRef shm_Ref;
 static CActivateChannel mActivateChannel;
 
 inline std::string getString(char* _pszBuffer, unsigned int _uOfferSet, unsigned int _uSize)
@@ -249,12 +262,11 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 		bool bFail = false;
 		unsigned int uCodeCnt = 0;
 		unsigned int uCode = 0;
-		unsigned long long uKeys = 0;
-		unsigned long uMCode = 0;
 		ifs.read((char*)((void*)(&uCodeCnt)), sizeof(unsigned int));
 		if (ifs)
 		{
-			if(!bFail){
+			if(!bFail)
+			{
 				for (unsigned int i = 0; i < uCodeCnt; ++i)
 				{
 					ifs.read((char*)((void*)(&uCode)), sizeof(unsigned int));
@@ -263,16 +275,9 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 						bFail = true;
 						break;
 					}
-					ifs.read((char*)((void*)(&omdcMap[uCode].m_SPOrderBook.m_uLotSize)), sizeof(unsigned int));
-					if (!ifs)
-					{
-						bFail = true;
-						break;
-					}
-					omdcMap[uCode].m_SPOrderBook.m_uIdx = i;
+					omdcMap[uCode].m_Code = uCode;
 				}
 			}
-
 			if (!bFail)
 			{
 				ifs.read((char*)((void*)(&uCodeCnt)), sizeof(unsigned int));
@@ -286,57 +291,9 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 							bFail = true;
 							break;
 						}
-						omddMap[uCode].m_uIdx = i;
-						omddMap[uCode].m_uLotSize = 1;
+						omddMap[uCode].m_Code = uCode;
 					}
 
-				}
-				else
-				{
-					bFail = true;
-				}
-			}
-
-
-			if (!bFail)
-			{
-				ifs.read((char*)((void*)(&uCodeCnt)), sizeof(unsigned int));
-				if (ifs)
-				{
-					for (unsigned int i = 0; i < uCodeCnt; ++i)
-					{
-						ifs.read((char*)((void*)(&uKeys)), sizeof(unsigned long long));
-						ifs.read((char*)((void*)(&uMCode)), sizeof(unsigned long));
-						if (!ifs)
-						{
-							bFail = true;
-							break;
-						}
-						omdcOrderodMap[uKeys] = uMCode;
-					}
-				}
-				else
-				{
-					bFail = true;
-				}
-			}
-
-
-			if (!bFail)
-			{
-				ifs.read((char*)((void*)(&uCodeCnt)), sizeof(unsigned int));
-				if (ifs)
-				{
-					for (unsigned int i = 0; i < uCodeCnt; ++i)
-					{
-						ifs.read((char*)((void*)(&uCode)), sizeof(unsigned int));
-						if (!ifs)
-						{
-							bFail = true;
-							break;
-						}
-						specialSpreadTableSet.insert(uCode);
-					}
 				}
 				else
 				{
@@ -352,17 +309,16 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 		{
 			omdcMap.clear();
 			omddMap.clear();
-			specialSpreadTableSet.clear();
 		}
 		else
 		{
 			bReload = false;
 		}
-	}else{
+	}
+	else
+	{
           flush_printf("tm:%llu, No Cache File \n", dbp::tools::srv::current());
 	}
-
-
 	if(bReload)
 	{
 		int iDefEopll = epoll_create(4);
@@ -376,7 +332,6 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 		auto itActivate = mActivateChannel.find("OmdcChannel");
 		if(itActivate != mActivateChannel.end())
 		{
-
 			dbp::cfg::srv::json_node* pOmdc = pDefinition->getMapNode("OMDC");
 			if (nullptr == pOmdc)
 			{
@@ -523,8 +478,6 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 				omdcStatus[iUdpHandler].m_uSeq = 0;
 			}
 		}
-
-
 		CDefMap omddStatus;
 		itActivate = mActivateChannel.find("OmddChannel");
 		if(itActivate != mActivateChannel.end())
@@ -725,7 +678,6 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 				omddStatus[iUdpHandler].m_uSeq = 0;
 			}
 		}
-
 		unsigned int uFinished = 0;
 		epoll_event events[8192];
 		char szBuffer[2048];
@@ -804,12 +756,7 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 												else if (11 == uMsgType)
 												{
 													unsigned int uSecurityCode = OMD_GET_VALUE(pszBuffer, 4, unsigned int);
-													omdcMap[uSecurityCode].m_SPOrderBook.m_uIdx = 0;
-													omdcMap[uSecurityCode].m_SPOrderBook.m_uLotSize = OMD_GET_VALUE(pszBuffer, 195, unsigned int);
-													if ('3' == OMD_GET_VALUE(pszBuffer, 31, char))
-													{
-														specialSpreadTableSet.insert(uSecurityCode);
-													}
+													omdcMap[uSecurityCode].m_Code = uSecurityCode;
 													auto instrument_Type = OMD_GET_STR(pszBuffer, 24, 4);
 													if (instrument_Type == "WRNT")
 													{
@@ -904,40 +851,14 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 												else if (304 == uMsgType)
 												{
 													auto symbol = OMD_GET_STR(pszBuffer, 8, 32);
+													unsigned long orderbookid = OMD_GET_VALUE(pszBuffer, 4, unsigned int);
 													auto idx = symbol.find(' ');
 													if (std::string::npos != idx)
 													{
 														symbol = symbol.substr(0, idx);
 													}
-													ofs_symbolmap << symbol << ","
-															<< OMD_GET_VALUE(pszBuffer, 4, unsigned int) << std::endl;
-													unsigned int instrumentGroup = OMD_GET_VALUE(pszBuffer, 42, unsigned short);
-													unsigned int commodityCode = OMD_GET_VALUE(pszBuffer, 44, unsigned short);
-													unsigned int strike = OMD_GET_VALUE(pszBuffer, 48, unsigned int);
-													std::string expdate = OMD_GET_STR(pszBuffer, 82, 4);
-
-													if(expdate.compare("    ") == 0){
-														break;
-													}
-
-													unsigned long long mInstrumentGroup = 10000000000000;
-													unsigned long long mCommodityCode = 1000000000;
-													unsigned long long mExpdate = 100000;
-													unsigned long long mstrike = strike;
-													if(mstrike > 10000){
-
-													}else if(mstrike > 1000){
-														mstrike = mstrike * 10;
-													}else if(mstrike > 100){
-														mstrike = mstrike * 100;
-													}
-
-													unsigned long long mykey = instrumentGroup * mInstrumentGroup +
-															commodityCode * mCommodityCode + std::stoi(expdate) * mExpdate + mstrike;
-
-													unsigned long orderbookid = OMD_GET_VALUE(pszBuffer, 4, unsigned int);
-													omdcOrderodMap[mykey] = orderbookid;
-													omddMap[orderbookid].m_uIdx = 0;
+													ofs_symbolmap << symbol << "," << orderbookid << std::endl;
+													omddMap[orderbookid].m_Code = orderbookid;
 												}
 												break;
 											}
@@ -986,26 +907,6 @@ inline static bool loadDefinition(dbp::cfg::srv::json_node& _json, const std::st
 			for (CDefMap::iterator it = omddStatus.begin(); it != omddStatus.end(); ++it)
 			{
 				::close(it->first);
-			}
-		}
-		unsigned int uCnt = 0;
-		itActivate = mActivateChannel.find("OmdcChannel");
-		if(itActivate != mActivateChannel.end())
-		{
-			for (COmdOmdcOrderMap::iterator it = omdcMap.begin(); it != omdcMap.end(); ++it)
-			{
-				it->second.m_SPOrderBook.m_uIdx = uCnt;
-				++uCnt;
-			}
-		}
-		uCnt = 0;
-		itActivate = mActivateChannel.find("OmddChannel");
-		if(itActivate != mActivateChannel.end())
-		{
-			for (COmdOrderMap::iterator it = omddMap.begin(); it != omddMap.end(); ++it)
-			{
-				it->second.m_uIdx = uCnt;
-				++uCnt;
 			}
 		}
 	}
@@ -1414,33 +1315,6 @@ inline static bool initJson(const char* _pszJsonPath)
 	for (size_t i = 0; i < omddStreams.size(); ++i)
 	{
 		dvec.push_back(omddStreams[i].m_uQueueSize);
-	}
-	if(!dbp::shm::srv::getSrvShm
-	(
-		shm_Ref,
-		strPath.c_str(),
-		(unsigned long long)omdcMap.size(),
-		(unsigned long long)omddMap.size(),
-		(unsigned long long)omdcStreams.size(),
-		(unsigned long long)omddStreams.size(),
-		4096,
-		cvec,
-		dvec
-	))
-	{
-		std::cerr << "Create SHM Error, Path:" << strPath << std::endl;
-		return false;
-	}
-	for (COmdOmdcOrderMap::iterator it = omdcMap.begin(); it != omdcMap.end(); ++it)
-	{
-		shm_Ref.m_pOmdcTradable[it->second.m_SPOrderBook.m_uIdx].m_Tradable.m_uCode = it->first;
-		shm_Ref.m_pOmdcTradable[it->second.m_SPOrderBook.m_uIdx].m_Tradable.m_uLotSize = it->second.m_SPOrderBook.m_uLotSize;
-		shm_Ref.m_pOmdcTradable[it->second.m_SPOrderBook.m_uIdx].m_Position.m_uCode = it->first;
-	}
-	for (COmdOrderMap::iterator it = omddMap.begin(); it != omddMap.end(); ++it)
-	{
-		shm_Ref.m_pOmddTradable[it->second.m_uIdx].m_uCode = it->first;
-		shm_Ref.m_pOmddTradable[it->second.m_uIdx].m_uLotSize = it->second.m_uLotSize;
 	}
 	return true;
 }

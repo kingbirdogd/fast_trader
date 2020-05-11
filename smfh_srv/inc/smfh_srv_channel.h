@@ -5,8 +5,7 @@
 #include <thread>
 #include <vector>
 #include <omd.h>
-#include <srv/tools.h>
-#include <srv/macro.h>
+#include <tools.h>
 #include "smfh_srv_cfg.h"
 #include "smfh_srv_omdc.h"
 #include "smfh_srv_omdd.h"
@@ -352,7 +351,7 @@ public:
 									std::vector<unsigned char> buffer;
 									if
 									(
-										dbp::omd::srv::requestRetran
+										dbp::omd::requestRetran
 										(
 											retranVec[_channel.m_uRetranProxyIdx].m_strIp.c_str(),
 											retranVec[_channel.m_uRetranProxyIdx].m_uPort,
@@ -396,7 +395,7 @@ public:
 									std::vector<unsigned char> buffer;
 									if
 									(
-										dbp::omd::srv::requestRetran
+										dbp::omd::requestRetran
 										(
 											retranVec[_channel.m_uRetranProxyIdx].m_strIp.c_str(),
 											retranVec[_channel.m_uRetranProxyIdx].m_uPort,
@@ -481,21 +480,6 @@ public:
 		{
 			return false;
 		}
-
-		//For 164.150
-		//sch.sched_priority = 91;
-		//For 164.71
-		//sch.sched_priority = 90;
-
-		/*
-
-		flush_printf("tm:%llu, assigned Thread priority %u, ChannelId:%u, \n", dbp::tools::srv::current(), sch.sched_priority, _channel.m_uChannelId);
-		if (0 != pthread_setschedparam(iThread, SCHED_FIFO, &sch))
-		{
-			return false;
-		}
-		flush_printf("tm:%llu, assigned Thread SCHED_FIFO, ChannelId:%u, \n", dbp::tools::srv::current(), _channel.m_uChannelId);
-		 */
 		return true;
 	}
 	inline static bool handleChannelVec(const CStreamVec& _Vec)

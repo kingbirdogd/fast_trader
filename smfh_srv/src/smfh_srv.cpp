@@ -10,9 +10,8 @@ using namespace std;
 using namespace dbp;
 using namespace dbp::tools::srv;
 using namespace dbp::omd;
-using namespace dbp::omd::srv;
+using namespace dbp::omd;
 using namespace dbp::net::srv;
-using namespace dbp::shm;
 static char stdOutBuffer[65536] = {0};
 inline static bool start()
 {
