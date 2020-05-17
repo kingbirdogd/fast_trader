@@ -6,9 +6,10 @@ top_tcp_client::top_tcp_client
 	const std::string& host,
 	unsigned short int port,
 	const std::string& user,
-	const std::string& pass
+	const std::string& pass,
+	unsigned long long buy_power
 ):
-	top_client(user, pass),
+	top_client(user, pass, buy_power),
 	_client(host, port),
 	_last_login(0),
 	_retry_wait(false)

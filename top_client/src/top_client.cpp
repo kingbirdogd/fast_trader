@@ -124,7 +124,8 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 top_client::top_client
 (
 	const std::string& user,
-	const std::string& pass
+	const std::string& pass,
+	unsigned long long buy_power
 ):
 	_buffer(),
 	_session_id{0},
@@ -132,6 +133,7 @@ top_client::top_client
 	_login(user.c_str(), pass.c_str()),
 	_on_order(),
 	_on_login(),
+	_buy_power(buy_power),
 	_ready(false)
 {
 }
@@ -142,6 +144,7 @@ top_client::top_client(top_client&& client):
 	_login(std::move(client._login)),
 	_on_order(std::move(client._on_order)),
 	_on_login(std::move(client._on_login)),
+	_buy_power(client._buy_power),
 	_ready(client._ready)
 {
 	std::memcpy(_session_id, client._session_id, sizeof(_session_id));
@@ -154,6 +157,7 @@ top_client& top_client::operator= (top_client&& client)
 	_login = std::move(client._login);
 	_on_order = std::move(client._on_order);
 	_on_login = std::move(client._on_login);
+	_buy_power = client._buy_power;
 	_ready = client._ready;
 	std::memcpy(_session_id, client._session_id, sizeof(_session_id));
 	client._ready = false;
@@ -297,6 +301,16 @@ const dbp::top::enhance_order* top_client::get_order(unsigned long long order_id
 	{
 		return &it->second;
 	}
+}
+
+void top_client::set_buy_power(unsigned long long buy_power)
+{
+	_buy_power = buy_power;
+}
+
+unsigned long long top_client::get_buy_power()
+{
+	return _buy_power;
 }
 
 void top_client::login()

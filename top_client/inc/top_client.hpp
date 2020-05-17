@@ -6,6 +6,7 @@
 #include <functional>
 #include <vector>
 #include <unordered_map>
+#include <limits>
 
 class top_client
 {
@@ -24,6 +25,7 @@ protected:
 	dbp::top::login_request _login;
 	order_event _on_order;
 	login_event _on_login;
+	unsigned long long _buy_power;
 	bool _ready;
 protected:
 	void handle_msg(const char* ptr, std::size_t size);
@@ -31,7 +33,8 @@ public:
 	top_client
 	(
 		const std::string& user,
-		const std::string& pass
+		const std::string& pass,
+		unsigned long long buy_power = std::numeric_limits<unsigned long long>::max()
 	);
 	top_client(top_client&&);
 	top_client& operator= (top_client&&);
@@ -52,6 +55,8 @@ public:
 	void set_on_order(order_event&& on_order);
 	void set_on_login(login_event&& on_login);
 	const dbp::top::enhance_order* get_order(unsigned long long order_id);
+	void set_buy_power(unsigned long long buy_power);
+	unsigned long long get_buy_power();
 protected:
 	void login();
 	void clean();

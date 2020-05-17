@@ -6,9 +6,10 @@ top_shared_node* top_shared_client::_node = nullptr;
 top_shared_client::top_shared_client
 (
 	const std::string& user,
-	const std::string& pass
+	const std::string& pass,
+	unsigned long long buy_power
 ):
-	top_client(user, pass),
+	top_client(user, pass, buy_power),
 	_connected(false)
 {
 	if (nullptr == _node)

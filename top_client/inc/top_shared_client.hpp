@@ -13,7 +13,8 @@ public:
 	top_shared_client
 	(
 		const std::string& user,
-		const std::string& pass
+		const std::string& pass,
+		unsigned long long buy_power = std::numeric_limits<unsigned long long>::max()
 	);
 	top_shared_client(top_shared_client&&);
 	top_shared_client& operator= (top_shared_client&&);

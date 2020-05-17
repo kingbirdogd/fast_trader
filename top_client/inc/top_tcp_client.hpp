@@ -15,7 +15,8 @@ public:
 		const std::string& host,
 		unsigned short int port,
 		const std::string& user,
-		const std::string& pass
+		const std::string& pass,
+		unsigned long long buy_power = std::numeric_limits<unsigned long long>::max()
 	);
 	top_tcp_client(top_tcp_client&&);
 	top_tcp_client& operator= (top_tcp_client&&);
