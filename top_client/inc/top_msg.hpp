@@ -580,6 +580,7 @@ namespace dbp
 			unsigned int order_ref;
 			order_status status;
 			unsigned long long quantity;
+			unsigned long long ori_quantity;
 			unsigned long long price;
 			unsigned long long remain_quantity;
 			unsigned long long filled_quantity;
@@ -607,6 +608,7 @@ namespace dbp
 				order_ref(0),
 				status(order_status::queued),
 				quantity(0),
+				ori_quantity(0),
 				price(0),
 				remain_quantity(0),
 				filled_quantity(0),
@@ -648,6 +650,7 @@ namespace dbp
 				json["order_ref"] = order_ref;
 				json["status"] = dbp::top::to_string(status);
 				json["quantity"] = quantity;
+				json["ori_quantity"] = ori_quantity;
 				json["price"] = price;
 				json["remain_quantity"] = remain_quantity;
 				json["filled_quantity"] = filled_quantity;

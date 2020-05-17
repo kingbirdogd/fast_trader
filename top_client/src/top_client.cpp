@@ -37,6 +37,11 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 						std::memcpy(odr.reject_reason, reject_reason.c_str(), sizeof(odr.reject_reason) - 1);
 						odr.reject_reason[sizeof(odr.reject_reason) - 1] = 0;
 					}
+					if (dbp::top::order_side::buy == odr.side)
+					{
+						auto turnover = odr.price * odr.quantity;
+						_buy_power += turnover;
+					}
 					if (_on_order)
 					{
 						_on_order(odr);
@@ -75,6 +80,32 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 						auto it = _order_map.find(h.order_id);
 						if (_order_map.end() != it)
 						{
+							if (dbp::top::order_side::buy == report.side)
+							{
+								if (dbp::top::report_type::order_cancel_approve == report.rep_type)
+								{
+									_buy_power += it->second.price * it->second.remain_quantity;
+								}
+								else if (dbp::top::report_type::order_modify_approve == report.rep_type)
+								{
+									_buy_power += it->second.price * it->second.ori_quantity;
+								}
+								else if (dbp::top::report_type::order_modify_reject == report.rep_type)
+								{
+									_buy_power += it->second.price * it->second.quantity;
+								}
+								else if (dbp::top::report_type::order_fill == report.rep_type)
+								{
+									_buy_power += (it->second.price - it->second.match_price) * it->second.match_quantity;
+								}
+							}
+							else
+							{
+								if (dbp::top::report_type::order_fill == report.rep_type)
+								{
+									_buy_power += it->second.match_price * it->second.match_quantity;
+								}
+							}
 							it->second = report;
 							if (_on_order)
 							{
@@ -184,6 +215,19 @@ dbp::top::enhance_order top_client::new_order
 	}
 	else
 	{
+		if (dbp::top::order_side::buy == side)
+		{
+			auto turnover = quantity * price;
+			if (turnover > _buy_power)
+			{
+				report.order_id = 0;
+				return report;
+			}
+			else
+			{
+				_buy_power -= turnover;
+			}
+		}
 		dbp::top::new_order_request request
 		(
 			&_session_id[0],
@@ -234,6 +278,20 @@ bool top_client::modify_order(unsigned long long order_id, unsigned long long ne
 		{
 			return false;
 		}
+		if (dbp::top::order_side::buy == report.side)
+		{
+			auto turnover = new_quantity * report.price;
+			if (turnover > _buy_power)
+			{
+				return false;
+			}
+			else
+			{
+				_buy_power -= turnover;
+			}
+		}
+		report.ori_quantity = report.quantity;
+		report.quantity = new_quantity;
 		dbp::top::modify_order_request request
 		(
 			&_session_id[0],
