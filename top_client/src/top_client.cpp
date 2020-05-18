@@ -88,7 +88,7 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 								}
 								else if (dbp::top::report_type::order_modify_approve == report.rep_type)
 								{
-									_buy_power += it->second.price * it->second.ori_quantity;
+									_buy_power += it->second.ori_price * it->second.ori_quantity;
 								}
 								else if (dbp::top::report_type::order_modify_reject == report.rep_type)
 								{
@@ -291,7 +291,9 @@ bool top_client::modify_order(unsigned long long order_id, unsigned long long ne
 			}
 		}
 		report.ori_quantity = report.quantity;
+		report.ori_price = report.price;
 		report.quantity = new_quantity;
+		report.price = new_price;
 		dbp::top::modify_order_request request
 		(
 			&_session_id[0],

@@ -582,6 +582,7 @@ namespace dbp
 			unsigned long long quantity;
 			unsigned long long ori_quantity;
 			unsigned long long price;
+			unsigned long long ori_price;
 			unsigned long long remain_quantity;
 			unsigned long long filled_quantity;
 			unsigned long long match_quantity;
@@ -610,6 +611,7 @@ namespace dbp
 				quantity(0),
 				ori_quantity(0),
 				price(0),
+				ori_price(0),
 				remain_quantity(0),
 				filled_quantity(0),
 				match_quantity(0),
@@ -652,6 +654,7 @@ namespace dbp
 				json["quantity"] = quantity;
 				json["ori_quantity"] = ori_quantity;
 				json["price"] = price;
+				json["ori_price"] = ori_price;
 				json["remain_quantity"] = remain_quantity;
 				json["filled_quantity"] = filled_quantity;
 				json["match_quantity"] = match_quantity;

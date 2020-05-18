@@ -1,0 +1,160 @@
+#include <user.hpp>
+#include <algo.hpp>
+#include <top_shared_client.hpp>
+#include <top_tcp_client.hpp>
+#include <global_memory.hpp>
+
+
+user::user
+(
+	unsigned long long id,
+	const std::string& user,
+	const std::string& pass,
+	unsigned long long buy_power
+):
+	_id(id),
+	_client(new top_shared_client(user, pass, buy_power)),
+	_md(broadcastQueue),
+	_algos(),
+	_odr_map()
+{
+	_client->set_on_order([&](const dbp::top::enhance_order& odr){handler_order(odr);});
+	auto cfg = broadcastQueue.get_configure();
+	cfg.x_depends_y(_md, broadcastQueue);
+	cfg.commit();
+}
+
+user::user
+(
+	unsigned long long id,
+	const std::string& host,
+	unsigned short int port,
+	const std::string& user,
+	const std::string& pass,
+	unsigned long long buy_power
+):
+	_id(id),
+	_client(new top_tcp_client(host, port, user, pass, buy_power)),
+	_md(broadcastQueue),
+	_algos(),
+	_odr_map()
+{
+	_client->set_on_order([&](const dbp::top::enhance_order& odr){handler_order(odr);});
+	auto cfg = broadcastQueue.get_configure();
+	cfg.x_depends_y(_md, broadcastQueue);
+	cfg.commit();
+}
+
+user::~user()
+{
+	for (auto& item : _algos)
+		delete item.second;
+}
+
+dbp::top::enhance_order user::new_order
+(
+		algo* algo,
+		unsigned long long quantity,
+		unsigned long long price,
+		unsigned int code,
+		dbp::top::order_side side,
+		dbp::top::order_type type,
+		dbp::top::aon_type aon,
+		dbp::top::ignore_price_type ignore,
+		unsigned int broker_id
+)
+{
+	auto odr = _client->new_order(quantity, price, code, side, type, aon, ignore, broker_id);
+	if (0 != odr.order_id)
+		_odr_map[odr.order_id] = algo;
+	return odr;
+}
+
+bool user::modify_order(unsigned long long order_id, unsigned long long new_quantity, unsigned long long new_price)
+{
+	return _client->modify_order(order_id, new_quantity, new_price);
+}
+
+bool user::cancel_order(unsigned long long order_id)
+{
+	return _client->cancel_order(order_id);
+}
+
+bool user::add_algo(const std::string& name, const std::string lib, json& cfg)
+{
+	auto al = algo::get_algo(*this, lib, cfg);
+	if (nullptr == al)
+		return false;
+	auto it = _algos.find(name);
+	if (_algos.end() != it)
+		delete it->second;
+	_algos[name] = al;
+	return true;
+}
+
+void user::run()
+{
+	_client->run();
+	Tradable msg;
+	if(_md.try_dequeue(msg))
+	{
+		switch(msg.m_MsgType)
+		{
+		case MsgType::OMDC_BOOK:
+			for (auto& item : _algos)
+				item.second->on_omdc_book(msg);
+			break;
+		case MsgType::OMDD_BOOK:
+			for (auto& item : _algos)
+				item.second->on_omdd_book(msg);
+			break;
+		case MsgType::OMDC_TRADE:
+			for (auto& item : _algos)
+				item.second->on_omdc_trade(msg);
+			break;
+		case MsgType::OMDD_TRADE:
+			for (auto& item : _algos)
+				item.second->on_omdd_trade(msg);
+			break;
+		case MsgType::COMMAND:
+			{
+				auto ptr = reinterpret_cast<algo_msg_base*>(msg.m_LastTradeQuantity);
+				auto& cmd = *ptr;
+				if (cmd.user_id == _id)
+				{
+					auto it = _algos.find(cmd.algo_name);
+					if (_algos.end() != it)
+					{
+						it->second->handle_command(cmd);
+					}
+				}
+				delete ptr;
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void user::set_buy_power(unsigned long long buy_power)
+{
+	_client->set_buy_power(buy_power);
+}
+
+unsigned long long user::get_buy_power()
+{
+	return _client->get_buy_power();
+}
+
+void user::handler_order(const dbp::top::enhance_order& odr)
+{
+	auto it = _odr_map.find(odr.order_id);
+	if (_odr_map.end() != it)
+	{
+		it->second->handler_order(odr);
+	}
+}
+
+
+
