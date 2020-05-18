@@ -1,11 +1,10 @@
 #ifndef INC_GLOBAL_MEMORY_HPP_
 #define INC_GLOBAL_MEMORY_HPP_
-#include <user.hpp>
+#include <msg.hpp>
 #include <unordered_map>
 
+class user;
 using CUserMap = std::unordered_map<unsigned long long, user*>;
-
-
 extern dbp::cpu::CpuInfo cpuInfo;
 extern COmdOrderMap omdcMap;
 extern COmdOrderMap omddMap;

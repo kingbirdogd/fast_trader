@@ -1,4 +1,4 @@
 TYPE:=EXE
-DEPS:=global_memory
+DEPS:=user_algo
 EXE_FLAGS:=-pthread
 include $(PROJECT_HOME)/common.mk
