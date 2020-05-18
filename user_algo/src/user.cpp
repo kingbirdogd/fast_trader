@@ -21,7 +21,6 @@ user::user
 	_client->set_on_order([&](const dbp::top::enhance_order& odr){handler_order(odr);});
 	auto cfg = broadcastQueue.get_configure();
 	cfg.x_depends_y(_md, broadcastQueue);
-	cfg.commit();
 }
 
 user::user
