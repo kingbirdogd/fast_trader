@@ -1,6 +1,5 @@
 #include <user.hpp>
 #include <algo.hpp>
-#include <global_memory.hpp>
 
 user::~user()
 {

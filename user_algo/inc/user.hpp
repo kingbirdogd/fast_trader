@@ -4,6 +4,7 @@
 #include <top_client.hpp>
 #include <top_shared_client.hpp>
 #include <top_tcp_client.hpp>
+#include <global_memory.hpp>
 #include <msg.hpp>
 #include <json.hpp>
 #include <string>
