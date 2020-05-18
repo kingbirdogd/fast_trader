@@ -141,7 +141,7 @@ inline void dequeueOutput()
 
 inline void startDecode()
 {
-	std::thread* pThread = new std::thread
+	new std::thread
 	(
 		[&]
 		()
@@ -154,7 +154,7 @@ inline void startDecode()
 
 inline void startOutput()
 {
-	std::thread* pThread = new std::thread
+	new std::thread
 	(
 		[&]
 		()
