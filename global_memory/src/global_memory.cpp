@@ -11,6 +11,7 @@ CStreamVec omdcStreams;
 CStreamVec omddStreams;
 CActivateChannel mActivateChannel;
 CBroadCastQueue broadcastQueue;
+extern CUserMap userMap;
 
 
 

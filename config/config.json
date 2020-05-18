@@ -1,5 +1,4 @@
 {
-	"SHM_PATH": "/tmp/smfh.shm",
 	"SOL_SOCKET":
 	{
 		"SO_KEEPALIVE": true,
@@ -29,6 +28,27 @@
 		7,
 		12,
 		13		
+	],
+	"USERS":
+	[
+		{
+			"ID":1,
+			"IP":"192.168.134.38",
+			"PORT":35101,
+			"USER":"P990098",
+			"PASS":"pass",
+			"BUY_POWER":999999999
+			"ALGOS":
+			{
+				"leo_semi":
+				{
+					"lib": "semi",
+					"params":
+					{
+					}
+				}
+			}
+		}
 	],
 	"Definition":
 	{

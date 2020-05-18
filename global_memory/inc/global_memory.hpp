@@ -1,6 +1,10 @@
 #ifndef INC_GLOBAL_MEMORY_HPP_
 #define INC_GLOBAL_MEMORY_HPP_
-#include <msg.hpp>
+#include <user.hpp>
+#include <unordered_map>
+
+using CUserMap = std::unordered_map<unsigned long long, user*>;
+
 
 extern dbp::cpu::CpuInfo cpuInfo;
 extern COmdOrderMap omdcMap;
@@ -14,6 +18,7 @@ extern CStreamVec omdcStreams;
 extern CStreamVec omddStreams;
 extern CActivateChannel mActivateChannel;
 extern CBroadCastQueue broadcastQueue;
+extern CUserMap userMap;
 
 
 
