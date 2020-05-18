@@ -14,8 +14,37 @@ using namespace dbp::omd;
 using namespace dbp::net::srv;
 static char stdOutBuffer[65536] = {0};
 
+
+inline void startUsers()
+{
+	for (auto& item : userMap)
+	{
+		std::thread* pThread = new std::thread
+		(
+			[&]
+			()
+			{
+			}
+		);
+		pthread_t iThread = pThread->native_handle();
+#ifndef __APPLE__
+		cpu_set_t cpuset;
+		CPU_ZERO(&cpuset);
+		CPU_SET(cpuInfo.getCore(), &cpuset);
+		pthread_setaffinity_np(iThread, sizeof(cpu_set_t), &cpuset);
+#endif
+		struct sched_param sch;
+		memset (&sch, 0, sizeof(struct sched_param));
+		int iPolicy = 0;
+		pthread_getschedparam(iThread, &iPolicy, &sch);
+		sch.sched_priority = 99;
+		pthread_setschedparam(iThread, SCHED_FIFO, &sch);
+	}
+}
+
 inline static bool start()
 {
+	startUsers();
 	auto itActivate = mActivateChannel.find("OmdcChannel");
 	if(itActivate != mActivateChannel.end())
 	{

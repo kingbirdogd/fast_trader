@@ -481,6 +481,11 @@ public:
 		{
 			return false;
 		}
+		sch.sched_priority = 99;
+		if (0 != pthread_setschedparam(iThread, SCHED_FIFO, &sch))
+		{
+			return false;
+		}
 		return true;
 	}
 	inline static bool handleChannelVec(const CStreamVec& _Vec)
