@@ -84,48 +84,10 @@ inline static bool init(const char* _pszJsonPath)
 	flush_printf("tm:%llu, initGlobal \n", dbp::tools::srv::current());
 	return true;
 }
-int main(int _iArgc, char** _pszArgv)
+
+int start_run(const char* config)
 {
-	blockSigPipe();
-	setbuffer(stdout, stdOutBuffer, 65536);
-	/*
-	pid_t iPid = fork();
-	if (0 == iPid)
-	{
-		iPid = fork();
-		if (0 > iPid)
-		{
-			cerr << "fork error" << endl;
-			return -1;
-		}
-		else if (0 < iPid)
-		{
-			return 0;
-		}
-		else
-		{
-			blockSigPipe();
-			setbuffer(stdout, stdOutBuffer, 65536);
-		}
-	}
-	else if (0 > iPid)
-	{
-		cerr << "fork error" << endl;
-		return -1;
-	}
-	else
-	{
-		int iStatus = 0;
-		waitpid(iPid, &iStatus, 0);
-		return 0;
-	}
-	*/
-	if (2 != _iArgc)
-	{
-		cerr << "Usage: smfh_srv <cfg json>" << endl;
-		return -1;
-	}
-	if (!init(_pszArgv[1]))
+	if (!init(config))
 	{
 		cerr << "init error:" << strerror(errno) << endl;
 		closeAll();
@@ -138,6 +100,70 @@ int main(int _iArgc, char** _pszArgv)
 		return -1;
 	}
 	return 0;
+}
+
+int main(int _iArgc, char** _pszArgv)
+{
+	const char* config = nullptr;
+	bool fork = false;
+	if (3 == _pszArgv)
+	{
+		if (std::string(_pszArgv[1]) == "fork")
+		{
+			fork = true;
+			config = _pszArgv[2];
+		}
+		else
+		{
+			cerr << "usage: [fork] <config json>" << endl;
+			return -1;
+		}
+	}
+	else if (2 == _pszArgv)
+	{
+		config = _pszArgv[1];
+	}
+	else
+	{
+		cerr << "usage: [fork] <config json>" << endl;
+		return -2;
+	}
+	blockSigPipe();
+	setbuffer(stdout, stdOutBuffer, 65536);
+	if (fork)
+	{
+		pid_t iPid = fork();
+		if (0 == iPid)
+		{
+			iPid = fork();
+			if (0 > iPid)
+			{
+				cerr << "fork error" << endl;
+				return -1;
+			}
+			else if (0 < iPid)
+			{
+				return 0;
+			}
+			else
+			{
+				blockSigPipe();
+				setbuffer(stdout, stdOutBuffer, 65536);
+			}
+		}
+		else if (0 > iPid)
+		{
+			cerr << "fork error" << endl;
+			return -1;
+		}
+		else
+		{
+			int iStatus = 0;
+			waitpid(iPid, &iStatus, 0);
+			return 0;
+		}
+	}
+	return start_run(config);
 }
 
 
