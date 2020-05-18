@@ -88,6 +88,7 @@ int main(int _iArgc, char** _pszArgv)
 {
 	blockSigPipe();
 	setbuffer(stdout, stdOutBuffer, 65536);
+	/*
 	pid_t iPid = fork();
 	if (0 == iPid)
 	{
@@ -123,6 +124,7 @@ int main(int _iArgc, char** _pszArgv)
 		cerr << "Usage: smfh_srv <cfg json>" << endl;
 		return -1;
 	}
+	*/
 	if (!init(_pszArgv[1]))
 	{
 		cerr << "init error:" << strerror(errno) << endl;
