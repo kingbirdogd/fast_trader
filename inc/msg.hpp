@@ -120,12 +120,12 @@ struct Tradable
 		{
 			j["m_TradeSide"] = "BUY_SIDE";
 		}
-		j[m_Bid] = nlohmann::json::array();
-		j[m_Ask] = nlohmann::json::array();
+		j["m_Bid"] = nlohmann::json::array();
+		j["m_Ask"] = nlohmann::json::array();
 		for (std::size_t i = 0; i < TRADABLE_BOOK_SIZE; ++i)
 		{
-			j[m_Bid].push_back(m_Bid[i].to_json());
-			j[m_Ask].push_back(m_Ask[i].to_json());
+			j["m_Bid"].push_back(m_Bid[i].to_json());
+			j["m_Ask"].push_back(m_Ask[i].to_json());
 		}
 		return j;
 	}
