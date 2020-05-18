@@ -37,7 +37,7 @@
 			"PORT":35101,
 			"USER":"P990098",
 			"PASS":"pass",
-			"BUY_POWER":999999999
+			"BUY_POWER":999999999,
 			"ALGOS":
 			{
 				"leo_semi":
