@@ -111,7 +111,7 @@ inline static bool loadUsers(json& _json)
 	}
 	catch(...)
 	{
-		std::cerr << "loadCpu fail" << std::endl;
+		std::cerr << "loadUser fail" << std::endl;
 		if (pUser)
 			delete pUser;
 		return false;
