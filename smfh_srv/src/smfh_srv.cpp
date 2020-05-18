@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <algo.hpp>
 #include "smfh_srv_channel.h"
 using namespace std;
 using namespace dbp;
