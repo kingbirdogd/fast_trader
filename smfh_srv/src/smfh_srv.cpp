@@ -315,7 +315,7 @@ inline static bool initJson(const char* _pszJsonPath)
 	}
 	startDecode();
 	startOutput();
-	startUsers();
+	//startUsers();
 	flush_printf("tm:%llu, loadRetran \n", dbp::tools::srv::current());
 	if (!loadRetran(j))
 	{
