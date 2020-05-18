@@ -766,6 +766,9 @@ inline static bool initJson(const char* _pszJsonPath)
 		std::cerr << "loadCpu fail" << std::endl;
 		return false;
 	}
+	startDecode();
+	startOutput();
+	startUsers();
 	flush_printf("tm:%llu, loadRetran \n", dbp::tools::srv::current());
 	if (!loadRetran(j))
 	{

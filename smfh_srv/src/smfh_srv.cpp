@@ -197,9 +197,6 @@ inline void startUsers()
 
 inline static bool start()
 {
-	startDecode();
-	startOutput();
-	startUsers();
 	auto itActivate = mActivateChannel.find("OmdcChannel");
 	if(itActivate != mActivateChannel.end())
 	{
