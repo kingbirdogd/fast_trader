@@ -9,6 +9,7 @@
 #include <iostream>
 #include <unordered_set>
 #include <json.hpp>
+#include <tools.h>
 #include <net.h>
 #include <global_memory.hpp>
 #include <user.hpp>
@@ -34,6 +35,24 @@ inline static bool loadCpu(json& _json)
 	catch(...)
 	{
 		std::cerr << "loadCpu fail" << std::endl;
+		return false;
+	}
+	return true;
+}
+
+inline static bool loadInOut(json& _json)
+{
+	try
+	{
+		auto command = _json["IN_OUT_PROCESS"].get<std::string>();
+		auto convert_command = dbp::tools::srv::replace_env(command);
+		auto pid = dbp::tools::srv::sub_process(convert_command.c_str(), input_stream, output_stream);
+		if (pid < 0)
+			return false;
+	}
+	catch(...)
+	{
+		std::cerr << "loadInOut fail" << std::endl;
 		return false;
 	}
 	return true;
@@ -715,6 +734,12 @@ inline static bool initJson(const char* _pszJsonPath)
 	if (!loadUsers(j))
 	{
 		std::cerr << "loadUsers fail" << std::endl;
+		return false;
+	}
+	flush_printf("tm:%llu, loadInOut \n", dbp::tools::srv::current());
+	if (!loadInOut(j))
+	{
+		std::cerr << "loadInOut fail" << std::endl;
 		return false;
 	}
 	flush_printf("tm:%llu, initSOL_SOCKET \n", dbp::tools::srv::current());

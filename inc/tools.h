@@ -100,6 +100,49 @@ namespace dbp
 				}
 				return pid;
 			}
+			std::string replace_env(const std::string& str)
+			{
+				auto len = str.length();
+				std::string rt = "";
+				std::size_t start_idx = 0;
+				while (true)
+				{
+					std::size_t end_idx = str.find("${", start_idx);
+					if (std::string::npos == end_idx)
+					{
+						rt += str.substr(start_idx, len  - start_idx);
+						break;
+					}
+					else
+					{
+						rt += str.substr(start_idx, end_idx  - start_idx);
+						start_idx = end_idx + 2;
+						end_idx = str.find("}", start_idx);
+						if (std::string::npos == end_idx)
+						{
+							rt += str.substr(start_idx, len  - start_idx);
+							break;
+						}
+						else
+						{
+							auto key = str.substr(start_idx, end_idx  - start_idx);
+							auto replace = std::getenv(key.c_str());
+							if (nullptr == replace)
+							{
+								rt += "${";
+								rt += key;
+								rt += "}";
+							}
+							else
+							{
+								rt += replace;
+							}
+							start_idx = end_idx + 1;
+						}
+					}
+				}
+				return rt;
+			}
 		}
 	}
 }
