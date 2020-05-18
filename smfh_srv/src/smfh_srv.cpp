@@ -19,11 +19,14 @@ inline void startUsers()
 {
 	for (auto& item : userMap)
 	{
+		auto pUser = item.second;
 		std::thread* pThread = new std::thread
 		(
-			[&]
+			[&, pUser]
 			()
 			{
+				while (true)
+					pUser->run();
 			}
 		);
 		pthread_t iThread = pThread->native_handle();
