@@ -86,6 +86,7 @@ public:
 	void set_buy_power(unsigned long long buy_power);
 	unsigned long long get_buy_power();
 	unsigned long long get_id();
+	algo* get_algo(const std::string& name);
 private:
 	void handler_order(const dbp::top::enhance_order& odr);
 };

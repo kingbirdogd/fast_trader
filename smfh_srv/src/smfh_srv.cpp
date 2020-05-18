@@ -2,6 +2,7 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <time.h>
+#include <json.hpp>
 #include <iostream>
 #include <sstream>
 #include <algorithm>
@@ -14,6 +15,154 @@ using namespace dbp::omd;
 using namespace dbp::net::srv;
 static char stdOutBuffer[65536] = {0};
 
+using json = nlohmann::json;
+
+
+inline std::string input()
+{
+	return dbp::tools::srv::get_line(input_stream);
+}
+
+inline void output(const std::string& str)
+{
+	dbp::tools::srv::output(output_stream, str);
+}
+
+inline void output(const json& j)
+{
+	output(j.dump());
+}
+
+inline void decode()
+{
+	auto line = input();
+	try
+	{
+		json j = json::parse(line);
+		auto cmd = j["cmd"].get<std::string>();
+		if (cmd == "get_omdc_tradable")
+		{
+			auto code = j["code"].get<unsigned int>();
+			auto it = omdcMap.find(code);
+			if (omdcMap.end() == it)
+			{
+				j["error"] = "omdc code not found";
+				output(j);
+				return;
+			}
+			else
+			{
+				j["omdc_tradable"] = it->second.to_json();
+				output(j);
+				return;
+			}
+		}
+		else if (cmd == "get_omdd_tradable")
+		{
+			auto code = j["code"].get<unsigned int>();
+			auto it = omddMap.find(code);
+			if (omddMap.end() == it)
+			{
+				j["error"] = "omdc code not found";
+				output(j);
+				return;
+			}
+			else
+			{
+				j["omdd_tradable"] = it->second.to_json();
+				output(j);
+				return;
+			}
+		}
+		else
+		{
+			auto id = j["id"].get<unsigned long long>();
+			auto uit = userMap.find(id);
+			if (userMap.end() == uit)
+			{
+				j["error"] = "user not found";
+				output(j);
+				return;
+			}
+			auto& u = (*(uit->second));
+			if (cmd == "get_buy_power")
+			{
+				j["buy_power"] = u.get_buy_power();
+				output(j);
+				return;
+			}
+			else if (cmd == "set_buy_power")
+			{
+				auto buy_power = j["buy_power"].get<unsigned long long>();
+				u.set_buy_power(buy_power);
+				j["set_buy_power"] = "success";
+				output(j);
+				return;
+			}
+			else
+			{
+				auto algo_name  = j["algo_name"].get<std::string>();
+				auto al = u.get_algo(algo_name);
+				if (nullptr == al)
+				{
+					j["error"] = "algo name not found";
+					output(j);
+					return;
+				}
+				algo_msg_base* msg = al->json_to_msg(j);
+				msg->algo_name = algo_name;
+				msg->user_id = id;
+				msg->al = al;
+				msg->ref = j["ref"].get<std::string>();
+				Tradable t;
+				t.m_MsgType = MsgType::COMMAND;
+				t.m_LastTradeQuantity = reinterpret_cast<unsigned long long>(msg);
+				broadcastQueue.enqueue(t);
+			}
+		}
+	}
+	catch(const std::exception& e)
+	{
+		json j;
+		j["error"] = "parse error";
+		j["exception"] = e.what();
+		j["line"] = line;
+		output(j);
+	}
+}
+
+inline void dequeueOutput()
+{
+	algo_msg_base* msg;
+	ouputQueue.deque(msg);
+	output(msg->al->msg_to_json(msg));
+}
+
+inline void startDecode()
+{
+	std::thread* pThread = new std::thread
+	(
+		[&]
+		()
+		{
+			while (true)
+				decode();
+		}
+	);
+}
+
+inline void startOutput()
+{
+	std::thread* pThread = new std::thread
+	(
+		[&]
+		()
+		{
+			while (true)
+				startDecode();
+		}
+	);
+}
 
 inline void startUsers()
 {
@@ -47,6 +196,8 @@ inline void startUsers()
 
 inline static bool start()
 {
+	startDecode();
+	startOutput();
 	startUsers();
 	auto itActivate = mActivateChannel.find("OmdcChannel");
 	if(itActivate != mActivateChannel.end())

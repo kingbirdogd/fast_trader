@@ -11,6 +11,7 @@ CStreamVec omdcStreams;
 CStreamVec omddStreams;
 CActivateChannel mActivateChannel;
 CBroadCastQueue broadcastQueue;
+COutputQueue ouputQueue;
 CUserMap userMap;
 FILE* input_stream = stdin;
 FILE* output_stream = stdout;

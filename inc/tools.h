@@ -143,6 +143,20 @@ namespace dbp
 				}
 				return rt;
 			}
+			inline std::string get_line(FILE* stream)
+			{
+				char buffer [4096];
+				std::string input = "";
+				while ('\n' != input[input.length() - 1])
+					input += ::fgets(buffer, 4096, stream);
+				input = input.substr(0, input.length() - 1);
+				return input;
+			}
+			inline void output(FILE* stream, const std::string& out)
+			{
+				fprintf(stream, "%s\n", out.c_str());
+				fflush(stream);
+			}
 		}
 	}
 }

@@ -18,6 +18,7 @@ extern CStreamVec omdcStreams;
 extern CStreamVec omddStreams;
 extern CActivateChannel mActivateChannel;
 extern CBroadCastQueue broadcastQueue;
+extern COutputQueue ouputQueue;
 extern CUserMap userMap;
 extern FILE* input_stream;
 extern FILE* output_stream;

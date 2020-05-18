@@ -6,7 +6,9 @@
 #endif
 #include <unordered_map>
 #include <dbp_cpu.h>
+#include <sync_queue.hpp>
 #include <omd.h>
+#include <json.hpp>
 #include <rapid_ring/ring_buffer_disruptor.hpp>
 struct OrderItem
 {
@@ -20,6 +22,14 @@ struct OrderItem
 	{
 	}
 	~OrderItem() = default;
+	nlohmann::json to_json() const
+	{
+		nlohmann::json json;
+		json["m_uQuantity"] = m_uQuantity;
+		json["m_uNumberOfOrder"] = m_uNumberOfOrder;
+		json["m_iPrice"] = m_iPrice;
+		return json;
+	}
 };
 
 enum MsgType : unsigned char
@@ -65,6 +75,60 @@ struct Tradable
 	{
 	}
 	~Tradable() = default;
+	nlohmann::json to_json()
+	{
+		nlohmann::json j;
+		j["m_PkgTime"] = m_PkgTime;
+		j["m_MsgTime"] = m_MsgTime;
+		j["m_LastTradeQuantity"] = m_LastTradeQuantity;
+		j["m_Code"] = m_Code;
+		j["m_LastTradePrice"] = m_LastTradePrice;
+		j["m_TradeType"] = m_TradeType;
+		if (MsgType::NONE == m_MsgType)
+		{
+			j["m_MsgType"] = "NONE";
+		}
+		else if (MsgType::OMDC_BOOK == m_MsgType)
+		{
+			j["m_MsgType"] = "OMDC_BOOK";
+		}
+		else if (MsgType::OMDC_TRADE == m_MsgType)
+		{
+			j["m_MsgType"] = "OMDC_TRADE";
+		}
+		else if (MsgType::OMDD_BOOK == m_MsgType)
+		{
+			j["m_MsgType"] = "OMDD_BOOK";
+		}
+		else if (MsgType::OMDD_TRADE == m_MsgType)
+		{
+			j["m_MsgType"] = "OMDD_TRADE";
+		}
+		else
+		{
+			j["m_MsgType"] = "COMMAND";
+		}
+		if (TradeSide::NO_SIDE == m_TradeSide)
+		{
+			j["m_TradeSide"] = "NO_SIDE";
+		}
+		else if (TradeSide::SELL_SIDE == m_TradeSide)
+		{
+			j["m_TradeSide"] = "SELL_SIDE";
+		}
+		else
+		{
+			j["m_TradeSide"] = "BUY_SIDE";
+		}
+		j[m_Bid] = nlohmann::json::array();
+		j[m_Ask] = nlohmann::json::array();
+		for (std::size_t i = 0; i < TRADABLE_BOOK_SIZE; ++i)
+		{
+			j[m_Bid].push_back(m_Bid[i].to_json());
+			j[m_Ask].push_back(m_Ask[i].to_json());
+		}
+		return j;
+	}
 };
 
 
@@ -150,6 +214,14 @@ struct algo_msg_base
 	std::string algo_name;
 	std::string ref;
 	algo* al;
+	algo_msg_base():
+		user_id(0),
+		algo_name(""),
+		ref(""),
+		al(nullptr)
+	{
+	}
+	virtual ~algo_msg_base() = default;
 };
 
 typedef std::unordered_map<std::string, std::string> CActivateChannel;
@@ -161,6 +233,7 @@ typedef std::unordered_map<std::string, unsigned int> COmddNameToCodeMap;
 typedef std::unordered_map<int, CDefChannel> CDefMap;
 typedef std::vector<CStreamChannel> CStreamVec;
 using CBroadCastQueue = rapid_ring::mp_ring_buffer_disruptor<Tradable, 2048000>;
+using COutputQueue = container::sync_queue<algo_msg_base*>;
 
 
 

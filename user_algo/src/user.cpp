@@ -108,6 +108,19 @@ unsigned long long user::get_id()
 	return _id;
 }
 
+algo* user::get_algo(const std::string& name)
+{
+	auto it = _algos.find(name);
+	if (_algos.end() != it)
+	{
+		return it->second;
+	}
+	else
+	{
+		return nullptr;
+	}
+}
+
 void user::handler_order(const dbp::top::enhance_order& odr)
 {
 	auto it = _odr_map.find(odr.order_id);
