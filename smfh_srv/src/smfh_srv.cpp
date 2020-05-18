@@ -119,12 +119,12 @@ int main(int _iArgc, char** _pszArgv)
 		waitpid(iPid, &iStatus, 0);
 		return 0;
 	}
+	*/
 	if (2 != _iArgc)
 	{
 		cerr << "Usage: smfh_srv <cfg json>" << endl;
 		return -1;
 	}
-	*/
 	if (!init(_pszArgv[1]))
 	{
 		cerr << "init error:" << strerror(errno) << endl;
