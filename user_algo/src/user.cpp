@@ -4,46 +4,6 @@
 #include <top_tcp_client.hpp>
 #include <global_memory.hpp>
 
-
-user::user
-(
-	unsigned long long id,
-	const std::string& user,
-	const std::string& pass,
-	unsigned long long buy_power
-):
-	_id(id),
-	_client(new top_shared_client(user, pass, buy_power)),
-	_md(broadcastQueue),
-	_algos(),
-	_odr_map()
-{
-	_client->set_on_order([&](const dbp::top::enhance_order& odr){handler_order(odr);});
-	auto cfg = broadcastQueue.get_configure();
-	cfg.x_depends_y(_md, broadcastQueue);
-}
-
-user::user
-(
-	unsigned long long id,
-	const std::string& host,
-	unsigned short int port,
-	const std::string& user,
-	const std::string& pass,
-	unsigned long long buy_power
-):
-	_id(id),
-	_client(new top_tcp_client(host, port, user, pass, buy_power)),
-	_md(broadcastQueue),
-	_algos(),
-	_odr_map()
-{
-	_client->set_on_order([&](const dbp::top::enhance_order& odr){handler_order(odr);});
-	auto cfg = broadcastQueue.get_configure();
-	cfg.x_depends_y(_md, broadcastQueue);
-	cfg.commit();
-}
-
 user::~user()
 {
 	for (auto& item : _algos)

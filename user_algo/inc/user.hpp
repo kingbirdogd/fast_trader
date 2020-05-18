@@ -21,22 +21,44 @@ private:
 	std::unordered_map<unsigned long long, algo*> _odr_map;
 public:
 	user() = delete;
+	template <typename TCfg>
 	user
 	(
+		TCfg& cfg,
 		unsigned long long id,
 		const std::string& user,
 		const std::string& pass,
 		unsigned long long buy_power = std::numeric_limits<unsigned long long>::max()
-	);
+	):
+	_id(id),
+	_client(new top_shared_client(user, pass, buy_power)),
+	_md(broadcastQueue),
+	_algos(),
+	_odr_map()
+	{
+		_client->set_on_order([&](const dbp::top::enhance_order& odr){handler_order(odr);});
+		cfg.x_depends_y(_md, broadcastQueue);
+	}
+	template <typename TCfg>
 	user
 	(
+		TCfg& cfg,
 		unsigned long long id,
 		const std::string& host,
 		unsigned short int port,
 		const std::string& user,
 		const std::string& pass,
 		unsigned long long buy_power = std::numeric_limits<unsigned long long>::max()
-	);
+	):
+	_id(id),
+	_client(new top_tcp_client(host, port, user, pass, buy_power)),
+	_md(broadcastQueue),
+	_algos(),
+	_odr_map()
+	{
+		_client->set_on_order([&](const dbp::top::enhance_order& odr){handler_order(odr);});
+		cfg.x_depends_y(_md, broadcastQueue);
+	}
 	user(const user&) = delete;
 	user(user&&) = delete;
 	user& operator= (const user&) = delete;

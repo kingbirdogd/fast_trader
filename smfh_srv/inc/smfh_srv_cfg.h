@@ -45,6 +45,7 @@ inline static bool loadUsers(json& _json)
 	try
 	{
 		auto& users = _json["USERS"];
+		auto cfg = broadcastQueue.get_configure();
 		for (std::size_t i = 0; i < users.size(); ++i)
 		{
 			pUser = nullptr;
@@ -78,11 +79,11 @@ inline static bool loadUsers(json& _json)
 			}
 			if (ip == "")
 			{
-				pUser = new user(id, user_name, password, buy_power);
+				pUser = new user(cfg, id, user_name, password, buy_power);
 			}
 			else
 			{
-				pUser = new user(id, ip, port, user_name, password, buy_power);
+				pUser = new user(cfg, id, ip, port, user_name, password, buy_power);
 			}
 			auto& algos = u["ALGOS"];
 			for (auto it = algos.begin(); it != algos.end(); ++it)
@@ -107,7 +108,6 @@ inline static bool loadUsers(json& _json)
 			}
 			userMap[id] = pUser;
 		}
-		auto cfg = broadcastQueue.get_configure();
 		cfg.commit();
 	}
 	catch(...)
