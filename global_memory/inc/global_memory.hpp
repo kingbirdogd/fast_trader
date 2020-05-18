@@ -1,6 +1,7 @@
 #ifndef INC_GLOBAL_MEMORY_HPP_
 #define INC_GLOBAL_MEMORY_HPP_
 #include <msg.hpp>
+#include <cstdio>
 #include <unordered_map>
 
 class user;
@@ -18,6 +19,8 @@ extern CStreamVec omddStreams;
 extern CActivateChannel mActivateChannel;
 extern CBroadCastQueue broadcastQueue;
 extern CUserMap userMap;
+extern FILE* input_stream;
+extern FILE* output_stream;
 
 
 

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html itemscope="" itemtype="http://schema.org/WebPage" lang="en-HK">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/vader/jquery-ui.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/monokai-sublime.min.css" />
+	<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+    var ui = new Array();
+    var selectKey = "";
+    var cookies = {};
+    
+    var ws_server = function(on_data)
+    {
+      var ws = null;
+      this.send = function (msg) 
+      {
+        if (null != ws)
+        {
+          ws.send(msg);
+          return true;
+        }
+        return false;
+      }
+      var start = function () 
+      {
+        try 
+        {
+          ws = new WebSocket("ws://" + location.host + "/");
+          ws.onclose = (event) =>
+          {
+            ws = null;
+            setTimeout(start, 5000);
+          };
+          ws.onerror = (event) => 
+          {
+            ws.close();
+          };
+          ws.onmessage = (event) => 
+          {
+            on_data(event.data);
+          };
+        }
+        catch (e) 
+        {
+          setTimeout(start, 5000);
+        }
+      }
+      this.start = () => 
+      {
+        start();
+      }
+    }
+    
+    function initUI(){
+      ui.commandForm = $("#command_form");
+      ui.output = $("#output");
+      ui.param = $("#param");
+      ui.response = $("#response");
+      ui.send = $("#send");
+
+      ui.listAlgo = $('#list_algo');
+      ui.listOrders = $("#list_orders");
+      ui.dialogOrders =  $("#dialog_orders");
+      ui.commandTable = $("#command_table");
+      ui.moduleTable = $("#module_table");
+      ui.stop = $("#stop");
+      ui.stop.hide();
+      
+      var arr = document.cookie.split(";");
+      for(i = 0; i < arr.length; i++){
+        var c = arr[i].replace(/\s/g, '').split("=");
+        var key = c[0];
+        var val = c[1];
+        cookies[key] = val;
+      }
+      
+      if(cookies.uname=='admin')
+        ui.stop.show();
+
+      return ui;
+    }
+    
+    var init = function()
+    {
+      ui = initUI();
+      
+      // 渲染
+      var ws = new ws_server((txt)=>
+      {
+        try
+        {
+          var json = JSON.parse(txt);
+       
+          // 策略
+          if(json.action=='algo'){
+            var data = json.data;
+            var id = json.id;
+            var type = json.type;
+            var tm = dateFns.format(new Date(json.tm), "YYYY-MM-DD hh:mm:ss");
+            algoHTML = "";
+            
+            if(!data)
+              algoHTML += '<tr><td>Algo</td><td>No Algo</td></tr>';
+            else if (typeof data !== 'undefined'){
+              for(i = 0; i < data.length; i++){
+                var key = data[i];
+                var no = i+1;
+                
+                algoHTML += 
+                '<tr><td>Algo '+no+'</td>'+
+                '<td>'+key+'</td>'+
+                '<td><button type="button" class="stop_algo btn btn-sm btn-danger" data-key="'+key+'" >Stop</button>'+
+                '<button type="button" class="pause_algo btn btn-sm btn-primary" data-key="'+key+'" >Pause</button>'+
+                '<button type="button" class="resume_algo btn btn-sm btn-info" data-key="'+key+'" >Resume</button>'+
+                '<button type="button" class="select_algo btn btn-sm btn-warning" data-key="'+key+'" >Select</button>'+
+                '</td></tr>';
+              }
+            }
+            
+            html = 
+            '<table class="table table-sm table-striped table-dark">'+
+            '<col width="15%"> <col width="30%"> <col width="55%">'+
+            '<tbody><tr><td>User Id</td><td>'+id+'</td></tr>'+
+            algoHTML+
+            '<tr><td>Time</td><td>'+tm+'</td></tr>'+
+            '</tbody></table>';
+            ui.output.html(html);
+            initUI();
+          }
+          
+          // 开始
+          else if(json.action=='load'){
+            var id = json.id;
+            var key = json.key;
+            var name = json.name;
+            var param = json.param;
+            var result = (json.result=="fail duplicate key") ? "Algo is already running" : json.result;
+            var tm = dateFns.format(new Date(json.tm), "YYYY-MM-DD hh:mm:ss");
+            var type = json.type;
+            html = 
+            '<table class="table table-sm table-striped table-dark">'+
+            '<col width="25%"> <col width="75%">'+
+            '<tbody><tr><td>User Id</td><td>'+id+'</td></tr>'+
+            '<tr><td>Algo name</td><td>'+key+'</td></tr>'+
+            '<tr><td>Model</td><td>'+name+'</td></tr>'+
+            '<tr><td>Result</td><td>'+result+'</td></tr>'+
+            '<tr><td>Time</td><td>'+tm+'</td></tr>'+
+            '</tbody></table>';
+            initUI();
+            ui.listAlgo.click();
+          }
+          
+          // 停止
+          else if(json.action=='unload'){
+            var action = json.action;
+            var key = json.key;
+            var result = (json.result=="fail key already delete") ? "Algo is already deleted" : json.result;
+            var type = json.type;
+            var tm = dateFns.format(new Date(json.tm), "YYYY-MM-DD hh:mm:ss");
+            html = 
+            '<table class="table table-sm table-striped table-dark">'+
+            '<col width="25%"> <col width="75%">'+
+            '<tr><td>Algo name</td><td>'+key+'</td></tr>'+
+            '<tr><td>Result</td><td>'+result+'</td></tr>'+
+            '<tr><td>Time</td><td>'+tm+'</td></tr>'+
+            '</tbody></table>';
+            initUI();
+            ui.listAlgo.click();
+          }
+          
+          // 盘口列表
+          else if(json.action=='list_orders'){
+            var action = json.action;
+            var id = json.id;
+            var ordres = json.ordres;
+            var result = json.result;
+            var type = json.type;
+            var tm = dateFns.format(new Date(json.tm), "YYYY-MM-DD hh:mm:ss");
+            html =
+            '<table class="table table-sm table-striped table-dark">'+
+            '<col width="25%"> <col width="75%">'+
+            '<tbody><tr><td>User Id</td><td>'+id+'</td></tr>'+
+            '<tr><td>Time</td><td>'+tm+'</td></tr>'+
+            '</tbody></table>';
+            
+            if (typeof ordres !== 'undefined'){
+              for(i=0; i<ordres.length; i++){
+                var broker_id = ordres[i].broker_id;
+                var code = ordres[i].code;
+                var key = ordres[i].key;
+                var filled_quantity = ordres[i].filled_quantity/100000000;
+                var match_price = ordres[i].match_price/100000000;
+                var match_quantity = ordres[i].match_quantity/100000000;
+                var order_ref = ordres[i].order_ref;
+                var price = ordres[i].price/100000000;
+                var quantity = ordres[i].quantity/100000000;
+                var report_id = ordres[i].report_id;
+                var side = ordres[i].side.replace('order_side::', '');
+                var status = ordres[i].status.replace('order_status::', '');
+                var t = ordres[i].transaction_tm;
+                var _tm = t.substring(0,4)+'-'+t.substring(4,6)+'-'+t.substring(6,8)+' '+t.substring(8,10)+':'+t.substring(10,12)+':'+t.substring(12,14);
+                var no = ordres.length-i;
+                html += 
+                '<table class="table table-sm table-striped table-dark" style="margin: 10px 0px 0px 0px;">'+
+                '<col width="25%"> <col width="75%">'+
+                '<tbody><tr class="bg-info"><td>Order Id</td><td>'+no+'</td></tr>'+
+                '<tr><td>Code</td><td>'+code+'</td></tr>'+
+                '<tr><td>Algo</td><td>'+key+'</td></tr>'+
+                '<tr><td>Price</td><td>'+price+'</td></tr>'+
+                '<tr><td>Quantity</td><td>'+quantity+'</td></tr>'+
+                '<tr><td>Borker Id</td><td>'+broker_id+'</td></tr>'+
+                '<tr><td>Filled Quantity</td><td>'+filled_quantity+'</td></tr>'+
+                '<tr><td>Match Price</td><td>'+match_price+'</td></tr>'+
+                '<tr><td>Match Quantity</td><td>'+match_quantity+'</td></tr>'+
+                '<tr><td>Match Order Ref</td><td>'+order_ref+'</td></tr>'+
+                '<tr><td>Report ID</td><td>'+report_id+'</td></tr>'+
+                '<tr><td>Side</td><td>'+side+'</td></tr>'+
+                '<tr><td>Status</td><td>'+status+'</td></tr>'+
+                '</tbody></table>';
+              }
+            }
+            ui.dialogOrders.html(html);
+          }
+          
+          // 指令
+          else if(json.action=='algo_command'){
+            var action = json.action;
+            var command = JSON.parse(json.command);
+            var key = command.key;
+            var _command = command.command;
+            var result = json.result;
+            var tm = dateFns.format(new Date(json.tm), "YYYY-MM-DD hh:mm:ss");
+            html = "<tr> <td>"+tm+"</td> <td>"+key+"</td><td>"+_command.replace(/#/g, ', ')+"</td> <td class='text-success'>"+result+"</td></tr>";
+            ui.commandTable.prepend(html);
+          }
+          
+          // 库
+          else if(json.action=='module'){
+            var action = json.action;
+            var data = json.data;
+            var id = json.id;
+            var type = json.type;
+            var tm = json.tm;
+            var html = 
+              '<table class="table table-sm table-striped table-dark" style="margin: 10px 0px 0px 0px;">'+
+              '<col width="30%"> <col width="70%"><tbody>';
+            
+            if(data){
+              for(i=0; i<data.length; i++){
+                var key = data[i];
+                var val = '';
+                
+                html += 
+                '<tr><td>'+key+'</td>'+
+                '<td>'+
+                '<div class="form-inline"">'+
+                '<div class="input-group"> <input class="form-control form-control-sm" type="text" id="'+key+'_key" value="" placeholder="key"/> </div> &nbsp'+
+                '<div class="input-group"> <input class="form-control form-control-sm" type="text" id="'+key+'_param" value="" placeholder="param"/> </div> &nbsp'+
+                '<div class="input-group"> <button type="button" class="start_algo btn btn-sm btn-success" data-module="'+key+'">Start</button> </div>'+
+                '</div></td></tr>';
+              }
+              html += '</tbody></table>';
+              ui.moduleTable.html(html);
+            }
+          }
+          
+          // 载入库
+          else if(json.action=='reload'){
+            var name = json.name;
+            listModule();
+          }
+          
+          // 其他
+          else if(json.action!='list_algo' && json.action!='command' && json.action!='start_algo' && json.action!='stop_algo' && json.action!='list_module' && json.action!='reload' && json.type!='start_algo' && json.type!='type'){
+
+          }
+          else if(json.action!='list_algo' && json.action!='list_module'){
+            ui.response.append(txt + "\n");
+            if(ui.response.html().length > 1024*100){        // 清理
+              ui.response.empty();
+            }
+          }
+          ui.response.scrollTop(ui.response[0].scrollHeight); // 到最底
+        
+        }
+        catch(e)
+        {
+          alert("parse JSON error:" + txt + ",err:" + e);
+        }
+      });
+      ws.start();
+      
+      // 傳送指令
+      ui.send.click(function(){
+        let command = ui.param.val().replace(/\s/g,'');
+
+        if(command.indexOf('{')>-1){
+          txt = command;
+        }else if(selectKey && command){
+          txt = '{"type":"algo_command", "key": "'+selectKey+'", "command": "'+command+'"}';
+        }else if(!selectKey || !command){
+          alert("Please select algo and fill in command.");
+          return 0;
+        }
+        
+        JSON.parse(txt);
+        response.append(txt + "\n");
+        if (!ws.send(txt)){
+          alert("send msg:" + txt + "  fail, websocket disconnected");
+        }
+        ui.param.val("");                 // 清空
+        ui.param.attr("placeholder", "");
+        selectKey = null;                 // 清空
+      });
+      // 开始
+      ui.moduleTable.on("click", ".start_algo", function(){
+        var module = $(this).data("module");
+        var param = $('#'+module+'_param').val().replace(/\s/g,'');
+        var key = $('#'+module+'_key').val().replace(/\s/g,'');
+        
+        if(!key){
+          alert("Please fill in key.");
+          return 0;
+        }else{
+          txt = '{"type":"start_algo","module":"'+module+'","param":"'+param+'","key":"'+key+'"}';
+        }
+        
+        JSON.parse(txt);
+        response.append(txt + "\n");
+        if (!ws.send(txt)){
+          alert("send msg:" + txt + "  fail, websocket disconnected");
+        }
+        $('#'+module+'_param').val("");  // 清空
+        $('#'+module+'_key').val("");    // 清空
+        listModule();
+      });
+      // 策略
+      ui.listAlgo.click(function(){
+        ws.send('{"type":"list_algo"}');
+      });
+      // 停止
+      ui.output.on("click", ".stop_algo", function(){
+        var _key = $(this).data("key");
+        ws.send('{"type":"stop_algo","key":"'+_key+'"}');
+      });
+      // pause
+      ui.output.on("click", ".pause_algo", function(){
+        var key = $(this).data("key");
+        console.log('pause: '+key);
+      });
+      // resume
+      ui.output.on("click", ".resume_algo", function(){
+        var key = $(this).data("key");
+        console.log('resume: '+key);
+      });
+      // 選擇
+      ui.output.on("click", ".select_algo", function(){
+        var _key = $(this).data("key");
+        ui.param.attr("placeholder", _key);
+        selectKey = _key;
+        ui.listAlgo.click();
+      });
+      // 盘口列表
+      ui.listOrders.click(function(){
+        ws.send('{"type":"list_orders"}');
+        ui.dialogOrders.dialog({width:800, height:500});
+        ui.dialogOrders.dialog('open');
+      });
+      // 关闭
+      ui.stop.click(function(){
+        ws.send('{"type":"stop"}');
+      });
+      // 模型列表
+      function listModule(){
+        ws.send('{"type":"list_module"}');
+      }
+      // 初始化
+      window.setTimeout( function(){
+        ui.listAlgo.click();
+        listModule();
+      }, 500);
+      
+      ui.dialogOrders.dialog({ autoOpen: false });
+    }
+    
+    $(document).ready(()=>
+    {
+      init();
+    });
+  </script>
+  <style>
+    .hljs{background-color:#343a40;}
+    .table-sm{font-size:14px;}
+    h6{margin-top:15px;}
+    :focus{outline: none!important;}
+    .form-control::-webkit-input-placeholder {font-size:12px; color:#969696;}
+  </style>
+  <title>Trading Platform</title>
+	</head>
+	<body>
+    <div class="container-fluid">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      
+        <a class="navbar-brand" href="javascript:void(0);">DB Trading Platform</a>
+      
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <!-- <li class="nav-item">
+              <a class="nav-link" href="javascript:void(0)"></a>
+            </li> -->
+          </ul>
+        
+          <form action="/logout" method="POST">
+            <input class="btn btn-dark" type="submit" value="Logout">
+          </form>
+        </div>
+      </nav><br />
+      
+      <button class="btn btn-sm btn-dark" id="list_algo">Algo</button>
+      <button class="btn btn-sm btn-dark" id="list_orders"/>Orders</button>
+      <button class="btn btn-sm btn-dark" id="stop"/>Stop</button>
+      
+      <h6>Module</h6>
+      <div id="module_table"></div>
+
+      <h6>Algo</h6>
+      <button type="button" id="list_algo" class="btn btn-dark" style="display: none;">Algo</button>
+      <div id="output"></div>
+      <form action="javascript:void(0);" id="command_form" class="form-inline" method="post">
+        <div class="form-group col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+          <input class="form-control" type="text" id="param" style="width:100%;" value="" placeholder=""/>
+        </div>
+        
+        <div class="input-group col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+          <input class="btn btn-dark" type="button" value="send" id="send"/>
+        </div>
+      </form>
+      
+      <h6>Commands</h6>
+      <div style="overflow-y: scroll; height:200px; width: auto;"">
+        <table id="command_table" class="table table-sm table-striped table-dark">
+          <col width="25%"> <col width="25%">  <col width="40%"> <col width="10%">
+        </table>
+      </div>
+      
+      <h6>Response</h6>
+      <pre><code id="response" class="PHP" style="overflow-y: scroll; height:250px;"></code></pre>
+
+      
+      <div id="dialog_orders" title="Orders" style="font-size:14px;"></div>
+      
+    </div> <!-- ./container -->
+	</body>
+</html>

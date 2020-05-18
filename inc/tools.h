@@ -1,5 +1,7 @@
 #ifndef __DBP_TOOLS_SRV__
 #define __DBP_TOOLS_SRV__
+#include <sys/stat.h>
+#include <unistd.h>
 #include <string.h>
 #include <signal.h>
 #include <string>
@@ -40,6 +42,63 @@ namespace dbp
 			inline static void printErrorLog(const char* _pszUserName, const char* _pszErrorMsg)
 			{
 				flush_printf("tm:%llu, %s error stop websocket, error msg:%s\n", current(), _pszUserName, _pszErrorMsg);
+			}
+			template <class Container>
+			inline void split(const std::string& str, Container& cont,
+			              const std::string& delims = " ")
+			{
+			    std::size_t current, previous = 0;
+			    current = str.find_first_of(delims);
+			    while (current != std::string::npos) {
+			        cont.push_back(str.substr(previous, current - previous));
+			        previous = current + 1;
+			        current = str.find_first_of(delims, previous);
+			    }
+			    cont.push_back(str.substr(previous, current - previous));
+			}
+			inline int sub_process(const char* cmd, FILE*& input_stream, FILE*& output_stream)
+			{
+				int pid = 0;
+				std::string command = cmd;
+				std::vector<std::string> params;
+				split(command, params);
+				int inpipefd[2];
+				int outpipefd[2];
+				pipe(inpipefd);
+				pipe(outpipefd);
+				pid = ::fork();
+				if (pid < 0)
+				{
+					pid = 0;
+					return pid;
+				}
+				if (0 == pid)
+				{
+					std::vector<const char*> call_params;
+					for (std::size_t i = 0; i < params.size(); ++i)
+					{
+						call_params.push_back(params[i].c_str());
+					}
+					call_params.push_back(nullptr);
+					::close(outpipefd[1]);
+					::close(inpipefd[0]);
+					dup2(outpipefd[0], STDIN_FILENO);
+					dup2(inpipefd[1], STDOUT_FILENO);
+					::close(outpipefd[0]);
+					::close(inpipefd[1]);
+					char** ptr = const_cast<char**>(&call_params[0]);
+					::execvp(ptr[0], ptr);
+					exit(0);
+				}
+				else
+				{
+					sleep(1);
+					::close(outpipefd[0]);
+					::close(inpipefd[1]);
+					output_stream = fdopen(outpipefd[1], "w");
+					input_stream = fdopen(inpipefd[0], "r");
+				}
+				return pid;
 			}
 		}
 	}
