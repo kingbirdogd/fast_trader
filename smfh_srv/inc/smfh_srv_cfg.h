@@ -47,7 +47,16 @@ inline static bool loadUsers(json& _json)
 		auto& users = _json["USERS"];
 		for (std::size_t i = 0; i < users.size(); ++i)
 		{
+			pUser = nullptr;
 			auto& u = users[i];
+			if (u.end() != u.find("DISABLE"))
+			{
+				bool disable = u["DISABLE"].get<bool>();
+				if (disable)
+				{
+					continue;
+				}
+			}
 			auto id = u["ID"].get<unsigned long long>();
 			if (userMap.end() != userMap.find(id))
 			{
@@ -80,6 +89,14 @@ inline static bool loadUsers(json& _json)
 			{
 				auto name = it.key();
 				auto& algo = it.value();
+				if (algo.end() != algo.find("DISABLE"))
+				{
+					bool disable = algo["DISABLE"].get<bool>();
+					if (disable)
+					{
+						continue;
+					}
+				}
 				auto lib = algo["lib"].get<std::string>();
 				auto& params = algo["params"];
 				if (!pUser->add_algo(name, lib, params))
