@@ -693,6 +693,12 @@ inline static bool initJson(const char* _pszJsonPath)
 		std::cerr << "Parse Json Error" << std::endl;
 		return false;
 	}
+	flush_printf("tm:%llu, loadUser \n", dbp::tools::srv::current());
+	if (!loadUsers(j))
+	{
+		std::cerr << "loadUsers fail" << std::endl;
+		return false;
+	}
 	flush_printf("tm:%llu, initSOL_SOCKET \n", dbp::tools::srv::current());
 	if (!dbp::net::srv::initSOL_SOCKET(j))
 	{
