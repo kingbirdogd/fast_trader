@@ -107,7 +107,8 @@ inline static bool loadUsers(json& _json)
 			}
 			userMap[id] = pUser;
 		}
-		broadcastQueue.get_configure().commit();
+		auto cfg = broadcastQueue.get_configure();
+		cfg.commit();
 	}
 	catch(...)
 	{
