@@ -11,6 +11,7 @@
 #include <json.hpp>
 #include <net.h>
 #include <global_memory.hpp>
+#include <user.hpp>
 #include <limits>
 
 using json = nlohmann::json;
