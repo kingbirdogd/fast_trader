@@ -11,6 +11,7 @@
 #include <json.hpp>
 #include <net.h>
 #include <global_memory.hpp>
+#include <limits>
 
 using json = nlohmann::json;
 
@@ -36,6 +37,70 @@ inline static bool loadCpu(json& _json)
 	}
 	return true;
 }
+
+inline static bool loadUsers(json& _json)
+{
+	user* pUser = nullptr;
+	try
+	{
+		auto& users = _json["USERS"];
+		for (std::size_t i = 0; i < users.size(); ++i)
+		{
+			auto& u = users[i];
+			auto id = u["ID"].get<unsigned long long>();
+			if (userMap.end() != userMap.find(id))
+			{
+				return false;
+			}
+			auto user_name = u["USER"].get<std::string>();
+			auto password = u["PASS"].get<std::string>();
+			unsigned long long buy_power = std::numeric_limits<unsigned long long>::max();
+			if (u.end() != u.find("BUY_POWER"))
+			{
+				buy_power = u["BUY_POWER"].get<unsigned long long>();
+			}
+			std::string ip = "";
+			unsigned short int port = 0;
+			if (u.end() != u.find("IP"))
+			{
+				ip = u["IP"].get<std::string>();
+				port = u["PORT"].get<unsigned short int>();
+			}
+			if (ip == "")
+			{
+				pUser = new user(id, user_name, password, buy_power);
+			}
+			else
+			{
+				pUser = new user(id, ip, port, user_name, password, buy_power);
+			}
+			auto& algos = u["ALGOS"];
+			for (auto it = algos.begin(); it != algos.end(); ++it)
+			{
+				auto name = it.key();
+				auto& algo = it.value();
+				auto lib = algo["lib"].get<std::string>();
+				auto& params = algo["params"];
+				if (!pUser->add_algo(name, lib, params))
+				{
+					delete pUser;
+					return false;
+				}
+			}
+			userMap[id] = pUser;
+		}
+		broadcastQueue.get_configure().commit();
+	}
+	catch(...)
+	{
+		std::cerr << "loadCpu fail" << std::endl;
+		if (pUser)
+			delete pUser;
+		return false;
+	}
+	return true;
+}
+
 inline static bool loadDefinition(json& _json)
 {
 	json cache;
