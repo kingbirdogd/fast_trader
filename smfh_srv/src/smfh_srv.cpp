@@ -137,12 +137,12 @@ int start_run(const char* config)
 int main(int _iArgc, char** _pszArgv)
 {
 	const char* config = nullptr;
-	bool fork = false;
+	bool is_fork = false;
 	if (3 == _iArgc)
 	{
 		if (std::string(_pszArgv[1]) == "fork")
 		{
-			fork = true;
+			is_fork = true;
 			config = _pszArgv[2];
 		}
 		else
@@ -162,7 +162,7 @@ int main(int _iArgc, char** _pszArgv)
 	}
 	blockSigPipe();
 	setbuffer(stdout, stdOutBuffer, 65536);
-	if (fork)
+	if (is_fork)
 	{
 		pid_t iPid = fork();
 		if (0 == iPid)
