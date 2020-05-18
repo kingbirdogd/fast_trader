@@ -2,6 +2,8 @@
 #define USER_ALGO_INC_USER_HPP_
 
 #include <top_client.hpp>
+#include <top_shared_client.hpp>
+#include <top_tcp_client.hpp>
 #include <msg.hpp>
 #include <json.hpp>
 #include <string>

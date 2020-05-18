@@ -1,7 +1,5 @@
 #include <user.hpp>
 #include <algo.hpp>
-#include <top_shared_client.hpp>
-#include <top_tcp_client.hpp>
 #include <global_memory.hpp>
 
 user::~user()
