@@ -38,7 +38,7 @@ bool user::cancel_order(unsigned long long order_id)
 
 bool user::add_algo(const std::string& name, const std::string lib, json& cfg)
 {
-	auto al = algo::get_algo(*this, lib, cfg);
+	auto al = algo::get_algo(*this, name, lib, cfg);
 	if (nullptr == al)
 		return false;
 	auto it = _algos.find(name);
@@ -101,6 +101,11 @@ void user::set_buy_power(unsigned long long buy_power)
 unsigned long long user::get_buy_power()
 {
 	return _client->get_buy_power();
+}
+
+unsigned long long user::get_id()
+{
+	return _id;
 }
 
 void user::handler_order(const dbp::top::enhance_order& odr)

@@ -1,8 +1,8 @@
 #include <semi.hpp>
 
 
-semi::semi(user& u):
-	algo(u)
+semi::semi(user& u, const std::string& name):
+	algo(u, name)
 {
 }
 

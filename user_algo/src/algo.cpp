@@ -1,16 +1,17 @@
 #include <algo.hpp>
 #include <semi.hpp>
 
-algo::algo(user& u):
-	_u(u)
+algo::algo(user& u, const std::string& name):
+	_u(u),
+	_name(name)
 {
 }
 
-algo* algo::get_algo(user& u, const std::string& lib, json&)
+algo* algo::get_algo(user& u, const std::string& name, const std::string& lib, json&)
 {
 	if (lib == "semi")
 	{
-		return new semi(u);
+		return new semi(u, name);
 	}
 	else
 	{

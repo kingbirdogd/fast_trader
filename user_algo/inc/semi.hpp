@@ -7,7 +7,7 @@ class semi : public algo
 {
 public:
 	semi() = delete;
-	semi(user& u);
+	semi(user& u, const std::string& name);
 	semi(const algo&) = delete;
 	semi(algo&&) = delete;
 	semi& operator= (const algo&) = delete;

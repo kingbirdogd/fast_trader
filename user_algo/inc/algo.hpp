@@ -12,9 +12,10 @@ public:
 	using json = nlohmann::json;
 protected:
 	user& _u;
+	std::string _name;
 public:
 	algo() = delete;
-	algo(user& u);
+	algo(user& u, const std::string& name);
 	algo(const algo&) = delete;
 	algo(algo&&) = delete;
 	algo& operator= (const algo&) = delete;
@@ -28,7 +29,7 @@ public:
 	virtual void handle_command(const algo_msg_base& cmd) = 0;
 	virtual algo_msg_base* json_to_msg(json& msg) = 0;
 	virtual json msg_to_json(algo_msg_base* msg) = 0;
-	static algo* get_algo(user& u, const std::string& lib, json& cfg);
+	static algo* get_algo(user& u, const std::string& name, const std::string& lib, json& cfg);
 };
 
 
