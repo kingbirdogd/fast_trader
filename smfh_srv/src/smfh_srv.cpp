@@ -138,7 +138,7 @@ int main(int _iArgc, char** _pszArgv)
 {
 	const char* config = nullptr;
 	bool fork = false;
-	if (3 == _pszArgv)
+	if (3 == _iArgc)
 	{
 		if (std::string(_pszArgv[1]) == "fork")
 		{
@@ -151,7 +151,7 @@ int main(int _iArgc, char** _pszArgv)
 			return -1;
 		}
 	}
-	else if (2 == _pszArgv)
+	else if (2 == _iArgc)
 	{
 		config = _pszArgv[1];
 	}
