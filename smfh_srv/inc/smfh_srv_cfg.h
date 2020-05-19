@@ -699,6 +699,7 @@ inline static bool loadActivateChannel(json& _json)
 		{
 			auto& Node = ActivateChannel[i];
 			std::string strChannel = Node["Channel"].get<std::string>();
+			mActivateChannel[strChannel] = "";
 			flush_printf("tm:%llu, Activate Channel = %s \n", dbp::tools::srv::current(), strChannel.c_str());
 		}
 	}
