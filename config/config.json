@@ -65,12 +65,12 @@
 		"OMDD":
 		[
 			{
-				"InterfaceIp": " 10.123.132.197",
+				"InterfaceIp": "10.123.132.197",
 				"MulticastIp": "239.1.1.153",
 				"MulticastPort": 51003
 			},
 			{
-				"InterfaceIp": " 10.123.132.197",
+				"InterfaceIp": "10.123.132.197",
 				"MulticastIp": "239.1.1.158",
 				"MulticastPort": 51003
 			}
@@ -144,13 +144,13 @@
 			"ChannelId": 131,
 			"Hot":
 			{
-				"InterfaceIp": " 10.123.132.197",
+				"InterfaceIp": "10.123.132.197",
 				"MulticastIp": "239.1.1.131",
 				"MulticastPort": 51001
 			},
 			"Refresh":
 			{
-				"InterfaceIp": " 10.123.132.197",
+				"InterfaceIp": "10.123.132.197",
 				"MulticastIp": "239.1.1.156",
 				"MulticastPort": 51001
 			},
@@ -160,13 +160,13 @@
 			"ChannelId": 231,
 			"Hot":
 			{
-				"InterfaceIp": " 10.123.132.197",
+				"InterfaceIp": "10.123.132.197",
 				"MulticastIp": "239.1.1.131",
 				"MulticastPort": 51002
 			},
 			"Refresh":
 			{
-				"InterfaceIp": " 10.123.132.197",
+				"InterfaceIp": "10.123.132.197",
 				"MulticastIp": "239.1.1.156",
 				"MulticastPort": 51002
 			},
