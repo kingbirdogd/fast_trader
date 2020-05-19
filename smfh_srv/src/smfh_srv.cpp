@@ -18,6 +18,8 @@ static char stdOutBuffer[65536] = {0};
 
 using json = nlohmann::json;
 
+static std::thread* pDecode = nullptr;
+
 
 inline std::string input()
 {
@@ -141,7 +143,7 @@ inline void dequeueOutput()
 
 inline void startDecode()
 {
-	new std::thread
+	pDecode = new std::thread
 	(
 		[&]
 		()
@@ -446,7 +448,9 @@ int main(int _iArgc, char** _pszArgv)
 			return 0;
 		}
 	}
-	return start_run(config);
+	auto rt = start_run(config);
+	pDecode->join();
+	return rt;
 }
 
 
