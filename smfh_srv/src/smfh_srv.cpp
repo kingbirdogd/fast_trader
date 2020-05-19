@@ -62,11 +62,35 @@ inline void decode()
 		}
 		else if (cmd == "get_omdd_tradable")
 		{
-			auto code = j["code"].get<unsigned int>();
+			unsigned long long code = 0;
+			try
+			{
+				code = j["code"].get<unsigned int>();
+				auto itName = codeToName.find(code);
+				if (codeToName.end() == itName)
+				{
+					j["error"] = "omdd code map to name not found";
+					output(j);
+					return;
+				}
+				j["code"] = itName->second;
+			}
+			catch(...)
+			{
+				auto str_code = j["code"].get<std::string>();
+				auto itCode = nameToCode.find(str_code);
+				if (nameToCode.end() == itCode)
+				{
+					j["error"] = "omdd code name not found";
+					output(j);
+					return;
+				}
+				code = itCode->second;
+			}
 			auto it = omddMap.find(code);
 			if (omddMap.end() == it)
 			{
-				j["error"] = "omdc code not found";
+				j["error"] = "omdd code not found";
 				output(j);
 				return;
 			}
