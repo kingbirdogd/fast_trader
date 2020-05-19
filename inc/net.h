@@ -361,12 +361,11 @@ namespace dbp
 					close(iRt);
 					return -1;
 				}
-				/*
 				if (!setPortReuse(iRt))
 				{
 					close(iRt);
 					return -1;
-				}*/
+				}
 				sockaddr_in groupAddr;
 				memset(&groupAddr, 0, sizeof(sockaddr_in));
 				groupAddr.sin_family = AF_INET;
@@ -384,6 +383,7 @@ namespace dbp
 					interFace.imr_interface.s_addr = inet_addr(strInterfaceIp.c_str());
 					if (0 != setsockopt(iRt, IPPROTO_IP, IP_ADD_MEMBERSHIP, &interFace, sizeof(ip_mreq)))
 					{
+						std::cout << "IP_ADD_MEMBERSHIP error:" << strerror(errno) << std::endl;
 						close(iRt);
 						return -1;
 					}
