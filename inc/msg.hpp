@@ -54,6 +54,9 @@ struct Tradable
 	unsigned long long m_PkgTime;
 	unsigned long long m_MsgTime;
 	unsigned long long m_LastTradeQuantity;
+	unsigned long long m_AccumulateBuyQuantity;
+	unsigned long long m_AccumulateSellQuantity;
+	unsigned long long m_AccumulateBlankQuantity;
 	unsigned int m_Code;
 	int m_LastTradePrice;
 	unsigned short int m_TradeType;
@@ -65,6 +68,9 @@ struct Tradable
 		m_PkgTime(0),
 		m_MsgTime(0),
 		m_LastTradeQuantity(0),
+		m_AccumulateBuyQuantity(0),
+		m_AccumulateSellQuantity(0),
+		m_AccumulateBlankQuantity(0),
 		m_Code(0),
 		m_LastTradePrice(0),
 		m_TradeType(0),
@@ -81,6 +87,9 @@ struct Tradable
 		j["m_PkgTime"] = m_PkgTime;
 		j["m_MsgTime"] = m_MsgTime;
 		j["m_LastTradeQuantity"] = m_LastTradeQuantity;
+		j["m_AccumulateBuyQuantity"] = m_AccumulateBuyQuantity;
+		j["m_AccumulateSellQuantity"] = m_AccumulateSellQuantity;
+		j["m_AccumulateBlankQuantity"] = m_AccumulateBlankQuantity;
 		j["m_Code"] = m_Code;
 		j["m_LastTradePrice"] = m_LastTradePrice;
 		j["m_TradeType"] = m_TradeType;

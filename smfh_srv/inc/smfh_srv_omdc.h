@@ -20,6 +20,9 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		buildOmdcOrderBook(_pMsg, rOrderBook);
 		std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
 		std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
+		rOrderBook.m_AccumulateBuyQuantity = 0;
+		rOrderBook.m_AccumulateSellQuantity = 0;
+		rOrderBook.m_AccumulateBlankQuantity = 0;
 	}
 	else if (50 == _pMsg->m_uMsgType)
 	{
@@ -30,14 +33,17 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		if (rOrderBook.m_LastTradePrice <= rOrderBook.m_Bid[0].m_iPrice)
 		{
 			rOrderBook.m_TradeSide = TradeSide::SELL_SIDE;
+			rOrderBook.m_AccumulateSellQuantity += rOrderBook.m_LastTradeQuantity;
 		}
 		else if (rOrderBook.m_LastTradePrice >= rOrderBook.m_Ask[0].m_iPrice)
 		{
 			rOrderBook.m_TradeSide = TradeSide::BUY_SIDE;
+			rOrderBook.m_AccumulateBuyQuantity += rOrderBook.m_LastTradeQuantity;
 		}
 		else
 		{
 			rOrderBook.m_TradeSide = TradeSide::NO_SIDE;
+			rOrderBook.m_AccumulateBlankQuantity += rOrderBook.m_LastTradeQuantity;
 		}
 	}
 	broadcastQueue.enqueue(rOrderBook);
