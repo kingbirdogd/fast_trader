@@ -509,25 +509,6 @@ private:
 private:
 	pair_map _p_map;
 private:
-	struct algo_err_msg: public algo_msg_base
-	{
-		algo_err_msg():
-			algo_msg_base()
-		{
-		}
-		virtual nlohmann::json to_json() const
-		{
-			auto j = this->algo_msg_base::to_json();
-			j["message"] = "error decode msg";
-			return j;
-		}
-		virtual void on_command()
-		{
-			algo_err_msg* msg = new algo_err_msg(*this);
-			ouputQueue.enqueue(msg);
-		}
-		virtual ~algo_err_msg() = default;
-	};
 	struct algo_odr_msg: public algo_msg_base
 	{
 		dbp::top::enhance_order odr;
@@ -546,6 +527,24 @@ private:
 		{
 		}
 		virtual ~algo_odr_msg() = default;
+	};
+	struct algo_err_msg: public algo_msg_base
+	{
+		algo_err_msg():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = this->algo_msg_base::to_json();
+			j["message"] = "error decode msg";
+			return j;
+		}
+		virtual void on_command()
+		{
+			ouputQueue.enqueue(this);
+		}
+		virtual ~algo_err_msg() = default;
 	};
 	struct algo_odr_position: public algo_msg_base
 	{
@@ -567,10 +566,9 @@ private:
 		}
 		virtual void on_command()
 		{
-			algo_odr_position* msg = new algo_odr_position(*this);
-			auto* self = dynamic_cast<semi*>(msg->al);
-			self->position(*msg);
-			ouputQueue.enqueue(msg);
+			auto* self = dynamic_cast<semi*>(this->al);
+			self->position(*this);
+			ouputQueue.enqueue(this);
 		}
 		virtual ~algo_odr_position() = default;
 	};

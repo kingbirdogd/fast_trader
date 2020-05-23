@@ -84,7 +84,6 @@ void user::run()
 						it->second->handle_command(cmd);
 					}
 				}
-				delete ptr;
 			}
 			break;
 		default:
