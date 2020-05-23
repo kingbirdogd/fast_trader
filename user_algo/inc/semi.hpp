@@ -98,6 +98,31 @@ private:
 			_auto_sell(auto_sell)
 		{
 		}
+		json to_json() const
+		{
+			json j;
+			j["buy_trriger"] = _buy_trriger;
+			j["sell_trriger"] = _sell_trriger;
+			j["buy_price"] = _buy_price;
+			j["sell_price"] = _sell_price;
+			j["bottom_price"] = _bottom_price;
+			j["auto_buy_quantity"] = _auto_buy_quantity;
+			j["position"] = _position;
+			j["auto_buy_id"] = _auto_buy_id;
+			j["auto_sell_id"] = _auto_sell_id;
+			j["early_buy_qty"] = _early_buy_qty;
+			j["early_sell_qty"] = _early_sell_qty;
+			j["underlying_code"] = _underlying_code;
+			j["warrant_code"] = _warrant_code;
+			j["ref"] = _ref;
+			j["underlying_symbol"] = _underlying_symbol;
+			j["is_bull"] = _is_bull;
+			j["is_buying"] = _is_buying;
+			j["is_selling"] = _is_selling;
+			j["auto_buy"] = _auto_buy;
+			j["auto_sell"] = _auto_sell;
+			return j;
+		}
 		~pair() = default;
 		pair(const pair&) = default;
 		pair(pair&&) = default;
