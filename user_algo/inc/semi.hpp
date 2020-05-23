@@ -581,13 +581,10 @@ public:
 	semi(algo&&) = delete;
 	semi& operator= (const algo&) = delete;
 	semi& operator= (algo&&) = delete;
-
-
-	void set_pair(pair&& p, bool no_change);
-	void delete_pair(const std::string& ref);
-	void force_buy(unsigned long long quantity, const std::string& ref);
-	void force_sell(unsigned long long quantity, const std::string& ref);
-
+	std::string set_pair(pair&& p, bool no_change);
+	std::string delete_pair(const std::string& ref);
+	std::string force_buy(unsigned long long quantity, const std::string& ref);
+	std::string force_sell(unsigned long long quantity, const std::string& ref);
 	void position(algo_odr_position& msg) const;
 	virtual ~semi() = default;
 	virtual void on_omdc_book(const Tradable&);
