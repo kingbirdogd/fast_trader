@@ -21,3 +21,4 @@
 "algo_name":"leo_semi", 
 "ref": "test"}
 {"cmd": "delete", "id": 1, "algo_name":"leo_semi", "ref": "test"}
+{"cmd": "get", "id": 1, "algo_name":"leo_semi", "ref": "test"}
