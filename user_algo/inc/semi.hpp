@@ -135,13 +135,8 @@ private:
 			}
 			return price;
 		}
-		bool buy(unsigned long long price = 0, bool is_auto = true, unsigned long long quantity = 0)
+		bool buy(unsigned long long price = 0, unsigned long long quantity = 0)
 		{
-			if (is_auto)
-			{
-			}
-			//auto original_sell_quantity = quantity;
-			//auto original_sell_price = price;
 			if (0 == quantity)
 			{
 				quantity = _auto_buy_quantity;
@@ -292,12 +287,8 @@ private:
 			}
 
 		}
-		sell_result sell(unsigned long long price = 0, bool is_auto = true, unsigned long long quantity = 0)
+		sell_result sell(unsigned long long price = 0, unsigned long long quantity = 0)
 		{
-			//auto original_sell_quantity = quantity;
-			//auto original_sell_price = price;
-			if (is_auto)
-			{}
 			if (0 == quantity)
 			{
 				quantity = _position;
