@@ -135,8 +135,11 @@ private:
 			}
 			return price;
 		}
-		bool buy(unsigned long long price = 0, unsigned long long quantity = 0)
+		bool buy(unsigned long long price = 0, bool is_auto = true, unsigned long long quantity = 0)
 		{
+			if (is_auto)
+			{
+			}
 			if (0 == quantity)
 			{
 				quantity = _auto_buy_quantity;
@@ -147,43 +150,6 @@ private:
 			}
 			if (_is_buying)
 			{
-				//TODO
-				/*
-				json_type json;
-				json["type"] = "algo semi";
-				json["action"] = "buy";
-				json["key"] = _algo->key();
-				json["id"] = _algo->id();
-				json["is_omdd"] = _is_omdd;
-				json["is_thai"] = _is_thai;
-				if (_is_thai)
-				{
-					json["underlying_code"] = code_mapping::get_name_from_code(_underlying_code);
-					json["warrant_code"] = code_mapping::get_name_from_code(_warrant_code);
-				}
-				else
-				{
-					json["underlying_code"] = _underlying_code;
-					json["warrant_code"] = _warrant_code;
-				}
-				json["underlying_symbol"] = _underlying_symbol;
-				json["price"] = price;
-				json["quantity"] = quantity;
-				json["original_sell_quantity"] = original_sell_quantity;
-				json["original_sell_price"] = original_sell_price;
-				json["is_auto"] = is_auto;
-				json["is_bull"] = _is_bull;
-				json["bottom_price"] = _bottom_price;
-				json["ceiling_price"] = _ceiling_price;
-				json["auto_buy"] = _auto_buy;
-				json["auto_sell"] = _auto_sell;
-				json["position"] = _position;
-				json["auto_buy_quantity"] = _auto_buy_quantity;
-				json["result"] = "fail BUYING";
-				json["ref"] = _ref;
-				json["recovery"] = true;
-				send_out(json.dump());
-				*/
 				return false;
 			}
 			_is_buying = true;
@@ -200,95 +166,23 @@ private:
 					0);
 			if (odr.is_valid())
 			{
-				//TODO
-				/*
-				json_type json;
-				json["type"] = "algo semi";
-				json["action"] = "buy";
-				json["key"] = _algo->key();
-				json["id"] = _algo->id();
-				json["is_omdd"] = _is_omdd;
-				json["is_thai"] = _is_thai;
-				if (_is_thai)
-				{
-					json["underlying_code"] = code_mapping::get_name_from_code(_underlying_code);
-					json["warrant_code"] = code_mapping::get_name_from_code(_warrant_code);
-				}
-				else
-				{
-					json["underlying_code"] = _underlying_code;
-					json["warrant_code"] = _warrant_code;
-				}
-				json["underlying_symbol"] = _underlying_symbol;
-				json["price"] = price;
-				json["quantity"] = quantity;
-				json["original_sell_quantity"] = original_sell_quantity;
-				json["original_sell_price"] = original_sell_price;
-				json["is_auto"] = is_auto;
-				json["is_bull"] = _is_bull;
-				json["bottom_price"] = _bottom_price;
-				json["ceiling_price"] = _ceiling_price;
-				json["auto_buy"] = _auto_buy;
-				json["auto_sell"] = _auto_sell;
-				json["position"] = _position;
-				json["auto_buy_quantity"] = _auto_buy_quantity;
-				json["result"] = "success";
-				json["ref"] = _ref;
-				json["recovery"] = true;
-				send_out(json.dump());
-				_algo->_o_map[odr.order_id] = this;
 				if (is_auto)
 				{
 					_auto_buy_id = odr.order_id;
 				}
-				*/
 				return true;
 			}
 			else
 			{
-				//TODO
-				/*
-				json_type json;
-				json["type"] = "algo semi";
-				json["action"] = "buy";
-				json["key"] = _algo->key();
-				json["id"] = _algo->id();
-				json["is_omdd"] = _is_omdd;
-				json["is_thai"] = _is_thai;
-				if (_is_thai)
-				{
-					json["underlying_code"] = code_mapping::get_name_from_code(_underlying_code);
-					json["warrant_code"] = code_mapping::get_name_from_code(_warrant_code);
-				}
-				else
-				{
-					json["underlying_code"] = _underlying_code;
-					json["warrant_code"] = _warrant_code;
-				}
-				json["underlying_symbol"] = _underlying_symbol;
-				json["price"] = price;
-				json["quantity"] = quantity;
-				json["original_sell_quantity"] = original_sell_quantity;
-				json["original_sell_price"] = original_sell_price;
-				json["is_auto"] = is_auto;
-				json["is_bull"] = _is_bull;
-				json["bottom_price"] = _bottom_price;
-				json["ceiling_price"] = _ceiling_price;
-				json["auto_buy"] = _auto_buy;
-				json["auto_sell"] = _auto_sell;
-				json["position"] = _position;
-				json["auto_buy_quantity"] = _auto_buy_quantity;
-				json["result"] = "fail new buy order not valid";
-				json["ref"] = _ref;
-				json["recovery"] = true;
-				send_out(json.dump());
-				*/
 				return false;
 			}
 
 		}
-		sell_result sell(unsigned long long price = 0, unsigned long long quantity = 0)
+		sell_result sell(unsigned long long price = 0, bool is_auto = true, unsigned long long quantity = 0)
 		{
+			if (is_auto)
+			{
+			}
 			if (0 == quantity)
 			{
 				quantity = _position;
@@ -299,116 +193,14 @@ private:
 			}
 			if (0 == quantity)
 			{
-				//TODO
-				/*
-				json_type json;
-				json["type"] = "algo semi";
-				json["action"] = "sell";
-				json["key"] = _algo->key();
-				json["id"] = _algo->id();
-				json["is_omdd"] = _is_omdd;
-				json["is_thai"] = _is_thai;
-				if (_is_thai)
-				{
-					json["underlying_code"] = code_mapping::get_name_from_code(_underlying_code);
-					json["warrant_code"] = code_mapping::get_name_from_code(_warrant_code);
-				}
-				else
-				{
-					json["underlying_code"] = _underlying_code;
-					json["warrant_code"] = _warrant_code;
-				}
-				json["underlying_symbol"] = _underlying_symbol;
-				json["price"] = price;
-				json["original_sell_quantity"] = original_sell_quantity;
-				json["original_sell_price"] = original_sell_price;
-				json["quantity"] = quantity;
-				json["is_auto"] = is_auto;
-				json["is_bull"] = _is_bull;
-				json["bottom_price"] = _bottom_price;
-				json["ceiling_price"] = _ceiling_price;
-				json["auto_buy"] = _auto_buy;
-				json["auto_sell"] = _auto_sell;
-				json["position"] = _position;
-				json["auto_buy_quantity"] = _auto_buy_quantity;
-				json["result"] = "fail NOTHING_TO_SELL";
-				json["ref"] = _ref;
-				json["recovery"] = true;
-				send_out(json.dump());
-				*/
 				return sell_result::NOTHING_TO_SELL;
 			}
 			else if (_is_selling)
 			{
-				//TODO
-				/*
-				json_type json;
-				json["type"] = "algo semi";
-				json["action"] = "sell";
-				json["key"] = _algo->key();
-				json["id"] = _algo->id();
-				json["is_omdd"] = _is_omdd;
-				json["is_thai"] = _is_thai;
-				if (_is_thai)
-				{
-					json["underlying_code"] = code_mapping::get_name_from_code(_underlying_code);
-					json["warrant_code"] = code_mapping::get_name_from_code(_warrant_code);
-				}
-				else
-				{
-					json["underlying_code"] = _underlying_code;
-					json["warrant_code"] = _warrant_code;
-				}
-				json["underlying_symbol"] = _underlying_symbol;
-				json["price"] = price;
-				json["quantity"] = quantity;
-				json["original_sell_quantity"] = original_sell_quantity;
-				json["original_sell_price"] = original_sell_price;
-				json["is_auto"] = is_auto;
-				json["is_bull"] = _is_bull;
-				json["bottom_price"] = _bottom_price;
-				json["ceiling_price"] = _ceiling_price;
-				json["auto_buy"] = _auto_buy;
-				json["auto_sell"] = _auto_sell;
-				json["position"] = _position;
-				json["auto_buy_quantity"] = _auto_buy_quantity;
-				json["result"] = "fail SELLING";
-				json["ref"] = _ref;
-				json["recovery"] = true;
-				send_out(json.dump());
-				*/
 				return sell_result::SELLING;
 			}
 			else if (quantity > _position)
 			{
-				//TODO
-				/*
-				json_type json;
-				json["type"] = "algo semi";
-				json["action"] = "sell";
-				json["key"] = _algo->key();
-				json["id"] = _algo->id();
-				json["is_omdd"] = _is_omdd;
-				json["underlying_code"] = _underlying_code;
-				json["warrant_code"] = _warrant_code;
-				json["underlying_symbol"] = _underlying_symbol;
-				json["price"] = price;
-				json["quantity"] = quantity;
-				json["original_sell_quantity"] = original_sell_quantity;
-				json["original_sell_price"] = original_sell_price;
-				json["is_auto"] = is_auto;
-				json["is_bull"] = _is_bull;
-				json["bottom_price"] = _bottom_price;
-				json["ceiling_price"] = _ceiling_price;
-				json["auto_buy"] = _auto_buy;
-				json["auto_sell"] = _auto_sell;
-				json["position"] = _position;
-				json["auto_buy_quantity"] = _auto_buy_quantity;
-				json["result"] = "fail SHORT_SELL";
-				json["ref"] = _ref;
-				json["recovery"] = true;
-				send_out(json.dump());
-				*/
 				return sell_result::SHORT_SELL;
 			}
 			_is_selling = true;
@@ -425,34 +217,6 @@ private:
 					0);
 			if (odr.is_valid())
 			{
-				//TODO
-				/*
-				json_type json;
-				json["type"] = "algo semi";
-				json["action"] = "sell";
-				json["key"] = _algo->key();
-				json["id"] = _algo->id();
-				json["is_omdd"] = _is_omdd;
-				json["underlying_code"] = _underlying_code;
-				json["warrant_code"] = _warrant_code;
-				json["underlying_symbol"] = _underlying_symbol;
-				json["price"] = price;
-				json["quantity"] = quantity;
-				json["original_sell_quantity"] = original_sell_quantity;
-				json["original_sell_price"] = original_sell_price;
-				json["is_auto"] = is_auto;
-				json["is_bull"] = _is_bull;
-				json["bottom_price"] = _bottom_price;
-				json["ceiling_price"] = _ceiling_price;
-				json["auto_buy"] = _auto_buy;
-				json["auto_sell"] = _auto_sell;
-				json["position"] = _position;
-				json["auto_buy_quantity"] = _auto_buy_quantity;
-				json["result"] = "SUCCESS";
-				json["ref"] = _ref;
-				json["recovery"] = true;
-				send_out(json.dump());
-				*/
 				_algo->_o_map[odr.order_id] = this;
 				if (is_auto)
 				{
@@ -462,35 +226,6 @@ private:
 			}
 			else
 			{
-				//TODO
-				/*
-				json_type json;
-				json["type"] = "algo semi";
-				json["action"] = "sell";
-				json["key"] = _algo->key();
-				json["id"] = _algo->id();
-				json["is_omdd"] = _is_omdd;
-				json["is_thai"] = _is_thai;
-				json["underlying_code"] = _underlying_code;
-				json["warrant_code"] = _warrant_code;
-				json["underlying_symbol"] = _underlying_symbol;
-				json["price"] = price;
-				json["quantity"] = quantity;
-				json["original_sell_quantity"] = original_sell_quantity;
-				json["original_sell_price"] = original_sell_price;
-				json["is_auto"] = is_auto;
-				json["is_bull"] = _is_bull;
-				json["bottom_price"] = _bottom_price;
-				json["ceiling_price"] = _ceiling_price;
-				json["auto_buy"] = _auto_buy;
-				json["auto_sell"] = _auto_sell;
-				json["position"] = _position;
-				json["auto_buy_quantity"] = _auto_buy_quantity;
-				json["result"] = "fail new sell order not valid";
-				json["ref"] = _ref;
-				json["recovery"] = true;
-				send_out(json.dump());
-				*/
 				return sell_result::NEW_SELL_ODR_FAIL;
 			}
 		}
@@ -523,114 +258,9 @@ private:
 					)
 				{
 
-					if (!_auto_buy)
+					if (_auto_buy)
 					{
-						//TODO
-						/*
-						json_type json;
-						json["type"] = "algo semi";
-						json["action"] = "remind_buy";
-						json["key"] = _algo->key();
-						json["id"] = _algo->id();
-						json["is_omdd"] = _is_omdd;
-						json["is_thai"] = _is_thai;
-						if (_is_thai)
-						{
-							json["underlying_code"] = code_mapping::get_name_from_code(_underlying_code);
-							json["warrant_code"] = code_mapping::get_name_from_code(_warrant_code);
-						}
-						else
-						{
-							json["underlying_code"] = _underlying_code;
-							json["warrant_code"] = _warrant_code;
-						}
-						json["underlying_symbol"] = _underlying_symbol;
-						json["price"] = _buy_price;
-						json["quantity"] = _auto_buy_quantity;
-						json["ref"] = _ref;
-						json["is_bull"] = _is_bull;
-						json["bottom_price"] = _bottom_price;
-						json["ceiling_price"] = _ceiling_price;
-						json["auto_buy"] = _auto_buy;
-						json["auto_sell"] = _auto_sell;
-						json["position"] = _position;
-						json["auto_buy_quantity"] = _auto_buy_quantity;
-						send_out(json.dump());
-						*/
-					}
-					else if (buy(_buy_price))
-					{
-						//TODO
-						/*
-						json_type json;
-						json["type"] = "algo semi";
-						json["action"] = "auto_trriger_buy";
-						json["key"] = _algo->key();
-						json["id"] = _algo->id();
-						json["is_omdd"] = _is_omdd;
-						json["is_thai"] = _is_thai;
-						if (_is_thai)
-						{
-							json["underlying_code"] = code_mapping::get_name_from_code(_underlying_code);
-							json["warrant_code"] = code_mapping::get_name_from_code(_warrant_code);
-						}
-						else
-						{
-							json["underlying_code"] = _underlying_code;
-							json["warrant_code"] = _warrant_code;
-						}
-						json["underlying_symbol"] = _underlying_symbol;
-						json["price"] = _buy_price;
-						json["quantity"] = _auto_buy_quantity;
-						json["is_auto"] = true;
-						json["is_bull"] = _is_bull;
-						json["bottom_price"] = _bottom_price;
-						json["ceiling_price"] = _ceiling_price;
-						json["auto_buy"] = _auto_buy;
-						json["auto_sell"] = _auto_sell;
-						json["position"] = _position;
-						json["auto_buy_quantity"] = _auto_buy_quantity;
-						json["result"] = "success";
-						json["ref"] = _ref;
-						send_out(json.dump());
-						*/
-					}
-					else
-					{
-						//TODO:
-						/*
-						json_type json;
-						json["type"] = "algo semi";
-						json["action"] = "auto_trriger_buy";
-						json["key"] = _algo->key();
-						json["id"] = _algo->id();
-						json["is_omdd"] = _is_omdd;
-						json["is_thai"] = _is_thai;
-						if (_is_thai)
-						{
-							json["underlying_code"] = code_mapping::get_name_from_code(_underlying_code);
-							json["warrant_code"] = code_mapping::get_name_from_code(_warrant_code);
-						}
-						else
-						{
-							json["underlying_code"] = _underlying_code;
-							json["warrant_code"] = _warrant_code;
-						}
-						json["underlying_symbol"] = _underlying_symbol;
-						json["price"] = _buy_price;
-						json["quantity"] = _auto_buy_quantity;
-						json["is_auto"] = true;
-						json["is_bull"] = _is_bull;
-						json["bottom_price"] = _bottom_price;
-						json["ceiling_price"] = _ceiling_price;
-						json["auto_buy"] = _auto_buy;
-						json["auto_sell"] = _auto_sell;
-						json["position"] = _position;
-						json["auto_buy_quantity"] = _auto_buy_quantity;
-						json["result"] = "fail new buy order not valid";
-						json["ref"] = _ref;
-						send_out(json.dump());
-						*/
+						buy(_buy_price);
 					}
 				}
 
@@ -648,84 +278,9 @@ private:
 				{
 					if (_position > 0)
 					{
-
-						if (!_auto_sell)
+						if (_auto_sell)
 						{
-							//TODO
-							/*
-							json_type json;
-							json["type"] = "algo semi";
-							json["action"] = "remind_sell";
-							json["key"] = _algo->key();
-							json["id"] = _algo->id();
-							json["is_omdd"] = _is_omdd;
-							json["is_thai"] = _is_thai;
-							if (_is_thai)
-							{
-								json["underlying_code"] = code_mapping::get_name_from_code(_underlying_code);
-								json["warrant_code"] = code_mapping::get_name_from_code(_warrant_code);
-							}
-							else
-							{
-								json["underlying_code"] = _underlying_code;
-								json["warrant_code"] = _warrant_code;
-							}
-							json["underlying_symbol"] = _underlying_symbol;
-							json["price"] = _sell_price;
-							json["quantity"] = _position;
-							json["bottom_price"] = _bottom_price;
-							json["ceiling_price"] = _ceiling_price;
-							json["auto_buy"] = _auto_buy;
-							json["auto_sell"] = _auto_sell;
-							json["position"] = _position;
-							json["auto_buy_quantity"] = _auto_buy_quantity;
-							json["ref"] = _ref;
-							json["is_bull"] = _is_bull;
-							send_out(json.dump());
-							*/
-						}
-						else
-						{
-							auto result = sell(_sell_price);
-							if (result == sell_result::SUCCESS)
-							{}
-							//TODO
-							/*
-							json_type json;
-							json["type"] = "algo semi";
-							json["action"] = "auto_trriger_sell";
-							json["key"] = _algo->key();
-							json["id"] = _algo->id();
-							json["is_omdd"] = _is_omdd;
-							json["is_thai"] = _is_thai;
-							json["underlying_code"] = _underlying_code;
-							json["warrant_code"] = _warrant_code;
-							json["underlying_symbol"] = _underlying_symbol;
-							json["price"] = _sell_price;
-							json["quantity"] = _position;
-							json["is_auto"] = true;
-							json["is_bull"] = _is_bull;
-							json["bottom_price"] = _bottom_price;
-							json["ceiling_price"] = _ceiling_price;
-							json["auto_buy"] = _auto_buy;
-							json["auto_sell"] = _auto_sell;
-							json["position"] = _position;
-							json["auto_buy_quantity"] = _auto_buy_quantity;
-							if (result == sell_result::SUCCESS)
-							{
-								json["result"] = "success";
-							}
-							else if (result == sell_result::SELLING)
-								json["result"] = "fail SELLING";
-							else if (result == sell_result::SHORT_SELL)
-								json["result"] = "fail SHORT_SELL";
-							else if (result == sell_result::NEW_SELL_ODR_FAIL)
-								json["result"] = "fail NEW_SELL_ODR_FAIL";
-							else
-								json["result"] = "fail unknow";
-							json["ref"] = _ref;
-							send_out(json.dump());
-							*/
+							sell(_sell_price);
 						}
 					}
 				}
@@ -748,120 +303,15 @@ private:
 					)
 				{
 
-					if (!_auto_buy)
+					if (_auto_buy)
 					{
-						//TODO
-						/*
-						json_type json;
-						json["type"] = "algo semi";
-						json["action"] = "remind_buy";
-						json["key"] = _algo->key();
-						json["id"] = _algo->id();
-						json["is_omdd"] = _is_omdd;
-						json["is_thai"] = _is_thai;
-						if (_is_thai)
-						{
-							json["underlying_code"] = code_mapping::get_name_from_code(_underlying_code);
-							json["warrant_code"] = code_mapping::get_name_from_code(_warrant_code);
-						}
-						else
-						{
-							json["underlying_code"] = _underlying_code;
-							json["warrant_code"] = _warrant_code;
-						}
-						json["underlying_symbol"] = _underlying_symbol;
-						json["price"] = _buy_price;
-						json["quantity"] = _auto_buy_quantity;
-						json["bottom_price"] = _bottom_price;
-						json["ceiling_price"] = _ceiling_price;
-						json["auto_buy"] = _auto_buy;
-						json["auto_sell"] = _auto_sell;
-						json["position"] = _position;
-						json["auto_buy_quantity"] = _auto_buy_quantity;
-						json["ref"] = _ref;
-						json["is_bull"] = _is_bull;
-						send_out(json.dump());
-						*/
-					}
-					else if (buy(_buy_price))
-					{
-						//TODO
-						/*
-						json_type json;
-						json["type"] = "algo semi";
-						json["action"] = "auto_trriger_buy";
-						json["key"] = _algo->key();
-						json["id"] = _algo->id();
-						json["is_omdd"] = _is_omdd;
-						json["is_thai"] = _is_thai;
-						if (_is_thai)
-						{
-							json["underlying_code"] = code_mapping::get_name_from_code(_underlying_code);
-							json["warrant_code"] = code_mapping::get_name_from_code(_warrant_code);
-						}
-						else
-						{
-							json["underlying_code"] = _underlying_code;
-							json["warrant_code"] = _warrant_code;
-						}
-						json["underlying_symbol"] = _underlying_symbol;
-						json["price"] = _buy_price;
-						json["quantity"] = _auto_buy_quantity;
-						json["bottom_price"] = _bottom_price;
-						json["ceiling_price"] = _ceiling_price;
-						json["auto_buy"] = _auto_buy;
-						json["auto_sell"] = _auto_sell;
-						json["is_auto"] = true;
-						json["is_bull"] = _is_bull;
-						json["position"] = _position;
-						json["auto_buy_quantity"] = _auto_buy_quantity;
-						json["result"] = "success";
-						json["ref"] = _ref;
-						send_out(json.dump());
-						*/
-					}
-					else
-					{
-						//TODO
-						/*
-						json_type json;
-						json["type"] = "algo semi";
-						json["action"] = "auto_trriger_buy";
-						json["key"] = _algo->key();
-						json["id"] = _algo->id();
-						json["is_omdd"] = _is_omdd;
-						json["is_thai"] = _is_thai;
-						if (_is_thai)
-						{
-							json["underlying_code"] = code_mapping::get_name_from_code(_underlying_code);
-							json["warrant_code"] = code_mapping::get_name_from_code(_warrant_code);
-						}
-						else
-						{
-							json["underlying_code"] = _underlying_code;
-							json["warrant_code"] = _warrant_code;
-						}
-						json["underlying_symbol"] = _underlying_symbol;
-						json["price"] = _buy_price;
-						json["quantity"] = _auto_buy_quantity;
-						json["bottom_price"] = _bottom_price;
-						json["ceiling_price"] = _ceiling_price;
-						json["auto_buy"] = _auto_buy;
-						json["auto_sell"] = _auto_sell;
-						json["is_auto"] = true;
-						json["is_bull"] = _is_bull;
-						json["position"] = _position;
-						json["auto_buy_quantity"] = _auto_buy_quantity;
-						json["result"] = "fail new buy order not valid";
-						json["ref"] = _ref;
-						send_out(json.dump());
-						*/
+						buy(_buy_price);
 					}
 				}
 				diff = static_cast<long long>(tradable.m_Ask[0].m_uQuantity)  - static_cast<long long>(_early_sell_qty);
 
 				if (
-						-1 == side &&
+						TradeSide::SELL_SIDE == side &&
 						(
 								(
 										trade_price == _sell_trriger &&
@@ -874,93 +324,9 @@ private:
 					if (_position > 0)
 					{
 
-						if (!_auto_sell)
+						if (_auto_sell)
 						{
-							//TODO
-							/*
-							json_type json;
-							json["type"] = "algo semi";
-							json["action"] = "remind_sell";
-							json["key"] = _algo->key();
-							json["id"] = _algo->id();
-							json["is_omdd"] = _is_omdd;
-							json["is_thai"] = _is_thai;
-							if (_is_thai)
-							{
-								json["underlying_code"] = code_mapping::get_name_from_code(_underlying_code);
-								json["warrant_code"] = code_mapping::get_name_from_code(_warrant_code);
-							}
-							else
-							{
-								json["underlying_code"] = _underlying_code;
-								json["warrant_code"] = _warrant_code;
-							}
-							json["underlying_symbol"] = _underlying_symbol;
-							json["price"] = _sell_price;
-							json["quantity"] = _position;
-							json["bottom_price"] = _bottom_price;
-							json["ceiling_price"] = _ceiling_price;
-							json["auto_buy"] = _auto_buy;
-							json["auto_sell"] = _auto_sell;
-							json["position"] = _position;
-							json["auto_buy_quantity"] = _auto_buy_quantity;
-							json["ref"] = _ref;
-							json["is_bull"] = _is_bull;
-							send_out(json.dump());
-							*/
-						}
-						else
-						{
-							auto result = sell(_sell_price);
-							if (result == sell_result::SUCCESS)
-							{
-
-							}
-							//TODO
-							/*
-							json_type json;
-							json["type"] = "algo semi";
-							json["action"] = "auto_trriger_sell";
-							json["key"] = _algo->key();
-							json["id"] = _algo->id();
-							json["is_omdd"] = _is_omdd;
-							json["is_thai"] = _is_thai;
-							if (_is_thai)
-							{
-								json["underlying_code"] = code_mapping::get_name_from_code(_underlying_code);
-								json["warrant_code"] = code_mapping::get_name_from_code(_warrant_code);
-							}
-							else
-							{
-								json["underlying_code"] = _underlying_code;
-								json["warrant_code"] = _warrant_code;
-							}
-							json["underlying_symbol"] = _underlying_symbol;
-							json["price"] = _sell_price;
-							json["quantity"] = _position;
-							json["is_auto"] = true;
-							json["is_bull"] = _is_bull;
-							json["bottom_price"] = _bottom_price;
-							json["ceiling_price"] = _ceiling_price;
-							json["auto_buy"] = _auto_buy;
-							json["auto_sell"] = _auto_sell;
-							json["position"] = _position;
-							json["auto_buy_quantity"] = _auto_buy_quantity;
-							if (result == sell_result::SUCCESS)
-							{
-								json["result"] = "success";
-							}
-							else if (result == sell_result::SELLING)
-								json["result"] = "fail SELLING";
-							else if (result == sell_result::SHORT_SELL)
-								json["result"] = "fail SHORT_SELL";
-							else if (result == sell_result::NEW_SELL_ODR_FAIL)
-								json["result"] = "fail NEW_SELL_ODR_FAIL";
-							else
-								json["result"] = "fail unknow";
-							json["ref"] = _ref;
-							send_out(json.dump());
-							*/
+							sell(_sell_price);
 						}
 					}
 				}
@@ -973,104 +339,15 @@ private:
 			{
 				if (_position > 0)
 				{
-					if (!_auto_sell)
+					if (_auto_sell)
 					{
-
-						//TODO
-						/*
-						json_type json;
-						json["type"] = "algo semi";
-						json["action"] = "remind_sell";
-						json["key"] = _algo->key();
-						json["id"] = _algo->id();
-						json["is_omdd"] = _is_omdd;
-						json["is_thai"] = _is_thai;
-						if (_is_thai)
-						{
-							json["underlying_code"] = code_mapping::get_name_from_code(_underlying_code);
-							json["warrant_code"] = code_mapping::get_name_from_code(_warrant_code);
-						}
-						else
-						{
-							json["underlying_code"] = _underlying_code;
-							json["warrant_code"] = _warrant_code;
-						}
-						json["underlying_symbol"] = _underlying_symbol;
-						json["price"] = best_bid_price;
-						json["quantity"] = _position;
-						json["bottom_price"] = _bottom_price;
-						json["ceiling_price"] = _ceiling_price;
-						json["auto_buy"] = _auto_buy;
-						json["auto_sell"] = _auto_sell;
-						json["ref"] = _ref;
-						json["is_bull"] = _is_bull;
-						json["position"] = _position;
-						json["auto_buy_quantity"] = _auto_buy_quantity;
-						send_out(json.dump());
-						*/
-					}
-					else
-					{
-						auto result = sell();
-						if (result == sell_result::SUCCESS)
-						{
-
-						}
-						//TODO
-						/*
-						json_type json;
-						json["type"] = "algo semi";
-						if (best_bid_price <= _bottom_price)
-							json["action"] = "auto_cut_lost_sell";
-						else if (best_bid_price >= _ceiling_price)
-							json["action"] = "auto_ceiling_sell";
-						json["key"] = _algo->key();
-						json["id"] = _algo->id();
-						json["is_omdd"] = _is_omdd;
-						json["is_thai"] = _is_thai;
-						if (_is_thai)
-						{
-							json["underlying_code"] = code_mapping::get_name_from_code(_underlying_code);
-							json["warrant_code"] = code_mapping::get_name_from_code(_warrant_code);
-						}
-						else
-						{
-							json["underlying_code"] = _underlying_code;
-							json["warrant_code"] = _warrant_code;
-						}
-						json["underlying_symbol"] = _underlying_symbol;
-						json["price"] = best_bid_price;
-						json["quantity"] = _position;
-						json["is_auto"] = true;
-						json["is_bull"] = _is_bull;
-						json["bottom_price"] = _bottom_price;
-						json["ceiling_price"] = _ceiling_price;
-						json["auto_buy"] = _auto_buy;
-						json["auto_sell"] = _auto_sell;
-						json["position"] = _position;
-						json["auto_buy_quantity"] = _auto_buy_quantity;
-						if (result == sell_result::SUCCESS)
-						{
-							json["result"] = "success";
-						}
-						else if (result == sell_result::SELLING)
-							json["result"] = "fail SELLING";
-						else if (result == sell_result::SHORT_SELL)
-							json["result"] = "fail SHORT_SELL";
-						else if (result == sell_result::NEW_SELL_ODR_FAIL)
-							json["result"] = "fail NEW_SELL_ODR_FAIL";
-						else
-							json["result"] = "fail unknow";
-						json["ref"] = _ref;
-						send_out(json.dump());
-						*/
+						sell();
 					}
 				}
 			}
 		}
 		void on_order(const dbp::top::enhance_order& odr)
 		{
-			//_algo->log_info(std::string("on_order:") + odr.to_string());
 			auto status = odr.status;
 			auto side = odr.side;
 			if (dbp::top::order_status::rejected == status || dbp::top::order_status::canceled == status || dbp::top::order_status::deleted == status || dbp::top::order_status::filled == status)
