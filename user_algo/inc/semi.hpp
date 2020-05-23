@@ -137,6 +137,8 @@ private:
 		}
 		bool buy(unsigned long long price = 0, bool is_auto = true, unsigned long long quantity = 0)
 		{
+			if (is_auto)
+			{}
 			//auto original_sell_quantity = quantity;
 			//auto original_sell_price = price;
 			if (0 == quantity)
@@ -291,8 +293,10 @@ private:
 		}
 		sell_result sell(unsigned long long price = 0, bool is_auto = true, unsigned long long quantity = 0)
 		{
-			auto original_sell_quantity = quantity;
-			auto original_sell_price = price;
+			//auto original_sell_quantity = quantity;
+			//auto original_sell_price = price;
+			if (is_auto)
+			{}
 			if (0 == quantity)
 			{
 				quantity = _position;
