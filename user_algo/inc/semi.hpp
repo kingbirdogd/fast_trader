@@ -684,6 +684,34 @@ private:
 		}
 		virtual ~algo_del() = default;
 	};
+	struct algo_get: public algo_msg_base
+	{
+		pair* p;
+		std::string result;
+		algo_get():
+			algo_msg_base(),
+			p(nullptr),
+			result("")
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = this->algo_msg_base::to_json();
+			if (p)
+				j["pair"] = p->to_json();
+			else
+				j["pair"] = nullptr;
+			j["result"] = result;
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<semi*>(this->al);
+			auto reuslt = self->get_pair(ref, this->p);
+			ouputQueue.enqueue(this);
+		}
+		virtual ~algo_get() = default;
+	};
 public:
 	semi() = delete;
 	semi(user& u, const std::string& name);
@@ -693,6 +721,7 @@ public:
 	semi& operator= (algo&&) = delete;
 	std::string set_pair(pair&& p, bool no_change);
 	std::string delete_pair(const std::string& ref, pair*& pref);
+	std::string get_pair(const std::string& ref, pair*& pref);
 	std::string force_buy(unsigned long long quantity, pair*& pref, const std::string& ref);
 	std::string force_sell(unsigned long long quantity, pair*& pref, const std::string& ref);
 	void position(algo_odr_position& msg) const;

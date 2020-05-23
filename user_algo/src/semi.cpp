@@ -187,6 +187,19 @@ std::string semi::delete_pair(const std::string& ref, pair*& pref)
 	return "SUCCESS";
 }
 
+std::string semi::get_pair(const std::string& ref, pair*& pref)
+{
+	pref = nullptr;
+	auto it = _p_map.find(ref);
+	if (_p_map.end() == it)
+	{
+		return "fail pair not found";
+	}
+	auto& p = it->second;
+	pref = &p;
+	return "SUCCESS";
+}
+
 
 std::string semi::force_buy(unsigned long long quantity, pair*& pref, const std::string& ref)
 {
@@ -260,8 +273,6 @@ void semi::handle_command(algo_msg_base& msg)
 {
 	msg.on_command();
 }
-
-//set|<bull,bear>|underlying_code|warrant_code|buy_trigger_price|sell_trigger_price|buy_price|sell_price|bottom_price|ceiling_price|auto_buy_quantity|action|ref|[position,optional]
 
 algo_msg_base* semi::json_to_msg(json& json)
 {
@@ -383,6 +394,15 @@ algo_msg_base* semi::json_to_msg(json& json)
 		else if (cmd == "delete")
 		{
 			auto msg = new algo_del();
+			msg->al = this;
+			msg->algo_name = _name;
+			msg->id = _u.get_id();
+			msg->ref = ref;
+			return msg;
+		}
+		else if (cmd == "get")
+		{
+			auto msg = new algo_get();
 			msg->al = this;
 			msg->algo_name = _name;
 			msg->id = _u.get_id();
