@@ -77,8 +77,9 @@ void semi::position(algo_odr_position& msg) const
 	}
 }
 
-void semi::handle_command(const algo_msg_base&)
+void semi::handle_command(algo_msg_base& msg)
 {
+	msg.on_command();
 }
 
 algo_msg_base* semi::json_to_msg(json& json)

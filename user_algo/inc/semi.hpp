@@ -523,7 +523,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			algo_err_msg* msg = new algo_err_msg();
+			algo_err_msg* msg = new algo_err_msg(*this);
 			ouputQueue.enqueue(msg);
 		}
 		virtual ~algo_err_msg() = default;
@@ -567,7 +567,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			algo_odr_position* msg = new algo_odr_position();
+			algo_odr_position* msg = new algo_odr_position(*this);
 			auto* self = dynamic_cast<semi*>(msg->al);
 			self->position(*msg);
 			ouputQueue.enqueue(msg);
@@ -590,7 +590,7 @@ public:
 	virtual void on_omdc_trade(const Tradable&);
 	virtual void on_omdd_trade(const Tradable&);
 	virtual void handler_order(const dbp::top::enhance_order&);
-	virtual void handle_command(const algo_msg_base&);
+	virtual void handle_command(algo_msg_base&);
 	virtual algo_msg_base* json_to_msg(json& msg);
 	virtual json msg_to_json(algo_msg_base* msg);
 };
