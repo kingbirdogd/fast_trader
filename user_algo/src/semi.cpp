@@ -147,23 +147,24 @@ std::string semi::set_pair(pair&& p, bool no_change)
 }
 
 
-std::string semi::delete_pair(const std::string& ref)
+std::string semi::delete_pair(const std::string& ref, pair*& pref)
 {
+	pref = nullptr;
 	auto it = _p_map.find(ref);
 	if (_p_map.end() == it)
 	{
 		return "fail pair not found";
 	}
 	auto& p = it->second;
-	auto node = &p;
+	pref = &p;
 	auto underlying_code = p.underlying_code();
 	auto warrant_code = p.warrant_code();
 	auto u_it = _u_map.find(underlying_code);
 	if (_u_map.end() != u_it)
 	{
-		if (u_it->second.end() != u_it->second.find(node))
+		if (u_it->second.end() != u_it->second.find(pref))
 		{
-			u_it->second.erase(node);
+			u_it->second.erase(pref);
 			if(u_it->second.empty())
 			{
 				_u_map.erase(u_it);
@@ -173,9 +174,9 @@ std::string semi::delete_pair(const std::string& ref)
 	auto w_it = _w_map.find(warrant_code);
 	if (_w_map.end() != w_it)
 	{
-		if (w_it->second.end() != w_it->second.find(node))
+		if (w_it->second.end() != w_it->second.find(pref))
 		{
-			w_it->second.erase(node);
+			w_it->second.erase(pref);
 			if(w_it->second.empty())
 			{
 				_w_map.erase(w_it);
@@ -187,14 +188,16 @@ std::string semi::delete_pair(const std::string& ref)
 }
 
 
-std::string semi::force_buy(unsigned long long quantity, const std::string& ref)
+std::string semi::force_buy(unsigned long long quantity, pair*& pref, const std::string& ref)
 {
+	pref = nullptr;
 	auto it = _p_map.find(ref);
 	if (_p_map.end() == it)
 	{
 		return "fail pair not found";
 	}
 	auto& p = it->second;
+	pref = &p;
 	if (p.buy(false, quantity))
 	{
 		return  "SUCCESS";
@@ -206,14 +209,16 @@ std::string semi::force_buy(unsigned long long quantity, const std::string& ref)
 
 }
 
-std::string semi::force_sell(unsigned long long quantity, const std::string& ref)
+std::string semi::force_sell(unsigned long long quantity, pair*& pref, const std::string& ref)
 {
+	pref = nullptr;
 	auto it = _p_map.find(ref);
 	if (_p_map.end() == it)
 	{
 		return "fail pair not found";
 	}
 	auto& p = it->second;
+	pref = &p;
 	auto result = p.sell(0, false, quantity);
 	if (pair::sell_result::SUCCESS == result)
 	{
