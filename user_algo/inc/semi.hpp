@@ -7,43 +7,6 @@
 class semi : public algo
 {
 private:
-	struct algo_odr_msg: public algo_msg_base
-	{
-		dbp::top::enhance_order odr;
-		algo_odr_msg():
-			algo_msg_base(),
-			odr()
-		{
-		}
-		virtual nlohmann::json to_json() const
-		{
-			auto j = this->algo_msg_base::to_json();
-			j["odr"] = odr.to_json();
-			return j;
-		}
-		virtual ~algo_odr_msg() = default;
-	};
-	struct algo_odr_position: public algo_msg_base
-	{
-		std::unordered_map<std::string, unsigned long long> position;
-		algo_odr_position():
-			algo_msg_base(),
-			position()
-		{
-		}
-		virtual nlohmann::json to_json() const
-		{
-			auto j = this->algo_msg_base::to_json();
-			j["position"] = nlohmann::json();
-			for (const auto& it : position)
-			{
-				j["position"][it.first] = it.second;
-			}
-			return j;
-		}
-		virtual ~algo_odr_position() = default;
-	};
-private:
 	class pair;
 private:
 	using order_map = std::unordered_map<unsigned long long, pair*>;
@@ -541,6 +504,78 @@ private:
 			_auto_sell = auto_sell;
 		}
 	};
+private:
+	using pair_map = std::unordered_map<std::string, pair>;
+private:
+	pair_map _p_map;
+private:
+	struct algo_err_msg: public algo_msg_base
+	{
+		algo_err_msg():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = this->algo_msg_base::to_json();
+			j["message"] = "error decode msg";
+			return j;
+		}
+		virtual void on_command()
+		{
+			algo_err_msg* msg = new algo_err_msg();
+			ouputQueue.enqueue(msg);
+		}
+		virtual ~algo_err_msg() = default;
+	};
+	struct algo_odr_msg: public algo_msg_base
+	{
+		dbp::top::enhance_order odr;
+		algo_odr_msg():
+			algo_msg_base(),
+			odr()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = this->algo_msg_base::to_json();
+			j["odr"] = odr.to_json();
+			return j;
+		}
+		virtual void on_command()
+		{
+		}
+		virtual ~algo_odr_msg() = default;
+	};
+	struct algo_odr_position: public algo_msg_base
+	{
+		std::unordered_map<std::string, unsigned long long> position;
+		algo_odr_position():
+			algo_msg_base(),
+			position()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = this->algo_msg_base::to_json();
+			j["position"] = nlohmann::json();
+			for (const auto& it : position)
+			{
+				j["position"][it.first] = it.second;
+			}
+			return j;
+		}
+		virtual void on_command()
+		{
+			algo_odr_position* msg = new algo_odr_position();
+			auto* self = dynamic_cast<semi*>(msg->al);
+			self->position(*msg);
+			ouputQueue.enqueue(msg);
+		}
+		virtual ~algo_odr_position() = default;
+	};
+private:
+	friend class algo_odr_position;
 public:
 	semi() = delete;
 	semi(user& u, const std::string& name);
@@ -548,6 +583,7 @@ public:
 	semi(algo&&) = delete;
 	semi& operator= (const algo&) = delete;
 	semi& operator= (algo&&) = delete;
+	void semi::position(algo_odr_position& msg) const;
 	virtual ~semi() = default;
 	virtual void on_omdc_book(const Tradable&);
 	virtual void on_omdd_book(const Tradable&);

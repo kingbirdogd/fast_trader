@@ -239,6 +239,9 @@ struct algo_msg_base
 		j["ref"] = ref;
 		return j;
 	}
+	virtual void on_command()
+	{
+	}
 };
 
 typedef std::unordered_map<std::string, std::string> CActivateChannel;

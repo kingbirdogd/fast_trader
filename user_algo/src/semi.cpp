@@ -5,7 +5,8 @@ semi::semi(user& u, const std::string& name):
 	algo(u, name),
 	_o_map(),
 	_u_map(),
-	_w_map()
+	_w_map(),
+	_p_map()
 {
 }
 
@@ -67,13 +68,53 @@ void semi::handler_order(const dbp::top::enhance_order& odr)
 	}
 }
 
+void semi::position(algo_odr_position& msg) const
+{
+	for (const auto& it : _p_map)
+	{
+		std::string key = std::to_string(it.second.warrant_code());
+		msg.position[key] += it.second.position();
+	}
+}
+
 void semi::handle_command(const algo_msg_base&)
 {
 }
 
-algo_msg_base* semi::json_to_msg(json&)
+algo_msg_base* semi::json_to_msg(json& json)
 {
-	return nullptr;
+	try
+	{
+		auto cmd = json["cmd"].get<std::string>();
+		auto ref = json["ref"].get<std::string>();
+		if (cmd == "position")
+		{
+			auto msg = new algo_odr_position();
+			msg->al = this;
+			msg->algo_name = _name;
+			msg->id = _u.get_id();
+			msg->ref = ref;
+			return msg;
+		}
+		else
+		{
+			auto msg = new algo_err_msg();
+			msg->al = this;
+			msg->algo_name = _name;
+			msg->id = _u.get_id();
+			msg->ref = ref;
+			return msg;
+		}
+	}
+	catch(...)
+	{
+		auto msg = new algo_err_msg();
+		msg->al = this;
+		msg->algo_name = _name;
+		msg->id = _u.get_id();
+		msg->ref = "unknow";
+		return msg;
+	}
 }
 
 json semi::msg_to_json(algo_msg_base* msg)

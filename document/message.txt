@@ -3,3 +3,4 @@
 {"cmd": "get_omdd_tradable", "code": "HSIk0", "ref": "test"}
 {"cmd": "get_buy_power", "id": 1, "ref": "test"}
 {"cmd": "set_buy_power", "id": 1, "buy_power":9999999, "ref": "test"}
+{"cmd": "semi_position", "id": 1, "algo_name":"leo_semi", "ref": "test"}
