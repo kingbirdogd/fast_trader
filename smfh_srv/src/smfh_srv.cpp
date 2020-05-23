@@ -155,7 +155,7 @@ inline void decode()
 				}
 				algo_msg_base* msg = al->json_to_msg(j);
 				msg->algo_name = algo_name;
-				msg->user_id = id;
+				msg->id = id;
 				msg->al = al;
 				msg->ref = j["ref"].get<std::string>();
 				Tradable t;
