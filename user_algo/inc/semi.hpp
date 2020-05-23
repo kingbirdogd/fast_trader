@@ -921,6 +921,10 @@ private:
 						else
 						{
 							auto result = sell(_sell_price);
+							if (result == sell_result::SUCCESS)
+							{
+
+							}
 							//TODO
 							/*
 							json_type json;
