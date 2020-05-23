@@ -530,14 +530,16 @@ private:
 	};
 	struct algo_err_msg: public algo_msg_base
 	{
+		std::string err;
 		algo_err_msg():
-			algo_msg_base()
+			algo_msg_base(),
+			err("")
 		{
 		}
 		virtual nlohmann::json to_json() const
 		{
 			auto j = this->algo_msg_base::to_json();
-			j["message"] = "error decode msg";
+			j["message"] = err;
 			return j;
 		}
 		virtual void on_command()

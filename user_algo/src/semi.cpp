@@ -282,16 +282,18 @@ algo_msg_base* semi::json_to_msg(json& json)
 			msg->algo_name = _name;
 			msg->id = _u.get_id();
 			msg->ref = ref;
+			msg->err = std::string("unkonw command " + cmd);
 			return msg;
 		}
 	}
-	catch(...)
+	catch(const std::exception& e)
 	{
 		auto msg = new algo_err_msg();
 		msg->al = this;
 		msg->algo_name = _name;
 		msg->id = _u.get_id();
 		msg->ref = "unknow";
+		msg->err = e.what();
 		return msg;
 	}
 }
