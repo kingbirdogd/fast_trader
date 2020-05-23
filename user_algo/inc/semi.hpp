@@ -19,7 +19,7 @@ private:
 private:
 	class pair
 	{
-	private:
+	public:
 		semi* _algo;
 		unsigned long long _buy_trriger;
 		unsigned long long _sell_trriger;
