@@ -92,7 +92,6 @@ std::string semi::set_pair(pair&& p, bool no_change)
 			}
 			auto underlying_code = it->second.underlying_code();
 			auto warrant_code = it->second.warrant_code();
-			auto is_omdd = it->second.is_omdd();
 			auto node = &(it->second);
 			auto u_it = _u_map.find(underlying_code);
 			if (_u_map.end() != u_it)
