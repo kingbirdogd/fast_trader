@@ -72,7 +72,6 @@ private:
 			bool auto_buy,
 			bool auto_sell,
 			bool is_omdd,
-			bool is_thai,
 			unsigned long long early_buy_qty,
 			unsigned long long early_sell_qty,
 			unsigned long long position = 0
