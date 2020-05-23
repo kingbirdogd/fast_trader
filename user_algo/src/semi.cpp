@@ -265,6 +265,7 @@ void semi::handle_command(algo_msg_base& msg)
 
 algo_msg_base* semi::json_to_msg(json& json)
 {
+	algo_set* pset = nullptr;
 	try
 	{
 		auto cmd = json["cmd"].get<std::string>();
@@ -280,6 +281,12 @@ algo_msg_base* semi::json_to_msg(json& json)
 		}
 		else if (cmd == "set")
 		{
+			pset = new algo_set();
+			auto& p = pset->p;
+			pset->al = this;
+			pset->algo_name = _name;
+			pset->id = _u.get_id();
+			pset->ref = ref;
 			auto type = json["type"].get<std::string>();
 			if (type != "bull" && type != "bear")
 			{
@@ -289,19 +296,20 @@ algo_msg_base* semi::json_to_msg(json& json)
 				msg->id = _u.get_id();
 				msg->ref = ref;
 				msg->err = "set only support bull bear";
+				delete pset;
 				return msg;
 			}
-			bool is_bull = true;
+			p._is_bull = true;
 			if (type == "bear")
 			{
-				is_bull = false;
+				p._is_bull = false;
 			}
-			bool is_omdd = false;
-			unsigned int warrant_code = json["warrant_code"].get<unsigned int>();
-			unsigned int underlying_code = 0;
+			p._is_omdd = false;
+			p._warrant_code = json["warrant_code"].get<unsigned int>();
+			p._underlying_code = 0;
 			try
 			{
-				underlying_code = json["underlying_code"].get<unsigned int>();
+				p._underlying_code = json["underlying_code"].get<unsigned int>();
 			}
 			catch(...)
 			{
@@ -315,13 +323,14 @@ algo_msg_base* semi::json_to_msg(json& json)
 					msg->id = _u.get_id();
 					msg->ref = ref;
 					msg->err = "fail command set underlying code omdd mapping not found";
+					delete pset;
 					return msg;
 				}
-				underlying_code = it_omdd->second;
-				is_omdd = true;
+				p._underlying_code = it_omdd->second;
+				p._is_omdd = true;
 			}
 			unsigned long long buy_trigger_price = 0;
-			return nullptr;
+			return pset;
 		}
 		else
 		{
@@ -342,6 +351,8 @@ algo_msg_base* semi::json_to_msg(json& json)
 		msg->id = _u.get_id();
 		msg->ref = "unknow";
 		msg->err = e.what();
+		if (pset)
+			delete pset;
 		return msg;
 	}
 }
