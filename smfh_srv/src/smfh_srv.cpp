@@ -180,6 +180,7 @@ inline void dequeueOutput()
 	algo_msg_base* msg;
 	ouputQueue.deque(msg);
 	output(msg->al->msg_to_json(msg));
+	delete msg;
 }
 
 inline void startDecode()
