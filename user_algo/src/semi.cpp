@@ -180,7 +180,6 @@ std::string semi::delete_pair(const std::string& ref)
 			if(w_it->second.empty())
 			{
 				_w_map.erase(w_it);
-				subscribe_omdc_book(warrant_code, false);
 			}
 		}
 	}
