@@ -138,7 +138,8 @@ private:
 		bool buy(unsigned long long price = 0, bool is_auto = true, unsigned long long quantity = 0)
 		{
 			if (is_auto)
-			{}
+			{
+			}
 			//auto original_sell_quantity = quantity;
 			//auto original_sell_price = price;
 			if (0 == quantity)
@@ -695,6 +696,8 @@ private:
 						else
 						{
 							auto result = sell(_sell_price);
+							if (result == sell_result::SUCCESS)
+							{}
 							//TODO
 							/*
 							json_type json;
