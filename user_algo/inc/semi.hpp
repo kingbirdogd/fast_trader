@@ -5,6 +5,16 @@
 
 class semi : public algo
 {
+private:
+	class pair;
+private:
+	using order_map = std::unordered_map<unsigned long long, pair*>;
+	using md_map = std::unordered_map<unsigned int, std::unordered_set<pair*>>;
+	friend class pair;
+private:
+	order_map _o_map;
+	md_map _u_map;
+	md_map _w_map;
 public:
 	semi() = delete;
 	semi(user& u, const std::string& name);

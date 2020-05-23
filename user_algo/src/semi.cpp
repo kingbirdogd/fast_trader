@@ -2,7 +2,10 @@
 
 
 semi::semi(user& u, const std::string& name):
-	algo(u, name)
+	algo(u, name),
+	_o_map(),
+	_u_map(),
+	_w_map()
 {
 }
 
