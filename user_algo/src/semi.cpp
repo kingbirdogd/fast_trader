@@ -140,7 +140,6 @@ std::string semi::set_pair(pair&& p, bool no_change)
 	}
 	auto underlying_code = it->second.underlying_code();
 	auto warrant_code = it->second.warrant_code();
-	auto is_omdd = it->second.is_omdd();
 	auto node = &(it->second);
 	_u_map[underlying_code].insert(node);
 	_w_map[warrant_code].insert(node);
