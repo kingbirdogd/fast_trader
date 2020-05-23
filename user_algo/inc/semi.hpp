@@ -583,7 +583,7 @@ public:
 	semi(algo&&) = delete;
 	semi& operator= (const algo&) = delete;
 	semi& operator= (algo&&) = delete;
-	void semi::position(algo_odr_position& msg) const;
+	void position(algo_odr_position& msg) const;
 	virtual ~semi() = default;
 	virtual void on_omdc_book(const Tradable&);
 	virtual void on_omdd_book(const Tradable&);
