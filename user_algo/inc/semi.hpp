@@ -627,7 +627,6 @@ private:
 		}
 		virtual ~algo_odr_position() = default;
 	};
-
 	struct algo_set: public algo_msg_base
 	{
 		pair p;
@@ -657,9 +656,34 @@ private:
 		}
 		virtual ~algo_set() = default;
 	};
-
-private:
-	friend class algo_odr_position;
+	struct algo_del: public algo_msg_base
+	{
+		pair* p;
+		std::string result;
+		algo_del():
+			algo_msg_base(),
+			p(nullptr),
+			result("")
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = this->algo_msg_base::to_json();
+			if (p)
+				j["pair"] = p->to_json();
+			else
+				j["pair"] = nullptr;
+			j["result"] = result;
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<semi*>(this->al);
+			auto reuslt = self->delete_pair(ref, this->p);
+			ouputQueue.enqueue(this);
+		}
+		virtual ~algo_del() = default;
+	};
 public:
 	semi() = delete;
 	semi(user& u, const std::string& name);

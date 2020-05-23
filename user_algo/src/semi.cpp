@@ -380,6 +380,15 @@ algo_msg_base* semi::json_to_msg(json& json)
 			p._early_sell_qty = json["early_sell_qty"].get<unsigned long long>();
 			return pset;
 		}
+		else if (cmd == "delete")
+		{
+			auto msg = new algo_del();
+			msg->al = this;
+			msg->algo_name = _name;
+			msg->id = _u.get_id();
+			msg->ref = ref;
+			return msg;
+		}
 		else
 		{
 			auto msg = new algo_err_msg();
