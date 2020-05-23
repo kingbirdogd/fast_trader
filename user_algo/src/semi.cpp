@@ -158,7 +158,6 @@ std::string semi::delete_pair(const std::string& ref)
 	auto node = &p;
 	auto underlying_code = p.underlying_code();
 	auto warrant_code = p.warrant_code();
-	auto is_omdd = p.is_omdd();
 	auto u_it = _u_map.find(underlying_code);
 	if (_u_map.end() != u_it)
 	{
