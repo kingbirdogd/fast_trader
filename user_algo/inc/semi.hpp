@@ -42,6 +42,7 @@ private:
 		bool _is_selling;
 		bool _auto_buy;
 		bool _auto_sell;
+		bool _is_omdd;
 	public:
 		enum class sell_result: unsigned long long
 		{
@@ -53,6 +54,34 @@ private:
 			NEW_SELL_ODR_FAIL = 5
 		};
 	public:
+		pair
+		(
+		):
+			_algo(nullptr),
+			_buy_trriger(0),
+			_sell_trriger(0),
+			_buy_price(0),
+			_sell_price(0),
+			_bottom_price(0),
+			_ceiling_price(0),
+			_auto_buy_quantity(0),
+			_position(0),
+			_auto_buy_id(0),
+			_auto_sell_id(0),
+			_early_buy_qty(0),
+			_early_sell_qty(0),
+			_underlying_code(0),
+			_warrant_code(0),
+			_ref(""),
+			_underlying_symbol(""),
+			_is_bull(false),
+			_is_buying(false),
+			_is_selling(false),
+			_auto_buy(false),
+			_auto_sell(false),
+			_is_omdd(false)
+		{
+		}
 		pair
 		(
 			semi* algo,
@@ -70,6 +99,7 @@ private:
 			bool is_bull,
 			bool auto_buy,
 			bool auto_sell,
+			bool is_omdd,
 			unsigned long long early_buy_qty,
 			unsigned long long early_sell_qty,
 			unsigned long long position = 0
@@ -95,7 +125,8 @@ private:
 			_is_buying(false),
 			_is_selling(false),
 			_auto_buy(auto_buy),
-			_auto_sell(auto_sell)
+			_auto_sell(auto_sell),
+			_is_omdd(is_omdd)
 		{
 		}
 		json to_json() const
@@ -505,6 +536,10 @@ private:
 		{
 			_is_selling = is_selling;
 		}
+		bool is_omdd() const
+		{
+			return _is_omdd;
+		}
 		void set_early_buy_qty(unsigned long long qty)
 		{
 			_early_buy_qty = qty;
@@ -592,6 +627,37 @@ private:
 		}
 		virtual ~algo_odr_position() = default;
 	};
+
+	struct algo_set: public algo_msg_base
+	{
+		pair p;
+		std::string result;
+		bool no_change;
+		algo_set():
+		algo_msg_base(),
+		p(),
+		result(""),
+		no_change()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = this->algo_msg_base::to_json();
+			j["pair"] = p.to_json();
+			j["result"] = result;
+			j["no_change"] = no_change;
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<semi*>(this->al);
+			auto p2 = p;
+			auto reuslt = self->set_pair(std::move(p2), no_change);
+			ouputQueue.enqueue(this);
+		}
+		virtual ~algo_set() = default;
+	};
+
 private:
 	friend class algo_odr_position;
 public:

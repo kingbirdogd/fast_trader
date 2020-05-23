@@ -261,6 +261,8 @@ void semi::handle_command(algo_msg_base& msg)
 	msg.on_command();
 }
 
+//set|<bull,bear>|underlying_code|warrant_code|buy_trigger_price|sell_trigger_price|buy_price|sell_price|bottom_price|ceiling_price|auto_buy_quantity|action|ref|[position,optional]
+
 algo_msg_base* semi::json_to_msg(json& json)
 {
 	try
@@ -275,6 +277,51 @@ algo_msg_base* semi::json_to_msg(json& json)
 			msg->id = _u.get_id();
 			msg->ref = ref;
 			return msg;
+		}
+		else if (cmd == "set")
+		{
+			auto type = json["type"].get<std::string>();
+			if (type != "bull" && type != "bear")
+			{
+				auto msg = new algo_err_msg();
+				msg->al = this;
+				msg->algo_name = _name;
+				msg->id = _u.get_id();
+				msg->ref = ref;
+				msg->err = "set only support bull bear";
+				return msg;
+			}
+			bool is_bull = true;
+			if (type == "bear")
+			{
+				is_bull = false;
+			}
+			bool is_omdd = false;
+			unsigned int warrant_code = json["warrant_code"].get<unsigned int>();
+			unsigned int underlying_code = 0;
+			try
+			{
+				underlying_code = json["underlying_code"].get<unsigned int>();
+			}
+			catch(...)
+			{
+				std::string str_underlying = json["underlying_code"].get<std::string>();
+				auto it_omdd = nameToCode.find(str_underlying);
+				if (nameToCode.end() == it_omdd)
+				{
+					auto msg = new algo_err_msg();
+					msg->al = this;
+					msg->algo_name = _name;
+					msg->id = _u.get_id();
+					msg->ref = ref;
+					msg->err = "fail command set underlying code omdd mapping not found";
+					return msg;
+				}
+				underlying_code = it_omdd->second;
+				is_omdd = true;
+			}
+			unsigned long long buy_trigger_price = 0;
+			return nullptr;
 		}
 		else
 		{
