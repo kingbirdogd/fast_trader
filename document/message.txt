@@ -22,3 +22,5 @@
 "ref": "test"}
 {"cmd": "delete", "id": 1, "algo_name":"leo_semi", "ref": "test"}
 {"cmd": "get", "id": 1, "algo_name":"leo_semi", "ref": "test"}
+{"cmd": "force_buy", "quantity":999 "id": 1, "algo_name":"leo_semi", "ref": "test"}
+{"cmd": "force_sell", "quantity":999 "id": 1, "algo_name":"leo_semi", "ref": "test"}

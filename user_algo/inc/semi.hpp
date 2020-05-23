@@ -572,7 +572,8 @@ private:
 		}
 		virtual nlohmann::json to_json() const
 		{
-			auto j = this->algo_msg_base::to_json();
+			auto j = algo_msg_base::to_json();
+			j["msg_type"] = "semi_algo_odr_msg";
 			j["odr"] = odr.to_json();
 			return j;
 		}
@@ -591,8 +592,9 @@ private:
 		}
 		virtual nlohmann::json to_json() const
 		{
-			auto j = this->algo_msg_base::to_json();
-			j["message"] = err;
+			auto j = algo_msg_base::to_json();
+			j["msg_type"] = "semi_algo_err_msg";
+			j["error"] = err;
 			return j;
 		}
 		virtual void on_command()
@@ -611,7 +613,8 @@ private:
 		}
 		virtual nlohmann::json to_json() const
 		{
-			auto j = this->algo_msg_base::to_json();
+			auto j = algo_msg_base::to_json();
+			j["msg_type"] = "semi_algo_odr_position";
 			j["position"] = nlohmann::json();
 			for (const auto& it : position)
 			{
@@ -621,7 +624,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<semi*>(this->al);
+			auto* self = dynamic_cast<semi*>(al);
 			self->position(*this);
 			ouputQueue.enqueue(this);
 		}
@@ -641,7 +644,8 @@ private:
 		}
 		virtual nlohmann::json to_json() const
 		{
-			auto j = this->algo_msg_base::to_json();
+			auto j = algo_msg_base::to_json();
+			j["msg_type"] = "semi_algo_set";
 			j["pair"] = p.to_json();
 			j["result"] = result;
 			j["no_change"] = no_change;
@@ -649,7 +653,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<semi*>(this->al);
+			auto* self = dynamic_cast<semi*>(al);
 			auto p2 = p;
 			auto reuslt = self->set_pair(std::move(p2), no_change);
 			ouputQueue.enqueue(this);
@@ -668,7 +672,8 @@ private:
 		}
 		virtual nlohmann::json to_json() const
 		{
-			auto j = this->algo_msg_base::to_json();
+			auto j = algo_msg_base::to_json();
+			j["msg_type"] = "semi_algo_del";
 			if (p)
 				j["pair"] = p->to_json();
 			else
@@ -678,8 +683,8 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<semi*>(this->al);
-			auto reuslt = self->delete_pair(ref, this->p);
+			auto* self = dynamic_cast<semi*>(al);
+			auto reuslt = self->delete_pair(ref, p);
 			ouputQueue.enqueue(this);
 		}
 		virtual ~algo_del() = default;
@@ -696,7 +701,8 @@ private:
 		}
 		virtual nlohmann::json to_json() const
 		{
-			auto j = this->algo_msg_base::to_json();
+			auto j = algo_msg_base::to_json();
+			j["msg_type"] = "semi_algo_get";
 			if (p)
 				j["pair"] = p->to_json();
 			else
@@ -706,11 +712,75 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<semi*>(this->al);
-			auto reuslt = self->get_pair(ref, this->p);
+			auto* self = dynamic_cast<semi*>(al);
+			auto reuslt = self->get_pair(ref, p);
 			ouputQueue.enqueue(this);
 		}
 		virtual ~algo_get() = default;
+	};
+	struct algo_force_buy: public algo_msg_base
+	{
+		pair* p;
+		std::string result;
+		unsigned long long quantity;
+		algo_force_buy():
+			algo_msg_base(),
+			p(nullptr),
+			result(""),
+			quantity(0)
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["msg_type"] = "semi_algo_force_buy";
+			if (p)
+				j["pair"] = p->to_json();
+			else
+				j["pair"] = nullptr;
+			j["quantity"] = quantity;
+			j["result"] = result;
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<semi*>(al);
+			auto reuslt = self->force_buy(quantity, p, ref);
+			ouputQueue.enqueue(this);
+		}
+		virtual ~algo_force_buy() = default;
+	};
+	struct algo_force_sell: public algo_msg_base
+	{
+		pair* p;
+		std::string result;
+		unsigned long long quantity;
+		algo_force_sell():
+			algo_msg_base(),
+			p(nullptr),
+			result(""),
+			quantity(0)
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["msg_type"] = "semi_algo_force_sell";
+			if (p)
+				j["pair"] = p->to_json();
+			else
+				j["pair"] = nullptr;
+			j["quantity"] = quantity;
+			j["result"] = result;
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<semi*>(al);
+			auto reuslt = self->force_sell(quantity, p, ref);
+			ouputQueue.enqueue(this);
+		}
+		virtual ~algo_force_sell() = default;
 	};
 public:
 	semi() = delete;

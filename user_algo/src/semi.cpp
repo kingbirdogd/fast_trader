@@ -277,6 +277,8 @@ void semi::handle_command(algo_msg_base& msg)
 algo_msg_base* semi::json_to_msg(json& json)
 {
 	algo_set* pset = nullptr;
+	algo_force_buy* pforce_buy = nullptr;
+	algo_force_sell* pforce_sell = nullptr;
 	try
 	{
 		auto cmd = json["cmd"].get<std::string>();
@@ -409,6 +411,26 @@ algo_msg_base* semi::json_to_msg(json& json)
 			msg->ref = ref;
 			return msg;
 		}
+		else if (cmd == "force_buy")
+		{
+			pforce_buy = new algo_force_buy();
+			pforce_buy->al = this;
+			pforce_buy->algo_name = _name;
+			pforce_buy->id = _u.get_id();
+			pforce_buy->ref = ref;
+			pforce_buy->quantity = json["quantity"].get<unsigned long long>();
+			return pforce_buy;
+		}
+		else if (cmd == "force_sell")
+		{
+			pforce_sell = new algo_force_sell();
+			pforce_sell->al = this;
+			pforce_sell->algo_name = _name;
+			pforce_sell->id = _u.get_id();
+			pforce_sell->ref = ref;
+			pforce_sell->quantity = json["quantity"].get<unsigned long long>();
+			return pforce_sell;
+		}
 		else
 		{
 			auto msg = new algo_err_msg();
@@ -430,6 +452,10 @@ algo_msg_base* semi::json_to_msg(json& json)
 		msg->err = e.what();
 		if (pset)
 			delete pset;
+		if (pforce_buy)
+			delete pforce_buy;
+		if (pforce_sell)
+			delete pforce_sell;
 		return msg;
 	}
 }
