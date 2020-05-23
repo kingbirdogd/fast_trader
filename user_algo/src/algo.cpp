@@ -7,6 +7,11 @@ algo::algo(user& u, const std::string& name):
 {
 }
 
+const std::string& algo::get_name() const
+{
+	return  _name;
+}
+
 algo* algo::get_algo(user& u, const std::string& name, const std::string& lib, json&)
 {
 	if (lib == "semi")

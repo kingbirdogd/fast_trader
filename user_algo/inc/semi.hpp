@@ -367,6 +367,14 @@ private:
 					_is_selling = false;
 				}
 			}
+			algo_odr_msg* msg = new algo_odr_msg();
+			msg->al = _algo;
+			msg->algo_name = _name;
+			msg->id = _algo->_u.get_id();
+			msg->ref = _ref;
+			msg->msg_type = 0;
+			msg->odr = odr;
+			ouputQueue.enqueue(msg);
 		}
 		unsigned int underlying_code() const
 		{

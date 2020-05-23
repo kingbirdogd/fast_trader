@@ -8,6 +8,17 @@
 
 class algo
 {
+	public:
+	struct algo_odr_msg: public algo_msg_base
+	{
+		dbp::top::enhance_order odr;
+		nlohmann::json to_json() const
+		{
+			auto j = this->algo_msg_base::to_json();
+			j["odr"] = odr.to_json();
+			return j;
+		}
+	};
 public:
 	using json = nlohmann::json;
 protected:
@@ -29,6 +40,7 @@ public:
 	virtual void handle_command(const algo_msg_base& cmd) = 0;
 	virtual algo_msg_base* json_to_msg(json& msg) = 0;
 	virtual json msg_to_json(algo_msg_base* msg) = 0;
+	const std::string& get_name() const;
 	static algo* get_algo(user& u, const std::string& name, const std::string& lib, json& cfg);
 };
 
