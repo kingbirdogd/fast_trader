@@ -42,7 +42,6 @@ private:
 		bool _is_selling;
 		bool _auto_buy;
 		bool _auto_sell;
-		bool _is_omdd;
 	public:
 		enum class sell_result: unsigned long long
 		{
@@ -71,7 +70,6 @@ private:
 			bool is_bull,
 			bool auto_buy,
 			bool auto_sell,
-			bool is_omdd,
 			unsigned long long early_buy_qty,
 			unsigned long long early_sell_qty,
 			unsigned long long position = 0
@@ -97,8 +95,7 @@ private:
 			_is_buying(false),
 			_is_selling(false),
 			_auto_buy(auto_buy),
-			_auto_sell(auto_sell),
-			_is_omdd(is_omdd)
+			_auto_sell(auto_sell)
 		{
 		}
 		~pair() = default;
@@ -458,10 +455,6 @@ private:
 		bool is_selling() const
 		{
 			return _is_selling;
-		}
-		bool is_omdd() const
-		{
-			return _is_omdd;
 		}
 		void set_ref(const std::string& ref)
 		{
