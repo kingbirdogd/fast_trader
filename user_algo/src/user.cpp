@@ -76,7 +76,7 @@ void user::run()
 			{
 				auto ptr = reinterpret_cast<algo_msg_base*>(msg.m_LastTradeQuantity);
 				auto& cmd = *ptr;
-				if (cmd.user_id == _id)
+				if (cmd.id == _id)
 				{
 					auto it = _algos.find(cmd.algo_name);
 					if (_algos.end() != it)
