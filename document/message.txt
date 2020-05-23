@@ -1,0 +1,5 @@
+{"cmd": "get_omdc_tradable", "code": 5, "ref": "test"}
+{"cmd": "get_warrent_underlying", "code": 5, "ref": "test"}
+{"cmd": "get_omdd_tradable", "code": "HSIk0", "ref": "test"}
+{"cmd": "get_buy_power", "id": 1, "ref": "test"}
+{"cmd": "set_buy_power", "id": 1, "buy_power":9999999, "ref": "test"}

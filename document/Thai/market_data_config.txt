@@ -1,0 +1,16 @@
+IP:192.168.134.38
+Port:29004
+
+start cmd:
+/home/test/dbp_trading_platform_build/dbp_trading_platform/bin/dbp_trader_server /home/test/dbp_trading_platform/py_module "203.198.238.4,29004" /home/test/log 192.168.134.38 35101 P990098 pass
+
+get omdc tradable success example:
+{"type":"get_omdc_tradable", "ref":"david_test", "code":"TCAP"}
+{"type":"get_warrant_underlying", "ref":"david_test", "warrant":"INTU13C2008"}
+
+get omdc tradable fail example:
+{"type":"get_omdc_tradable", "ref":"david_test", "code":"GOGOGO"}
+
+{"type":"add_user_folder","user_folder":"/home/test/dbp_trading_platform/leo/py_module","id":1}
+{"type":"top","ip":"192.168.134.38","port":35101,"user":"P990098","pass":"pass","id":1}
+{"type":"start_algo","module":"CppAlgo","param":"semi,127.0.0.1,35101,P311831,42613880","key":"leo_init_algo","id":1}

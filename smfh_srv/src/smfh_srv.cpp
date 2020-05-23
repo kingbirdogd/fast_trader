@@ -60,6 +60,23 @@ inline void decode()
 				return;
 			}
 		}
+		else if (cmd == "get_warrent_underlying")
+		{
+			auto code = j["code"].get<unsigned int>();
+			auto it = warrantToUnderlying.find(code);
+			if (warrantToUnderlying.end() == it)
+			{
+				j["error"] = std::string("underlying code not found for warrent:") + std::to_string(code);
+				output(j);
+				return;
+			}
+			else
+			{
+				j["underlying"] = it->second;
+				output(j);
+				return;
+			}
+		}
 		else if (cmd == "get_omdd_tradable")
 		{
 			unsigned long long code = 0;
