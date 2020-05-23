@@ -310,10 +310,12 @@ algo_msg_base* semi::json_to_msg(json& json)
 			try
 			{
 				p._underlying_code = json["underlying_code"].get<unsigned int>();
+				p._underlying_symbol = "";
 			}
 			catch(...)
 			{
 				std::string str_underlying = json["underlying_code"].get<std::string>();
+				p._underlying_symbol = str_underlying;
 				auto it_omdd = nameToCode.find(str_underlying);
 				if (nameToCode.end() == it_omdd)
 				{
@@ -329,7 +331,53 @@ algo_msg_base* semi::json_to_msg(json& json)
 				p._underlying_code = it_omdd->second;
 				p._is_omdd = true;
 			}
-			unsigned long long buy_trigger_price = 0;
+			p._buy_trriger = json["buy_trriger"].get<unsigned long long>();
+			p._sell_trriger = json["sell_trriger"].get<unsigned long long>();
+			p._buy_price = json["buy_price"].get<unsigned long long>();
+			p._sell_price = json["sell_price"].get<unsigned long long>();
+			p._bottom_price = json["bottom_price"].get<unsigned long long>();
+			p._ceiling_price = json["ceiling_price"].get<unsigned long long>();
+			p._auto_buy_quantity = json["auto_buy_quantity"].get<unsigned long long>();
+			auto action = json["action"].get<std::string>();
+			if (action == "BUY")
+			{
+				p._auto_buy = true;
+				p._auto_sell= false;
+			}
+			else if (action == "SELL")
+			{
+				p._auto_buy = false;
+				p._auto_sell= true;
+			}
+			else if (action == "AUTO")
+			{
+				p._auto_buy = true;
+				p._auto_sell= true;
+			}
+			else if (action == "STOP")
+			{
+				p._auto_buy = false;
+				p._auto_sell= false;
+			}
+			else if (action == "NOCHANGE")
+			{
+				p._auto_buy = false;
+				p._auto_sell= false;
+				pset->no_change = true;
+			}
+			else
+			{
+				auto msg = new algo_err_msg();
+				msg->al = this;
+				msg->algo_name = _name;
+				msg->id = _u.get_id();
+				msg->ref = ref;
+				msg->err = std::string("fail command set, action:") + action = " is not support";
+				delete pset;
+				return msg;
+			}
+			p._early_buy_qty = json["early_buy_qty"].get<unsigned long long>();
+			p._early_sell_qty = json["early_sell_qty"].get<unsigned long long>();
 			return pset;
 		}
 		else
