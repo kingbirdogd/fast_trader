@@ -24,7 +24,7 @@ void semi::on_omdc_book(const Tradable& tradable)
 	}
 }
 
-void semi::on_omdd_book(const Tradable& tradable)
+void semi::on_omdd_book(const Tradable&)
 {
 }
 
