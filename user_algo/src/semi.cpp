@@ -78,14 +78,6 @@ algo_msg_base* semi::json_to_msg(json&)
 
 json semi::msg_to_json(algo_msg_base* msg)
 {
-	if (0 == msg->msg_type)
-	{
-		auto odr_msg = dynamic_cast<algo_odr_msg*>(msg);
-		return odr_msg->to_json();
-	}
-	else
-	{
-		return msg->to_json();
-	}
+	return msg->to_json();
 }
 

@@ -223,26 +223,22 @@ struct algo_msg_base
 	std::string algo_name;
 	std::string ref;
 	algo* al;
-	int msg_type;
 	algo_msg_base():
 		id(0),
 		algo_name(""),
 		ref(""),
-		al(nullptr),
-		msg_type(0)
+		al(nullptr)
 	{
 	}
 	virtual ~algo_msg_base() = default;
-	nlohmann::json to_json() const
+	virtual nlohmann::json to_json() const
 	{
 		nlohmann::json j;
 		j["id"] = id;
 		j["algo_name"] = algo_name;
 		j["ref"] = ref;
-		j["msg_type"] = msg_type;
 		return j;
 	}
-
 };
 
 typedef std::unordered_map<std::string, std::string> CActivateChannel;

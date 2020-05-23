@@ -7,6 +7,43 @@
 class semi : public algo
 {
 private:
+	struct algo_odr_msg: public algo_msg_base
+	{
+		dbp::top::enhance_order odr;
+		algo_odr_msg():
+			algo_msg_base(),
+			odr()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = this->algo_msg_base::to_json();
+			j["odr"] = odr.to_json();
+			return j;
+		}
+		virtual ~algo_odr_msg() = default;
+	};
+	struct algo_odr_position: public algo_msg_base
+	{
+		std::unordered_map<std::string, unsigned long long> position;
+		algo_odr_position():
+			algo_msg_base(),
+			position()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = this->algo_msg_base::to_json();
+			j["position"] = nlohmann::json();
+			for (const auto& it : position)
+			{
+				j["position"][it.first] = it.second;
+			}
+			return j;
+		}
+		virtual ~algo_odr_position() = default;
+	};
+private:
 	class pair;
 private:
 	using order_map = std::unordered_map<unsigned long long, pair*>;
@@ -372,7 +409,6 @@ private:
 			msg->algo_name = _algo->_name;
 			msg->id = _algo->_u.get_id();
 			msg->ref = _ref;
-			msg->msg_type = 0;
 			msg->odr = odr;
 			ouputQueue.enqueue(msg);
 		}

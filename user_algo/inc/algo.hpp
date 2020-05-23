@@ -8,17 +8,6 @@
 
 class algo
 {
-	public:
-	struct algo_odr_msg: public algo_msg_base
-	{
-		dbp::top::enhance_order odr;
-		nlohmann::json to_json() const
-		{
-			auto j = this->algo_msg_base::to_json();
-			j["odr"] = odr.to_json();
-			return j;
-		}
-	};
 public:
 	using json = nlohmann::json;
 protected:
