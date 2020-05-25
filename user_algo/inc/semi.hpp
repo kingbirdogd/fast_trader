@@ -33,6 +33,8 @@ private:
 		unsigned long long _auto_sell_id;
 		unsigned long long _early_buy_qty;
 		unsigned long long _early_sell_qty;
+		unsigned long long _ratio_buy;
+		unsigned long long _ratio_sell;
 		unsigned int _underlying_code;
 		unsigned int _warrant_code;
 		std::string _ref;
@@ -70,6 +72,8 @@ private:
 			_auto_sell_id(0),
 			_early_buy_qty(0),
 			_early_sell_qty(0),
+			_ratio_buy(0),
+			_ratio_sell(0),
 			_underlying_code(0),
 			_warrant_code(0),
 			_ref(""),
@@ -102,6 +106,8 @@ private:
 			bool is_omdd,
 			unsigned long long early_buy_qty,
 			unsigned long long early_sell_qty,
+			unsigned long long ratio_buy,
+			unsigned long long ratio_sell,
 			unsigned long long position = 0
 		):
 			_algo(algo),
@@ -117,6 +123,8 @@ private:
 			_auto_sell_id(0),
 			_early_buy_qty(early_buy_qty),
 			_early_sell_qty(early_sell_qty),
+			_ratio_buy(ratio_buy),
+			_ratio_sell(ratio_sell),
 			_underlying_code(underlying_code),
 			_warrant_code(warrant_code),
 			_ref(ref),
@@ -143,6 +151,8 @@ private:
 			j["auto_sell_id"] = _auto_sell_id;
 			j["early_buy_qty"] = _early_buy_qty;
 			j["early_sell_qty"] = _early_sell_qty;
+			j["ratio_buy"] = _ratio_buy;
+			j["ratio_sell"] = _ratio_sell;
 			j["underlying_code"] = _underlying_code;
 			j["warrant_code"] = _warrant_code;
 			j["ref"] = _ref;
@@ -290,6 +300,13 @@ private:
 			auto bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
 			auto ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
 			auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice) * 100000;
+
+			auto best_bid_vol = static_cast<unsigned long long>(tradable.m_Bid[0].m_uQuantity);
+			auto best_ask_vol = static_cast<unsigned long long>(tradable.m_Ask[0].m_uQuantity);
+
+			auto buyratio = static_cast<unsigned long long>((best_ask_vol- tradable.m_AccumulateBuyQuantity) / (best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity) * 100);
+			auto sellratio = static_cast<unsigned long long>((best_bid_vol-tradable.m_AccumulateSellQuantity) / (best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity) * 100);
+
 			if (!(_underlying_symbol[0] < '0' || _underlying_symbol[0] > '9')){
 				if (0 != type && 100 != type)
 					return;
@@ -306,7 +323,7 @@ private:
 										trade_price == _buy_trriger && trade_price == ask_price &&
 										trade_quantity >= diff &&
 										0 != tradable.m_Ask[0].m_uQuantity && _is_buying == false && _auto_buy == true && _is_selling == false
-								)
+								)||(_ratio_buy > 0 && buyratio<= _ratio_buy)
 						)
 					)
 				{
@@ -325,7 +342,7 @@ private:
 									trade_price == _sell_trriger && trade_price == bid_price &&
 									trade_quantity >= diff &&
 									0 != tradable.m_Bid[0].m_uQuantity && _is_selling == false && _auto_sell == true && _is_buying == false
-							)
+							)||(_ratio_sell > 0 && sellratio<= _ratio_sell)
 						)
 					)
 				{
@@ -483,6 +500,14 @@ private:
 		unsigned long long early_sell_qty() const
 		{
 			return _early_sell_qty;
+		}
+		unsigned long long ratio_buy() const
+		{
+			return _ratio_buy;
+		}
+		unsigned long long ratio_sell() const
+		{
+			return _ratio_sell;
 		}
 		bool auto_buy() const
 		{

@@ -22,6 +22,33 @@ void semi::on_omdc_book(const Tradable& tradable)
 					p->on_book(tradable);
 				}
 			}
+	}else{
+		auto it = _u_map.find(tradable.m_Code);
+		if (_u_map.end() != it)
+		{
+			for (const auto& p : it->second)
+			{
+				auto best_bid_vol = static_cast<unsigned long long>(tradable.m_Bid[0].m_uQuantity);
+				auto best_ask_vol = static_cast<unsigned long long>(tradable.m_Ask[0].m_uQuantity);
+
+				auto buyratio = static_cast<unsigned long long>(best_ask_vol / (best_bid_vol + best_ask_vol) * 100);
+				auto sellratio = static_cast<unsigned long long>(best_bid_vol / (best_bid_vol + best_ask_vol) * 100);
+
+				if ( p->auto_buy() && p->ratio_buy()>0 )
+				{
+					if(buyratio <= p->ratio_buy()){
+						p->buy(false, 0);
+					}
+
+				}
+				if(p->auto_sell() && p->ratio_sell()>0){
+
+					if(sellratio <= p->ratio_sell()){
+						p->sell(false, 0);
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -393,6 +420,8 @@ algo_msg_base* semi::json_to_msg(json& json)
 			}
 			p._early_buy_qty = json["early_buy_qty"].get<unsigned long long>();
 			p._early_sell_qty = json["early_sell_qty"].get<unsigned long long>();
+			p._ratio_buy = json["ratio_buy"].get<unsigned long long>();
+			p._ratio_sell = json["ratio_sell"].get<unsigned long long>();
 			return pset;
 		}
 		else if (cmd == "delete")
