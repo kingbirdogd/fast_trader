@@ -655,7 +655,7 @@ private:
 		{
 			auto* self = dynamic_cast<semi*>(al);
 			auto p2 = p;
-			auto reuslt = self->set_pair(std::move(p2), no_change);
+			result = self->set_pair(std::move(p2), no_change);
 			ouputQueue.enqueue(this);
 		}
 		virtual ~algo_set() = default;
@@ -684,7 +684,7 @@ private:
 		virtual void on_command()
 		{
 			auto* self = dynamic_cast<semi*>(al);
-			auto reuslt = self->delete_pair(ref, p);
+			result = self->delete_pair(ref, p);
 			ouputQueue.enqueue(this);
 		}
 		virtual ~algo_del() = default;
@@ -713,7 +713,7 @@ private:
 		virtual void on_command()
 		{
 			auto* self = dynamic_cast<semi*>(al);
-			auto reuslt = self->get_pair(ref, p);
+			result = self->get_pair(ref, p);
 			ouputQueue.enqueue(this);
 		}
 		virtual ~algo_get() = default;
@@ -745,7 +745,7 @@ private:
 		virtual void on_command()
 		{
 			auto* self = dynamic_cast<semi*>(al);
-			auto reuslt = self->force_buy(quantity, p, ref);
+			result = self->force_buy(quantity, p, ref);
 			ouputQueue.enqueue(this);
 		}
 		virtual ~algo_force_buy() = default;
@@ -777,7 +777,7 @@ private:
 		virtual void on_command()
 		{
 			auto* self = dynamic_cast<semi*>(al);
-			auto reuslt = self->force_sell(quantity, p, ref);
+			result = self->force_sell(quantity, p, ref);
 			ouputQueue.enqueue(this);
 		}
 		virtual ~algo_force_sell() = default;
