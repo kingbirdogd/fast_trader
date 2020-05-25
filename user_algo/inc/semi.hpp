@@ -575,6 +575,7 @@ private:
 			auto j = algo_msg_base::to_json();
 			j["msg_type"] = "semi_algo_odr_msg";
 			j["odr"] = odr.to_json();
+			j["recovery"] = true;
 			return j;
 		}
 		virtual void on_command()
