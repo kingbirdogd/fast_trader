@@ -28,21 +28,20 @@ void semi::on_omdc_book(const Tradable& tradable)
 		{
 			for (const auto& p : it->second)
 			{
+				auto best_bid_vol = static_cast<unsigned long long>(tradable.m_Bid[0].m_uQuantity);
+				auto best_ask_vol = static_cast<unsigned long long>(tradable.m_Ask[0].m_uQuantity);
+
+				auto buyratio = static_cast<unsigned long long>(best_ask_vol / (best_bid_vol + best_ask_vol) * 100);
+				auto sellratio = static_cast<unsigned long long>(best_bid_vol / (best_bid_vol + best_ask_vol) * 100);
+
 				if ( p->auto_buy() && p->ratio_buy()>0 )
 				{
-					auto best_bid_vol = static_cast<unsigned long long>(tradable.m_Bid[0].m_uQuantity);
-					auto best_ask_vol = static_cast<unsigned long long>(tradable.m_Ask[0].m_uQuantity);
-					auto buyratio = static_cast<unsigned long long>(best_ask_vol / (best_bid_vol + best_ask_vol) * 100);
-
 					if(buyratio <= p->ratio_buy()){
 						p->buy(false, 0);
 					}
 
 				}
 				if(p->auto_sell() && p->ratio_sell()>0){
-					auto best_bid_vol = static_cast<unsigned long long>(tradable.m_Bid[0].m_uQuantity);
-					auto best_ask_vol = static_cast<unsigned long long>(tradable.m_Ask[0].m_uQuantity);
-					auto sellratio = static_cast<unsigned long long>(best_bid_vol / (best_bid_vol + best_ask_vol) * 100);
 
 					if(sellratio <= p->ratio_sell()){
 						p->sell(false, 0);
