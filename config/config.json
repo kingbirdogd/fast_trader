@@ -1,5 +1,5 @@
 {
-	"IN_OUT_PROCESS": "node ${HOME}/fast_trader/gui/server.js 9918",
+	"IN_OUT_PROCESS": "node ${HOME}/fast_trader/gui/db_server.js 9918",
 	"SOL_SOCKET":
 	{
 		"SO_KEEPALIVE": true,
