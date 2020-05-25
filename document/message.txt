@@ -24,3 +24,37 @@
 {"cmd": "get", "id": 1, "algo_name":"leo_semi", "ref": "test"}
 {"cmd": "force_buy", "quantity":999 "id": 1, "algo_name":"leo_semi", "ref": "test"}
 {"cmd": "force_sell", "quantity":999 "id": 1, "algo_name":"leo_semi", "ref": "test"}
+
+
+#20200525
+1)
+Add result to algo_msg_base
+j["id"] = id;
+j["algo_name"] = algo_name;
+j["ref"] = ref;
+j["result"] = result;
+
+2) get_warrent_underlying     
+Spelling
+no return symbol, e.g:  symbol="HSIKO"     
+
+
+3)
+{"cmd": "set", 
+"type":"bull/bear", 
+"warrant_code": 12345, 
+"underlying_code":12345/"HSIK0",
+"buy_trriger": 9999, 
+"sell_trriger": 9999,
+"buy_price": 66672,
+"sell_price": 66672,  
+"bottom_price": 66672,  
+"ceiling_price": 66672, 
+"auto_buy_quantity": 66672,
+"early_buy_qty": 100,
+"early_sell_qty": 100,
+"id": 1, 
+"algo_name":"leo_semi", 
+"ref": "test"}
+
+"id"   =   user_id reply from login ?
