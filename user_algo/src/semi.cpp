@@ -312,6 +312,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 				delete pset;
 				return msg;
 			}
+			p._ref = ref;
 			p._is_bull = true;
 			if (type == "bear")
 			{
