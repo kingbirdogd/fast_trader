@@ -4,26 +4,11 @@
 {"cmd": "get_buy_power", "id": 1, "ref": "test"}
 {"cmd": "set_buy_power", "id": 1, "buy_power":9999999, "ref": "test"}
 {"cmd": "position", "id": 1, "algo_name":"leo_semi", "ref": "test"}
-{"cmd": "set", 
-"type":"bull/bear", 
-"warrant_code": 12345, 
-"underlying_code":12345/"HSIK0",
-"buy_trriger": 9999, 
-"sell_trriger": 9999,
-"buy_price": 66672,
-"sell_price": 66672,  
-"bottom_price": 66672,  
-"ceiling_price": 66672, 
-"auto_buy_quantity": 66672,
-"early_buy_qty": 100,
-"early_sell_qty": 100,
-"id": 1, 
-"algo_name":"leo_semi", 
-"ref": "test"}
-{"cmd": "delete", "id": 1, "algo_name":"leo_semi", "ref": "test"}
+{"cmd": "set",  "type":"bull", "warrant_code": 3456,"underlying_code":"HSIK0","buy_trriger": 9999, "sell_trriger": 9999,"buy_price": 66672,"sell_price": 66672,  "bottom_price": 66672,"ceiling_price": 66672,"auto_buy_quantity": 66672,"early_buy_qty": 100,"early_sell_qty": 100,"id": 1,"algo_name":"leo_semi","ref": "test", "action": "AUTO"}
 {"cmd": "get", "id": 1, "algo_name":"leo_semi", "ref": "test"}
-{"cmd": "force_buy", "quantity":999 "id": 1, "algo_name":"leo_semi", "ref": "test"}
-{"cmd": "force_sell", "quantity":999 "id": 1, "algo_name":"leo_semi", "ref": "test"}
+{"cmd": "force_buy", "quantity":999, "id": 1, "algo_name":"leo_semi", "ref": "test"}
+{"cmd": "force_sell", "quantity":999, "id": 1, "algo_name":"leo_semi", "ref": "test"}
+{"cmd": "delete", "id": 1, "algo_name":"leo_semi", "ref": "test"}
 
 
 #20200525
@@ -58,3 +43,4 @@ no return symbol, e.g:  symbol="HSIKO"
 "ref": "test"}
 
 "id"   =   user_id reply from login ?
+>>>>>>> branch 'master' of https://github.com/kingbirdogd/fast_trader.git
