@@ -35,7 +35,7 @@ void semi::on_omdc_book(const Tradable& tradable)
 					auto buyratio = static_cast<unsigned long long>(best_ask_vol / (best_bid_vol + best_ask_vol) * 100);
 
 					if(buyratio <= p->ratio_buy()){
-						p.buy(false, 0);
+						p->buy(false, 0);
 					}
 
 				}
@@ -45,7 +45,7 @@ void semi::on_omdc_book(const Tradable& tradable)
 					auto sellratio = static_cast<unsigned long long>(best_bid_vol / (best_bid_vol + best_ask_vol) * 100);
 
 					if(sellratio <= p->ratio_sell()){
-						p.sell(false, 0);
+						p->sell(false, 0);
 					}
 				}
 			}
