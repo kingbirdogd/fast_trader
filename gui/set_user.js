@@ -1,4 +1,4 @@
-const error_str = "Usage: node set_user.js user_name=... password=... is_master=<true|false> [user_folder=...] [user_start_json=...] [top=IP|PORT|USER|PASS]";
+const error_str = "Usage: node set_user.js user_name=... password=... is_master=<true|false>";
 const encryptor = require(__dirname + "/password.js");
 var user = require(__dirname + "/user.js");
 var users = user.load();
@@ -37,8 +37,6 @@ function decode_top(str)
 let user_name = null;
 let password = null;
 let is_master = false;
-let user_folder = null;
-let user_start_json = null;
 let top = null;
 for (let i = 2; i < process.argv.length; ++i)
 {
@@ -63,23 +61,6 @@ for (let i = 2; i < process.argv.length; ++i)
 		else if ("false" === obj.value)
 			is_master = false;
 		else
-		{
-			console.error(error_str);
-			process.exit(-1);
-		}
-	}
-	else if ("user_folder" === obj.key)
-	{
-		user_folder = obj.value;
-	}
-	else if ("user_start_json" === obj.key)
-	{
-		user_start_json = obj.value;
-	}
-	else if ("top" === obj.key)
-	{
-		top = decode_top(obj.value);
-		if (null === top)
 		{
 			console.error(error_str);
 			process.exit(-1);
@@ -122,38 +103,5 @@ if (is_master)
 	node.id = 0;
 }
 node.password = encryptor.encrypt(password);
-if (null !== user_folder)
-{
-	node.user_folder = user_folder;
-}
-else
-{
-	if (undefined === node.user_folder)
-	{
-		node.user_folder = null;
-	}
-}
-if (null !== user_start_json)
-{
-	node.user_start_json = user_start_json;
-}
-else
-{
-	if (undefined === node.user_start_json)
-	{
-		node.user_start_json = null;
-	}
-}
-if (null !== top)
-{
-	node.top = top;
-}
-else
-{
-	if (undefined === node.top)
-	{
-		node.top = null;
-	}
-}
 user.store(users);
 
