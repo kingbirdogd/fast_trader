@@ -452,7 +452,8 @@ public:
 											flush_printf("tm:%llu, more than 100 microsecond, ChannelId:%u, delay:%llu\n", dbp::tools::srv::current(), _channel.m_uChannelId, uTimeDiff);
 										}
 										++uCnt;
-										if (100000 == uCnt)
+										//100000 >> 1000000
+										if (1000000 == uCnt)
 										{
 											flush_printf("tm:%llu, Average latency, ChannelId:%u, Average:%Lf\n", dbp::tools::srv::current(), _channel.m_uChannelId, (long double)uSum / (long double)uCnt);
 											uSum = 0;

@@ -41,8 +41,8 @@ void semi::on_omdc_book(const Tradable& tradable)
 					}
 
 				}
-				if(p->auto_sell() && p->ratio_sell()>0){
-
+				if(p->auto_sell() && p->ratio_sell()>0)
+				{
 					if(sellratio <= p->ratio_sell()){
 						p->sell(false, 0);
 					}
