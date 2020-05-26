@@ -221,7 +221,9 @@ dbp::top::enhance_order top_client::new_order
 			if (turnover > _buy_power)
 			{
 				report.order_id = 0;
-				report.reject_reason = "exist buy power";
+				report.reject_reason = "exist buy power                                                                                 ";
+				//"exist buy power                                                                                 "
+				//"                                                                                                "
 				return report;
 			}
 			else
