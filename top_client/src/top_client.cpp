@@ -224,7 +224,7 @@ dbp::top::enhance_order top_client::new_order
 				std::string reason = "exist buy power";
 				memcpy(report.reject_reason, reason.c_str(), reason.size());
 
-				fprintf(stderr, "BUY POWER: %llu\n", _buy_power);
+				fprintf(stderr, "BUY POWER: %llu\n",  _buy_power);
 
 				return report;
 			}
