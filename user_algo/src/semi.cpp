@@ -238,7 +238,7 @@ std::string semi::force_buy(unsigned long long quantity, pair*& pref, const std:
 	}
 	auto& p = it->second;
 	pref = &p;
-	if (p.buy(false, quantity))
+	if (p.buy(0, false, quantity))
 	{
 		return  "SUCCESS";
 	}
