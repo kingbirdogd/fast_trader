@@ -217,7 +217,8 @@ dbp::top::enhance_order top_client::new_order
 	{
 		if (dbp::top::order_side::buy == side)
 		{
-			auto turnover = quantity * price;
+			//auto turnover = (quantity/100000000 * price/1000000000) ;
+			auto turnover = (quantity * price) ;
 			if (turnover > _buy_power)
 			{
 				report.order_id = 0;

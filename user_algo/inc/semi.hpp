@@ -216,6 +216,10 @@ private:
 			{
 				return false;
 			}
+
+			fprintf(stderr, " BUY PRICE: %llu\n",  price);
+			fprintf(stderr, " BUY QTY: %llu\n",  quantity);
+
 			_is_buying = true;
 			_auto_buy = false;
 			auto odr = _algo->_u.new_order(
