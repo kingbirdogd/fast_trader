@@ -432,8 +432,8 @@ int start_run(const char* config)
 
 int main(int _iArgc, char** _pszArgv)
 {
-	INFO("info msg:%d", 0);
-	DEBUG("debug msg:%d", 1);
+	INFO("info msg:%d\n", 0);
+	DEBUG("debug msg:%d\n", 1);
 	const char* config = nullptr;
 	bool is_fork = false;
 	if (3 == _iArgc)
