@@ -145,6 +145,7 @@ private:
 			j["buy_price"] = _buy_price;
 			j["sell_price"] = _sell_price;
 			j["bottom_price"] = _bottom_price;
+			j["ceiling_price"] = _ceiling_price;
 			j["auto_buy_quantity"] = _auto_buy_quantity;
 			j["position"] = _position;
 			j["auto_buy_id"] = _auto_buy_id;
