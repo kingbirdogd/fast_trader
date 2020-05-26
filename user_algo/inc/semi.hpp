@@ -230,6 +230,7 @@ private:
 					0);
 			if (odr.is_valid())
 			{
+				_algo->_o_map[odr.order_id] = this;
 				if (is_auto)
 				{
 					_auto_buy_id = odr.order_id;
