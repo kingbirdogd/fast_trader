@@ -422,6 +422,18 @@ algo_msg_base* semi::json_to_msg(json& json)
 			p._early_sell_qty = json["early_sell_qty"].get<unsigned long long>();
 			p._ratio_buy = json["ratio_buy"].get<unsigned long long>();
 			p._ratio_sell = json["ratio_sell"].get<unsigned long long>();
+			auto it_position = json.find("position");
+			if (json.end() != it_position)
+			{
+				if (it_position.value().type() == json::value_t::number_unsigned)
+				{
+					p._position = it_position.value().get<unsigned long long>();
+				}
+				else
+				{
+					p._position = 0;
+				}
+			}
 			return pset;
 		}
 		else if (cmd == "delete")

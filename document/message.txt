@@ -7,7 +7,7 @@
 {"cmd": "set",  "type":"bull", "warrant_code": 5,"underlying_code":"HSIK0","buy_trriger": 9999, "sell_trriger": 9999,"buy_price": 66672,"sell_price": 66672,  "bottom_price": 66672,"ceiling_price": 66672,"auto_buy_quantity": 66672,"early_buy_qty": 100,"early_sell_qty": 100,"id": 1,"algo_name":"leo_semi","ref": "test", "action": "AUTO", "early_buy_qty": 400, "early_sell_qty":400, "ratio_buy":100, "ratio_sell":100}
 {"cmd": "get", "id": 1, "algo_name":"leo_semi", "ref": "test"}
 {"cmd": "force_buy", "quantity":400, "id": 1, "algo_name":"leo_semi", "ref": "test"}
-{"cmd": "force_sell", "quantity":999, "id": 1, "algo_name":"leo_semi", "ref": "test"}
+{"cmd": "force_sell", "quantity":400, "id": 1, "algo_name":"leo_semi", "ref": "test"}
 {"cmd": "delete", "id": 1, "algo_name":"leo_semi", "ref": "test"}
 
 
