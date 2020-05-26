@@ -218,7 +218,7 @@ dbp::top::enhance_order top_client::new_order
 		if (dbp::top::order_side::buy == side)
 		{
 			//auto turnover = (quantity/100000000 * price/1000000000) ;
-			auto turnover = (quantity * price) ;
+			auto turnover = (quantity * price)/100000000/100000000;
 			if (turnover > _buy_power)
 			{
 				report.order_id = 0;
@@ -226,11 +226,14 @@ dbp::top::enhance_order top_client::new_order
 				memcpy(report.reject_reason, reason.c_str(), reason.size());
 
 				fprintf(stderr, " BUY POWER: %llu\n",  _buy_power);
+				fprintf(stderr, " TURNOVER: %llu\n",  turnover);
 
 				return report;
 			}
 			else
 			{
+				fprintf(stderr, "OK BUY POWER: %llu\n",  _buy_power);
+				fprintf(stderr, "OK TURNOVER: %llu\n",  turnover);
 				_buy_power -= turnover;
 			}
 		}
