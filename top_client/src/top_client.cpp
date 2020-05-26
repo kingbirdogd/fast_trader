@@ -221,6 +221,7 @@ dbp::top::enhance_order top_client::new_order
 			if (turnover > _buy_power)
 			{
 				report.order_id = 0;
+				report.reject_reason = std::string("exist buy power");
 				return report;
 			}
 			else
