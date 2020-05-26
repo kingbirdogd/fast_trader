@@ -5,6 +5,12 @@
 #define OMD_GET_VALUE(POINTER, OFFERSET, TYPE) (*((TYPE*)((void*)(((char*)((void*)POINTER)) + OFFERSET))))
 #define OMD_GET_POINTER(POINTER, OFFERSET, TYPE) ((TYPE*)((void*)(((char*)((void*)POINTER)) + OFFERSET)))
 #define OMD_GET_STR(POINTER, OFFERSET, LEN) macro_getString(((char*)((void*)POINTER)), OFFERSET, LEN)
+#define INFO(msg, ...) flush_printf(msg, __VA_ARGS__)
+#ifdef DEBUG
+#define DEBUG(msg, ...) flush_printf(msg, __VA_ARGS__)
+#else
+#define DEBUG(msg, ...)
+#endif
 #endif
 
 
