@@ -239,6 +239,7 @@ private:
 			}
 			else
 			{
+				_is_buying = false; 
 				return false;
 			}
 
