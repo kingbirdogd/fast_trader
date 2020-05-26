@@ -607,9 +607,7 @@ namespace dbp
 				order_ref(0),
 				status(order_status::queued),
 				quantity(0),
-				ori_quantity(0),
 				price(0),
-				ori_price(0),
 				remain_quantity(0),
 				filled_quantity(0),
 				match_quantity(0),
@@ -650,9 +648,7 @@ namespace dbp
 				json["order_ref"] = order_ref;
 				json["status"] = dbp::top::to_string(status);
 				json["quantity"] = quantity;
-				json["ori_quantity"] = ori_quantity;
 				json["price"] = price;
-				json["ori_price"] = ori_price;
 				json["remain_quantity"] = remain_quantity;
 				json["filled_quantity"] = filled_quantity;
 				json["match_quantity"] = match_quantity;
@@ -753,6 +749,8 @@ namespace dbp
 			{
 				const order_report& self = *this;
 				json_type json = self.to_json();
+				json["ori_quantity"] = ori_quantity;
+				json["ori_price"] = ori_price;
 				json["match_records"] = json_type::array();
 				for (std::size_t i = 0; i < match_records.size(); ++i)
 				{
