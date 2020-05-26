@@ -580,9 +580,7 @@ namespace dbp
 			unsigned int order_ref;
 			order_status status;
 			unsigned long long quantity;
-			unsigned long long ori_quantity;
 			unsigned long long price;
-			unsigned long long ori_price;
 			unsigned long long remain_quantity;
 			unsigned long long filled_quantity;
 			unsigned long long match_quantity;
@@ -718,14 +716,20 @@ namespace dbp
 		};
 		struct enhance_order : public order_report
 		{
+			unsigned long long ori_quantity;
+			unsigned long long ori_price;
 			std::vector<match_record> match_records;
 			enhance_order():
 				order_report(),
+				ori_quantity(0),
+				ori_price(0),
 				match_records()
 			{
 			}
 			enhance_order(const order_report& report):
 				order_report(),
+				ori_quantity(0),
+				ori_price(0),
 				match_records()
 			{
 				order_report& self = *this;
