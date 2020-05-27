@@ -452,6 +452,7 @@ private:
 			msg->id = _algo->_u.get_id();
 			msg->ref = _ref;
 			msg->odr = odr;
+			msg->p = this;
 			ouputQueue.enqueue(msg);
 		}
 		unsigned int underlying_code() const
@@ -599,9 +600,11 @@ private:
 	struct algo_odr_msg: public algo_msg_base
 	{
 		dbp::top::enhance_order odr;
+		pair p;
 		algo_odr_msg():
 			algo_msg_base(),
-			odr()
+			odr(),
+			p()
 		{
 		}
 		virtual nlohmann::json to_json() const
@@ -609,6 +612,10 @@ private:
 			auto j = algo_msg_base::to_json();
 			j["msg_type"] = "semi_algo_odr_msg";
 			j["odr"] = odr.to_json();
+			j["auto_buy"] = p._auto_buy;
+			j["auto_sell"] = p._auto_sell;
+			j["buy_trigger"] = p._buy_trriger;
+			j["buy_price"] = p._buy_price;
 			j["recovery"] = true;
 			return j;
 		}
