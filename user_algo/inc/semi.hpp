@@ -311,6 +311,8 @@ private:
 			auto ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
 			auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice) * 100000;
 
+
+
 			auto best_bid_vol = static_cast<unsigned long long>(tradable.m_Bid[0].m_uQuantity);
 			auto best_ask_vol = static_cast<unsigned long long>(tradable.m_Ask[0].m_uQuantity);
 
@@ -334,8 +336,8 @@ private:
 
 
 				fprintf(stderr, "info Code BULL: %u : %llu - Bid:%llu | Ask:%llu - %llu \n", _warrant_code, best_bid_vol, bid_price, ask_price, best_ask_vol);
-				fprintf(stderr, "info Code: %u : Trade Price : %llu  Trade Side: %d \n", _warrant_code,trade_price, side);
-				fprintf(stderr, "info Code: %u : m_AccumulateBuyQuantity : %llu  m_AccumulateSellQuantity: %llu \n", _warrant_code,tradable.m_AccumulateBuyQuantity, tradable.m_AccumulateSellQuantity);
+				fprintf(stderr, "info Code: %u : Trade Price : %llu Trade Vol = %llu    Trade Side: %d \n", _warrant_code,trade_price,tradable.m_LastTradeQuantity, side);
+				fprintf(stderr, "info Code: %u :  m_AccumulateSellQuantity: %llu -- m_AccumulateBuyQuantity : %llu  \n", _warrant_code,tradable.m_AccumulateSellQuantity, tradable.m_AccumulateBuyQuantity);
 				fprintf(stderr, "info Code: %u : Ratio Buy : %llu  Ratio Sell: %llu \n",_warrant_code, buyratio, sellratio);
 				fprintf(stderr, "info Code: %u : _ratio_buy : %llu  _ratio_sell: %llu \n",_warrant_code, _ratio_buy, _ratio_sell);
 
@@ -390,7 +392,7 @@ private:
 
 				fprintf(stderr, "info Code: %u : %llu - Bid:%llu | Ask:%llu - %llu \n", _underlying_code, best_bid_vol, bid_price, ask_price, best_ask_vol);
 				fprintf(stderr, "info Code: %u : Trade Price : %llu  Trade Side: %d \n",_underlying_code, trade_price, side);
-				fprintf(stderr, "info Code: %u : m_AccumulateBuyQuantity : %llu  m_AccumulateSellQuantity: %llu \n", _warrant_code,tradable.m_AccumulateBuyQuantity, tradable.m_AccumulateSellQuantity);
+				fprintf(stderr, "info Code: %u :  m_AccumulateSellQuantity: %llu -- m_AccumulateBuyQuantity : %llu  \n", _warrant_code,tradable.m_AccumulateSellQuantity, tradable.m_AccumulateBuyQuantity);
 				fprintf(stderr, "info Code: %u : Ratio Buy : %llu  Ratio Sell: %llu \n", _underlying_code,buyratio, sellratio);
 				fprintf(stderr, "info Code: %u : _ratio_buy : %llu  _ratio_sell: %llu \n",_underlying_code, _ratio_buy, _ratio_sell);
 
