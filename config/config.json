@@ -38,10 +38,28 @@
 			"PORT":35101,
 			"USER":"P990098",
 			"PASS":"pass",
-			"BUY_POWER":999999999,
+			"BUY_POWER":100000,
 			"ALGOS":
 			{
 				"leo_semi":
+				{
+					"lib": "semi",
+					"params":
+					{
+					}
+				}
+			}
+		},
+		{
+			"ID":2,
+			"IP":"192.168.134.38",
+			"PORT":35101,
+			"USER":"P990098",
+			"PASS":"pass",
+			"BUY_POWER":100000,
+			"ALGOS":
+			{
+				"wendy_semi":
 				{
 					"lib": "semi",
 					"params":

@@ -3,6 +3,7 @@
 
 #include <algo.hpp>
 #include <global_memory.hpp>
+#include <macro.h>
 
 class semi : public algo
 {
@@ -313,8 +314,6 @@ private:
 			auto best_bid_vol = static_cast<unsigned long long>(tradable.m_Bid[0].m_uQuantity);
 			auto best_ask_vol = static_cast<unsigned long long>(tradable.m_Ask[0].m_uQuantity);
 
-			auto buyratio = static_cast<unsigned long long>((best_ask_vol- tradable.m_AccumulateBuyQuantity) / (best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity) * 100);
-			auto sellratio = static_cast<unsigned long long>((best_bid_vol-tradable.m_AccumulateSellQuantity) / (best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity) * 100);
 
 			if (!(_underlying_symbol[0] < '0' || _underlying_symbol[0] > '9')){
 				if (0 != type && 100 != type)
@@ -322,8 +321,23 @@ private:
 			}
 			if (_is_bull)
 			{
+
+
+
+
+				auto buyratio = static_cast<unsigned long long>((best_ask_vol- tradable.m_AccumulateBuyQuantity) / (best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity) * 100);
+				auto sellratio = static_cast<unsigned long long>((best_bid_vol-tradable.m_AccumulateSellQuantity) / (best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity) * 100);
+
+
 				auto trade_quantity = static_cast<long long>(tradable.m_AccumulateBuyQuantity);
 				diff = static_cast<long long>(tradable.m_Ask[0].m_uQuantity) - static_cast<long long>(_early_buy_qty);
+
+
+				INFO("info Code: %llu : %llu - Bid:%llu | Ask:%llu - %llu \n", _Code, best_bid_vol, bid_price, ask_price, best_ask_vol);
+				INFO("info Code: %llu : Trade Price : %llu  Trade Side: %d \n", trade_price, side);
+				INFO("info Code: %llu : Ratio Buy : %llu  Ratio Sell: %d \n", buyratio, sellratio);
+				INFO("info Code: %llu : _ratio_buy : %llu  _ratio_sell: %d \n", _ratio_buy, _ratio_sell);
+
 
 				if (
 						TradeSide::BUY_SIDE == side &&
@@ -366,9 +380,18 @@ private:
 			}
 			else
 			{
+				auto buyratio = static_cast<unsigned long long>((best_bid_vol- tradable.m_AccumulateSellQuantity) / (best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity) * 100);
+				auto sellratio = static_cast<unsigned long long>((best_ask_vol-tradable.m_AccumulateBuyQuantity) / (best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity) * 100);
+
 
 				auto trade_quantity = static_cast<long long>(tradable.m_AccumulateBuyQuantity);
 				diff = static_cast<long long>(tradable.m_Bid[0].m_uQuantity) - static_cast<long long>(_early_buy_qty);
+
+				INFO("info Code: %llu : %llu - Bid:%llu | Ask:%llu - %llu \n", _Code, best_bid_vol, bid_price, ask_price, best_ask_vol);
+				INFO("info Code: %llu : Trade Price : %llu  Trade Side: %d \n", trade_price, side);
+				INFO("info Code: %llu : Ratio Buy : %llu  Ratio Sell: %d \n", buyratio, sellratio);
+				INFO("info Code: %llu : _ratio_buy : %llu  _ratio_sell: %d \n", _ratio_buy, _ratio_sell);
+
 
 				if (
 						TradeSide::SELL_SIDE == side &&
@@ -390,7 +413,7 @@ private:
 				diff = static_cast<long long>(tradable.m_Ask[0].m_uQuantity)  - static_cast<long long>(_early_sell_qty);
 
 				if (
-						TradeSide::SELL_SIDE == side &&
+						TradeSide::BUY_SIDE == side &&
 						(
 								(
 										trade_price == _sell_trriger &&
