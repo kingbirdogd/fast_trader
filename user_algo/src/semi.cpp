@@ -44,7 +44,7 @@ void semi::on_omdc_book(const Tradable& tradable)
 
 			for (const auto& p : it->second)
 			{
-				fprintf(stderr, "info Code: %u : User Ratio_buy : %llu  Ratio_sell: %llu \n",tradable.m_Code, p->ratio_buy(), p->ratio_sell());
+				fprintf(stderr, "info Code: %u : User Ratio_buy : %llu  Ratio_sell: %llu   User Trigger_buy : %llu  User Trigger_sell : %llu \n",tradable.m_Code, p->ratio_buy(), p->ratio_sell(), p->buy_trriger(),p->sell_trriger()  );
 				if ( p->auto_buy() && p->ratio_buy()>0 )
 				{
 					if(p->is_bull()){
