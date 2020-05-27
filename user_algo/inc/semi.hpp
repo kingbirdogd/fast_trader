@@ -452,7 +452,6 @@ private:
 			msg->id = _algo->_u.get_id();
 			msg->ref = _ref;
 			msg->odr = odr;
-			msg->p = this;
 			ouputQueue.enqueue(msg);
 		}
 		unsigned int underlying_code() const
