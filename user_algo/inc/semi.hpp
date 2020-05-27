@@ -452,7 +452,11 @@ private:
 			msg->id = _algo->_u.get_id();
 			msg->ref = _ref;
 			msg->odr = odr;
-			msg->p = &this;
+			auto& p = msg->p;
+			p._auto_buy = _auto_buy;
+			p._auto_sell = _auto_sell;
+			p._buy_price = _buy_price;
+			p._buy_trriger = _buy_trriger;
 			ouputQueue.enqueue(msg);
 		}
 		unsigned int underlying_code() const
