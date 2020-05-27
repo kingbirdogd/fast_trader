@@ -333,10 +333,10 @@ private:
 				diff = static_cast<long long>(tradable.m_Ask[0].m_uQuantity) - static_cast<long long>(_early_buy_qty);
 
 
-				fprintf(stderr, "info Code: %llu : %llu - Bid:%llu | Ask:%llu - %llu \n", _warrant_code, best_bid_vol, bid_price, ask_price, best_ask_vol);
-				fprintf(stderr, "info Code: %llu : Trade Price : %llu  Trade Side: %d \n", _warrant_code,trade_price, side);
-				fprintf(stderr, "info Code: %llu : Ratio Buy : %llu  Ratio Sell: %d \n",_warrant_code, buyratio, sellratio);
-				fprintf(stderr, "info Code: %llu : _ratio_buy : %llu  _ratio_sell: %d \n",_warrant_code, _ratio_buy, _ratio_sell);
+				fprintf(stderr, "info Code: %lu : %llu - Bid:%llu | Ask:%llu - %llu \n", _warrant_code, best_bid_vol, bid_price, ask_price, best_ask_vol);
+				fprintf(stderr, "info Code: %lu : Trade Price : %llu  Trade Side: %d \n", _warrant_code,trade_price, side);
+				fprintf(stderr, "info Code: %lu : Ratio Buy : %llu  Ratio Sell: %d \n",_warrant_code, buyratio, sellratio);
+				fprintf(stderr, "info Code: %lu : _ratio_buy : %llu  _ratio_sell: %d \n",_warrant_code, _ratio_buy, _ratio_sell);
 
 
 				if (
@@ -387,10 +387,10 @@ private:
 				auto trade_quantity = static_cast<long long>(tradable.m_AccumulateBuyQuantity);
 				diff = static_cast<long long>(tradable.m_Bid[0].m_uQuantity) - static_cast<long long>(_early_buy_qty);
 
-				fprintf(stderr, "info Code: %llu : %llu - Bid:%llu | Ask:%llu - %llu \n", _underlying_code, best_bid_vol, bid_price, ask_price, best_ask_vol);
-				fprintf(stderr, "info Code: %llu : Trade Price : %llu  Trade Side: %d \n",_underlying_code, trade_price, side);
-				fprintf(stderr, "info Code: %llu : Ratio Buy : %llu  Ratio Sell: %d \n", _underlying_code,buyratio, sellratio);
-				fprintf(stderr, "info Code: %llu : _ratio_buy : %llu  _ratio_sell: %d \n",_underlying_code, _ratio_buy, _ratio_sell);
+				fprintf(stderr, "info Code: %lu : %llu - Bid:%llu | Ask:%llu - %llu \n", _underlying_code, best_bid_vol, bid_price, ask_price, best_ask_vol);
+				fprintf(stderr, "info Code: %lu : Trade Price : %llu  Trade Side: %d \n",_underlying_code, trade_price, side);
+				fprintf(stderr, "info Code: %lu : Ratio Buy : %llu  Ratio Sell: %d \n", _underlying_code,buyratio, sellratio);
+				fprintf(stderr, "info Code: %lu : _ratio_buy : %llu  _ratio_sell: %d \n",_underlying_code, _ratio_buy, _ratio_sell);
 
 
 				if (
