@@ -49,11 +49,11 @@ void semi::on_omdc_book(const Tradable& tradable)
 				{
 					if(p->is_bull()){
 						if(bull_buyratio <= p->ratio_buy()  && p->buy_trriger() == ask_price){
-							p->buy(false, 0);
+							p->buy(p->buy_price(), false, 0);
 						}
 					}else{
 						if(bear_buyratio <= p->ratio_buy() && p->buy_trriger() == bid_price){
-							p->buy(false, 0);
+							p->buy(p->buy_price(), false, 0);
 						}
 					}
 				}
@@ -62,11 +62,11 @@ void semi::on_omdc_book(const Tradable& tradable)
 				{
 					if(p->is_bull()){
 						if(bull_sellratio <= p->ratio_sell() && p->sell_trriger() == bid_price){
-							p->sell(false, 0);
+							p->sell(p->sell_price(), false, 0);
 						}
 					}else{
 						if(bear_sellratio <= p->ratio_sell() && p->sell_trriger() == ask_price){
-							p->sell(false, 0);
+							p->sell(p->sell_price(), false, 0);
 						}
 					}
 				}
