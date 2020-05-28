@@ -101,7 +101,7 @@ namespace dbp
 				}
 				return pid;
 			}
-			std::string replace_env(const std::string& str)
+			inline std::string replace_env(const std::string& str)
 			{
 				auto len = str.length();
 				std::string rt = "";
