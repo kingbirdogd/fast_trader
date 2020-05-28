@@ -49,6 +49,24 @@
 					}
 				}
 			}
+		},
+		{
+			"ID":2,
+			"IP":"192.168.104.88",
+			"PORT":35101,
+			"USER":"P990098",
+			"PASS":"pass",
+			"BUY_POWER":200000,
+			"ALGOS":
+			{
+				"wendy_semi":
+				{
+					"lib": "semi",
+					"params":
+					{
+					}
+				}
+			}
 		}
 	],
 	"Definition":

@@ -211,6 +211,9 @@ dbp::top::enhance_order top_client::new_order
 	if (!_ready)
 	{
 		report.order_id = 0;
+		std::string reason = "Not Ready";
+		memcpy(report.reject_reason, reason.c_str(), reason.size());
+		report.status = dbp::top::order_status::canceled;
 		return report;
 	}
 	else
@@ -218,7 +221,10 @@ dbp::top::enhance_order top_client::new_order
 		if (dbp::top::order_side::buy == side)
 		{
 			//auto turnover = (quantity/100000000 * price/1000000000) ;
-			auto turnover = (quantity * price)/100000000/100000000;
+			fprintf(stderr, " PRICE: %llu\n",  price);
+			fprintf(stderr, " QUANTITY: %llu\n",  quantity);
+
+			unsigned long long turnover =  static_cast<unsigned long long>(quantity/1000 * price/1000)/static_cast<unsigned long long>(100000*100000);
 			if (turnover > _buy_power)
 			{
 				report.order_id = 0;
@@ -232,8 +238,6 @@ dbp::top::enhance_order top_client::new_order
 			}
 			else
 			{
-				fprintf(stderr, "OK BUY POWER: %llu\n",  _buy_power);
-				fprintf(stderr, "OK TURNOVER: %llu\n",  turnover);
 				_buy_power -= turnover;
 			}
 		}

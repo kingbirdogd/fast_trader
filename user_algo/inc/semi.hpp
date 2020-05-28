@@ -220,9 +220,6 @@ private:
 				return false;
 			}
 
-			fprintf(stderr, " BUY PRICE: %llu\n",  price);
-			fprintf(stderr, " BUY QTY: %llu\n",  quantity);
-
 			_is_buying = true;
 			_auto_buy = false;
 			auto odr = _algo->_u.new_order(
@@ -246,7 +243,6 @@ private:
 			}
 			else
 			{
-				fprintf(stderr, "OMD  type: %s\n", odr.reject_reason);
 				_is_buying = false;
 				on_order(odr);
 				return false;
@@ -878,7 +874,10 @@ private:
 		{
 			auto* self = dynamic_cast<semi*>(al);
 			result = self->force_buy(quantity, p, ref);
-			ouputQueue.enqueue(this);
+			if(result != "exist buy power" && result != "Not Ready"){
+				ouputQueue.enqueue(this);
+			}
+
 		}
 		virtual ~algo_force_buy() = default;
 	};
