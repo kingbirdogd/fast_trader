@@ -530,8 +530,3 @@ algo_msg_base* semi::json_to_msg(json& json)
 	}
 }
 
-json semi::msg_to_json(algo_msg_base* msg)
-{
-	return msg->to_json();
-}
-
