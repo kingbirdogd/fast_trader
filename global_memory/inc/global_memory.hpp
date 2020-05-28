@@ -4,7 +4,6 @@
 #include <cstdio>
 #include <pthread.h>
 #include <unordered_map>
-#include <global_memory.hpp>
 
 class user;
 using CUserMap = std::unordered_map<unsigned long long, user*>;
