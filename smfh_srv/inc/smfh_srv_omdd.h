@@ -13,6 +13,7 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 	}
 	COmdOrderbook& rOrderBook = it->second;
 	rOrderBook.m_PkgTime = _uPkgTm;
+	rOrderBook.m_MsgTime = dbp::tools::srv::current();
 	if (353 == _pMsg->m_uMsgType)
 	{
 		rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
