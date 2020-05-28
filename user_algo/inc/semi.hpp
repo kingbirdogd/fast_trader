@@ -356,7 +356,16 @@ private:
 
 					if (_auto_buy)
 					{
-						buy(_buy_price);
+						if(buy(_buy_price)){
+							algo_latency* msg = new algo_latency();
+							msg->al = _algo;
+							msg->algo_name = _algo->_name;
+							msg->id = _algo->_u.get_id();
+							msg->ref = _ref;
+							msg->m_tm = tradable.m_PkgTime;
+							msg->o_tm = nano();
+							ouputQueue.enqueue(msg);
+						}
 					}
 				}
 
@@ -376,7 +385,16 @@ private:
 					{
 						if (_auto_sell)
 						{
-							sell(_sell_price);
+							if(sell(_sell_price)){
+								algo_latency* msg = new algo_latency();
+								msg->al = _algo;
+								msg->algo_name = _algo->_name;
+								msg->id = _algo->_u.get_id();
+								msg->ref = _ref;
+								msg->m_tm = tradable.m_PkgTime;
+								msg->o_tm = nano();
+								ouputQueue.enqueue(msg);
+							}
 						}
 					}
 				}
@@ -706,6 +724,28 @@ private:
 			ouputQueue.enqueue(this);
 		}
 		virtual ~algo_odr_position() = default;
+	};
+	struct algo_latency: public algo_msg_base
+	{
+		unsigned long long m_tm;
+		unsigned long long o_tm;
+		algo_latency():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["msg_type"] = "semi_algo_latency";
+			j["latency"] = o_tm-m_tm;
+
+			return j;
+		}
+		virtual void on_command()
+		{
+			//ouputQueue.enqueue(this);
+		}
+		virtual ~algo_latency() = default;
 	};
 	struct algo_set: public algo_msg_base
 	{
