@@ -114,7 +114,7 @@ inline void decode()
 			else
 			{
 				j["omdd_tradable"] = it->second.to_json();
-				j["omdd_tradable"]["m_Symbol"] =  it->second;
+				j["omdd_tradable"]["m_Symbol"] =  codeToName.find(code);;
 				output(j);
 				return;
 			}
