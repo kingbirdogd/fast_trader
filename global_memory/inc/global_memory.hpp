@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <pthread.h>
 #include <unordered_map>
+#include <global_memory.hpp>
 
 class user;
 using CUserMap = std::unordered_map<unsigned long long, user*>;
@@ -23,8 +24,8 @@ extern COutputQueue ouputQueue;
 extern CUserMap userMap;
 extern FILE* input_stream;
 extern FILE* output_stream;
-extern SCHED_TYPE = SCHED_FIFO;
-extern SCHED_PRIORITY = 99;
+SCHED_TYPE = SCHED_FIFO;
+SCHED_PRIORITY = 99;
 
 
 
