@@ -9,6 +9,8 @@
 {"cmd": "force_buy", "quantity":400, "id": 1, "algo_name":"leo_semi", "ref": "test"}
 {"cmd": "force_sell", "quantity":400, "id": 1, "algo_name":"leo_semi", "ref": "test"}
 {"cmd": "delete", "id": 1, "algo_name":"leo_semi", "ref": "test"}
+{"cmd": "order_list", "id": 1, "algo_name":"leo_semi", "ref": "test"}
+{"cmd": "order_list", "id": 1, "ref": "test"}
 
 
 #20200525
