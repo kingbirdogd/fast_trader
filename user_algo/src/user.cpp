@@ -90,22 +90,25 @@ void user::run()
 			{
 				auto base = reinterpret_cast<algo_msg_base*>(msg.m_LastTradeQuantity);
 				auto ptr = dynamic_cast<user::user_order_list*>(base);
-				for (const auto& item : _odr_map)
+				if (ptr->id == _id)
 				{
-					auto name = item.second->get_name();
-					if (ptr->algo_name != "")
+					for (const auto& item : _odr_map)
 					{
-						if (ptr->algo_name != name)
+						auto name = item.second->get_name();
+						if (ptr->algo_name != "")
 						{
-							continue;
+							if (ptr->algo_name != name)
+							{
+								continue;
+							}
 						}
+						const auto& order_id = item.first;
+						user::algo_order odr(*_client->get_order(order_id));
+						odr.algo_name = name;
+						ptr->orders.push_back(odr);
 					}
-					const auto& order_id = item.first;
-					user::algo_order odr(*_client->get_order(order_id));
-					odr.algo_name = name;
-					ptr->orders.push_back(odr);
+					base->on_command();
 				}
-				base->on_command();
 			}
 			break;
 		default:
