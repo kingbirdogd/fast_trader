@@ -400,7 +400,7 @@ private:
 								msg->id = _algo->_u.get_id();
 								msg->ref = _ref;
 								msg->m_tm = tradable.m_PkgTime;
-								msg->o_tm = semi::nano();
+								msg->o_tm = nano();
 								ouputQueue.enqueue(msg);
 							}
 						}
