@@ -1,5 +1,12 @@
 #include <semi.hpp>
+#include <ctime>
 
+static inline uint64_t nano()
+{
+	timespec ts;
+	clock_gettime(CLOCK_REALTIME, &ts);
+	return ts.tv_sec * 1000000000 + ts.tv_nsec;
+}
 
 semi::semi(user& u, const std::string& name):
 	algo(u, name),
@@ -45,28 +52,31 @@ void semi::on_omdc_book(const Tradable& tradable)
 			for (const auto& p : it->second)
 			{
 				fprintf(stderr, "info Code: %u : User Ratio_buy : %llu  Ratio_sell: %llu   User Trigger_buy : %llu  User Trigger_sell : %llu \n",tradable.m_Code, p->ratio_buy(), p->ratio_sell(), p->buy_trriger(),p->sell_trriger()  );
-				if ( p->auto_buy() && p->ratio_buy()>0 )
-				{
-					if(p->is_bull()){
-						if(bull_buyratio <= p->ratio_buy()  && p->buy_trriger() == ask_price){
-							p->buy(p->buy_price(), false, 0);
-						}
-					}else{
-						if(bear_buyratio <= p->ratio_buy() && p->buy_trriger() == bid_price){
-							p->buy(p->buy_price(), false, 0);
+
+				if(!p->is_buying() && !p->is_selling()){
+					if ( p->auto_buy() && p->ratio_buy()>0 )
+					{
+						if(p->is_bull()){
+							if(bull_buyratio <= p->ratio_buy()  && p->buy_trriger() == ask_price){
+								p->buy(p->buy_price(), false, 0);
+							}
+						}else{
+							if(bear_buyratio <= p->ratio_buy() && p->buy_trriger() == bid_price){
+								p->buy(p->buy_price(), false, 0);
+							}
 						}
 					}
-				}
 
-				if(p->auto_sell() && p->ratio_sell()>0  )
-				{
-					if(p->is_bull()){
-						if(bull_sellratio <= p->ratio_sell() && p->sell_trriger() == bid_price){
-							p->sell(p->sell_price(), false, 0);
-						}
-					}else{
-						if(bear_sellratio <= p->ratio_sell() && p->sell_trriger() == ask_price){
-							p->sell(p->sell_price(), false, 0);
+					if(p->auto_sell() && p->ratio_sell()>0  )
+					{
+						if(p->is_bull()){
+							if(bull_sellratio <= p->ratio_sell() && p->sell_trriger() == bid_price){
+								p->sell(p->sell_price(), false, 0);
+							}
+						}else{
+							if(bear_sellratio <= p->ratio_sell() && p->sell_trriger() == ask_price){
+								p->sell(p->sell_price(), false, 0);
+							}
 						}
 					}
 				}
