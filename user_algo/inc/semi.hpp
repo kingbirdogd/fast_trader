@@ -430,14 +430,26 @@ private:
 										trade_price == _buy_trriger && trade_price == bid_price &&
 										trade_quantity >= (diff) &&
 										0 != tradable.m_Bid[0].m_uQuantity && _is_buying == false && _auto_buy == true  && _is_selling == false
-								)
+								)||(_ratio_buy > 0 && buyratio <= _ratio_buy)
 						)
 					)
 				{
 
 					if (_auto_buy)
 					{
-						buy(_buy_price);
+						if(buy(_buy_price)){
+#ifndef NOT_MEASURE
+							algo_latency* msg = new algo_latency();
+							msg->al = _algo;
+							msg->algo_name = _algo->_name;
+							msg->id = _algo->_u.get_id();
+							msg->ref = _ref;
+							msg->pkg_tm = tradable.m_PkgTime;
+							msg->m_tm = tradable.m_MsgTime;
+							msg->o_tm = dbp::tools::srv::current();
+							ouputQueue.enqueue(msg);
+#endif
+						}
 					}
 				}
 				diff = static_cast<long long>(tradable.m_Ask[0].m_uQuantity)  - static_cast<long long>(_early_sell_qty);
@@ -449,7 +461,7 @@ private:
 										trade_price == _sell_trriger &&
 										trade_quantity >= (diff) && trade_price == ask_price &&
 										0 != tradable.m_Ask[0].m_uQuantity && _is_selling == false && _auto_sell == true  && _is_buying == false
-								)
+								)||(_ratio_sell > 0 && sellratio<= _ratio_sell)
 						)
 					)
 				{
@@ -458,7 +470,19 @@ private:
 
 						if (_auto_sell)
 						{
-							sell(_sell_price);
+							if(sell(_sell_price) == sell_result::SUCCESS){
+#ifndef NOT_MEASURE
+							algo_latency* msg = new algo_latency();
+							msg->al = _algo;
+							msg->algo_name = _algo->_name;
+							msg->id = _algo->_u.get_id();
+							msg->ref = _ref;
+							msg->pkg_tm = tradable.m_PkgTime;
+							msg->m_tm = tradable.m_MsgTime;
+							msg->o_tm = dbp::tools::srv::current();
+							ouputQueue.enqueue(msg);
+#endif
+							}
 						}
 					}
 				}
