@@ -671,50 +671,62 @@ inline static bool loadChannel(json& _json, const char* pszName, CStreamVec& vec
 {
 	try
 	{
-	auto& Channel = _json[pszName];
-	for (std::size_t i = 0; i < Channel.size(); ++i)
-	{
-		CStreamChannel channel;
-		auto& ChannelNode = Channel[i];
-		channel.m_uChannelId = ChannelNode["ChannelId"].get<unsigned short int>();
-		auto& Hot = ChannelNode["Hot"];
-		std::string InterfaceIp = Hot["InterfaceIp"].get<std::string>();
-		std::string MulticastIp = Hot["MulticastIp"].get<std::string>();
-		unsigned short int MulticastPort = Hot["MulticastPort"].get<unsigned short int>();
-		int iHot = dbp::net::srv::getNoBlockReuseUdpListener(MulticastPort, MulticastIp, InterfaceIp);
-		if (-1 == iHot)
+		auto& Channel = _json[pszName];
+		for (std::size_t i = 0; i < Channel.size(); ++i)
 		{
-			return false;
+			CStreamChannel channel;
+			auto& ChannelNode = Channel[i];
+			channel.m_uChannelId = ChannelNode["ChannelId"].get<unsigned short int>();
+			auto& Hot = ChannelNode["Hot"];
+			std::string InterfaceIp = Hot["InterfaceIp"].get<std::string>();
+			std::string MulticastIp = Hot["MulticastIp"].get<std::string>();
+			unsigned short int MulticastPort = Hot["MulticastPort"].get<unsigned short int>();
+			int iHot = dbp::net::srv::getNoBlockReuseUdpListener(MulticastPort, MulticastIp, InterfaceIp);
+			if (-1 == iHot)
+			{
+				return false;
+			}
+			auto& Refresh = ChannelNode["Refresh"];
+			InterfaceIp = Refresh["InterfaceIp"].get<std::string>();
+			MulticastIp = Refresh["MulticastIp"].get<std::string>();
+			MulticastPort = Refresh["MulticastPort"].get<unsigned short int>();
+			int iRefresh = dbp::net::srv::getNoBlockReuseUdpListener(MulticastPort, MulticastIp, InterfaceIp);
+			if (-1 == iRefresh)
+			{
+				std::cerr << "load loadChannel: " << pszName
+						<< " getNoBlockReuseUdpListener fail, Channel_ID:"
+						<< channel.m_uChannelId  << std::endl;
+				close(iHot);
+				return false;
+			}
+			channel.m_uRetranProxyIdx = ChannelNode["RetranProxyIndex"].get<std::size_t>();
+			channel.m_iHot = iHot;
+			channel.m_iRefresh = iRefresh;
+			if (channel.m_uRetranProxyIdx >= retranVec.size())
+			{
+				std::cerr << "load loadChannel: " << pszName
+						<< " retran proxy setting fail, Channel_ID:"
+						<< channel.m_uChannelId  << std::endl;
+				close(iHot);
+				close(iRefresh);
+				return false;
+			}
+			channel.m_iEpoll = epoll_create(2);
+			if (channel.m_iEpoll <= 0)
+			{
+				std::cerr << "load loadChannel: " << pszName
+						<< " create epoll fail, Channel_ID:"
+						<< channel.m_uChannelId  << std::endl;
+				close(iHot);
+				close(iRefresh);
+				return false;
+			}
+			std::cerr << "load loadChannel: " << pszName
+					<< " success, Channel_ID:"
+					<< channel.m_uChannelId  << std::endl;
+			channel.m_uChannelIdx = i;
+			vec.push_back(channel);
 		}
-		auto& Refresh = ChannelNode["Refresh"];
-		InterfaceIp = Refresh["InterfaceIp"].get<std::string>();
-		MulticastIp = Refresh["MulticastIp"].get<std::string>();
-		MulticastPort = Refresh["MulticastPort"].get<unsigned short int>();
-		int iRefresh = dbp::net::srv::getNoBlockReuseUdpListener(MulticastPort, MulticastIp, InterfaceIp);
-		if (-1 == iRefresh)
-		{
-			close(iHot);
-			return false;
-		}
-		channel.m_uRetranProxyIdx = ChannelNode["RetranProxyIndex"].get<std::size_t>();
-		channel.m_iHot = iHot;
-		channel.m_iRefresh = iRefresh;
-		if (channel.m_uRetranProxyIdx >= retranVec.size())
-		{
-			close(iHot);
-			close(iRefresh);
-			return false;
-		}
-		channel.m_iEpoll = epoll_create(2);
-		if (channel.m_iEpoll <= 0)
-		{
-			close(iHot);
-			close(iRefresh);
-			return false;
-		}
-		channel.m_uChannelIdx = i;
-		vec.push_back(channel);
-	}
 	}
 	catch(...)
 	{
