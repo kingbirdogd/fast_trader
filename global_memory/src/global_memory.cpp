@@ -15,8 +15,8 @@ COutputQueue ouputQueue;
 CUserMap userMap;
 FILE* input_stream = stdin;
 FILE* output_stream = stdout;
-SCHED_TYPE = SCHED_FIFO;
-SCHED_PRIORITY = 99;
+int SCHED_TYPE = SCHED_FIFO;
+int SCHED_PRIORITY = 99;
 
 
 
