@@ -88,7 +88,8 @@ void user::run()
 			break;
 		case MsgType::ORDER_LIST:
 			{
-				auto ptr = reinterpret_cast<user::user_order_list*>(msg.m_LastTradeQuantity);
+				auto base = reinterpret_cast<algo_msg_base*>(msg.m_LastTradeQuantity);
+				auto ptr = dynamic_cast<user::user_order_list*>(base);
 				for (const auto& item : _odr_map)
 				{
 					auto name = item.second->get_name();
@@ -104,7 +105,7 @@ void user::run()
 					odr.algo_name = name;
 					ptr->orders.push_back(odr);
 				}
-				ptr->on_command();
+				base->on_command();
 			}
 			break;
 		default:
