@@ -58,6 +58,14 @@ private:
 			SHORT_SELL = 4,
 			NEW_SELL_ODR_FAIL = 5
 		};
+		enum class buy_result: unsigned long long
+		{
+			SUCCESS = 0,
+			BUYING = 1,
+			NOT_READY = 2,
+			EXCEED_BUY_POWER = 3,
+			UNKNOWN = 4
+		};
 	public:
 		pair
 		(
@@ -202,7 +210,7 @@ private:
 			}
 			return price;
 		}
-		bool buy(unsigned long long price = 0, bool is_auto = true, unsigned long long quantity = 0)
+		buy_result buy(unsigned long long price = 0, bool is_auto = true, unsigned long long quantity = 0)
 		{
 			if (is_auto)
 			{
@@ -217,7 +225,7 @@ private:
 			}
 			if (_is_buying)
 			{
-				return false;
+				return buy_result::BUYING;
 			}
 
 			_is_buying = true;
@@ -239,13 +247,24 @@ private:
 				{
 					_auto_buy_id = odr.order_id;
 				}
-				return true;
+				return buy_result::SUCCESS;
 			}
 			else
 			{
 				_is_buying = false;
+
+
 				on_order(odr);
-				return false;
+
+				if(std::strcmp(odr.reject_reason,"Exceed Buy Power") == 0){
+					return buy_result::EXCEED_BUY_POWER;
+				}
+
+				if(std::strcmp(odr.reject_reason,"Not Ready") == 0 ){
+					return buy_result::NOT_READY;
+				}
+
+				return buy_result::UNKNOWN;
 			}
 
 		}
@@ -354,7 +373,7 @@ private:
 
 					if (_auto_buy)
 					{
-						if(buy(_buy_price)){
+						if(buy(_buy_price) == buy_result::SUCCESS){
 #ifndef NOT_MEASURE
 							algo_latency* msg = new algo_latency();
 							msg->al = _algo;
@@ -453,7 +472,7 @@ private:
 
 					if (_auto_buy)
 					{
-						if(buy(_buy_price)){
+						if(buy(_buy_price) == buy_result::SUCCESS){
 #ifndef NOT_MEASURE
 							fprintf(stderr, "info Code: %u : %llu - Bid:%llu | Ask:%llu - %llu \n", _underlying_code, best_bid_vol, bid_price, ask_price, best_ask_vol);
 							fprintf(stderr, "info Code: %u : Trade Price : %llu  Trade Side: %d \n",_underlying_code, trade_price, side);
@@ -942,7 +961,7 @@ private:
 		{
 			auto* self = dynamic_cast<semi*>(al);
 			result = self->force_buy(quantity, p, ref);
-			if(result != "exist buy power" && result != "Not Ready"){
+			if(result != "Exceed Buy Power" && result != "Not Ready"){
 				ouputQueue.enqueue(this);
 			}
 
