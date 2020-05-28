@@ -1,12 +1,5 @@
 #include <semi.hpp>
-#include <ctime>
 
-static inline uint64_t nano()
-{
-	timespec ts;
-	clock_gettime(CLOCK_REALTIME, &ts);
-	return ts.tv_sec * 1000000000 + ts.tv_nsec;
-}
 
 semi::semi(user& u, const std::string& name):
 	algo(u, name),

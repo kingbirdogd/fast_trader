@@ -3,6 +3,14 @@
 
 #include <algo.hpp>
 #include <global_memory.hpp>
+#include <ctime>
+
+static inline uint64_t nano()
+{
+	timespec ts;
+	clock_gettime(CLOCK_REALTIME, &ts);
+	return ts.tv_sec * 1000000000 + ts.tv_nsec;
+}
 
 
 class semi : public algo
@@ -392,7 +400,7 @@ private:
 								msg->id = _algo->_u.get_id();
 								msg->ref = _ref;
 								msg->m_tm = tradable.m_PkgTime;
-								msg->o_tm = nano();
+								msg->o_tm = semi::nano();
 								ouputQueue.enqueue(msg);
 							}
 						}
