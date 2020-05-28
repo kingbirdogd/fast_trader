@@ -8,11 +8,77 @@
 #include <msg.hpp>
 #include <json.hpp>
 #include <string>
+#include <vector>
 #include <unordered_map>
 
 class algo;
 class user
 {
+public:
+	struct algo_order: public dbp::top::enhance_order
+	{
+		std::string algo_name;
+		algo_order():
+			enhance_order(),
+			algo_name("")
+		{
+		}
+		algo_order(const enhance_order& report):
+			enhance_order(report),
+			algo_name("")
+		{
+		}
+		algo_order(enhance_order&& report):
+			enhance_order(std::move(report)),
+			algo_name("")
+		{
+		}
+		algo_order& operator= (const enhance_order& report)
+		{
+			algo_order& self = *this;
+			self = report;
+			return *this;
+		}
+		algo_order& operator= (enhance_order&& report)
+		{
+			algo_order& self = *this;
+			self = std::move(report);
+			return *this;
+		}
+		~algo_order() = default;
+		nlohmann::json to_json() const
+		{
+			const enhance_order& self = *this;
+			nlohmann::json j = self.to_json();
+			j["algo_name"] = algo_name;
+			return j;
+		}
+	};
+public:
+	struct user_order_list: public algo_msg_base
+	{
+		std::vector<algo_order> orders;
+		user_order_list():
+			algo_msg_base(),
+			orders()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["orders"] = nlohmann::json::array();
+			for (const auto& odr : orders)
+			{
+				j["orders"].push_back(odr.to_json());
+			}
+			return j;
+		}
+		virtual void on_command()
+		{
+			ouputQueue.enqueue(this);
+		}
+		virtual ~user_order_list() = default;
+	};
 private:
 	using json = nlohmann::json;
 	using comsumer = typename CBroadCastQueue::comsumer_st;
