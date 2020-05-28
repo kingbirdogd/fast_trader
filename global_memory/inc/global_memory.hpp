@@ -23,8 +23,8 @@ extern COutputQueue ouputQueue;
 extern CUserMap userMap;
 extern FILE* input_stream;
 extern FILE* output_stream;
-extern int SCHED_TYPE = SCHED_FIFO;
-extern int SCHED_PRIORITY = 99;
+extern int SCHED_TYPE;
+extern int SCHED_PRIORITY;
 
 
 
