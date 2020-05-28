@@ -38,6 +38,7 @@ public:
 				dbp::tools::srv::blockSigPipe();
 				unsigned int uCnt = 0;
 				unsigned long long uSum = 0;
+				std::cout << "Start Channel Thread:" << _channel.m_uChannelId << std::endl;
 				while (true)
 				{
 					std::vector<std::vector<char>> Vec;
