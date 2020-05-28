@@ -29,6 +29,7 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		rOrderBook.m_AccumulateBuyQuantity = 0;
 		rOrderBook.m_AccumulateSellQuantity = 0;
 		rOrderBook.m_AccumulateBlankQuantity = 0;
+		broadcastQueue.enqueue(rOrderBook);
 	}
 	else if (50 == _pMsg->m_uMsgType)
 	{
@@ -51,8 +52,8 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 			rOrderBook.m_TradeSide = TradeSide::NO_SIDE;
 			rOrderBook.m_AccumulateBlankQuantity += rOrderBook.m_LastTradeQuantity;
 		}
+		broadcastQueue.enqueue(rOrderBook);
 	}
-	broadcastQueue.enqueue(rOrderBook);
 }
 #endif
 
