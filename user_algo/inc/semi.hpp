@@ -245,8 +245,8 @@ private:
 			else
 			{
 				fprintf(stderr, "OMD  type: %s\n", odr.reject_reason);
-
-				_is_buying = false; 
+				_is_buying = false;
+				on_order(odr);
 				return false;
 			}
 
