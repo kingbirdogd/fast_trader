@@ -218,7 +218,8 @@ dbp::top::enhance_order top_client::new_order
 		if (dbp::top::order_side::buy == side)
 		{
 			//auto turnover = (quantity/100000000 * price/1000000000) ;
-			auto turnover =  static_cast<unsigned long long>((quantity * price)/(100000000*100000000));
+			unsigned long long M100 = 100000000;
+			auto turnover =  static_cast<unsigned long long>((quantity * price)/(M100*M100));
 			if (turnover > _buy_power)
 			{
 				report.order_id = 0;
