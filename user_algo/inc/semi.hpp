@@ -63,7 +63,8 @@ private:
 			SUCCESS = 0,
 			BUYING = 1,
 			NOT_READY = 2,
-			EXCEED_BUY_POWER = 3
+			EXCEED_BUY_POWER = 3,
+			UNKNOWN = 4
 		};
 	public:
 		pair
@@ -224,7 +225,7 @@ private:
 			}
 			if (_is_buying)
 			{
-				return false;
+				return buy_result::BUYING;
 			}
 
 			_is_buying = true;
@@ -246,13 +247,24 @@ private:
 				{
 					_auto_buy_id = odr.order_id;
 				}
-				return true;
+				return buy_result::SUCCESS;
 			}
 			else
 			{
 				_is_buying = false;
+
+
 				on_order(odr);
-				return false;
+
+				if(odr.reject_reason == "Exceed Buy Power"){
+					return buy_result::EXCEED_BUY_POWER;
+				}
+
+				if(odr.reject_reason == "Not Ready"){
+					return buy_result::NOT_READY;
+				}
+
+				return buy_result::UNKNOWN;
 			}
 
 		}
