@@ -39,7 +39,8 @@ enum MsgType : unsigned char
 	OMDC_TRADE = 0x02,
 	OMDD_BOOK = 0x03,
 	OMDD_TRADE = 0x04,
-	COMMAND = 0x05
+	COMMAND = 0x05,
+	ORDER_LIST = 0x06
 };
 
 enum TradeSide : char

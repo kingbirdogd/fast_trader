@@ -86,6 +86,27 @@ void user::run()
 				}
 			}
 			break;
+		case MsgType::ORDER_LIST:
+			{
+				auto ptr = reinterpret_cast<user::user_order_list*>(msg.m_LastTradeQuantity);
+				for (const auto& item : _odr_map)
+				{
+					auto name = item.second->get_name();
+					if (ptr->algo_name != "")
+					{
+						if (ptr->algo_name != name)
+						{
+							continue;
+						}
+					}
+					const auto& order_id = item.first;
+					user::algo_order odr(*_client->get_order(order_id));
+					odr.algo_name = name;
+					ptr->orders.push_back(odr);
+				}
+				ptr->on_command();
+			}
+			break;
 		default:
 			break;
 		}

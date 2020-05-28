@@ -144,6 +144,38 @@ inline void decode()
 				output(j);
 				return;
 			}
+			else if (cmd == "order_list")
+			{
+				std::string algo_name = "";
+				auto it = j.find("algo_name");
+				if (j.end() != it)
+				{
+					if (it.value().type() == json::value_t::string)
+					{
+						algo_name = it.value().get<std::string>();
+					}
+				}
+				algo* al = nullptr;
+				if (algo_name != "")
+				{
+					al = u.get_algo(algo_name);
+					if (nullptr == al)
+					{
+						j["error"] = "algo name not found";
+						output(j);
+						return;
+					}
+				}
+				user::user_order_list* msg = new user::user_order_list();
+				msg->algo_name = algo_name;
+				msg->id = id;
+				msg->al = al;
+				msg->ref = j["ref"].get<std::string>();
+				Tradable t;
+				t.m_MsgType = MsgType::ORDER_LIST;
+				t.m_LastTradeQuantity = reinterpret_cast<unsigned long long>(msg);
+				broadcastQueue.enqueue(t);
+			}
 			else
 			{
 				auto algo_name  = j["algo_name"].get<std::string>();
