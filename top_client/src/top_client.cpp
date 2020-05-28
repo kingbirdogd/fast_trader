@@ -221,8 +221,8 @@ dbp::top::enhance_order top_client::new_order
 		if (dbp::top::order_side::buy == side)
 		{
 			//auto turnover = (quantity/100000000 * price/1000000000) ;
-			fprintf(stderr, " PRICE: %llu\n",  price);
-			fprintf(stderr, " QUANTITY: %llu\n",  quantity);
+			//fprintf(stderr, " PRICE: %llu\n",  price);
+			//fprintf(stderr, " QUANTITY: %llu\n",  quantity);
 			unsigned long long M100 = 100000;
 			unsigned long long turnover =  static_cast<unsigned long long>(quantity/1000 * price/1000)/static_cast<unsigned long long>(M100*M100);
 			if (turnover > _buy_power)
