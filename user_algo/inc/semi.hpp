@@ -874,7 +874,10 @@ private:
 		{
 			auto* self = dynamic_cast<semi*>(al);
 			result = self->force_buy(quantity, p, ref);
-			ouputQueue.enqueue(this);
+			if(result != "exist buy power" && result != "Not Ready"){
+				ouputQueue.enqueue(this);
+			}
+
 		}
 		virtual ~algo_force_buy() = default;
 	};

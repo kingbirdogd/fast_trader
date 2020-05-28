@@ -211,6 +211,9 @@ dbp::top::enhance_order top_client::new_order
 	if (!_ready)
 	{
 		report.order_id = 0;
+		std::string reason = "Not Ready";
+		memcpy(report.reject_reason, reason.c_str(), reason.size());
+		report.status = dbp::top::order_status::canceled;
 		return report;
 	}
 	else
@@ -235,8 +238,6 @@ dbp::top::enhance_order top_client::new_order
 			}
 			else
 			{
-				fprintf(stderr, "OK BUY POWER: %llu\n",  _buy_power);
-				fprintf(stderr, "OK TURNOVER: %llu\n",  turnover);
 				_buy_power -= turnover;
 			}
 		}
