@@ -497,7 +497,19 @@ private:
 				{
 					if (_auto_sell)
 					{
-						sell();
+						if(sell(best_bid_price) == sell_result::SUCCESS){
+							#ifndef NOT_MEASURE
+								algo_latency* msg = new algo_latency();
+								msg->al = _algo;
+								msg->algo_name = _algo->_name;
+								msg->id = _algo->_u.get_id();
+								msg->ref = _ref;
+								msg->pkg_tm = tradable.m_PkgTime;
+								msg->m_tm = tradable.m_PkgTime;
+								msg->o_tm = dbp::tools::srv::current();
+								ouputQueue.enqueue(msg);
+							#endif
+						}
 					}
 				}
 			}
