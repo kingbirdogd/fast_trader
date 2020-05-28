@@ -373,7 +373,7 @@ private:
 
 					if (_auto_buy)
 					{
-						if(buy(_buy_price)){
+						if(buy(_buy_price) == buy_result::SUCCESS){
 #ifndef NOT_MEASURE
 							algo_latency* msg = new algo_latency();
 							msg->al = _algo;
@@ -472,7 +472,7 @@ private:
 
 					if (_auto_buy)
 					{
-						if(buy(_buy_price)){
+						if(buy(_buy_price) == buy_result::SUCCESS){
 #ifndef NOT_MEASURE
 							fprintf(stderr, "info Code: %u : %llu - Bid:%llu | Ask:%llu - %llu \n", _underlying_code, best_bid_vol, bid_price, ask_price, best_ask_vol);
 							fprintf(stderr, "info Code: %u : Trade Price : %llu  Trade Side: %d \n",_underlying_code, trade_price, side);
