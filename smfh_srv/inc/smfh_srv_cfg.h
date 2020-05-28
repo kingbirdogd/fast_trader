@@ -3,6 +3,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <epoll.h>
+#include <pthread.h>
 #include <string>
 #include <vector>
 #include <fstream>
@@ -16,6 +17,38 @@
 #include <limits>
 
 using json = nlohmann::json;
+
+inline void loadThreadPriority(json& _json)
+{
+	auto it = _json.find("SCHED_TYPE");
+	if (_json.end() != it)
+	{
+		if (it.value() == json::value_t::string)
+		{
+			auto str_SCHED_TYPE = it.value().get<std::string>();
+			if (str_SCHED_TYPE == "SCHED_OTHER")
+			{
+				SCHED_TYPE = SCHED_OTHER;
+			}
+			else if (str_SCHED_TYPE == "SCHED_FIFO")
+			{
+				SCHED_TYPE = SCHED_FIFO;
+			}
+			else if (str_SCHED_TYPE == "SCHED_RR")
+			{
+				SCHED_TYPE = SCHED_RR;
+			}
+		}
+	}
+	it = _json.find("SCHED_PRIORITY");
+	if (_json.end() != it)
+	{
+		if (it.value() == json::value_t::number_unsigned)
+		{
+			SCHED_PRIORITY = it.value().get<int>();
+		}
+	}
+}
 
 inline static bool loadCpu(json& _json)
 {

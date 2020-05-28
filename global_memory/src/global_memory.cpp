@@ -15,6 +15,9 @@ COutputQueue ouputQueue;
 CUserMap userMap;
 FILE* input_stream = stdin;
 FILE* output_stream = stdout;
+int SCHED_TYPE;
+int SCHED_PRIORITY;
+
 
 
 

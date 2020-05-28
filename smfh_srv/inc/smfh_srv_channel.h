@@ -482,8 +482,8 @@ public:
 		{
 			return false;
 		}
-		sch.sched_priority = 99;
-		if (0 != pthread_setschedparam(iThread, SCHED_FIFO, &sch))
+		sch.sched_priority = SCHED_PRIORITY;
+		if (0 != pthread_setschedparam(iThread, SCHED_TYPE, &sch))
 		{
 			return false;
 		}

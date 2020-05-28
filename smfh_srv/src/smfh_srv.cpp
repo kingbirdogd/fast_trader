@@ -267,8 +267,8 @@ inline void startUsers()
 		memset (&sch, 0, sizeof(struct sched_param));
 		int iPolicy = 0;
 		pthread_getschedparam(iThread, &iPolicy, &sch);
-		sch.sched_priority = 99;
-		pthread_setschedparam(iThread, SCHED_FIFO, &sch);
+		sch.sched_priority = SCHED_PRIORITY;
+		pthread_setschedparam(iThread, SCHED_TYPE, &sch);
 	}
 }
 

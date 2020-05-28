@@ -2,6 +2,7 @@
 #define INC_GLOBAL_MEMORY_HPP_
 #include <msg.hpp>
 #include <cstdio>
+#include <pthread.h>
 #include <unordered_map>
 
 class user;
@@ -22,6 +23,9 @@ extern COutputQueue ouputQueue;
 extern CUserMap userMap;
 extern FILE* input_stream;
 extern FILE* output_stream;
+extern int SCHED_TYPE = SCHED_FIFO;
+extern int SCHED_PRIORITY = 99;
+
 
 
 

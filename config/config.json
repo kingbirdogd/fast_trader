@@ -1,5 +1,7 @@
 {
 	"IN_OUT_PROCESS": "node ${HOME}/fast_trader/gui/db_server.js 9918",
+	"SCHED_PRIORITY": 99,
+	"SCHED_TYPE": "SCHED_FIFO",
 	"SOL_SOCKET":
 	{
 		"SO_KEEPALIVE": true,
