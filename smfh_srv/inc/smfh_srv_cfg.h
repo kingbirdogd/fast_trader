@@ -161,6 +161,7 @@ inline static bool loadUsers(json& _json)
 			userMap[id] = pUser;
 		}
 		cfg.commit();
+		cfg.warm_up();
 	}
 	catch(...)
 	{
