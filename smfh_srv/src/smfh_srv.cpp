@@ -166,7 +166,7 @@ inline void decode()
 						return;
 					}
 				}
-				user::user_order_list* msg = new user::user_order_list();
+				algo_msg_base* msg = new user::user_order_list();
 				msg->algo_name = algo_name;
 				msg->id = id;
 				msg->al = al;
