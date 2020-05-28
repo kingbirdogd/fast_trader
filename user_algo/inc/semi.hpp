@@ -395,6 +395,14 @@ private:
 						{
 							if(sell(_sell_price) == sell_result::SUCCESS){
 #ifndef NOT_MEASURE
+
+								fprintf(stderr, "info Code BULL: %u : %llu - Bid:%llu | Ask:%llu - %llu \n", _warrant_code, best_bid_vol, bid_price, ask_price, best_ask_vol);
+								fprintf(stderr, "info Code: %u : Trade Price : %llu Trade Vol = %llu    Trade Side: %d \n", _warrant_code,trade_price,tradable.m_LastTradeQuantity, side);
+								fprintf(stderr, "info Code: %u :  m_AccumulateSellQuantity: %llu -- m_AccumulateBuyQuantity : %llu  \n", _warrant_code,tradable.m_AccumulateSellQuantity, tradable.m_AccumulateBuyQuantity);
+								fprintf(stderr, "info Code: %u : Ratio Buy : %llu  Ratio Sell: %llu \n",_warrant_code, buyratio, sellratio);
+								fprintf(stderr, "info Code: %u : _ratio_buy : %llu  _ratio_sell: %llu \n",_warrant_code, _ratio_buy, _ratio_sell);
+
+
 								algo_latency* msg = new algo_latency();
 								msg->al = _algo;
 								msg->algo_name = _algo->_name;
@@ -488,6 +496,14 @@ private:
 						{
 							if(sell(_sell_price) == sell_result::SUCCESS){
 #ifndef NOT_MEASURE
+
+								fprintf(stderr, "info Code: %u : %llu - Bid:%llu | Ask:%llu - %llu \n", _underlying_code, best_bid_vol, bid_price, ask_price, best_ask_vol);
+								fprintf(stderr, "info Code: %u : Trade Price : %llu  Trade Side: %d \n",_underlying_code, trade_price, side);
+								fprintf(stderr, "info Code: %u :  m_AccumulateSellQuantity: %llu -- m_AccumulateBuyQuantity : %llu  \n", _warrant_code,tradable.m_AccumulateSellQuantity, tradable.m_AccumulateBuyQuantity);
+								fprintf(stderr, "info Code: %u : Ratio Buy : %llu  Ratio Sell: %llu \n", _underlying_code,buyratio, sellratio);
+								fprintf(stderr, "info Code: %u : _ratio_buy : %llu  _ratio_sell: %llu \n",_underlying_code, _ratio_buy, _ratio_sell);
+
+
 							algo_latency* msg = new algo_latency();
 							msg->al = _algo;
 							msg->algo_name = _algo->_name;
