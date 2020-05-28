@@ -256,11 +256,11 @@ private:
 
 				on_order(odr);
 
-				if(odr.reject_reason == "Exceed Buy Power"){
+				if("Exceed Buy Power" == odr.reject_reason){
 					return buy_result::EXCEED_BUY_POWER;
 				}
 
-				if(odr.reject_reason == "Not Ready"){
+				if("Not Ready" == odr.reject_reason){
 					return buy_result::NOT_READY;
 				}
 
