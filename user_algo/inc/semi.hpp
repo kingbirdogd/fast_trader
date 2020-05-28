@@ -958,7 +958,6 @@ public:
 	virtual void handler_order(const dbp::top::enhance_order&);
 	virtual void handle_command(algo_msg_base&);
 	virtual algo_msg_base* json_to_msg(json& msg);
-	virtual json msg_to_json(algo_msg_base* msg);
 };
 
 

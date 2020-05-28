@@ -114,7 +114,7 @@ inline void decode()
 			else
 			{
 				j["omdd_tradable"] = it->second.to_json();
-				j["omdd_tradable"]["m_Symbol"] =  it->second;
+				j["omdd_tradable"]["m_Symbol"] =  codeToName.find(code)->second;
 				output(j);
 				return;
 			}
@@ -212,7 +212,7 @@ inline void dequeueOutput()
 {
 	algo_msg_base* msg;
 	ouputQueue.deque(msg);
-	output(msg->al->msg_to_json(msg));
+	output(msg->to_json());
 	delete msg;
 }
 
