@@ -490,13 +490,13 @@ private:
 		}
 		void on_book(const Tradable& tradable)
 		{
-			auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
-			if (0 != best_bid_price && (best_bid_price == _bottom_price || best_bid_price >= _ceiling_price))
-			{
-				if (_position > 0)
+			if (_position > 0){
+				if (_auto_sell)
 				{
-					if (_auto_sell)
+					auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
+					if (0 != best_bid_price && (best_bid_price == _bottom_price || best_bid_price >= _ceiling_price))
 					{
+
 						if(sell(best_bid_price) == sell_result::SUCCESS){
 							#ifndef NOT_MEASURE
 								algo_latency* msg = new algo_latency();
