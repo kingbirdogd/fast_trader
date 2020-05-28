@@ -51,8 +51,10 @@ enum TradeSide : char
 
 struct Tradable
 {
+#ifndef NOT_MEASURE
 	unsigned long long m_PkgTime;
 	unsigned long long m_MsgTime;
+#endif
 	unsigned long long m_LastTradeQuantity;
 	unsigned long long m_AccumulateBuyQuantity;
 	unsigned long long m_AccumulateSellQuantity;
@@ -65,8 +67,10 @@ struct Tradable
 	OrderItem m_Bid[TRADABLE_BOOK_SIZE];
 	OrderItem m_Ask[TRADABLE_BOOK_SIZE];
 	Tradable():
+#ifndef NOT_MEASURE
 		m_PkgTime(0),
 		m_MsgTime(0),
+#endif
 		m_LastTradeQuantity(0),
 		m_AccumulateBuyQuantity(0),
 		m_AccumulateSellQuantity(0),
@@ -84,8 +88,10 @@ struct Tradable
 	nlohmann::json to_json()
 	{
 		nlohmann::json j;
+#ifndef NOT_MEASURE
 		j["m_PkgTime"] = m_PkgTime;
 		j["m_MsgTime"] = m_MsgTime;
+#endif
 		j["m_LastTradeQuantity"] = m_LastTradeQuantity;
 		j["m_AccumulateBuyQuantity"] = m_AccumulateBuyQuantity;
 		j["m_AccumulateSellQuantity"] = m_AccumulateSellQuantity;

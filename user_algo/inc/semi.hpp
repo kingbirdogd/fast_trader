@@ -1,16 +1,10 @@
 #ifndef ALGOS_INC_SEMI_HPP_
 #define ALGOS_INC_SEMI_HPP_
 
+#include <tools.h>
 #include <algo.hpp>
 #include <global_memory.hpp>
 #include <ctime>
-
-static inline uint64_t nano()
-{
-	timespec ts;
-	clock_gettime(CLOCK_REALTIME, &ts);
-	return ts.tv_sec * 1000000000 + ts.tv_nsec;
-}
 
 
 class semi : public algo
@@ -365,14 +359,17 @@ private:
 					if (_auto_buy)
 					{
 						if(buy(_buy_price)){
+#ifndef NOT_MEASURE
 							algo_latency* msg = new algo_latency();
 							msg->al = _algo;
 							msg->algo_name = _algo->_name;
 							msg->id = _algo->_u.get_id();
 							msg->ref = _ref;
+							msg->pkg_tm = tradable.m_PkgTime;
 							msg->m_tm = tradable.m_MsgTime;
-							msg->o_tm = nano();
+							msg->o_tm = dbp::tools::srv::current();
 							ouputQueue.enqueue(msg);
+#endif
 						}
 					}
 				}
@@ -394,14 +391,17 @@ private:
 						if (_auto_sell)
 						{
 							if(sell(_sell_price) == sell_result::SUCCESS){
+#ifndef NOT_MEASURE
 								algo_latency* msg = new algo_latency();
 								msg->al = _algo;
 								msg->algo_name = _algo->_name;
 								msg->id = _algo->_u.get_id();
 								msg->ref = _ref;
+								msg->pkg_tm = tradable.m_PkgTime;
 								msg->m_tm = tradable.m_PkgTime;
-								msg->o_tm = nano();
+								msg->o_tm = dbp::tools::srv::current();
 								ouputQueue.enqueue(msg);
+#endif
 							}
 						}
 					}
@@ -733,19 +733,25 @@ private:
 		}
 		virtual ~algo_odr_position() = default;
 	};
+#ifndef NOT_MEASURE
 	struct algo_latency: public algo_msg_base
 	{
+		unsigned long long pkg_tm;
 		unsigned long long m_tm;
 		unsigned long long o_tm;
 		algo_latency():
-			algo_msg_base()
+			algo_msg_base(),
+			pkg_tm(0),
+			m_tm(0),
+			o_tm(0)
 		{
 		}
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
 			j["msg_type"] = "semi_algo_latency";
-			j["latency"] = o_tm-m_tm;
+			j["hkex_to_order_latency"] = pkg_tm - m_tm;
+			j["tick_to_order_latency"] = o_tm - m_tm;
 
 			return j;
 		}
@@ -755,6 +761,7 @@ private:
 		}
 		virtual ~algo_latency() = default;
 	};
+#endif
 	struct algo_set: public algo_msg_base
 	{
 		pair p;

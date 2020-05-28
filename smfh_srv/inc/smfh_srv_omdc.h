@@ -12,8 +12,10 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		return;
 	}
 	COmdOrderbook& rOrderBook = it->second;
+#ifndef NOT_MEASURE
 	rOrderBook.m_PkgTime = _uPkgTm;
 	rOrderBook.m_MsgTime = dbp::tools::srv::current();
+#endif
 	if (53 == _pMsg->m_uMsgType)
 	{
 		rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
