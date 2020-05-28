@@ -942,7 +942,7 @@ private:
 		{
 			auto* self = dynamic_cast<semi*>(al);
 			result = self->force_buy(quantity, p, ref);
-			if(result != "exist buy power" && result != "Not Ready"){
+			if(result != "exist buy power" || result != "Not Ready"){
 				ouputQueue.enqueue(this);
 			}
 
