@@ -221,18 +221,18 @@ dbp::top::enhance_order top_client::new_order
 		if (dbp::top::order_side::buy == side)
 		{
 			//auto turnover = (quantity/100000000 * price/1000000000) ;
-			//fprintf(stderr, " PRICE: %llu\n",  price);
-			//fprintf(stderr, " QUANTITY: %llu\n",  quantity);
+			fprintf(stderr, " PRICE: %llu\n",  price);
+			fprintf(stderr, " QUANTITY: %llu\n",  quantity);
 
-			unsigned long long turnover =  static_cast<unsigned long long>(quantity/1000 * price/1000)/static_cast<unsigned long long>(100000ull * 100000ull);
+			unsigned long long turnover =  static_cast<unsigned long long>(quantity/1000ull * price/1000ull)/static_cast<unsigned long long>(100000ull * 100000ull);
 			if (turnover > _buy_power)
 			{
 				report.order_id = 0;
 				std::string reason = "exist buy power";
 				memcpy(report.reject_reason, reason.c_str(), reason.size());
 				report.status = dbp::top::order_status::canceled;
-				//fprintf(stderr, " BUY POWER: %llu\n",  _buy_power);
-				//fprintf(stderr, " TURNOVER: %llu\n",  turnover);
+				fprintf(stderr, " BUY POWER: %llu\n",  _buy_power);
+				fprintf(stderr, " TURNOVER: %llu\n",  turnover);
 
 				return report;
 			}

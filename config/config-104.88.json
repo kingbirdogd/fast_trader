@@ -1,5 +1,7 @@
 {
 	"IN_OUT_PROCESS": "node ${HOME}/fast_trader/gui/db_server.js 9918",
+	"SCHED_PRIORITY": 0,
+	"SCHED_TYPE": "SCHED_OTHER",
 	"SOL_SOCKET":
 	{
 		"SO_KEEPALIVE": true,
@@ -26,9 +28,11 @@
 		2,
 		3,
 		4,
-		10,
-		11,
-		12		
+		5,
+		18,
+		19,
+		20,
+		21		
 	],
 	"USERS":
 	[
