@@ -224,7 +224,7 @@ dbp::top::enhance_order top_client::new_order
 			fprintf(stderr, " PRICE: %llu\n",  price);
 			fprintf(stderr, " QUANTITY: %llu\n",  quantity);
 
-			unsigned long long turnover =  static_cast<unsigned long long>(quantity/1000 * price/1000)/static_cast<unsigned long long>(100000*100000);
+			unsigned long long turnover =  static_cast<unsigned long long>(quantity/1000 * price/1000)/static_cast<unsigned long long>(100000ull * 100000ull);
 			if (turnover > _buy_power)
 			{
 				report.order_id = 0;
