@@ -1,5 +1,6 @@
 #ifndef __DBP_TOOLS_SRV__
 #define __DBP_TOOLS_SRV__
+#include <vector>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <string.h>
