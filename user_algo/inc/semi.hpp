@@ -430,7 +430,7 @@ private:
 										trade_price == _buy_trriger && trade_price == bid_price &&
 										trade_quantity >= (diff) &&
 										0 != tradable.m_Bid[0].m_uQuantity && _is_buying == false && _auto_buy == true  && _is_selling == false
-								)||(_ratio_buy > 0 && buyratio<= _ratio_buy)
+								)||(_ratio_buy > 0 && buyratio <= _ratio_buy)
 						)
 					)
 				{
