@@ -256,11 +256,11 @@ private:
 
 				on_order(odr);
 
-				if("Exceed Buy Power" == odr.reject_reason){
+				if(std::strcmp(odr.reject_reason,"Exceed Buy Power") == 0){
 					return buy_result::EXCEED_BUY_POWER;
 				}
 
-				if("Not Ready" == odr.reject_reason){
+				if(std::strcmp(odr.reject_reason,"Not Ready") == 0 ){
 					return buy_result::NOT_READY;
 				}
 
