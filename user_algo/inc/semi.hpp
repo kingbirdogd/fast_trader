@@ -58,6 +58,13 @@ private:
 			SHORT_SELL = 4,
 			NEW_SELL_ODR_FAIL = 5
 		};
+		enum class buy_result: unsigned long long
+		{
+			SUCCESS = 0,
+			BUYING = 1,
+			NOT_READY = 2,
+			EXCEED_BUY_POWER = 3
+		};
 	public:
 		pair
 		(
@@ -202,7 +209,7 @@ private:
 			}
 			return price;
 		}
-		bool buy(unsigned long long price = 0, bool is_auto = true, unsigned long long quantity = 0)
+		buy_result buy(unsigned long long price = 0, bool is_auto = true, unsigned long long quantity = 0)
 		{
 			if (is_auto)
 			{
@@ -942,7 +949,7 @@ private:
 		{
 			auto* self = dynamic_cast<semi*>(al);
 			result = self->force_buy(quantity, p, ref);
-			if(result != "exist buy power" || result != "Not Ready"){
+			if(result != "Exceed Buy Power" && result != "Not Ready"){
 				ouputQueue.enqueue(this);
 			}
 

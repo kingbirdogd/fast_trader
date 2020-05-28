@@ -228,7 +228,7 @@ dbp::top::enhance_order top_client::new_order
 			if (turnover > _buy_power)
 			{
 				report.order_id = 0;
-				std::string reason = "exist buy power";
+				std::string reason = "Exceed Buy Power";
 				memcpy(report.reject_reason, reason.c_str(), reason.size());
 				report.status = dbp::top::order_status::canceled;
 				fprintf(stderr, " BUY POWER: %llu\n",  _buy_power);

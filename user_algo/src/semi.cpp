@@ -265,14 +265,23 @@ std::string semi::force_buy(unsigned long long quantity, pair*& pref, const std:
 	}
 	auto& p = it->second;
 	pref = &p;
-	if (p.buy(0, false, quantity))
+	auto result = p.buy(0, false, quantity);
+	if (pair::buy_result::SUCCESS == result)
 	{
 		return  "SUCCESS";
 	}
-	else
+	else if(pair::buy_result::BUYING == result)
 	{
 		return "fail new buy order not valid";
+	}else if(pair::buy_result::NOT_READY == result)
+	{
+		return "Not Ready";
+	}else if(pair::buy_result::EXCEED_BUY_POWER)
+	{
+		return "Exceed Buy Power";
 	}
+
+	return "Unknown";
 
 }
 
