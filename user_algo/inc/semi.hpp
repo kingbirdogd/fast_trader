@@ -393,7 +393,7 @@ private:
 					{
 						if (_auto_sell)
 						{
-							if(sell(_sell_price)){
+							if(sell(_sell_price) == sell_result::SUCCESS){
 								algo_latency* msg = new algo_latency();
 								msg->al = _algo;
 								msg->algo_name = _algo->_name;
