@@ -3,7 +3,11 @@
 #include <tools.h>
 #include <global_memory.hpp>
 #include "smfh_srv_orderbook.h"
+#ifndef NOT_MEASURE
 inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long _uPkgTm)
+#else
+inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long)
+#endif
 {
 	unsigned int uSecurityCode = OMD_GET_VALUE(_pMsg, 4, unsigned int);
 	auto it = omddMap.find(uSecurityCode);
