@@ -36,15 +36,15 @@ void semi::on_omdc_book(const Tradable& tradable)
 			auto bear_buyratio = static_cast<unsigned long long>((best_bid_vol*100) / (best_bid_vol + best_ask_vol));
 			auto bear_sellratio = static_cast<unsigned long long>((best_ask_vol*100) / (best_bid_vol + best_ask_vol));
 
-			fprintf(stderr, "info Code: %u : %llu - Bid:%llu | Ask:%llu - %llu \n", tradable.m_Code, best_bid_vol, bid_price, ask_price, best_ask_vol);
-			fprintf(stderr, "info Code: %u : Bull Ratio Buy : %llu  Ratio Sell: %llu \n", tradable.m_Code,bull_buyratio, bull_sellratio);
-			fprintf(stderr, "info Code: %u : Bear Ratio_buy : %llu  Ratio_sell: %llu \n",tradable.m_Code, bear_buyratio, bear_sellratio);
+			//fprintf(stderr, "info Code: %u : %llu - Bid:%llu | Ask:%llu - %llu \n", tradable.m_Code, best_bid_vol, bid_price, ask_price, best_ask_vol);
+			//fprintf(stderr, "info Code: %u : Bull Ratio Buy : %llu  Ratio Sell: %llu \n", tradable.m_Code,bull_buyratio, bull_sellratio);
+			//fprintf(stderr, "info Code: %u : Bear Ratio_buy : %llu  Ratio_sell: %llu \n",tradable.m_Code, bear_buyratio, bear_sellratio);
 
 
 
 			for (const auto& p : it->second)
 			{
-				fprintf(stderr, "info Code: %u : User Ratio_buy : %llu  Ratio_sell: %llu   User Trigger_buy : %llu  User Trigger_sell : %llu \n",tradable.m_Code, p->ratio_buy(), p->ratio_sell(), p->buy_trriger(),p->sell_trriger()  );
+				//fprintf(stderr, "info Code: %u : User Ratio_buy : %llu  Ratio_sell: %llu   User Trigger_buy : %llu  User Trigger_sell : %llu \n",tradable.m_Code, p->ratio_buy(), p->ratio_sell(), p->buy_trriger(),p->sell_trriger()  );
 
 				if(!p->is_buying() && !p->is_selling()){
 					if ( p->auto_buy() && p->ratio_buy()>0 )
