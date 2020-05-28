@@ -276,7 +276,7 @@ std::string semi::force_buy(unsigned long long quantity, pair*& pref, const std:
 	}else if(pair::buy_result::NOT_READY == result)
 	{
 		return "Not Ready";
-	}else if(pair::buy_result::EXCEED_BUY_POWER)
+	}else if(pair::buy_result::EXCEED_BUY_POWER == result)
 	{
 		return "Exceed Buy Power";
 	}
