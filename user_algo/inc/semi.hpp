@@ -370,7 +370,7 @@ private:
 							msg->algo_name = _algo->_name;
 							msg->id = _algo->_u.get_id();
 							msg->ref = _ref;
-							msg->m_tm = tradable.m_PkgTime;
+							msg->m_tm = tradable.m_MsgTime;
 							msg->o_tm = nano();
 							ouputQueue.enqueue(msg);
 						}
