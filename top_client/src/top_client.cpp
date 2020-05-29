@@ -84,35 +84,48 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 							{
 								if (dbp::top::report_type::order_cancel_approve == report.rep_type)
 								{
-									unsigned long long turnover =  static_cast<unsigned long long>((it->second.price/1000ull * it->second.remain_quantity/1000ull)/(100000ull * 100000ull));
+									//unsigned long long turnover =  static_cast<unsigned long long>((it->second.price/1000ull * it->second.remain_quantity/1000ull)/(100000ull * 100000ull));
 									//_buy_power += (it->second.price/1000ull * it->second.remain_quantity/1000ull)/(100000ull * 100000ull) ;
+									unsigned long long turnover = 0;
+									if(report.match_quantity > 0){
+										turnover =  (report.price/1000ull * (report.quantity - report.match_quantity)/1000ull)/(100000ull * 100000ull);
+									}else{
+										turnover =  (report.price/1000ull * report.quantity/1000ull)/(100000ull * 100000ull);
+									}
 
 									_buy_power += turnover;
 								}
 								else if (dbp::top::report_type::order_modify_approve == report.rep_type)
 								{
-									_buy_power += (it->second.ori_price/1000ull * it->second.ori_quantity/1000ull)/(100000ull * 100000ull);
+									//_buy_power += (it->second.ori_price/1000ull * it->second.ori_quantity/1000ull)/(100000ull * 100000ull);
 								}
 								else if (dbp::top::report_type::order_modify_reject == report.rep_type)
 								{
-									_buy_power += (it->second.price/1000ull * it->second.quantity/1000ull)/(100000ull * 100000ull);
+									//_buy_power += (it->second.price/1000ull * it->second.quantity/1000ull)/(100000ull * 100000ull);
 								}
 								else if (dbp::top::report_type::order_fill == report.rep_type)
 								{
+									fprintf(stderr, "info Fill BUY 1 match_quantity: %llu \n",report.price);
 									fprintf(stderr, "info Fill BUY 1 match_price: %llu \n",report.match_price);
 									fprintf(stderr, "info Fill BUY 1 match_quantity: %llu \n",report.match_quantity);
 
-									_buy_power += ((it->second.price - it->second.match_price)/1000ull * it->second.match_quantity/1000ull)/(100000ull * 100000ull);
+									if(report.match_price != report.price){
+										//_buy_power += ((it->second.price - it->second.match_price)/1000ull * it->second.match_quantity/1000ull)/(100000ull * 100000ull);
+										_buy_power += ((report.price - report.match_price)/1000ull * report.match_quantity/1000ull)/(100000ull * 100000ull);
+									}
 								}
 							}
 							else
 							{
 								if (dbp::top::report_type::order_fill == report.rep_type)
 								{
-									fprintf(stderr, "info Fill Sell 1 match_price: %llu \n",it->second.match_price);
-									fprintf(stderr, "info Fill Sell 1 match_quantity: %llu \n",it->second.match_quantity);
+									//fprintf(stderr, "info Fill Sell 1 match_price: %llu \n",it->second.match_price);
+									//fprintf(stderr, "info Fill Sell 1 match_quantity: %llu \n",it->second.match_quantity);
 
-									unsigned long long turnover =  static_cast<unsigned long long>((it->second.match_price/1000ull * it->second.match_quantity/1000ull)/(100000ull * 100000ull));
+									fprintf(stderr, "info Fill Sell 1 match_price: %llu \n",report.match_price);
+									fprintf(stderr, "info Fill Sell 1 match_quantity: %llu \n",report.match_quantity);
+
+									unsigned long long turnover =  static_cast<unsigned long long>((report.match_price/1000ull * report.match_quantity/1000ull)/(100000ull * 100000ull));
 									//_buy_power += (it->second.match_price/1000ull * it->second.match_quantity/1000ull)/ (100000ull * 100000ull);
 
 									fprintf(stderr, "info Fill Sell 1 Turnover: %llu : Buy Power : %llu \n",turnover, _buy_power);
