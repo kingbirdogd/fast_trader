@@ -103,7 +103,7 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 							{
 								if (dbp::top::report_type::order_fill == report.rep_type)
 								{
-									_buy_power += (it->second.match_price/1000ull * it->second.match_quantity/1000ull)/100000ull;
+									_buy_power += (it->second.match_price/1000ull * it->second.match_quantity/1000ull)/ 100000ull;
 								}
 							}
 							it->second = report;
