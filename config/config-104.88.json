@@ -1,5 +1,5 @@
 {
-	"IN_OUT_PROCESS": "node ${HOME}/fast_trader/gui/db_server_uat.js 9918",
+	"IN_OUT_PROCESS": "node ${HOME}/fast_trader/gui/db_server.js 9918",
 	"SCHED_PRIORITY": 0,
 	"SCHED_TYPE": "SCHED_OTHER",
 	"SOL_SOCKET":
@@ -29,10 +29,12 @@
 		3,
 		4,
 		5,
+		6,
 		18,
 		19,
 		20,
-		21		
+		21,
+		22		
 	],
 	"USERS":
 	[
