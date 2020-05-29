@@ -20,9 +20,11 @@ void semi::on_omdc_book(const Tradable& tradable)
 			if (p->auto_sell())
 			{
 					p->on_book(tradable);
-				}
 			}
-	}else{
+		}
+	}
+	/*
+	else{
 		auto it = _u_map.find(tradable.m_Code);
 		if (_u_map.end() != it)
 		{
@@ -76,7 +78,7 @@ void semi::on_omdc_book(const Tradable& tradable)
 
 			}
 		}
-	}
+	}*/
 }
 
 void semi::on_omdd_book(const Tradable&)
