@@ -84,26 +84,26 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 							{
 								if (dbp::top::report_type::order_cancel_approve == report.rep_type)
 								{
-									_buy_power += it->second.price * it->second.remain_quantity;
+									_buy_power += (it->second.price/1000llu * it->second.remain_quantity/1000llu)/100000llu;
 								}
 								else if (dbp::top::report_type::order_modify_approve == report.rep_type)
 								{
-									_buy_power += it->second.ori_price * it->second.ori_quantity;
+									_buy_power += (it->second.ori_price/1000llu * it->second.ori_quantity/1000llu)/100000llu;
 								}
 								else if (dbp::top::report_type::order_modify_reject == report.rep_type)
 								{
-									_buy_power += it->second.price * it->second.quantity;
+									_buy_power += (it->second.price/1000llu * it->second.quantity/1000llu)/100000llu;
 								}
 								else if (dbp::top::report_type::order_fill == report.rep_type)
 								{
-									_buy_power += (it->second.price - it->second.match_price) * it->second.match_quantity;
+									_buy_power += ((it->second.price - it->second.match_price)/1000llu * it->second.match_quantity/1000llu)/100000llu;
 								}
 							}
 							else
 							{
 								if (dbp::top::report_type::order_fill == report.rep_type)
 								{
-									_buy_power += it->second.match_price * it->second.match_quantity;
+									_buy_power += (it->second.match_price/1000llu * it->second.match_quantity/1000llu)/100000llu;
 								}
 							}
 							it->second = report;
