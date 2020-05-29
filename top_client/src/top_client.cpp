@@ -84,26 +84,26 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 							{
 								if (dbp::top::report_type::order_cancel_approve == report.rep_type)
 								{
-									_buy_power += (it->second.price/1000ull * it->second.remain_quantity/1000ull)/100000ull;
+									_buy_power += (it->second.price/1000ull * it->second.remain_quantity/1000ull)/(100000ull * 100000ull) ;
 								}
 								else if (dbp::top::report_type::order_modify_approve == report.rep_type)
 								{
-									_buy_power += (it->second.ori_price/1000ull * it->second.ori_quantity/1000ull)/100000ull;
+									_buy_power += (it->second.ori_price/1000ull * it->second.ori_quantity/1000ull)/(100000ull * 100000ull);
 								}
 								else if (dbp::top::report_type::order_modify_reject == report.rep_type)
 								{
-									_buy_power += (it->second.price/1000ull * it->second.quantity/1000ull)/100000ull;
+									_buy_power += (it->second.price/1000ull * it->second.quantity/1000ull)/(100000ull * 100000ull);
 								}
 								else if (dbp::top::report_type::order_fill == report.rep_type)
 								{
-									_buy_power += ((it->second.price - it->second.match_price)/1000ull * it->second.match_quantity/1000ull)/100000ull;
+									_buy_power += ((it->second.price - it->second.match_price)/1000ull * it->second.match_quantity/1000ull)/(100000ull * 100000ull);
 								}
 							}
 							else
 							{
 								if (dbp::top::report_type::order_fill == report.rep_type)
 								{
-									_buy_power += (it->second.match_price/1000ull * it->second.match_quantity/1000ull)/ 100000ull;
+									_buy_power += (it->second.match_price/1000ull * it->second.match_quantity/1000ull)/ (100000ull * 100000ull);
 								}
 							}
 							it->second = report;
