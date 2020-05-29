@@ -99,6 +99,9 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 								}
 								else if (dbp::top::report_type::order_fill == report.rep_type)
 								{
+									fprintf(stderr, "info Fill BUY 1 match_price: %llu \n",it->second.match_price);
+									fprintf(stderr, "info Fill BUY 1 match_quantity: %llu \n",it->second.match_quantity);
+
 									_buy_power += ((it->second.price - it->second.match_price)/1000ull * it->second.match_quantity/1000ull)/(100000ull * 100000ull);
 								}
 							}
