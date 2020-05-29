@@ -428,7 +428,7 @@ private:
 								msg->id = _algo->_u.get_id();
 								msg->ref = _ref;
 								msg->pkg_tm = tradable.m_PkgTime;
-								msg->m_tm = tradable.m_PkgTime;
+								msg->m_tm = tradable.m_MsgTime;
 								msg->o_tm = dbp::tools::srv::current();
 								ouputQueue.enqueue(msg);
 #endif
@@ -556,7 +556,7 @@ private:
 								msg->id = _algo->_u.get_id();
 								msg->ref = _ref;
 								msg->pkg_tm = tradable.m_PkgTime;
-								msg->m_tm = tradable.m_PkgTime;
+								msg->m_tm = tradable.m_MsgTime;
 								msg->o_tm = dbp::tools::srv::current();
 								ouputQueue.enqueue(msg);
 							#endif
