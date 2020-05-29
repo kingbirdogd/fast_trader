@@ -1,5 +1,5 @@
 {
-	"IN_OUT_PROCESS": "node ${HOME}/fast_trader/gui/db_server.js 9918",
+	"IN_OUT_PROCESS": "node ${HOME}/fast_trader/gui/db_server.js 9919",
 	"SCHED_PRIORITY": 0,
 	"SCHED_TYPE": "SCHED_OTHER",
 	"SOL_SOCKET":
@@ -40,10 +40,8 @@
 	[
 		{
 			"ID":1,
-			"IP":"192.168.104.88",
-			"PORT":35101,
-			"USER":"P990098",
-			"PASS":"pass",
+			"USER":"P311831",
+			"PASS":"Shun2328",
 			"BUY_POWER":200000,
 			"ALGOS":
 			{
@@ -63,6 +61,7 @@
 			"USER":"P990098",
 			"PASS":"pass",
 			"BUY_POWER":200000,
+			"DISABLE":true,
 			"ALGOS":
 			{
 				"wendy_semi":
