@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <rapid_ring/ring_buffer_object_poll.hpp>
 
 class algo;
 class user
@@ -76,6 +77,10 @@ public:
 		virtual void on_command()
 		{
 			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			user_order_list_pool.release_obj(this);
 		}
 		virtual ~user_order_list() = default;
 	};
@@ -155,6 +160,8 @@ public:
 	algo* get_algo(const std::string& name);
 private:
 	void handler_order(const dbp::top::enhance_order& odr);
+public:
+	static rapid_ring::spsc_ring_buffer_object_pool<user_order_list, 8192> user_order_list_pool;
 };
 
 

@@ -166,7 +166,7 @@ inline void decode()
 						return;
 					}
 				}
-				algo_msg_base* msg = new user::user_order_list();
+				algo_msg_base* msg = user::user_order_list_pool.get_obj();
 				msg->algo_name = algo_name;
 				msg->id = id;
 				msg->al = al;
@@ -213,7 +213,7 @@ inline void dequeueOutput()
 	algo_msg_base* msg;
 	ouputQueue.deque(msg);
 	output(msg->to_json());
-	delete msg;
+	msg->release();
 }
 
 inline void startDecode()

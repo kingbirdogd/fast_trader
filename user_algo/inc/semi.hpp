@@ -5,6 +5,7 @@
 #include <algo.hpp>
 #include <global_memory.hpp>
 #include <ctime>
+#include <rapid_ring/ring_buffer_object_poll.hpp>
 
 
 class semi : public algo
@@ -375,7 +376,7 @@ private:
 					{
 						if(buy(_buy_price) == buy_result::SUCCESS){
 #ifndef NOT_MEASURE
-							algo_latency* msg = new algo_latency();
+							auto msg = algo_latency_pool.get_obj();
 							msg->al = _algo;
 							msg->algo_name = _algo->_name;
 							msg->id = _algo->_u.get_id();
@@ -422,7 +423,7 @@ private:
 								fprintf(stderr, "info Code: %u : _ratio_buy : %llu  _ratio_sell: %llu \n",_warrant_code, _ratio_buy, _ratio_sell);
 
 
-								algo_latency* msg = new algo_latency();
+								auto msg = algo_latency_pool.get_obj();
 								msg->al = _algo;
 								msg->algo_name = _algo->_name;
 								msg->id = _algo->_u.get_id();
@@ -482,7 +483,7 @@ private:
 
 
 
-							algo_latency* msg = new algo_latency();
+							auto msg = algo_latency_pool.get_obj();
 							msg->al = _algo;
 							msg->algo_name = _algo->_name;
 							msg->id = _algo->_u.get_id();
@@ -523,7 +524,7 @@ private:
 								fprintf(stderr, "info Code: %u : _ratio_buy : %llu  _ratio_sell: %llu \n",_underlying_code, _ratio_buy, _ratio_sell);
 
 
-							algo_latency* msg = new algo_latency();
+							auto msg = algo_latency_pool.get_obj();
 							msg->al = _algo;
 							msg->algo_name = _algo->_name;
 							msg->id = _algo->_u.get_id();
@@ -550,7 +551,7 @@ private:
 
 						if(sell(best_bid_price) == sell_result::SUCCESS){
 							#ifndef NOT_MEASURE
-								algo_latency* msg = new algo_latency();
+								auto msg = algo_latency_pool.get_obj();
 								msg->al = _algo;
 								msg->algo_name = _algo->_name;
 								msg->id = _algo->_u.get_id();
@@ -586,7 +587,7 @@ private:
 					_is_selling = false;
 				}
 			}
-			algo_odr_msg* msg = new algo_odr_msg();
+			algo_odr_msg* msg = algo_odr_msg_pool.get_obj();
 			msg->al = _algo;
 			msg->algo_name = _algo->_name;
 			msg->id = _algo->_u.get_id();
@@ -766,6 +767,10 @@ private:
 		virtual void on_command()
 		{
 		}
+		virtual void release()
+		{
+			algo_odr_msg_pool.release_obj(this);
+		}
 		virtual ~algo_odr_msg() = default;
 	};
 	struct algo_err_msg: public algo_msg_base
@@ -786,6 +791,10 @@ private:
 		virtual void on_command()
 		{
 			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_err_msg_pool.release_obj(this);
 		}
 		virtual ~algo_err_msg() = default;
 	};
@@ -814,6 +823,10 @@ private:
 			self->position(*this);
 			ouputQueue.enqueue(this);
 		}
+		virtual void release()
+		{
+			algo_odr_position_pool.release_obj(this);
+		}
 		virtual ~algo_odr_position() = default;
 	};
 #ifndef NOT_MEASURE
@@ -841,6 +854,10 @@ private:
 		virtual void on_command()
 		{
 			//ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_latency_pool.release_obj(this);
 		}
 		virtual ~algo_latency() = default;
 	};
@@ -873,6 +890,10 @@ private:
 			result = self->set_pair(std::move(p2), no_change);
 			ouputQueue.enqueue(this);
 		}
+		virtual void release()
+		{
+			algo_set_pool.release_obj(this);
+		}
 		virtual ~algo_set() = default;
 	};
 	struct algo_del: public algo_msg_base
@@ -902,6 +923,10 @@ private:
 			result = self->delete_pair(ref, p);
 			ouputQueue.enqueue(this);
 		}
+		virtual void release()
+		{
+			algo_del_pool.release_obj(this);
+		}
 		virtual ~algo_del() = default;
 	};
 	struct algo_get: public algo_msg_base
@@ -930,6 +955,10 @@ private:
 			auto* self = dynamic_cast<semi*>(al);
 			result = self->get_pair(ref, p);
 			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_get_pool.release_obj(this);
 		}
 		virtual ~algo_get() = default;
 	};
@@ -966,6 +995,10 @@ private:
 			}
 
 		}
+		virtual void release()
+		{
+			algo_force_buy_pool.release_obj(this);
+		}
 		virtual ~algo_force_buy() = default;
 	};
 	struct algo_force_sell: public algo_msg_base
@@ -998,6 +1031,10 @@ private:
 			result = self->force_sell(quantity, p, ref);
 			ouputQueue.enqueue(this);
 		}
+		virtual void release()
+		{
+			algo_force_sell_pool.release_obj(this);
+		}
 		virtual ~algo_force_sell() = default;
 	};
 public:
@@ -1021,6 +1058,18 @@ public:
 	virtual void handler_order(const dbp::top::enhance_order&);
 	virtual void handle_command(algo_msg_base&);
 	virtual algo_msg_base* json_to_msg(json& msg);
+public:
+	static rapid_ring::mpsc_ring_buffer_object_pool<algo_odr_msg, 8192> algo_odr_msg_pool;
+	static rapid_ring::mpsc_ring_buffer_object_pool<algo_err_msg, 8192> algo_err_msg_pool;
+	static rapid_ring::spsc_ring_buffer_object_pool<algo_odr_position, 8192> algo_odr_position_pool;
+#ifndef NOT_MEASURE
+	static rapid_ring::mpsc_ring_buffer_object_pool<algo_latency, 8192> algo_latency_pool;
+#endif
+	static rapid_ring::spsc_ring_buffer_object_pool<algo_set, 8192> algo_set_pool;
+	static rapid_ring::spsc_ring_buffer_object_pool<algo_del, 8192> algo_del_pool;
+	static rapid_ring::spsc_ring_buffer_object_pool<algo_get, 8192> algo_get_pool;
+	static rapid_ring::spsc_ring_buffer_object_pool<algo_force_buy, 8192> algo_force_buy_pool;
+	static rapid_ring::spsc_ring_buffer_object_pool<algo_force_sell, 8192> algo_force_sell_pool;
 };
 
 

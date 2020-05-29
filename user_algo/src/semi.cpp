@@ -348,7 +348,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 		auto ref = json["ref"].get<std::string>();
 		if (cmd == "position")
 		{
-			auto msg = new algo_odr_position();
+			auto msg = algo_odr_position_pool.get_obj();
 			msg->al = this;
 			msg->algo_name = _name;
 			msg->id = _u.get_id();
@@ -357,7 +357,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 		}
 		else if (cmd == "set")
 		{
-			pset = new algo_set();
+			pset = algo_set_pool.get_obj();
 			auto& p = pset->p;
 			pset->al = this;
 			pset->algo_name = _name;
@@ -366,7 +366,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 			auto type = json["type"].get<std::string>();
 			if (type != "bull" && type != "bear")
 			{
-				auto msg = new algo_err_msg();
+				auto msg = algo_err_msg_pool.get_obj();
 				msg->al = this;
 				msg->algo_name = _name;
 				msg->id = _u.get_id();
@@ -397,7 +397,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 				auto it_omdd = nameToCode.find(str_underlying);
 				if (nameToCode.end() == it_omdd)
 				{
-					auto msg = new algo_err_msg();
+					auto msg = algo_err_msg_pool.get_obj();
 					msg->al = this;
 					msg->algo_name = _name;
 					msg->id = _u.get_id();
@@ -445,7 +445,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 			}
 			else
 			{
-				auto msg = new algo_err_msg();
+				auto msg = algo_err_msg_pool.get_obj();
 				msg->al = this;
 				msg->algo_name = _name;
 				msg->id = _u.get_id();
@@ -474,7 +474,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 		}
 		else if (cmd == "delete")
 		{
-			auto msg = new algo_del();
+			auto msg = algo_del_pool.get_obj();
 			msg->al = this;
 			msg->algo_name = _name;
 			msg->id = _u.get_id();
@@ -483,7 +483,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 		}
 		else if (cmd == "get")
 		{
-			auto msg = new algo_get();
+			auto msg = algo_get_pool.get_obj();
 			msg->al = this;
 			msg->algo_name = _name;
 			msg->id = _u.get_id();
@@ -492,7 +492,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 		}
 		else if (cmd == "force_buy")
 		{
-			pforce_buy = new algo_force_buy();
+			pforce_buy = algo_force_buy_pool.get_obj();
 			pforce_buy->al = this;
 			pforce_buy->algo_name = _name;
 			pforce_buy->id = _u.get_id();
@@ -502,7 +502,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 		}
 		else if (cmd == "force_sell")
 		{
-			pforce_sell = new algo_force_sell();
+			pforce_sell = algo_force_sell_pool.get_obj();
 			pforce_sell->al = this;
 			pforce_sell->algo_name = _name;
 			pforce_sell->id = _u.get_id();
@@ -512,7 +512,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 		}
 		else
 		{
-			auto msg = new algo_err_msg();
+			auto msg = algo_err_msg_pool.get_obj();
 			msg->al = this;
 			msg->algo_name = _name;
 			msg->id = _u.get_id();
@@ -523,7 +523,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 	}
 	catch(const std::exception& e)
 	{
-		auto msg = new algo_err_msg();
+		auto msg = algo_err_msg_pool.get_obj();
 		msg->al = this;
 		msg->algo_name = _name;
 		msg->id = _u.get_id();
@@ -538,4 +538,16 @@ algo_msg_base* semi::json_to_msg(json& json)
 		return msg;
 	}
 }
+
+rapid_ring::mpsc_ring_buffer_object_pool<semi::algo_odr_msg, 8192> semi::algo_odr_msg_pool;
+rapid_ring::mpsc_ring_buffer_object_pool<semi::algo_err_msg, 8192> semi::algo_err_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<semi::algo_odr_position, 8192> semi::algo_odr_position_pool;
+#ifndef NOT_MEASURE
+rapid_ring::mpsc_ring_buffer_object_pool<semi::algo_latency, 8192> semi::algo_latency_pool;
+#endif
+rapid_ring::spsc_ring_buffer_object_pool<semi::algo_set, 8192> semi::algo_set_pool;
+rapid_ring::spsc_ring_buffer_object_pool<semi::algo_del, 8192> semi::algo_del_pool;
+rapid_ring::spsc_ring_buffer_object_pool<semi::algo_get, 8192> semi::algo_get_pool;
+rapid_ring::spsc_ring_buffer_object_pool<semi::algo_force_buy, 8192> semi::algo_force_buy_pool;
+rapid_ring::spsc_ring_buffer_object_pool<semi::algo_force_sell, 8192> semi::algo_force_sell_pool;
 

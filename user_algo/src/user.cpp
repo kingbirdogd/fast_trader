@@ -154,5 +154,7 @@ void user::handler_order(const dbp::top::enhance_order& odr)
 	}
 }
 
+rapid_ring::spsc_ring_buffer_object_pool<user::user_order_list, 8192> user::user_order_list_pool;
+
 
 
