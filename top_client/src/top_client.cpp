@@ -267,6 +267,7 @@ dbp::top::enhance_order top_client::new_order
 				report.status = dbp::top::order_status::canceled;
 				fprintf(stderr, " BUY POWER: %llu\n",  _buy_power);
 				fprintf(stderr, " TURNOVER: %llu\n",  turnover);
+				fprintf(stderr, " ERROR: %s\n",  reason.c_str());
 
 				return report;
 			}
