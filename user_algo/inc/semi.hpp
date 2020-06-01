@@ -367,7 +367,7 @@ private:
 										trade_price == _buy_trriger && trade_price == ask_price &&
 										trade_quantity >= diff &&
 										0 != tradable.m_Ask[0].m_uQuantity && _is_buying == false && _auto_buy == true && _is_selling == false
-								)||(_ratio_buy > 0 && buyratio<= _ratio_buy)
+								)||(_ratio_buy > 0 && buyratio<= _ratio_buy && trade_price == _buy_trriger && trade_price == ask_price && _is_buying == false && _auto_buy == true && _is_selling == false )
 						)
 					)
 				{
@@ -406,7 +406,7 @@ private:
 									trade_price == _sell_trriger && trade_price == bid_price &&
 									trade_quantity >= diff &&
 									0 != tradable.m_Bid[0].m_uQuantity && _is_selling == false && _auto_sell == true && _is_buying == false
-							)||(_ratio_sell > 0 && sellratio<= _ratio_sell)
+							)||(_ratio_sell > 0 && sellratio<= _ratio_sell && trade_price == _sell_trriger && trade_price == bid_price && _is_selling == false && _auto_sell == true && _is_buying == false)
 						)
 					)
 				{
@@ -467,7 +467,7 @@ private:
 										trade_price == _buy_trriger && trade_price == bid_price &&
 										trade_quantity >= (diff) &&
 										0 != tradable.m_Bid[0].m_uQuantity && _is_buying == false && _auto_buy == true  && _is_selling == false
-								)||(_ratio_buy > 0 && buyratio <= _ratio_buy)
+								)||(_ratio_buy > 0 && buyratio <= _ratio_buy && trade_price == _buy_trriger && trade_price == bid_price && _is_buying == false && _auto_buy == true  && _is_selling == false)
 						)
 					)
 				{
@@ -507,7 +507,7 @@ private:
 										trade_price == _sell_trriger &&
 										trade_quantity >= (diff) && trade_price == ask_price &&
 										0 != tradable.m_Ask[0].m_uQuantity && _is_selling == false && _auto_sell == true  && _is_buying == false
-								)||(_ratio_sell > 0 && sellratio<= _ratio_sell)
+								)||(_ratio_sell > 0 && sellratio<= _ratio_sell && trade_price == _sell_trriger && trade_price == ask_price  && _is_selling == false && _auto_sell == true  && _is_buying == false)
 						)
 					)
 				{
