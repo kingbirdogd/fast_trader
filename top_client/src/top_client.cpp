@@ -39,8 +39,11 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 					}
 					if (dbp::top::order_side::buy == odr.side)
 					{
-						auto turnover = odr.price * odr.quantity;
+						//auto turnover = odr.price * odr.quantity;
+						auto turnover =  (odr.price/1000ull * odr.quantity/1000ull)/(100000ull * 100000ull);
 						_buy_power += turnover;
+
+						fprintf(stderr, "info Cancel Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
 					}
 					if (_on_order)
 					{
@@ -94,6 +97,7 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 									}
 
 									_buy_power += turnover;
+									fprintf(stderr, "info Cancel Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
 								}
 								else if (dbp::top::report_type::order_modify_approve == report.rep_type)
 								{
@@ -112,6 +116,7 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 									if(report.match_price != report.price){
 										//_buy_power += ((it->second.price - it->second.match_price)/1000ull * it->second.match_quantity/1000ull)/(100000ull * 100000ull);
 										_buy_power += ((report.price - report.match_price)/1000ull * report.match_quantity/1000ull)/(100000ull * 100000ull);
+										fprintf(stderr, "info Fill Buy New Buy Power : %llu \n", _buy_power);
 									}
 								}
 							}
@@ -132,7 +137,7 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 
 									_buy_power += turnover;
 
-									//fprintf(stderr, "info Fill Sell 2 Turnover: %llu : New Buy Power : %llu \n",turnover, _buy_power);
+									fprintf(stderr, "info Fill Sell 2 Turnover: %llu : New Buy Power : %llu \n",turnover, _buy_power);
 								}
 							}
 							it->second = report;
