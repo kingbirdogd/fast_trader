@@ -397,6 +397,7 @@ private:
 					}
 				}
 
+				trade_quantity = static_cast<long long>(tradable.m_AccumulateSellQuantity);
 				diff = static_cast<long long>(tradable.m_Bid[0].m_uQuantity)  - static_cast<long long>(_early_sell_qty);
 				if (
 						TradeSide::SELL_SIDE == side &&
@@ -448,7 +449,7 @@ private:
 
 
 
-				auto trade_quantity = static_cast<long long>(tradable.m_AccumulateBuyQuantity);
+				auto trade_quantity = static_cast<long long>(tradable.m_AccumulateSellQuantity);
 				diff = static_cast<long long>(tradable.m_Bid[0].m_uQuantity) - static_cast<long long>(_early_buy_qty);
 
 				/*
@@ -496,6 +497,7 @@ private:
 						}
 					}
 				}
+				trade_quantity = static_cast<long long>(tradable.m_AccumulateBuyQuantity);
 				diff = static_cast<long long>(tradable.m_Ask[0].m_uQuantity)  - static_cast<long long>(_early_sell_qty);
 
 				if (
