@@ -38,7 +38,8 @@
 			"IP":"192.168.134.196",
 			"PORT":35101,
 			"USER":"P990098",
-			"BUY_POWER":10000,
+			"PASS":"pass",
+			"BUY_POWER":100000,
 			"ALGOS":
 			{
 				"leo_semi":
