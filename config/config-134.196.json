@@ -195,8 +195,7 @@
 	],
 	"ActivateChannel":
 	[
-		{"Channel":"OmdcChannel"},
-		{"Channel":"OmddChannel"}
+		{"Channel":"OmdcChannel"}
 	]
 }
 
