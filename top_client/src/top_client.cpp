@@ -85,7 +85,7 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 						{
 							if (dbp::top::order_side::buy == report.side)
 							{
-								if (dbp::top::order_status::canceled == report.status)
+								if (dbp::top::order_status::canceled == report.status || dbp::top::order_status::rejected == report.status)
 								//if (dbp::top::report_type::order_cancel_approve == report.rep_type)
 								{
 									//unsigned long long turnover =  static_cast<unsigned long long>((it->second.price/1000ull * it->second.remain_quantity/1000ull)/(100000ull * 100000ull));
