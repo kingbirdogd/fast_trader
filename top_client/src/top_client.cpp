@@ -85,7 +85,8 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 						{
 							if (dbp::top::order_side::buy == report.side)
 							{
-								if (dbp::top::report_type::order_cancel_approve == report.rep_type)
+								if (dbp::top::order_status::canceled == report.status)
+								//if (dbp::top::report_type::order_cancel_approve == report.rep_type)
 								{
 									//unsigned long long turnover =  static_cast<unsigned long long>((it->second.price/1000ull * it->second.remain_quantity/1000ull)/(100000ull * 100000ull));
 									//_buy_power += (it->second.price/1000ull * it->second.remain_quantity/1000ull)/(100000ull * 100000ull) ;
@@ -99,6 +100,7 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 									_buy_power += turnover;
 									fprintf(stderr, "info Cancel Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
 								}
+								/*
 								else if (dbp::top::report_type::order_modify_approve == report.rep_type)
 								{
 									//_buy_power += (it->second.ori_price/1000ull * it->second.ori_quantity/1000ull)/(100000ull * 100000ull);
@@ -107,7 +109,9 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 								{
 									//_buy_power += (it->second.price/1000ull * it->second.quantity/1000ull)/(100000ull * 100000ull);
 								}
-								else if (dbp::top::report_type::order_fill == report.rep_type)
+								*/
+								else if (dbp::top::order_status::partial_fill == report.status || dbp::top::order_status::filled == report.status)
+								//else if (dbp::top::report_type::order_fill == report.rep_type)
 								{
 									//fprintf(stderr, "info Fill BUY 1 match_quantity: %llu \n",report.price);
 									//fprintf(stderr, "info Fill BUY 1 match_price: %llu \n",report.match_price);
