@@ -6,6 +6,7 @@ CWarrants warrantToUnderlying;
 CWarrants underlyingToWarrant;
 COmddCodeToNameMap codeToName;
 COmddNameToCodeMap nameToCode;
+COmddCodeToUnderlying codeTounderlying;
 CRetranVec retranVec;
 CStreamVec omdcStreams;
 CStreamVec omddStreams;

@@ -14,6 +14,7 @@ extern CWarrants warrantToUnderlying;
 extern CWarrants underlyingToWarrant;
 extern COmddCodeToNameMap codeToName;
 extern COmddNameToCodeMap nameToCode;
+extern COmddCodeToUnderlying codeTounderlying;
 extern CRetranVec retranVec;
 extern CStreamVec omdcStreams;
 extern CStreamVec omddStreams;

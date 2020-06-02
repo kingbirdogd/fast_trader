@@ -250,11 +250,29 @@ struct algo_msg_base
 	virtual void release() = 0;
 };
 
+struct COmddUnderlying
+{
+	unsigned short int CommodityCode;
+	unsigned char InstrumentGroup;
+	COmddUnderlying():
+		CommodityCode(0),
+		InstrumentGroup(0)
+	{
+	}
+
+	COmddUnderlying(const COmddUnderlying&) = default;
+	COmddUnderlying(COmddUnderlying&&) = default;
+	COmddUnderlying& operator= (const COmddUnderlying&) = default;
+	COmddUnderlying& operator= (COmddUnderlying&&) = default;
+	~COmddUnderlying() = default;
+};
+
 typedef std::unordered_map<std::string, std::string> CActivateChannel;
 typedef std::vector<CRetranProxy> CRetranVec;
 typedef std::unordered_map<unsigned int, COmdOrderbook> COmdOrderMap;
 typedef std::unordered_map<unsigned int, unsigned int> CWarrants;
 typedef std::unordered_map<unsigned int, std::string> COmddCodeToNameMap;
+typedef std::unordered_map<unsigned int, COmddUnderlying> COmddCodeToUnderlying;
 typedef std::unordered_map<std::string, unsigned int> COmddNameToCodeMap;
 typedef std::unordered_map<int, CDefChannel> CDefMap;
 typedef std::vector<CStreamChannel> CStreamVec;

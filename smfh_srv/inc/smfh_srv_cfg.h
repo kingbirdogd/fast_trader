@@ -221,6 +221,7 @@ inline static bool loadDefinition(json& _json)
 			const auto& omdd = cache["omdd"].get<json::array_t>();
 			const auto& warrent = cache["warrent_map"].get<json::object_t>();
 			const auto& omdd_name = cache["omdd_name"].get<json::object_t>();
+			const auto& omdd_underlying = cache["omdd_underlying"].get<json::object_t>();
 			for (std::size_t i = 0; i < omdc.size(); ++i)
 			{
 				const auto& code = omdc[i].get<unsigned int>();
@@ -246,6 +247,15 @@ inline static bool loadDefinition(json& _json)
 				unsigned int code = static_cast<unsigned int>(std::stoul(key));
 				codeToName[code] = name;
 				nameToCode[name] = code;
+			}
+			for (auto it = omdd_underlying.begin(); it != omdd_underlying.end(); ++it)
+			{
+				COmddUnderlying underlying;
+				const auto& key = it->first;
+				underlying.CommodityCode = it->second["CommodityCode"].get<unsigned short int>();
+				underlying.InstrumentGroup = it->second["InstrumentGroup"].get<unsigned char>();
+				unsigned int code = static_cast<unsigned int>(std::stoul(key));
+				codeTounderlying[code] = underlying;
 			}
 			bReload = false;
 		}
@@ -593,6 +603,13 @@ inline static bool loadDefinition(json& _json)
 													cache["omdd"].push_back(orderbookid);
 													codeToName[orderbookid] = symbol;
 													nameToCode[symbol] = orderbookid;
+													COmddUnderlying underlying;
+													underlying.InstrumentGroup = OMD_GET_VALUE(pszBuffer, 42, unsigned char);
+													underlying.CommodityCode = OMD_GET_VALUE(pszBuffer, 44, unsigned short int);
+													codeTounderlying[orderbookid] = underlying;
+													cache["omdd_underlying"][std::to_string(orderbookid)] = json::object();
+													cache["omdd_underlying"][std::to_string(orderbookid)]["InstrumentGroup"] = static_cast<unsigned short int>(underlying.InstrumentGroup);
+													cache["omdd_underlying"][std::to_string(orderbookid)]["CommodityCode"] = static_cast<unsigned short int>(underlying.CommodityCode);
 												}
 												break;
 											}
