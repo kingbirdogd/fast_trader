@@ -42,7 +42,7 @@
 			"ID":1,
 			"USER":"P311831",
 			"PASS":"Shun2328",
-			"BUY_POWER":200000,
+			"BUY_POWER":500000,
 			"ALGOS":
 			{
 				"leo_semi":
@@ -65,6 +65,22 @@
 			"ALGOS":
 			{
 				"wendy_semi":
+				{
+					"lib": "semi",
+					"params":
+					{
+					}
+				}
+			}
+		},
+		{
+			"ID":3,
+			"USER":"P311831",
+			"PASS":"Shun2328",
+			"BUY_POWER":500000,			
+			"ALGOS":
+			{
+				"eric_semi":
 				{
 					"lib": "semi",
 					"params":
@@ -198,8 +214,7 @@
 	],
 	"ActivateChannel":
 	[
-		{"Channel":"OmdcChannel"},
-		{"Channel":"OmddChannel"}
+		{"Channel":"OmdcChannel"}
 	]
 }
 
