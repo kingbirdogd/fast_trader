@@ -257,7 +257,7 @@ std::string semi::get_pair(const std::string& ref, pair*& pref)
 }
 
 
-std::string semi::force_buy(unsigned long long quantity, pair*& pref, const std::string& ref)
+std::string semi::force_buy(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref)
 {
 	pref = nullptr;
 	auto it = _p_map.find(ref);
@@ -267,7 +267,7 @@ std::string semi::force_buy(unsigned long long quantity, pair*& pref, const std:
 	}
 	auto& p = it->second;
 	pref = &p;
-	auto result = p.buy(0, false, quantity);
+	auto result = p.buy(price, false, quantity);
 	if (pair::buy_result::SUCCESS == result)
 	{
 		return  "SUCCESS";
@@ -287,7 +287,7 @@ std::string semi::force_buy(unsigned long long quantity, pair*& pref, const std:
 
 }
 
-std::string semi::force_sell(unsigned long long quantity, pair*& pref, const std::string& ref)
+std::string semi::force_sell(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref)
 {
 	pref = nullptr;
 	auto it = _p_map.find(ref);
@@ -297,7 +297,7 @@ std::string semi::force_sell(unsigned long long quantity, pair*& pref, const std
 	}
 	auto& p = it->second;
 	pref = &p;
-	auto result = p.sell(0, false, quantity);
+	auto result = p.sell(price, false, quantity);
 	if (pair::sell_result::SUCCESS == result)
 	{
 		return "SUCCESS";
@@ -499,6 +499,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 			pforce_buy->algo_name = _name;
 			pforce_buy->id = _u.get_id();
 			pforce_buy->ref = ref;
+			pforce_buy->price = json["price"].get<unsigned long long>();
 			pforce_buy->quantity = json["quantity"].get<unsigned long long>();
 			return pforce_buy;
 		}
@@ -509,6 +510,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 			pforce_sell->algo_name = _name;
 			pforce_sell->id = _u.get_id();
 			pforce_sell->ref = ref;
+			pforce_sell->price = json["price"].get<unsigned long long>();
 			pforce_sell->quantity = json["quantity"].get<unsigned long long>();
 			return pforce_sell;
 		}

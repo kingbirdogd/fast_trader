@@ -968,11 +968,13 @@ private:
 	{
 		pair* p;
 		std::string result;
+		unsigned long long price;
 		unsigned long long quantity;
 		algo_force_buy():
 			algo_msg_base(),
 			p(nullptr),
 			result(""),
+			price(0),
 			quantity(0)
 		{
 		}
@@ -984,6 +986,7 @@ private:
 				j["pair"] = p->to_json();
 			else
 				j["pair"] = nullptr;
+			j["price"] = price;
 			j["quantity"] = quantity;
 			j["result"] = result;
 			return j;
@@ -991,7 +994,7 @@ private:
 		virtual void on_command()
 		{
 			auto* self = dynamic_cast<semi*>(al);
-			result = self->force_buy(quantity, p, ref);
+			result = self->force_buy(price, quantity, p, ref);
 			if(result != "Exceed Buy Power" && result != "Not Ready"){
 				ouputQueue.enqueue(this);
 			}
@@ -1007,11 +1010,13 @@ private:
 	{
 		pair* p;
 		std::string result;
+		unsigned long long price;
 		unsigned long long quantity;
 		algo_force_sell():
 			algo_msg_base(),
 			p(nullptr),
 			result(""),
+			price(0),
 			quantity(0)
 		{
 		}
@@ -1023,6 +1028,7 @@ private:
 				j["pair"] = p->to_json();
 			else
 				j["pair"] = nullptr;
+			j["price"] = price;
 			j["quantity"] = quantity;
 			j["result"] = result;
 			return j;
@@ -1030,7 +1036,7 @@ private:
 		virtual void on_command()
 		{
 			auto* self = dynamic_cast<semi*>(al);
-			result = self->force_sell(quantity, p, ref);
+			result = self->force_sell(price, quantity, p, ref);
 			ouputQueue.enqueue(this);
 		}
 		virtual void release()
@@ -1049,8 +1055,8 @@ public:
 	std::string set_pair(pair&& p, bool no_change);
 	std::string delete_pair(const std::string& ref, pair*& pref);
 	std::string get_pair(const std::string& ref, pair*& pref);
-	std::string force_buy(unsigned long long quantity, pair*& pref, const std::string& ref);
-	std::string force_sell(unsigned long long quantity, pair*& pref, const std::string& ref);
+	std::string force_buy(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref);
+	std::string force_sell(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref);
 	void position(algo_odr_position& msg) const;
 	virtual ~semi() = default;
 	virtual void on_omdc_book(const Tradable&);
