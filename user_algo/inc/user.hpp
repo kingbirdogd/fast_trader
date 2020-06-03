@@ -69,7 +69,7 @@ public:
 			auto j = algo_msg_base::to_json();
 			j["orders"] = nlohmann::json::array();
 			std::sort(orders.begin(), orders.end(),
-					[](const algo_order& x, const algo_order& y)
+					[](const algo_order& x, const algo_order& y) ->bool
 					{
 						return x.order_id < y.order_id;
 					});
