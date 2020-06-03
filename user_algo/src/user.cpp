@@ -107,6 +107,11 @@ void user::run()
 						odr.algo_name = name;
 						ptr->orders.push_back(odr);
 					}
+					std::sort(ptr->orders.begin(), ptr->orders.end(),
+							[](const algo_order& x, const algo_order& y) ->bool
+							{
+								return x.order_id < y.order_id;
+							});
 					base->on_command();
 				}
 			}
