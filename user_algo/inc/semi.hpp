@@ -150,7 +150,7 @@ private:
 			_auto_buy(auto_buy),
 			_auto_sell(auto_sell),
 			_is_omdd(is_omdd),
-			_is_reset_position(false)
+			_is_reset_position(is_reset_position)
 		{
 		}
 		json to_json() const
