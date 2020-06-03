@@ -174,10 +174,10 @@ std::string semi::set_pair(pair&& p, bool no_change)
 				}
 			}
 		}
-		if (0 == p.position())
-		{
+		//if (0 == p.position())
+		//{
 			p.set_position(it->second.position());
-		}
+		//}
 		p.set_auto_buy_id(it->second.auto_buy_id());
 		p.set_auto_sell_id(it->second.auto_sell_id());
 		p.set_is_buying(it->second.is_buying());
