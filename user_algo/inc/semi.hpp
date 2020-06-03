@@ -49,6 +49,7 @@ private:
 		bool _auto_buy;
 		bool _auto_sell;
 		bool _is_omdd;
+		bool _is_reset_position;
 	public:
 		enum class sell_result: unsigned long long
 		{
@@ -95,7 +96,8 @@ private:
 			_is_selling(false),
 			_auto_buy(false),
 			_auto_sell(false),
-			_is_omdd(false)
+			_is_omdd(false),
+			_is_reset_position(false)
 		{
 		}
 		pair
@@ -120,7 +122,8 @@ private:
 			unsigned long long early_sell_qty,
 			unsigned long long ratio_buy,
 			unsigned long long ratio_sell,
-			unsigned long long position = 0
+			unsigned long long position = 0,
+			bool is_reset_position
 		):
 			_algo(algo),
 			_buy_trriger(buy_trriger),
@@ -146,7 +149,8 @@ private:
 			_is_selling(false),
 			_auto_buy(auto_buy),
 			_auto_sell(auto_sell),
-			_is_omdd(is_omdd)
+			_is_omdd(is_omdd),
+			_is_reset_position(false)
 		{
 		}
 		json to_json() const
@@ -677,6 +681,10 @@ private:
 		const std::string& ref()
 		{
 			return _ref;
+		}
+		bool reset_position() const
+		{
+			return _is_reset_position;
 		}
 		unsigned long long auto_buy_id() const
 		{

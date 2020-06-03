@@ -174,10 +174,13 @@ std::string semi::set_pair(pair&& p, bool no_change)
 				}
 			}
 		}
-		//if (0 == p.position())
-		//{
-			p.set_position(it->second.position());
-		//}
+		if (0 == p.position())
+		{
+			if(!p.is_reset_position()){
+				p.set_position(it->second.position());
+			}
+		}
+
 		p.set_auto_buy_id(it->second.auto_buy_id());
 		p.set_auto_sell_id(it->second.auto_sell_id());
 		p.set_is_buying(it->second.is_buying());
@@ -384,6 +387,13 @@ algo_msg_base* semi::json_to_msg(json& json)
 			{
 				p._is_bull = false;
 			}
+			p._is_reset_position = false;
+			auto it_reset_position = json.find("resetposition");
+			if (json.end() != it_reset_position)
+			{
+				p._is_reset_position = json["resetposition"].get<bool>();
+			}
+
 			p._is_omdd = false;
 			p._warrant_code = json["warrant_code"].get<unsigned int>();
 			p._underlying_code = 0;
