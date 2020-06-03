@@ -10,6 +10,20 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 #endif
 {
 	unsigned int uSecurityCode = OMD_GET_VALUE(_pMsg, 4, unsigned int);
+	auto it_underlyging = codeTounderlying.find(uSecurityCode);
+	if (codeTounderlying.end() == it_underlyging)
+	{
+		return;
+	}
+	const auto& underlying = it_underlyging->second;
+	if (4 != underlying.InstrumentGroup)
+	{
+		return;
+	}
+	if (4001 != underlying.CommodityCode && 4002 != underlying.CommodityCode)
+	{
+		return;
+	}
 	auto it = omddMap.find(uSecurityCode);
 	if (omddMap.end() == it)
 	{
