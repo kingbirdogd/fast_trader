@@ -24,6 +24,10 @@ public:
 			algo_name("")
 		{
 		}
+		algo_order(const algo_order& report) = default;
+		algo_order(algo_order&& report) = default;
+		algo_order& operator= (const algo_order& report) = default;
+		algo_order& operator= (algo_order&& report) = default;
 		algo_order(const enhance_order& report):
 			enhance_order(report),
 			algo_name("")
