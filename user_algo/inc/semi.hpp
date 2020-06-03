@@ -683,7 +683,7 @@ private:
 		{
 			return _ref;
 		}
-		bool reset_position() const
+		bool is_reset_position() const
 		{
 			return _is_reset_position;
 		}
