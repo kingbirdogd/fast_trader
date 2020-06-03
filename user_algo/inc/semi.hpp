@@ -122,8 +122,8 @@ private:
 			unsigned long long early_sell_qty,
 			unsigned long long ratio_buy,
 			unsigned long long ratio_sell,
-			unsigned long long position = 0,
-			bool is_reset_position
+			bool is_reset_position,
+			unsigned long long position = 0
 		):
 			_algo(algo),
 			_buy_trriger(buy_trriger),
