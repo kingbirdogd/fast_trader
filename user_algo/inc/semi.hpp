@@ -179,6 +179,7 @@ private:
 			j["is_selling"] = _is_selling;
 			j["auto_buy"] = _auto_buy;
 			j["auto_sell"] = _auto_sell;
+			j["is_reset_position"] = _is_reset_position;
 			return j;
 		}
 		~pair() = default;
