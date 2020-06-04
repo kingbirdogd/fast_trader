@@ -2,13 +2,19 @@
 #define TOP_CLIENT_INC_TOP_SHARED_CLIENT_HPP_
 #include <top_shared.hpp>
 #include <top_client.hpp>
+#include <vector>
+#include <rapid_ring/ring_buffer_queue.hpp>
 
 class top_shared_client : public top_client
 {
 private:
+	using top_buffer = std::vector<char>;
+	using top_buffer_queue = rapid_ring::mpsc_ring_buffer_queue<top_buffer, 8192>;
+private:
 	static top_shared_node* _node;
 private:
-        bool _connected;
+	top_buffer_queue _queue;
+	bool _connected;
 public:
 	top_shared_client
 	(
