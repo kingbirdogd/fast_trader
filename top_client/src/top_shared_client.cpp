@@ -39,13 +39,11 @@ top_shared_client& top_shared_client::operator= (top_shared_client&& client)
 
 void top_shared_client::run()
 {
-	/*
 	top_buffer buff;
 	if (_queue.try_dequeue(buff))
 	{
 		handle_msg(&buff[0], buff.size());
 	}
-	*/
 	if (!_connected)
 	{
 		std::fprintf(stderr, "top_shared_client::run\n");
@@ -94,11 +92,11 @@ void top_shared_client::callback(int id, const char* ptr, size_t size)
 	if (_node->id_to_obj.end() != it)
 	{
 		auto cli = static_cast<top_shared_client*>(it->second);
-		//top_buffer buff;
-		//buff.reserve(size);
-		//std::memcpy(&buff[0], ptr, size);
-		//cli->_queue.enqueue(buff);
-		cli->handle_msg(ptr, size);
+		top_buffer buff;
+		buff.resize(size);
+		std::memcpy(&buff[0], ptr, size);
+		cli->_queue.enqueue(buff);
+		//cli->handle_msg(ptr, size);
 	}
 }
 
