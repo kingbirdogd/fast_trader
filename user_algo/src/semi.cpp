@@ -377,7 +377,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 				msg->id = _u.get_id();
 				msg->ref = ref;
 				msg->err = "set only support bull bear";
-				delete pset;
+				pset->release();
 				return msg;
 			}
 			p._algo = this;
@@ -415,7 +415,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 					msg->id = _u.get_id();
 					msg->ref = ref;
 					msg->err = "fail command set underlying code omdd mapping not found";
-					delete pset;
+					pset->release();
 					return msg;
 				}
 				p._underlying_code = it_omdd->second;
@@ -463,7 +463,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 				msg->id = _u.get_id();
 				msg->ref = ref;
 				msg->err = std::string("fail command set, action:") + action = " is not support";
-				delete pset;
+				pset->release();
 				return msg;
 			}
 			p._early_buy_qty = json["early_buy_qty"].get<unsigned long long>();
@@ -544,11 +544,11 @@ algo_msg_base* semi::json_to_msg(json& json)
 		msg->ref = "unknow";
 		msg->err = e.what();
 		if (pset)
-			delete pset;
+			pset->release();
 		if (pforce_buy)
-			delete pforce_buy;
+			pforce_buy->release();
 		if (pforce_sell)
-			delete pforce_sell;
+			pforce_sell->release();
 		return msg;
 	}
 }
