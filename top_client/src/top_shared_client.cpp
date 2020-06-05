@@ -94,9 +94,9 @@ void top_shared_client::callback(int id, const char* ptr, size_t size)
 	if (_node->id_to_obj.end() != it)
 	{
 		auto cli = static_cast<top_shared_client*>(it->second);
-		top_buffer buff;
-		buff.reserve(size);
-		std::memcpy(&buff[0], ptr, size);
+		//top_buffer buff;
+		//buff.reserve(size);
+		//std::memcpy(&buff[0], ptr, size);
 		//cli->_queue.enqueue(buff);
 		cli->handle_msg(ptr, size);
 	}
