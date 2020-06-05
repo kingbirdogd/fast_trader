@@ -258,7 +258,7 @@ private:
 			else
 			{
 				_is_buying = false;
-
+				_auto_sell = false;
 
 				on_order(odr);
 
