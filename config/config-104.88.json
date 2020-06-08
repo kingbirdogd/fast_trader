@@ -34,7 +34,8 @@
 		8,
 		9,
 		10,
-		11		
+		11,
+		12	
 	],
 	"USERS":
 	[
@@ -42,7 +43,7 @@
 			"ID":1,
 			"USER":"P311831",
 			"PASS":"Shun2328",
-			"BUY_POWER":500000,
+			"BUY_POWER":5000000,
 			"ALGOS":
 			{
 				"leo_semi":
@@ -77,7 +78,7 @@
 			"ID":3,
 			"USER":"P311831",
 			"PASS":"Shun2328",
-			"BUY_POWER":500000,			
+			"BUY_POWER":5000000,			
 			"ALGOS":
 			{
 				"eric_semi":
