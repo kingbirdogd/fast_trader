@@ -40,10 +40,13 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 					if (dbp::top::order_side::buy == odr.side)
 					{
 						//auto turnover = odr.price * odr.quantity;
+
+						fprintf(stderr, "info Error Buy Old Buy Power : %llu \n", _buy_power);
+
 						auto turnover =  (odr.price/1000ull * odr.quantity/1000ull)/(100000ull * 100000ull);
 						_buy_power += turnover;
 
-						//fprintf(stderr, "info Cancel Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
+						fprintf(stderr, "info Error Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
 					}
 					if (_on_order)
 					{
@@ -88,6 +91,7 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 								if (dbp::top::order_status::canceled == report.status || dbp::top::order_status::rejected == report.status)
 								//if (dbp::top::report_type::order_cancel_approve == report.rep_type)
 								{
+									fprintf(stderr, "info Cancel Buy Old Buy Power : %llu \n", _buy_power);
 									//unsigned long long turnover =  static_cast<unsigned long long>((it->second.price/1000ull * it->second.remain_quantity/1000ull)/(100000ull * 100000ull));
 									//_buy_power += (it->second.price/1000ull * it->second.remain_quantity/1000ull)/(100000ull * 100000ull) ;
 									unsigned long long turnover = 0;
@@ -98,7 +102,7 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 									}
 
 									_buy_power += turnover;
-									//fprintf(stderr, "info Cancel Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
+									fprintf(stderr, "info Cancel Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
 								}
 								/*
 								else if (dbp::top::report_type::order_modify_approve == report.rep_type)
@@ -116,10 +120,11 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 									//fprintf(stderr, "info Fill BUY 1 match_quantity: %llu \n",report.price);
 									//fprintf(stderr, "info Fill BUY 1 match_price: %llu \n",report.match_price);
 									//fprintf(stderr, "info Fill BUY 1 match_quantity: %llu \n",report.match_quantity);
-
+									fprintf(stderr, "info Cancel Buy Old Buy Power : %llu \n", _buy_power);
 									if(report.match_price != report.price){
 										//_buy_power += ((it->second.price - it->second.match_price)/1000ull * it->second.match_quantity/1000ull)/(100000ull * 100000ull);
 										_buy_power += ((report.price - report.match_price)/1000ull * report.match_quantity/1000ull)/(100000ull * 100000ull);
+										fprintf(stderr, "info Cancel Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
 										//fprintf(stderr, "info Fill Buy New Buy Power : %llu \n", _buy_power);
 									}
 								}
@@ -128,12 +133,12 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 							{
 								if (dbp::top::report_type::order_fill == report.rep_type)
 								{
-									//fprintf(stderr, "info Fill Sell 1 match_price: %llu \n",it->second.match_price);
-									//fprintf(stderr, "info Fill Sell 1 match_quantity: %llu \n",it->second.match_quantity);
+									fprintf(stderr, "info Fill Sell 1 match_price: %llu \n",it->second.match_price);
+									fprintf(stderr, "info Fill Sell 1 match_quantity: %llu \n",it->second.match_quantity);
 
 									//fprintf(stderr, "info Fill Sell 1 match_price: %llu \n",report.match_price);
 									//fprintf(stderr, "info Fill Sell 1 match_quantity: %llu \n",report.match_quantity);
-
+									fprintf(stderr, "info Sell Fill Buy Old Buy Power : %llu \n", _buy_power);
 									unsigned long long turnover =  static_cast<unsigned long long>((report.match_price/1000ull * report.match_quantity/1000ull)/(100000ull * 100000ull));
 									//_buy_power += (it->second.match_price/1000ull * it->second.match_quantity/1000ull)/ (100000ull * 100000ull);
 
@@ -141,7 +146,7 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 
 									_buy_power += turnover;
 
-									//fprintf(stderr, "info Fill Sell 2 Turnover: %llu : New Buy Power : %llu \n",turnover, _buy_power);
+									fprintf(stderr, "info Fill Sell 2 Turnover: %llu : New Buy Power : %llu \n",turnover, _buy_power);
 								}
 							}
 							it->second = report;
