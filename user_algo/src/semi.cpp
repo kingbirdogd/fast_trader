@@ -349,6 +349,9 @@ algo_msg_base* semi::json_to_msg(json& json)
 	algo_force_sell* pforce_sell = nullptr;
 	try
 	{
+
+		fprintf(stdout, "semi %s\n", json.dump().c_str());
+
 		auto cmd = json["cmd"].get<std::string>();
 		auto ref = json["ref"].get<std::string>();
 		if (cmd == "position")
