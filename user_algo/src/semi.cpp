@@ -1,4 +1,5 @@
 #include <semi.hpp>
+#include <global_memory.hpp>
 
 
 semi::semi(user& u, const std::string& name):
@@ -423,6 +424,32 @@ algo_msg_base* semi::json_to_msg(json& json)
 				}
 				p._underlying_code = it_omdd->second;
 				p._is_omdd = true;
+			}
+			if (omdcMap.end() == omdcMap.find(p._warrant_code))
+			{
+				auto msg = algo_err_msg_pool.get_obj();
+				msg->al = this;
+				msg->algo_name = _name;
+				msg->id = _u.get_id();
+				msg->ref = ref;
+				msg->err = std::string("Warrant code ") + std::to_string(p._warrant_code) + " not found";
+				pset->release();
+				return msg;
+			}
+			if (p._is_omdd)
+			{
+				if (omddMap.end() == omddMap.find(p._underlying_code))
+				{
+					auto msg = algo_err_msg_pool.get_obj();
+					msg->al = this;
+					msg->algo_name = _name;
+					msg->id = _u.get_id();
+					msg->ref = ref;
+					if (p._is_omdd)
+					msg->err = std::string("Underlying code ") + std::to_string(p._underlying_code) + " not found";
+					pset->release();
+					return msg;
+				}
 			}
 			p._buy_trriger = json["buy_trriger"].get<unsigned long long>();
 			p._sell_trriger = json["sell_trriger"].get<unsigned long long>();
