@@ -1076,11 +1076,11 @@ public:
 	virtual void handle_command(algo_msg_base&);
 	virtual algo_msg_base* json_to_msg(json& msg);
 public:
-	static rapid_ring::mpsc_ring_buffer_object_pool<algo_odr_msg, 8192> algo_odr_msg_pool;
-	static rapid_ring::mpsc_ring_buffer_object_pool<algo_err_msg, 8192> algo_err_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_odr_msg, 8192> algo_odr_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_err_msg, 8192> algo_err_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_odr_position, 8192> algo_odr_position_pool;
 #ifndef NOT_MEASURE
-	static rapid_ring::mpsc_ring_buffer_object_pool<algo_latency, 8192> algo_latency_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_latency, 8192> algo_latency_pool;
 #endif
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_set, 8192> algo_set_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_del, 8192> algo_del_pool;
