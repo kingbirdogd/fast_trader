@@ -41,6 +41,7 @@ inline void decode()
 	auto line = input();
 	try
 	{
+		fprintf(stdout, "Decode:%s\n", line.c_str());
 		json j = json::parse(line);
 		auto cmd = j["cmd"].get<std::string>();
 		if (cmd == "get_omdc_tradable")
