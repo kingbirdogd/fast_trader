@@ -121,15 +121,27 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 									//fprintf(stderr, "info Fill BUY 1 match_price: %llu \n",report.match_price);
 									//fprintf(stderr, "info Fill BUY 1 match_quantity: %llu \n",report.match_quantity);
 									fprintf(stderr, "info Cancel Partial Buy Old Buy Power : %llu \n", _buy_power);
-									if(report.match_price != report.price){
+									if(report.match_price != report.price && report.match_quantity == report.quantity){
 										//_buy_power += ((it->second.price - it->second.match_price)/1000ull * it->second.match_quantity/1000ull)/(100000ull * 100000ull);
 
 										unsigned long long turnover =  ((report.price - report.match_price)/1000ull * report.match_quantity/1000ull)/(100000ull * 100000ull);
 
 										_buy_power += turnover;
 
-										fprintf(stderr, "info Cancel Partial Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
+										fprintf(stderr, "1 info Cancel Partial Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
 										//fprintf(stderr, "info Fill Buy New Buy Power : %llu \n", _buy_power);
+									}else if(report.match_price == report.price && report.match_quantity != report.quantity){
+										unsigned long long turnover =  ((report.match_price)/1000ull * ((report.quantity - report.match_quantity)/1000ull))/(100000ull * 100000ull);
+
+										_buy_power += turnover;
+
+										fprintf(stderr, "2 info Cancel Partial Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
+									}else if(report.match_price != report.price && report.match_quantity != report.quantity){
+										unsigned long long turnover =  ((report.price - report.match_price)/1000ull * ((report.quantity - report.match_quantity)/1000ull))/(100000ull * 100000ull);
+
+										_buy_power += turnover;
+
+										fprintf(stderr, "3 info Cancel Partial Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
 									}
 								}
 							}
@@ -137,11 +149,11 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 							{
 								if (dbp::top::report_type::order_fill == report.rep_type)
 								{
-									fprintf(stderr, "info Fill Sell 1 match_price: %llu \n",it->second.match_price);
-									fprintf(stderr, "info Fill Sell 1 match_quantity: %llu \n",it->second.match_quantity);
+									//fprintf(stderr, "info Fill Sell 1 match_price: %llu \n",it->second.match_price);
+									//fprintf(stderr, "info Fill Sell 1 match_quantity: %llu \n",it->second.match_quantity);
 
-									//fprintf(stderr, "info Fill Sell 1 match_price: %llu \n",report.match_price);
-									//fprintf(stderr, "info Fill Sell 1 match_quantity: %llu \n",report.match_quantity);
+									fprintf(stderr, "info Fill Sell 1 match_price: %llu \n",report.match_price);
+									fprintf(stderr, "info Fill Sell 1 match_quantity: %llu \n",report.match_quantity);
 									fprintf(stderr, "info Sell Fill Buy Old Buy Power : %llu \n", _buy_power);
 									unsigned long long turnover =  static_cast<unsigned long long>((report.match_price/1000ull * report.match_quantity/1000ull)/(100000ull * 100000ull));
 									//_buy_power += (it->second.match_price/1000ull * it->second.match_quantity/1000ull)/ (100000ull * 100000ull);
