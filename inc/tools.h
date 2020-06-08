@@ -30,6 +30,27 @@ namespace dbp
 				uRt += ((unsigned long long)((unsigned long long)tp.tv_nsec));
 				return uRt;
 			}
+			inline std::string get_time_str(time_t t)
+			{
+				struct tm sTm;
+				localtime_r(&t, &sTm);
+				char buffer[32];
+				std::snprintf(buffer, 32,
+						"%4d-%2d-%2d %2d:%2d:%2d",
+						sTm.tm_year + 1900,
+						sTm.tm_mon + 1,
+						sTm.tm_mday,
+						sTm.tm_hour,
+						sTm.tm_min,
+						sTm.tm_sec
+						);
+				return buffer;
+			}
+			inline std::string get_time_str()
+			{
+				auto t = ::time(0);
+				return get_time_str(t);
+			}
 			inline static void blockSigPipe()
 			{
 				sigset_t signal_mask;
