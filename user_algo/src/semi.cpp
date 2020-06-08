@@ -446,6 +446,21 @@ algo_msg_base* semi::json_to_msg(json& json)
 					msg->id = _u.get_id();
 					msg->ref = ref;
 					if (p._is_omdd)
+					msg->err = std::string("Underlying symbol ") + p._underlying_symbol + " not found";
+					pset->release();
+					return msg;
+				}
+			}
+			else
+			{
+				if (omdcMap.end() == omdcMap.find(p._underlying_code))
+				{
+					auto msg = algo_err_msg_pool.get_obj();
+					msg->al = this;
+					msg->algo_name = _name;
+					msg->id = _u.get_id();
+					msg->ref = ref;
+					if (p._is_omdd)
 					msg->err = std::string("Underlying code ") + std::to_string(p._underlying_code) + " not found";
 					pset->release();
 					return msg;
