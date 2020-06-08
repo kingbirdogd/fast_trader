@@ -556,11 +556,11 @@ algo_msg_base* semi::json_to_msg(json& json)
 	}
 }
 
-rapid_ring::mpsc_ring_buffer_object_pool<semi::algo_odr_msg, 8192> semi::algo_odr_msg_pool;
-rapid_ring::mpsc_ring_buffer_object_pool<semi::algo_err_msg, 8192> semi::algo_err_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<semi::algo_odr_msg, 8192> semi::algo_odr_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<semi::algo_err_msg, 8192> semi::algo_err_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semi::algo_odr_position, 8192> semi::algo_odr_position_pool;
 #ifndef NOT_MEASURE
-rapid_ring::mpsc_ring_buffer_object_pool<semi::algo_latency, 8192> semi::algo_latency_pool;
+rapid_ring::spmc_ring_buffer_object_pool<semi::algo_latency, 8192> semi::algo_latency_pool;
 #endif
 rapid_ring::spsc_ring_buffer_object_pool<semi::algo_set, 8192> semi::algo_set_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semi::algo_del, 8192> semi::algo_del_pool;
