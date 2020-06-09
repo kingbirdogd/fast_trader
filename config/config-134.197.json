@@ -59,6 +59,31 @@
 					}
 				}
 			}
+		},
+		{
+			"ID":2,
+			"IP":"192.168.134.197",
+			"PORT":35101,
+			"USER":"P990098",
+			"PASS":"pass",
+			"BUY_POWER":100000,
+			"ALGOS":
+			{
+				"kenny_semi":
+				{
+					"lib": "semi",
+					"params":
+					{
+					}
+				},
+				"kenny_bear":
+				{
+					"lib": "bear",
+					"params":
+					{
+					}
+				}
+			}
 		}
 	],
 	"Definition":
