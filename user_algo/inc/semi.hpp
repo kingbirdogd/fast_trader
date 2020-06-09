@@ -587,6 +587,9 @@ private:
 					{
 						_auto_buy_quantity -= _position;
 					}
+					if (dbp::top::order_status::canceled == status || dbp::top::order_status::rejected == status ){
+						_auto_sell = false;
+					}
 				}
 				else if (dbp::top::order_side::sell == side)
 				{
