@@ -350,8 +350,8 @@ private:
 
 
 
-				auto buyratio = static_cast<unsigned long long>(((best_ask_vol- tradable.m_AccumulateBuyQuantity+1)*100) / (best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity));
-				auto sellratio = static_cast<unsigned long long>(((best_bid_vol-tradable.m_AccumulateSellQuantity+1)*100) / (best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity));
+				auto buyratio = static_cast<unsigned long long>(((best_ask_vol- tradable.m_AccumulateBuyQuantity+1)*100) / (best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity + 1));
+				auto sellratio = static_cast<unsigned long long>(((best_bid_vol-tradable.m_AccumulateSellQuantity+1)*100) / (best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity + 1));
 
 
 				auto trade_quantity = static_cast<long long>(tradable.m_AccumulateBuyQuantity);
@@ -449,8 +449,8 @@ private:
 				//auto buyratio = static_cast<unsigned long long>((best_bid_vol- tradable.m_AccumulateSellQuantity) / (best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity) * 100);
 				//auto sellratio = static_cast<unsigned long long>((best_ask_vol-tradable.m_AccumulateBuyQuantity) / (best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity) * 100);
 
-				auto buyratio = static_cast<unsigned long long>(((best_bid_vol- tradable.m_AccumulateSellQuantity+1)*100) / (best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity));
-				auto sellratio = static_cast<unsigned long long>(((best_ask_vol-tradable.m_AccumulateBuyQuantity+1)*100) / (best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity));
+				auto buyratio = static_cast<unsigned long long>(((best_bid_vol- tradable.m_AccumulateSellQuantity+1)*100) / (best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity+1));
+				auto sellratio = static_cast<unsigned long long>(((best_ask_vol-tradable.m_AccumulateBuyQuantity+1)*100) / (best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity+1));
 
 
 
