@@ -1,0 +1,138 @@
+
+#Command
+
+1) SET
+
+set|wtype|symbol|warrant code|issuer size|buy quantity|spread|ref
+
+wtype = bull or bear
+warrant code = [0-9]{5}
+symbol = HSIH0    (HSI 3ды )
+issuer size = 10000000  = 10M
+buy quantity = 10000   (10000)
+spread = 0.001
+
+2) PAUSE
+pause|warrant code|ref
+
+response
+json["action"] = "command pause"
+json["result"] = "SUCCESS";
+
+
+3) START
+start|warrant code|ref
+
+response
+json["action"] = "command start"
+json["result"] = "SUCCESS";
+
+4) STOP
+stop|warrant code|ref
+
+response
+json["action"] = "command stop"
+json["result"] = "SUCCESS";
+
+5) Price Table
+
+Response
+
+json["type"] = "algo cbbc";
+json["action"] = "pricetable";
+json["key"] = _algo->key();
+json["id"] = _algo->id();
+json["warrant_code"] = _warrant_code;
+json["side"] = "ASK";
+json["wkey"] = bkey;
+json["fprice"] = bprice;
+json["ref"] = _Ref;
+json["recovery"] = true;
+
+
+6) PARAM
+param|warrant code|type|value|ref
+
+type: 
+In Out Range | INOUT
+Win Tick | WINTICK
+In Lvl Range | INLVL
+Stop Lost | STOPLOST
+Point Range | PTRANGE
+
+value:
+integer value
+
+response
+json["action"] = "command param"
+json["result"] = "SUCCESS";
+
+
+7) Force Buy
+force_buy|price|quantity|ref
+
+8) Force Sell
+force_sell|price|quantity|ref
+
+
+9) Load Price Table
+loadpricetable|code|ref
+
+10) Warrant Price
+
+RESPONSE
+json["type"] = "algo cbbc/bear";
+json["action"] = "wprice";
+json["key"] = _algo->key();
+json["id"] = _algo->id();
+json["warrant_code"] = _warrant_code;
+json["side"] = BID / ASK
+json["wprice"] = warrant price
+json["ref"] = _Ref;
+
+
+11)
+
+json["type"] = "algo cbbc";
+json["action"] = "inoutrule";
+json["key"] = _algo->key();
+json["id"] = _algo->id();
+json["warrant_code"] = _warrant_code;
+json["side"] = "ASK";
+json["wprice"] = _PriceInfo->Bestask;
+json["buyin"] = _OBSetting->BuyIn;
+json["sellout"] = _OBSetting->SellOut;
+json["result"] = "FAIL";
+json["reason"] = "INOUT NOT PASS";
+
+json_type json;
+json["type"] = "algo cbbc";
+json["action"] = "lvlrangerule";
+json["key"] = _algo->key();
+json["id"] = _algo->id();
+json["warrant_code"] = _warrant_code;
+json["side"] = "ASK";
+json["wprice"] = _PriceInfo->Bestask;
+json["buyin"] = _OBSetting->BuyIn;
+json["lvlbid"] = _OBSetting->LvLBid;
+json["result"] = "FAIL";
+json["reason"] = "LVLRANGE NOT PASS";
+json["ref"] = _Ref;
+
+json_type json;
+json["type"] = "algo cbbc";
+json["action"] = "ptrangerule";
+json["key"] = _algo->key();
+json["id"] = _algo->id();
+json["warrant_code"] = _warrant_code;
+json["side"] = "ASK";
+json["wprice"] = _PriceInfo->Bestask;
+json["buyin"] = _OBSetting->BuyIn;
+json["pbuyin"] = prev_buyin;
+json["result"] = "FAIL";
+json["reason"] = "PTRANGE NOT PASS";
+json["ref"] = _Ref;
+
+12) Set Position
+set_position|buy price|quantity|ref
+
