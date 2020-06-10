@@ -1609,10 +1609,9 @@ private:
 			newWarrant->Quantity = qty;
 			newWarrant->Name = std::to_string(_warrant_code);
 
-			if(!_OBSetting->hasRelatedWarrant(_warrant_code)){
+			if(!_OBSetting->isExist(_warrant_code)){
 				_OBSetting->addWarrantOrCbbc(newWarrant);
 				_Status = STATUS_AVAILABLE;
-
 
 				auto msg = algo_positionorder_msg_pool.get_obj();
 				msg->al = _algo;
