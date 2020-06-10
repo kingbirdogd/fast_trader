@@ -20,7 +20,7 @@ class bear : public algo
 private:
 	class pair;
 private:
-	static std::unordered_map<unsigned int, priceinfo*> uprice_map;
+	std::unordered_map<unsigned int, priceinfo*> uprice_map;
 	using order_map = std::unordered_map<unsigned long long, pair*>;
 	using mdw_map = std::unordered_map<unsigned int, pair*>;
 	using md_map = std::unordered_map<unsigned int, std::unordered_set<pair*>>;
@@ -258,9 +258,12 @@ private:
 						unsigned long long a = _PriceInfo->Bestask;
 						unsigned long long b1 = b + refSpread;
 
+						bool fallback =  _PriceInfo->PBestask > _PriceInfo->Bestask;
+
+
 						bool within1spread = (b1 - a) == 0;
 
-						if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn != 0){
+						if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn && fallback){
 
 							Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Buy " );
 
@@ -475,10 +478,11 @@ private:
 						unsigned long long b = _PriceInfo->Bestbid;
 						unsigned long long a = _PriceInfo->Bestask;
 						unsigned long long b1 = b + refSpread;
+						bool fallback =  _PriceInfo->PBestask > _PriceInfo->Bestask;
 
 						bool within1spread = (b1 - a) == 0;
 
-						if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn != 0){
+						if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn != 0 && fallback){
 
 
 
@@ -571,7 +575,7 @@ private:
 			//auto best_ask_qty = tradable.m_Ask[0].m_uQuantity;
 			auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
 
-			priceinfo* uprice = uprice_map[_Underlying_code];
+			priceinfo* uprice = _algo->uprice_map[_Underlying_code];
 
 			_PriceInfoU->FBestbid =  uprice->FBestbid;
 			_PriceInfoU->PFBestbid =  uprice->PFBestbid;
@@ -679,7 +683,7 @@ private:
 			}else if(code == _warrant_code){
 
 
-				priceinfo* uprice = uprice_map[_Underlying_code];
+				priceinfo* uprice = _algo->uprice_map[_Underlying_code];
 
 				_PriceInfoU->FBestbid =  uprice->FBestbid;
 				_PriceInfoU->PFBestbid =  uprice->PFBestbid;
@@ -687,7 +691,7 @@ private:
 				_PriceInfoU->PFBestask =  uprice->PFBestask;
 
 /*
-				_algo->log_info(std::string(" WCODE ") + std::to_string(code) +
+				Log(std::string(" WCODE ") + std::to_string(code) +
 				std::string(" CODE ") + std::to_string(_warrant_code) +
 				std::string(" bid = ") + std::to_string(best_bid_price) +
 				std::string(" ask = ") + std::to_string(best_ask_price) +
@@ -700,8 +704,8 @@ private:
 				std::string(" FBestask = ") + std::to_string(_PriceInfoU->FBestask) +
 				std::string(" PFBestbid = ") + std::to_string(_PriceInfoU->PFBestbid) +
 				std::string(" PFBestask = ") + std::to_string(_PriceInfoU->PFBestask)
-								);
-*/
+								);*/
+
 				unsigned long buyin = _CbbcPriceMark->buyIn(best_ask_price);
 				unsigned long long sellout = _CbbcPriceMark->sellOut(best_bid_price);
 				unsigned long long lvlBid = _CbbcPriceMark->sellOut(best_ask_price);
@@ -1014,7 +1018,7 @@ private:
 			}else if(code == _warrant_code){
 
 
-				priceinfo* uprice = uprice_map[_Underlying_code];
+				priceinfo* uprice = _algo->uprice_map[_Underlying_code];
 
 				_PriceInfoU->FBestbid =  uprice->FBestbid;
 				_PriceInfoU->PFBestbid =  uprice->PFBestbid;
@@ -1441,7 +1445,7 @@ private:
 							pmsg->quantity = obsw->Quantity;
 							pmsg->buytime = obsw->BuyTime;
 							pmsg->selltime= obsw->SoldTime;
-							ouputQueue.enqueue(msg);
+							ouputQueue.enqueue(pmsg);
 
 
 							_OBSetting->TradeTime = DateUtil::getCurrentSystemTime();
@@ -1514,7 +1518,7 @@ private:
 							pmsg->quantity = odr.filled_quantity;
 							pmsg->buytime = obsw->BuyTime;
 							pmsg->selltime= obsw->SoldTime;
-							ouputQueue.enqueue(msg);
+							ouputQueue.enqueue(pmsg);
 
 							obsw->Quantity = obsw->Quantity - odr.filled_quantity;
 							obsw->SoldTime = "";
@@ -1771,18 +1775,26 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
-			j["msg_type"] = "bear_algo_set_msg";
+			j["msg_type"] = "algo_set_msg";
 			j["pair"] = p.to_json();
-			j["result"] = result;
-			j["reason"] = reason;
-			j["recovery"] = true;
+			if(result == "SUCCESS")
+			{
+				j["result"] = "SUCCESS";
+				j["recovery"] = true;
+			}else{
+				j["result"] = "FAIL";
+				j["reason"] = reason;
+			}
 			return j;
 		}
 		virtual void on_command()
 		{
+			fprintf(stderr, "%s \n", "algo msg set oncommand");
 			auto* self = dynamic_cast<bear*>(al);
 			auto p2 = p;
-			result = self->set_pair(std::move(p2));
+			std::string r = self->set_pair(std::move(p2));
+			result = r;
+			fprintf(stderr, "algo msg set oncommand result = %s \n", result.c_str());
 			ouputQueue.enqueue(this);
 		}
 		virtual void release()
@@ -1817,6 +1829,7 @@ private:
 				j["result"] = result;
 				j["recovery"] = true;
 			}else{
+				j["action_type"] = action;
 				j["reason"] = reason;
 				j["result"] = result;
 			}
@@ -1838,6 +1851,8 @@ private:
 			}
 			_resp = resp;
 
+			result = _resp.result;
+			reason = _resp.reason;
 			ouputQueue.enqueue(this);
 
 		}
@@ -2038,7 +2053,7 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
-			j["msg_type"] = "algo_loadpricetable";
+			j["msg_type"] = "algo_param_msg";
 			j["warrant_code"] = code;
 			j["type"] = type;
 			j["value"] = value;
@@ -2216,7 +2231,7 @@ private:
 			j["side"] = side;
 			if(side == "BUY"){
 				j["buyin"] = buyin;
-			}else if(action == "SELL"){
+			}else if(side == "SELL"){
 				j["sellout"] = sellout;
 			}
 			j["order_price"] = order_price;
@@ -2297,10 +2312,11 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
+			j["action"] = "portfolio";
 			j["warrant_code"] = warrant_code;
 			j["buy_price"] = buy_price;
 			j["buytime"] = buytime;
-			j["sell_price"] = buy_price;
+			j["sell_price"] = sell_price;
 			j["sellime"] = selltime;
 			j["quantity"] = quantity;
 			j["recovery"] = true;
@@ -2342,15 +2358,15 @@ public:
 	virtual void handle_command(algo_msg_base&);
 	virtual algo_msg_base* json_to_msg(json& msg);
 public:
-	static rapid_ring::spsc_ring_buffer_object_pool<bear::algo_err_msg, 8192> algo_err_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_err_msg, 8192> algo_err_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_param_msg, 8192> algo_param_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_loadpricetable, 8192> algo_loadpricetable_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_positionorder_msg, 8192> algo_positionorder_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_order_msg, 8192> algo_order_msg_pool;
-	static rapid_ring::spsc_ring_buffer_object_pool<algo_validate_msg, 8192> algo_validate_msg_pool;
-	static rapid_ring::spsc_ring_buffer_object_pool<algo_portfolio_msg, 8192> algo_portfolio_msg_pool;
-	static rapid_ring::spsc_ring_buffer_object_pool<algo_warrantprice_msg, 8192> algo_warrantprice_msg_pool;
-	static rapid_ring::spsc_ring_buffer_object_pool<algo_pricetable_msg, 8192> algo_pricetable_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_validate_msg, 8192> algo_validate_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_portfolio_msg, 8192> algo_portfolio_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_warrantprice_msg, 8192> algo_warrantprice_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_pricetable_msg, 8192> algo_pricetable_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_set_msg, 8192> algo_set_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_action_msg, 8192> algo_action_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_setposition, 8192> algo_setposition_pool;

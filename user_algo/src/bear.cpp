@@ -1,7 +1,7 @@
 #include <vector>
 #include <bear.hpp>
 
-std::unordered_map<unsigned int, priceinfo*> bear::uprice_map;
+//std::unordered_map<unsigned int, priceinfo*> bear::uprice_map;
 
 bear::bear(user& u, const std::string& name):
 	algo(u, name),
@@ -61,13 +61,14 @@ void bear::on_omdc_book(const Tradable& tradable)
 
 				unsigned long long newsellout = it->second->getSellOut();
 				unsigned long long newbuyin = it->second->getBuyIn();
-				unsigned long long bestbid = it->second->getPE()->Bestbid;
-				unsigned long long bestask = it->second->getPE()->Bestask;
+				//unsigned long long bestbid = it->second->getPE()->Bestbid;
+				//unsigned long long bestask = it->second->getPE()->Bestask;
 
 				if(newsellout != sellout || newbuyin != buyin){
 					sellout = newsellout;
 					buyin = newbuyin;
-					it->second->Log(std::string("BEAR CODE = ") + std::to_string(tradable.m_Code) + " Bestask = " + std::to_string(bestask) + " Current buyin = " + std::to_string(buyin) + " Bestbid = " + std::to_string(bestbid) + " Sellout = " +  std::to_string(sellout));
+
+					//it->second->Log(std::string("BEAR CODE = ") + std::to_string(tradable.m_Code) + " Bestask = " + std::to_string(bestask) + " Current buyin = " + std::to_string(buyin) + " Bestbid = " + std::to_string(bestbid) + " Sellout = " +  std::to_string(sellout));
 				}
 				/*
 				if(sellout != 0 && sellout != 99999999 ){
@@ -115,11 +116,9 @@ void bear::on_omdd_book(const Tradable& tradable)
 		auto it = _u_map.find(tradable.m_Code);
 		if (_u_map.end() != it)
 		{
-
 			for (const auto& p : it->second)
 			{
-
-				if((p->action_status() == STAGE_START || p->action_status() == STAGE_PAUSE) && p->has_position()){
+				if(p->action_status() == STAGE_START && p->has_position()){
 					p->on_omdd_book(tradable);
 				}
 			}
@@ -150,16 +149,28 @@ void bear::on_omdd_trade(const Tradable& tradable)
 				for (const auto& p : it->second)
 				{
 
+					if(p->getWtype() == BULL){
+						if(p->getSellOut() == trade_price)
+						{
+							p->on_bull_trade(tradable);
+						}
+					}else{
+						if(p->getBuyIn() == trade_price)
+						{
+							p->on_bear_trade(tradable);
+						}
+					}
+/*
 					if(p->getSellOut() == trade_price && p->getWtype() == BULL && p->has_position()   )
 					{
 						p->on_bull_trade(tradable);
 					}
 
-					if(p->getBuyIn() == trade_price && p->getWtype() == BEAR && !p->has_position()   )
+					if(p->getBuyIn() == trade_price && p->getWtype() == BEAR && !p->has_position() && (p->status() == STATUS_READY || p->status == STATUS_DONE) )
 					{
 						p->on_bear_trade(tradable);
 					}
-
+*/
 				}
 			}
 
@@ -173,7 +184,19 @@ void bear::on_omdd_trade(const Tradable& tradable)
 				for (const auto& p : it->second)
 				{
 
-					if(p->getBuyIn() == trade_price && p->getWtype() == BULL && !p->has_position())
+					if(p->getWtype() == BULL){
+						if(p->getBuyIn() == trade_price)
+						{
+							p->on_bull_trade(tradable);
+						}
+					}else{
+						if(p->getSellOut() == trade_price)
+						{
+							p->on_bear_trade(tradable);
+						}
+					}
+/*
+					if(p->getBuyIn() == trade_price && p->getWtype() == BULL && !p->has_position() && (p->status() == STATUS_READY || p->status == STATUS_DONE) )
 					{
 						p->on_bull_trade(tradable);
 					}
@@ -182,7 +205,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 					{
 						p->on_bear_trade(tradable);
 					}
-
+*/
 				}
 			}
 
@@ -205,6 +228,8 @@ std::string bear::set_pair(pair&& p)
 {
 	auto ref = p.ref();
 	auto it = _p_map.find(ref);
+
+	fprintf(stderr, "%s \n", "set_pair 1");
 
 	if (_p_map.end() != it)
 	{
@@ -245,6 +270,9 @@ std::string bear::set_pair(pair&& p)
 		_p_map.emplace(ref, std::move(p));
 		it = _p_map.find(ref);
 	}
+
+	fprintf(stderr, "%s \n", "set_pair 2");
+
 	auto underlying_code = it->second.underlying_code();
 	auto warrant_code = it->second.warrant_code();
 	//json["result"] = "SUCCESS";
@@ -258,6 +286,9 @@ std::string bear::set_pair(pair&& p)
 	if(itu  == uprice_map.end()){
 		uprice_map[underlying_code] = std::move(new priceinfo());
 	}
+
+	fprintf(stderr, "%s \n", "set_pair 3");
+
 	//bool result = subscribe_omdc_book(warrant_code, true);
 	//if(!result){
 		//json["result"] = "FAIL";
@@ -276,6 +307,9 @@ std::string bear::set_pair(pair&& p)
 }
 
 bear::action_resp bear::set_start(unsigned int code, const std::string& ref){
+
+	fprintf(stderr, "%s \n", "do set_start");
+
 	action_resp a_resp;
 	auto it = _p_map.find(ref);
 	if (_p_map.end() == it)
@@ -303,6 +337,8 @@ bear::action_resp bear::set_start(unsigned int code, const std::string& ref){
 }
 
 bear::action_resp bear::set_pause(unsigned int code, const std::string& ref){
+
+	fprintf(stderr, "%s \n", "do set_pause");
 	action_resp a_resp;
 	auto it = _p_map.find(ref);
 	if (_p_map.end() == it)
@@ -330,23 +366,30 @@ bear::action_resp bear::set_pause(unsigned int code, const std::string& ref){
 }
 
 bear::action_resp bear::set_stop(unsigned int code, const std::string& ref){
+
+	fprintf(stderr, "%s \n", "do set_stop");
+
 	action_resp a_resp;
 	auto it = _p_map.find(ref);
+
 	if (_p_map.end() == it)
 	{
 		a_resp.result = "FAIL";
 		a_resp.reason = "fail pair not found";
+		a_resp.recovery = false;
 		return a_resp;
 	}
 	auto& p = it->second;
 	if(p.warrant_code() != code){
 		a_resp.result = "FAIL";
 		a_resp.reason = "fail invalid code";
+		a_resp.recovery = false;
 		return a_resp;
 	}
 	if(p.has_position()){
 		a_resp.result = "FAIL";
 		a_resp.reason = "Position Exist";
+		a_resp.recovery = false;
 		return a_resp;
 	}
 
@@ -358,6 +401,8 @@ bear::action_resp bear::set_stop(unsigned int code, const std::string& ref){
 	a_resp.reason = "";
 	a_resp.recovery = true;
 
+
+/*
 	auto underlying_code = it->second.underlying_code();
 	auto warrant_code = it->second.warrant_code();
 	auto node = &(it->second);
@@ -370,8 +415,6 @@ bear::action_resp bear::set_stop(unsigned int code, const std::string& ref){
 			if(u_it->second.empty())
 			{
 				_u_map.erase(u_it);
-				//subscribe_omdd_trade(underlying_code, false);
-				//subscribe_omdd_book(underlying_code, false);
 			}
 		}
 	}
@@ -379,9 +422,8 @@ bear::action_resp bear::set_stop(unsigned int code, const std::string& ref){
 	if (_w_map.end() != w_it)
 	{
 		_w_map.erase(warrant_code);
-		//subscribe_omdc_book(warrant_code, false);
 	}
-
+*/
 	return a_resp;
 }
 
@@ -445,6 +487,8 @@ std::string bear::load_pricetable(unsigned int code, const std::string& ref){
 }
 
 std::string bear::set_param(unsigned int code, const std::string& type, const std::string& value, const std::string& ref){
+
+	fprintf(stderr, "%s \n", "do set_param");
 
 	auto it = _p_map.find(ref);
 	if (_p_map.end() == it)
@@ -632,7 +676,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 	try
 	{
 
-		fprintf(stdout, "bear %s\n", json.dump().c_str());
+		//fprintf(stdout, "bear %s\n", json.dump().c_str());
 
 		auto cmd = json["cmd"].get<std::string>();
 		auto ref = json["ref"].get<std::string>();
@@ -730,7 +774,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 			pAction_msg->algo_name = _name;
 			pAction_msg->id = _u.get_id();
 			pAction_msg->ref = ref;
-			pAction_msg->action = json["action"].get<std::string>();
+			pAction_msg->action = cmd;
 			pAction_msg->code = json["warrant_code"].get<unsigned int>();
 			return pAction_msg;
 		}
@@ -834,15 +878,15 @@ algo_msg_base* bear::json_to_msg(json& json)
 	}
 }
 
-rapid_ring::spsc_ring_buffer_object_pool<bear::algo_err_msg, 8192> bear::algo_err_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<bear::algo_err_msg, 8192> bear::algo_err_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<bear::algo_param_msg, 8192> bear::algo_param_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<bear::algo_positionorder_msg, 8192> bear::algo_positionorder_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<bear::algo_order_msg, 8192> bear::algo_order_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<bear::algo_loadpricetable, 8192> bear::algo_loadpricetable_pool;
-rapid_ring::spsc_ring_buffer_object_pool<bear::algo_validate_msg, 8192> bear::algo_validate_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<bear::algo_portfolio_msg, 8192> bear::algo_portfolio_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<bear::algo_warrantprice_msg, 8192> bear::algo_warrantprice_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<bear::algo_pricetable_msg, 8192> bear::algo_pricetable_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<bear::algo_validate_msg, 8192> bear::algo_validate_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<bear::algo_portfolio_msg, 8192> bear::algo_portfolio_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<bear::algo_warrantprice_msg, 8192> bear::algo_warrantprice_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<bear::algo_pricetable_msg, 8192> bear::algo_pricetable_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<bear::algo_setposition, 8192> bear::algo_setposition_pool;
 rapid_ring::spsc_ring_buffer_object_pool<bear::algo_set_msg, 8192> bear::algo_set_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<bear::algo_action_msg, 8192> bear::algo_action_msg_pool;
