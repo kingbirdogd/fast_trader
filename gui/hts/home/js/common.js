@@ -11,7 +11,7 @@ var htsstatus = ["-", "READY BUY", "MONBUY", "READY SELL", "MONSELL", "STOCK INV
 var mousedown = false;
 var ucodeNum=40;
 var codeNum=4;
-var callNum=20;
+var callNum=30;
 var wsuserid = "";
 var wsuser = "";
 var user_id = 0;
@@ -90,25 +90,25 @@ function initLogin(){
 	if(ls){
 		localStorage.wsuser=wsuser;
 		localStorage.wsuserid=wsuserid;
-		if (localStorage[wsuser+"_default_tickin"]) {
+		if (localStorage[wsuser+"_default_tickin"]!=undefined) {
 			default_tickin = localStorage[wsuser+"_default_tickin"];
 		}
-		if (localStorage[wsuser+"_default_max_entry"]) {
+		if (localStorage[wsuser+"_default_max_entry"]!=undefined) {
 			default_max_entry = localStorage[wsuser+"_default_max_entry"];
 		}
-		if (localStorage[wsuser+"_default_tick_bottom"]) {
+		if (localStorage[wsuser+"_default_tick_bottom"]!=undefined) {
 			default_tick_bottom = localStorage[wsuser+"_default_tick_bottom"];
 		}
-		if (localStorage[wsuser+"_default_tick_ceiling"]) {
+		if (localStorage[wsuser+"_default_tick_ceiling"]!=undefined) {
 			default_tick_ceiling = localStorage[wsuser+"_default_tick_ceiling"];
 		}
-		if (localStorage[wsuser+"_default_tick_out"]) {
+		if (localStorage[wsuser+"_default_tick_out"]!=undefined) {
 			default_tick_out = localStorage[wsuser+"_default_tick_out"];
 		}
-		if (localStorage[wsuser+"_default_min_exit"]) {
+		if (localStorage[wsuser+"_default_min_exit"]!=undefined) {
 			default_min_exit = localStorage[wsuser+"_default_min_exit"];
 		}
-		if (localStorage[wsuser+"_default_sell_ulast"]) {
+		if (localStorage[wsuser+"_default_sell_ulast"]!=undefined) {
 			default_sell_ulast = localStorage[wsuser+"_default_sell_ulast"];
 		}
 	}
@@ -186,6 +186,7 @@ function initTable(){
 	for(var i=0; i<ucodeNum; i++){
 		var id = 'u'+adddigit(i);
 		var separate = "";
+		var id2 = id+"_1";
 		
 		if(i<callNum){
 			wtype = '<span id="'+id2+'wtype_text" class="wtype_text call">購</span><input type="hidden" name="" id="'+id2+'wtype" value="bull" class="wtype" />';
@@ -197,7 +198,6 @@ function initTable(){
 			wtype = '<span id="'+id2+'wtype_text" class="wtype_text put">沽</span><input type="hidden" name="" id="'+id2+'wtype" value="bear" class="wtype" />';
 		}
 		
-		var id2 = id+"_1";
 		var codeContent = '';
 		codeContent += '<tr id="'+id2+'" class="'+id+' '+id+'c '+separate+'">';
         codeContent += '<td class="underlying"><input name="input2" type="text" id="'+id+'ucode" value="" placeholder="輸入正股" class="ucode" /></td>';
@@ -307,7 +307,11 @@ function initTable(){
 					var id=$(this).closest("tr").attr("id");
 					var sign=1;
 					$("#"+id+"sell_last").val(getValBySpread(val2, $("#default_tick_out").val()*sign));
-					$("#"+id+"bottom").val(getValBySpread(val2, $("#default_tick_bottom").val()*sign));
+					if($("#default_tick_bottom").val()!=""){
+						$("#"+id+"bottom").val(getValBySpread(val2, $("#default_tick_bottom").val()*sign));
+					}else{
+						$("#"+id+"bottom").val(0);
+					}
 					$("#"+id+"ceiling").val(getValBySpread(val2, $("#default_tick_ceiling").val()*sign));
 					setBuy(id);
 				}else if(val*1>0 && isNaN(val2*1)){
@@ -1132,9 +1136,9 @@ function keyAction(id, checkBS=0){
 		if($("#"+id).val()!="" && $("#"+id).val()*1!=0){
 			//console.log("keyAction_"+id);
 			if ( event.key == "q" || event.key == "Q" ) {
-				$("#"+id).val(($("#"+id).val()*1+getSpread($("#"+id).val())).toFixed(3)*1);
+				$("#"+id).val(($("#"+id).val()*1+getSpread($("#"+id).val()*1+0.001)).toFixed(3)*1);
 			}else if ( event.key == "w" || event.key == "W" ) {
-				$("#"+id).val(($("#"+id).val()*1-getSpread($("#"+id).val())).toFixed(3)*1);
+				$("#"+id).val(($("#"+id).val()*1-getSpread($("#"+id).val()*1-0.001)).toFixed(3)*1);
 			}
 		}else{
 			//$("#"+id).val($("#"+id).val()*1);
@@ -1167,19 +1171,23 @@ function removeString(id){
 	});
 }
 
-function stopAutoBuy(id){
+function stopAutoBuy(id, byset){//byset=2: error call (cancel, reject)
 	var idArr = id.split("_");
 	if($("#"+id+"ismon").val()!=0){
 		sendWsMsg(getWsMsg("stop", id));
 	}
 	$("#"+id+"ismon").val(0);
-	$("#"+id+"buy_status").removeClass("bg_red bg_green bg_orange bg_yellow");
-	$("#"+id+"buy_status").html("");
+	if(byset!="2"){
+		$("#"+id+"buy_status").removeClass("bg_red bg_green bg_orange bg_yellow");
+		$("#"+id+"buy_status").html("");
+	}
 	$("#"+id+"as").removeClass("off");
 	$("#"+id+"force_buy").removeClass("off");
 	$("#"+idArr[0]+"ucode").removeAttr('readonly');
 	$("#"+id+"code").removeAttr('readonly');
-	setBuy(id);
+	if( byset!="2"){
+		setBuy(id);
+	}
 }
 
 function stopBuy(id, byset){//byset=1: setBuy call, byset=2: error call (cancel, reject)
@@ -1194,6 +1202,7 @@ function stopBuy(id, byset){//byset=1: setBuy call, byset=2: error call (cancel,
 		$("#"+id+"buy_status").html("");
 	}
 	$("#"+id+"monbuy").removeClass("off");
+	$("#"+id+"as").removeClass("off disable");
 	$("#"+id+"force_buy").removeClass("off");
 	$("#"+idArr[0]+"ucode").removeAttr('readonly');
 	$("#"+id+"code").removeAttr('readonly');
@@ -1363,30 +1372,30 @@ function adddigit(number){
 
 function getSpread(val){
 	var spread = 0;
-	if(val*1>=0.01 && val*1<=0.25){
+	if(val*1>=0.01 && val*1<0.25){
 		spread = 0.001;
-	}else if(val*1>0.25 && val*1<=0.5){
+	}else if(val*1>=0.25 && val*1<0.5){
 		spread = 0.005;
-	}else if(val*1>0.5 && val*1<=10){
+	}else if(val*1>=0.5 && val*1<10){
 		spread = 0.01;
-	}else if(val*1>10 && val*1<=20){
+	}else if(val*1>=10 && val*1<20){
 		spread = 0.02;
-	}else if(val*1>20 && val*1<=100){
+	}else if(val*1>=20 && val*1<100){
 		spread = 0.05;
-	}else if(val*1>100 && val*1<=200){
+	}else if(val*1>=100 && val*1<200){
 		spread = 0.1;
-	}else if(val*1>200 && val*1<=500){
+	}else if(val*1>=200 && val*1<500){
 		spread = 0.2;
-	}else if(val*1>500 && val*1<=1000){
+	}else if(val*1>=500 && val*1<1000){
 		spread = 0.5;
-	}else if(val*1>1000 && val*1<=2000){
+	}else if(val*1>=1000 && val*1<2000){
 		spread = 1;
-	}else if(val*1>2000 && val*1<=5000){
+	}else if(val*1>=2000 && val*1<5000){
 		spread = 2;
-	}else if(val*1>5000 && val*1<=9995){
+	}else if(val*1>=5000){
 		spread = 5;
 	}else{
-		spread = 1;
+		spread = 0;
 	}
 	return spread;
 }
@@ -1405,11 +1414,11 @@ function getValBySpread(val, x){
 	var result = val*1;
 	var spread = 0;
 	for(var i=0; i<x; i++){
-		spread = getSpread(result);
+		//spread = getSpread(result);
 		if(direction == "up"){
-			result+=spread;
+			result+=getSpread(result+0.001);
 		}else{
-			result-=spread;
+			result-=getSpread(result-0.001);
 		}
 	}
 	return (result.toFixed(3))*1;

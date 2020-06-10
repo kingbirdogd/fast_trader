@@ -179,13 +179,13 @@ function getWsMsg(type, id){
 		//force_buy|underlying_code|warrant_code|quantity(0 for auto_buy_quantity)
 		//msg = 'force_buy|'+ucode+'|'+wcode+'|0|'+id;
 		//msg = 'force_buy|0|'+id;
-		return '{"cmd": "force_buy", "quantity":'+vol+', "id": '+user_id+', "algo_name":"'+key+'", "ref": "'+id+'"}';
+		return '{"cmd": "force_buy", "quantity":'+vol+', "id": '+user_id+', "algo_name":"'+key+'", "ref": "'+id+'", "price": '+wprice+'}';
 	}else if(type=="forcesell"){
 		//force_sell|underlying_code|warrant_code|quantity(0 for clean all position) 
 		//msg = 'force_sell|'+ucode+'|'+wcode+'|0|'+id;
 		//msg = 'force_sell|0|'+id;
 		//msg = 'force_sell|'+t_vol+'|'+id;
-		return '{"cmd": "force_sell", "quantity":'+t_vol+', "id": '+user_id+', "algo_name":"'+key+'", "ref": "'+id+'"}';
+		return '{"cmd": "force_sell", "quantity":'+t_vol+', "id": '+user_id+', "algo_name":"'+key+'", "ref": "'+id+'", "price": '+wprice2+'}';
 	}else if(type=="getbid" || type=="getask"){
 		/*if(code*1>0){
 			//return '{"type":"get_omdc_tradable", "code": '+code+', "ref": "'+id+"-"+id2+"-"+type+'"}';
@@ -533,7 +533,7 @@ function initWebsocket(){
 					}
 					if(status != "partial" && status != "queued"){
 						//if(data.result == "SUCCESS" && status == "filled"){
-						if(data.odr.reject_reason=="" && status == "filled"){
+						if(status == "filled"){
 							$("#"+id+"ismon").val(0);
 							
 							var price = data.odr.match_price;
@@ -557,8 +557,8 @@ function initWebsocket(){
 								$("#"+id+"vol").val(formatValue(data.odr.quantity/factor_stock));
 								$("#"+id+"t_vol").val($("#"+id+"t_vol").val()*1+(data.odr.filled_quantity/factor_stock));
 								$("#"+id+"t_vol_i").val(formatValue($("#"+id+"t_vol").val()*1));
-								$("#"+id+"buy_vol").val(formatValue(data.early_buy_qty));
-								$("#"+id+"sell_vol").val(formatValue(data.early_sell_qty));
+								//$("#"+id+"buy_vol").val(formatValue(data.early_buy_qty));
+								//$("#"+id+"sell_vol").val(formatValue(data.early_sell_qty));
 								$("#"+id+"monbuy").removeClass("off").addClass("disable");
 								$("#"+id+"force_buy").removeClass("off").addClass("disable");
 								
@@ -583,11 +583,17 @@ function initWebsocket(){
 								$("#"+id+"t_vol").val((data.odr.quantity-data.odr.filled_quantity)/factor_stock);
 								$("#"+id+"t_vol_i").val(formatValue((data.odr.quantity-data.odr.filled_quantity)/factor_stock));
 								
-								$("#"+id+"monsell").removeClass("off").addClass("disable");
-								$("#"+id+"force_sell").removeClass("off").addClass("disable");
 								$("#"+id+"sell_status").removeClass("bg_orange bg_green");
 								$("#"+id+"init").val(1);
-								setBuy(id);
+								$("#"+id+"monsell").removeClass("off");
+								$("#"+id+"force_sell").removeClass("off");
+								if($("#"+id+"t_vol").val()==0){
+									$("#"+id+"monsell").addClass("disable");
+									$("#"+id+"force_sell").addClass("disable");
+									setBuy(id);
+								}else{
+									$("#"+id+"sell_status").addClass("bg_yellow");
+								}
 								
 								//maxAmmount += (price/factor_stock)*(data.odr.filled_quantity/factor_stock);
 							}
@@ -598,7 +604,7 @@ function initWebsocket(){
 									stopSell(id);
 								}else if(type=="buy"){
 									if(data.auto_sell == true){
-										stopAutoBuy(id);
+										stopAutoBuy(id, "2");
 									}else{
 										stopBuy(id,"2");
 									}
@@ -983,7 +989,7 @@ function initWebsocket(){
 					}else if(type=="buy"){
 						stopBuy(id,"");
 					}else{
-						stopAutoBuy(id);
+						stopAutoBuy(id, "");
 					}
 				}
 			}
