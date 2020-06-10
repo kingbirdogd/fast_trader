@@ -80,47 +80,6 @@ for (let user in users)
 {
 	let node = users[user];
 	let id = node.id;
-	let user_folder = node.user_folder;         // 创建文件夹
-	let user_start_json = node.user_start_json; // 預启动
-	let top = node.top;
-	if (null !== user_folder)
-	{
-		let out = {};
-		out.type = "add_user_folder";
-		out.user_folder = user_folder;
-		out.id = id;
-		process.stdout.write(JSON.stringify(out) + "\n");
-	}
-	if (null !== user_start_json)
-	{
-		let reader = readline.createInterface(
-		{
-			input: fs.createReadStream(user_start_json)
-		});
-		reader.on("line", function (line)
-		{
-			try
-			{
-				let out = JSON.parse(line);
-				out.id = id;
-				process.stdout.write(JSON.stringify(out) + "\n");
-			}
-			catch(e)
-			{
-			}
-		});
-	}
-	if (null !== top)
-	{
-		let out = {};
-		out.type = "top";
-		out.ip = top.IP;
-		out.port = parseInt(top.PORT);
-		out.user = top.USER;
-		out.pass = top.PASS;
-		out.id = id;
-		process.stdout.write(JSON.stringify(out) + "\n");
-	}
 }
 
 
@@ -385,12 +344,6 @@ wsSrv.on('request', (request)=>
 			{
 				let json = JSON.parse(message.utf8Data);
 				json.id = id;
-				if("add_user_folder" === json.type || "top" === json.type)
-				{
-					json.result = "command not support in web";
-					connection.send(JSON.stringify(json));
-					return;	
-				}
 				process.stdout.write(JSON.stringify(json) + "\n");
 			}
 			catch(e)
@@ -400,45 +353,55 @@ wsSrv.on('request', (request)=>
 	});
 });
 
-
 /*
  *  读取IO数据流
  */
-var reader = readline.createInterface
-(
-	{
-		input: process.stdin
-	}
-);
-reader.on("line", (line) =>
-{
-	try
-	{
-		let json = JSON.parse(line);
-		json.tm = new Date().getTime();
-		let json_msg = JSON.stringify(json);
-		if (undefined === json.id || 0 === json.id)
-		{
-			for (let id in conns)
-			{
-				conns[id].send(json_msg);
-			}
-		}
-		else
-		{
-			let conn = conns[json.id];
-			if (undefined !== conn)
-			{
-				conn.send(json_msg);
-			}
-		}
-		if (true === json["recovery"])
-		{
-			old_msg.push(json);
+var reader = null;
+var recursiveAsyncReadLine = function() {
+  console.log('Readline start');
+  reader = readline.createInterface
+  (
+    {
+      input: process.stdin
     }
-	}
-	catch(e)
-	{
-	}
-});
-
+  );
+  reader.on("line", (line) =>
+  {
+    try
+    {
+      let json = JSON.parse(line);
+      json.tm = new Date().getTime();
+      let json_msg = JSON.stringify(json);
+      if (undefined === json.id || 0 === json.id)
+      {
+        for (let id in conns)
+        {
+          conns[id].send(json_msg);
+        }
+      }
+      else
+      {
+        let conn = conns[json.id];
+        if (undefined !== conn)
+        {
+          conn.send(json_msg);
+        }
+      }
+      if (true === json["recovery"])
+      {
+        old_msg.push(json);
+      }
+    }
+    catch(e)
+    {
+      console.error('Readline error');
+      console.error(e);
+    }
+  });
+  reader.on('close', () =>
+  {
+    console.error('Readline close');
+    recursiveAsyncReadLine();
+  });
+}
+recursiveAsyncReadLine();
