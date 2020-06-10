@@ -1913,17 +1913,22 @@ private:
 			j["warrant_code"] = code;
 			j["price"] = price;
 			j["quantity"] = quantity;
-			j["result"] = result;
+
+			if(result == "SUCCESS"){
+				j["result"] = result;
+			}else{
+				j["result"] = "FAIL";
+				j["reason"] = result;
+			}
 			return j;
 		}
 		virtual void on_command()
 		{
 			auto* self = dynamic_cast<bear*>(al);
 			result = self->force_buy(price, quantity,  ref);
-			if(result != "Exceed Buy Power" && result != "Not Ready"){
+			//if(result != "Exceed Buy Power" && result != "Not Ready"){
 				ouputQueue.enqueue(this);
-			}
-
+			//}
 		}
 		virtual void release()
 		{
@@ -1952,7 +1957,12 @@ private:
 			j["warrant_code"] = code;
 			j["price"] = price;
 			j["quantity"] = quantity;
-			j["result"] = result;
+			if(result == "SUCCESS"){
+				j["result"] = "SUCCESS";
+			}else{
+				j["result"] = "FAIL";
+				j["reason"] = result;
+			}
 			return j;
 		}
 		virtual void on_command()
