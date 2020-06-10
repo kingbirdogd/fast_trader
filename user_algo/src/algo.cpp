@@ -1,5 +1,6 @@
 #include <algo.hpp>
 #include <semi.hpp>
+#include <bear.hpp>
 
 algo::algo(user& u, const std::string& name):
 	_u(u),
