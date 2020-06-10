@@ -1630,10 +1630,11 @@ private:
 				return true;
 			}else{
 				if(qty == 0){
-					_Status = STATUS_DONE;
+
 
 					warrant* w = _OBSetting->removeWarrantOrCbbc(_warrant_code);
 					w->Quantity = 0;
+					_OBSetting->hasPosition = false;
 
 					auto msg = algo_positionorder_msg_pool.get_obj();
 					msg->al = _algo;
@@ -1648,6 +1649,8 @@ private:
 					msg->filled_quantity = 0;
 					msg->status = "delete";
 					ouputQueue.enqueue(msg);
+
+					_Status = STATUS_DONE;
 
 					return true;
 				}

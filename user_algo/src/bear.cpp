@@ -561,7 +561,7 @@ std::string bear::force_buy(unsigned long long price, unsigned long long quantit
 	}
 
 	OBSetting* obs = p.getOBS();
-	if(!obs->hasRelatedWarrant(p.warrant_code())){
+	if(!obs->isExist(p.warrant_code())){
 		obs->addWarrantOrCbbc(newWarrant);
 	}
 
