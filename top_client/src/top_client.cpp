@@ -27,10 +27,10 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 				{
 					auto& odr = it->second;
 					odr.status = dbp::top::order_status::rejected;
-					std::string reject_reason = "error_code:";
+					std::string reject_reason = "";
 					const auto& e_reply = *static_cast<const dbp::top::error_reply*>(static_cast<const void*>(p));
 					reject_reason += std::to_string(static_cast<uint64_t>(e_reply.code));
-					reject_reason += ",error_msg:";
+					reject_reason += ":";
 					reject_reason += dbp::top::to_string(e_reply.code);
 					std::size_t cp_size = reject_reason.length() + 1;
 					if (cp_size < sizeof(odr.reject_reason))
