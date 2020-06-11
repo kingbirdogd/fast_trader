@@ -394,7 +394,7 @@ bear::action_resp bear::set_stop(unsigned int code, const std::string& ref){
 	}
 
 	a_resp.previous_action = p.action_status();
-	p.set_ActionStatus(STAGE_PAUSE);
+	p.set_ActionStatus(STAGE_STOP);
 	a_resp.action = p.action_status();
 
 	a_resp.result = "SUCCESS";
