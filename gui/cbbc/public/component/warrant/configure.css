@@ -1,0 +1,31 @@
+.config{
+  margin: 10px 0px 10px 0px;
+}
+
+.ui-sortable .config {
+  list-style: none;
+  margin: 10px 0px 10px -40px;
+}
+
+.config svg{
+  margin-right: 8px;
+}
+
+.config .field {
+  outline: none;
+  box-shadow:none !important;
+  border:1px solid #ccc !important;
+}
+
+.config .field, .selector {
+  width: 120px;
+  color: #333333;
+  font-size: 12px;
+  border:1px solid #cfcfcf;
+  padding: 4px;
+}
+
+.config .btn-sm {
+  height: 28px;
+  font-size: 12px;
+}

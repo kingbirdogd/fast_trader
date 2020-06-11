@@ -1,0 +1,41 @@
+<% include component/header.ejs %>
+<% include component/navbar.ejs %>
+<script type="application/javascript" src="/page/module.js"></script>
+<script>
+var module = "<%= module %>";
+global.sell = "買入";
+global.buy = "沽出";
+global.fail = "交易失敗";
+global.error = "錯誤";
+$(document).ready(function() {
+  // something here...
+});
+</script>
+
+<div id="module" class="container">
+
+<table class="table table-sm table-striped table-light">
+  <col width="10%">
+  <col width="10%">
+  <col width="10%">
+  <col width="10%">
+  <col width="25%">
+  <col width="20%">
+  <col width="15%">
+  <thead>
+    <tr>
+      <th scope="col">權證</th>
+      <th scope="col">操作</th>
+      <th scope="col">成交價</th>
+      <th scope="col">單位</th>
+      <th scope="col">狀態</th>
+      <th scope="col">時間</th>
+      <th scope="col">成交額</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+<table>
+
+</div>
+<% include component/footer.ejs %>

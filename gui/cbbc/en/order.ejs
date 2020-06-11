@@ -1,0 +1,67 @@
+<% include component/header.ejs %>
+<% include component/navbar.ejs %>
+<script>
+var ui = new Array();
+var unit = 100000000; // 单位
+
+$(document).ready(function() {
+  var command = '{"type":"list_orders"}';
+  initWebsocket(render);
+  sendWebsocket(command);
+  initUI();
+});
+
+function render(res) {
+  initUI();
+  var data = JSON.parse(res);
+  var keys = ['code','key','price','quantity','side','status', 'type'];
+  if (data.action=='list_orders' && "ordres" in data) {
+    var len = data.ordres.length;
+    // 有交易记录
+    if(len>0) {
+      // 标题
+      var title = null;
+      for (var i in keys)
+        title += '<th scope="col">'+keys[i]+'</th>';
+    
+      // 每笔交易
+      var body = null;
+      for (var i=0; i<data.ordres.length; i++) {
+        // 每笔交易的细项
+        var order = data.ordres[i];
+        var cols = null;
+        for (var j in keys) {
+          // 详细细项
+          var val = order[keys[j]];
+          if (keys[j] == 'price')
+            val = formatPrice(val/unit);
+          if (keys[j] == 'quantity')
+            val = val/unit;
+          cols += '<td>'+val+'</td>';
+        }
+        body += '<tr>'+cols+'</tr>';
+      }
+      // 渲染
+      var html = '<thead><tr>'+title+'</tr></thead><tbody>'+body+'</tbody>';
+      ui.table.html(html);
+    }
+    // 没有交易记录
+    else if(len<=0) {
+      ui.container.removeClass('container-fuild').addClass('container');
+      // ui.container.html('It seems you have no order.');
+    }
+    
+  }
+}
+
+function initUI() {
+  ui.container = $('#order');
+  ui.table = $('#order .table');
+}
+</script>
+
+<div id="order" class="container">
+<table class="table table-sm table-striped table-light"><table>
+
+</div>
+<% include component/footer.ejs %>

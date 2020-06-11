@@ -1,0 +1,47 @@
+.title_row .title{
+  min-width: 75px;
+  font-size: 12px;
+}
+
+.field_row {
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.field_row .field {
+  width: 75px;
+  color: #333333;
+  font-size: 12px;
+  padding: 4px;
+}
+
+.field_row .field.error {
+  border:1px solid #ff0000 !important;
+}
+
+.field_row .field::placeholder {
+  color: #bcbcbc;
+}
+
+.field_row .btn-sm {
+  width: 75px;
+  height: 28px;
+  font-size: 12px;
+}
+
+.field_row .response {
+  font-size: 12px;
+}
+
+.field_row .response.error{
+  color: #ff0000;
+}
+
+.field_row .response.success{
+  color: #28a745;
+}
+
+.field_row .message{
+  margin-left: 6px;
+  font-size: 12px;
+}

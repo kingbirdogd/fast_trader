@@ -1,0 +1,60 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="javascript:void(0);">交易平台(測試版)</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/index">主頁</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/profilo">個人報表</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="javascript:void(0);" id="navDropdownModule" role="button" 
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            我的模組
+          </a>
+          <div class="dropdown-menu nav-dropdown-module" aria-labelledby="navDropdownModule">
+            <!-- general.js func renderNavTab()  -->
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/log">服務器紀錄</a>
+        </li>
+      </ul>
+      
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown mr-sm-4 my-sm-1">
+          <a class="nav-link dropdown-toggle" href="javascript:void(0);" id="navDropdownLang" role="button" 
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Language
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navDropdownLang">
+            <a class="dropdown-item btn-lang" data-lang="en" href="javascript:void(0);">English</a>
+            <a class="dropdown-item btn-lang" data-lang="tc" href="javascript:void(0);">繁體</a>
+            <a class="dropdown-item btn-lang" data-lang="sc" href="javascript:void(0);">簡體</a>
+          </div>
+        </li>
+        
+        <li class="nav-item nav-personal mr-sm-4 my-sm-2">
+          <img class="rounded-circle" src="/images/avatar.jpg"/>
+          <span class="nav-personal-info"></span>
+        </li>
+        
+        <li class="nav-item mr-sm-2 my-sm-2">
+          <button id="btn-stop-server" class="btn btn-sm btn-outline-danger" style="display:none;">停止</button>
+        </li>
+        
+        <li class="nav-item mr-sm-2 my-sm-2">
+          <form action="/logout" method="POST" class="form-inline">
+            <button class="btn btn-sm btn-outline-success" type="submit">登出</button>
+          </form>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,21 @@
+.config_row {
+  display: flex;
+  margin: 12px 0px 12px 0px;
+  font-size: 13px;
+}
+
+.config_row .title {
+  min-width: 100px;
+}
+
+.config_row .fields {
+  width: 200px;
+  color: #333333;
+  font-size: 12px;
+  padding: 4px;
+}
+
+.title_row {
+  display: flex;
+  margin: 12px 0px 12px 0px;
+}

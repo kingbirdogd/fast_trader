@@ -1,0 +1,105 @@
+input, textarea, select, textarea:focus, input:focus, select:focus, .form-control:focus, *:focus {
+  outline: none;
+  box-shadow:none !important;
+  border:1px solid #ccc !important;
+}
+
+.navbar {
+  margin-bottom: 22px;
+  border-bottom: 1px solid #cfcfcf;
+}
+
+.navbar .nav-personal img{
+  margin: 0px 4px 0px 0px;
+  width: 36px;
+}
+
+.navbar .nav-personal-info {
+  color: rgba(0,0,0,.5);
+}
+
+.font-up {
+  color: #00b300;
+}
+
+.font-down {
+  color: #ff0000;
+}
+
+#login.container {
+  margin-top: 20px;
+}
+
+#login form {
+  position: relative;
+  margin: 0 auto 100px;
+  padding: 45px;
+  width: 500px;
+  background: #ffffff;
+  text-align: center;
+}
+
+#login input {
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+#login button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+#index table {
+  font-size: 13px;
+}
+
+#index h6 {
+  margin-top: 32px;
+}
+
+#index form input {
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+#profilo table {
+  font-size: 13px;
+}
+
+#profilo .list-group {
+  font-size: 14px;
+}
+
+#order.container {
+  color: #333333;
+}
+
+#order table {
+  font-size: 13px;
+}
+
+#module table {
+  font-size: 13px;
+}
+
+#log .textarea-log{
+  overflow-y: scroll;
+  height:600px;
+  color: #333333;
+  font-size: 12px;
+  background-color: #fbfbfb;
+}
+
+#panel .nav-item{
+  font-size: 13px;
+}

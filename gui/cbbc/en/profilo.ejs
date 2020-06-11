@@ -1,0 +1,31 @@
+<% include component/header.ejs %>
+<% include component/navbar.ejs %>
+<script type="application/javascript" src="/page/profilo.js"></script>
+<script>
+$(document).ready(function() {
+  // something here...
+});
+</script>
+<div id="profilo" class="container">
+
+<ul class="list-group list-group-horizontal-sm">
+  <li class="list-group-item col-sm-4">總投入 <div class="font-weight-bold cost"></div></li>
+  <li class="list-group-item col-sm-4">總收益 <div class="font-weight-bold benefit"></div></li>
+  <li class="list-group-item col-sm-4">收益率 <div class="font-weight-bold roi"></div></li>
+</ul><br />
+
+<table class="table table-sm table-striped table-light">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">平均買入額</th>
+      <th scope="col">平均沽出額</th>
+      <th scope="col">平均收益(元)</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+<table>
+
+</div>
+<% include component/footer.ejs %>
