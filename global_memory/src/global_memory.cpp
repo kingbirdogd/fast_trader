@@ -3,7 +3,7 @@ dbp::cpu::CpuInfo cpuInfo;
 COmdOrderMap omdcMap;
 COmdOrderMap omddMap;
 CWarrants warrantToUnderlying;
-CWarrants underlyingToWarrant;
+CUnderlyingWarrants underlyingToWarrant;
 COmddCodeToNameMap codeToName;
 COmddNameToCodeMap nameToCode;
 COmddCodeToUnderlying codeTounderlying;
