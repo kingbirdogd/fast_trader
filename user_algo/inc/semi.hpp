@@ -50,6 +50,8 @@ private:
 		bool _auto_sell;
 		bool _is_omdd;
 		bool _is_reset_position;
+		unsigned long long wbestbid;
+		unsigned long long wbestask;
 	public:
 		enum class sell_result: unsigned long long
 		{
@@ -340,6 +342,37 @@ private:
 			auto best_ask_vol = static_cast<unsigned long long>(tradable.m_Ask[0].m_uQuantity);
 
 
+			if (_position > 0)
+			{
+				if (_auto_sell)
+				{
+					if(wbestbid == 0){
+						wbestbid = default_sell_price();
+					}
+					if (0 != wbestbid && (wbestbid == _bottom_price || wbestbid >= _ceiling_price))
+					{
+
+						if(sell(wbestbid) == sell_result::SUCCESS){
+							#ifndef NOT_MEASURE
+								auto msg = algo_latency_pool.get_obj();
+								msg->al = _algo;
+								msg->algo_name = _algo->_name;
+								msg->id = _algo->_u.get_id();
+								msg->ref = _ref;
+								msg->pkg_tm = tradable.m_PkgTime;
+								msg->m_tm = tradable.m_MsgTime;
+								msg->o_tm = dbp::tools::srv::current();
+								ouputQueue.enqueue(msg);
+							#endif
+						}
+					}
+
+				}
+			}
+
+
+
+
 			if (!(_underlying_symbol[0] < '0' || _underlying_symbol[0] > '9')){
 				if (0 != type && 100 != type)
 					return;
@@ -549,6 +582,11 @@ private:
 		}
 		void on_book(const Tradable& tradable)
 		{
+			auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
+			auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
+			wbestbid = best_bid_price;
+			wbestask = best_ask_price;
+
 			if (_position > 0){
 				if (_auto_sell)
 				{
