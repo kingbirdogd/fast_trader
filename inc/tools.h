@@ -37,13 +37,13 @@ namespace dbp
 				time_t t = nano / 1000;
 				struct tm sTm;
 				localtime_r(&t, &sTm);
-				unsigned long long result = (sTm.tm_year + 1900) * 10000000000000
-						+ (sTm.tm_mon + 1) * 100000000000
-						+ sTm.tm_mday * 1000000000
-						+ sTm.tm_hour * 10000000
-						+ sTm.tm_min * 100000
-						+ sTm.tm_sec * 1000
-						+ sss;
+				unsigned long long result = (sTm.tm_year + 1900) * 10000000000000;
+				result += (sTm.tm_mon + 1) * 100000000000;
+				result += static_cast<unsigned long long>(sTm.tm_mday) * 1000000000;
+				result += static_cast<unsigned long long>(sTm.tm_hour) * 10000000;
+				result += static_cast<unsigned long long>(sTm.tm_min) * 100000;
+				result += static_cast<unsigned long long>(sTm.tm_sec) * 1000;
+				result += sss;
 				return result;
 			}
 			inline unsigned long long get_YYYYMMDDHHMMSSsss()
