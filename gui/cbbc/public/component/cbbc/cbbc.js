@@ -105,14 +105,18 @@ class Cbbc extends React.Component {
         else if (data.msg_type=='cbbc_algo_force_buy') {}
         else if (data.msg_type=='cbbc_algo_force_sell') {}
       }
+      // 接口v2
       else if ('action_type' in data) {
         if (data.action_type=='start') {obj = this.setStart(obj, data)}
         else if (data.action_type=='pause') {obj = this.setPause(obj, data)}
         else if (data.action_type=='stop') {obj = this.setStop(obj, data)}
       }
-      // 公共
-      else if (data.type=='recovery_end') {obj = this.setRecoveryEnd(obj, data)}
-      
+      else if ('type' in data) {
+        // 接口v2
+        if (data.type=='set position') {obj = this.checkPositionV2(obj, data)}
+        // 公共
+        else if (data.type=='recovery_end') {obj = this.setRecoveryEnd(obj, data)}
+      }
       this.setState(obj)
     }
     initWebsocket(render)
@@ -395,12 +399,21 @@ class Cbbc extends React.Component {
     return {cells: state.cells}
   }
   
-  // 检验size
+  // 检验size v1
   checkPosition(state, data) {
     var id = data.ref.replace(state.prefix, ''), result = data.result.toLowerCase()
     if (result=='success') {}
     else if (result=='fail')
       state.cells[id].trade.size.feedback = data.reason
+    return {cells: state.cells}
+  }
+  
+  // 检验size v2
+  checkPositionV2(state, data) {
+    var id = data.ref.replace(state.prefix, ''), result = data.result.toLowerCase()
+    if (result=='success') {}
+    else if (result=='invalid status')
+      state.cells[id].trade.size.feedback = data.result
     return {cells: state.cells}
   }
   
