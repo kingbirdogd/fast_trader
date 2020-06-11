@@ -30,6 +30,26 @@ namespace dbp
 				uRt += ((unsigned long long)((unsigned long long)tp.tv_nsec));
 				return uRt;
 			}
+			inline unsigned long long get_YYYYMMDDHHMMSSsss(unsigned long long nano)
+			{
+				nano /= 1000000;
+				auto sss = nano % 1000;
+				time_t t = nano / 1000;
+				struct tm sTm;
+				localtime_r(&t, &sTm);
+				unsigned long long result = (sTm.tm_year + 1900) * 10000000000000
+						+ (sTm.tm_mon + 1) * 100000000000
+						+ sTm.tm_mday * 1000000000
+						+ sTm.tm_hour * 10000000
+						+ sTm.tm_min * 100000
+						+ sTm.tm_sec * 1000
+						+ sss;
+				return result;
+			}
+			inline unsigned long long get_YYYYMMDDHHMMSSsss()
+			{
+				return get_YYYYMMDDHHMMSSsss(current());
+			}
 			inline std::string get_time_str(time_t t)
 			{
 				struct tm sTm;

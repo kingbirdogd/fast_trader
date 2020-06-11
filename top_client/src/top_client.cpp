@@ -1,5 +1,6 @@
 #include <top_client.hpp>
 #include <cstring>
+#include <tools.h>
 
 unsigned long long top_client::_client_order_id = 0;
 
@@ -50,6 +51,7 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 
 						fprintf(stderr, "info Error Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
 					}
+					std::snprintf(odr.transaction_tm, sizeof(odr.transaction_tm), "%llu", dbp::tools::srv::get_YYYYMMDDHHMMSSsss());
 					if (_on_order)
 					{
 						_on_order(odr);
