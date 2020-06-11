@@ -11,7 +11,7 @@ extern dbp::cpu::CpuInfo cpuInfo;
 extern COmdOrderMap omdcMap;
 extern COmdOrderMap omddMap;
 extern CWarrants warrantToUnderlying;
-extern CWarrants underlyingToWarrant;
+extern CUnderlyingWarrants underlyingToWarrant;
 extern COmddCodeToNameMap codeToName;
 extern COmddNameToCodeMap nameToCode;
 extern COmddCodeToUnderlying codeTounderlying;

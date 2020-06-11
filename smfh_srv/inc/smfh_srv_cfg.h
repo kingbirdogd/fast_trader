@@ -238,7 +238,7 @@ inline static bool loadDefinition(json& _json)
 				const auto& underlying = it->second.get<unsigned int>();
 				unsigned int warrent = static_cast<unsigned int>(std::stoul(key));
 				warrantToUnderlying[warrent] = underlying;
-				underlyingToWarrant[underlying] = warrent;
+				underlyingToWarrant[underlying].insert(warrent);
 			}
 			for (auto it = omdd_name.begin(); it != omdd_name.end(); ++it)
 			{
@@ -502,7 +502,7 @@ inline static bool loadDefinition(json& _json)
 														auto warrant_code = OMD_GET_VALUE(pszBuffer, 4, unsigned int);
 														auto underlying_code = OMD_GET_VALUE(pszBuffer, 464, unsigned int);
 														warrantToUnderlying[warrant_code] = underlying_code;
-														underlyingToWarrant[underlying_code] = warrant_code;
+														underlyingToWarrant[underlying_code].insert(warrant_code);
 														cache["warrent_map"][std::to_string(warrant_code)] = underlying_code;
 													}
 												}

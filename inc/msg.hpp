@@ -271,6 +271,7 @@ typedef std::unordered_map<std::string, std::string> CActivateChannel;
 typedef std::vector<CRetranProxy> CRetranVec;
 typedef std::unordered_map<unsigned int, COmdOrderbook> COmdOrderMap;
 typedef std::unordered_map<unsigned int, unsigned int> CWarrants;
+typedef std::unordered_map<unsigned int, std::unordered_set<unsigned int>> CUnderlyingWarrants;
 typedef std::unordered_map<unsigned int, std::string> COmddCodeToNameMap;
 typedef std::unordered_map<unsigned int, COmddUnderlying> COmddCodeToUnderlying;
 typedef std::unordered_map<std::string, unsigned int> COmddNameToCodeMap;
