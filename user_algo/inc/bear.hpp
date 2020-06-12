@@ -582,6 +582,78 @@ private:
 			_PriceInfoU->FBestask =  uprice->FBestask;
 			_PriceInfoU->PFBestask =  uprice->PFBestask;
 
+
+			if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && (_Stop_Lost > 0 || _Win_Tick >= 0)) {
+
+				if(_Stop_Lost > 0){
+
+					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
+
+					long long diff = static_cast<long long>(warrant->BuyPrice) - static_cast<long long>(_PriceInfo->Bestbid);
+					long long rwinPrice =  static_cast<long long>(_SPREAD * _Stop_Lost);
+					if(diff >= rwinPrice){
+						Log(std::string(" CODE = ") + std::to_string(code) + " SEll Stoplost > 0 " + to_string(_PriceInfo->Bestbid) );
+
+						warrant->SellPrice = _PriceInfo->Bestbid;
+						warrant->Status = STATUS_SELLING;
+						warrant->SellQty = warrant->Quantity;
+
+						if(_OBSetting->SellOut == 99999999){
+							warrant->SellOut = _PriceInfoU->FBestbid;
+						}else{
+							warrant->SellOut = _OBSetting->SellOut;
+						}
+						_Status = STATUS_SELLING;
+						doSell(warrant);
+					}
+				}
+
+				if(_Win_Tick >= 0){
+
+					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
+
+					unsigned long long refSpread = _SPREAD;
+					unsigned long long rwinPrice = (unsigned long long) (warrant->BuyPrice + _Win_Tick * refSpread);
+
+					unsigned long long bp = warrant->BuyPrice;
+
+					if(_Win_Tick == 0){
+						if(_PriceInfo->Bestbid >= bp){
+							Log(std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick = 0 " + to_string(_PriceInfo->Bestbid) );
+							warrant->SellPrice = _PriceInfo->Bestbid;
+							warrant->Status = STATUS_SELLING;
+							warrant->SellQty = warrant->Quantity;
+
+							if(_OBSetting->SellOut == 99999999){
+								warrant->SellOut = _PriceInfoU->FBestbid;
+							}else{
+								warrant->SellOut = _OBSetting->SellOut;
+							}
+							_Status = STATUS_SELLING;
+							doSell(warrant);
+						}
+					}else{
+
+						if(_PriceInfo->Bestbid >= rwinPrice){
+							Log(std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick > 0 " + to_string(_PriceInfo->Bestbid) );
+							warrant->SellPrice = _PriceInfo->Bestbid;
+							warrant->SellQty = warrant->Quantity;
+							warrant->Status = STATUS_SELLING;
+							if(_OBSetting->SellOut == 99999999){
+								warrant->SellOut = _PriceInfoU->FBestbid;
+							}else{
+								warrant->SellOut = _OBSetting->SellOut;
+							}
+							_Status = STATUS_SELLING;
+
+							doSell(warrant);
+
+						}
+					}
+				}
+			}
+
+
 			if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START){
 				if(_Wtype == 2){
 					if(_PriceInfoU->LFBestask < best_ask_price &&  best_ask_price == _OBSetting->SellOut ){
