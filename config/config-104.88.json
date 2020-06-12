@@ -1,5 +1,5 @@
 {
-	"IN_OUT_PROCESS": "node ${HOME}/fast_trader/gui/db_server.js 9919",
+	"IN_OUT_PROCESS": "node ${HOME}/fast_trader/gui/db_server_uat.js 9919",
 	"SCHED_PRIORITY": 0,
 	"SCHED_TYPE": "SCHED_OTHER",
 	"SOL_SOCKET":
@@ -84,6 +84,22 @@
 				"eric_semi":
 				{
 					"lib": "semi",
+					"params":
+					{
+					}
+				}
+			}
+		},
+		{
+			"ID":4,
+			"USER":"P311831",
+			"PASS":"Shun2328",
+			"BUY_POWER":5000000,			
+			"ALGOS":
+			{
+				"hugo_bear":
+				{
+					"lib": "bear",
 					"params":
 					{
 					}
@@ -215,7 +231,8 @@
 	],
 	"ActivateChannel":
 	[
-		{"Channel":"OmdcChannel"}
+		{"Channel":"OmdcChannel"},
+		{"Channel":"OmddChannel"}
 	]
 }
 
