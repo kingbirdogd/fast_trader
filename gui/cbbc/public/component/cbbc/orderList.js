@@ -85,14 +85,13 @@ class OrderList extends React.Component {
           <table className="table table-sm table-striped table-light table-order">
             <colgroup>
               <col span="1" width="50px" />
+              <col span="1" width="100px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />
-              <col span="1" width="150px" />
-              <col span="1" width="150px" />
-              <col span="1" width="180px" />
+              <col span="1" width="300px" />
               <col span="1" width="150px" />
             </colgroup>
             <thead>

@@ -94,6 +94,7 @@ class Cbbc extends React.Component {
         else if (data.action=='order') {obj = this.setOnOrder(obj, data)}
         else if (data.action=='delete order') {obj = this.resetPosition(obj, data)}
         else if (data.action=='portfolio' && ('algo_name' in data)) {obj = this.setPorfololioV2(obj, data)}
+        else if (data.action=='cmd set') {obj = this.checkOnCommand(obj, data)}
       }
       // 接口v2
       else if ('msg_type' in data) {
@@ -102,8 +103,8 @@ class Cbbc extends React.Component {
         else if (data.msg_type=='wprice') {obj = this.setWprice(obj, data)}
         else if (data.msg_type=='bear_algo_set_msg') {obj = this.setPairsV2(obj, data)}
         else if (data.msg_type=='algo_param_msg') {obj = this.setParam(obj, data)}
-        else if (data.msg_type=='cbbc_algo_force_buy') {}
-        else if (data.msg_type=='cbbc_algo_force_sell') {}
+        else if (data.msg_type=='cbbc_algo_force_buy') {obj = this.checkForce(obj, data)}
+        else if (data.msg_type=='cbbc_algo_force_sell') {obj = this.checkForce(obj, data)}
       }
       // 接口v2
       else if ('action_type' in data) {
@@ -172,16 +173,6 @@ class Cbbc extends React.Component {
       state.cells[id].action.status.isStart = false
       state.cells[id].action.status.isStop = false
       state.cells[id].action.status.result = ''
-      // 报价表
-      var command = {
-        cmd: "loadpricetable",
-        action: "loadpricetable",
-        warrant_code: parseInt(pair.pair.warrant_code),
-        ref: state.prefix+id,
-        id: parseInt(state.userId),
-        algo_name: pair.algo_name
-      }
-      sendWebsocket(JSON.stringify(command))
     }
     // 错误 code
     else if (('reason' in pair) && pair.reason.length>=0 && 
@@ -358,6 +349,33 @@ class Cbbc extends React.Component {
   // 初始化
   setRecoveryEnd(state, data) {
     state.recovery.isRecoveryEnd = true
+    // 报价表
+    async function loadPrice(state) {
+      for (var i in state.config.value) {
+        var code = state.cells[i].action.code.value
+        var wtype = state.config.value[i]
+        // 已输入编号, 才要报价表
+        if (code.length > 0) {
+          var command = {
+            cmd: "loadpricetable",
+            action: "loadpricetable",
+            warrant_code: parseInt(code),
+            ref: state.prefix+i,
+            id: parseInt(state.userId),
+            algo_name: state.modules[wtype]
+          }
+          // 等待4秒, 避免过载
+          function wait(ms) {
+            var start = new Date().getTime(), end = start
+            while(end < start + ms)
+              end = new Date().getTime()
+          }
+          await wait(2000)
+          sendWebsocket(JSON.stringify(command))
+        }
+      }
+    }
+    loadPrice(state)
     return {recovery: state.recovery}
   }
   
@@ -444,14 +462,26 @@ class Cbbc extends React.Component {
     return {positions: state.positions}
   }
   
-  // 错Symbol
+  // 错 Code & Symbol
   checkOnCommand(state, data) {
-    console.log(data)
     var id = data.ref.replace(state.prefix, '')
     if (data.result.toLowerCase()=='fail') {
-      if (data.reason == 'fail command set underlying code omdd mapping not found') {
+      if (data.reason == 'fail command set underlying code omdd mapping not found')
         state.cells[id].action.symbol.feedback = 'Invalid Symbol'
-      }
+      else if (data.reason == 'Invalid warrant Code')
+        state.cells[id].action.code.feedback = 'Invalid Code'
+    }
+    return {cells: state.cells}
+  }
+  
+  // 即時買入 & 即時賣出
+  checkForce(state, data) {
+    var id = data.ref.replace(state.prefix, '')
+    if(data.result.toLowerCase()=='fail') {
+      if(data.msg_type=='cbbc_algo_force_buy')
+        state.cells[id].trade.size.feedback = data.reason
+      else if (data.msg_type=='cbbc_algo_force_sell')
+        state.cells[id].trade.size.feedback = data.reason
     }
     return {cells: state.cells}
   }

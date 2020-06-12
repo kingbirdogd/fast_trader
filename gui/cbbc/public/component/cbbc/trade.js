@@ -48,7 +48,8 @@ class Trade extends React.Component {
           price: formatLongV2(obj.price.value),
           quantity: formatLongV2(formatInputUnit(obj.size.value, true)),
           ref: states.prefix+no,
-          algo_name: states.modules[this.props.type]
+          algo_name: states.modules[this.props.type],
+          id: parseInt(states.userId)
         }
       }
       sendWebsocket(JSON.stringify(command1))

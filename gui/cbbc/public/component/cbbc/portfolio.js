@@ -108,7 +108,7 @@ class Portfolio extends React.Component {
           <table className="table table-sm table-striped table-light table-portfolio">
             <colgroup>
               <col span="1" width="50px" />
-              <col span="1" width="150px" />
+              <col span="1" width="100px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />
