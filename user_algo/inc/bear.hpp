@@ -258,12 +258,13 @@ private:
 						unsigned long long a = _PriceInfo->Bestask;
 						unsigned long long b1 = b + refSpread;
 
-						bool fallback =  _PriceInfo->PBestask > _PriceInfo->Bestask;
+						//bool fallback =  _PriceInfo->PBestask > _PriceInfo->Bestask;
 
 
 						bool within1spread = (b1 - a) == 0;
 
-						if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn && fallback){
+						//if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn && fallback){
+						if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn){
 
 							Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Buy " );
 
@@ -478,11 +479,12 @@ private:
 						unsigned long long b = _PriceInfo->Bestbid;
 						unsigned long long a = _PriceInfo->Bestask;
 						unsigned long long b1 = b + refSpread;
-						bool fallback =  _PriceInfo->PBestask > _PriceInfo->Bestask;
+						//bool fallback =  _PriceInfo->PBestask > _PriceInfo->Bestask;
 
 						bool within1spread = (b1 - a) == 0;
 
-						if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn != 0 && fallback){
+						//if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn != 0 && fallback){
+						if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn != 0){
 
 
 
