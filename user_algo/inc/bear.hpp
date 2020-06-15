@@ -1113,7 +1113,7 @@ private:
 
 
 
-				_algo->log_info(std::string(" WCODE ") + std::to_string(code) +
+				Log(std::string(" WCODE ") + std::to_string(code) +
 				std::string(" CODE ") + std::to_string(_warrant_code) +
 				std::string(" bid = ") + std::to_string(best_bid_price) +
 				std::string(" ask = ") + std::to_string(best_ask_price) +
