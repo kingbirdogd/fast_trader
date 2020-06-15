@@ -759,13 +759,13 @@ private:
 
 				priceinfo* uprice = _algo->uprice_map[_Underlying_code];
 
-				/*
+
 				_PriceInfoU->FBestbid =  uprice->FBestbid;
 				_PriceInfoU->PFBestbid =  uprice->PFBestbid;
 				_PriceInfoU->FBestask =  uprice->FBestask;
 				_PriceInfoU->PFBestask =  uprice->PFBestask;
-				*/
 
+/*
 				_PriceInfoU->FBestbid =  uprice->TBestbid;
 				_PriceInfoU->PFBestbid =  uprice->PTBestbid;
 				_PriceInfoU->FBestask =  uprice->TBestask;
@@ -786,6 +786,7 @@ private:
 				std::string(" PFBestbid = ") + std::to_string(_PriceInfoU->PFBestbid) +
 				std::string(" PFBestask = ") + std::to_string(_PriceInfoU->PFBestask)
 								);
+*/
 
 				unsigned long buyin = _CbbcPriceMark->buyIn(best_ask_price);
 				unsigned long long sellout = _CbbcPriceMark->sellOut(best_bid_price);
@@ -884,7 +885,7 @@ private:
 				if(_PriceInfo->Bestbid != best_bid_price && best_bid_price > 0){
 					if(best_bid_qty >= _IssuerSize){
 						//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark BID");
-						bool hasUpdate = _CbbcPriceMark->updateBid(best_bid_price, _PriceInfo->Bestbid, _PriceInfoU->FBestbid, _PriceInfoU->PFBestbid, true);
+						bool hasUpdate = _CbbcPriceMark->updateBid(best_bid_price, _PriceInfo->Bestbid, _PriceInfoU->FBestbid, _PriceInfoU->PFBestbid);
 						if(hasUpdate){
 							unsigned long long bkey = _CbbcPriceMark->getBidKey();
 							unsigned long long bprice = _CbbcPriceMark->getBidPrice();
@@ -964,7 +965,7 @@ private:
 				if(_PriceInfo->Bestask != best_ask_price && best_ask_price > 0){
 					//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark ASK");
 					if(best_ask_qty >= _IssuerSize){
-						bool hasUpdate = _CbbcPriceMark->updateAsk(best_ask_price, _PriceInfo->Bestask, _PriceInfoU->FBestask, _PriceInfoU->PFBestask, true);
+						bool hasUpdate = _CbbcPriceMark->updateAsk(best_ask_price, _PriceInfo->Bestask, _PriceInfoU->FBestask, _PriceInfoU->PFBestask);
 						if(hasUpdate){
 							unsigned long long bkey = _CbbcPriceMark->getAskKey();
 							unsigned long long bprice = _CbbcPriceMark->getAskPrice();
@@ -1105,12 +1106,12 @@ private:
 
 
 				priceinfo* uprice = _algo->uprice_map[_Underlying_code];
-/*
+
 				_PriceInfoU->FBestbid =  uprice->FBestbid;
 				_PriceInfoU->PFBestbid =  uprice->PFBestbid;
 				_PriceInfoU->FBestask =  uprice->FBestask;
 				_PriceInfoU->PFBestask =  uprice->PFBestask;
-*/
+/*
 				_PriceInfoU->FBestbid =  uprice->TBestbid;
 				_PriceInfoU->PFBestbid =  uprice->PTBestbid;
 				_PriceInfoU->FBestask =  uprice->TBestask;
@@ -1132,7 +1133,7 @@ private:
 				std::string(" PFBestbid = ") + std::to_string(_PriceInfoU->PFBestbid) +
 				std::string(" PFBestask = ") + std::to_string(_PriceInfoU->PFBestask)
 								);
-
+*/
 				unsigned long buyin = _CbbcPriceMark->buyIn(best_ask_price);
 				unsigned long long sellout = _CbbcPriceMark->sellOut(best_bid_price);
 				unsigned long long lvlBid = _CbbcPriceMark->sellOut(best_ask_price);
@@ -1235,7 +1236,7 @@ private:
 				if(_PriceInfo->Bestbid != best_bid_price && best_bid_price > 0){
 					//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark BID");
 					if(best_bid_qty >= _IssuerSize){
-						bool hasUpdate = _CbbcPriceMark->updateBid(best_bid_price, _PriceInfo->Bestbid, _PriceInfoU->FBestask, _PriceInfoU->PFBestask, true);
+						bool hasUpdate = _CbbcPriceMark->updateBid(best_bid_price, _PriceInfo->Bestbid, _PriceInfoU->FBestask, _PriceInfoU->PFBestask);
 						if(hasUpdate){
 							unsigned long long bkey = _CbbcPriceMark->getBidKey();
 							unsigned long long bprice = _CbbcPriceMark->getBidPrice();
@@ -1289,7 +1290,7 @@ private:
 				if(_PriceInfo->Bestask != best_ask_price && best_ask_price > 0){
 					//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark ASK");
 					if(best_ask_qty >= _IssuerSize){
-						bool hasUpdate = _CbbcPriceMark->updateAsk(best_ask_price, _PriceInfo->Bestask, _PriceInfoU->FBestbid, _PriceInfoU->PFBestbid, true);
+						bool hasUpdate = _CbbcPriceMark->updateAsk(best_ask_price, _PriceInfo->Bestask, _PriceInfoU->FBestbid, _PriceInfoU->PFBestbid);
 						if(hasUpdate){
 							unsigned long long bkey = _CbbcPriceMark->getAskKey();
 							unsigned long long bprice = _CbbcPriceMark->getAskPrice();
