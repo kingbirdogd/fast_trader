@@ -35,6 +35,7 @@ var combination_data = "";
 var combination_array = Array();
 var combination_map = {};
 var retryCount = 0;
+var isAddPosstion = false;
 
 $(document).ready(function() {
 	if (typeof(Storage) !== "undefined") {
@@ -197,7 +198,6 @@ function initTable(){
 			}
 			wtype = '<span id="'+id2+'wtype_text" class="wtype_text put">沽</span><input type="hidden" name="" id="'+id2+'wtype" value="bear" class="wtype" />';
 		}
-		
 		var codeContent = '';
 		codeContent += '<tr id="'+id2+'" class="'+id+' '+id+'c '+separate+'">';
         codeContent += '<td class="underlying"><input name="input2" type="text" id="'+id+'ucode" value="" placeholder="輸入正股" class="ucode" /></td>';
@@ -217,7 +217,7 @@ function initTable(){
         codeContent += '<td class="red_bg"><input type="text" name="" id="'+id2+'sell_last" class="sell_last" /></td>';
         codeContent += '<td class="red_bg"><input type="text" name="" id="'+id2+'sell_vol" class="sell_vol" /></td>';
         codeContent += '<td class="red_bg"><input type="text" name="" id="'+id2+'sell_ratio" class="sell_ratio" /></td>';
-        codeContent += '<td class="left"><a id="'+id2+'monbuy" class="button buy monbuy disable" href="javascript:clickBuy(\''+id2+'\');">開啟</a><input type="hidden" name="" id="'+id2+'init" value="0" class="init" /><input type="hidden" name="" id="'+id2+'init1" value="0" class="init1" /><input type="hidden" name="" id="'+id2+'init2" value="0" class="init2" /><input type="hidden" name="" id="'+id2+'ismon" value="0" class="ismon" /><input type="hidden" name="" id="'+id2+'orderno" value="-1" class="orderno" /><input type="hidden" name="" id="'+id2+'error" value="0" class="error" /><input type="hidden" name="" id="'+id2+'rc_action" value="" class="rc_action" /></td>';//ismon -> 1: monbuy, 2: monsell
+        codeContent += '<td class="left"><a id="'+id2+'monbuy" class="button buy monbuy disable" href="javascript:clickBuy(\''+id2+'\');">開啟</a><input type="hidden" name="" id="'+id2+'init" value="0" class="init" /><input type="hidden" name="" id="'+id2+'init1" value="0" class="init1" /><input type="hidden" name="" id="'+id2+'init2" value="0" class="init2" /><input type="hidden" name="" id="'+id2+'ismon" value="0" class="ismon" /><input type="hidden" name="" id="'+id2+'orderno" value="-1" class="orderno" /><input type="hidden" name="" id="'+id2+'error" value="0" class="error" /><input type="hidden" name="" id="'+id2+'rc_action" value="" class="rc_action" /><input type="hidden" name="" id="'+id2+'click_sell" value="" class="click_sell" /></td>';//ismon -> 1: monbuy, 2: monsell
         codeContent += '<td><a id="'+id2+'force_buy" class="button buy force_buy disable" href="javascript:clickForcebuy(\''+id2+'\');">即買</a></td>';
         //codeContent += '<td><input type="text" name="" id="'+id2+'tc" class="tc" value="'+$("#default_tick_ceiling").val()+'" style="width:35px;text-align: center;" /></td>';
         codeContent += '<td><a id="'+id2+'as" class="button as disable" href="javascript:clickAS(\''+id2+'\');">開啟</a></td>';
@@ -351,7 +351,7 @@ function initTable(){
 				var val2 = $(this).val();
 				if(val*1!=val2*1 && val2*1>0){
 					var id=$(this).closest("tr").attr("id");
-					if($("#"+id+"as").hasClass("off")){
+					if($("#"+id+"as").hasClass("off") || $("#"+id+"t_vol").val()==0){
 						setBuy(id);
 					}else{
 						setSell(id);
@@ -369,7 +369,7 @@ function initTable(){
 				var val2 = $(this).val();
 				if(val*1!=val2*1 && val2*1>0){
 					var id=$(this).closest("tr").attr("id");
-					if($("#"+id+"as").hasClass("off")){
+					if($("#"+id+"as").hasClass("off") || $("#"+id+"t_vol").val()==0){
 						setBuy(id);
 					}else{
 						setSell(id);
@@ -418,8 +418,14 @@ function initTable(){
 			$(this).blur(function(){
 				var val2 = $(this).val();
 				if(getValue(val)!=getValue(val2)){
-					var id=$(this).closest("tr").attr("id");
-					setSell(id);
+					if(confirm("確定變更？")){
+						$("#"+id2+"t_vol").val(getValue(val2));
+						isAddPosstion = true;
+						var id=$(this).closest("tr").attr("id");
+						setSell(id);
+					}else{
+						$(this).val(val);
+					}
 				}
 				$(this).unbind("blur");
 			});
@@ -460,6 +466,10 @@ function initTable(){
 				$(this).unbind("blur");
 			});
 		});
+		
+		/*$("#"+id2).keydown(function(objEvent) {
+			console.log(id2);
+		});*/
 	}
 	
 	/*$(window).on("mousedown", function() {
@@ -673,7 +683,7 @@ function setBuy(id){
 	
 	var buy_ulast = $("#"+id+"buy_ulast").val()*1;
 	var buy_last = $("#"+id+"buy_last").val()*1;
-	if(isUnderlying(ucode) && isWarrant(code) && Number.isInteger(code) && vol!=0 && buy_ulast>0 && buy_last>0 && t_vol*1==0){
+	if(isUnderlying(ucode) && isWarrant(code) && Number.isInteger(code) && vol>0 && buy_ulast>0 && buy_last>0 && t_vol*1==0){
 		$("#"+id+"monsell").addClass("disable");
 		$("#"+id+"force_sell").addClass("disable");
 		
@@ -758,6 +768,8 @@ function setSell(id){
 		}else{
 			$("#"+id+"monsell").removeClass("disable");
 			$("#"+id+"force_sell").removeClass("disable");
+			$("#"+id+"sell_status").addClass("bg_orange");
+			$("#"+id+"sell_status").html("");
 		}
 	}else{
 		$("#"+id+"monsell").removeClass("off");
@@ -772,11 +784,12 @@ function setSell(id){
 }
 
 function clickBuy(id){//class=off: clicked
-	$("#"+id+"ismon").val(0);
+	//$("#"+id+"ismon").val(0);
 	if($("#"+id+"force_buy").hasClass("off")){
 		sendWsMsg(getWsMsg("setbuy", id));
 	}else if($("#"+id+"monbuy").hasClass("off")){
-		sendWsMsg(getWsMsg("delete", id));
+		//sendWsMsg(getWsMsg("delete", id));
+		sendWsMsg(getWsMsg("stop", id));
 	}else{
 		$("#"+id+"monbuy").addClass("off");
 		setBuy(id);
@@ -784,11 +797,12 @@ function clickBuy(id){//class=off: clicked
 }
 
 function clickForcebuy(id){
-	$("#"+id+"ismon").val(0);
-	if($("#"+id+"monbuy").hasClass("off")){
+	//$("#"+id+"ismon").val(0);
+	if($("#"+id+"monbuy").hasClass("off") || $("#"+id+"as").hasClass("off")){
 		sendWsMsg(getWsMsg("forcebuy", id));
 	}else if($("#"+id+"force_buy").hasClass("off")){
-		sendWsMsg(getWsMsg("delete", id));
+		//sendWsMsg(getWsMsg("delete", id));
+		sendWsMsg(getWsMsg("stop", id));
 	}else{
 		$("#"+id+"force_buy").addClass("off");
 		setBuy(id);
@@ -796,23 +810,26 @@ function clickForcebuy(id){
 }
 
 function clickSell(id){
-	$("#"+id+"ismon").val(0);
+	//$("#"+id+"ismon").val(0);
 	if($("#"+id+"force_sell").hasClass("off")){
 		sendWsMsg(getWsMsg("setsell", id));
 	}else if($("#"+id+"monsell").hasClass("off") || $("#"+id+"monsell").hasClass("orange")){
-		sendWsMsg(getWsMsg("delete", id));
+		//sendWsMsg(getWsMsg("delete", id));
+		sendWsMsg(getWsMsg("stopsell", id));
 	}else{
 		$("#"+id+"monsell").addClass("off");
+		$("#"+id+"click_sell").val(1);
 		setSell(id);
 	}
 }
 
 function clickForcesell(id){
-	$("#"+id+"ismon").val(0);
+	//$("#"+id+"ismon").val(0);
 	if($("#"+id+"monsell").hasClass("off")){
 		sendWsMsg(getWsMsg("forcesell", id));
 	}else if($("#"+id+"force_sell").hasClass("off")){
-		sendWsMsg(getWsMsg("delete", id));
+		//sendWsMsg(getWsMsg("delete", id));
+		sendWsMsg(getWsMsg("stopsell", id));
 	}else{
 		$("#"+id+"force_sell").addClass("off");
 		setSell(id);
@@ -823,7 +840,8 @@ function clickAS(id){
 	$("#"+id+"ismon").val(0);
 	var idArr = id.split("_");
 	if($("#"+id+"as").hasClass("off")){
-		sendWsMsg(getWsMsg("delete", id));
+		//sendWsMsg(getWsMsg("delete", id));
+		sendWsMsg(getWsMsg("stop", id));
 	}else{
 		sendWsMsg(getWsMsg("auto", id));
 	}
@@ -1131,14 +1149,14 @@ function overAction(id, checkBS=0){
 	});
 }
 
-function keyAction(id, checkBS=0){
+function keyAction(id, checkBS=0){  //checkBS --> 1: spread+getbid/getask 	2: mon
 	//if(mousedown){
-		if($("#"+id).val()!="" && $("#"+id).val()*1!=0){
+		if($("#"+id).val()!="" && $("#"+id).val()*1!=0 && checkBS==1){
 			//console.log("keyAction_"+id);
 			if ( event.key == "q" || event.key == "Q" ) {
-				$("#"+id).val(($("#"+id).val()*1+getSpread($("#"+id).val()*1+0.001)).toFixed(3)*1);
+				$("#"+id).val(($("#"+id).val()*1+getSpread($("#"+id).val()*1+0.0001)).toFixed(3)*1);
 			}else if ( event.key == "w" || event.key == "W" ) {
-				$("#"+id).val(($("#"+id).val()*1-getSpread($("#"+id).val()*1-0.001)).toFixed(3)*1);
+				$("#"+id).val(($("#"+id).val()*1-getSpread($("#"+id).val()*1-0.0001)).toFixed(3)*1);
 			}
 		}else{
 			//$("#"+id).val($("#"+id).val()*1);
@@ -1155,6 +1173,28 @@ function keyAction(id, checkBS=0){
 				sendWsMsg(getWsMsg("getask", id));
 			}
 		}
+		
+		/*if ( event.key == "e" || event.key == "E" ){
+			if(($("#"+id2+"monbuy").hasClass("off") || !$("#"+id2+"monbuy").hasClass("disable")) && $("#"+id2+"t_vol").val()==0){
+				clickBuy(id2);
+			}else if(($("#"+id2+"monsell").hasClass("off") || !$("#"+id2+"monsell").hasClass("disable")) && $("#"+id2+"t_vol").val()>0){
+				clickSell(id2);
+			}
+		}
+		
+		if ( event.key == "r" || event.key == "R" ){
+			if(($("#"+id2+"force_buy").hasClass("off") || !$("#"+id2+"force_buy").hasClass("disable")) && $("#"+id2+"t_vol").val()==0){
+				clickForcebuy(id2);
+			}else if(($("#"+id2+"force_sell").hasClass("off") || !$("#"+id2+"force_sell").hasClass("disable")) && $("#"+id2+"t_vol").val()>0){
+				clickForcesell(id2);
+			}
+		}
+		
+		if ( event.key == "t" || event.key == "T"){
+			if(($("#"+id2+"as").hasClass("off") || !$("#"+id2+"as").hasClass("disable")) && $("#"+id2+"t_vol").val()==0){
+				clickAS(id2);
+			}
+		}*/
 	 //}
 }
 
@@ -1165,7 +1205,7 @@ function removeString(id){
 		var val = $("#"+id).val();
 		var str = val.substr(val.length-1);
 		//if(str == "+" || str == "-" || str == "[" || str == "]"){
-		if(str == "q" || str == "w" || str == "a" || str == "s" || str == "Q" || str == "W" || str == "A" || str == "S"){
+		if(str == "q" || str == "w" || str == "a" || str == "s" || str == "Q" || str == "W" || str == "A" || str == "S" || str == "e" || str == "r" || str == "t" || str == "E" || str == "R" || str == "T"){
 			$("#"+id).val(val.substr(0,val.length-1));
 		}
 	});
@@ -1181,8 +1221,9 @@ function stopAutoBuy(id, byset){//byset=2: error call (cancel, reject)
 		$("#"+id+"buy_status").removeClass("bg_red bg_green bg_orange bg_yellow");
 		$("#"+id+"buy_status").html("");
 	}
-	$("#"+id+"as").removeClass("off");
-	$("#"+id+"force_buy").removeClass("off");
+	$("#"+id+"monbuy").removeClass("off disable");
+	$("#"+id+"as").removeClass("off disable");
+	$("#"+id+"force_buy").removeClass("off disable");
 	$("#"+idArr[0]+"ucode").removeAttr('readonly');
 	$("#"+id+"code").removeAttr('readonly');
 	if( byset!="2"){
@@ -1195,22 +1236,35 @@ function stopBuy(id, byset){//byset=1: setBuy call, byset=2: error call (cancel,
 	if($("#"+id+"ismon").val()!=0){
 		sendWsMsg(getWsMsg("stop", id));
 	}
-	$("#"+id+"ismon").val(0);
+	//$("#"+id+"ismon").val(0);
 	
 	if(byset!="2"){
 		$("#"+id+"buy_status").removeClass("bg_red bg_green bg_orange bg_yellow");
 		$("#"+id+"buy_status").html("");
 	}
-	$("#"+id+"monbuy").removeClass("off");
-	$("#"+id+"as").removeClass("off disable");
-	$("#"+id+"force_buy").removeClass("off");
-	$("#"+idArr[0]+"ucode").removeAttr('readonly');
+	
+	var ucode = $("#"+idArr[0]+"ucode").val();
+	var code = $("#"+id+"code").val()*1;
+	var vol = getValue($("#"+id+"vol").val());
+	var t_vol = getValue($("#"+id+"t_vol_i").val());
+	
+	var buy_ulast = $("#"+id+"buy_ulast").val()*1;
+	var buy_last = $("#"+id+"buy_last").val()*1;
+	if(isRecovery || byset!="1"){
+		$("#"+id+"monbuy").removeClass("off disable");
+		$("#"+id+"as").removeClass("off disable");
+		$("#"+id+"force_buy").removeClass("off disable");
+		$("#"+idArr[0]+"ucode").removeAttr('readonly');
+	}
+		
 	$("#"+id+"code").removeAttr('readonly');
 	$("#"+id+"remove_btn").show();
 	//$("#"+id+"status").text(htsstatus[1]);
 	
 	if(byset!="1" && byset!="2"){
 		setBuy(id);
+	}else{
+		asBtn(id);
 	}
 }
 
@@ -1247,9 +1301,9 @@ function stopSell(id){
 	var t_vol = getValue($("#"+id+"t_vol_i").val());
 	var idArr = id.split("_");
 	if($("#"+id+"ismon").val()!=0){
-		sendWsMsg(getWsMsg("stopsell", id+"_stopsell"));
+		sendWsMsg(getWsMsg("stopsell", id));
 	}
-	$("#"+id+"ismon").val(0);
+	//$("#"+id+"ismon").val(0);
 	$("#"+id+"sell_status").removeClass("bg_red bg_green bg_orange bg_yellow");
 	$("#"+id+"sell_status").html("");
 	if(t_vol*1>0){
@@ -1258,6 +1312,8 @@ function stopSell(id){
 		$("#"+idArr[0]+"ucode").removeAttr('readonly');
 		$("#"+id+"code").removeAttr('readonly');
 		$("#"+id+"remove_btn").show();
+		sendWsMsg(getWsMsg("stopsell", id));
+		//setBuy(id);
 	}
 	$("#"+id+"monsell").removeClass("off");
 	$("#"+id+"monsell").removeClass("orange");
@@ -1308,6 +1364,12 @@ function allOverInput(id){
 	overInput(id+"sell_ulast", 1);
 	overInput(id+"buy_ulast", 1);
 	overInput(id+"buy_last", 1);
+	
+	/*overInput(id+"vol", 2);
+	overInput(id+"buy_vol", 2);
+	overInput(id+"buy_ratio", 2);
+	overInput(id+"sell_vol", 2);
+	overInput(id+"sell_ratio", 2);*/
 }
 
 function allOverCheckallOverCheck(id){
@@ -1317,6 +1379,12 @@ function allOverCheckallOverCheck(id){
 	overCheck(id+"sell_ulast", 1);
 	overCheck(id+"buy_ulast", 1);
 	overCheck(id+"buy_last", 1);
+	
+	/*overCheck(id+"vol", 2);
+	overCheck(id+"buy_vol", 2);
+	overCheck(id+"buy_ratio", 2);
+	overCheck(id+"sell_vol", 2);
+	overCheck(id+"sell_ratio", 2);*/
 }
 
 function allBind(id){
@@ -1338,6 +1406,22 @@ function allBind(id){
 	$("#"+id+"buy_last").bind("keypress", function( event ) {
 		keyAction(id+"buy_last", 1);
 	});
+	
+	/*$("#"+id+"vol").bind("keypress", function( event ) {
+		keyAction(id+"vol", 2);
+	});
+	$("#"+id+"buy_vol").bind("keypress", function( event ) {
+		keyAction(id+"buy_vol", 2);
+	});
+	$("#"+id+"buy_ratio").bind("keypress", function( event ) {
+		keyAction(id+"buy_ratio", 2);
+	});
+	$("#"+id+"sell_vol").bind("keypress", function( event ) {
+		keyAction(id+"sell_vol", 2);
+	});
+	$("#"+id+"sell_ratio").bind("keypress", function( event ) {
+		keyAction(id+"sell_ratio", 2);
+	});*/
 }
 
 function allUnbind(id){
@@ -1347,6 +1431,12 @@ function allUnbind(id){
 	$("#"+id+"sell_ulast").unbind("keypress");
 	$("#"+id+"buy_ulast").unbind("keypress");
 	$("#"+id+"buy_last").unbind("keypress");
+	
+	/*$("#"+id+"vol").unbind("keypress");
+	$("#"+id+"buy_vol").unbind("keypress");
+	$("#"+id+"buy_ratio").unbind("keypress");
+	$("#"+id+"sell_vol").unbind("keypress");
+	$("#"+id+"sell_ratio").unbind("keypress");*/
 }
 
 function allremoveString(id){
@@ -1356,6 +1446,12 @@ function allremoveString(id){
 	removeString(id+"sell_ulast");
 	removeString(id+"buy_ulast");
 	removeString(id+"buy_last");
+	
+	/*removeString(id+"vol");
+	removeString(id+"buy_vol");
+	removeString(id+"buy_ratio");
+	removeString(id+"sell_vol");
+	removeString(id+"sell_ratio");*/
 }
 
 function adddigit(number){
@@ -1416,9 +1512,9 @@ function getValBySpread(val, x){
 	for(var i=0; i<x; i++){
 		//spread = getSpread(result);
 		if(direction == "up"){
-			result+=getSpread(result+0.001);
+			result+=getSpread(result+0.0001);
 		}else{
-			result-=getSpread(result-0.001);
+			result-=getSpread(result-0.0001);
 		}
 	}
 	return (result.toFixed(3))*1;
