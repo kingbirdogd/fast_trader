@@ -931,8 +931,11 @@ private:
 						}
 
 					}
+
+					if(best_bid_qty >= _IssuerSize){
 					_PriceInfo->PBestbid = _PriceInfo->Bestbid;
 					_PriceInfo->Bestbid = best_bid_price;
+					}
 /*
 					json_type json;
 					json["type"] = "algo cbbc";
@@ -1007,8 +1010,10 @@ private:
 
 
 					}
+					if(best_ask_qty >= _IssuerSize){
 					_PriceInfo->PBestask = _PriceInfo->Bestask;
 					_PriceInfo->Bestask = best_ask_price;
+					}
 /*
 					json_type json;
 					json["type"] = "algo cbbc";
@@ -1262,9 +1267,10 @@ private:
 						}
 
 					}
-
-					_PriceInfo->PBestbid = _PriceInfo->Bestbid;
-					_PriceInfo->Bestbid = best_bid_price;
+					if(best_bid_qty >= _IssuerSize){
+						_PriceInfo->PBestbid = _PriceInfo->Bestbid;
+						_PriceInfo->Bestbid = best_bid_price;
+					}
 
 					auto msg = algo_warrantprice_msg_pool.get_obj();
 					msg->al = _algo;
@@ -1313,8 +1319,11 @@ private:
 
 
 					}
-					_PriceInfo->PBestask = _PriceInfo->Bestask;
-					_PriceInfo->Bestask = best_ask_price;
+
+					if(best_ask_qty >= _IssuerSize){
+						_PriceInfo->PBestask = _PriceInfo->Bestask;
+						_PriceInfo->Bestask = best_ask_price;
+					}
 
 					auto msg = algo_warrantprice_msg_pool.get_obj();
 					msg->al = _algo;
