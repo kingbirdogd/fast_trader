@@ -48,6 +48,13 @@ struct priceinfo{
 	unsigned long long PFBestbid;
 	unsigned long long PFBestask;
 
+
+	unsigned long long TBestask;
+	unsigned long long TBestbid;
+	unsigned long long PTBestbid;
+	unsigned long long PTBestask;
+
+
 	unsigned long long LFBestbid;
 	unsigned long long LFBestask;
 
