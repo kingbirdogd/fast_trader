@@ -884,7 +884,7 @@ private:
 				if(_PriceInfo->Bestbid != best_bid_price && best_bid_price > 0){
 					if(best_bid_qty >= _IssuerSize){
 						//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark BID");
-						bool hasUpdate = _CbbcPriceMark->updateBid(best_bid_price, _PriceInfo->Bestbid, _PriceInfoU->FBestbid, _PriceInfoU->PFBestbid);
+						bool hasUpdate = _CbbcPriceMark->updateBid(best_bid_price, _PriceInfo->Bestbid, _PriceInfoU->FBestbid, _PriceInfoU->PFBestbid, true);
 						if(hasUpdate){
 							unsigned long long bkey = _CbbcPriceMark->getBidKey();
 							unsigned long long bprice = _CbbcPriceMark->getBidPrice();
@@ -961,7 +961,7 @@ private:
 				if(_PriceInfo->Bestask != best_ask_price && best_ask_price > 0){
 					//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark ASK");
 					if(best_ask_qty >= _IssuerSize){
-						bool hasUpdate = _CbbcPriceMark->updateAsk(best_ask_price, _PriceInfo->Bestask, _PriceInfoU->FBestask, _PriceInfoU->PFBestask);
+						bool hasUpdate = _CbbcPriceMark->updateAsk(best_ask_price, _PriceInfo->Bestask, _PriceInfoU->FBestask, _PriceInfoU->PFBestask, true);
 						if(hasUpdate){
 							unsigned long long bkey = _CbbcPriceMark->getAskKey();
 							unsigned long long bprice = _CbbcPriceMark->getAskPrice();
@@ -1230,7 +1230,7 @@ private:
 				if(_PriceInfo->Bestbid != best_bid_price && best_bid_price > 0){
 					//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark BID");
 					if(best_bid_qty >= _IssuerSize){
-						bool hasUpdate = _CbbcPriceMark->updateBid(best_bid_price, _PriceInfo->Bestbid, _PriceInfoU->FBestask, _PriceInfoU->PFBestask);
+						bool hasUpdate = _CbbcPriceMark->updateBid(best_bid_price, _PriceInfo->Bestbid, _PriceInfoU->FBestask, _PriceInfoU->PFBestask, true);
 						if(hasUpdate){
 							unsigned long long bkey = _CbbcPriceMark->getBidKey();
 							unsigned long long bprice = _CbbcPriceMark->getBidPrice();
@@ -1283,7 +1283,7 @@ private:
 				if(_PriceInfo->Bestask != best_ask_price && best_ask_price > 0){
 					//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark ASK");
 					if(best_ask_qty >= _IssuerSize){
-						bool hasUpdate = _CbbcPriceMark->updateAsk(best_ask_price, _PriceInfo->Bestask, _PriceInfoU->FBestbid, _PriceInfoU->PFBestbid);
+						bool hasUpdate = _CbbcPriceMark->updateAsk(best_ask_price, _PriceInfo->Bestask, _PriceInfoU->FBestbid, _PriceInfoU->PFBestbid, true);
 						if(hasUpdate){
 							unsigned long long bkey = _CbbcPriceMark->getAskKey();
 							unsigned long long bprice = _CbbcPriceMark->getAskPrice();
