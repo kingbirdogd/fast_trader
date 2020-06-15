@@ -771,7 +771,7 @@ private:
 				_PriceInfoU->FBestask =  uprice->TBestask;
 				_PriceInfoU->PFBestask =  uprice->PTBestask;
 
-/*
+
 				Log(std::string(" WCODE ") + std::to_string(code) +
 				std::string(" CODE ") + std::to_string(_warrant_code) +
 				std::string(" bid = ") + std::to_string(best_bid_price) +
@@ -785,7 +785,7 @@ private:
 				std::string(" FBestask = ") + std::to_string(_PriceInfoU->FBestask) +
 				std::string(" PFBestbid = ") + std::to_string(_PriceInfoU->PFBestbid) +
 				std::string(" PFBestask = ") + std::to_string(_PriceInfoU->PFBestask)
-								);*/
+								);
 
 				unsigned long buyin = _CbbcPriceMark->buyIn(best_ask_price);
 				unsigned long long sellout = _CbbcPriceMark->sellOut(best_bid_price);
@@ -1112,7 +1112,7 @@ private:
 				_PriceInfoU->PFBestask =  uprice->PTBestask;
 
 
-/*
+
 				_algo->log_info(std::string(" WCODE ") + std::to_string(code) +
 				std::string(" CODE ") + std::to_string(_warrant_code) +
 				std::string(" bid = ") + std::to_string(best_bid_price) +
@@ -1127,7 +1127,7 @@ private:
 				std::string(" PFBestbid = ") + std::to_string(_PriceInfoU->PFBestbid) +
 				std::string(" PFBestask = ") + std::to_string(_PriceInfoU->PFBestask)
 								);
-*/
+
 				unsigned long buyin = _CbbcPriceMark->buyIn(best_ask_price);
 				unsigned long long sellout = _CbbcPriceMark->sellOut(best_bid_price);
 				unsigned long long lvlBid = _CbbcPriceMark->sellOut(best_ask_price);
