@@ -135,14 +135,26 @@ void bear::on_omdd_trade(const Tradable& tradable)
 	auto it = _u_map.find(tradable.m_Code);
 	if (_u_map.end() != it)
 	{
+
+		priceinfo* uprice = uprice_map[tradable.m_Code];
+
+
 		auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
 		auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
 
 		//auto trade_quantity = tradable.m_uAccumulatedQuantity;
 		auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice) * 100000;
 
+
+
 		if(BUY_ORDER == tradable.m_TradeSide){
 			auto trade_quantity = static_cast<unsigned long long>(tradable.m_AccumulateSellQuantity);
+
+			if(uprice->TBestbid != trade_price){
+				uprice->PTBestbid = uprice->TBestbid;
+				uprice->TBestbid = trade_price;
+			}
+
 
 			if (trade_price == best_bid_price && trade_quantity >= tradable.m_Bid[0].m_uQuantity &&	0 != tradable.m_Bid[0].m_uQuantity )
 			{
@@ -178,6 +190,11 @@ void bear::on_omdd_trade(const Tradable& tradable)
 
 		if(SELL_ORDER == tradable.m_TradeSide){
 			auto trade_quantity = static_cast<unsigned long long>(tradable.m_AccumulateBuyQuantity);
+
+			if(uprice->TBestask != trade_price ){
+				uprice->PTBestask = uprice->TBestask;
+				uprice->TBestask = trade_price;
+			}
 
 			if (trade_price == best_ask_price && trade_quantity >= tradable.m_Ask[0].m_uQuantity &&	0 != tradable.m_Ask[0].m_uQuantity )
 			{

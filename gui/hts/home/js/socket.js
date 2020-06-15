@@ -989,6 +989,7 @@ function initWebsocket(){
 									//setSell(id);
 								}else{
 									$("#"+id+"vol").val(formatValue(data.pair.auto_buy_quantity/factor_stock));
+									$("#"+id+"monbuy, #"+id+"force_buy").removeClass("disable");
 									//setBuy(id);
 								}
 								asBtn(id);
@@ -1008,10 +1009,10 @@ function initWebsocket(){
 								asBtn(id);
 								//$("#"+id+"init").val(1);
 							}*/
-							if(type!="stop"){
+							/*if(type!="stop"){
 								$("#"+idArr[0]+"ucode").attr('readonly','readonly');
 								$("#"+id+"code").attr('readonly','readonly');
-							}
+							}*/
 							$("#"+id+"remove_btn").hide();
 						}
 					}
