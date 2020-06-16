@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>系統登入 - Hyper Trading System</title>
-<link href="home/css/style.css" rel="stylesheet" type="text/css" />
+<link href="home/css/style.css?v=1.0.1" rel="stylesheet" type="text/css" />
 <meta name="viewport" content="width=device-width, initial-scale=1" >
 <script src="home/js/jquery.min.js"></script> <!-- minimum jQuery v1.7+ -->
 <script src="home/js/jquery.jatt.min.js"></script>
-<script type="text/javascript" src="home/js/common.js"></script>
-<script type="text/javascript" src="home/js/socket.js"></script>
+<script type="text/javascript" src="home/js/common.js?v=1.0.1"></script>
+<script type="text/javascript" src="home/js/socket.js?v=1.0.1"></script>
 <script>
 $(document).ready(function() {
 	$("#login_btn").click(function(){
@@ -47,7 +47,7 @@ $(document).ready(function() {
 			<source src="home/audio/ti-na.ogg"></source>
 		</audio>
 		<div class="header">
-			<div class="logo">HTS</div>
+			<div class="logo">HTS<span style="font-size:12px;"> (version: 1.0.1)</span></div>
 			<div class="sellall"> <button class="all" onclick="javascript:stopAll();"><img src="home/images/icon_tick.png" width="15" height="12" /> 停機 (停止所有監控及賣出所有倉位)</button> 
 			</div>
 			<div class="logout"><a href="javascript:logout();">退出系統</a></div>
