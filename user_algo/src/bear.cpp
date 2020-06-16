@@ -306,7 +306,7 @@ std::string bear::set_pair(pair&& p)
 	_w_map[warrant_code] = node;
 
 
-	fprintf(stderr, "NEW Pair 1 Symbol = %s   Warrant Code= %u Underlying Code= %u \n", symbol.c_str(), warrant_code, underlying_code);
+	fprintf(stderr, "NEW Pair 1 Symbol = %s   Warrant Code= %u Underlying Code= %u  \n", symbol.c_str(), warrant_code, underlying_code);
 
 	auto itu = uprice_map.find(underlying_code);
 	if(itu  == uprice_map.end()){
