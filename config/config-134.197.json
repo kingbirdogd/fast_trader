@@ -183,22 +183,6 @@
 	"OmddChannel":
 	[
 		{
-			"ChannelId": 131,
-			"Hot":
-			{
-				"InterfaceIp": "10.123.132.197",
-				"MulticastIp": "239.1.1.131",
-				"MulticastPort": 51001
-			},
-			"Refresh":
-			{
-				"InterfaceIp": "10.123.132.197",
-				"MulticastIp": "239.1.1.156",
-				"MulticastPort": 51001
-			},
-			"RetranProxyIndex": 1
-		},
-		{
 			"ChannelId": 231,
 			"Hot":
 			{
