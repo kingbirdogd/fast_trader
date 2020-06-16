@@ -455,7 +455,7 @@ public:
 										}
 										++uCnt;
 										//100000 >> 1000000
-										if (1000000 == uCnt)
+										if (100000 == uCnt)
 										{
 											flush_printf("tm:%llu, Average latency, ChannelId:%u, Average:%Lf\n", dbp::tools::srv::current(), _channel.m_uChannelId, (long double)uSum / (long double)uCnt);
 											uSum = 0;
