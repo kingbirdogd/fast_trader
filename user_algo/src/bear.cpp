@@ -249,7 +249,7 @@ std::string bear::set_pair(pair&& p)
 
 	auto itcr = _w_ref_map.find(p.warrant_code());
 	if(itcr != _w_ref_map.end()){
-		if(p.ref() != itcr.second){
+		if(p.ref() != itcr->second){
 			fprintf(stderr, "Duplication Warrant Code \n");
 			return "Duplicate Warrant";
 		}else{
