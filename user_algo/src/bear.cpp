@@ -246,7 +246,7 @@ std::string bear::set_pair(pair&& p)
 	auto ref = p.ref();
 	auto it = _p_map.find(ref);
 
-	fprintf(stderr, "%s \n", "set_pair 1");
+	fprintf(stderr, "set_pair 1 %s \n", ref.c_str());
 
 	if (_p_map.end() != it)
 	{
@@ -254,9 +254,14 @@ std::string bear::set_pair(pair&& p)
 				|| (it->second.warrant_code() != p.warrant_code()))
 		{
 
+			fprintf(stderr, "set_pair 1 Code Exist %u \n", p.warrant_code());
 			auto symbol = it->second.commodity_symbol();
 			auto warrant_code = it->second.warrant_code();
 			auto underlying_code = it->second.underlying_code();
+
+
+			fprintf(stderr, "OLD Pair 1 Symbol = %s   Warrant Code= %u Underlying Code= %u \n", symbol.c_str(), warrant_code, underlying_code);
+
 			auto node = &(it->second);
 			auto u_it = _u_map.find(underlying_code);
 			if (_u_map.end() != u_it)
@@ -267,6 +272,7 @@ std::string bear::set_pair(pair&& p)
 					if(u_it->second.empty())
 					{
 						_u_map.erase(u_it);
+						fprintf(stderr, "set_pair 1 Delete  Exist %u \n", p.warrant_code());
 						//subscribe_omdd_trade(underlying_code, false);
 						//subscribe_omdd_book(underlying_code, false);
 					}
@@ -290,6 +296,7 @@ std::string bear::set_pair(pair&& p)
 
 	fprintf(stderr, "%s \n", "set_pair 2");
 
+	auto symbol = it->second.commodity_symbol();
 	auto underlying_code = it->second.underlying_code();
 	auto warrant_code = it->second.warrant_code();
 	//json["result"] = "SUCCESS";
@@ -298,6 +305,8 @@ std::string bear::set_pair(pair&& p)
 	_u_map[underlying_code].insert(node);
 	_w_map[warrant_code] = node;
 
+
+	fprintf(stderr, "NEW Pair 1 Symbol = %s   Warrant Code= %u Underlying Code= %u \n", symbol.c_str(), warrant_code, underlying_code);
 
 	auto itu = uprice_map.find(underlying_code);
 	if(itu  == uprice_map.end()){
