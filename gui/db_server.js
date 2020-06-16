@@ -99,6 +99,16 @@ var logout = function(req)
 		if (undefined !== id)
 		{
 			delete sessions[cookies.uid];
+			if (conns[id])
+			{
+				try
+				{
+					conns[id].close();
+				}
+				catch(e)
+				{
+				}
+			}
 			return true;
 		}
 		else
