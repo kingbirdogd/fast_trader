@@ -23,9 +23,8 @@ private:
 	std::unordered_map<unsigned int, priceinfo*> uprice_map;
 	using order_map = std::unordered_map<unsigned long long, pair*>;
 	using mdw_map = std::unordered_map<unsigned int, pair*>;
+	using w_ref_map = std::unordered_map<unsigned int, std::string>;
 	using md_map = std::unordered_map<unsigned int, std::unordered_set<pair*>>;
-	//using md_map = std::unordered_map<unsigned int, pair*>;
-	//using inout_set = std::unordered_set<unsigned int>();
 	using inout_map = std::map<unsigned long long, std::unordered_set<pair*>>;
 	friend class pair;
 private:
@@ -33,6 +32,7 @@ private:
 	md_map _u_map;
 	mdw_map _w_map;
 	md_map _u_position_map;
+	w_ref_map _w_ref_map;
 
 	mutable inout_map buyin_map;
 	mutable inout_map sellout_map;

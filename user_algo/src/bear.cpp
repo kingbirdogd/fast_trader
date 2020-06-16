@@ -246,6 +246,21 @@ std::string bear::set_pair(pair&& p)
 	auto ref = p.ref();
 	auto it = _p_map.find(ref);
 
+
+	auto itcr = _w_ref_map.find(p.warrant_code());
+	if(itcr != _w_ref_map.end()){
+		if(p.ref() != itcr.second()){
+			fprintf(stderr, "Duplication Warrant Code \n");
+			return "Duplicate Warrant";
+		}else{
+			_w_ref_map.erase(p.warrant_code());
+			fprintf(stderr, "remove Old entry Warrant Code \n");
+		}
+	}
+
+
+
+
 	fprintf(stderr, "set_pair 1 %s \n", ref.c_str());
 
 	if (_p_map.end() != it)
@@ -304,6 +319,9 @@ std::string bear::set_pair(pair&& p)
 	auto node = &(it->second);
 	_u_map[underlying_code].insert(node);
 	_w_map[warrant_code] = node;
+
+	_w_ref_map[warrant_code] = it->second.ref();
+
 
 
 	fprintf(stderr, "NEW Pair 1 Symbol = %s   Warrant Code= %u Underlying Code= %u  \n", symbol.c_str(), warrant_code, underlying_code);
