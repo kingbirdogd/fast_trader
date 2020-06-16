@@ -1882,7 +1882,7 @@ private:
 				j["recovery"] = true;
 			}else{
 				j["result"] = "FAIL";
-				j["reason"] = reason;
+				j["reason"] = result;
 			}
 			return j;
 		}
