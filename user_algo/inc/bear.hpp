@@ -572,10 +572,10 @@ private:
 				return;
 
 			//auto best_bid_qty = tradable.m_Bid[0].m_uQuantity;
-			auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
+//			auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
 
 			//auto best_ask_qty = tradable.m_Ask[0].m_uQuantity;
-			auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
+//			auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
 
 			priceinfo* uprice = _algo->uprice_map[_Underlying_code];
 
