@@ -308,7 +308,7 @@ dbp::top::enhance_order top_client::new_order
 		dbp::top::new_order_request request
 		(
 			&_session_id[0],
-			_client_order_id.fetch_add(std::memory_order_relaxed),
+			_client_order_id.fetch_add(1, std::memory_order_relaxed),
 			quantity,
 			price,
 			code,
