@@ -655,7 +655,7 @@ private:
 				}
 			}
 
-
+/*
 			if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START){
 				if(_Wtype == 2){
 					if(_PriceInfoU->LFBestask < best_ask_price &&  best_ask_price == _OBSetting->SellOut ){
@@ -693,6 +693,7 @@ private:
 
 				}
 			}
+*/
 		}
 
 		void on_bull_book(const Tradable& tradable)
@@ -796,9 +797,9 @@ private:
 				_OBSetting->SellOut = sellout;
 				_OBSetting->LvLBid = lvlBid;
 
-				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _PriceInfo->Bestbid != best_bid_price && best_bid_price > 0 && best_bid_price > _PriceInfo->Bestbid){
+				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _PriceInfo->LBestbid != best_bid_price && best_bid_price > 0 && best_bid_price > _PriceInfo->LBestbid){
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
-					if(warrant->BuyPrice < _PriceInfo->Bestbid && warrant->BuyPrice < best_bid_price){
+					if(warrant->BuyPrice < _PriceInfo->LBestbid && warrant->BuyPrice < best_bid_price){
 						warrant->SellPrice = best_bid_price;
 						warrant->Status = STATUS_SELLING;
 						warrant->SellQty = warrant->Quantity;
@@ -1037,6 +1038,9 @@ private:
 					ouputQueue.enqueue(msg);
 					//_algo->log_info(std::string(" CODE = ") + std::to_string(code) + " buyim = " + to_string(buyin) );
 				}
+
+				_PriceInfo->LBestbid = best_bid_price;
+				_PriceInfo->LBestask = best_ask_price;
 			}
 		}
 
