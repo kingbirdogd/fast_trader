@@ -637,7 +637,7 @@ private:
 					}else{
 
 						//if(_PriceInfo->Bestbid >= rwinPrice){
-						if(_PriceInfo->Bestbid > rwinPrice){
+						if(_PriceInfo->Bestbid > rwinPrice ){
 							Log(std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick > 0 " + to_string(_PriceInfo->Bestbid) );
 							warrant->SellPrice = _PriceInfo->Bestbid;
 							warrant->SellQty = warrant->Quantity;
