@@ -7,6 +7,7 @@
 #include <vector>
 #include <unordered_map>
 #include <limits>
+#include <atomic>
 
 class top_client
 {
@@ -16,7 +17,7 @@ private:
 	using order_map = std::unordered_map<unsigned long long, dbp::top::enhance_order>;
 	using buffer = std::vector<char>;
 private:
-	static unsigned long long _client_order_id;
+	static std::atomic<unsigned long long> _client_order_id;
 private:
 	buffer _buffer;
 	unsigned char _session_id[sizeof(dbp::top::header::session_id)];

@@ -2,7 +2,7 @@
 #include <cstring>
 #include <tools.h>
 
-unsigned long long top_client::_client_order_id = 0;
+std::atomic<unsigned long long> top_client::_client_order_id = 0;
 
 void top_client::handle_msg(const char* ptr, std::size_t size)
 {
@@ -308,7 +308,7 @@ dbp::top::enhance_order top_client::new_order
 		dbp::top::new_order_request request
 		(
 			&_session_id[0],
-			++_client_order_id,
+			_client_order_id.fetch_add(std::memory_order_relaxed),
 			quantity,
 			price,
 			code,
