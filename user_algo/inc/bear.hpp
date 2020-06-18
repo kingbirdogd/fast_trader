@@ -266,7 +266,7 @@ private:
 						//if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn && fallback){
 						if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn){
 
-							Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Buy " );
+							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Buy " );
 
 							warrant* newWarrant = new warrant;
 							newWarrant->Date = DateUtil::getToday();
@@ -304,7 +304,7 @@ private:
 
 					if(within1spread){
 
-						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Sell " );
+						Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Sell " );
 
 							newWarrant->DBid = trade_price;
 
@@ -488,7 +488,7 @@ private:
 
 
 
-							Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Buy" );
+							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Buy" );
 
 							warrant* newWarrant = new warrant;
 							newWarrant->Date = DateUtil::getToday();
@@ -527,7 +527,7 @@ private:
 					//if(within1spread || diff >= 0){
 					if(within1spread){
 
-						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Sell " );
+						Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Sell " );
 
 						//warrant* newWarrant = _OBSetting->getRelatedWarrant(_warrant_code);
 
@@ -585,8 +585,11 @@ private:
 			_PriceInfoU->PFBestask =  uprice->PFBestask;
 
 
-			if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && (_Stop_Lost > 0 || _Win_Tick >= 0)) {
+			//if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && (_Stop_Lost > 0 || _Win_Tick >= 0)) {
 
+			if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Win_Tick >= 0) {
+
+/*
 				if(_Stop_Lost > 0 && _PriceInfo->Bestbid > 0){
 
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
@@ -609,7 +612,7 @@ private:
 						doSell(warrant);
 					}
 				}
-
+*/
 				if(_Win_Tick >= 0 && _PriceInfo->Bestbid > 0){
 
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
@@ -621,7 +624,7 @@ private:
 
 					if(_Win_Tick == 0){
 						if(_PriceInfo->Bestbid >= bp){
-							Log(std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick = 0 " + to_string(_PriceInfo->Bestbid) );
+							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick = 0 " + to_string(_PriceInfo->Bestbid) );
 							warrant->SellPrice = _PriceInfo->Bestbid;
 							warrant->Status = STATUS_SELLING;
 							warrant->SellQty = warrant->Quantity;
@@ -638,7 +641,7 @@ private:
 
 						//if(_PriceInfo->Bestbid >= rwinPrice){
 						if(_PriceInfo->Bestbid > rwinPrice ){
-							Log(std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick > 0 " + to_string(_PriceInfo->Bestbid) );
+							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick > 0 " + to_string(_PriceInfo->Bestbid) );
 							warrant->SellPrice = _PriceInfo->Bestbid;
 							warrant->SellQty = warrant->Quantity;
 							warrant->Status = STATUS_SELLING;
@@ -730,7 +733,7 @@ private:
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START){
 
 					if(_PriceInfoU->PFBestbid > _PriceInfoU->FBestbid &&  _PriceInfoU->FBestbid == _OBSetting->SellOut ){
-						Log(std::string("Quick Sell CODE = ") + std::to_string(_warrant_code) + " PFBestBid = " + std::to_string(_PriceInfoU->PFBestbid) +  + " FBestBid = " + std::to_string(_PriceInfoU->FBestbid));
+						Log(DateUtil::getCurrentTime() + std::string("Quick Sell CODE = ") + std::to_string(_warrant_code) + " PFBestBid = " + std::to_string(_PriceInfoU->PFBestbid) +  + " FBestBid = " + std::to_string(_PriceInfoU->FBestbid));
 						warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 						warrant->SellPrice = _PriceInfo->Bestbid;
 						warrant->Status = STATUS_SELLING;
@@ -803,7 +806,7 @@ private:
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _PriceInfo->LBestbid != best_bid_price && best_bid_price > 0 && best_bid_price > _PriceInfo->LBestbid){
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 					if(warrant->BuyPrice < _PriceInfo->LBestbid && warrant->BuyPrice < best_bid_price){
-						Log(std::string(" CODE = ") + std::to_string(code) + " SEll on_bull_book Raise back sell " );
+						Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(code) + " SEll on_bull_book Raise back sell " );
 						warrant->SellPrice = best_bid_price;
 						warrant->Status = STATUS_SELLING;
 						warrant->SellQty = warrant->Quantity;
@@ -824,7 +827,7 @@ private:
 					long long diff = static_cast<long long>(warrant->BuyPrice) - static_cast<long long>(best_bid_price);
 					long long rwinPrice =  static_cast<long long>(_SPREAD * _Stop_Lost);
 					if(diff >= rwinPrice ){
-						Log(std::string(" CODE = ") + std::to_string(code) + " SEll Stoplost > 0   Buy Price = " +   to_string(best_bid_price) + " --- Best Bid" +  to_string(best_bid_price)  + " Diff = " + to_string(diff) + "rwinPrice = " + to_string(rwinPrice) );
+						Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(code) + " SEll Stoplost > 0   Buy Price = " +   to_string(best_bid_price) + " --- Best Bid" +  to_string(best_bid_price)  + " Diff = " + to_string(diff) + "rwinPrice = " + to_string(rwinPrice) );
 
 						warrant->SellPrice = best_bid_price;
 						warrant->Status = STATUS_SELLING;
@@ -851,7 +854,7 @@ private:
 
 					if(_Win_Tick == 0){
 						if(best_bid_price >= bp){
-							Log(std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick = 0 " + to_string(best_bid_price) );
+							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick = 0 " + to_string(best_bid_price) );
 							warrant->SellPrice = best_bid_price;
 							warrant->Status = STATUS_SELLING;
 							warrant->SellQty = warrant->Quantity;
@@ -867,7 +870,7 @@ private:
 					}else{
 
 						if(best_bid_price > rwinPrice){
-							Log(std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick > 0 " + to_string(best_bid_price) );
+							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick > 0 " + to_string(best_bid_price) );
 							warrant->SellPrice = best_bid_price;
 							warrant->SellQty = warrant->Quantity;
 							warrant->Status = STATUS_SELLING;
@@ -1017,8 +1020,8 @@ private:
 
 					}
 					if(best_ask_qty >= _IssuerSize){
-					_PriceInfo->PBestask = _PriceInfo->Bestask;
-					_PriceInfo->Bestask = best_ask_price;
+						_PriceInfo->PBestask = _PriceInfo->Bestask;
+						_PriceInfo->Bestask = best_ask_price;
 					}
 /*
 					json_type json;
@@ -1045,10 +1048,10 @@ private:
 
 
 				if(best_bid_qty >= _IssuerSize){
-				_PriceInfo->LBestbid = best_bid_price;
+					_PriceInfo->LBestbid = best_bid_price;
 				}
 				if(best_ask_qty >= _IssuerSize){
-				_PriceInfo->LBestask = best_ask_price;
+					_PriceInfo->LBestask = best_ask_price;
 				}
 			}
 		}
@@ -1084,7 +1087,7 @@ private:
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START){
 
 					if(_PriceInfoU->LFBestask < best_ask_price &&  best_ask_price == _OBSetting->SellOut ){
-						Log(std::string("Quick Sell  CODE = ") + std::to_string(_warrant_code) + " PFBestAsk = " + std::to_string(_PriceInfoU->PFBestask) +  + " FBestAsk = " + std::to_string(_PriceInfoU->FBestask));
+						Log(DateUtil::getCurrentTime() + std::string("Quick Sell  CODE = ") + std::to_string(_warrant_code) + " PFBestAsk = " + std::to_string(_PriceInfoU->PFBestask) +  + " FBestAsk = " + std::to_string(_PriceInfoU->FBestask));
 						warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 						warrant->SellPrice = _PriceInfo->Bestbid;
 						warrant->Status = STATUS_SELLING;
@@ -1160,7 +1163,7 @@ private:
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 					if(warrant->BuyPrice < _PriceInfo->LBestbid && warrant->BuyPrice < best_bid_price){
 
-						Log(std::string(" CODE = ") + std::to_string(code) + " SEll on_bear_book Raise back sell " );
+						Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(code) + " SEll on_bear_book Raise back sell " );
 
 						warrant->SellPrice = best_bid_price;
 						warrant->Status = STATUS_SELLING;
@@ -1183,7 +1186,7 @@ private:
 					long long diff = static_cast<long long>(warrant->BuyPrice) - static_cast<long long>(best_bid_price);
 					long long rwinPrice =  static_cast<long long>(_SPREAD * _Stop_Lost);
 					if(diff >= rwinPrice){
-						Log(std::string(" CODE = ") + std::to_string(code) + " SEll Stoplost > 0   Buy Price = " +   to_string(best_bid_price) + " --- Best Bid" +  to_string(best_bid_price)  + " Diff = " + to_string(diff) + "rwinPrice = " + to_string(rwinPrice) );
+						Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(code) + " SEll Stoplost > 0   Buy Price = " +   to_string(best_bid_price) + " --- Best Bid" +  to_string(best_bid_price)  + " Diff = " + to_string(diff) + "rwinPrice = " + to_string(rwinPrice) );
 
 						warrant->SellPrice = best_bid_price;
 						warrant->Status = STATUS_SELLING;
@@ -1211,7 +1214,7 @@ private:
 
 					if(_Win_Tick == 0){
 						if(best_bid_price >= bp){
-							Log(std::string(" CODE = ") + std::to_string(code) + " Sell Win Tick = 0 " + to_string(best_bid_price) );
+							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(code) + " Sell Win Tick = 0 " + to_string(best_bid_price) );
 							warrant->SellPrice = best_bid_price;
 							warrant->SellQty = warrant->Quantity;
 							warrant->Status = STATUS_SELLING;
@@ -1228,7 +1231,7 @@ private:
 
 						if(best_bid_price > rwinPrice){
 
-							Log(std::string(" CODE = ") + std::to_string(code) + " Sell Win Tick > 0 " + to_string(best_bid_price) );
+							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(code) + " Sell Win Tick > 0 " + to_string(best_bid_price) );
 
 							warrant->SellPrice = best_bid_price;
 							warrant->SellQty = warrant->Quantity;
