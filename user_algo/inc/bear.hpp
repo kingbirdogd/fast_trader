@@ -304,7 +304,7 @@ private:
 
 					if(within1spread){
 
-						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Sell " );
+						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Sell " );
 
 							newWarrant->DBid = trade_price;
 
@@ -527,7 +527,7 @@ private:
 					//if(within1spread || diff >= 0){
 					if(within1spread){
 
-						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Sell " );
+						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Sell " );
 
 						//warrant* newWarrant = _OBSetting->getRelatedWarrant(_warrant_code);
 
@@ -716,6 +716,8 @@ private:
 
 			if(code == _Underlying_code){
 
+
+
 				if(_PriceInfoU->FBestbid != best_bid_price){
 					_PriceInfoU->PFBestbid = _PriceInfoU->FBestbid;
 					_PriceInfoU->FBestbid = best_bid_price;
@@ -863,7 +865,7 @@ private:
 						}
 					}else{
 
-						if(best_bid_price >= rwinPrice){
+						if(best_bid_price > rwinPrice){
 							Log(std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick > 0 " + to_string(best_bid_price) );
 							warrant->SellPrice = best_bid_price;
 							warrant->SellQty = warrant->Quantity;
@@ -1040,8 +1042,13 @@ private:
 					//_algo->log_info(std::string(" CODE = ") + std::to_string(code) + " buyim = " + to_string(buyin) );
 				}
 
+
+				if(best_bid_qty >= _IssuerSize){
 				_PriceInfo->LBestbid = best_bid_price;
+				}
+				if(best_ask_qty >= _IssuerSize){
 				_PriceInfo->LBestask = best_ask_price;
+				}
 			}
 		}
 
@@ -1215,7 +1222,7 @@ private:
 						}
 					}else{
 
-						if(best_bid_price >= rwinPrice){
+						if(best_bid_price > rwinPrice){
 
 							Log(std::string(" CODE = ") + std::to_string(code) + " Sell Win Tick > 0 " + to_string(best_bid_price) );
 
@@ -1344,8 +1351,12 @@ private:
 					//_algo->log_info(std::string(" CODE = ") + std::to_string(code) + " buyim = " + to_string(buyin) );
 				}
 
+				if(best_bid_qty >= _IssuerSize){
 				_PriceInfo->LBestbid = best_bid_price;
+				}
+				if(best_ask_qty >= _IssuerSize){
 				_PriceInfo->LBestask = best_ask_price;
+				}
 			}
 		}
 
