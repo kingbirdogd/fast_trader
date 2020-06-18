@@ -587,7 +587,7 @@ private:
 
 			if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && (_Stop_Lost > 0 || _Win_Tick >= 0)) {
 
-				if(_Stop_Lost > 0){
+				if(_Stop_Lost > 0 && _PriceInfo->Bestbid > 0){
 
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 
@@ -610,7 +610,7 @@ private:
 					}
 				}
 
-				if(_Win_Tick >= 0){
+				if(_Win_Tick >= 0 && _PriceInfo->Bestbid > 0){
 
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 
