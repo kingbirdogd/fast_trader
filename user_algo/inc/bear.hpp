@@ -1863,7 +1863,7 @@ private:
 		}
 
 		void Log(string msg){
-			fprintf(stderr, "%s \n", msg.c_str());
+			fprintf(stderr, "%s %s \n",DateUtil::getCurrentTime(), msg.c_str());
 		}
 	};
 private:
