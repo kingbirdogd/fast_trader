@@ -92,7 +92,7 @@ void bear::on_omdc_trade(const Tradable& tradable)
 		auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice) * 100000;
 		auto side = tradable.m_TradeSide;
 
-		it->second->Log(std::to_string(tradable.m_Code) + " Side=" + std::to_string(side) + " Price=" + std::to_string(trade_price) + " Qty=" + std::to_string(tradable.m_LastTradeQuantity) + " Buyin=" + to_string(it->second.getBuyIn()) + " Sellout=" + std::to_string(it->second.getSellOut()) );
+		it->second->Log(std::to_string(tradable.m_Code) + " Side=" + std::to_string(side) + " Price=" + std::to_string(trade_price) + " Qty=" + std::to_string(tradable.m_LastTradeQuantity) + " Buyin=" + to_string(it->second->getBuyIn()) + " Sellout=" + std::to_string(it->second->getSellOut()) );
 
 	}
 }
