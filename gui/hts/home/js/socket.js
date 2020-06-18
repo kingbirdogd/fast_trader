@@ -449,7 +449,9 @@ function initWebsocket(){
 							}
 							
 							if(type=="buy" || type=="auto"){
-								$("#"+id+"vol").val(formatValue(data.pair.auto_buy_quantity/factor_stock));
+								if(data.pair.auto_buy_quantity*1>0){
+									$("#"+id+"vol").val(formatValue(data.pair.auto_buy_quantity/factor_stock));
+								}
 								$("#"+id+"buy_vol").val(formatValue(data.pair.early_buy_qty));
 								$("#"+id+"sell_vol").val(formatValue(data.pair.early_sell_qty));
 								
@@ -470,8 +472,10 @@ function initWebsocket(){
 								$("#"+id+"buy_status").html("");
 								$("#"+id+"ismon").val(1);
 							}else if(type=="sell"){
-								$("#"+id+"t_vol_i").val(formatValue(data.pair.auto_buy_quantity/factor_stock));
-								$("#"+id+"t_vol").val(data.pair.auto_buy_quantity/factor_stock);
+								if(data.pair.auto_buy_quantity*1>0){
+									$("#"+id+"t_vol_i").val(formatValue(data.pair.auto_buy_quantity/factor_stock));
+									$("#"+id+"t_vol").val(data.pair.auto_buy_quantity/factor_stock);
+								}
 								
 								if($("#"+id+"force_sell").hasClass("off")){
 									sendWsMsg(getWsMsg("forcesell", id));
@@ -531,6 +535,8 @@ function initWebsocket(){
 					//auto: {"algo_name":"leo_semi","auto_buy":false,"auto_sell":true,"buy_price":7300000,"buy_trigger":2322600000,"id":1,"msg_type":"semi_algo_odr_msg","odr":{"aon":"aon_type::non_ano","broker_id":"9712","code":58725,"exectuion_id":"","filled_quantity":1000000000000,"header":{"api_id":"api_id_flag::new_order","first_ref":0,"flag":"api_type_flag::single_reply","len":254,"order_id":2,"ref_data":"0x0000000000000200000000000000","session_id":"0x5532685432757534"},"match_price":7300000,"match_quantity":1000000000000,"match_records":[{"match_price":7300000,"match_quantity":1000000000000}],"order_ref":209,"ori_price":0,"ori_quantity":0,"price":7300000,"quantity":1000000000000,"reject_reason":"","remain_quantity":0,"rep_type":"report_type::order_fill","report_id":210,"side":"order_side::buy","status":"order_status::filled","transaction_tm":"20200527111355359","type":"order_type::sl"},"recovery":true,"ref":"u010_1","tm":1590549235359} {"algo_name":"leo_semi","auto_buy":false,"auto_sell":false,"buy_price":7300000,"buy_trigger":2322600000,"id":1,"msg_type":"semi_algo_odr_msg","odr":{"aon":"aon_type::non_ano","broker_id":"9712","code":58725,"exectuion_id":"","filled_quantity":1000000000000,"header":{"api_id":"api_id_flag::new_order","first_ref":0,"flag":"api_type_flag::single_reply","len":254,"order_id":3,"ref_data":"0x0000000000000300000000000000","session_id":"0x5532685432757534"},"match_price":7400000,"match_quantity":1000000000000,"match_records":[{"match_price":7400000,"match_quantity":1000000000000}],"order_ref":211,"ori_price":0,"ori_quantity":0,"price":7400000,"quantity":1000000000000,"reject_reason":"","remain_quantity":0,"rep_type":"report_type::order_fill","report_id":212,"side":"order_side::sell","status":"order_status::filled","transaction_tm":"20200527111355529","type":"order_type::sl"},"recovery":true,"ref":"u010_1","tm":1590549235529}
 					
 					//cancel: {"algo_name":"wendy_semi","auto_buy":false,"auto_sell":false,"buy_price":6600000,"buy_trigger":2287600000,"id":2,"msg_type":"semi_algo_odr_msg","odr":{"aon":"aon_type::non_ano","broker_id":"","code":0,"exectuion_id":"","filled_quantity":0,"header":{"api_id":"api_id_flag::modify_order","first_ref":0,"flag":"api_type_flag::single_reply","len":254,"order_id":0,"ref_data":"0x0000000000000000000000000000","session_id":"0x0000000000000000"},"match_price":0,"match_quantity":0,"match_records":[],"order_ref":0,"ori_price":0,"ori_quantity":0,"price":0,"quantity":0,"reject_reason":"Exceed Buy Power","remain_quantity":0,"rep_type":"report_type::order_report","report_id":0,"side":"order_side::buy","status":"order_status::canceled","transaction_tm":"","type":"order_type::pl"},"recovery":true,"ref":"u002_1","tm":1590658240691}
+					
+					//reject: {"algo_name":"wendy_semi","auto_buy":true,"auto_sell":false,"buy_price":17600000,"buy_trigger":45000000000,"id":3,"msg_type":"semi_algo_odr_msg","odr":{"aon":"aon_type::non_ano","broker_id":"9712","code":29707,"exectuion_id":"","filled_quantity":0,"header":{"api_id":"api_id_flag::new_order","first_ref":0,"flag":"api_type_flag::single_reply","len":254,"order_id":166,"ref_data":"0x000000000000A600000000000000","session_id":"0x454B306146766E6B"},"match_price":0,"match_quantity":0,"match_records":[],"order_ref":161,"ori_price":0,"ori_quantity":0,"price":17700000,"quantity":18446741073709552000,"reject_reason":"Invalid order price","remain_quantity":0,"rep_type":"report_type::order_report","report_id":162,"side":"order_side::sell","status":"order_status::rejected","transaction_tm":"20200618105551848","type":"order_type::sl"},"recovery":true,"ref":"u002_1","tm":1592448951849} {"algo_name":"wendy_semi","auto_buy":true,"auto_sell":false,"buy_price":17600000,"buy_trigger":45000000000,"id":3,"msg_type":"semi_algo_odr_msg","odr":{"aon":"aon_type::non_ano","broker_id":"9712","code":29707,"exectuion_id":"","filled_quantity":0,"header":{"api_id":"api_id_flag::new_order","first_ref":0,"flag":"api_type_flag::single_reply","len":254,"order_id":163,"ref_data":"0x000000000000A300000000000000","session_id":"0x454B306146766E6B"},"match_price":0,"match_quantity":0,"match_records":[],"order_ref":155,"ori_price":0,"ori_quantity":0,"price":17700000,"quantity":3000000000000,"reject_reason":"Invalid order price","remain_quantity":0,"rep_type":"report_type::order_report","report_id":156,"side":"order_side::sell","status":"order_status::rejected","transaction_tm":"20200618105544561","type":"order_type::sl"},"recovery":true,"ref":"u002_1","tm":1592448951849}
 					
 					var id = data.ref;
 					var idArr = id.split("_");

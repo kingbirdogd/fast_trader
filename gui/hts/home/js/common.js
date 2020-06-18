@@ -1243,13 +1243,6 @@ function stopBuy(id, byset){//byset=1: setBuy call, byset=2: error call (cancel,
 		$("#"+id+"buy_status").html("");
 	}
 	
-	var ucode = $("#"+idArr[0]+"ucode").val();
-	var code = $("#"+id+"code").val()*1;
-	var vol = getValue($("#"+id+"vol").val());
-	var t_vol = getValue($("#"+id+"t_vol_i").val());
-	
-	var buy_ulast = $("#"+id+"buy_ulast").val()*1;
-	var buy_last = $("#"+id+"buy_last").val()*1;
 	if(isRecovery || byset!="1"){
 		$("#"+id+"monbuy").removeClass("off disable");
 		$("#"+id+"as").removeClass("off disable");
