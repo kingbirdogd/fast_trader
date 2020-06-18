@@ -803,6 +803,7 @@ private:
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _PriceInfo->LBestbid != best_bid_price && best_bid_price > 0 && best_bid_price > _PriceInfo->LBestbid){
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 					if(warrant->BuyPrice < _PriceInfo->LBestbid && warrant->BuyPrice < best_bid_price){
+						Log(std::string(" CODE = ") + std::to_string(code) + " SEll on_bull_book Raise back sell " );
 						warrant->SellPrice = best_bid_price;
 						warrant->Status = STATUS_SELLING;
 						warrant->SellQty = warrant->Quantity;
@@ -817,13 +818,13 @@ private:
 					}
 				}
 
-				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Stop_Lost > 0){
+				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Stop_Lost > 0 && best_bid_qty >= _IssuerSize){
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 
 					long long diff = static_cast<long long>(warrant->BuyPrice) - static_cast<long long>(best_bid_price);
 					long long rwinPrice =  static_cast<long long>(_SPREAD * _Stop_Lost);
-					if(diff >= rwinPrice){
-						Log(std::string(" CODE = ") + std::to_string(code) + " SEll Stoplost > 0 " + to_string(best_bid_price) );
+					if(diff >= rwinPrice ){
+						Log(std::string(" CODE = ") + std::to_string(code) + " SEll Stoplost > 0   Buy Price = " +   to_string(best_bid_price) + " --- Best Bid" +  to_string(best_bid_price)  + " Diff = " + to_string(diff) + "rwinPrice = " + to_string(rwinPrice) );
 
 						warrant->SellPrice = best_bid_price;
 						warrant->Status = STATUS_SELLING;
@@ -1158,6 +1159,9 @@ private:
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _PriceInfo->LBestbid != best_bid_price && best_bid_price > 0 && best_bid_price > _PriceInfo->LBestbid){
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 					if(warrant->BuyPrice < _PriceInfo->LBestbid && warrant->BuyPrice < best_bid_price){
+
+						Log(std::string(" CODE = ") + std::to_string(code) + " SEll on_bear_book Raise back sell " );
+
 						warrant->SellPrice = best_bid_price;
 						warrant->Status = STATUS_SELLING;
 						warrant->SellQty = warrant->Quantity;
@@ -1173,13 +1177,13 @@ private:
 				}
 
 
-				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Stop_Lost > 0){
+				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Stop_Lost > 0 && best_bid_qty >= _IssuerSize){
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 
 					long long diff = static_cast<long long>(warrant->BuyPrice) - static_cast<long long>(best_bid_price);
 					long long rwinPrice =  static_cast<long long>(_SPREAD * _Stop_Lost);
 					if(diff >= rwinPrice){
-						Log(std::string(" CODE = ") + std::to_string(code) + " SEll Stoplost > 0 " + to_string(best_bid_price) );
+						Log(std::string(" CODE = ") + std::to_string(code) + " SEll Stoplost > 0   Buy Price = " +   to_string(best_bid_price) + " --- Best Bid" +  to_string(best_bid_price)  + " Diff = " + to_string(diff) + "rwinPrice = " + to_string(rwinPrice) );
 
 						warrant->SellPrice = best_bid_price;
 						warrant->Status = STATUS_SELLING;
