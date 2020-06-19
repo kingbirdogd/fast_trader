@@ -138,7 +138,7 @@ private:
 		}
 		unsigned long long default_buy_price()
 		{
-			unsigned long long price = _buy_price;
+			unsigned long long price = 0;
 			auto it = omdcMap.find(_warrant_code);
 			if (omdcMap.end() != it)
 			{
@@ -152,7 +152,7 @@ private:
 		}
 		unsigned long long default_sell_price()
 		{
-			unsigned long long price = _sell_price;
+			unsigned long long price = 0;
 			auto it = omdcMap.find(_warrant_code);
 			if (omdcMap.end() != it)
 			{
