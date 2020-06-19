@@ -84,7 +84,7 @@ void bear::on_omdc_book(const Tradable& tradable)
 	}
 }
 
-void bear::on_omdc_trade(const Tradable& tradable)
+void bear::on_omdc_trade(const Tradable& )
 {
 	/*
 	auto it = _w_map.find(tradable.m_Code);
