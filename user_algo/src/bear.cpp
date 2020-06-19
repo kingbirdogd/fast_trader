@@ -86,6 +86,7 @@ void bear::on_omdc_book(const Tradable& tradable)
 
 void bear::on_omdc_trade(const Tradable& tradable)
 {
+	/*
 	auto it = _w_map.find(tradable.m_Code);
 	if (_w_map.end() != it)
 	{
@@ -94,7 +95,7 @@ void bear::on_omdc_trade(const Tradable& tradable)
 
 		it->second->Log(std::to_string(tradable.m_Code) + " Side=" + std::to_string(side) + " Price=" + std::to_string(trade_price) + " Qty=" + std::to_string(tradable.m_LastTradeQuantity) + " Buyin=" + to_string(it->second->getBuyIn()) + " Sellout=" + std::to_string(it->second->getSellOut()) );
 
-	}
+	}*/
 }
 
 void bear::on_omdd_book(const Tradable& tradable)
