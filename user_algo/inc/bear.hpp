@@ -136,6 +136,34 @@ private:
 			_OBSetting->BuyIn = 0;
 			_OBSetting->SellOut = 99999999;
 		}
+		unsigned long long default_buy_price()
+		{
+			unsigned long long price = _buy_price;
+			auto it = omdcMap.find(_warrant_code);
+			if (omdcMap.end() != it)
+			{
+				auto& tradable = it->second;
+				if (0 != tradable.m_Ask[0].m_iPrice)
+				{
+					price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
+				}
+			}
+			return price;
+		}
+		unsigned long long default_sell_price()
+		{
+			unsigned long long price = _sell_price;
+			auto it = omdcMap.find(_warrant_code);
+			if (omdcMap.end() != it)
+			{
+				auto& tradable = it->second;
+				if (0 != tradable.m_Bid[0].m_iPrice)
+				{
+					price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
+				}
+			}
+			return price;
+		}
 		OBSetting* getOBS(){
 			return _OBSetting;
 		}
@@ -537,9 +565,16 @@ private:
 			_PriceInfoU->PFBestask =  uprice->PFBestask;
 
 
+
+			unsigned long long wbestbid = default_sell_price();
+
 			//if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && (_Stop_Lost > 0 || _Win_Tick >= 0)) {
 
-			if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Win_Tick >= 0 && _PriceInfo->Bestbid > 0) {
+			warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
+			if(warrant == nullptr)
+				return;
+
+			if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Win_Tick >= 0 && wbestbid >= warrant->BuyPrice ) {
 
 /*
 				if(_Stop_Lost > 0 && _PriceInfo->Bestbid > 0){
@@ -567,17 +602,15 @@ private:
 */
 				if(_Win_Tick >= 0){
 
-					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
-
 					unsigned long long refSpread = _SPREAD;
 					unsigned long long rwinPrice = (unsigned long long) (warrant->BuyPrice + _Win_Tick * refSpread);
 
 					unsigned long long bp = warrant->BuyPrice;
 
 					if(_Win_Tick == 0){
-						if(_PriceInfo->Bestbid >= bp){
-							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick = 0 " + to_string(_PriceInfo->Bestbid) );
-							warrant->SellPrice = _PriceInfo->Bestbid;
+						if(wbestbid >= bp){
+							Log(std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick = 0 " + to_string(wbestbid) );
+							warrant->SellPrice = wbestbid;
 							warrant->Status = STATUS_SELLING;
 							warrant->SellQty = warrant->Quantity;
 
@@ -592,9 +625,9 @@ private:
 					}else{
 
 						//if(_PriceInfo->Bestbid >= rwinPrice){
-						if(_PriceInfo->Bestbid > rwinPrice ){
-							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick > 0 " + to_string(_PriceInfo->Bestbid) );
-							warrant->SellPrice = _PriceInfo->Bestbid;
+						if(wbestbid > rwinPrice ){
+							Log(std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick > 0 " + to_string(wbestbid) );
+							warrant->SellPrice = wbestbid;
 							warrant->SellQty = warrant->Quantity;
 							warrant->Status = STATUS_SELLING;
 							if(_OBSetting->SellOut == 99999999){
