@@ -302,7 +302,7 @@ private:
 				return sell_result::SHORT_SELL;
 			}
 			_is_selling = true;
-			_auto_sell = false;
+			//_auto_sell = false;
 			auto odr = _algo->_u.new_order(
 					_algo,
 					quantity,

@@ -750,19 +750,19 @@ private:
 
 				priceinfo* uprice = _algo->uprice_map[_Underlying_code];
 
-
+/*
 				_PriceInfoU->FBestbid =  uprice->FBestbid;
 				_PriceInfoU->PFBestbid =  uprice->PFBestbid;
 				_PriceInfoU->FBestask =  uprice->FBestask;
 				_PriceInfoU->PFBestask =  uprice->PFBestask;
+*/
 
-/*
 				_PriceInfoU->FBestbid =  uprice->TBestbid;
 				_PriceInfoU->PFBestbid =  uprice->PTBestbid;
 				_PriceInfoU->FBestask =  uprice->TBestask;
 				_PriceInfoU->PFBestask =  uprice->PTBestask;
 
-
+				/*
 				Log(std::string(" WCODE ") + std::to_string(code) +
 				std::string(" CODE ") + std::to_string(_warrant_code) +
 				std::string(" bid = ") + std::to_string(best_bid_price) +
@@ -1058,19 +1058,19 @@ private:
 
 
 				priceinfo* uprice = _algo->uprice_map[_Underlying_code];
-
+/*
 				_PriceInfoU->FBestbid =  uprice->FBestbid;
 				_PriceInfoU->PFBestbid =  uprice->PFBestbid;
 				_PriceInfoU->FBestask =  uprice->FBestask;
 				_PriceInfoU->PFBestask =  uprice->PFBestask;
-/*
+*/
 				_PriceInfoU->FBestbid =  uprice->TBestbid;
 				_PriceInfoU->PFBestbid =  uprice->PTBestbid;
 				_PriceInfoU->FBestask =  uprice->TBestask;
 				_PriceInfoU->PFBestask =  uprice->PTBestask;
 
 
-
+				/*
 				Log(std::string(" WCODE ") + std::to_string(code) +
 				std::string(" CODE ") + std::to_string(_warrant_code) +
 				std::string(" bid = ") + std::to_string(best_bid_price) +
