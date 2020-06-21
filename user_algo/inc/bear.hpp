@@ -136,6 +136,34 @@ private:
 			_OBSetting->BuyIn = 0;
 			_OBSetting->SellOut = 99999999;
 		}
+		unsigned long long default_buy_price()
+		{
+			unsigned long long price = 0;
+			auto it = omdcMap.find(_warrant_code);
+			if (omdcMap.end() != it)
+			{
+				auto& tradable = it->second;
+				if (0 != tradable.m_Ask[0].m_iPrice)
+				{
+					price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
+				}
+			}
+			return price;
+		}
+		unsigned long long default_sell_price()
+		{
+			unsigned long long price = 0;
+			auto it = omdcMap.find(_warrant_code);
+			if (omdcMap.end() != it)
+			{
+				auto& tradable = it->second;
+				if (0 != tradable.m_Bid[0].m_iPrice)
+				{
+					price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
+				}
+			}
+			return price;
+		}
 		OBSetting* getOBS(){
 			return _OBSetting;
 		}
@@ -266,7 +294,7 @@ private:
 						//if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn && fallback){
 						if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn){
 
-							Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Buy " );
+							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Buy " );
 
 							warrant* newWarrant = new warrant;
 							newWarrant->Date = DateUtil::getToday();
@@ -304,7 +332,7 @@ private:
 
 					if(within1spread){
 
-						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Sell " );
+						Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Sell " );
 
 							newWarrant->DBid = trade_price;
 
@@ -354,22 +382,7 @@ private:
 							Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " InoutRange" + " cal_inout = " + std::to_string(cal_inout) +  + " mak_inout = " + std::to_string(mak_inout)  );
 							if(cal_inout < mak_inout || cal_inout > 99999999){
 								Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " InoutRange Not Pass");
-								/*
-								json_type json;
-								json["type"] = "algo cbbc";
-								json["action"] = "inoutrule";
-								json["key"] = _algo->key();
-								json["id"] = _algo->id();
-								json["warrant_code"] = _warrant_code;
-								json["side"] = "ASK";
-								json["wprice"] = _PriceInfo->Bestask;
-								json["buyin"] = _OBSetting->BuyIn;
-								json["sellout"] = _OBSetting->SellOut;
-								json["result"] = "FAIL";
-								json["reason"] = "INOUT NOT PASS";
-								json["ref"] = _Ref;
-								send_out(json.dump());
-								*/
+
 								auto msg = algo_validate_msg_pool.get_obj();
 								msg->al = _algo;
 								msg->algo_name = _algo->_name;
@@ -394,22 +407,6 @@ private:
 							Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " _LVLRANGE" + " cal_lvlrange = " + std::to_string(cal_lvlrange) +  + " mak_lvlrange = " + std::to_string(mak_lvlrange)  );
 							if(cal_lvlrange > mak_lvlrange || cal_lvlrange > 99999999){
 								Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " _LVLRANGE Not Pass");
-								/*
-								json_type json;
-								json["type"] = "algo cbbc";
-								json["action"] = "lvlrangerule";
-								json["key"] = _algo->key();
-								json["id"] = _algo->id();
-								json["warrant_code"] = _warrant_code;
-								json["side"] = "ASK";
-								json["wprice"] = _PriceInfo->Bestask;
-								json["buyin"] = _OBSetting->BuyIn;
-								json["lvlbid"] = _OBSetting->LvLBid;
-								json["result"] = "FAIL";
-								json["reason"] = "LVLRANGE NOT PASS";
-								json["ref"] = _Ref;
-								send_out(json.dump());
-								*/
 
 								auto msg = algo_validate_msg_pool.get_obj();
 								msg->al = _algo;
@@ -438,23 +435,6 @@ private:
 							//if(cal_ptrange >= mak_ptrange || cal_ptrange>99999999){
 							if(cal_ptrange <  mak_ptrange  && _OBSetting->BuyIn != 99999999 && prev_buyin != 99999999){
 								Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " _PTRANGE Not Pass");
-
-								/*
-								json_type json;
-								json["type"] = "algo cbbc";
-								json["action"] = "ptrangerule";
-								json["key"] = _algo->key();
-								json["id"] = _algo->id();
-								json["warrant_code"] = _warrant_code;
-								json["side"] = "ASK";
-								json["wprice"] = _PriceInfo->Bestask;
-								json["buyin"] = _OBSetting->BuyIn;
-								json["pbuyin"] = prev_buyin;
-								json["result"] = "FAIL";
-								json["reason"] = "PTRANGE NOT PASS";
-								json["ref"] = _Ref;
-								send_out(json.dump());
-								*/
 
 								auto msg = algo_validate_msg_pool.get_obj();
 								msg->al = _algo;
@@ -488,7 +468,7 @@ private:
 
 
 
-							Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Buy" );
+							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Buy" );
 
 							warrant* newWarrant = new warrant;
 							newWarrant->Date = DateUtil::getToday();
@@ -527,7 +507,7 @@ private:
 					//if(within1spread || diff >= 0){
 					if(within1spread){
 
-						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Sell " );
+						Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Sell " );
 
 						//warrant* newWarrant = _OBSetting->getRelatedWarrant(_warrant_code);
 
@@ -585,9 +565,19 @@ private:
 			_PriceInfoU->PFBestask =  uprice->PFBestask;
 
 
-			if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && (_Stop_Lost > 0 || _Win_Tick >= 0)) {
 
-				if(_Stop_Lost > 0){
+			unsigned long long wbestbid = default_sell_price();
+
+			//if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && (_Stop_Lost > 0 || _Win_Tick >= 0)) {
+
+			warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
+			if(warrant == nullptr)
+				return;
+
+			if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Win_Tick >= 0 && wbestbid >= warrant->BuyPrice ) {
+
+/*
+				if(_Stop_Lost > 0 && _PriceInfo->Bestbid > 0){
 
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 
@@ -609,10 +599,8 @@ private:
 						doSell(warrant);
 					}
 				}
-
+*/
 				if(_Win_Tick >= 0){
-
-					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 
 					unsigned long long refSpread = _SPREAD;
 					unsigned long long rwinPrice = (unsigned long long) (warrant->BuyPrice + _Win_Tick * refSpread);
@@ -620,9 +608,9 @@ private:
 					unsigned long long bp = warrant->BuyPrice;
 
 					if(_Win_Tick == 0){
-						if(_PriceInfo->Bestbid >= bp){
-							Log(std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick = 0 " + to_string(_PriceInfo->Bestbid) );
-							warrant->SellPrice = _PriceInfo->Bestbid;
+						if(wbestbid >= bp){
+							Log(std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick = 0 " + to_string(wbestbid) );
+							warrant->SellPrice = wbestbid;
 							warrant->Status = STATUS_SELLING;
 							warrant->SellQty = warrant->Quantity;
 
@@ -637,9 +625,9 @@ private:
 					}else{
 
 						//if(_PriceInfo->Bestbid >= rwinPrice){
-						if(_PriceInfo->Bestbid > rwinPrice ){
-							Log(std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick > 0 " + to_string(_PriceInfo->Bestbid) );
-							warrant->SellPrice = _PriceInfo->Bestbid;
+						if(wbestbid > rwinPrice ){
+							Log(std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick > 0 " + to_string(wbestbid) );
+							warrant->SellPrice = wbestbid;
 							warrant->SellQty = warrant->Quantity;
 							warrant->Status = STATUS_SELLING;
 							if(_OBSetting->SellOut == 99999999){
@@ -716,6 +704,8 @@ private:
 
 			if(code == _Underlying_code){
 
+/*
+
 				if(_PriceInfoU->FBestbid != best_bid_price){
 					_PriceInfoU->PFBestbid = _PriceInfoU->FBestbid;
 					_PriceInfoU->FBestbid = best_bid_price;
@@ -728,7 +718,7 @@ private:
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START){
 
 					if(_PriceInfoU->PFBestbid > _PriceInfoU->FBestbid &&  _PriceInfoU->FBestbid == _OBSetting->SellOut ){
-						Log(std::string("Quick Sell CODE = ") + std::to_string(_warrant_code) + " PFBestBid = " + std::to_string(_PriceInfoU->PFBestbid) +  + " FBestBid = " + std::to_string(_PriceInfoU->FBestbid));
+						Log(DateUtil::getCurrentTime() + std::string("Quick Sell CODE = ") + std::to_string(_warrant_code) + " PFBestBid = " + std::to_string(_PriceInfoU->PFBestbid) +  + " FBestBid = " + std::to_string(_PriceInfoU->FBestbid));
 						warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 						warrant->SellPrice = _PriceInfo->Bestbid;
 						warrant->Status = STATUS_SELLING;
@@ -744,7 +734,6 @@ private:
 					}
 				}
 
-/*
 				_algo->log_info(std::string(" UCODE ") + std::to_string(code) +
 				std::string(" CODE ") + std::to_string(_warrant_code) +
 				std::string(" bid = ") + std::to_string(best_bid_price) +
@@ -761,19 +750,19 @@ private:
 
 				priceinfo* uprice = _algo->uprice_map[_Underlying_code];
 
-
+/*
 				_PriceInfoU->FBestbid =  uprice->FBestbid;
 				_PriceInfoU->PFBestbid =  uprice->PFBestbid;
 				_PriceInfoU->FBestask =  uprice->FBestask;
 				_PriceInfoU->PFBestask =  uprice->PFBestask;
+*/
 
-/*
 				_PriceInfoU->FBestbid =  uprice->TBestbid;
 				_PriceInfoU->PFBestbid =  uprice->PTBestbid;
 				_PriceInfoU->FBestask =  uprice->TBestask;
 				_PriceInfoU->PFBestask =  uprice->PTBestask;
 
-
+				/*
 				Log(std::string(" WCODE ") + std::to_string(code) +
 				std::string(" CODE ") + std::to_string(_warrant_code) +
 				std::string(" bid = ") + std::to_string(best_bid_price) +
@@ -800,7 +789,8 @@ private:
 
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _PriceInfo->LBestbid != best_bid_price && best_bid_price > 0 && best_bid_price > _PriceInfo->LBestbid){
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
-					if(warrant->BuyPrice < _PriceInfo->LBestbid && warrant->BuyPrice < best_bid_price){
+					if(warrant->BuyPrice > _PriceInfo->LBestbid && warrant->BuyPrice > best_bid_price){
+						Log(std::string(" CODE = ") + std::to_string(code) + " SEll on_bull_book Raise back sell " );
 						warrant->SellPrice = best_bid_price;
 						warrant->Status = STATUS_SELLING;
 						warrant->SellQty = warrant->Quantity;
@@ -815,13 +805,13 @@ private:
 					}
 				}
 
-				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Stop_Lost > 0){
+				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Stop_Lost > 0 && best_bid_qty >= _IssuerSize){
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 
 					long long diff = static_cast<long long>(warrant->BuyPrice) - static_cast<long long>(best_bid_price);
 					long long rwinPrice =  static_cast<long long>(_SPREAD * _Stop_Lost);
-					if(diff >= rwinPrice){
-						Log(std::string(" CODE = ") + std::to_string(code) + " SEll Stoplost > 0 " + to_string(best_bid_price) );
+					if(diff >= rwinPrice ){
+						Log(std::string(" CODE = ") + std::to_string(code) + " SEll Stoplost > 0   Buy Price = " +   to_string(best_bid_price) + " --- Best Bid" +  to_string(best_bid_price)  + " Diff = " + to_string(diff) + "rwinPrice = " + to_string(rwinPrice) );
 
 						warrant->SellPrice = best_bid_price;
 						warrant->Status = STATUS_SELLING;
@@ -863,7 +853,7 @@ private:
 						}
 					}else{
 
-						if(best_bid_price >= rwinPrice){
+						if(best_bid_price > rwinPrice){
 							Log(std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick > 0 " + to_string(best_bid_price) );
 							warrant->SellPrice = best_bid_price;
 							warrant->SellQty = warrant->Quantity;
@@ -892,21 +882,6 @@ private:
 							unsigned long long bkey = _CbbcPriceMark->getBidKey();
 							unsigned long long bprice = _CbbcPriceMark->getBidPrice();
 							if(bkey > 0 && bprice>0){
-								/*
-							json_type json;
-							json["type"] = "algo cbbc";
-							json["action"] = "pricetable";
-							json["key"] = _algo->key();
-							json["id"] = _algo->id();
-							json["warrant_code"] = _warrant_code;
-							json["side"] = "BID";
-							json["wkey"] = bkey;
-							json["fprice"] = bprice;
-
-							json["ref"] = _Ref;
-							//json["recovery"] = true;
-							send_out(json.dump());
-							*/
 
 							auto msg = algo_pricetable_msg_pool.get_obj();
 							msg->al = _algo;
@@ -939,17 +914,7 @@ private:
 					_PriceInfo->PBestbid = _PriceInfo->Bestbid;
 					_PriceInfo->Bestbid = best_bid_price;
 					}
-/*
-					json_type json;
-					json["type"] = "algo cbbc";
-					json["action"] = "wprice";
-					json["key"] = _algo->key();
-					json["id"] = _algo->id();
-					json["warrant_code"] = _warrant_code;
-					json["side"] = "BID";
-					json["wprice"] = best_bid_price;
-					json["ref"] = _Ref;
-					send_out(json.dump());*/
+
 
 					auto msg = algo_warrantprice_msg_pool.get_obj();
 					msg->al = _algo;
@@ -972,20 +937,7 @@ private:
 							unsigned long long bkey = _CbbcPriceMark->getAskKey();
 							unsigned long long bprice = _CbbcPriceMark->getAskPrice();
 							if(bkey > 0 && bprice>0){
-								/*
-							json_type json;
-							json["type"] = "algo cbbc";
-							json["action"] = "pricetable";
-							json["key"] = _algo->key();
-							json["id"] = _algo->id();
-							json["warrant_code"] = _warrant_code;
-							json["side"] = "ASK";
-							json["wkey"] = bkey;
-							json["fprice"] = bprice;
 
-							json["ref"] = _Ref;
-							//json["recovery"] = true;
-							send_out(json.dump());*/
 
 							auto msg = algo_pricetable_msg_pool.get_obj();
 							msg->al = _algo;
@@ -1014,20 +966,10 @@ private:
 
 					}
 					if(best_ask_qty >= _IssuerSize){
-					_PriceInfo->PBestask = _PriceInfo->Bestask;
-					_PriceInfo->Bestask = best_ask_price;
+						_PriceInfo->PBestask = _PriceInfo->Bestask;
+						_PriceInfo->Bestask = best_ask_price;
 					}
-/*
-					json_type json;
-					json["type"] = "algo cbbc";
-					json["action"] = "wprice";
-					json["key"] = _algo->key();
-					json["id"] = _algo->id();
-					json["warrant_code"] = _warrant_code;
-					json["side"] = "ASK";
-					json["wprice"] = best_ask_price;
-					json["ref"] = _Ref;
-					send_out(json.dump());*/
+
 					auto msg = algo_warrantprice_msg_pool.get_obj();
 					msg->al = _algo;
 					msg->algo_name = _algo->_name;
@@ -1040,8 +982,13 @@ private:
 					//_algo->log_info(std::string(" CODE = ") + std::to_string(code) + " buyim = " + to_string(buyin) );
 				}
 
-				_PriceInfo->LBestbid = best_bid_price;
-				_PriceInfo->LBestask = best_ask_price;
+
+				if(best_bid_qty >= _IssuerSize){
+					_PriceInfo->LBestbid = best_bid_price;
+				}
+				if(best_ask_qty >= _IssuerSize){
+					_PriceInfo->LBestask = best_ask_price;
+				}
 			}
 		}
 
@@ -1063,7 +1010,7 @@ private:
 
 
 			if(code == _Underlying_code){
-
+/*
 				if(_PriceInfoU->FBestbid != best_bid_price){
 					_PriceInfoU->PFBestbid = _PriceInfoU->FBestbid;
 					_PriceInfoU->FBestbid = best_bid_price;
@@ -1076,7 +1023,7 @@ private:
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START){
 
 					if(_PriceInfoU->LFBestask < best_ask_price &&  best_ask_price == _OBSetting->SellOut ){
-						Log(std::string("Quick Sell  CODE = ") + std::to_string(_warrant_code) + " PFBestAsk = " + std::to_string(_PriceInfoU->PFBestask) +  + " FBestAsk = " + std::to_string(_PriceInfoU->FBestask));
+						Log(DateUtil::getCurrentTime() + std::string("Quick Sell  CODE = ") + std::to_string(_warrant_code) + " PFBestAsk = " + std::to_string(_PriceInfoU->PFBestask) +  + " FBestAsk = " + std::to_string(_PriceInfoU->FBestask));
 						warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 						warrant->SellPrice = _PriceInfo->Bestbid;
 						warrant->Status = STATUS_SELLING;
@@ -1095,7 +1042,7 @@ private:
 				_PriceInfoU->LFBestbid = best_bid_price;
 				_PriceInfoU->LFBestask = best_ask_price;
 
-/*
+
 				_algo->log_info(std::string(" UCODE ") + std::to_string(code) +
 				std::string(" CODE ") + std::to_string(_warrant_code) +
 				std::string(" bid = ") + std::to_string(best_bid_price) +
@@ -1111,19 +1058,19 @@ private:
 
 
 				priceinfo* uprice = _algo->uprice_map[_Underlying_code];
-
+/*
 				_PriceInfoU->FBestbid =  uprice->FBestbid;
 				_PriceInfoU->PFBestbid =  uprice->PFBestbid;
 				_PriceInfoU->FBestask =  uprice->FBestask;
 				_PriceInfoU->PFBestask =  uprice->PFBestask;
-/*
+*/
 				_PriceInfoU->FBestbid =  uprice->TBestbid;
 				_PriceInfoU->PFBestbid =  uprice->PTBestbid;
 				_PriceInfoU->FBestask =  uprice->TBestask;
 				_PriceInfoU->PFBestask =  uprice->PTBestask;
 
 
-
+				/*
 				Log(std::string(" WCODE ") + std::to_string(code) +
 				std::string(" CODE ") + std::to_string(_warrant_code) +
 				std::string(" bid = ") + std::to_string(best_bid_price) +
@@ -1150,7 +1097,10 @@ private:
 
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _PriceInfo->LBestbid != best_bid_price && best_bid_price > 0 && best_bid_price > _PriceInfo->LBestbid){
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
-					if(warrant->BuyPrice < _PriceInfo->LBestbid && warrant->BuyPrice < best_bid_price){
+					if(warrant->BuyPrice > _PriceInfo->LBestbid && warrant->BuyPrice > best_bid_price){
+
+						Log(std::string(" CODE = ") + std::to_string(code) + " SEll on_bear_book Raise back sell " );
+
 						warrant->SellPrice = best_bid_price;
 						warrant->Status = STATUS_SELLING;
 						warrant->SellQty = warrant->Quantity;
@@ -1166,13 +1116,13 @@ private:
 				}
 
 
-				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Stop_Lost > 0){
+				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Stop_Lost > 0 && best_bid_qty >= _IssuerSize){
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 
 					long long diff = static_cast<long long>(warrant->BuyPrice) - static_cast<long long>(best_bid_price);
 					long long rwinPrice =  static_cast<long long>(_SPREAD * _Stop_Lost);
 					if(diff >= rwinPrice){
-						Log(std::string(" CODE = ") + std::to_string(code) + " SEll Stoplost > 0 " + to_string(best_bid_price) );
+						Log(std::string(" CODE = ") + std::to_string(code) + " SEll Stoplost > 0   Buy Price = " +   to_string(best_bid_price) + " --- Best Bid" +  to_string(best_bid_price)  + " Diff = " + to_string(diff) + "rwinPrice = " + to_string(rwinPrice) );
 
 						warrant->SellPrice = best_bid_price;
 						warrant->Status = STATUS_SELLING;
@@ -1215,7 +1165,7 @@ private:
 						}
 					}else{
 
-						if(best_bid_price >= rwinPrice){
+						if(best_bid_price > rwinPrice){
 
 							Log(std::string(" CODE = ") + std::to_string(code) + " Sell Win Tick > 0 " + to_string(best_bid_price) );
 
@@ -1344,8 +1294,12 @@ private:
 					//_algo->log_info(std::string(" CODE = ") + std::to_string(code) + " buyim = " + to_string(buyin) );
 				}
 
+				if(best_bid_qty >= _IssuerSize){
 				_PriceInfo->LBestbid = best_bid_price;
+				}
+				if(best_ask_qty >= _IssuerSize){
 				_PriceInfo->LBestask = best_ask_price;
+				}
 			}
 		}
 
@@ -1397,7 +1351,7 @@ private:
 
 		void on_order(const dbp::top::enhance_order& odr)
 		{
-			Log(std::string("on_order:") + odr.to_string());
+			//Log(std::string("on_order:") + odr.to_string());
 			auto status = odr.status;
 			auto side = odr.side;
 			if (dbp::top::order_status::rejected == status || dbp::top::order_status::canceled == status || dbp::top::order_status::deleted == status || dbp::top::order_status::filled == status)
@@ -1479,26 +1433,6 @@ private:
 						obsw->Strategy = "Bear Algo";
 
 						if(obsw->Quantity == odr.filled_quantity){
-/*
-							json_type jsons;
-							jsons["type"] = "algo bear";
-							jsons["action"] = "order";
-							jsons["key"] = _algo->key();
-							jsons["id"] = _algo->id();
-							jsons["orderid"] = odr.order_id;
-							jsons["warrant_code"] = _warrant_code;
-							jsons["action"] = "SELL";
-							jsons["filled_price"] = odr.match_price;
-							jsons["filled_quantity"] = odr.filled_quantity;
-							jsons["order_price"] = obsw->SellPrice;
-							jsons["order_quantity"] = obsw->SellQty;
-							jsons["transaction_time"] = obsw->SoldTime;
-							jsons["sellout"] = obsw->SellOut;
-							jsons["status"] = "filled";
-							jsons["ref"] = _Ref;
-							jsons["recovery"] = true;
-							send_out(jsons.dump());
-							*/
 
 							auto msg = algo_order_msg_pool.get_obj();
 							msg->al = _algo;
@@ -1517,24 +1451,6 @@ private:
 							msg->status = "filled";
 							ouputQueue.enqueue(msg);
 
-							//algoActionInterface->addSoldItem(obsw);
-							/*
-							json_type json;
-							json["type"] = "algo bear";
-							json["action"] = "portfolio";
-							json["key"] = _algo->key();
-							json["id"] = _algo->id();
-							json["warrant_code"] = _warrant_code;
-							json["buyprice"] = obsw->BuyPrice;
-							json["sellprice"] = obsw->SellPrice;
-							json["quantity"] = obsw->Quantity;
-							json["buytime"] = obsw->BuyTime;
-							json["soldtime"] = obsw->SoldTime;
-							json["mode"] = "Fully Filled";
-							json["ref"] = _Ref;
-							json["recovery"] = true;
-							send_out(json.dump());
-							*/
 
 							auto pmsg = algo_portfolio_msg_pool.get_obj();
 							pmsg->al = _algo;
@@ -1555,26 +1471,7 @@ private:
 
 							_Status = STATUS_DONE;
 						}else{
-							/*
-							json_type jsons;
-							jsons["type"] = "algo bear";
-							jsons["action"] = "order";
-							jsons["key"] = _algo->key();
-							jsons["id"] = _algo->id();
-							jsons["orderid"] = odr.order_id;
-							jsons["warrant_code"] = _warrant_code;
-							jsons["action"] = "SELL";
-							jsons["filled_price"] = odr.match_price;
-							jsons["filled_quantity"] = odr.filled_quantity;
-							jsons["order_price"] = obsw->SellPrice;
-							jsons["order_quantity"] = obsw->SellQty;
-							jsons["transaction_time"] = obsw->SoldTime;
-							jsons["sellout"] = obsw->SellOut;
-							jsons["status"] = "Partial filled";
-							jsons["ref"] = _Ref;
-							jsons["recovery"] = true;
-							send_out(jsons.dump());
-							*/
+
 
 							auto msg = algo_order_msg_pool.get_obj();
 							msg->al = _algo;
@@ -1592,23 +1489,7 @@ private:
 							msg->sellout = obsw->SellOut;
 							msg->status = "Partial filled";
 							ouputQueue.enqueue(msg);
-/*
-							json_type json;
-							json["type"] = "algo bear";
-							json["action"] = "portfolio";
-							json["key"] = _algo->key();
-							json["id"] = _algo->id();
-							json["warrant_code"] = _warrant_code;
-							json["buyprice"] = obsw->BuyPrice;
-							json["sellprice"] = obsw->SellPrice;
-							json["quantity"] = odr.filled_quantity;
-							json["buytime"] = obsw->BuyTime;
-							json["soldtime"] = obsw->SoldTime;
-							json["mode"] = "Filled";
-							json["ref"] = _Ref;
-							json["recovery"] = true;
-							send_out(json.dump());
-*/
+
 							auto pmsg = algo_portfolio_msg_pool.get_obj();
 							pmsg->al = _algo;
 							pmsg->algo_name = _algo->_name;
@@ -1845,7 +1726,7 @@ private:
 		}
 
 		void Log(string msg){
-			fprintf(stderr, "%s \n", msg.c_str());
+			fprintf(stderr, "%s %s \n",DateUtil::getCurrentTime(), msg.c_str());
 		}
 	};
 private:
