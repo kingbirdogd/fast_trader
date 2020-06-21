@@ -150,6 +150,14 @@ algo* user::get_algo(const std::string& name)
 	}
 }
 
+std::vector<std::string> user::get_algos()
+{
+	std::vector<std::string> rt;
+	for (const auto& item : _algos)
+		rt.push_back(item.first);
+	return rt;
+}
+
 void user::handler_order(const dbp::top::enhance_order& odr)
 {
 	auto it = _odr_map.find(odr.order_id);

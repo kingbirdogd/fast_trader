@@ -177,6 +177,15 @@ inline void decode()
 				t.m_LastTradeQuantity = reinterpret_cast<unsigned long long>(msg);
 				broadcastQueue.enqueue(t);
 			}
+			else if (cmd == "get_algo_names")
+			{
+				auto algos = u.get_algos();
+				j["algos"] = json::array();
+				for (const auto& algo : algos)
+					j["algos"].push_back(algo);
+				output(j);
+				return;
+			}
 			else
 			{
 				auto algo_name  = j["algo_name"].get<std::string>();
