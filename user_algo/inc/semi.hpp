@@ -631,6 +631,7 @@ private:
 					if (dbp::top::order_status::canceled == status || dbp::top::order_status::rejected == status ){
 						_auto_sell = false;
 					}
+
 					_is_buying = false;
 				}
 				else if (dbp::top::order_side::sell == side)
@@ -823,6 +824,8 @@ private:
 			j["auto_sell"] = p._auto_sell;
 			j["buy_trigger"] = p._buy_trriger;
 			j["buy_price"] = p._buy_price;
+			j["auto_buy_qty"] = p._auto_buy_quantity;
+			j["position"] = p._position;
 			j["recovery"] = true;
 			return j;
 		}
