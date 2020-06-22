@@ -162,7 +162,7 @@ public:
 	unsigned long long get_buy_power();
 	unsigned long long get_id();
 	algo* get_algo(const std::string& name);
-	std::vector<std::string> get_algos();
+	std::unordered_map<std::string, std::string> get_algos();
 private:
 	void handler_order(const dbp::top::enhance_order& odr);
 public:

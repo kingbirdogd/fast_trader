@@ -931,6 +931,11 @@ algo_msg_base* bear::json_to_msg(json& json)
 	}
 }
 
+std::string bear::get_lib_name()
+{
+	return "bear";
+}
+
 rapid_ring::spmc_ring_buffer_object_pool<bear::algo_err_msg, 8192> bear::algo_err_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<bear::algo_param_msg, 8192> bear::algo_param_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<bear::algo_positionorder_msg, 8192> bear::algo_positionorder_msg_pool;

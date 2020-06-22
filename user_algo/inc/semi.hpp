@@ -1119,6 +1119,7 @@ public:
 	virtual void handler_order(const dbp::top::enhance_order&);
 	virtual void handle_command(algo_msg_base&);
 	virtual algo_msg_base* json_to_msg(json& msg);
+	virtual std::string get_lib_name();
 public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_odr_msg, 8192> algo_odr_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_err_msg, 8192> algo_err_msg_pool;
