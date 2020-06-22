@@ -853,7 +853,7 @@ private:
 						}
 					}else{
 
-						if(best_bid_price > rwinPrice){
+						if(best_bid_price >= rwinPrice){
 							Log(std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick > 0 " + to_string(best_bid_price) );
 							warrant->SellPrice = best_bid_price;
 							warrant->SellQty = warrant->Quantity;
@@ -1165,7 +1165,7 @@ private:
 						}
 					}else{
 
-						if(best_bid_price > rwinPrice){
+						if(best_bid_price >= rwinPrice){
 
 							Log(std::string(" CODE = ") + std::to_string(code) + " Sell Win Tick > 0 " + to_string(best_bid_price) );
 
