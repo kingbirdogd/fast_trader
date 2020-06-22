@@ -638,7 +638,7 @@ private:
 					_is_selling = false;
 					if(odr.filled_quantity > 0){
 						_position -= odr.filled_quantity;
-						if(odr.filled_quantity == odr.ori_quantity){
+						if(odr.filled_quantity == odr.quantity){
 							_auto_sell = false;
 						}
 					}
