@@ -633,6 +633,9 @@ private:
 				{
 					_position -= odr.filled_quantity;
 					_is_selling = false;
+					if(odr.filled_quantity > 0){
+						_auto_sell = false;
+					}
 				}
 			}
 			algo_odr_msg* msg = algo_odr_msg_pool.get_obj();
