@@ -222,6 +222,7 @@ inline static bool loadDefinition(json& _json)
 			const auto& warrent = cache["warrent_map"].get<json::object_t>();
 			const auto& omdd_name = cache["omdd_name"].get<json::object_t>();
 			const auto& omdd_underlying = cache["omdd_underlying"].get<json::object_t>();
+			const auto& omdc_addition_definition = cache["omdc_addition_definition"].get<json::object_t>();
 			for (std::size_t i = 0; i < omdc.size(); ++i)
 			{
 				const auto& code = omdc[i].get<unsigned int>();
@@ -257,6 +258,19 @@ inline static bool loadDefinition(json& _json)
 				unsigned int code = static_cast<unsigned int>(std::stoul(key));
 				codeTounderlying[code] = underlying;
 			}
+			for (auto it = omdc_addition_definition.begin(); it != omdc_addition_definition.end(); ++it)
+			{
+				COmdcAdditionDefinitions defs;
+				const auto& key = it->first;
+				defs.SpreadTableCode = it->second["SpreadTableCode"].get<std::string>();
+				defs.SecuritySortName = it->second["SecuritySortName"].get<std::string>();
+				defs.CallPutFlag = it->second["CallPutFlag"].get<std::string>();
+				defs.LotSize = it->second["LotSize"].get<unsigned int>();
+				defs.ProductType = it->second["ProductType"].get<unsigned char>();
+				unsigned int code = static_cast<unsigned int>(std::stoul(key));
+				omdcAdditionDefinitionsMap[code] = defs;
+
+			}
 			bReload = false;
 		}
 		catch(...)
@@ -272,6 +286,7 @@ inline static bool loadDefinition(json& _json)
 	{
 		cache["omdc"] = json::array();
 		cache["omdd"] = json::array();
+		cache["omdc_addition_definition"] = json::object();
 		cache["warrent_map"] = json();
 		cache["omdd_name"] = json();
 		auto& Definition = _json["Definition"];
@@ -494,8 +509,21 @@ inline static bool loadDefinition(json& _json)
 												else if (11 == uMsgType)
 												{
 													unsigned int uSecurityCode = OMD_GET_VALUE(pszBuffer, 4, unsigned int);
+													auto& omdcAdditionDefinition = omdcAdditionDefinitionsMap[uSecurityCode];
+													omdcAdditionDefinition.SpreadTableCode = OMD_GET_STR(pszBuffer, 30, 2);
+													omdcAdditionDefinition.SecuritySortName = OMD_GET_STR(pszBuffer, 32, 40);
+													omdcAdditionDefinition.CallPutFlag = OMD_GET_STR(pszBuffer, 410, 1);
+													omdcAdditionDefinition.ProductType = OMD_GET_VALUE(pszBuffer, 28, unsigned char);
+													omdcAdditionDefinition.LotSize = OMD_GET_VALUE(pszBuffer, 195, unsigned int);
 													omdcMap[uSecurityCode].m_Code = uSecurityCode;
 													cache["omdc"].push_back(uSecurityCode);
+													auto strSecurityCode = std::to_string(uSecurityCode);
+													cache["omdc_addition_definition"][strSecurityCode] = json::object();
+													cache["omdc_addition_definition"][strSecurityCode]["SpreadTableCode"] = omdcAdditionDefinition.SpreadTableCode;
+													cache["omdc_addition_definition"][strSecurityCode]["SecuritySortName"] = omdcAdditionDefinition.SecuritySortName;
+													cache["omdc_addition_definition"][strSecurityCode]["CallPutFlag"] = omdcAdditionDefinition.CallPutFlag;
+													cache["omdc_addition_definition"][strSecurityCode]["ProductType"] = omdcAdditionDefinition.ProductType;
+													cache["omdc_addition_definition"][strSecurityCode]["LotSize"] = omdcAdditionDefinition.LotSize;
 													auto instrument_Type = OMD_GET_STR(pszBuffer, 24, 4);
 													if (instrument_Type == "WRNT")
 													{

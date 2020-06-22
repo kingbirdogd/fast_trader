@@ -267,9 +267,32 @@ struct COmddUnderlying
 	~COmddUnderlying() = default;
 };
 
+struct COmdcAdditionDefinitions
+{
+	std::string SpreadTableCode;
+	std::string SecuritySortName;
+	std::string CallPutFlag;
+	unsigned int LotSize;
+	unsigned char ProductType;
+	COmdcAdditionDefinitions():
+		SpreadTableCode(""),
+		SecuritySortName(""),
+		CallPutFlag(""),
+		LotSize(0),
+		ProductType(0)
+	{
+	}
+	COmdcAdditionDefinitions(const COmdcAdditionDefinitions&) = default;
+	COmdcAdditionDefinitions(COmdcAdditionDefinitions&&) = default;
+	COmdcAdditionDefinitions& operator= (const COmdcAdditionDefinitions&) = default;
+	COmdcAdditionDefinitions& operator= (COmdcAdditionDefinitions&&) = default;
+	~COmdcAdditionDefinitions() = default;
+};
+
 typedef std::unordered_map<std::string, std::string> CActivateChannel;
 typedef std::vector<CRetranProxy> CRetranVec;
 typedef std::unordered_map<unsigned int, COmdOrderbook> COmdOrderMap;
+typedef std::unordered_map<unsigned int, COmdcAdditionDefinitions> COmdcAdditionDefinitionsMap;
 typedef std::unordered_map<unsigned int, unsigned int> CWarrants;
 typedef std::unordered_map<unsigned int, std::unordered_set<unsigned int>> CUnderlyingWarrants;
 typedef std::unordered_map<unsigned int, std::string> COmddCodeToNameMap;

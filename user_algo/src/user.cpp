@@ -150,11 +150,11 @@ algo* user::get_algo(const std::string& name)
 	}
 }
 
-std::vector<std::string> user::get_algos()
+std::unordered_map<std::string, std::string> user::get_algos()
 {
-	std::vector<std::string> rt;
+	std::unordered_map<std::string, std::string> rt;
 	for (const auto& item : _algos)
-		rt.push_back(item.first);
+		rt[item.first] = item.second->get_name();
 	return rt;
 }
 

@@ -180,9 +180,9 @@ inline void decode()
 			else if (cmd == "get_algo_names")
 			{
 				auto algos = u.get_algos();
-				j["algos"] = json::array();
+				j["algos"] = json::object();
 				for (const auto& algo : algos)
-					j["algos"].push_back(algo);
+					j["algos"][algo.first] = algo.second;
 				output(j);
 				return;
 			}
