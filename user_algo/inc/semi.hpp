@@ -657,6 +657,8 @@ private:
 			p._auto_sell = _auto_sell;
 			p._buy_price = _buy_price;
 			p._buy_trriger = _buy_trriger;
+			p._auto_buy_quantity = _auto_buy_quantity;
+			p._position = _position;
 			ouputQueue.enqueue(msg);
 		}
 		unsigned int underlying_code() const
