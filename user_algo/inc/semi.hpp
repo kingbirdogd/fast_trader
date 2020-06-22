@@ -619,25 +619,32 @@ private:
 			{
 				if (dbp::top::order_side::buy == side)
 				{
-					_position += odr.filled_quantity;
-					_is_buying = false;
+					if (dbp::top::order_status::filled == status){
+						_position += odr.filled_quantity;
+					}
+					/*
 					if (odr.order_id == _auto_buy_id && dbp::top::order_status::filled != status)
 					{
 						_auto_buy_quantity -= _position;
 					}
+					*/
 					if (dbp::top::order_status::canceled == status || dbp::top::order_status::rejected == status ){
 						_auto_sell = false;
 					}
+					_is_buying = false;
 				}
 				else if (dbp::top::order_side::sell == side)
 				{
-					_position -= odr.filled_quantity;
 					_is_selling = false;
 					if(odr.filled_quantity > 0){
-						_auto_sell = false;
+						_position -= odr.filled_quantity;
+						if(odr.filled_quantity == odr.ori_quantity){
+							_auto_sell = false;
+						}
 					}
 				}
 			}
+
 			algo_odr_msg* msg = algo_odr_msg_pool.get_obj();
 			msg->al = _algo;
 			msg->algo_name = _algo->_name;
