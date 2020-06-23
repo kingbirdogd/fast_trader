@@ -35,6 +35,7 @@ var combination_data = "";
 var combination_array = Array();
 var combination_map = {};
 var retryCount = 0;
+var connectCount = 0;
 var isAddPosstion = false;
 
 $(document).ready(function() {
@@ -273,19 +274,23 @@ function initTable(){
 		
 		$("#"+id2+"vol").focus(function(){
 			var val = $(this).val();
-			$(this).blur(function(){
+			$(this).keyup(function(){
 				var val2 = $(this).val();
 				if(getValue(val)!=getValue(val2)){
 					var id=$(this).closest("tr").attr("id");
 					setBuy(id);
 				}
+				//$(this).unbind("blur");
+			});
+			$(this).blur(function(){
 				$(this).unbind("blur");
+				$(this).unbind("keyup");
 			});
 		});
 		
 		$("#"+id2+"buy_ulast").focus(function(){
 			var val = $(this).val();
-			$(this).blur(function(){
+			$(this).keyup(function(){
 				var val2 = $(this).val();
 				if(val*1!=val2*1 && val2*1>0){
 					var id=$(this).closest("tr").attr("id");
@@ -295,13 +300,16 @@ function initTable(){
 				}else if(val*1>0 && isNaN(val2*1)){
 					$(this).val(val);
 				}
+			});
+			$(this).blur(function(){
 				$(this).unbind("blur");
+				$(this).unbind("keyup");
 			});
 		});
 		
 		$("#"+id2+"buy_last").focus(function(){
 			var val = $(this).val();
-			$(this).blur(function(){
+			$(this).keyup(function(){
 				var val2 = $(this).val();
 				if(val*1!=val2*1 && val2*1>0){
 					var id=$(this).closest("tr").attr("id");
@@ -313,41 +321,65 @@ function initTable(){
 						$("#"+id+"bottom").val(0);
 					}
 					$("#"+id+"ceiling").val(getValBySpread(val2, $("#default_tick_ceiling").val()*sign));
-					setBuy(id);
+					if($("#"+id+"as").hasClass("off") || $("#"+id+"t_vol").val()==0){
+						setBuy(id);
+					}else{
+						setSell(id);
+					}
 				}else if(val*1>0 && isNaN(val2*1)){
 					$(this).val(val);
 				}
+				//$(this).unbind("blur");
+			});
+			$(this).blur(function(){
 				$(this).unbind("blur");
+				$(this).unbind("keyup");
 			});
 		});
 		
 		$("#"+id2+"buy_vol").focus(function(){
 			var val = $(this).val();
-			$(this).blur(function(){
+			$(this).keyup(function(){
 				var val2 = $(this).val();
 				if(getValue(val)!=getValue(val2)){
 					var id=$(this).closest("tr").attr("id");
-					setBuy(id);
+					if($("#"+id+"as").hasClass("off") || $("#"+id+"t_vol").val()==0){
+						setBuy(id);
+					}else{
+						setSell(id);
+					}
 				}
+				//$(this).unbind("blur");
+			});
+			$(this).blur(function(){
 				$(this).unbind("blur");
+				$(this).unbind("keyup");
 			});
 		});
 		
 		$("#"+id2+"buy_ratio").focus(function(){
 			var val = $(this).val();
-			$(this).blur(function(){
+			$(this).keyup(function(){
 				var val2 = $(this).val();
 				if(isRatio(val2) && val!=val2){
 					var id=$(this).closest("tr").attr("id");
-					setBuy(id);
+					if($("#"+id+"as").hasClass("off") || $("#"+id+"t_vol").val()==0){
+						setBuy(id);
+					}else{
+						setSell(id);
+					}
 				}
+				//$(this).unbind("blur");
+			});
+			$(this).blur(function(){
 				$(this).unbind("blur");
+				$(this).unbind("keyup");
 			});
 		});
 		
 		$("#"+id2+"sell_ulast").focus(function(){
 			var val = $(this).val();
-			$(this).blur(function(){
+			$(this).keyup(function(){
 				var val2 = $(this).val();
 				if(val*1!=val2*1 && val2*1>0){
 					var id=$(this).closest("tr").attr("id");
@@ -359,13 +391,17 @@ function initTable(){
 				}else if(val*1>0 && isNaN(val2*1)){
 					$(this).val(val);
 				}
+				//$(this).unbind("blur");
+			});
+			$(this).blur(function(){
 				$(this).unbind("blur");
+				$(this).unbind("keyup");
 			});
 		});
 		
 		$("#"+id2+"sell_last").focus(function(){
 			var val = $(this).val();
-			$(this).blur(function(){
+			$(this).keyup(function(){
 				var val2 = $(this).val();
 				if(val*1!=val2*1 && val2*1>0){
 					var id=$(this).closest("tr").attr("id");
@@ -377,13 +413,17 @@ function initTable(){
 				}else if(val*1>0 && isNaN(val2*1)){
 					$(this).val(val);
 				}
+				//$(this).unbind("blur");
+			});
+			$(this).blur(function(){
 				$(this).unbind("blur");
+				$(this).unbind("keyup");
 			});
 		});
 		
 		$("#"+id2+"sell_vol").focus(function(){
 			var val = $(this).val();
-			$(this).blur(function(){
+			$(this).keyup(function(){
 				var val2 = $(this).val();
 				if(getValue(val)!=getValue(val2)){
 					var id=$(this).closest("tr").attr("id");
@@ -393,13 +433,17 @@ function initTable(){
 						setSell(id);
 					}
 				}
+				//$(this).unbind("blur");
+			});
+			$(this).blur(function(){
 				$(this).unbind("blur");
+				$(this).unbind("keyup");
 			});
 		});
 		
 		$("#"+id2+"sell_ratio").focus(function(){
 			var val = $(this).val();
-			$(this).blur(function(){
+			$(this).keyup(function(){
 				var val2 = $(this).val();
 				if(isRatio(val2) && val!=val2){
 					var id=$(this).closest("tr").attr("id");
@@ -409,13 +453,17 @@ function initTable(){
 						setSell(id);
 					}
 				}
+				//$(this).unbind("blur");
+			});
+			$(this).blur(function(){
 				$(this).unbind("blur");
+				$(this).unbind("keyup");
 			});
 		});
 		
 		$("#"+id2+"t_vol_i").focus(function(){
 			var val = $(this).val();
-			$(this).blur(function(){
+			$(this).keyup(function(){
 				var val2 = $(this).val();
 				if(getValue(val)!=getValue(val2)){
 					if(confirm("確定變更？")){
@@ -427,13 +475,17 @@ function initTable(){
 						$(this).val(val);
 					}
 				}
+				//$(this).unbind("blur");
+			});
+			$(this).blur(function(){
 				$(this).unbind("blur");
+				$(this).unbind("keyup");
 			});
 		});
 		
 		$("#"+id2+"bottom").focus(function(){
 			var val = $(this).val();
-			$(this).blur(function(){
+			$(this).keyup(function(){
 				var val2 = $(this).val();
 				if(val*1!=val2*1 && val2*1>0){
 					var id=$(this).closest("tr").attr("id");
@@ -445,13 +497,17 @@ function initTable(){
 				}else if(val*1>0 && isNaN(val2*1)){
 					$(this).val(val);
 				}
+				//$(this).unbind("blur");
+			});
+			$(this).blur(function(){
 				$(this).unbind("blur");
+				$(this).unbind("keyup");
 			});
 		});
 		
 		$("#"+id2+"ceiling").focus(function(){
 			var val = $(this).val();
-			$(this).blur(function(){
+			$(this).keyup(function(){
 				var val2 = $(this).val();
 				if(val*1!=val2*1 && val2*1>0){
 					var id=$(this).closest("tr").attr("id");
@@ -463,7 +519,11 @@ function initTable(){
 				}else if(val*1>0 && isNaN(val2*1)){
 					$(this).val(val);
 				}
+				//$(this).unbind("blur");
+			});
+			$(this).blur(function(){
 				$(this).unbind("blur");
+				$(this).unbind("keyup");
 			});
 		});
 		
@@ -1188,13 +1248,13 @@ function keyAction(id, checkBS=0){  //checkBS --> 1: spread+getbid/getask 	2: mo
 			}else if(($("#"+id2+"force_sell").hasClass("off") || !$("#"+id2+"force_sell").hasClass("disable")) && $("#"+id2+"t_vol").val()>0){
 				clickForcesell(id2);
 			}
-		}
+		}*/
 		
 		if ( event.key == "t" || event.key == "T"){
 			if(($("#"+id2+"as").hasClass("off") || !$("#"+id2+"as").hasClass("disable")) && $("#"+id2+"t_vol").val()==0){
 				clickAS(id2);
 			}
-		}*/
+		}
 	 //}
 }
 
