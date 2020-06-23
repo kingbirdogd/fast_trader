@@ -566,15 +566,20 @@ private:
 
 
 
-			unsigned long long wbestbid = default_sell_price();
+
 
 			//if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && (_Stop_Lost > 0 || _Win_Tick >= 0)) {
 
-			warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
-			if(warrant == nullptr)
-				return;
+		//	warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
+		//	if(warrant == nullptr)
+		//		return;
 
-			if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Win_Tick >= 0 && wbestbid >= warrant->BuyPrice ) {
+			if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Win_Tick >= 0 ) {
+
+				unsigned long long wbestbid = default_sell_price();
+				warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
+				if(warrant == nullptr)
+					return;
 
 /*
 				if(_Stop_Lost > 0 && _PriceInfo->Bestbid > 0){
@@ -600,7 +605,7 @@ private:
 					}
 				}
 */
-				if(_Win_Tick >= 0){
+				if(_Win_Tick >= 0 && wbestbid>0 && warrant->BuyPrice > 0){
 
 					unsigned long long refSpread = _SPREAD;
 					unsigned long long rwinPrice = (unsigned long long) (warrant->BuyPrice + _Win_Tick * refSpread);
@@ -609,7 +614,7 @@ private:
 
 					if(_Win_Tick == 0){
 						if(wbestbid >= bp){
-							Log(std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick = 0 " + to_string(wbestbid) );
+							Log(std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick = 0 " + to_string(wbestbid) + " Warrant Buy Price = " + to_string(warrant->BuyPrice) );
 							warrant->SellPrice = wbestbid;
 							warrant->Status = STATUS_SELLING;
 							warrant->SellQty = warrant->Quantity;
@@ -626,7 +631,7 @@ private:
 
 						//if(_PriceInfo->Bestbid >= rwinPrice){
 						if(wbestbid >= rwinPrice  ){
-							Log(std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick > 0 " + to_string(wbestbid) );
+							Log(std::string(" CODE = ") + std::to_string(code) + " SEll Win Tick > 0 " + to_string(wbestbid) + " Warrant Buy Price = " + to_string(warrant->BuyPrice) );
 							warrant->SellPrice = wbestbid;
 							warrant->SellQty = warrant->Quantity;
 							warrant->Status = STATUS_SELLING;
