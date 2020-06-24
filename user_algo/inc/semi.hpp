@@ -640,7 +640,7 @@ private:
 					if (dbp::top::order_status::canceled == status || dbp::top::order_status::rejected == status ){
 						_auto_sell = false;
 						strstatus = "cancel";
-						strreason = str::string(odr.reject_reason);
+						strreason = std::string(odr.reject_reason);
 					}
 
 					_is_buying = false;
@@ -660,7 +660,7 @@ private:
 						}
 					}else{
 						strstatus = "cancel";
-						strreason = str::string(odr.reject_reason);
+						strreason = std::string(odr.reject_reason);
 					}
 				}
 			}
