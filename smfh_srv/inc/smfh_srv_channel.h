@@ -201,7 +201,7 @@ public:
 																	}
 																	else
 																	{
-																		flush_printf("tm:%llu, Refresh Complete 1, ChannelId:%u, uStartSeq:%u, uOnRefreshStartIdx:%u, Vec.size:%llu\n", dbp::tools::srv::current(), _channel.m_uChannelId, uStartSeq, uOnRefreshStartIdx, Vec.size());
+																		flush_printf("tm:%llu, Refresh Complete 1, ChannelId:%u, uStartSeq:%u, uOnRefreshStartIdx:%u, Vec.size:%lu\n", dbp::tools::srv::current(), _channel.m_uChannelId, uStartSeq, uOnRefreshStartIdx, Vec.size());
 
 																		for (unsigned int i =  uStartSeq - uOnRefreshStartIdx; i < Vec.size(); ++i)
 																		{
@@ -260,7 +260,7 @@ public:
 																	}
 																	else
 																	{
-																		flush_printf("tm:%llu, Refresh Complete 2, ChannelId:%u, uStartSeq:%u, uOnRefreshStartIdx:%u, Vec.size:%llu\n", dbp::tools::srv::current(), _channel.m_uChannelId, uStartSeq, uOnRefreshStartIdx, Vec.size());
+																		flush_printf("tm:%llu, Refresh Complete 2, ChannelId:%u, uStartSeq:%u, uOnRefreshStartIdx:%u, Vec.size:%lu\n", dbp::tools::srv::current(), _channel.m_uChannelId, uStartSeq, uOnRefreshStartIdx, Vec.size());
 
 																		for (unsigned int i =  uStartSeq - uOnRefreshStartIdx; i < Vec.size(); ++i)
 																		{
