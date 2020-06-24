@@ -615,6 +615,9 @@ private:
 		{
 			auto status = odr.status;
 			auto side = odr.side;
+			str::strstatus = "";
+			str::strside = "";
+			str::strreason = "";
 			if (dbp::top::order_status::rejected == status || dbp::top::order_status::canceled == status || dbp::top::order_status::deleted == status || dbp::top::order_status::filled == status)
 			{
 
@@ -623,9 +626,10 @@ private:
 				if (dbp::top::order_side::buy == side)
 				{
 
-
+					strside = "BUY";
 					if (dbp::top::order_status::filled == status){
 						_position += odr.filled_quantity;
+						strstatus = "filled";
 					}
 					/*
 					if (odr.order_id == _auto_buy_id && dbp::top::order_status::filled != status)
@@ -635,22 +639,28 @@ private:
 					*/
 					if (dbp::top::order_status::canceled == status || dbp::top::order_status::rejected == status ){
 						_auto_sell = false;
+						strstatus = "cancel";
+						strreason = str::string(odr.reject_reason);
 					}
 
 					_is_buying = false;
 				}
 				else if (dbp::top::order_side::sell == side)
 				{
+					strside = "SELL";
 					_is_selling = false;
 
 					if (dbp::top::order_status::filled == status){
-
+						strstatus = "filled";
 						if(odr.filled_quantity > 0){
 							_position -= odr.filled_quantity;
 							if(odr.filled_quantity == odr.quantity){
 								_auto_sell = false;
 							}
 						}
+					}else{
+						strstatus = "cancel";
+						strreason = str::string(odr.reject_reason);
 					}
 				}
 			}
@@ -668,6 +678,11 @@ private:
 			p._buy_trriger = _buy_trriger;
 			p._auto_buy_quantity = _auto_buy_quantity;
 			p._position = _position;
+			msg->filled_price = odr.match_price;
+			msg->filled_quantity = odr.filled_quantity;
+			msg->status = strstatus;
+			msg->side = strside;
+			msg->reason = strreason;
 			ouputQueue.enqueue(msg);
 		}
 		unsigned int underlying_code() const
@@ -820,6 +835,13 @@ private:
 	{
 		dbp::top::enhance_order odr;
 		pair p;
+
+		unsigned long long filled_price;
+		unsigned long long filled_quantity;
+		std::string status;
+		std::side side;
+		std::string reason;
+
 		algo_odr_msg():
 			algo_msg_base(),
 			odr(),
@@ -837,6 +859,8 @@ private:
 			j["buy_price"] = p._buy_price;
 			j["auto_buy_qty"] = p._auto_buy_quantity;
 			j["position"] = p._position;
+
+
 			j["recovery"] = true;
 			return j;
 		}
