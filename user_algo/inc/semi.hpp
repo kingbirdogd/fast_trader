@@ -839,7 +839,7 @@ private:
 		unsigned long long filled_price;
 		unsigned long long filled_quantity;
 		std::string status;
-		std::side side;
+		std::string side;
 		std::string reason;
 
 		algo_odr_msg():
