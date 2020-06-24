@@ -1,0 +1,227 @@
+{
+	"IN_OUT_PROCESS": "node ${HOME}/fast_trader/gui/server.js 9919",
+	"SCHED_PRIORITY": 0,
+	"SCHED_TYPE": "SCHED_OTHER",
+	"SOL_SOCKET":
+	{
+		"SO_KEEPALIVE": true,
+		"SO_RCVTIMEO": 2500000,
+		"SO_SNDTIMEO": 1000,
+		"SO_RCVBUF": 10485760,
+		"SO_SNDBUF": 10485760,
+		"SO_LINGER": 10
+	},
+	"SOL_TCP":
+	{
+		"TCP_NODELAY": true,
+		"TCP_CORK": true
+	},
+	"IPPROTO_TCP":
+	{
+		"TCP_QUICKACK": true,
+		"TCP_KEEPCNT": 5,
+		"TCP_KEEPIDLE": 30,
+		"TCP_KEEPINTVL": 120
+	},
+	"CPU":
+	[		
+		2,
+		3,
+		4,
+		5,
+		6,
+		7,
+		8,
+		9,
+		10,
+		11,
+		12	
+	],
+	"USERS":
+	[
+		{
+			"ID":1,
+			"IP":"192.168.134.197",
+			"PORT":35101,
+			"USER":"P990098",
+			"PASS":"pass",
+			"BUY_POWER":500000,
+			"ALGOS":
+			{
+				"leo_bear":
+				{
+					"lib": "bear",
+					"params":
+					{
+					}
+				}
+			}
+		},
+		{
+			"ID":2,
+			"IP":"192.168.134.197",
+			"PORT":35101,
+			"USER":"P990098",
+			"PASS":"pass",
+			"BUY_POWER":500000,
+			"ALGOS":
+			{
+				"kenny_bear":
+				{
+					"lib": "bear",
+					"params":
+					{
+					}
+				}
+			}
+		},
+		{
+			"ID":3,
+			"IP":"192.168.134.197",
+			"PORT":35101,
+			"USER":"P990098",
+			"PASS":"pass",
+			"BUY_POWER":500000,
+			"ALGOS":
+			{
+				"wendy_semi":
+				{
+					"lib": "semi",
+					"params":
+					{
+					}
+				}
+			}
+		},
+		{
+			"ID":4,
+			"IP":"192.168.134.197",
+			"PORT":35101,
+			"USER":"P311831",
+			"PASS":"Shun2328",
+			"BUY_POWER":5000000,			
+			"ALGOS":
+			{
+				"hugo_bear":
+				{
+					"lib": "bear",
+					"params":
+					{
+					}
+				}
+			}
+		}
+	],
+	"Definition":
+	{
+		"CatchPath": "/tmp",
+		"OMDC":
+		[
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.11",
+				"MulticastPort": 51000
+			}
+		],
+		"OMDD":
+		[
+			{
+				"InterfaceIp": "10.123.132.197",
+				"MulticastIp": "239.1.1.153",
+				"MulticastPort": 51003
+			},
+			{
+				"InterfaceIp": "10.123.132.197",
+				"MulticastIp": "239.1.1.158",
+				"MulticastPort": 51003
+			}
+		]
+	},
+	"RetranProxy":
+	[
+		{
+			"Ip": "192.168.118.106",
+			"Port": 41000
+		},
+		{
+			"Ip": "192.168.118.131",
+			"Port": 31000
+		}
+	],
+	"OmdcChannel":
+	[
+		{
+			"ChannelId": 20,
+			"Hot":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.3",
+				"MulticastPort": 51000
+			},
+			"Refresh":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.13",
+				"MulticastPort": 51000
+			},
+			"RetranProxyIndex": 0
+		},
+		{
+			"ChannelId": 21,
+			"Hot":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.3",
+				"MulticastPort": 51001
+			},
+			"Refresh":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.13",
+				"MulticastPort": 51001
+			},
+			"RetranProxyIndex": 0
+		},
+		{
+			"ChannelId": 22,
+			"Hot":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.3",
+				"MulticastPort": 51002
+			},
+			"Refresh":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.13",
+				"MulticastPort": 51002
+			},
+			"RetranProxyIndex": 0
+		}
+	],
+	"OmddChannel":
+	[
+		{
+			"ChannelId": 231,
+			"Hot":
+			{
+				"InterfaceIp": "10.123.132.197",
+				"MulticastIp": "239.1.1.131",
+				"MulticastPort": 51002
+			},
+			"Refresh":
+			{
+				"InterfaceIp": "10.123.132.197",
+				"MulticastIp": "239.1.1.156",
+				"MulticastPort": 51002
+			},
+			"RetranProxyIndex": 1
+		}
+	],
+	"ActivateChannel":
+	[
+		{"Channel":"OmdcChannel"},
+		{"Channel":"OmddChannel"}
+	]
+}
+
