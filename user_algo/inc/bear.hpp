@@ -842,7 +842,7 @@ private:
 					unsigned long long bp = warrant->BuyPrice;
 
 					if(_Win_Tick == 0){
-						if(best_bid_price >= bp){
+						if(best_bid_price >= bp && bp > 0){
 							Log(std::string(" CODE = ") + std::to_string(code) + " on bull book SEll Win Tick = 0 " + to_string(best_bid_price)  + " Warrant Buy Price = " + to_string(warrant->BuyPrice)  );
 							warrant->SellPrice = best_bid_price;
 							warrant->Status = STATUS_SELLING;
@@ -858,7 +858,7 @@ private:
 						}
 					}else{
 
-						if(best_bid_price >= rwinPrice){
+						if(best_bid_price >= rwinPrice && bp > 0){
 							Log(std::string(" CODE = ") + std::to_string(code) + " on bull book SEll Win Tick > 0 " + to_string(best_bid_price)  + " Warrant Buy Price = " + to_string(warrant->BuyPrice)  );
 							warrant->SellPrice = best_bid_price;
 							warrant->SellQty = warrant->Quantity;
@@ -1154,7 +1154,7 @@ private:
 					unsigned long long bp = warrant->BuyPrice;
 
 					if(_Win_Tick == 0){
-						if(best_bid_price >= bp){
+						if(best_bid_price >= bp && bp > 0){
 							Log(std::string(" CODE = ") + std::to_string(code) + " on bear book Sell Win Tick = 0 " + to_string(best_bid_price) + " Warrant Buy Price = " + to_string(warrant->BuyPrice)  );
 							warrant->SellPrice = best_bid_price;
 							warrant->SellQty = warrant->Quantity;
@@ -1170,7 +1170,7 @@ private:
 						}
 					}else{
 
-						if(best_bid_price >= rwinPrice){
+						if(best_bid_price >= rwinPrice && bp > 0){
 
 							Log(std::string(" CODE = ") + std::to_string(code) + " on bear book Sell Win Tick > 0 " + to_string(best_bid_price) + " Warrant Buy Price = " + to_string(warrant->BuyPrice)  );
 

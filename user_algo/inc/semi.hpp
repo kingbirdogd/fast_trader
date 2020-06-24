@@ -618,7 +618,7 @@ private:
 			if (dbp::top::order_status::rejected == status || dbp::top::order_status::canceled == status || dbp::top::order_status::deleted == status || dbp::top::order_status::filled == status)
 			{
 
-				fprintf(stderr, "info Code: %u : matched price : %llu  matched quantity : %llu filled quantity : %llu Order Status : %u Side : %u \n",_warrant_code, odr.match_price, odr.match_quantity, odr.filled_quantity, status, side);
+				fprintf(stderr, "info Code: %u : matched price : %llu  matched quantity : %llu filled quantity : %llu Order Status : %u Side : %u \n",_warrant_code, odr.match_price, odr.match_quantity, odr.filled_quantity, (unsigned int)status, (unsigned char)side);
 
 				if (dbp::top::order_side::buy == side)
 				{
