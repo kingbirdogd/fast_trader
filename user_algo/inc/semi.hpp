@@ -860,8 +860,13 @@ private:
 			j["auto_buy_qty"] = p._auto_buy_quantity;
 			j["position"] = p._position;
 
+			j["status"] = status;
+			j["filled_price"] = filled_price;
+			j["filled_quantity"] = filled_quantity;
+			j["side"] = side;
+			j["reason"] = reason;
 
-			j["recovery"] = true;
+			//j["recovery"] = true;
 			return j;
 		}
 		virtual void on_command()
