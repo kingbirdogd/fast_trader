@@ -615,9 +615,9 @@ private:
 		{
 			auto status = odr.status;
 			auto side = odr.side;
-			str::strstatus = "";
-			str::strside = "";
-			str::strreason = "";
+			std::string strstatus = "";
+			std::string strside = "";
+			std::string strreason = "";
 			if (dbp::top::order_status::rejected == status || dbp::top::order_status::canceled == status || dbp::top::order_status::deleted == status || dbp::top::order_status::filled == status)
 			{
 
