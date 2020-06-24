@@ -617,8 +617,13 @@ private:
 			auto side = odr.side;
 			if (dbp::top::order_status::rejected == status || dbp::top::order_status::canceled == status || dbp::top::order_status::deleted == status || dbp::top::order_status::filled == status)
 			{
+
+				fprintf(stderr, "info Code: %u : matched price : %llu  matched quantity : %llu filled quantity : %llu Order Status : %d \n",_warrant_code, odr.match_price, odr.match_quantity, odr.filled_quantity, odr.status);
+
 				if (dbp::top::order_side::buy == side)
 				{
+
+
 					if (dbp::top::order_status::filled == status){
 						_position += odr.filled_quantity;
 					}
@@ -637,10 +642,14 @@ private:
 				else if (dbp::top::order_side::sell == side)
 				{
 					_is_selling = false;
-					if(odr.filled_quantity > 0){
-						_position -= odr.filled_quantity;
-						if(odr.filled_quantity == odr.quantity){
-							_auto_sell = false;
+
+					if (dbp::top::order_status::filled == status){
+
+						if(odr.filled_quantity > 0){
+							_position -= odr.filled_quantity;
+							if(odr.filled_quantity == odr.quantity){
+								_auto_sell = false;
+							}
 						}
 					}
 				}
