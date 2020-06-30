@@ -883,7 +883,7 @@ private:
 		{
 			auto j = algo_msg_base::to_json();
 			j["msg_type"] = "semi_algo_odr_msg";
-			j["odr"] = odr.to_json();
+			//j["odr"] = odr.to_json();
 			j["auto_buy"] = p._auto_buy;
 			j["auto_sell"] = p._auto_sell;
 			j["buy_trigger"] = p._buy_trriger;
