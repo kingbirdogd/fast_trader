@@ -785,6 +785,14 @@ private:
 		{
 			return _auto_sell_id;
 		}
+		unsigned long long last_trigger_price() const
+		{
+			return _last_trigger_price;
+		}
+		unsigned long long last_price() const
+		{
+			return _last_price;
+		}
 		bool is_buying() const
 		{
 			return _is_buying;
@@ -836,6 +844,14 @@ private:
 		void set_auto_sell(bool auto_sell)
 		{
 			_auto_sell = auto_sell;
+		}
+		void set_last_trigger_price(unsigned long long price)
+		{
+			_last_trigger_price= price;
+		}
+		void set_last_price(bool price)
+		{
+			_last_price = price;
 		}
 	};
 private:

@@ -186,6 +186,8 @@ std::string semi::set_pair(pair&& p, bool no_change)
 		p.set_auto_sell_id(it->second.auto_sell_id());
 		p.set_is_buying(it->second.is_buying());
 		p.set_is_selling(it->second.is_selling());
+		p.set_last_trigger_price(it->second.last_trigger_price());
+		p.set_last_price(it->second.last_price());
 		if (no_change)
 		{
 			p.set_auto_buy(it->second.auto_buy());
