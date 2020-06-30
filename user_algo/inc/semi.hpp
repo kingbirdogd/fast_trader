@@ -634,7 +634,7 @@ private:
 					if (dbp::top::order_status::filled == status){
 						_position += odr.filled_quantity;
 						strstatus = "filled";
-						_last_trigger_price = _trriger_buy;
+						_last_trigger_price = _buy_trriger;
 						_last_price = odr.match_price;
 					}
 					/*
@@ -663,7 +663,7 @@ private:
 							if(odr.filled_quantity == odr.quantity){
 								_auto_sell = false;
 							}
-							_last_trigger_price = _trriger_sell;
+							_last_trigger_price = _sell_trriger;
 							_last_price = odr.match_price;
 						}
 					}else{
