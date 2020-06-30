@@ -849,7 +849,7 @@ private:
 		{
 			_last_trigger_price= price;
 		}
-		void set_last_price(bool price)
+		void set_last_price(unsigned long long price)
 		{
 			_last_price = price;
 		}
