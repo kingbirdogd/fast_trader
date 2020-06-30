@@ -52,6 +52,8 @@ private:
 		bool _is_reset_position;
 		unsigned long long wbestbid;
 		unsigned long long wbestask;
+		unsigned long long _last_trigger_price;
+		unsigned long long _last_price;
 	public:
 		enum class sell_result: unsigned long long
 		{
@@ -182,6 +184,8 @@ private:
 			j["auto_buy"] = _auto_buy;
 			j["auto_sell"] = _auto_sell;
 			j["is_reset_position"] = _is_reset_position;
+			j["last_trigger_price"] = _last_trigger_price;
+			j["last_price"] = _last_price;
 			return j;
 		}
 		~pair() = default;
@@ -630,6 +634,8 @@ private:
 					if (dbp::top::order_status::filled == status){
 						_position += odr.filled_quantity;
 						strstatus = "filled";
+						_last_trigger_price = _trriger_buy;
+						_last_price = odr.match_price;
 					}
 					/*
 					if (odr.order_id == _auto_buy_id && dbp::top::order_status::filled != status)
@@ -657,6 +663,8 @@ private:
 							if(odr.filled_quantity == odr.quantity){
 								_auto_sell = false;
 							}
+							_last_trigger_price = _trriger_sell;
+							_last_price = odr.match_price;
 						}
 					}else{
 						strstatus = "cancel";
@@ -680,6 +688,10 @@ private:
 			p._position = _position;
 			msg->filled_price = odr.match_price;
 			msg->filled_quantity = odr.filled_quantity;
+
+			msg->last_trigger_price = _last_trigger_price;
+			msg->last_price = _last_price;
+
 			msg->status = strstatus;
 			msg->side = strside;
 			msg->reason = strreason;
@@ -842,6 +854,9 @@ private:
 		std::string side;
 		std::string reason;
 
+		unsigned long long last_trigger_price;
+		unsigned long long last_price;
+
 		algo_odr_msg():
 			algo_msg_base(),
 			odr(),
@@ -863,6 +878,8 @@ private:
 			j["status"] = status;
 			j["filled_price"] = filled_price;
 			j["filled_quantity"] = filled_quantity;
+			j["last_trigger_price"] = last_trigger_price;
+			j["last_price"] = last_price;
 			j["side"] = side;
 			j["reason"] = reason;
 
