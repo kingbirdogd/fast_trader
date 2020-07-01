@@ -184,7 +184,7 @@ void user::handler_buy_power(const std::string& ref, long long buy_power)
 }
 
 rapid_ring::spsc_ring_buffer_object_pool<user::user_order_list, 8192> user::user_order_list_pool;
-rapid_ring::spsc_ring_buffer_object_pool<user::user_buy_power, 8192> user::user_buy_power_pool;
+rapid_ring::spmc_ring_buffer_object_pool<user::user_buy_power, 8192> user::user_buy_power_pool;
 
 
 

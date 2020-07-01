@@ -197,7 +197,7 @@ private:
 	void handler_buy_power(const std::string& ref, long long buy_power);
 public:
 	static rapid_ring::spsc_ring_buffer_object_pool<user_order_list, 8192> user_order_list_pool;
-	static rapid_ring::spsc_ring_buffer_object_pool<user_buy_power, 8192> user_buy_power_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<user_buy_power, 8192> user_buy_power_pool;
 };
 
 
