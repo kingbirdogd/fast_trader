@@ -167,7 +167,18 @@ inline void decode()
 						return;
 					}
 				}
-				algo_msg_base* msg = user::user_order_list_pool.get_obj();
+				unsigned long long max_display = std::numeric_limits<unsigned long long>::max();
+				it = j.find("max_display");
+				if (j.end() != it)
+				{
+					if (it.value().type() == json::value_t::number_unsigned)
+					{
+						max_display = it.value().get<unsigned long long>();
+					}
+				}
+				user::user_order_list* list_msg = user::user_order_list_pool.get_obj();
+				list_msg->max_display = max_display;
+				algo_msg_base* msg = list_msg;
 				msg->algo_name = algo_name;
 				msg->id = id;
 				msg->al = al;

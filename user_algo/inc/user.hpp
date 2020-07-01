@@ -63,17 +63,20 @@ public:
 	struct user_order_list: public algo_msg_base
 	{
 		std::vector<algo_order> orders;
+		unsigned long long max_display;
 		user_order_list():
 			algo_msg_base(),
-			orders()
+			orders(),
+			max_display(0)
 		{
 		}
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
 			j["orders"] = nlohmann::json::array();
-			for (const auto& odr : orders)
+			for (std::size_t i = 0; i < orders.size() && i < max_display; ++i)
 			{
+				const auto& odr = orders[i];
 				j["orders"].push_back(odr.to_json());
 			}
 			return j;
