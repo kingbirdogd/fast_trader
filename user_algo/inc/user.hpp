@@ -101,6 +101,7 @@ public:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
+			j["cmd"] = "get_top_buy_power";
 			j["buy_power"] = buy_power;
 			return j;
 		}
