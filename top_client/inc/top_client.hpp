@@ -14,7 +14,9 @@ class top_client
 private:
 	using order_event = std::function<void(const dbp::top::enhance_order&)>;
 	using login_event = std::function<void(const dbp::top::login_response&)>;
+	using top_buy_power_event = std::function<void(const std::string&, long long)>;
 	using order_map = std::unordered_map<unsigned long long, dbp::top::enhance_order>;
+	using top_buy_power_map = std::unordered_map<unsigned long long, std::string>;
 	using buffer = std::vector<char>;
 private:
 	static std::atomic<unsigned long long> _client_order_id;
@@ -23,9 +25,11 @@ private:
 	unsigned char _session_id[sizeof(dbp::top::header::session_id)];
 protected:
 	order_map _order_map;
+	top_buy_power_map _top_buy_power_map;
 	dbp::top::login_request _login;
 	order_event _on_order;
 	login_event _on_login;
+	top_buy_power_event _on_top_buy_power;
 	unsigned long long _buy_power;
 	bool _ready;
 protected:
@@ -51,10 +55,12 @@ public:
 			dbp::top::ignore_price_type ignore = dbp::top::ignore_price_type::non_ignore,
 			unsigned int broker_id = 0
 	);
+	bool get_top_buy_power(const std::string& ref);
 	bool modify_order(unsigned long long order_id, unsigned long long new_quantity, unsigned long long new_price);
 	bool cancel_order(unsigned long long order_id);
 	void set_on_order(order_event&& on_order);
 	void set_on_login(login_event&& on_login);
+	void set_on_top_buy_power(top_buy_power_event&& on_top_buy_power);
 	const dbp::top::enhance_order* get_order(unsigned long long order_id);
 	void set_buy_power(unsigned long long buy_power);
 	unsigned long long get_buy_power();

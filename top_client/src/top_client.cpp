@@ -186,6 +186,20 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 					case dbp::top::api_id_flag::instrument_balance:
 					case dbp::top::api_id_flag::heart_beat:
 					case dbp::top::api_id_flag::local_time:
+						break;
+					case dbp::top::api_id_flag::buy_power:
+					{
+						const auto& response = *static_cast<const dbp::top::buy_power_response*>(static_cast<const void*>(p));
+						auto it = _top_buy_power_map.find(response.order_id);
+						if (_top_buy_power_map.end() != it)
+						{
+							if (_on_top_buy_power)
+							{
+								_on_top_buy_power(it->second, response.buying_power);
+							}
+						}
+						break;
+					}
 					default:
 					{
 						break;
@@ -224,9 +238,11 @@ top_client::top_client
 	_buffer(),
 	_session_id{0},
 	_order_map(),
+	_top_buy_power_map(),
 	_login(user.c_str(), pass.c_str()),
 	_on_order(),
 	_on_login(),
+	_on_top_buy_power(),
 	_buy_power(buy_power),
 	_ready(false)
 {
@@ -238,6 +254,7 @@ top_client::top_client(top_client&& client):
 	_login(std::move(client._login)),
 	_on_order(std::move(client._on_order)),
 	_on_login(std::move(client._on_login)),
+	_on_top_buy_power(std::move(client._on_top_buy_power)),
 	_buy_power(client._buy_power),
 	_ready(client._ready)
 {
@@ -251,6 +268,7 @@ top_client& top_client::operator= (top_client&& client)
 	_login = std::move(client._login);
 	_on_order = std::move(client._on_order);
 	_on_login = std::move(client._on_login);
+	_on_top_buy_power = std::move(client._on_top_buy_power);
 	_buy_power = client._buy_power;
 	_ready = client._ready;
 	std::memcpy(_session_id, client._session_id, sizeof(_session_id));
@@ -333,6 +351,25 @@ dbp::top::enhance_order top_client::new_order
 		_order_map[report.order_id] = report;
 		send(request);
 		return report;
+	}
+}
+
+bool top_client::get_top_buy_power(const std::string& ref)
+{
+	if (!_ready)
+	{
+		return false;
+	}
+	else
+	{
+		dbp::top::buy_power_request request
+		(
+			&_session_id[0],
+			_client_order_id.fetch_add(1, std::memory_order_relaxed)
+		);
+		_top_buy_power_map[request.order_id] = ref;
+		send(request);
+		return true;
 	}
 }
 
@@ -425,6 +462,11 @@ void top_client::set_on_order(order_event&& on_order)
 void top_client::set_on_login(login_event&& on_login)
 {
 	_on_login = std::move(on_login);
+}
+
+void top_client::set_on_top_buy_power(top_buy_power_event&& on_top_buy_power)
+{
+	_on_top_buy_power = std::move(on_top_buy_power);
 }
 
 const dbp::top::enhance_order* top_client::get_order(unsigned long long order_id)

@@ -53,6 +53,7 @@ namespace dbp
 			all_open_order_report = 81101109,
 			cash_balance = 81101107,
 			instrument_balance = 81101108,
+			buy_power = 81101110,
 			heart_beat = 81102103,
 			local_time = 81102104
 		};
@@ -82,6 +83,8 @@ namespace dbp
 					return "api_id_flag::cash_balance";
 				case api_id_flag::instrument_balance:
 					return "api_id_flag::instrument_balance";
+				case api_id_flag::buy_power:
+					return "api_id_flag::buy_power";
 				case api_id_flag::heart_beat:
 					return "api_id_flag::heart_beat";
 				case api_id_flag::local_time:
@@ -681,6 +684,70 @@ namespace dbp
 			inline operator bool ()
 			{
 				return is_valid();
+			}
+		};
+		struct buy_power_request: public header
+		{
+			json_type to_json() const
+			{
+				const header& h = *this;
+				json_type json;
+				json["header"] = h.to_json();
+				return json;
+			}
+			std::string to_string() const
+			{
+				return to_json().dump();
+			}
+			buy_power_request(const unsigned char* _session_id,
+					unsigned long long client_order_id):
+				header
+				(
+					sizeof(new_order_request),
+					api_type_flag::request,
+					api_id_flag::buy_power,
+					_session_id,
+					client_order_id
+				)
+			{
+			}
+		};
+		struct buy_power_response : public header
+		{
+			long long ledger;
+			long long special_limit;
+			long long buying_power;
+			long long currency;
+			buy_power_response():
+				header
+				(
+					sizeof(order_report),
+					api_type_flag::single_reply,
+					api_id_flag::buy_power,
+					nullptr,
+					0
+				),
+				ledger(0),
+				special_limit(0),
+				buying_power(0),
+				currency(0)
+			{
+			}
+			json_type to_json() const
+			{
+				const header& h = *this;
+				json_type json;
+				json["header"] = h.to_json();
+				json["ledger"] = ledger;
+				json["special_limit"] = special_limit;
+				json["buying_power"] = buying_power;
+				json["currency"] = currency;
+				return json;
+			}
+			std::string to_string() const
+			{
+				std::string rt = to_json().dump();
+				return rt;
 			}
 		};
 		#pragma pack(pop)
