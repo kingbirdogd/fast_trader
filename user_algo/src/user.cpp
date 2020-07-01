@@ -132,6 +132,11 @@ unsigned long long user::get_buy_power()
 	return _client->get_buy_power();
 }
 
+bool user::get_top_buy_power(const std::string& ref)
+{
+	return _client->get_top_buy_power(ref);
+}
+
 unsigned long long user::get_id()
 {
 	return _id;
@@ -167,7 +172,19 @@ void user::handler_order(const dbp::top::enhance_order& odr)
 	}
 }
 
+void user::handler_buy_power(const std::string& ref, long long buy_power)
+{
+	user::user_buy_power* buy_power_msg = user::user_buy_power_pool.get_obj();
+	buy_power_msg->al = nullptr;
+	buy_power_msg->algo_name = "";
+	buy_power_msg->id = _id;
+	buy_power_msg->ref = ref;
+	buy_power_msg->buy_power = buy_power;
+	buy_power_msg->on_command();
+}
+
 rapid_ring::spsc_ring_buffer_object_pool<user::user_order_list, 8192> user::user_order_list_pool;
+rapid_ring::spsc_ring_buffer_object_pool<user::user_buy_power, 8192> user::user_buy_power_pool;
 
 
 

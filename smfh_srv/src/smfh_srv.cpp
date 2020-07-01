@@ -145,6 +145,17 @@ inline void decode()
 				output(j);
 				return;
 			}
+			else if (cmd == "get_top_buy_power")
+			{
+				auto ref = j["ref"].get<std::string>();
+				auto result = u.get_top_buy_power(ref);
+				if (!result)
+				{
+					j["error"] = "get_top_buy_power client not ready";
+					output(j);
+					return;
+				}
+			}
 			else if (cmd == "order_list")
 			{
 				std::string algo_name = "";
