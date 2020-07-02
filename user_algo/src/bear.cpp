@@ -193,6 +193,18 @@ void bear::on_omdd_trade(const Tradable& tradable)
 					}
 */
 				}
+			}else{
+				for (const auto& p : it->second)
+				{
+
+					if(p->getWtype() == BULL){
+						if(p->getSellOut() == trade_price && uprice->PTBestbid > trade_price && p->has_position())
+						{
+							p->doSellLevel();
+						}
+					}
+
+				}
 			}
 
 		}
@@ -232,6 +244,18 @@ void bear::on_omdd_trade(const Tradable& tradable)
 						p->on_bear_trade(tradable);
 					}
 */
+				}
+			}else{
+				for (const auto& p : it->second)
+				{
+
+					if(p->getWtype() == BEAR){
+						if(p->getSellOut() == trade_price && uprice->PTBestask < trade_price && p->has_position())
+						{
+							p->doSellLevel();
+						}
+					}
+
 				}
 			}
 

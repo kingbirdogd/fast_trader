@@ -188,6 +188,7 @@ private:
 		void on_bear_trade(const Tradable& tradable)
 		{
 
+			priceinfo* uprice = _algo->uprice_map[_Underlying_code];
 
 			time_t currentTime = DateUtil::getCurrentSystemTime();
 
@@ -491,7 +492,7 @@ private:
 
 			if(BUY_ORDER == tradable.m_TradeSide){
 				//if(_Status == STATUS_AVAILABLE && (_Action_Status == STAGE_START || _Win_Tick > 0) ){
-				if(_Status == STATUS_AVAILABLE && _Action_Status == STAGE_START ){
+				if(_Status == STATUS_AVAILABLE && _Action_Status == STAGE_START  && trade_price == _OBSetting->SellOut){
 
 					unsigned long long refSpread = _SPREAD;
 					unsigned long long b = _PriceInfo->Bestbid;
@@ -1349,6 +1350,34 @@ private:
 			if (odr.is_valid()){
 				_algo->_o_map[odr.order_id] = this;
 				return true;
+			}
+
+			return false;
+		}
+
+		bool doSellLevel()
+		{
+			if(_Status != STATUS_AVAILABLE)
+				return;
+
+			unsigned long long wbestbid = default_sell_price();
+
+			warrant* newWarrant = _OBSetting->getRelatedWarrant(_warrant_code);
+
+			if(wbestbid == newWarrant->BuyPrice && newWarrant->BuyPrice > 0){
+
+				Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Level Sell " );
+
+				newWarrant->DBid = trade_price;
+
+				newWarrant->Status = STATUS_SELLING;
+				newWarrant->SellPrice = _PriceInfo->Bestbid;
+				newWarrant->SellQty = newWarrant->Quantity;
+				newWarrant->SellOut = _OBSetting->SellOut;
+
+				_Status = STATUS_SELLING;
+
+				doSell(newWarrant);
 			}
 
 			return false;
