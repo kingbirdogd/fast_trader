@@ -1368,9 +1368,6 @@ private:
 			if(wbestbid == newWarrant->BuyPrice && newWarrant->BuyPrice > 0){
 
 				Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Level Sell " );
-
-				newWarrant->DBid = trade_price;
-
 				newWarrant->Status = STATUS_SELLING;
 				newWarrant->SellPrice = _PriceInfo->Bestbid;
 				newWarrant->SellQty = newWarrant->Quantity;
