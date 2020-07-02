@@ -1,6 +1,7 @@
 #include <top_client.hpp>
 #include <cstring>
 #include <tools.h>
+#include <macro.h>
 
 std::atomic<unsigned long long> top_client::_client_order_id(100);
 
@@ -190,11 +191,14 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 					case dbp::top::api_id_flag::buy_power:
 					{
 						const auto& response = *static_cast<const dbp::top::buy_power_response*>(static_cast<const void*>(p));
+						flush_printf("buy_power response msg, id:%llu\n", response.order_id);
 						auto it = _top_buy_power_map.find(response.order_id);
 						if (_top_buy_power_map.end() != it)
 						{
+							flush_printf("buy_power response msg found ref, ref:%s\n", it->second.c_str());
 							if (_on_top_buy_power)
 							{
+								flush_printf("buy_power response msg callback, ref:%s\n", it->second.c_str());
 								_on_top_buy_power(it->second, response.buying_power);
 							}
 						}
@@ -369,6 +373,7 @@ bool top_client::get_top_buy_power(const std::string& ref)
 		);
 		_top_buy_power_map[request.order_id] = ref;
 		send(request);
+		flush_printf("buy_power send request msg, id:%llu, ref:%s\n", request.order_id, ref.c_str());
 		return true;
 	}
 }
