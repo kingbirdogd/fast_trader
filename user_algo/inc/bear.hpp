@@ -188,8 +188,6 @@ private:
 		void on_bear_trade(const Tradable& tradable)
 		{
 
-			priceinfo* uprice = _algo->uprice_map[_Underlying_code];
-
 			time_t currentTime = DateUtil::getCurrentSystemTime();
 
 			auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice) * 100000;
@@ -1358,6 +1356,9 @@ private:
 		bool doSellLevel()
 		{
 			if(_Status != STATUS_AVAILABLE)
+				return;
+
+			if(_Action_Status != STAGE_START)
 				return;
 
 			unsigned long long wbestbid = default_sell_price();
