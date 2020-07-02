@@ -102,33 +102,66 @@ function savedata(){
 	
 	$.ajax({url: "http://"+domain+"/saveData", type: "POST", data: {name: key, type: 'hts', data: json}, crossDomain: true, success: function(res){
 		console.log(res);
+		alert("已儲存");
 	}});
 }
 
 function loaddata(){
-	$.ajax({url: "http://"+domain+"/loadData", type: "POST", data: {name: key, type: 'hts'}, crossDomain: true, success: function(res){
-		if(res.result == "success"){
-			var data = $.parseJSON(res.data);
-			var row = data.row;
-			$.each(row, function(index, value) {
-				var id = index;
-				var idArr = id.split("_");
-				
-				if($("#"+id+"ismon").val()==0){
-					var dataArr = value.split(",");
-					$("#"+idArr[0]+"ucode").val(dataArr[0]);
-					$("#"+id+"code").val(dataArr[1]);
-					$("#"+id+"vol").val(dataArr[2]);
-					
-					var setting = data.setting.split(",");
-					$("#default_sell_ulast").val(setting[0]);
-					$("#default_tick_out").val(setting[1]);
-					$("#default_tick_bottom").val(setting[2]);
-					$("#default_tick_ceiling").val(setting[3]);
-				}
-			});
+	var canload = true;
+	for(var i=0; i<ucodeNum; i++){
+		var id = 'u'+adddigit(i);
+		var id2 = id+"_1";
+		
+		if($("#"+id2+"ismon").val()!=0 || getValue($("#"+id+"t_vol_i").val())!=0){
+			canload = false;
+			break;
 		}
-	}});
+	}
+	
+	if(canload){
+		if(confirm("確定載入？")){
+			$.ajax({url: "http://"+domain+"/loadData", type: "POST", data: {name: key, type: 'hts'}, crossDomain: true, success: function(res){
+				if(res.result == "success"){
+					var data = $.parseJSON(res.data);
+					var row = data.row;
+					$.each(row, function(index, value) {
+						var id = index;
+						var idArr = id.split("_");
+						
+						if($("#"+id+"ismon").val()==0 && getValue($("#"+id+"t_vol_i").val())==0){
+							var dataArr = value.split(",");
+							$("#"+idArr[0]+"ucode").val(dataArr[0]);
+							$("#"+id+"code").val(dataArr[1]);
+							$("#"+id+"vol").val(dataArr[2]);
+							
+							$("#"+id+"buy_ulast").val("");
+							$("#"+id+"buy_last").val("");
+							$("#"+id+"buy_vol").val("");
+							$("#"+id+"buy_ratio").val("");
+							$("#"+id+"sell_ulast").val("");
+							$("#"+id+"sell_last").val("");
+							$("#"+id+"sell_vol").val("");
+							$("#"+id+"sell_ratio").val("");
+							$("#"+id+"t_vol_i").val("");
+							$("#"+id+"t_vol").val("");
+							$("#"+id+"bottom").val("");
+							$("#"+id+"ceiling").val("");
+							
+							setBuy(id);
+							
+							var setting = data.setting.split(",");
+							$("#default_sell_ulast").val(setting[0]);
+							$("#default_tick_out").val(setting[1]);
+							$("#default_tick_bottom").val(setting[2]);
+							$("#default_tick_ceiling").val(setting[3]);
+						}
+					});
+				}
+			}});
+		}
+	}else{
+		alert("監控中/有倉");
+	}
 }
 
 function initLogin(){
@@ -266,8 +299,8 @@ function initTable(){
         //codeContent += '<td><input type="text" name="" id="'+id2+'tc" class="tc" value="'+$("#default_tick_ceiling").val()+'" style="width:35px;text-align: center;" /></td>';
         codeContent += '<td><a id="'+id2+'as" class="button as disable" href="javascript:clickAS(\''+id2+'\');">開啟</a></td>';
         codeContent += '<td id="'+id2+'buy_status" class="border_right"></td>';
-        codeContent += '<td id="'+id2+'ulast">0.000</td>';
-        codeContent += '<td id="'+id2+'last">0.000</td>';
+        codeContent += '<td id="'+id2+'ulast">0</td>';
+        codeContent += '<td id="'+id2+'last">0</td>';
         codeContent += '<td class="border_right"><input type="text" name="" id="'+id2+'t_vol_i" class="t_vol_i" style="width: 66px;" /><input type="hidden" name="" id="'+id2+'t_vol" class="t_vol" /></td>';
         codeContent += '<td><input type="text" name="" id="'+id2+'bottom" class="bottom" /></td>';
         codeContent += '<td><input type="text" name="" id="'+id2+'ceiling" class="ceiling" /></td>';
@@ -383,7 +416,7 @@ function initTable(){
 								setSell(id);
 							}
 						}
-					}else{
+					}else if(isNaN(val2*1)){
 						$(this).val(val);
 						$("#"+id+"sell_last").val(getValBySpread(val, $("#default_tick_out").val()*sign));
 						if($("#default_tick_bottom").val()!=""){
@@ -682,8 +715,11 @@ function initTable(){
 	
 	$("#download_btn").click(function(){
 		//var data = "a,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\na,b,c\n1,2,3\n";
-		$("#download_btn2").attr('href','data:application/csv;charset=utf8,%EF%BB%BF當日成交\n時間,訂單狀態,訂單號碼,證代碼,買/賣,買入量,成交價,成交量,對盤牌號\n' + encodeURIComponent(journal_data)+'\n\n組合\n證代碼,平均買入價,買入總金額,平均賣出價,賣出總金額,總金額,盈虧\n'+ encodeURIComponent(combination_data));
-		$("#download_btn2").get(0).click();
+		
+		//$("#download_btn2").attr('href','data:application/csv;charset=utf8,%EF%BB%BF當日成交\n時間,訂單狀態,訂單號碼,證代碼,買/賣,買入量,成交價,成交量,對盤牌號\n' + encodeURIComponent(journal_data)+'\n\n組合\n證代碼,平均買入價,買入總金額,平均賣出價,賣出總金額,總金額,盈虧\n'+ encodeURIComponent(combination_data));
+		//$("#download_btn2").get(0).click();
+		
+		sendWsMsg(getWsMsg("allorders", ""));
 	});
 }
 
@@ -1068,7 +1104,7 @@ function getWsStatus(id, msg, type, bg, status){//console.log("getWsStatus:"+id+
 		result = "系統";
 	}else if(msg.indexOf("Exceed Throttle Limit")>-1){
 		result = "節流";
-	}else if(msg.indexOf("Insufficient Fund")>-1 || msg.indexOf("Exceed Buy Power")>-1){
+	}else if(msg.indexOf("Insufficient Fund")>-1 || msg.indexOf("Exceed Buy Power")>-1 || msg.indexOf("insufficient_fund")>-1){
 		result = "金額";
 	}else if(msg.indexOf("Underlying/Warrant Pair Not Matched")>-1){	//證標的不符
 		result = "標的";
@@ -1321,7 +1357,7 @@ function keyAction(id, checkBS=0){  //checkBS --> 1: spread+getbid/getask 	2: mo
 		
 		if ( event.key == "t" || event.key == "T"){
 			if(($("#"+id2+"as").hasClass("off") || !$("#"+id2+"as").hasClass("disable")) && $("#"+id2+"t_vol").val()==0){
-				clickAS(id2);
+				//clickAS(id2);
 			}
 		}
 	 //}
@@ -1410,7 +1446,7 @@ function asBtn(id){
 	
 	if($("#"+id+"force_buy").hasClass("disable") && $("#"+id+"monbuy").hasClass("disable")){
 		$("#"+id+"as").addClass("disable");
-	}else if(($("#"+id+"force_buy").hasClass("off") || $("#"+id+"buy").hasClass("off")) && !$("#"+id+"as").hasClass("off")){
+	}else if(($("#"+id+"force_buy").hasClass("off") || $("#"+id+"monbuy").hasClass("off")) && !$("#"+id+"as").hasClass("off")){
 		$("#"+id+"as").addClass("disable");
 	}else if(isUnderlying(ucode) && code>0 && vol!="" && sell_last>0 && sell_ulast>0 && ceiling>0){
 		$("#"+id+"as").removeClass("disable");//console.log("asBtn");
@@ -1805,6 +1841,7 @@ function goToPage(type){
 	}else if(type=="journal"){
 		$("#journal_table").html("");
 		$("#combination_table").html("");
+		$("#combination_all_table").html("");
 		$("#combination_table_sum_num").val(0);
 		$("#combination_table_profit_num").val(0);
 		$("#combination_table_sum").html("0");

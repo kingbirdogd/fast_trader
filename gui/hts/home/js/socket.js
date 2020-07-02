@@ -210,23 +210,27 @@ function getWsMsg(type, id){
 			return '{"type":"get_omdd_bestprice", "code": "'+code+'", "ref": "'+id+"-"+id2+"-"+type+'"}';
 		}*/
 		if(code*1>0){
-			return '{"cmd": "get_omdc_tradable", "code": '+code+', "ref": "'+id+"-"+id2+"-"+type+'"}';;
+			return '{"cmd": "get_omdc_tradable", "code": '+code+', "algo_name":"'+key+'", "ref": "'+id+"-"+id2+"-"+type+'"}';;
 		}else{
-			return '{"cmd": "get_omdd_tradable", "code":  "'+code+'", "ref": "'+id+"-"+id2+"-"+type+'"}';
+			return '{"cmd": "get_omdd_tradable", "code":  "'+code+'", "algo_name":"'+key+'", "ref": "'+id+"-"+id2+"-"+type+'"}';
 		}
 	}else if(type=="position"){
 		//return '{"type":"algo_command", "key":"'+key+'", "command":"position"}';
 		return '{"cmd": "position", "id": '+user_id+', "algo_name":"'+key+'", "ref": "position"}';
 	}else if(type=="orders"){
 		//return '{"type":"list_orders"}';
-		return '{"cmd": "order_list", "id": '+user_id+', "algo_name":"'+key+'", "ref": "orders"}';
+		return '{"cmd": "order_list", "id": '+user_id+', "algo_name":"'+key+'", "max_display":30, "ref": "orders"}';
+	}else if(type=="allorders"){
+		return '{"cmd": "order_list", "id": '+user_id+', "algo_name":"'+key+'", "ref": "allorders"}';
 	}else if(type=="getucode"){
 		//return '{"type":"get_warrant_underlying", "warrant": '+code+', "ref": "'+id+'"}';
 		return '{"cmd":"get_warrent_underlying", "code": '+code+', "ref": "'+id+'"}';
 	}else if(type=="get"){
 		return '{"cmd": "get", "id": '+user_id+', "algo_name":"'+key+'", "ref": "'+id+'"}';
 	}else if(type=="power"){
-		return '{"cmd": "get_buy_power", "id": '+user_id+', "ref": "power"}';
+		return '{"cmd": "get_buy_power", "id": '+user_id+', "algo_name":"'+key+'", "ref": "power"}';
+	}else if(type=="top_power"){
+		return '{"cmd": "get_top_buy_power", "id": '+user_id+', "algo_name":"'+key+'", "ref": "top_power"}';
 	}
 	
 	//return '{"type":"algo_command", "key":"'+key+'", "command": "'+msg+'", "refid": "'+id+'", "reftype": "'+reftype+'"}';
@@ -263,7 +267,7 @@ function initWebsocket(){
 				user_id = data.user_id;
 			}
 			console.log(today+" Receive"+receive_time+": "+received_msg);
-			if(data.algo_name != undefined && key != "" && key != data.algo_name){
+			if(data.algo_name != undefined && key != "" && key != data.algo_name && data.cmd!="get_top_buy_power"){
 			}else{
 				/*if(data.action!="log" && data.action!="handleOmdcTrade" && data.action!="handleOmddTrade" && data.action!="handleOmdcOrderBook" && data.action!="remind_buy" && data.action!="remind_sell" && data.action!="list_orders"){
 					console.log(today+" Receive"+receive_time+": "+received_msg);
@@ -512,6 +516,8 @@ function initWebsocket(){
 								$("#"+id+"ismon").val(0);
 								
 								//$("#"+id+"init").val(1);
+								$("#"+idArr[0]+"ucode").removeAttr('readonly');
+								$("#"+id+"code").removeAttr('readonly');
 							}
 							if(type!="stop"){
 								$("#"+idArr[0]+"ucode").attr('readonly','readonly');
@@ -534,9 +540,9 @@ function initWebsocket(){
 					
 					//buy: {"algo_name":"leo_semi","id":1,"msg_type":"semi_algo_odr_msg","odr":{"aon":"aon_type::non_ano","broker_id":"9712","code":58725,"exectuion_id":"","filled_quantity":1000000000000,"header":{"api_id":"api_id_flag::new_order","first_ref":0,"flag":"api_type_flag::single_reply","len":254,"order_id":1,"ref_data":"0x0000000000000100000000000000","session_id":"0x6C7A7764334A6435"},"match_price":8600000,"match_quantity":1000000000000,"match_records":[{"match_price":8600000,"match_quantity":1000000000000}],"order_ref":1,"ori_price":0,"ori_quantity":0,"price":8600000,"quantity":1000000000000,"reject_reason":"","remain_quantity":0,"rep_type":"report_type::order_fill","report_id":2,"side":"order_side::buy","status":"order_status::filled","transaction_tm":"20200527093428830","type":"order_type::sl"},"recovery":true,"ref":"u000_1","tm":1590543268831}
 					
-					//sell: {"algo_name":"leo_semi","id":1,"msg_type":"semi_algo_odr_msg","odr":{"aon":"aon_type::non_ano","broker_id":"9712","code":58725,"exectuion_id":"","filled_quantity":1000000000000,"header":{"api_id":"api_id_flag::new_order","first_ref":0,"flag":"api_type_flag::single_reply","len":254,"order_id":2,"ref_data":"0x0000000000000200000000000000","session_id":"0x6C7A7764334A6435"},"match_price":8700000,"match_quantity":1000000000000,"match_records":[{"match_price":8700000,"match_quantity":1000000000000}],"order_ref":3,"ori_price":0,"ori_quantity":0,"price":8700000,"quantity":1000000000000,"reject_reason":"","remain_quantity":0,"rep_type":"report_type::order_fill","report_id":4,"side":"order_side::sell","status":"order_status::filled","transaction_tm":"20200527093458398","type":"order_type::sl"},"recovery":true,"ref":"u000_1","tm":1590543298399} {"algo_name":"wendy_semi","auto_buy":false,"auto_sell":true,"buy_price":4000000,"buy_trigger":2450400000,"id":3,"msg_type":"semi_algo_odr_msg","odr":{"aon":"aon_type::non_ano","broker_id":"9712","code":51844,"exectuion_id":"","filled_quantity":1000000000000,"header":{"api_id":"api_id_flag::new_order","first_ref":0,"flag":"api_type_flag::single_reply","len":254,"order_id":111,"ref_data":"0x0000000000006F00000000000000","session_id":"0x4D31503141646766"},"match_price":4000000,"match_quantity":1000000000000,"match_records":[{"match_price":4000000,"match_quantity":1000000000000}],"order_ref":925,"ori_price":0,"ori_quantity":0,"price":4000000,"quantity":1000000000000,"reject_reason":"","remain_quantity":0,"rep_type":"report_type::order_fill","report_id":926,"side":"order_side::sell","status":"order_status::filled","transaction_tm":"20200622153509076","type":"order_type::sl"},"recovery":true,"ref":"u015_1","tm":1592811309076} {"algo_name":"wendy_semi","auto_buy":false,"auto_buy_qty":0,"auto_sell":false,"buy_price":27000000,"buy_trigger":47400000000,"id":3,"msg_type":"semi_algo_odr_msg","odr":{"aon":"aon_type::non_ano","broker_id":"9712","code":29710,"exectuion_id":"","filled_quantity":1000000000000,"header":{"api_id":"api_id_flag::new_order","first_ref":0,"flag":"api_type_flag::single_reply","len":254,"order_id":105,"ref_data":"0x0000000000006900000000000000","session_id":"0x476C4C7439386E57"},"match_price":27000000,"match_quantity":1000000000000,"match_records":[{"match_price":27000000,"match_quantity":1000000000000}],"order_ref":1093,"ori_price":0,"ori_quantity":0,"price":27000000,"quantity":1000000000000,"reject_reason":"","remain_quantity":0,"rep_type":"report_type::order_fill","report_id":1094,"side":"order_side::sell","status":"order_status::filled","transaction_tm":"20200622170820588","type":"order_type::sl"},"position":0,"recovery":true,"ref":"u000_1","tm":1592816900598}
+					//sell: {"algo_name":"leo_semi","auto_buy":false,"auto_buy_qty":3000000000000,"auto_sell":false,"buy_price":12800000,"buy_trigger":21200000000,"filled_price":12500000,"filled_quantity":3000000000000,"id":1,"last_price":12500000,"last_trigger_price":21200000000,"msg_type":"semi_algo_odr_msg","odr":{"aon":"aon_type::non_ano","broker_id":"9712","code":26901,"exectuion_id":"","filled_quantity":3000000000000,"header":{"api_id":"api_id_flag::new_order","first_ref":0,"flag":"api_type_flag::single_reply","len":254,"order_id":107,"ref_data":"0x0000000000006B00000000000000","session_id":"0x325545665864465A"},"match_price":12500000,"match_quantity":3000000000000,"match_records":[{"match_price":12500000,"match_quantity":3000000000000}],"order_ref":187,"ori_price":0,"ori_quantity":0,"price":12500000,"quantity":3000000000000,"reject_reason":"","remain_quantity":0,"rep_type":"report_type::order_fill","report_id":188,"side":"order_side::sell","status":"order_status::filled","transaction_tm":"20200630105639273","type":"order_type::sl"},"position":0,"reason":"","ref":"u007_1","side":"SELL","status":"filled","tm":1593485799274}
 					
-					//auto: {"algo_name":"leo_semi","auto_buy":false,"auto_sell":true,"buy_price":7300000,"buy_trigger":2322600000,"id":1,"msg_type":"semi_algo_odr_msg","odr":{"aon":"aon_type::non_ano","broker_id":"9712","code":58725,"exectuion_id":"","filled_quantity":1000000000000,"header":{"api_id":"api_id_flag::new_order","first_ref":0,"flag":"api_type_flag::single_reply","len":254,"order_id":2,"ref_data":"0x0000000000000200000000000000","session_id":"0x5532685432757534"},"match_price":7300000,"match_quantity":1000000000000,"match_records":[{"match_price":7300000,"match_quantity":1000000000000}],"order_ref":209,"ori_price":0,"ori_quantity":0,"price":7300000,"quantity":1000000000000,"reject_reason":"","remain_quantity":0,"rep_type":"report_type::order_fill","report_id":210,"side":"order_side::buy","status":"order_status::filled","transaction_tm":"20200527111355359","type":"order_type::sl"},"recovery":true,"ref":"u010_1","tm":1590549235359} {"algo_name":"leo_semi","auto_buy":false,"auto_sell":false,"buy_price":7300000,"buy_trigger":2322600000,"id":1,"msg_type":"semi_algo_odr_msg","odr":{"aon":"aon_type::non_ano","broker_id":"9712","code":58725,"exectuion_id":"","filled_quantity":1000000000000,"header":{"api_id":"api_id_flag::new_order","first_ref":0,"flag":"api_type_flag::single_reply","len":254,"order_id":3,"ref_data":"0x0000000000000300000000000000","session_id":"0x5532685432757534"},"match_price":7400000,"match_quantity":1000000000000,"match_records":[{"match_price":7400000,"match_quantity":1000000000000}],"order_ref":211,"ori_price":0,"ori_quantity":0,"price":7400000,"quantity":1000000000000,"reject_reason":"","remain_quantity":0,"rep_type":"report_type::order_fill","report_id":212,"side":"order_side::sell","status":"order_status::filled","transaction_tm":"20200527111355529","type":"order_type::sl"},"recovery":true,"ref":"u010_1","tm":1590549235529}
+					//auto: {"algo_name":"leo_semi","auto_buy":false,"auto_buy_qty":3000000000000,"auto_sell":true,"buy_price":12800000,"buy_trigger":21200000000,"filled_price":12800000,"filled_quantity":3000000000000,"id":1,"last_price":12800000,"last_trigger_price":21200000000,"msg_type":"semi_algo_odr_msg","odr":{"aon":"aon_type::non_ano","broker_id":"9712","code":26901,"exectuion_id":"","filled_quantity":3000000000000,"header":{"api_id":"api_id_flag::new_order","first_ref":0,"flag":"api_type_flag::single_reply","len":254,"order_id":103,"ref_data":"0x0000000000006700000000000000","session_id":"0x325545665864465A"},"match_price":12800000,"match_quantity":3000000000000,"match_records":[{"match_price":12800000,"match_quantity":3000000000000}],"order_ref":179,"ori_price":0,"ori_quantity":0,"price":12800000,"quantity":3000000000000,"reject_reason":"","remain_quantity":0,"rep_type":"report_type::order_fill","report_id":180,"side":"order_side::buy","status":"order_status::filled","transaction_tm":"20200630105638284","type":"order_type::sl"},"position":3000000000000,"reason":"","ref":"u007_1","side":"BUY","status":"filled","tm":1593485798285}
 					
 					//cancel: {"algo_name":"wendy_semi","auto_buy":false,"auto_sell":false,"buy_price":6600000,"buy_trigger":2287600000,"id":2,"msg_type":"semi_algo_odr_msg","odr":{"aon":"aon_type::non_ano","broker_id":"","code":0,"exectuion_id":"","filled_quantity":0,"header":{"api_id":"api_id_flag::modify_order","first_ref":0,"flag":"api_type_flag::single_reply","len":254,"order_id":0,"ref_data":"0x0000000000000000000000000000","session_id":"0x0000000000000000"},"match_price":0,"match_quantity":0,"match_records":[],"order_ref":0,"ori_price":0,"ori_quantity":0,"price":0,"quantity":0,"reject_reason":"Exceed Buy Power","remain_quantity":0,"rep_type":"report_type::order_report","report_id":0,"side":"order_side::buy","status":"order_status::canceled","transaction_tm":"","type":"order_type::pl"},"recovery":true,"ref":"u002_1","tm":1590658240691}
 					
@@ -545,7 +551,8 @@ function initWebsocket(){
 					var id = data.ref;
 					var idArr = id.split("_");
 					var status = "";
-					if(data.odr.status.indexOf("partial_fill")>1){
+					
+					/*if(data.odr.status.indexOf("partial_fill")>1){
 						status = "partial";
 					}else if(data.odr.status.indexOf("filled")>1){
 						status = "filled";
@@ -555,12 +562,29 @@ function initWebsocket(){
 						status = "cancel";
 					}else if(data.odr.status.indexOf("queued")>1){
 						status = "queued";
+					}*/
+					
+					if(data.status == "partial"){
+						status = "partial";
+					}else if(data.status == "filled"){
+						status = "filled";
+					}else if(data.status == "reject"){
+						status = "reject";
+					}else if(data.status == "cancel"){
+						status = "cancel";
+					}else if(data.status == "queued"){
+						status = "queued";
 					}
 					
 					var type="";
-					if(data.odr.side.indexOf("buy")>1){
+					/*if(data.odr.side.indexOf("buy")>1){
 						type = "buy";
 					}else if(data.odr.side.indexOf("sell")>1){
+						type = "sell";
+					}*/
+					if(data.side == "BUY"){
+						type = "buy";
+					}else if(data.side == "SELL"){
 						type = "sell";
 					}
 					if(status != "partial" && status != "queued"){
@@ -571,21 +595,28 @@ function initWebsocket(){
 						if(status == "filled"){
 							$("#"+id+"ismon").val(0);
 							
-							var price = data.odr.match_price;
+							/*var price = data.odr.match_price;
 							if(price == 0){
 								price = data.odr.match_records[0].match_price;
+							}*/
+							if(!isRecovery){
+								var ucode = $("#"+idArr[0]+"ucode").val();
+								updateFactor(ucode);
 							}
+							
+							$("#"+id+"ulast").text(data.last_trigger_price/factor);
+							$("#"+id+"last").text((data.last_price/factor_stock).toFixed(3)*1);
 							if(type=="buy"){
 								if(!isRecovery){
 									$("#audio-beep")[0].play();
 									
-									var ucode = $("#"+idArr[0]+"ucode").val();
-									updateFactor(ucode);
+									//var ucode = $("#"+idArr[0]+"ucode").val();
+									//updateFactor(ucode);
 									
-									$("#"+id+"ulast").text(data.buy_trigger/factor);
+									//$("#"+id+"ulast").text(data.buy_trigger/factor);
 								}
 								
-								$("#"+id+"last").text((price/factor_stock).toFixed(3)*1);
+								//$("#"+id+"last").text((price/factor_stock).toFixed(3)*1);
 								
 								/*$("#"+id+"vol").val(formatValue(data.odr.quantity/factor_stock));
 								$("#"+id+"t_vol").val($("#"+id+"t_vol").val()*1+(data.odr.filled_quantity/factor_stock));
@@ -617,14 +648,14 @@ function initWebsocket(){
 								//maxAmmount -= (price/factor_stock)*(data.odr.filled_quantity/factor_stock);
 							}else if(type=="sell"){
 								//$("#"+id+"ulast").text(data.sell_trriger/factor);
-								$("#"+id+"last").text((price/factor_stock).toFixed(3)*1);
+								//$("#"+id+"last").text((price/factor_stock).toFixed(3)*1);
 								
 								/*$("#"+id+"t_vol").val((data.odr.quantity-data.odr.filled_quantity)/factor_stock);
 								$("#"+id+"t_vol_i").val(formatValue((data.odr.quantity-data.odr.filled_quantity)/factor_stock));*/
 								$("#"+id+"t_vol").val(data.position/factor_stock);
 								$("#"+id+"t_vol_i").val(formatValue(data.position/factor_stock));
 								
-								$("#"+id+"sell_status").removeClass("bg_orange bg_green bg_red");
+								$("#"+id+"sell_status").removeClass("bg_orange bg_green bg_red bg_yellow");
 								$("#"+id+"sell_status").html("");
 								$("#"+id+"init").val(1);
 								$("#"+id+"monsell").removeClass("off");
@@ -634,6 +665,8 @@ function initWebsocket(){
 									$("#"+id+"force_sell").addClass("disable");
 									setBuy(id);
 								}else{
+									$("#"+id+"ismon").val(2);
+									$("#"+id+"monsell").addClass("off");
 									$("#"+id+"sell_status").addClass("bg_yellow");
 								}
 								
@@ -654,7 +687,7 @@ function initWebsocket(){
 										}
 									}
 								}
-								getWsStatus(id, data.odr.reject_reason, type, "bg_red", status);
+								getWsStatus(id, data.reason, type, "bg_red", status);
 							}
 						}
 					}
@@ -793,6 +826,137 @@ function initWebsocket(){
 					combination_map = {};
 				//}else if(data.action=="list_orders" && data.ordres != undefined){
 					//{"action":"list_orders","id":1,"ordres":[{"aon":"aon_type::non_ano","broker_id":"9712","code":12240,"exectuion_id":"","filled_quantity":1000000000000,"header":{"api_id":"api_id_flag::new_order","first_ref":0,"flag":"api_type_flag::single_reply","len":254,"order_id":2,"ref_data":"0x0000000000000200000000000000","session_id":"0x376F345842576F74"},"key":"leo_init_algo","match_price":3200000,"match_quantity":1000000000000,"match_records":[{"match_price":3200000,"match_quantity":1000000000000}],"order_ref":157,"price":3200000,"quantity":1000000000000,"reject_reason":"","remain_quantity":0,"rep_type":"report_type::order_fill","report_id":158,"side":"order_side::sell","status":"order_status::filled","transaction_tm":"20190815113155434","type":"order_type::sl"},{"aon":"aon_type::non_ano","broker_id":"9712","code":12240,"exectuion_id":"","filled_quantity":1000000000000,"header":{"api_id":"api_id_flag::new_order","first_ref":0,"flag":"api_type_flag::single_reply","len":254,"order_id":1,"ref_data":"0x0000000000000100000000000000","session_id":"0x376F345842576F74"},"key":"leo_init_algo","match_price":4100000,"match_quantity":1000000000000,"match_records":[{"match_price":4100000,"match_quantity":1000000000000}],"order_ref":155,"price":4100000,"quantity":1000000000000,"reject_reason":"","remain_quantity":0,"rep_type":"report_type::order_fill","report_id":156,"side":"order_side::buy","status":"order_status::filled","transaction_tm":"20190815113153228","type":"order_type::sl"}],"result":"success","type":"orders","tm":1565840461799}
+				}else if(data.ref=="allorders" && data.orders != undefined){
+					map={};
+					journal_data = "";
+					combination_all_data = "";
+					combination_all_array = Array();
+					combination_all_map = {};
+					
+					var order = data.orders;
+					var j=0;
+					var combination_all_table_sum_num=0;
+					var combination_all_table_profit_num=0;
+					
+					for(var i=0; i<order.length; i++){
+						if(order[i].transaction_tm==""){
+							continue;
+						}
+						var type = "";
+						var buy = 0;
+						var sell = 0;
+						var buy_sum = 0;
+						var sell_sum = 0;
+						var buy_count = 0;
+						var sell_count = 0;
+						var profit = 0;
+						var filled_quantity = order[i].filled_quantity/factor_stock;
+						var quantity = order[i].quantity/factor_stock;
+						var price = order[i].match_price/factor_stock;
+						var sum = price*filled_quantity;
+						var tradeStatus = "";
+						if(order[i].status.indexOf("filled")>1){
+							if(filled_quantity==quantity){
+								tradeStatus = "全部成交";
+							}else{
+								tradeStatus = "部份成交";
+							}
+							if(order[i].side.indexOf("buy")>1){
+								buy_count = 1;
+							}else if(order[i].side.indexOf("sell")>1){
+								sell_count = 1;
+							}
+							
+							if(price == 0){
+								price = order[i].match_records[0].match_price/factor_stock;
+								sum = price*filled_quantity;
+							}
+						}else if(order[i].status.indexOf("reject")>1){
+							tradeStatus = "拒絕";
+							if(order[i].reject_reason!=""){
+								tradeStatus += " ("+order[i].reject_reason+")";
+							}
+						}else if(order[i].status.indexOf("cancel")>1){
+							tradeStatus = "取消";
+						}
+						if(order[i].side.indexOf("buy")>1){
+							type = "買";
+							buy = price;
+							//buy_count = 1;
+							buy_sum = sum;
+							profit = sum*(-1);
+						}else if(order[i].side.indexOf("sell")>1){
+							type = "賣";
+							sell = price;
+							//sell_count = 1;
+							sell_sum = sum;
+							profit = sum;
+						}
+						
+						var time = order[i].transaction_tm.substr(8, 2)+":"+order[i].transaction_tm.substr(10, 2)+":"+order[i].transaction_tm.substr(12, 2);
+						var content = "<tr><td>"+time+"</td><td>"+tradeStatus+"</td><td>"+order[i].header.order_id+"</td><td>"+order[i].code+"</td><td>"+type+"</td><td>"+formatValue(quantity)+"</td><td>"+price+"</td><td>"+formatValue(filled_quantity)+"</td><td>"+order[i].order_ref+"</td></tr>";
+						
+						journal_data += time+","+tradeStatus+","+order[i].header.order_id+","+order[i].code+","+type+","+formatValue(quantity)+","+price+","+formatValue(filled_quantity)+","+order[i].order_ref+"\n";
+						
+						if(order[i].status.indexOf("filled")>1){
+							if(map[order[i].code]!=1){
+								map[order[i].code]=1;
+								
+								$("#combination_all_table").append("<tr id='combination_all_tr_"+order[i].code+"'><td class='code'>"+order[i].code+"<input type='hidden' class='buy_count' value='"+buy_count+"' /><input type='hidden' class='buy_avg_price' value='"+buy+"' /><input type='hidden' class='buy_total_price' value='"+buy_sum+"' /><input type='hidden' class='sell_count' value='"+sell_count+"' /><input type='hidden' class='sell_avg_price' value='"+sell+"' /><input type='hidden' class='sell_total_price' value='"+sell_sum+"' /><input type='hidden' class='total' value='"+sum+"' /><input type='hidden' class='profit' value='"+profit+"' /></td><td class='buy_avg_price'>"+buy+"</td><td class='buy_total_price'>"+addcomma(buy_sum.toFixed(2)*1)+"</td><td class='sell_avg_price'>"+sell+"</td><td class='sell_total_price'>"+addcomma(sell_sum.toFixed(2)*1)+"</td><td class='total'>"+addcomma(sum.toFixed(2)*1)+"</td><td class='profit'>"+formatProfit(profit.toFixed(2)*1)+"</td></tr>");
+								
+								combination_all_array[j] = order[i].code+","+buy+","+(buy_sum.toFixed(2)*1)+","+sell+","+(sell_sum.toFixed(2)*1)+","+(sum.toFixed(2)*1)+","+(profit.toFixed(2)*1)+"\n";
+								combination_all_map[order[i].code]=j;
+								j++;
+							}else{
+								$("#combination_all_tr_"+order[i].code+" input.total").val($("#combination_all_tr_"+order[i].code+" input.total").val()*1+sum);
+								$("#combination_all_tr_"+order[i].code+" td.total").html(addcomma(($("#combination_all_tr_"+order[i].code+" input.total").val()*1).toFixed(2)*1));
+								$("#combination_all_tr_"+order[i].code+" input.profit").val($("#combination_all_tr_"+order[i].code+" input.profit").val()*1+profit);
+								$("#combination_all_tr_"+order[i].code+" td.profit").html(formatProfit(($("#combination_all_tr_"+order[i].code+" input.profit").val()*1).toFixed(2)*1));
+								$("#combination_all_tr_"+order[i].code+" input.buy_count").val($("#combination_all_tr_"+order[i].code+" input.buy_count").val()*1+buy_count);
+								$("#combination_all_tr_"+order[i].code+" input.buy_total_price").val($("#combination_all_tr_"+order[i].code+" input.buy_total_price").val()*1+buy_sum);
+								$("#combination_all_tr_"+order[i].code+" td.buy_total_price").html(addcomma(($("#combination_all_tr_"+order[i].code+" input.buy_total_price").val()*1).toFixed(2)*1));
+								$("#combination_all_tr_"+order[i].code+" input.buy_avg_price").val($("#combination_all_tr_"+order[i].code+" input.buy_avg_price").val()*1+buy);
+								if($("#combination_all_tr_"+order[i].code+" input.buy_count").val()*1>0){
+									$("#combination_all_tr_"+order[i].code+" td.buy_avg_price").html(addcomma((($("#combination_all_tr_"+order[i].code+" input.buy_avg_price").val()*1)/$("#combination_all_tr_"+order[i].code+" input.buy_count").val()*1).toFixed(4)*1));
+								}
+								$("#combination_all_tr_"+order[i].code+" input.sell_count").val($("#combination_all_tr_"+order[i].code+" input.sell_count").val()*1+sell_count);
+								$("#combination_all_tr_"+order[i].code+" input.sell_total_price").val($("#combination_all_tr_"+order[i].code+" input.sell_total_price").val()*1+sell_sum);
+								$("#combination_all_tr_"+order[i].code+" td.sell_total_price").html(addcomma(($("#combination_all_tr_"+order[i].code+" input.sell_total_price").val()*1).toFixed(2)*1));
+								$("#combination_all_tr_"+order[i].code+" input.sell_avg_price").val($("#combination_all_tr_"+order[i].code+" input.sell_avg_price").val()*1+sell);
+								if($("#combination_all_tr_"+order[i].code+" input.sell_count").val()*1>0){
+									$("#combination_all_tr_"+order[i].code+" td.sell_avg_price").html(addcomma((($("#combination_all_tr_"+order[i].code+" input.sell_avg_price").val()*1)/$("#combination_all_tr_"+order[i].code+" input.sell_count").val()*1).toFixed(4)*1));
+								}
+								combination_all_array[combination_all_map[order[i].code]] = order[i].code+",";
+								
+								if($("#combination_all_tr_"+order[i].code+" input.buy_count").val()*1>0){
+									combination_all_array[combination_all_map[order[i].code]] += ((($("#combination_all_tr_"+order[i].code+" input.buy_avg_price").val()*1)/$("#combination_all_tr_"+order[i].code+" input.buy_count").val()*1).toFixed(4)*1);
+								}else{
+									combination_all_array[combination_all_map[order[i].code]] += "0";
+								}
+								
+								combination_all_array[combination_all_map[order[i].code]] += ","+(($("#combination_all_tr_"+order[i].code+" input.buy_total_price").val()*1).toFixed(2)*1)+",";
+								
+								if($("#combination_all_tr_"+order[i].code+" input.sell_count").val()*1>0){
+									combination_all_array[combination_all_map[order[i].code]] += ((($("#combination_all_tr_"+order[i].code+" input.sell_avg_price").val()*1)/$("#combination_all_tr_"+order[i].code+" input.sell_count").val()*1).toFixed(4)*1);
+								}else{
+									combination_all_array[combination_all_map[order[i].code]] += "0";
+								}
+								
+								combination_all_array[combination_all_map[order[i].code]] += ","+(($("#combination_all_tr_"+order[i].code+" input.sell_total_price").val()*1).toFixed(2)*1)+","+(($("#combination_all_tr_"+order[i].code+" input.total").val()*1).toFixed(2)*1)+","+(($("#combination_all_tr_"+order[i].code+" input.profit").val()*1).toFixed(2)*1)+"\n";
+								
+							}
+							combination_all_table_sum_num = combination_all_table_sum_num*1+sum;
+							combination_all_table_profit_num = combination_all_table_profit_num*1+profit;
+						}
+					}
+					
+					for(var i=0; i<combination_all_array.length; i++){
+						combination_all_data += combination_all_array[i];
+					}
+					combination_all_data += "摘要,,,,,"+((combination_all_table_sum_num*1).toFixed(2)*1)+","+((combination_all_table_profit_num*1).toFixed(2)*1)+"\n";
+					
+					$("#download_btn2").attr('href','data:application/csv;charset=utf8,%EF%BB%BF當日成交\n時間,訂單狀態,訂單號碼,證代碼,買/賣,買入量,成交價,成交量,對盤牌號\n' + encodeURIComponent(journal_data)+'\n\n組合\n證代碼,平均買入價,買入總金額,平均賣出價,賣出總金額,總金額,盈虧\n'+ encodeURIComponent(combination_all_data));
+					$("#download_btn2").get(0).click();
 				}else if(data.ref=="orders" && data.orders != undefined){
 					
 					map={};
@@ -865,56 +1029,54 @@ function initWebsocket(){
 							var time = order[i].transaction_tm.substr(8, 2)+":"+order[i].transaction_tm.substr(10, 2)+":"+order[i].transaction_tm.substr(12, 2);
 							var content = "<tr><td>"+time+"</td><td>"+tradeStatus+"</td><td>"+order[i].header.order_id+"</td><td>"+order[i].code+"</td><td>"+type+"</td><td>"+formatValue(quantity)+"</td><td>"+price+"</td><td>"+formatValue(filled_quantity)+"</td><td>"+order[i].order_ref+"</td></tr>";
 							$("#journal_table").append(content);
-							journal_data += time+","+tradeStatus+","+order[i].header.order_id+","+order[i].code+","+type+","+formatValue(quantity)+","+price+","+formatValue(filled_quantity)+","+order[i].order_ref+"\n";
+							//journal_data += time+","+tradeStatus+","+order[i].header.order_id+","+order[i].code+","+type+","+formatValue(quantity)+","+price+","+formatValue(filled_quantity)+","+order[i].order_ref+"\n";
 							
-							if(map[order[i].code]!=1){
-								map[order[i].code]=1;
-								
-								$("#combination_table").append("<tr id='combination_tr_"+order[i].code+"'><td class='code'>"+order[i].code+"<input type='hidden' class='buy_count' value='"+buy_count+"' /><input type='hidden' class='buy_avg_price' value='"+buy+"' /><input type='hidden' class='buy_total_price' value='"+buy_sum+"' /><input type='hidden' class='sell_count' value='"+sell_count+"' /><input type='hidden' class='sell_avg_price' value='"+sell+"' /><input type='hidden' class='sell_total_price' value='"+sell_sum+"' /><input type='hidden' class='total' value='"+sum+"' /><input type='hidden' class='profit' value='"+profit+"' /></td><td class='buy_avg_price'>"+buy+"</td><td class='buy_total_price'>"+addcomma(buy_sum.toFixed(2)*1)+"</td><td class='sell_avg_price'>"+sell+"</td><td class='sell_total_price'>"+addcomma(sell_sum.toFixed(2)*1)+"</td><td class='total'>"+addcomma(sum.toFixed(2)*1)+"</td><td class='profit'>"+formatProfit(profit.toFixed(2)*1)+"</td></tr>");
-								
-								combination_array[j] = order[i].code+","+buy+","+(buy_sum.toFixed(2)*1)+","+sell+","+(sell_sum.toFixed(2)*1)+","+(sum.toFixed(2)*1)+","+(profit.toFixed(2)*1)+"\n";
-								combination_map[order[i].code]=j;
-								j++;
-							}else{
-								$("#combination_tr_"+order[i].code+" input.total").val($("#combination_tr_"+order[i].code+" input.total").val()*1+sum);
-								$("#combination_tr_"+order[i].code+" td.total").html(addcomma(($("#combination_tr_"+order[i].code+" input.total").val()*1).toFixed(2)*1));
-								$("#combination_tr_"+order[i].code+" input.profit").val($("#combination_tr_"+order[i].code+" input.profit").val()*1+profit);
-								$("#combination_tr_"+order[i].code+" td.profit").html(formatProfit(($("#combination_tr_"+order[i].code+" input.profit").val()*1).toFixed(2)*1));
-								$("#combination_tr_"+order[i].code+" input.buy_count").val($("#combination_tr_"+order[i].code+" input.buy_count").val()*1+buy_count);
-								$("#combination_tr_"+order[i].code+" input.buy_total_price").val($("#combination_tr_"+order[i].code+" input.buy_total_price").val()*1+buy_sum);
-								$("#combination_tr_"+order[i].code+" td.buy_total_price").html(addcomma(($("#combination_tr_"+order[i].code+" input.buy_total_price").val()*1).toFixed(2)*1));
-								$("#combination_tr_"+order[i].code+" input.buy_avg_price").val($("#combination_tr_"+order[i].code+" input.buy_avg_price").val()*1+buy);
-								if($("#combination_tr_"+order[i].code+" input.buy_count").val()*1>0){
-									$("#combination_tr_"+order[i].code+" td.buy_avg_price").html(addcomma((($("#combination_tr_"+order[i].code+" input.buy_avg_price").val()*1)/$("#combination_tr_"+order[i].code+" input.buy_count").val()*1).toFixed(4)*1));
+							if(order[i].status.indexOf("filled")>1){
+								if(map[order[i].code]!=1){
+									map[order[i].code]=1;
+									
+									$("#combination_table").append("<tr id='combination_tr_"+order[i].code+"'><td class='code'>"+order[i].code+"<input type='hidden' class='buy_count' value='"+buy_count+"' /><input type='hidden' class='buy_avg_price' value='"+buy+"' /><input type='hidden' class='buy_total_price' value='"+buy_sum+"' /><input type='hidden' class='sell_count' value='"+sell_count+"' /><input type='hidden' class='sell_avg_price' value='"+sell+"' /><input type='hidden' class='sell_total_price' value='"+sell_sum+"' /><input type='hidden' class='total' value='"+sum+"' /><input type='hidden' class='profit' value='"+profit+"' /></td><td class='buy_avg_price'>"+buy+"</td><td class='buy_total_price'>"+addcomma(buy_sum.toFixed(2)*1)+"</td><td class='sell_avg_price'>"+sell+"</td><td class='sell_total_price'>"+addcomma(sell_sum.toFixed(2)*1)+"</td><td class='total'>"+addcomma(sum.toFixed(2)*1)+"</td><td class='profit'>"+formatProfit(profit.toFixed(2)*1)+"</td></tr>");
+									
+									//combination_array[j] = order[i].code+","+buy+","+(buy_sum.toFixed(2)*1)+","+sell+","+(sell_sum.toFixed(2)*1)+","+(sum.toFixed(2)*1)+","+(profit.toFixed(2)*1)+"\n";
+									//combination_map[order[i].code]=j;
+									j++;
+								}else{
+									$("#combination_tr_"+order[i].code+" input.total").val($("#combination_tr_"+order[i].code+" input.total").val()*1+sum);
+									$("#combination_tr_"+order[i].code+" td.total").html(addcomma(($("#combination_tr_"+order[i].code+" input.total").val()*1).toFixed(2)*1));
+									$("#combination_tr_"+order[i].code+" input.profit").val($("#combination_tr_"+order[i].code+" input.profit").val()*1+profit);
+									$("#combination_tr_"+order[i].code+" td.profit").html(formatProfit(($("#combination_tr_"+order[i].code+" input.profit").val()*1).toFixed(2)*1));
+									$("#combination_tr_"+order[i].code+" input.buy_count").val($("#combination_tr_"+order[i].code+" input.buy_count").val()*1+buy_count);
+									$("#combination_tr_"+order[i].code+" input.buy_total_price").val($("#combination_tr_"+order[i].code+" input.buy_total_price").val()*1+buy_sum);
+									$("#combination_tr_"+order[i].code+" td.buy_total_price").html(addcomma(($("#combination_tr_"+order[i].code+" input.buy_total_price").val()*1).toFixed(2)*1));
+									$("#combination_tr_"+order[i].code+" input.buy_avg_price").val($("#combination_tr_"+order[i].code+" input.buy_avg_price").val()*1+buy);
+									if($("#combination_tr_"+order[i].code+" input.buy_count").val()*1>0){
+										$("#combination_tr_"+order[i].code+" td.buy_avg_price").html(addcomma((($("#combination_tr_"+order[i].code+" input.buy_avg_price").val()*1)/$("#combination_tr_"+order[i].code+" input.buy_count").val()*1).toFixed(4)*1));
+									}
+									$("#combination_tr_"+order[i].code+" input.sell_count").val($("#combination_tr_"+order[i].code+" input.sell_count").val()*1+sell_count);
+									$("#combination_tr_"+order[i].code+" input.sell_total_price").val($("#combination_tr_"+order[i].code+" input.sell_total_price").val()*1+sell_sum);
+									$("#combination_tr_"+order[i].code+" td.sell_total_price").html(addcomma(($("#combination_tr_"+order[i].code+" input.sell_total_price").val()*1).toFixed(2)*1));
+									$("#combination_tr_"+order[i].code+" input.sell_avg_price").val($("#combination_tr_"+order[i].code+" input.sell_avg_price").val()*1+sell);
+									if($("#combination_tr_"+order[i].code+" input.sell_count").val()*1>0){
+										$("#combination_tr_"+order[i].code+" td.sell_avg_price").html(addcomma((($("#combination_tr_"+order[i].code+" input.sell_avg_price").val()*1)/$("#combination_tr_"+order[i].code+" input.sell_count").val()*1).toFixed(4)*1));
+									}
+									//combination_array[combination_map[order[i].code]] = order[i].code+","+((($("#combination_tr_"+order[i].code+" input.buy_avg_price").val()*1)/$("#combination_tr_"+order[i].code+" input.buy_count").val()*1).toFixed(4)*1)+","+(($("#combination_tr_"+order[i].code+" input.buy_total_price").val()*1).toFixed(2)*1)+","+((($("#combination_tr_"+order[i].code+" input.sell_avg_price").val()*1)/$("#combination_tr_"+order[i].code+" input.sell_count").val()*1).toFixed(4)*1)+","+(($("#combination_tr_"+order[i].code+" input.sell_total_price").val()*1).toFixed(2)*1)+","+(($("#combination_tr_"+order[i].code+" input.total").val()*1).toFixed(2)*1)+","+(($("#combination_tr_"+order[i].code+" input.profit").val()*1).toFixed(2)*1)+"\n";
 								}
-								$("#combination_tr_"+order[i].code+" input.sell_count").val($("#combination_tr_"+order[i].code+" input.sell_count").val()*1+sell_count);
-								$("#combination_tr_"+order[i].code+" input.sell_total_price").val($("#combination_tr_"+order[i].code+" input.sell_total_price").val()*1+sell_sum);
-								$("#combination_tr_"+order[i].code+" td.sell_total_price").html(addcomma(($("#combination_tr_"+order[i].code+" input.sell_total_price").val()*1).toFixed(2)*1));
-								$("#combination_tr_"+order[i].code+" input.sell_avg_price").val($("#combination_tr_"+order[i].code+" input.sell_avg_price").val()*1+sell);
-								if($("#combination_tr_"+order[i].code+" input.sell_count").val()*1>0){
-									$("#combination_tr_"+order[i].code+" td.sell_avg_price").html(addcomma((($("#combination_tr_"+order[i].code+" input.sell_avg_price").val()*1)/$("#combination_tr_"+order[i].code+" input.sell_count").val()*1).toFixed(4)*1));
-								}
-								combination_array[combination_map[order[i].code]] = order[i].code+","+((($("#combination_tr_"+order[i].code+" input.buy_avg_price").val()*1)/$("#combination_tr_"+order[i].code+" input.buy_count").val()*1).toFixed(4)*1)+","+(($("#combination_tr_"+order[i].code+" input.buy_total_price").val()*1).toFixed(2)*1)+","+((($("#combination_tr_"+order[i].code+" input.sell_avg_price").val()*1)/$("#combination_tr_"+order[i].code+" input.sell_count").val()*1).toFixed(4)*1)+","+(($("#combination_tr_"+order[i].code+" input.sell_total_price").val()*1).toFixed(2)*1)+","+(($("#combination_tr_"+order[i].code+" input.total").val()*1).toFixed(2)*1)+","+(($("#combination_tr_"+order[i].code+" input.profit").val()*1).toFixed(2)*1)+"\n";
+								$("#combination_table_sum_num").val($("#combination_table_sum_num").val()*1+sum);
+								$("#combination_table_profit_num").val($("#combination_table_profit_num").val()*1+profit);
+								$("#combination_table_sum").html(addcomma(($("#combination_table_sum_num").val()*1).toFixed(2)*1));
+								$("#combination_table_profit").html(formatProfit(($("#combination_table_profit_num").val()*1).toFixed(2)*1));
 							}
-							$("#combination_table_sum_num").val($("#combination_table_sum_num").val()*1+sum);
-							$("#combination_table_profit_num").val($("#combination_table_profit_num").val()*1+profit);
-							$("#combination_table_sum").html(addcomma(($("#combination_table_sum_num").val()*1).toFixed(2)*1));
-							$("#combination_table_profit").html(formatProfit(($("#combination_table_profit_num").val()*1).toFixed(2)*1));
 						}
 						
-						for(var i=0; i<combination_array.length; i++){
+						/*for(var i=0; i<combination_array.length; i++){
 							combination_data += combination_array[i];
 						}
-						combination_data += "摘要,,,,,"+(($("#combination_table_sum_num").val()*1).toFixed(2)*1)+","+(($("#combination_table_profit_num").val()*1).toFixed(2)*1)+"\n";
+						combination_data += "摘要,,,,,"+(($("#combination_table_sum_num").val()*1).toFixed(2)*1)+","+(($("#combination_table_profit_num").val()*1).toFixed(2)*1)+"\n";*/
 					//}else{
 						
 					//}
 				}else if(data.msg_type=="semi_algo_get"){
-					//buy: "algo_name":"leo_semi","id":1,"msg_type":"semi_algo_get","pair":{"auto_buy":true,"auto_buy_id":0,"auto_buy_quantity":1000000000000,"auto_sell":false,"auto_sell_id":0,"bottom_price":7900000,"buy_price":8200000,"buy_trriger":2337100000,"ceiling_price":8300000,"early_buy_qty":0,"early_sell_qty":0,"is_bull":true,"is_buying":false,"is_selling":false,"position":0,"ratio_buy":0,"ratio_sell":0,"ref":"u004_1","sell_price":8300000,"sell_trriger":2337100000,"underlying_code":72683426,"underlying_symbol":"HSIK0","warrant_code":58725},"ref":"u004_1","result":"SUCCESS","tm":1590469750506}
-					
-					//auto: {"algo_name":"leo_semi","id":1,"msg_type":"semi_algo_get","pair":{"auto_buy":true,"auto_buy_id":0,"auto_buy_quantity":1000000000000,"auto_sell":true,"auto_sell_id":0,"bottom_price":9000000,"buy_price":9300000,"buy_trriger":20260000000,"ceiling_price":9400000,"early_buy_qty":0,"early_sell_qty":0,"is_bull":true,"is_buying":false,"is_selling":false,"position":0,"ratio_buy":0,"ratio_sell":0,"ref":"u002_1","sell_price":9400000,"sell_trriger":20280000000,"underlying_code":9988,"underlying_symbol":"","warrant_code":18016},"ref":"u002_1","result":"SUCCESS","tm":1590469750506}
-					
-					//sell: {"algo_name":"leo_semi","id":1,"msg_type":"semi_algo_get","pair":{"auto_buy":false,"auto_buy_id":0,"auto_buy_quantity":1000000000000,"auto_sell":true,"auto_sell_id":0,"bottom_price":12900000,"buy_price":13200000,"buy_trriger":42340000000,"ceiling_price":13300000,"early_buy_qty":0,"early_sell_qty":0,"is_bull":true,"is_buying":false,"is_selling":false,"position":0,"ratio_buy":0,"ratio_sell":0,"ref":"u000_1","sell_price":13300000,"sell_trriger":42360000000,"underlying_code":700,"underlying_symbol":"","warrant_code":29707},"ref":"u000_1","result":"SUCCESS","tm":1590469542001}
+					//{"algo_name":"leo_semi","id":1,"msg_type":"semi_algo_get","pair":{"auto_buy":false,"auto_buy_id":102,"auto_buy_quantity":4000000000000,"auto_sell":false,"auto_sell_id":106,"bottom_price":12500000,"buy_price":12800000,"buy_trriger":21200000000,"ceiling_price":12900000,"early_buy_qty":0,"early_sell_qty":0,"is_bull":true,"is_buying":false,"is_reset_position":false,"is_selling":false,"last_price":12500000,"last_trigger_price":21200000000,"position":0,"ratio_buy":0,"ratio_sell":0,"ref":"u008_1","sell_price":12800000,"sell_trriger":21200000000,"underlying_code":9988,"underlying_symbol":"","warrant_code":26901},"ref":"u008_1","result":"SUCCESS","tm":1593486569214}
 					
 					var id = data.ref;
 					var stop_sell = false;
@@ -975,11 +1137,12 @@ function initWebsocket(){
 							$("#"+id+"ceiling").val(data.pair.ceiling_price/factor_stock);
 						}
 						
-						if($("#"+id+"rc_action").val()=="buy"){
-							$("#"+id+"ulast").val(data.pair.buy_trriger/factor);
+						/*if($("#"+id+"rc_action").val()=="buy"){
+							$("#"+id+"ulast").html(data.pair.buy_trriger/factor);
 						}else if($("#"+id+"rc_action").val()=="sell"){
-							$("#"+id+"ulast").val(data.pair.sell_trriger/factor);
-						}
+							$("#"+id+"ulast").html(data.pair.sell_trriger/factor);
+						}*/
+						
 						
 						$("#"+id+"buy_vol").val(formatValue(data.pair.early_buy_qty));
 						$("#"+id+"sell_vol").val(formatValue(data.pair.early_sell_qty));
@@ -992,15 +1155,22 @@ function initWebsocket(){
 						$("#"+id+"sell_status").removeClass("bg_red");
 						$("#"+id+"sell_status").html("");
 						
-						//$("#"+id+"vol").val(formatValue(data.pair.auto_buy_quantity/factor_stock));
+						$("#"+id+"vol").val(formatValue(data.pair.auto_buy_quantity/factor_stock));
 						
 						$("#"+id+"t_vol").val(data.pair.position/factor_stock);
 						$("#"+id+"t_vol_i").val(formatValue(data.pair.position/factor_stock));
 						
+						$("#"+id+"ulast").text(data.pair.last_trigger_price/factor);
+						$("#"+id+"last").text((data.pair.last_price/factor_stock).toFixed(3)*1);
+						
 						if(data.pair.position==0){
 							$("#"+id+"sell_status").removeClass("bg_orange");
+							//$("#"+id+"ulast").text(data.pair.sell_trriger/factor);
+							//$("#"+id+"last").text((data.pair.sell_price/factor_stock).toFixed(3)*1);
 						}else{
 							$("#"+id+"sell_status").addClass("bg_orange");
+							//$("#"+id+"ulast").text(data.pair.buy_trriger/factor);
+							//$("#"+id+"last").text((data.pair.buy_price/factor_stock).toFixed(3)*1);
 						}
 						
 						if(type!="update"){
@@ -1027,8 +1197,8 @@ function initWebsocket(){
 								$("#"+id+"buy_status").html("");
 								$("#"+id+"ismon").val(1);
 							}else if(type=="sell"){
-								$("#"+id+"t_vol").val(data.pair.auto_buy_quantity/factor_stock);
-								$("#"+id+"t_vol_i").val(formatValue(data.pair.auto_buy_quantity/factor_stock));
+								//$("#"+id+"t_vol").val(data.pair.auto_buy_quantity/factor_stock);
+								//$("#"+id+"t_vol_i").val(formatValue(data.pair.auto_buy_quantity/factor_stock));
 								
 								$("#"+id+"monsell").removeClass("disable");
 								$("#"+id+"force_sell").removeClass("disable off");
@@ -1077,6 +1247,14 @@ function initWebsocket(){
 				}else if(data.cmd=="get_buy_power"){
 					//{"buy_power":999999999,"cmd":"get_buy_power","id":1,"ref":"power","tm":1590398976167}
 					maxAmmount = data.buy_power*1;
+					sendWsMsg(getWsMsg("top_power", ""));
+					//sendWsMsg(getWsMsg("position", ""));
+				}else if(data.cmd=="get_top_buy_power"){
+					//{"buy_power":999999999,"cmd":"get_buy_power","id":1,"ref":"power","tm":1590398976167}
+					var maxAmmountTop = data.buy_power*1;
+					if(maxAmmount>maxAmmountTop){
+						maxAmmount=maxAmmountTop;
+					}
 					sendWsMsg(getWsMsg("position", ""));
 				}else if(data.msg_type=="semi_algo_del"){
 					//{"algo_name":"leo_semi","id":1,"msg_type":"semi_algo_del","pair":{"auto_buy":false,"auto_buy_id":0,"auto_buy_quantity":1000000000000,"auto_sell":false,"auto_sell_id":0,"bottom_price":10700000,"buy_price":11000000,"buy_trriger":41640000000,"early_buy_qty":0,"early_sell_qty":0,"is_bull":true,"is_buying":true,"is_selling":false,"position":0,"ref":"u000_1","sell_price":11000000,"sell_trriger":41640000000,"underlying_code":700,"underlying_symbol":"","warrant_code":29707},"ref":"u000_1","result":"SUCCESS","tm":1590399426175}
