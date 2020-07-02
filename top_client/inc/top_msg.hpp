@@ -717,7 +717,7 @@ namespace dbp
 			long long ledger;
 			long long special_limit;
 			long long buying_power;
-			long long currency;
+			char currency[4];
 			buy_power_response():
 				header
 				(
@@ -730,7 +730,7 @@ namespace dbp
 				ledger(0),
 				special_limit(0),
 				buying_power(0),
-				currency(0)
+				currency{0}
 			{
 			}
 			json_type to_json() const
