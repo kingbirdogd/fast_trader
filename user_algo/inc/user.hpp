@@ -142,7 +142,7 @@ public:
 	_odr_map()
 	{
 		_client->set_on_order([&](const dbp::top::enhance_order& odr){handler_order(odr);});
-		_client->set_on_top_buy_power([&](const std::string& ref, long long buy_power){handler_buy_power(ref, buy_power);});
+		_client->set_on_top_buy_power([&](const std::string& ref, const std::string& algo_name, long long buy_power){handler_buy_power(ref, algo_name, buy_power);});
 		cfg.x_depends_y(_md, broadcastQueue);
 	}
 	template <typename TCfg>
@@ -163,7 +163,7 @@ public:
 	_odr_map()
 	{
 		_client->set_on_order([&](const dbp::top::enhance_order& odr){handler_order(odr);});
-		_client->set_on_top_buy_power([&](const std::string& ref, long long buy_power){handler_buy_power(ref, buy_power);});
+		_client->set_on_top_buy_power([&](const std::string& ref, const std::string& algo_name, long long buy_power){handler_buy_power(ref, algo_name, buy_power);});
 		cfg.x_depends_y(_md, broadcastQueue);
 	}
 	user(const user&) = delete;
@@ -192,10 +192,10 @@ public:
 	unsigned long long get_id();
 	algo* get_algo(const std::string& name);
 	std::unordered_map<std::string, std::string> get_algos();
-	bool get_top_buy_power(const std::string& ref);
+	bool get_top_buy_power(const std::string& ref, const std::string& algo_name);
 private:
 	void handler_order(const dbp::top::enhance_order& odr);
-	void handler_buy_power(const std::string& ref, long long buy_power);
+	void handler_buy_power(const std::string& ref, const std::string& algo_name, long long buy_power);
 public:
 	static rapid_ring::spsc_ring_buffer_object_pool<user_order_list, 8192> user_order_list_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<user_buy_power, 8192> user_buy_power_pool;

@@ -148,7 +148,8 @@ inline void decode()
 			else if (cmd == "get_top_buy_power")
 			{
 				auto ref = j["ref"].get<std::string>();
-				auto result = u.get_top_buy_power(ref);
+				auto algo_name = j["algo_name"].get<std::string>();
+				auto result = u.get_top_buy_power(ref, algo_name);
 				if (!result)
 				{
 					j["error"] = "get_top_buy_power client not ready";

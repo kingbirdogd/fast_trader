@@ -195,11 +195,11 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 						auto it = _top_buy_power_map.find(response.order_id);
 						if (_top_buy_power_map.end() != it)
 						{
-							flush_printf("buy_power response msg found ref, ref:%s\n", it->second.c_str());
+							flush_printf("buy_power response msg found ref, ref:%s, algo_name:%s\n", it->second.ref.c_str(), it->second.algo_name.c_str());
 							if (_on_top_buy_power)
 							{
-								flush_printf("buy_power response msg callback, ref:%s\n", it->second.c_str());
-								_on_top_buy_power(it->second, response.buying_power);
+								flush_printf("buy_power response msg callback ref, ref:%s, algo_name:%s\n", it->second.ref.c_str(), it->second.algo_name.c_str());
+								_on_top_buy_power(it->second.ref, it->second.algo_name, response.buying_power);
 							}
 						}
 						break;
@@ -358,7 +358,7 @@ dbp::top::enhance_order top_client::new_order
 	}
 }
 
-bool top_client::get_top_buy_power(const std::string& ref)
+bool top_client::get_top_buy_power(const std::string& ref, const std::string& algo_name)
 {
 	if (!_ready)
 	{
@@ -371,9 +371,10 @@ bool top_client::get_top_buy_power(const std::string& ref)
 			&_session_id[0],
 			_client_order_id.fetch_add(1, std::memory_order_relaxed)
 		);
-		_top_buy_power_map[request.order_id] = ref;
+		_top_buy_power_map[request.order_id].ref = ref;
+		_top_buy_power_map[request.order_id].algo_name = algo_name;
 		send(request);
-		flush_printf("buy_power send request msg, id:%llu, ref:%s\n", request.order_id, ref.c_str());
+		flush_printf("buy_power send request msg, id:%llu, ref:%s, algo_name:%s\n", request.order_id, ref.c_str(), algo_name.c_str());
 		return true;
 	}
 }
