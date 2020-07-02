@@ -703,7 +703,7 @@ namespace dbp
 					unsigned long long client_order_id):
 				header
 				(
-					sizeof(new_order_request),
+					sizeof(buy_power_request),
 					api_type_flag::request,
 					api_id_flag::buy_power,
 					_session_id,
@@ -721,7 +721,7 @@ namespace dbp
 			buy_power_response():
 				header
 				(
-					sizeof(order_report),
+					sizeof(buy_power_response),
 					api_type_flag::single_reply,
 					api_id_flag::buy_power,
 					nullptr,
