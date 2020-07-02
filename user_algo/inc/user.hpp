@@ -163,6 +163,7 @@ public:
 	_odr_map()
 	{
 		_client->set_on_order([&](const dbp::top::enhance_order& odr){handler_order(odr);});
+		_client->set_on_top_buy_power([&](const std::string& ref, long long buy_power){handler_buy_power(ref, buy_power);});
 		cfg.x_depends_y(_md, broadcastQueue);
 	}
 	user(const user&) = delete;
