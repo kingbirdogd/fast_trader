@@ -1356,10 +1356,10 @@ private:
 		bool doSellLevel()
 		{
 			if(_Status != STATUS_AVAILABLE)
-				return;
+				return false;
 
 			if(_Action_Status != STAGE_START)
-				return;
+				return false;
 
 			unsigned long long wbestbid = default_sell_price();
 
