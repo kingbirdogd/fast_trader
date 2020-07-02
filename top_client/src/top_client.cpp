@@ -472,6 +472,14 @@ void top_client::set_on_login(login_event&& on_login)
 void top_client::set_on_top_buy_power(top_buy_power_event&& on_top_buy_power)
 {
 	_on_top_buy_power = std::move(on_top_buy_power);
+	if (_on_top_buy_power)
+	{
+		flush_printf("set_on_top_buy_power %s\n", "success");
+	}
+	else
+	{
+		flush_printf("set_on_top_buy_power %s\n", "fail");
+	}
 }
 
 const dbp::top::enhance_order* top_client::get_order(unsigned long long order_id)
