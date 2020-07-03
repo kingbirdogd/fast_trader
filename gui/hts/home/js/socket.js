@@ -1251,7 +1251,7 @@ function initWebsocket(){
 					//sendWsMsg(getWsMsg("position", ""));
 				}else if(data.cmd=="get_top_buy_power"){
 					//{"buy_power":999999999,"cmd":"get_buy_power","id":1,"ref":"power","tm":1590398976167}
-					var maxAmmountTop = data.buy_power*1;
+					var maxAmmountTop = Math.floor(data.buy_power*1/100000000);
 					if(maxAmmount>maxAmmountTop){
 						maxAmmount=maxAmmountTop;
 					}
@@ -1289,7 +1289,7 @@ function initWebsocket(){
 			}else{
 				console.log("Retry: "+retryCount);
 				ws = null;
-				initWebsocket();
+				initWebsocket(); 
 			}
 		};
 	}else{

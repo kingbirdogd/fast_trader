@@ -364,7 +364,7 @@ function initTable(){
 			$(this).unbind("keyup");
 			var val = $(this).val();
 			$(this).bind("keyup", function( event ) {
-				if ( event.key == "a" || event.key == "A" || event.key == "s" || event.key == "S" ) {
+				if ( event.key == "a" || event.key == "A" || event.key == "s" || event.key == "S"  || event.key == "." ) {
 				}else{
 					$(this).val(removeStringByVal($(this).val()));
 					var val2 = $(this).val();
@@ -396,7 +396,7 @@ function initTable(){
 			var val = $(this).val();
 			var id=$(this).closest("tr").attr("id");
 			$(this).bind("keyup", function( event ) {
-				if ( event.key == "a" || event.key == "A" || event.key == "s" || event.key == "S" ) {
+				if ( event.key == "a" || event.key == "A" || event.key == "s" || event.key == "S" || event.key == "." ) {
 				}else{
 					$(this).val(removeStringByVal($(this).val()));
 					var val2 = $(this).val();
