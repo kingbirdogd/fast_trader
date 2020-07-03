@@ -74,10 +74,22 @@ public:
 		{
 			auto j = algo_msg_base::to_json();
 			j["orders"] = nlohmann::json::array();
-			for (std::size_t i = 0; i < orders.size() && i < max_display; ++i)
+			if (std::numeric_limits<unsigned long long>::max() ==  max_display)
 			{
-				const auto& odr = orders[i];
-				j["orders"].push_back(odr.to_json());
+				for (std::size_t i = 0; i < orders.size(); ++i)
+				{
+					const auto& odr = orders[i];
+					j["orders"].push_back(odr.to_json());
+				}
+			}
+			else
+			{
+				auto last = orders.size() - 1;
+				for (std::size_t i = 0; i < orders.size() && i < max_display; ++i)
+				{
+					const auto& odr = orders[last - i];
+					j["orders"].push_back(odr.to_json());
+				}
 			}
 			return j;
 		}
