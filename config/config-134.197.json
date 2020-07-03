@@ -71,6 +71,13 @@
 					"params":
 					{
 					}
+				},
+				"kenny_semi":
+				{
+					"lib": "semi",
+					"params":
+					{
+					}
 				}
 			}
 		},
