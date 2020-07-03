@@ -385,7 +385,7 @@ background-image:-webkit-gradient( linear, left bottom, left top, color-stop(0, 
 
 #page.inside .table_area .table tbody td.underlying button.off{ background:#666!important; border:#7d7b7b 1px solid!important; color:#000!important;}
 #page.inside .table_area .table tbody td a.button.off{
-background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0, rgb(76, 163, 230)), color-stop(1, rgb(1, 42, 97)) );
+background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0, rgb(26, 113, 180)), color-stop(1, rgb(0, 0, 0)) );
 border-color: #9ab6e8;
 }
 #page.inside .table_area .table tbody td a.button.buy.off{background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0, rgb(16, 86, 42)), color-stop(1, rgb(0, 0, 0)) );border-color:#23a57b;}

@@ -267,7 +267,7 @@ function initWebsocket(){
 				user_id = data.user_id;
 			}
 			console.log(today+" Receive"+receive_time+": "+received_msg);
-			if(data.algo_name != undefined && key != "" && key != data.algo_name && data.cmd!="get_top_buy_power"){
+			if(data.algo_name != undefined && key != "" && key != data.algo_name){
 			}else{
 				/*if(data.action!="log" && data.action!="handleOmdcTrade" && data.action!="handleOmddTrade" && data.action!="handleOmdcOrderBook" && data.action!="remind_buy" && data.action!="remind_sell" && data.action!="list_orders"){
 					console.log(today+" Receive"+receive_time+": "+received_msg);
@@ -460,8 +460,12 @@ function initWebsocket(){
 								if(data.pair.auto_buy_quantity*1>0){
 									$("#"+id+"vol").val(formatValue(data.pair.auto_buy_quantity/factor_stock));
 								}
-								$("#"+id+"buy_vol").val(formatValue(data.pair.early_buy_qty));
-								$("#"+id+"sell_vol").val(formatValue(data.pair.early_sell_qty));
+								if(data.pair.early_buy_qty*1>0){
+									$("#"+id+"buy_vol").val(formatValue(data.pair.early_buy_qty));
+								}
+								if(data.pair.early_sell_qty*1>0){
+									$("#"+id+"sell_vol").val(formatValue(data.pair.early_sell_qty));
+								}
 								
 								if($("#"+id+"force_buy").hasClass("off")){
 									sendWsMsg(getWsMsg("forcebuy", id));
@@ -1143,12 +1147,19 @@ function initWebsocket(){
 							$("#"+id+"ulast").html(data.pair.sell_trriger/factor);
 						}*/
 						
+						if(data.pair.early_buy_qty*1>0){
+							$("#"+id+"buy_vol").val(formatValue(data.pair.early_buy_qty));
+						}
+						if(data.pair.early_sell_qty*1>0){
+							$("#"+id+"sell_vol").val(formatValue(data.pair.early_sell_qty));
+						}
 						
-						$("#"+id+"buy_vol").val(formatValue(data.pair.early_buy_qty));
-						$("#"+id+"sell_vol").val(formatValue(data.pair.early_sell_qty));
-						
-						$("#"+id+"buy_ratio").val(data.pair.ratio_buy);
-						$("#"+id+"sell_ratio").val(data.pair.ratio_sell);
+						if(data.pair.ratio_buy*1>0){
+							$("#"+id+"buy_ratio").val(data.pair.ratio_buy);
+						}
+						if(data.pair.ratio_sell*1>0){
+							$("#"+id+"sell_ratio").val(data.pair.ratio_sell);
+						}
 						
 						$("#"+id+"buy_status").removeClass("bg_red");
 						$("#"+id+"buy_status").html("");
@@ -1278,6 +1289,12 @@ function initWebsocket(){
 					}else{
 						stopAutoBuy(id, "");
 					}
+				}else if(data.action=="connect_reject"){
+					//{"action":"connect_reject","error":"Duplicate Login Account.","stime":"13:17:19"}
+					if(data.error=="Duplicate Login Account."){
+						alert("已在其他地方登入");
+					}
+					initLogout();
 				}
 			}
 		}
@@ -1287,9 +1304,11 @@ function initWebsocket(){
 			if(retryCount>10){
 				initLogout();
 			}else{
-				console.log("Retry: "+retryCount);
-				ws = null;
-				initWebsocket(); 
+				setTimeout(function(){ 
+					console.log("Retry: "+retryCount);
+					ws = null;
+					initWebsocket(); 
+				}, 3000); 
 			}
 		};
 	}else{
