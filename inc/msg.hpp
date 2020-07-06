@@ -50,6 +50,37 @@ enum TradeSide : char
 	BUY_SIDE = -1
 };
 
+struct pricedata{
+
+	unsigned long long Bestbid;
+	unsigned long long Bestask;
+	unsigned long long BestBidQty;
+	unsigned long long BestAskQty;
+	unsigned long long PBestbid;
+	unsigned long long PBestask;
+	unsigned long long LBestbid;
+	unsigned long long LBestask;
+	unsigned long long BidIssuerSize;
+	unsigned long long AskIssuerSize;
+
+	bool isWarrant;
+	bool isUnderlying;
+
+	unsigned int UCode;
+};
+
+struct s1signal{
+
+	bool hasSignal;
+	unsigned long long DetectAsk;
+	unsigned long long RaiseStopLost;
+	unsigned long long ReadyBidBuy;
+	unsigned long long AskTriggerBuy;
+	unsigned long long BidTriggerSell;
+	unsigned long long Thick;
+	unsigned long long Thin;
+};
+
 struct Tradable
 {
 #ifndef NOT_MEASURE

@@ -4,6 +4,8 @@
 #include <cstdio>
 #include <pthread.h>
 #include <unordered_map>
+#include <IvLoader.h>
+#include <OrderbookLoader.h>
 
 class user;
 using CUserMap = std::unordered_map<unsigned long long, user*>;

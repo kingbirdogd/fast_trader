@@ -15,6 +15,8 @@ CActivateChannel mActivateChannel;
 CBroadCastQueue broadcastQueue;
 COutputQueue ouputQueue;
 CUserMap userMap;
+OrderbookLoader orderbookLoader;
+IvLoader ivLoader;
 FILE* input_stream = stdin;
 FILE* output_stream = stdout;
 int SCHED_TYPE = SCHED_FIFO;
