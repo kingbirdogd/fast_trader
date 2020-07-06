@@ -334,6 +334,9 @@ typedef std::vector<CStreamChannel> CStreamVec;
 using CBroadCastQueue = rapid_ring::mp_ring_buffer_disruptor<Tradable, 2048000>;
 using COutputQueue = container::sync_queue<algo_msg_base*>;
 
+typedef std::unordered_map<unsigned int, PriceMark*> CPriceTableMap;
+typedef std::unordered_map<unsigned int, s1signal*> CS1SignalMap;
+
 
 
 
