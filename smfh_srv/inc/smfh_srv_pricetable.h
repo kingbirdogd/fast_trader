@@ -152,8 +152,10 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				count += 4;
 			}
 
-			if(pd->AskIssuerSize != pd->BestAskQty || pd->AskIssuerSize == 0){
-				pd->AskIssuerSize = pd->BestAskQty;
+			if(askbrokerno>0 && askspread==0){
+				if(pd->AskIssuerSize != pd->BestAskQty || pd->AskIssuerSize == 0){
+					pd->AskIssuerSize = pd->BestAskQty;
+				}
 			}
 		}
 	}
