@@ -22,6 +22,7 @@ extern COmddCodeToUnderlying codeTounderlying;
 extern CRetranVec retranVec;
 extern CStreamVec omdcStreams;
 extern CStreamVec omddStreams;
+extern CStreamVec pricetableStreams;
 extern CActivateChannel mActivateChannel;
 extern CBroadCastQueue broadcastQueue;
 extern COutputQueue ouputQueue;

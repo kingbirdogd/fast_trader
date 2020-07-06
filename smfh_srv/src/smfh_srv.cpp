@@ -325,6 +325,15 @@ inline static bool start()
 			return false;
 		}
 	}
+	itActivate = mActivateChannel.find("PriceTableChannel");
+	if(itActivate != mActivateChannel.end())
+	{
+		flush_printf("tm:%llu, Start PriceTableChannel \n", dbp::tools::srv::current());
+		if (!startPriceTableChannel())
+		{
+			return false;
+		}
+	}
 	return true;
 }
 inline static void closeAll()
@@ -356,13 +365,31 @@ inline static void closeAll()
 		}
 		if (0 != omddStreams[i].m_iRefresh)
 		{
-			close(omdcStreams[i].m_iRefresh);
-			omdcStreams[i].m_iRefresh = 0;
+			close(omddStreams[i].m_iRefresh);
+			omddStreams[i].m_iRefresh = 0;
 		}
-		if (0 != omdcStreams[i].m_iEpoll)
+		if (0 != omddStreams[i].m_iEpoll)
 		{
 			close(omddStreams[i].m_iEpoll);
 			omddStreams[i].m_iEpoll = 0;
+		}
+	}
+	for (size_t i = 0; i < pricetableStreams.size(); ++i)
+	{
+		if (0 != pricetableStreams[i].m_iHot)
+		{
+			close(pricetableStreams[i].m_iHot);
+			pricetableStreams[i].m_iHot = 0;
+		}
+		if (0 != pricetableStreams[i].m_iRefresh)
+		{
+			close(pricetableStreams[i].m_iRefresh);
+			pricetableStreams[i].m_iRefresh = 0;
+		}
+		if (0 != pricetableStreams[i].m_iEpoll)
+		{
+			close(pricetableStreams[i].m_iEpoll);
+			pricetableStreams[i].m_iEpoll = 0;
 		}
 	}
 }
@@ -462,6 +489,16 @@ inline static bool initJson(const char* _pszJsonPath)
 		if (!loadChannel(j, "OmddChannel", omddStreams))
 		{
 			std::cerr << "loadChannel OmddChannel" << std::endl;
+			return false;
+		}
+	}
+	itActivate = mActivateChannel.find("PriceTableChannel");
+	if(itActivate != mActivateChannel.end())
+	{
+		flush_printf("tm:%llu, loadChannel = PriceTableChannel \n", dbp::tools::srv::current());
+		if (!loadChannel(j, "PriceTableChannel", pricetableStreams))
+		{
+			std::cerr << "loadChannel PriceTableChannel" << std::endl;
 			return false;
 		}
 	}

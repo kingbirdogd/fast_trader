@@ -12,6 +12,7 @@ COmddCodeToUnderlying codeTounderlying;
 CRetranVec retranVec;
 CStreamVec omdcStreams;
 CStreamVec omddStreams;
+CStreamVec pricetableStreams;
 CActivateChannel mActivateChannel;
 CBroadCastQueue broadcastQueue;
 COutputQueue ouputQueue;
