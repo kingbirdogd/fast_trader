@@ -16,6 +16,10 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 		return;
 	}
 	COmdOrderbook& rOrderBook = it->second;
+#ifndef NOT_MEASURE
+	rOrderBook.m_PkgTime = _uPkgTm;
+	rOrderBook.m_MsgTime = dbp::tools::srv::current();
+#endif
 	if (53 == _pMsg->m_uMsgType)
 	{
 		rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
