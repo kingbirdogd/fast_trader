@@ -23,6 +23,7 @@ int SCHED_TYPE = SCHED_FIFO;
 int SCHED_PRIORITY = 99;
 CS1SignalMap s1SignalMap;
 CPriceTableMap pricemarkMap;
+CPriceDataMap pricedataMap;
 
 
 

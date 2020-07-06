@@ -31,6 +31,7 @@ extern int SCHED_TYPE;
 extern int SCHED_PRIORITY;
 extern CS1SignalMap s1SignalMap;
 extern CPriceTableMap pricemarkMap;
+extern CPriceDataMap pricedataMap;
 
 
 

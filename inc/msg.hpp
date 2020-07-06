@@ -337,6 +337,7 @@ using COutputQueue = container::sync_queue<algo_msg_base*>;
 
 typedef std::unordered_map<unsigned int, PriceMark*> CPriceTableMap;
 typedef std::unordered_map<unsigned int, s1signal*> CS1SignalMap;
+typedef std::unordered_map<unsigned int, pricedata*> CPriceDataMap;
 
 
 
