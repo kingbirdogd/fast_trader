@@ -212,22 +212,24 @@
 		}
 	],
 	"PriceTableChannel":
-	{
-		"ChannelId": 10,
-		"Hot":
+	[
 		{
-			"InterfaceIp": "10.122.78.197",
-			"MulticastIp": "239.1.1.2",
-			"MulticastPort": 51000
-		},
-		"Refresh":
-		{
-			"InterfaceIp": "10.122.78.197",
-			"MulticastIp": "239.1.1.12",
-			"MulticastPort": 51000
-		},
-		"RetranProxyIndex": 2
-	},
+			"ChannelId": 10,
+			"Hot":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.2",
+				"MulticastPort": 51000
+			},
+			"Refresh":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.12",
+				"MulticastPort": 51000
+			},
+			"RetranProxyIndex": 2
+		}
+	],
 	"ActivateChannel":
 	[
 		{"Channel":"OmdcChannel"},
