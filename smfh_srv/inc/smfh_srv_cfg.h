@@ -577,6 +577,20 @@ inline static bool loadDefinition(json& _json)
 														pricemarkMap[uSecurityCode] = new PriceMark(wtype);
 														ptomdcMap[uSecurityCode].m_Code = uSecurityCode;
 														ptomdcMap[underlying_code].m_Code = underlying_code;
+
+														pricedataMap[uSecurityCode] = new pricedata();
+														pricedataMap[uSecurityCode]->isWarrant = true;
+														pricedataMap[uSecurityCode]->isUnderlying = false;
+														pricedataMap[uSecurityCode]->UCode = underlying_code;
+
+														auto itp = pricedataMap.find(underlying_code);
+														if(itp == pricedataMap.end()){
+															pricedataMap[underlying_code] = new pricedata();
+															pricedataMap[underlying_code]->isUnderlying = true;
+															pricedataMap[underlying_code]->isWarrant = false;
+															pricedataMap[underlying_code]->UCode = 0;
+														}
+
 													}
 												}
 												break;
