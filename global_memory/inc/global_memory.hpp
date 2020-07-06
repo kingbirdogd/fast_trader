@@ -12,6 +12,7 @@ using CUserMap = std::unordered_map<unsigned long long, user*>;
 extern dbp::cpu::CpuInfo cpuInfo;
 extern COmdOrderMap omdcMap;
 extern COmdOrderMap omddMap;
+extern COmdOrderMap ptomdcMap;
 extern COmdcAdditionDefinitionsMap omdcAdditionDefinitionsMap;
 extern CWarrants warrantToUnderlying;
 extern CUnderlyingWarrants underlyingToWarrant;

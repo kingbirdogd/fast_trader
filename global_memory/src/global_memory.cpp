@@ -2,6 +2,7 @@
 dbp::cpu::CpuInfo cpuInfo;
 COmdOrderMap omdcMap;
 COmdOrderMap omddMap;
+COmdOrderMap ptomdcMap;
 COmdcAdditionDefinitionsMap omdcAdditionDefinitionsMap;
 CWarrants warrantToUnderlying;
 CUnderlyingWarrants underlyingToWarrant;

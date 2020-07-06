@@ -240,6 +240,24 @@ inline static bool loadDefinition(json& _json)
 				unsigned int warrent = static_cast<unsigned int>(std::stoul(key));
 				warrantToUnderlying[warrent] = underlying;
 				underlyingToWarrant[underlying].insert(warrent);
+
+//New
+				ptomdcMap[warrent].m_Code = warrent;
+				ptomdcMap[underlying].m_Code = underlying;
+
+				pricedataMap[warrent] = new pricedata();
+				pricedataMap[warrent]->warrant = true;
+				pricedataMap[warrent]->underlying = false;
+				pricedataMap[warrent]->UCode = underlying;
+
+				auto itp = pricedataMap.find(underlying);
+				if(itp == pricedataMap.end()){
+					pricedataMap[underlying] = new pricedata();
+					pricedataMap[underlying]->underlying = true;
+					pricedataMap[underlying]->warrant = false;
+					pricedataMap[underlying]->UCode = 0;
+				}
+
 			}
 			for (auto it = omdd_name.begin(); it != omdd_name.end(); ++it)
 			{
@@ -269,6 +287,22 @@ inline static bool loadDefinition(json& _json)
 				defs.ProductType = it->second["ProductType"].get<unsigned char>();
 				unsigned int code = static_cast<unsigned int>(std::stoul(key));
 				omdcAdditionDefinitionsMap[code] = defs;
+
+
+				int wtype = 0;
+				if(defs.CallPutFlag == "C")
+				{
+					wtype = 1;
+				}
+				if(defs.CallPutFlag == "P")
+				{
+					wtype = 2;
+				}
+				if(wtype > 0){
+					pricemarkMap[code] = new PriceMark(wtype);
+				}
+
+
 
 			}
 			bReload = false;
@@ -532,6 +566,17 @@ inline static bool loadDefinition(json& _json)
 														warrantToUnderlying[warrant_code] = underlying_code;
 														underlyingToWarrant[underlying_code].insert(warrant_code);
 														cache["warrent_map"][std::to_string(warrant_code)] = underlying_code;
+
+
+														int wtype = 1;
+														if(omdcAdditionDefinition.CallPutFlag == "P")
+														{
+															wtype = 2;
+														}
+
+														pricemarkMap[uSecurityCode] = new PriceMark(wtype);
+														ptomdcMap[uSecurityCode].m_Code = uSecurityCode;
+														ptomdcMap[underlying_code].m_Code = underlying_code;
 													}
 												}
 												break;
