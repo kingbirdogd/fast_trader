@@ -246,15 +246,15 @@ inline static bool loadDefinition(json& _json)
 				ptomdcMap[underlying].m_Code = underlying;
 
 				pricedataMap[warrent] = new pricedata();
-				pricedataMap[warrent]->warrant = true;
-				pricedataMap[warrent]->underlying = false;
+				pricedataMap[warrent]->isWarrant = true;
+				pricedataMap[warrent]->isUnderlying = false;
 				pricedataMap[warrent]->UCode = underlying;
 
 				auto itp = pricedataMap.find(underlying);
 				if(itp == pricedataMap.end()){
 					pricedataMap[underlying] = new pricedata();
-					pricedataMap[underlying]->underlying = true;
-					pricedataMap[underlying]->warrant = false;
+					pricedataMap[underlying]->isUnderlying = true;
+					pricedataMap[underlying]->isWarrant = false;
 					pricedataMap[underlying]->UCode = 0;
 				}
 
