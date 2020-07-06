@@ -21,7 +21,8 @@ FILE* input_stream = stdin;
 FILE* output_stream = stdout;
 int SCHED_TYPE = SCHED_FIFO;
 int SCHED_PRIORITY = 99;
-
+CS1SignalMap s1SignalMap;
+CPriceTableMap pricemarkMap;
 
 
 
