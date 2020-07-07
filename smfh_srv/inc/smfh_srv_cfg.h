@@ -50,6 +50,42 @@ inline void loadThreadPriority(json& _json)
 	}
 }
 
+inline static void loadIvFile(json& _json)
+{
+	try
+	{
+		auto it = _json.find("IVFile");
+		if (_json.end() != it)
+		{
+			std::string path = it.value().get<std::string>();
+			ivLoader.load(path.c_str());
+		}
+	}
+	catch(...)
+	{
+		std::cerr << "loadIVFile fail" << std::endl;
+
+	}
+}
+
+inline static void loadOrderbookFile(json& _json)
+{
+	try
+	{
+		auto it = _json.find("OrderbookFile");
+		if (_json.end() != it)
+		{
+			std::string path = it.value().get<std::string>();
+			orderbookLoader.load(path.c_str());
+		}
+	}
+	catch(...)
+	{
+		std::cerr << "OrderbookFile fail" << std::endl;
+
+	}
+}
+
 inline static bool loadCpu(json& _json)
 {
 	try
@@ -578,6 +614,9 @@ inline static bool loadDefinition(json& _json)
 														ptomdcMap[uSecurityCode].m_Code = uSecurityCode;
 														ptomdcMap[underlying_code].m_Code = underlying_code;
 
+
+														s1omdcMap[underlying_code].m_Code = underlying_code;
+
 														pricedataMap[uSecurityCode] = new pricedata();
 														pricedataMap[uSecurityCode]->isWarrant = true;
 														pricedataMap[uSecurityCode]->isUnderlying = false;
@@ -589,6 +628,8 @@ inline static bool loadDefinition(json& _json)
 															pricedataMap[underlying_code]->isUnderlying = true;
 															pricedataMap[underlying_code]->isWarrant = false;
 															pricedataMap[underlying_code]->UCode = 0;
+
+															//s1omdcMap[underlying_code].m_Code = underlying_code;
 														}
 
 													}

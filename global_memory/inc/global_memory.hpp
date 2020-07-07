@@ -13,6 +13,7 @@ extern dbp::cpu::CpuInfo cpuInfo;
 extern COmdOrderMap omdcMap;
 extern COmdOrderMap omddMap;
 extern COmdOrderMap ptomdcMap;
+extern COmdOrderMap s1omdcMap;
 extern COmdcAdditionDefinitionsMap omdcAdditionDefinitionsMap;
 extern CWarrants warrantToUnderlying;
 extern CUnderlyingWarrants underlyingToWarrant;

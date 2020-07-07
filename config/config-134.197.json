@@ -230,6 +230,8 @@
 			"RetranProxyIndex": 2
 		}
 	],
+	"IVFile":"${HOME}/ivfile/ivall.txt",
+	"OrderbookFile":"${HOME}/orderbookfile/orderbook10dlog.txt",
 	"ActivateChannel":
 	[
 		{"Channel":"OmdcChannel"},

@@ -450,6 +450,11 @@ inline static bool initJson(const char* _pszJsonPath)
 		std::cerr << "loadCpu fail" << std::endl;
 		return false;
 	}
+	flush_printf("tm:%llu, loadIvFile \n", dbp::tools::srv::current());
+	loadIvFile(j);
+	flush_printf("tm:%llu, loadOrderbookFile \n", dbp::tools::srv::current());
+	loadOrderbookFile(j);
+
 	startDecode();
 	startOutput();
 	startUsers();

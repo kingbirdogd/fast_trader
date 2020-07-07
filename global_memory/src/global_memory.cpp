@@ -3,6 +3,7 @@ dbp::cpu::CpuInfo cpuInfo;
 COmdOrderMap omdcMap;
 COmdOrderMap omddMap;
 COmdOrderMap ptomdcMap;
+COmdOrderMap s1omdcMap;
 COmdcAdditionDefinitionsMap omdcAdditionDefinitionsMap;
 CWarrants warrantToUnderlying;
 CUnderlyingWarrants underlyingToWarrant;
@@ -26,6 +27,8 @@ int SCHED_PRIORITY = 99;
 CS1SignalMap s1SignalMap;
 CPriceTableMap pricemarkMap;
 CPriceDataMap pricedataMap;
+
+
 
 
 
