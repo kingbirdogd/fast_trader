@@ -30,6 +30,8 @@ extern COutputQueue ouputQueue;
 extern CUserMap userMap;
 extern FILE* input_stream;
 extern FILE* output_stream;
+extern OrderbookLoader orderbookLoader;
+extern IvLoader ivLoader;
 extern int SCHED_TYPE;
 extern int SCHED_PRIORITY;
 extern CS1SignalMap s1SignalMap;
