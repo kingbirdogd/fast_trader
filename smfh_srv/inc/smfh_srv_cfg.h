@@ -604,11 +604,17 @@ inline static bool loadDefinition(json& _json)
 														cache["warrent_map"][std::to_string(warrant_code)] = underlying_code;
 
 
-														int wtype = 1;
+														int wtype = 0;
+														if(omdcAdditionDefinition.CallPutFlag == "C")
+														{
+															wtype = 1;
+														}
 														if(omdcAdditionDefinition.CallPutFlag == "P")
 														{
 															wtype = 2;
 														}
+
+
 
 														pricemarkMap[uSecurityCode] = new PriceMark(wtype);
 														ptomdcMap[uSecurityCode].m_Code = uSecurityCode;
@@ -621,6 +627,8 @@ inline static bool loadDefinition(json& _json)
 														pricedataMap[uSecurityCode]->isWarrant = true;
 														pricedataMap[uSecurityCode]->isUnderlying = false;
 														pricedataMap[uSecurityCode]->UCode = underlying_code;
+														pricedataMap[uSecurityCode]->Bestbid=0ull;
+														pricedataMap[uSecurityCode]->Bestask=0ull;
 
 														auto itp = pricedataMap.find(underlying_code);
 														if(itp == pricedataMap.end()){
@@ -628,6 +636,8 @@ inline static bool loadDefinition(json& _json)
 															pricedataMap[underlying_code]->isUnderlying = true;
 															pricedataMap[underlying_code]->isWarrant = false;
 															pricedataMap[underlying_code]->UCode = 0;
+															pricedataMap[underlying_code]->Bestbid=0ull;
+															pricedataMap[underlying_code]->Bestask=0ull;
 
 															//s1omdcMap[underlying_code].m_Code = underlying_code;
 														}
