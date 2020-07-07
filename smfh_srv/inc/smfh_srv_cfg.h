@@ -629,6 +629,14 @@ inline static bool loadDefinition(json& _json)
 														pricedataMap[uSecurityCode]->UCode = underlying_code;
 														pricedataMap[uSecurityCode]->Bestbid=0ull;
 														pricedataMap[uSecurityCode]->Bestask=0ull;
+														pricedataMap[uSecurityCode]->BestBidQty=0ull;
+														pricedataMap[uSecurityCode]->BestAskQty=0ull;
+														pricedataMap[uSecurityCode]->PBestbid=0ull;
+														pricedataMap[uSecurityCode]->PBestask=0ull;
+														pricedataMap[uSecurityCode]->LBestbid=0ull;
+														pricedataMap[uSecurityCode]->LBestask=0ull;
+														pricedataMap[uSecurityCode]->BidIssuerSize=0ull;
+														pricedataMap[uSecurityCode]->AskIssuerSize=0ull;
 
 														auto itp = pricedataMap.find(underlying_code);
 														if(itp == pricedataMap.end()){
@@ -638,6 +646,14 @@ inline static bool loadDefinition(json& _json)
 															pricedataMap[underlying_code]->UCode = 0;
 															pricedataMap[underlying_code]->Bestbid=0ull;
 															pricedataMap[underlying_code]->Bestask=0ull;
+															pricedataMap[underlying_code]->BestBidQty=0ull;
+															pricedataMap[underlying_code]->BestAskQty=0ull;
+															pricedataMap[underlying_code]->PBestbid=0ull;
+															pricedataMap[underlying_code]->PBestask=0ull;
+															pricedataMap[underlying_code]->LBestbid=0ull;
+															pricedataMap[underlying_code]->LBestask=0ull;
+															pricedataMap[underlying_code]->BidIssuerSize=0ull;
+															pricedataMap[underlying_code]->AskIssuerSize=0ull;
 
 															//s1omdcMap[underlying_code].m_Code = underlying_code;
 														}
