@@ -618,10 +618,10 @@ inline static bool loadDefinition(json& _json)
 													if(nd != nullptr){
 														s1SignalMap[uSecurityCode] = new s1signal();
 
-														unsigned int nooflot_RaiseStopLost = (unsigned int)(std::pow(10, nd->inverseCumulativeProbability(algoParam.RaiseStopLost))/lotsize) + 1;
-														unsigned int nooflot_ReadyBidBuy = (unsigned int)(std::pow(10, nd->inverseCumulativeProbability(algoParam.ReadyBidBuy))/lotsize) + 1;
-														unsigned int nooflot_AskTriggerBuy = (unsigned int)(std::pow(10, nd->inverseCumulativeProbability(algoParam.AskTriggerBuy))/lotsize) + 1;
-														unsigned int nooflot_BidTriggerSell = (unsigned int)(std::pow(10, nd->inverseCumulativeProbability(algoParam.BidTriggerSell))/lotsize) + 1;
+														unsigned int nooflot_RaiseStopLost = (unsigned int)(std::pow(10, nd->inverseCumulativeProbability(algoParam.RaiseStopLost))/omdcAdditionDefinition.LotSize) + 1;
+														unsigned int nooflot_ReadyBidBuy = (unsigned int)(std::pow(10, nd->inverseCumulativeProbability(algoParam.ReadyBidBuy))/omdcAdditionDefinition.LotSize) + 1;
+														unsigned int nooflot_AskTriggerBuy = (unsigned int)(std::pow(10, nd->inverseCumulativeProbability(algoParam.AskTriggerBuy))/omdcAdditionDefinition.LotSize) + 1;
+														unsigned int nooflot_BidTriggerSell = (unsigned int)(std::pow(10, nd->inverseCumulativeProbability(algoParam.BidTriggerSell))/omdcAdditionDefinition.LotSize) + 1;
 														unsigned int nooflot_Thick = (unsigned int)(std::pow(10, nd->inverseCumulativeProbability(algoParam.Thick))/omdcAdditionDefinition.LotSize) + 1;
 														unsigned int nooflot_Thin = (unsigned int)(std::pow(10, nd->inverseCumulativeProbability(algoParam.Thin))/omdcAdditionDefinition.LotSize) + 1;
 
