@@ -288,6 +288,10 @@ inline static bool loadDefinition(json& _json)
 				const auto& code = omdd[i].get<unsigned int>();
 				omddMap[code].m_Code = code;
 			}
+
+
+
+
 			for (auto it = warrent.begin(); it != warrent.end(); ++it)
 			{
 				const auto& key = it->first;
@@ -299,11 +303,22 @@ inline static bool loadDefinition(json& _json)
 //New
 				ptomdcMap[warrent].m_Code = warrent;
 				ptomdcMap[underlying].m_Code = underlying;
+				s1omdcMap[underlying].m_Code = underlying;
 
 				pricedataMap[warrent] = new pricedata();
 				pricedataMap[warrent]->isWarrant = true;
 				pricedataMap[warrent]->isUnderlying = false;
 				pricedataMap[warrent]->UCode = underlying;
+				pricedataMap[warrent]->Bestbid=0ull;
+				pricedataMap[warrent]->Bestask=0ull;
+				pricedataMap[warrent]->BestBidQty=0ull;
+				pricedataMap[warrent]->BestAskQty=0ull;
+				pricedataMap[warrent]->PBestbid=0ull;
+				pricedataMap[warrent]->PBestask=0ull;
+				pricedataMap[warrent]->LBestbid=0ull;
+				pricedataMap[warrent]->LBestask=0ull;
+				pricedataMap[warrent]->BidIssuerSize=0ull;
+				pricedataMap[warrent]->AskIssuerSize=0ull;
 
 				auto itp = pricedataMap.find(underlying);
 				if(itp == pricedataMap.end()){
@@ -311,6 +326,17 @@ inline static bool loadDefinition(json& _json)
 					pricedataMap[underlying]->isUnderlying = true;
 					pricedataMap[underlying]->isWarrant = false;
 					pricedataMap[underlying]->UCode = 0;
+					pricedataMap[underlying]->Bestbid=0ull;
+					pricedataMap[underlying]->Bestask=0ull;
+					pricedataMap[underlying]->BestBidQty=0ull;
+					pricedataMap[underlying]->BestAskQty=0ull;
+					pricedataMap[underlying]->PBestbid=0ull;
+					pricedataMap[underlying]->PBestask=0ull;
+					pricedataMap[underlying]->LBestbid=0ull;
+					pricedataMap[underlying]->LBestask=0ull;
+					pricedataMap[underlying]->BidIssuerSize=0ull;
+					pricedataMap[underlying]->AskIssuerSize=0ull;
+
 				}
 
 			}
@@ -344,6 +370,28 @@ inline static bool loadDefinition(json& _json)
 				omdcAdditionDefinitionsMap[code] = defs;
 
 
+				NormalDistribution* nd = orderbookLoader.getNormDistribution(code);
+				if(nd != nullptr){
+					s1SignalMap[code] = new s1signal();
+
+					unsigned int nooflot_RaiseStopLost = (unsigned int)(std::pow(10, nd->inverseCumulativeProbability(algoParam.RaiseStopLost))/defs.LotSize) + 1;
+					unsigned int nooflot_ReadyBidBuy = (unsigned int)(std::pow(10, nd->inverseCumulativeProbability(algoParam.ReadyBidBuy))/defs.LotSize) + 1;
+					unsigned int nooflot_AskTriggerBuy = (unsigned int)(std::pow(10, nd->inverseCumulativeProbability(algoParam.AskTriggerBuy))/defs.LotSize) + 1;
+					unsigned int nooflot_BidTriggerSell = (unsigned int)(std::pow(10, nd->inverseCumulativeProbability(algoParam.BidTriggerSell))/defs.LotSize) + 1;
+					unsigned int nooflot_Thick = (unsigned int)(std::pow(10, nd->inverseCumulativeProbability(algoParam.Thick))/defs.LotSize) + 1;
+					unsigned int nooflot_Thin = (unsigned int)(std::pow(10, nd->inverseCumulativeProbability(algoParam.Thin))/defs.LotSize) + 1;
+
+					s1SignalMap[code]->RaiseStopLost = nooflot_RaiseStopLost*defs.LotSize;
+					s1SignalMap[code]->ReadyBidBuy = nooflot_ReadyBidBuy*defs.LotSize;
+					s1SignalMap[code]->AskTriggerBuy = nooflot_AskTriggerBuy*defs.LotSize;
+					s1SignalMap[code]->BidTriggerSell = nooflot_BidTriggerSell*defs.LotSize;
+					s1SignalMap[code]->Thick = nooflot_Thick*defs.LotSize;
+					s1SignalMap[code]->Thin = nooflot_Thin*defs.LotSize;
+
+				}
+
+
+
 				int wtype = 0;
 				if(defs.CallPutFlag == "C")
 				{
@@ -356,6 +404,16 @@ inline static bool loadDefinition(json& _json)
 				if(wtype > 0){
 					pricemarkMap[code] = new PriceMark(wtype);
 				}
+
+
+
+
+
+
+
+
+
+
 
 
 
