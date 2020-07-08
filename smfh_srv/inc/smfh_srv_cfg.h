@@ -78,7 +78,7 @@ inline static void loadOrderbookFile(json& _json)
 
 			auto& OrderbookFile_Node = _json["OrderbookFile"];
 
-			std::string path = it.value().get<std::string>();
+			std::string path = OrderbookFile_Node["OrderbookPath"].get<std::string>();
 			orderbookLoader.load(path.c_str());
 
 			std::string str_thick = OrderbookFile_Node["algo.thick"].get<std::string>();
