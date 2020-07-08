@@ -10,6 +10,7 @@
 #include "smfh_srv_omdc.h"
 #include "smfh_srv_omdd.h"
 #include "smfh_srv_pricetable.h"
+#include "smfh_srv_s1signal.h"
 
 typedef void (*PFuncOmdMsgHandler)(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long _uPkgTm);
 template <const PFuncOmdMsgHandler _Handler>
