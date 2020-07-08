@@ -615,7 +615,7 @@ inline static bool loadDefinition(json& _json)
 													cache["omdc_addition_definition"][strSecurityCode]["LotSize"] = omdcAdditionDefinition.LotSize;
 
 													NormalDistribution* nd = orderbookLoader.getNormDistribution(uSecurityCode);
-													if(nm != nullptr){
+													if(nd != nullptr){
 														s1SignalMap[uSecurityCode] = new s1signal();
 
 														unsigned int nooflot_RaiseStopLost = (unsigned int)(std::pow(10, nd->inverseCumulativeProbability(algoParam.RaiseStopLost))/lotsize) + 1;
@@ -627,10 +627,10 @@ inline static bool loadDefinition(json& _json)
 
 														s1SignalMap[uSecurityCode]->RaiseStopLost = nooflot_RaiseStopLost*omdcAdditionDefinition.LotSize;
 														s1SignalMap[uSecurityCode]->ReadyBidBuy = nooflot_ReadyBidBuy*omdcAdditionDefinition.LotSize;
-														s1SignalMap[uSecurityCode] ->AskTriggerBuy = nooflot_AskTriggerBuy*omdcAdditionDefinition.LotSize;
-														s1SignalMap[uSecurityCode] ->BidTriggerSell = nooflot_BidTriggerSell*omdcAdditionDefinition.LotSize;
-														s1SignalMap[uSecurityCode] ->Thick = nooflot_Thick*omdcAdditionDefinition.LotSize;
-														s1SignalMap[uSecurityCode] ->Thin = nooflot_Thin*omdcAdditionDefinition.LotSize;
+														s1SignalMap[uSecurityCode]->AskTriggerBuy = nooflot_AskTriggerBuy*omdcAdditionDefinition.LotSize;
+														s1SignalMap[uSecurityCode]->BidTriggerSell = nooflot_BidTriggerSell*omdcAdditionDefinition.LotSize;
+														s1SignalMap[uSecurityCode]->Thick = nooflot_Thick*omdcAdditionDefinition.LotSize;
+														s1SignalMap[uSecurityCode]->Thin = nooflot_Thin*omdcAdditionDefinition.LotSize;
 
 													}
 
