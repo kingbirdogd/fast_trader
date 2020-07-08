@@ -81,13 +81,13 @@ inline static void loadOrderbookFile(json& _json)
 			std::string path = OrderbookFile_Node["OrderbookPath"].get<std::string>();
 			orderbookLoader.load(path.c_str());
 
-			std::string str_thick = OrderbookFile_Node["algo.thick"].get<std::string>();
-			std::string str_thin = OrderbookFile_Node["algo.thin"].get<std::string>();
-			std::string str_sell = OrderbookFile_Node["algo.bid.trigger.sell"].get<std::string>();
-			std::string str_buy = OrderbookFile_Node["algo.ask.trigger.buy"].get<std::string>();
-			std::string str_lost = OrderbookFile_Node["algo.raise.stop.lost"].get<std::string>();
-			std::string str_bidbuy = OrderbookFile_Node["algo.ready.bid.buy"].get<std::string>();
-			std::string str_range = OrderbookFile_Node["algo.tick.range"].get<std::string>();
+			std::string str_thick = OrderbookFile_Node["algothick"].get<std::string>();
+			std::string str_thin = OrderbookFile_Node["algothin"].get<std::string>();
+			std::string str_sell = OrderbookFile_Node["algobidtriggersell"].get<std::string>();
+			std::string str_buy = OrderbookFile_Node["algoasktriggerbuy"].get<std::string>();
+			std::string str_lost = OrderbookFile_Node["algoraisestoplost"].get<std::string>();
+			std::string str_bidbuy = OrderbookFile_Node["algoreadybidbuy"].get<std::string>();
+			std::string str_range = OrderbookFile_Node["algotickrange"].get<std::string>();
 
 			algoParam.Thick = stod(str_thick.c_str());
 			algoParam.Thin = stod(str_thin.c_str());
