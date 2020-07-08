@@ -91,10 +91,10 @@ WarrantIv IvLoader::getWarrantIv(unsigned int code){
 vector<WarrantIv> IvLoader::getWarrantIvByIssuer(string issuer, unsigned int code){
 	vector<WarrantIv> vd;
 	auto it = IssuerMap.find(issuer);
-	if(it.end() != IssuerMap){
+	if(it != IssuerMap.end()){
 
 		auto it2 = it->second.find(code);
-		if(it2.end() != it->second){
+		if(it2 != it->second.end()){
 
 			for (const auto &n: it2->second){
 				vd.push_back(IvMap[n]);
