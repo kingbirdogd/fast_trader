@@ -42,6 +42,10 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 			pricedata* pdu = pricedataMap[pd->UCode];
 			PriceMark* _PriceMark = pricemarkMap[uSecurityCode];
 
+			if(_PriceMark == nullptr){
+				return;
+			}
+
 			if(_PriceMark->getWType() == 1){
 				if(pd->Bestbid != best_bid_price && best_bid_price > 0){
 					if(best_bid_qty >= pd->BidIssuerSize){
