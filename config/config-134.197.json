@@ -233,7 +233,7 @@
 	"S1Channel":
 	[
 		{
-			"ChannelId": 10,
+			"ChannelId": 100,
 			"Hot":
 			{
 				"InterfaceIp": "10.122.78.197",
