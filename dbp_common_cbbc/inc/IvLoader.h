@@ -45,10 +45,11 @@ public:
 	virtual ~IvLoader();
 	void load(const char* filename);
 	vector<string> split(string str, char delimiter);
-	vector<WarrantIv> allWarrants();
+	WarrantIv allWarrants();
 	WarrantIv getWarrantIv(unsigned int);
 	int getUnderlyingCount();
 	int getWarrantCount();
+	WarrantIv getWarrantIvByIssuer(string ,unsigned int);
 };
 
 

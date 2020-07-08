@@ -88,6 +88,26 @@ WarrantIv IvLoader::getWarrantIv(unsigned int code){
 	return WarrantIv();
 }
 
+vector<WarrantIv> IvLoader::getWarrantIvByIssuer(string issuer, unsigned int code){
+	vector<WarrantIv> vd;
+	auto it = IssuerMap.find(issuer);
+	if(it.end() != IssuerMap){
+
+		auto it2 = it->second.find(code);
+		if(it2.end() != it->second){
+
+			for (const auto &n: it2->second){
+				vd.push_back(IvMap[n]);
+			}
+
+		}
+	}
+	return vd;
+}
+
+
+
+
 int IvLoader::getUnderlyingCount(){
 	return (int)UMap.size();
 }
