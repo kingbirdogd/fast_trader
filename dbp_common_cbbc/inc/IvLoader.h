@@ -16,6 +16,7 @@
 #include <vector>
 #include <sstream>
 #include <iostream>
+#include <unordered_set>
 
 using namespace std;
 
@@ -38,6 +39,7 @@ class IvLoader {
 private:
 	unordered_map<unsigned int, WarrantIv> IvMap;
 	unordered_map<unsigned int, unsigned int> UMap;
+	unordered_map<string, unordered_map<unsigned int, std::unordered_set<unsigned int>>> IssuerMap;
 public:
 	IvLoader();
 	virtual ~IvLoader();

@@ -58,6 +58,8 @@ void IvLoader::load(const char* filename){
 		wiv.Issuer = sep[8];
 		IvMap[wiv.Code] = wiv;
 
+		IssuerMap[wiv.Issuer].[wiv.UCode].insert(wiv.Code);
+
 		auto umap = UMap.find(wiv.UCode);
 		if(UMap.end() == umap){
 			UMap[wiv.UCode] = 1;
