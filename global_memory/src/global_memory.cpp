@@ -14,6 +14,7 @@ CRetranVec retranVec;
 CStreamVec omdcStreams;
 CStreamVec omddStreams;
 CStreamVec pricetableStreams;
+CStreamVec s1Streams;
 CActivateChannel mActivateChannel;
 CBroadCastQueue broadcastQueue;
 COutputQueue ouputQueue;

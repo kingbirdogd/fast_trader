@@ -522,6 +522,10 @@ inline static bool startPriceTableChannel()
 {
 	return ChannelHandler<handlePricetable>::handleChannelVec(pricetableStreams);
 }
+inline static bool startS1Channel()
+{
+	return ChannelHandler<handleS1Signal>::handleChannelVec(s1Streams);
+}
 #endif
 
 

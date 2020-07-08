@@ -334,6 +334,15 @@ inline static bool start()
 			return false;
 		}
 	}
+	itActivate = mActivateChannel.find("S1Channel");
+	if(itActivate != mActivateChannel.end())
+	{
+		flush_printf("tm:%llu, Start S1Channel \n", dbp::tools::srv::current());
+		if (!startS1Channel())
+		{
+			return false;
+		}
+	}
 	return true;
 }
 inline static void closeAll()
@@ -390,6 +399,24 @@ inline static void closeAll()
 		{
 			close(pricetableStreams[i].m_iEpoll);
 			pricetableStreams[i].m_iEpoll = 0;
+		}
+	}
+	for (size_t i = 0; i < s1Streams.size(); ++i)
+	{
+		if (0 != s1Streams[i].m_iHot)
+		{
+			close(s1Streams[i].m_iHot);
+			s1Streams[i].m_iHot = 0;
+		}
+		if (0 != s1Streams[i].m_iRefresh)
+		{
+			close(s1Streams[i].m_iRefresh);
+			s1Streams[i].m_iRefresh = 0;
+		}
+		if (0 != s1Streams[i].m_iEpoll)
+		{
+			close(s1Streams[i].m_iEpoll);
+			s1Streams[i].m_iEpoll = 0;
 		}
 	}
 }
@@ -504,6 +531,16 @@ inline static bool initJson(const char* _pszJsonPath)
 		if (!loadChannel(j, "PriceTableChannel", pricetableStreams))
 		{
 			std::cerr << "loadChannel PriceTableChannel" << std::endl;
+			return false;
+		}
+	}
+	itActivate = mActivateChannel.find("S1Channel");
+	if(itActivate != mActivateChannel.end())
+	{
+		flush_printf("tm:%llu, loadChannel = S1Channel \n", dbp::tools::srv::current());
+		if (!loadChannel(j, "S1Channel", s1Streams))
+		{
+			std::cerr << "loadChannel S1Channel" << std::endl;
 			return false;
 		}
 	}

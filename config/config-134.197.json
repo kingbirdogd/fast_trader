@@ -230,6 +230,25 @@
 			"RetranProxyIndex": 2
 		}
 	],
+	"S1Channel":
+	[
+		{
+			"ChannelId": 10,
+			"Hot":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.127.2",
+				"MulticastPort": 51000
+			},
+			"Refresh":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.127.12",
+				"MulticastPort": 51000
+			},
+			"RetranProxyIndex": 2
+		}
+	],
 	"IVFile":"${HOME}/ivfile/ivall.txt",
 	"OrderbookFile":
 	{	
@@ -246,7 +265,8 @@
 	[
 		{"Channel":"OmdcChannel"},
 		{"Channel":"OmddChannel"},
-		{"Channel":"PriceTableChannel"}
+		{"Channel":"PriceTableChannel"},
+		{"Channel":"S1Channel"}
 	]
 }
 

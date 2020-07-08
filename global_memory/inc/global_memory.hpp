@@ -24,6 +24,7 @@ extern CRetranVec retranVec;
 extern CStreamVec omdcStreams;
 extern CStreamVec omddStreams;
 extern CStreamVec pricetableStreams;
+extern CStreamVec s1Streams;
 extern CActivateChannel mActivateChannel;
 extern CBroadCastQueue broadcastQueue;
 extern COutputQueue ouputQueue;
