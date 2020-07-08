@@ -234,13 +234,13 @@
 	"OrderbookFile":
 	{	
 		"OrderbookPath":"${HOME}/orderbookfile/orderbook10dlog.txt",
-		"algothick": 0.7,
-		"algothin" : 0.5,
-		"algobidtriggersell":0.001,
-		"algoasktriggerbuy":0.001,
-		"algoraisestoplost":0.2,
-		"algoreadybidbuy":0.3,
-		"algotickrange":2
+		"algothick": "0.7",
+		"algothin" : "0.5",
+		"algobidtriggersell":"0.001",
+		"algoasktriggerbuy":"0.001",
+		"algoraisestoplost":"0.2",
+		"algoreadybidbuy":"0.3",
+		"algotickrange":"2"
 	},
 	"ActivateChannel":
 	[
