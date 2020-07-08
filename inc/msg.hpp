@@ -11,6 +11,7 @@
 #include <json.hpp>
 #include <rapid_ring/ring_buffer_disruptor.hpp>
 #include <PriceMark.h>
+#include <NormalDistribution.h>
 struct OrderItem
 {
 	unsigned long long m_uQuantity;
@@ -80,6 +81,16 @@ struct s1signal{
 	unsigned long long BidTriggerSell;
 	unsigned long long Thick;
 	unsigned long long Thin;
+};
+
+struct AlgoParameter{
+	double RaiseStopLost;
+	double ReadyBidBuy;
+	double AskTriggerBuy;
+	double BidTriggerSell;
+	double Thick;
+	double Thin;
+	double TickRange;
 };
 
 struct Tradable

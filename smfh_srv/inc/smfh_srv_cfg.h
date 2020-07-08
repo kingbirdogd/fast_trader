@@ -75,8 +75,27 @@ inline static void loadOrderbookFile(json& _json)
 		auto it = _json.find("OrderbookFile");
 		if (_json.end() != it)
 		{
+
+			auto& OrderbookFile_Node = _json["OrderbookFile"];
+
 			std::string path = it.value().get<std::string>();
 			orderbookLoader.load(path.c_str());
+
+			std::string str_thick = OrderbookFile_Node["algo.thick"].get<std::string>();
+			std::string str_thin = OrderbookFile_Node["algo.thin"].get<std::string>();
+			std::string str_sell = OrderbookFile_Node["algo.bid.trigger.sell"].get<std::string>();
+			std::string str_buy = OrderbookFile_Node["algo.ask.trigger.buy"].get<std::string>();
+			std::string str_lost = OrderbookFile_Node["algo.raise.stop.lost"].get<std::string>();
+			std::string str_bidbuy = OrderbookFile_Node["algo.ready.bid.buy"].get<std::string>();
+			std::string str_range = OrderbookFile_Node["algo.tick.range"].get<std::string>();
+
+			algoParam.Thick = stod(str_thick.c_str());
+			algoParam.Thin = stod(str_thin.c_str());
+			algoParam.BidTriggerSell = stod(str_sell.c_str());
+			algoParam.AskTriggerBuy = stod(str_buy.c_str());
+			algoParam.RaiseStopLost = stod(str_lost.c_str());
+			algoParam.ReadyBidBuy = stod(str_bidbuy.c_str());
+			algoParam.TickRange = stod(str_range.c_str());
 		}
 	}
 	catch(...)
@@ -594,6 +613,16 @@ inline static bool loadDefinition(json& _json)
 													cache["omdc_addition_definition"][strSecurityCode]["CallPutFlag"] = omdcAdditionDefinition.CallPutFlag;
 													cache["omdc_addition_definition"][strSecurityCode]["ProductType"] = omdcAdditionDefinition.ProductType;
 													cache["omdc_addition_definition"][strSecurityCode]["LotSize"] = omdcAdditionDefinition.LotSize;
+
+													NormalDistribution nm* = orderbookLoader.getNormDistribution(uSecurityCode);
+													if(nm != nullptr){
+														s1SignalMap[uSecurityCode] = new s1signal();
+
+
+													}
+
+
+
 													auto instrument_Type = OMD_GET_STR(pszBuffer, 24, 4);
 													if (instrument_Type == "WRNT")
 													{
@@ -654,6 +683,9 @@ inline static bool loadDefinition(json& _json)
 															pricedataMap[underlying_code]->LBestask=0ull;
 															pricedataMap[underlying_code]->BidIssuerSize=0ull;
 															pricedataMap[underlying_code]->AskIssuerSize=0ull;
+
+
+
 
 															//s1omdcMap[underlying_code].m_Code = underlying_code;
 														}

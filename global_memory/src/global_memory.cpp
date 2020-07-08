@@ -27,6 +27,7 @@ int SCHED_PRIORITY = 99;
 CS1SignalMap s1SignalMap;
 CPriceTableMap pricemarkMap;
 CPriceDataMap pricedataMap;
+AlgoParameter algoParam;
 
 
 

@@ -231,7 +231,17 @@
 		}
 	],
 	"IVFile":"${HOME}/ivfile/ivall.txt",
-	"OrderbookFile":"${HOME}/orderbookfile/orderbook10dlog.txt",
+	"OrderbookFile":
+	{	
+		"OrderbookPath":"${HOME}/orderbookfile/orderbook10dlog.txt",
+		"algo.thick": 0.7,
+		"algo.thin" : 0.5,
+		"algo.bid.trigger.sell":0.001,
+		"algo.ask.trigger.buy":0.001,
+		"algo.raise.stop.lost":0.2,
+		"algo.ready.bid.buy":0.3,
+		"algo.tick.range":2
+	},
 	"ActivateChannel":
 	[
 		{"Channel":"OmdcChannel"},
