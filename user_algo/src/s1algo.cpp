@@ -28,7 +28,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			}
 			else
 			{
-				if(best_ask_price == it->second.DetectAsk){
+				if(best_ask_price == it->second->DetectAsk){
 					obs->DetectedAsk = best_ask_price;
 
 					vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer("MB",tradable.m_Code, best_bid_price,best_ask_price );
