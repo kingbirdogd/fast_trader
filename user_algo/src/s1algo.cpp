@@ -16,7 +16,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 	auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
 
 	auto it = s1SignalMap.find(tradable.m_Code);
-	if(it.end() != s1SignalMap){
+	if(it != s1SignalMap.end()){
 
 		OBSetting* obs = obMap[tradable.m_Code];
 		if(it->second.hasSignal){
