@@ -1,5 +1,5 @@
-#ifndef USER_ALGO_INC_ALGO_HPP_
-#define USER_ALGO_INC_ALGO_HPP_
+#ifndef USER_ALGO_INC_S1ALGO_HPP_
+#define USER_ALGO_INC_S1ALGO_HPP_
 #include <msg.hpp>
 #include <user.hpp>
 #include <json.hpp>
@@ -42,4 +42,4 @@ public:
 
 
 
-#endif /* USER_ALGO_INC_ALGO_HPP_ */
+#endif /* USER_ALGO_INC_S1ALGO_HPP_ */
