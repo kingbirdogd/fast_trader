@@ -8,7 +8,7 @@ s1algo::s1algo(user& u, const std::string& name):
 {
 	selectedIssuer.insert("MB");
 	std::unordered_map<unsigned int, s1signal*>::iterator it = s1SignalMap.begin();
-
+	Log("Start s1algo");
 	while(it != s1SignalMap.end())
 	{
 		//OBSetting obs = new OBSetting();
