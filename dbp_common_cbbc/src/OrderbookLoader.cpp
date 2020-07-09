@@ -29,7 +29,7 @@ void OrderbookLoader::load(const char* filename){
 		double Mean = stod (sep[1].c_str());
 		double Sd = stod (sep[2].c_str());
 
-		fprintf(stderr, "Load Orderbook File : %u %d %d\n", Code, Mean, Sd);
+		fprintf(stderr, "Load Orderbook File : %u %f %f\n", Code, Mean, Sd);
 
 		NormalDistribution* nd = new NormalDistribution(Mean,Sd);
 
