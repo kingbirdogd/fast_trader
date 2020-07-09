@@ -58,6 +58,7 @@ inline static void loadIvFile(json& _json)
 		if (_json.end() != it)
 		{
 			std::string path = it.value().get<std::string>();
+			flush_printf("tm:%llu, loadIvFile %s \n", dbp::tools::srv::current(), path.c_str());
 			ivLoader.load(path.c_str());
 		}
 	}
