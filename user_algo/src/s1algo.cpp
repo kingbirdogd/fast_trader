@@ -67,7 +67,7 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 	unsigned long long uspread =  uask - ubid;
 
 	vector<warrant*> selectedWarrant;
-	unordered_set<unsigned int> warrantVector = ivLoader.getWarrantIvByIssuer(issuer,underlying);
+	unordered_set<unsigned int> warrantVector = ivLoader.getWarrantByIssuer(issuer,underlying);
 	for(unsigned int i=0; i<warrantVector.size(); i++){
 		auto it = omdcMap.find(warrantVector[i]);
 		if(it != omdcMap.end()){
