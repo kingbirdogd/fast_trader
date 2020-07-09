@@ -10,6 +10,7 @@
 #include <OBSetting.h>
 #include <global_memory.hpp>
 #include <AlgoEngineData.h>
+#include <SelectedWarrant.h>
 
 #define MaxBuyNoWarrant 1
 
