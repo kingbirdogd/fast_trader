@@ -15,6 +15,7 @@ s1algo::s1algo(user& u, const std::string& name):
 		unsigned int code = it->first;
 		obMap[code] = new OBSetting();
 		obMap[code]->detected = false;
+		Log("Init = " + to_string(code) + " OBSetting");
 		it++;
 	}
 }
