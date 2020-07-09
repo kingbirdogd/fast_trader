@@ -5,6 +5,7 @@
 #include <json.hpp>
 #include <string>
 #include <vector>
+#include <algo.hpp>
 #include <unordered_map>
 #include <OBSetting.h>
 #include <global_memory.hpp>
