@@ -32,6 +32,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					obs->DetectedAsk = best_ask_price;
 
 					vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer("MB",tradable.m_Code, best_bid_price,best_ask_price );
+					if(selectedWarrant.size() == 0)
+						return;
 					for(unsigned int i=0; i<selectedWarrant.size(); i++){
 						warrant* w = selectedWarrant[i];
 
@@ -40,6 +42,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					}
 					obs->Status = STATUS_READY;
 					obs->detected = true;
+
+					Log("Code = " + to_string(tradable.m_Code) + " Has Signal");
 				}
 			}
 		}
@@ -49,6 +53,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 				obs->removeAllWarrants();
 				obs->Status = STATUS_NEW;
 				obs->detected = false;
+
+				Log("Code = " + to_string(tradable.m_Code) + " Reset Signal");
 			}
 		}
 	}
@@ -141,17 +147,21 @@ void s1algo::handler_order(const dbp::top::enhance_order& )
 
 }
 
-void bear::handle_command(algo_msg_base& msg)
+void s1algo::Log(string msg){
+	fprintf(stderr, "%s %s \n",DateUtil::getCurrentTime(), msg.c_str());
+}
+
+void s1algo::handle_command(algo_msg_base& msg)
 {
 	msg.on_command();
 }
 
-algo_msg_base* bear::json_to_msg(json& )
+algo_msg_base* s1algo::json_to_msg(json& )
 {
 
 }
 
-std::string bear::get_lib_name()
+std::string s1algo::get_lib_name()
 {
 	return "s1algo";
 }

@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <algo.hpp>
+#include <DateUtil.h>
 #include <unordered_map>
 #include <OBSetting.h>
 #include <global_memory.hpp>
@@ -39,6 +40,8 @@ public:
 	virtual void handle_command(algo_msg_base&);
 	virtual algo_msg_base* json_to_msg(json& msg);
 	virtual std::string get_lib_name();
+
+	virtual void Log(std::string msg);
 };
 
 
