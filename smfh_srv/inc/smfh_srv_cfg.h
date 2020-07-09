@@ -690,6 +690,9 @@ inline static bool loadDefinition(json& _json)
 														s1SignalMap[uSecurityCode]->Thick = nooflot_Thick*omdcAdditionDefinition.LotSize;
 														s1SignalMap[uSecurityCode]->Thin = nooflot_Thin*omdcAdditionDefinition.LotSize;
 
+
+														flush_printf("tm:%llu, s1SignalMap = %u  THICK = %llu \n\n", dbp::tools::srv::current(), uSecurityCode, s1SignalMap[uSecurityCode]->Thick);
+
 													}
 
 

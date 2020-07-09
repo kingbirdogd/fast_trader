@@ -19,8 +19,6 @@ inline static void handleS1Signal(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 	{
 		return;
 	}
-
-
 	COmdOrderbook& rOrderBook = it->second;
 #ifndef NOT_MEASURE
 	rOrderBook.m_PkgTime = _uPkgTm;
