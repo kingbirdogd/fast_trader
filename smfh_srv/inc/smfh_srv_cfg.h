@@ -80,6 +80,7 @@ inline static void loadOrderbookFile(json& _json)
 			auto& OrderbookFile_Node = _json["OrderbookFile"];
 
 			std::string path = OrderbookFile_Node["OrderbookPath"].get<std::string>();
+			flush_printf("tm:%llu, OrderbookFile %s \n", dbp::tools::srv::current(), path.c_str());
 			orderbookLoader.load(path.c_str());
 
 			std::string str_thick = OrderbookFile_Node["algothick"].get<std::string>();
