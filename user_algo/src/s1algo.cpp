@@ -68,8 +68,8 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 
 	vector<warrant*> selectedWarrant;
 	unordered_set<unsigned int> warrantVector = ivLoader.getWarrantByIssuer(issuer,underlying);
-	for(unsigned int i=0; i<warrantVector.size(); i++){
-		auto it = omdcMap.find(warrantVector[i]);
+	for (const auto &n: warrantVector) {
+		auto it = omdcMap.find(n);
 		if(it != omdcMap.end()){
 			auto wbest_bid_price = static_cast<unsigned long long>(it->second.m_Bid[0].m_iPrice) * 100000;
 			auto wbest_ask_price = static_cast<unsigned long long>(it->second.m_Ask[0].m_iPrice) * 100000;
