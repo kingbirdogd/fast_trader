@@ -162,7 +162,7 @@ void s1algo::handle_command(algo_msg_base& msg)
 
 algo_msg_base* s1algo::json_to_msg(json& )
 {
-
+	return nullptr;
 }
 
 std::string s1algo::get_lib_name()
