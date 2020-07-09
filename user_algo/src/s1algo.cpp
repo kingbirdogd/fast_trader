@@ -7,6 +7,13 @@ s1algo::s1algo(user& u, const std::string& name):
 	algo(u, name)
 {
 	selectedIssuer.insert("MB");
+	std::unordered_map<unsigned int, s1signal*>::iterator it = s1SignalMap.begin();
+
+	while(it != s1SignalMap.end())
+	{
+		obMap[it->first] = new OBSetting();
+		it++;
+	}
 }
 
 void s1algo::on_omdc_book(const Tradable& tradable)
