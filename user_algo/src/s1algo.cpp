@@ -30,6 +30,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 	if(it != s1SignalMap.end()){
 
 		OBSetting* obs = obMap[tradable.m_Code];
+		if(obs == nullptr)
+			return;
 		if(it->second->hasSignal){
 			if(obs->detected){
 				if(best_ask_price != obs->DetectedAsk){
