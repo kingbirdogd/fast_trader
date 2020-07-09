@@ -1,6 +1,7 @@
 #include <algo.hpp>
 #include <semi.hpp>
 #include <bear.hpp>
+#include <s1algo.hpp>
 
 algo::algo(user& u, const std::string& name):
 	_u(u),
@@ -22,6 +23,10 @@ algo* algo::get_algo(user& u, const std::string& name, const std::string& lib, j
 	else if (lib == "bear")
 	{
 		return new bear(u, name);
+	}
+	else if (lib == "s1algo")
+	{
+		return new s1algo(u, name);
 	}
 	else
 	{
