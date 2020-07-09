@@ -11,7 +11,10 @@ s1algo::s1algo(user& u, const std::string& name):
 
 	while(it != s1SignalMap.end())
 	{
-		obMap[it->first] = new OBSetting();
+		//OBSetting obs = new OBSetting();
+		unsigned int code = it->first;
+		obMap[code] = new OBSetting();
+		obMap[code]->detected = false;
 		it++;
 	}
 }
