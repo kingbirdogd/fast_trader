@@ -24,9 +24,8 @@ public:
 	s1algo(user& u, const std::string& name);
 	s1algo(const algo&) = delete;
 	s1algo(algo&&) = delete;
-	s1algo& operator= (const s1algo&) = delete;
-	s1algo& operator= (s1algo&&) = delete;
-	virtual ~s1algo() = default;
+	s1algo& operator= (const algo&) = delete;
+	s1algo& operator= (algo&&) = delete;
 
 	virtual vector<warrant*> getSelectedWarrantFromMarketByIssuer(std::string issuercode, unsigned int underlying, unsigned long long ubid, unsigned long long uask);
 

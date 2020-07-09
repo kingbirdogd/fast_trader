@@ -34,7 +34,6 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer("MB",tradable.m_Code, best_bid_price,best_ask_price );
 					for(unsigned int i=0; i<selectedWarrantV.size(); i++){
 						warrant* w = selectedWarrantV[i];
-						algoActionInterface->showLog(">>> Selected Warrant = " + to_string(w->Code));
 
 						w->Status = STATUS_READY;
 						obs->addWarrantOrCbbc(w);
