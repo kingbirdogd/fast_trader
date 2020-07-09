@@ -32,8 +32,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					obs->DetectedAsk = best_ask_price;
 
 					vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer("MB",tradable.m_Code, best_bid_price,best_ask_price );
-					for(unsigned int i=0; i<selectedWarrantV.size(); i++){
-						warrant* w = selectedWarrantV[i];
+					for(unsigned int i=0; i<selectedWarrant.size(); i++){
+						warrant* w = selectedWarrant[i];
 
 						w->Status = STATUS_READY;
 						obs->addWarrantOrCbbc(w);
