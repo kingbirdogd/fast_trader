@@ -61,6 +61,10 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 }
 
+bool myfunction (warrant* i,warrant* j) {
+	return i->Egearing > j->Egearing;
+}
+
 vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer, unsigned int underlying, unsigned long long ubid, unsigned long long uask)
 {
 
