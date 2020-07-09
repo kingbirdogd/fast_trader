@@ -7,7 +7,7 @@
 
 #include "SpreadTable.h"
 
-const unsigned int spreadTable01[11][4] =
+const unsigned long long spreadTable01[11][4] =
 {
 	{1000000ull,25000000ull,100000ull},
 	{25000000ull,50000000ull,500000ull},
@@ -21,7 +21,7 @@ const unsigned int spreadTable01[11][4] =
 	{200000000000ull,500000000000ull,200000000ull},
 	{500000000000ull,999500000000ull,500000000ull}
 };
-const unsigned int spreadTable05[10][2] =
+const unsigned long long spreadTable05[10][2] =
 {
 	{1000000ull,100000000ull,100000ull},
 	{100000000ull,500000000ull,200000ull},
