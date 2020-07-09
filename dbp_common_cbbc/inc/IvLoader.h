@@ -49,7 +49,7 @@ public:
 	WarrantIv getWarrantIv(unsigned int);
 	int getUnderlyingCount();
 	int getWarrantCount();
-	vector<WarrantIv> getWarrantIvByIssuer(string ,unsigned int);
+	unordered_set<unsigned int> getWarrantByIssuer(string ,unsigned int);
 };
 
 

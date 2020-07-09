@@ -42,8 +42,8 @@ public:
 	float StopLostPrice;
 	int StopLostTick;
 	string DetectTime;
-	float DetectedAsk;
-	float DetectedBid;
+	unsigned long long DetectedAsk;
+	unsigned long long DetectedBid;
 	int Status;
 	float UBid;
 	float UAsk;

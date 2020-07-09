@@ -88,16 +88,17 @@ WarrantIv IvLoader::getWarrantIv(unsigned int code){
 	return WarrantIv();
 }
 
-vector<WarrantIv> IvLoader::getWarrantIvByIssuer(string issuer, unsigned int code){
-	vector<WarrantIv> vd;
+unordered_set<unsigned int> IvLoader::getWarrantByIssuer(string issuer, unsigned int code){
+	unordered_set<unsigned int> vd;
 	auto it = IssuerMap.find(issuer);
 	if(it != IssuerMap.end()){
 
 		auto it2 = it->second.find(code);
 		if(it2 != it->second.end()){
 
+
 			for (const auto &n: it2->second){
-				vd.push_back(IvMap[n]);
+				vd.insert(IvMap[n].Code);
 			}
 
 		}

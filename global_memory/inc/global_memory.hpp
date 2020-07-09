@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <IvLoader.h>
 #include <OrderbookLoader.h>
+#include <SpreadTable.h>
 
 class user;
 using CUserMap = std::unordered_map<unsigned long long, user*>;
@@ -39,6 +40,7 @@ extern CS1SignalMap s1SignalMap;
 extern CPriceTableMap pricemarkMap;
 extern CPriceDataMap pricedataMap;
 extern AlgoParameter algoParam;
+extern SpreadTable spreadTable;
 
 
 

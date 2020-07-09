@@ -7,22 +7,33 @@
 
 #include "SpreadTable.h"
 
-
-
-float spreadTable01[11][4] = {
-		{0.01f,0.0f,0.25f,0.001f},
-		{0.01f,0.25f,0.5f,0.005f},
-		{0.01f,0.5f,10.0f,0.01f},
-		{0.01f,10.0f,20.0f,0.02f},
-		{0.01f,20.0f,100.0f,0.05f},
-		{0.01f,100.0f,200.0f,0.1f},
-		{0.01f,200.0f,500.0f,0.2f},
-		{0.01f,500.0f,1000.0f,0.5f},
-		{0.01f,1000.0f,2000.0f,1.0f},
-		{0.01f,2000.0f,5000.0f,2.0f},
-		{0.01f,5000.0f,9995.0f,5.0f}
+const unsigned int spreadTable01[11][4] =
+{
+	{1000000ull,25000000ull,100000ull},
+	{25000000ull,50000000ull,500000ull},
+	{50000000ull,1000000000ull,1000000ull},
+	{1000000000ull,2000000000ull,2000000ull},
+	{2000000000ull,10000000000ull,5000000ull},
+	{10000000000ull,20000000000ull,10000000ull},
+	{20000000000ull,50000000000ull,20000000ull},
+	{50000000000ull,100000000000ull,50000000ull},
+	{100000000000ull,200000000000ull,100000000ull},
+	{200000000000ull,500000000000ull,200000000ull},
+	{500000000000ull,999500000000ull,500000000ull}
 };
-
+const unsigned int spreadTable05[10][2] =
+{
+	{1000000ull,100000000ull,100000ull},
+	{100000000ull,500000000ull,200000ull},
+	{500000000ull,1000000000ull,500000ull},
+	{1000000000ull,2000000000ull,1000000ull},
+	{2000000000ull,10000000000ull,2000000ull},
+	{10000000000ull,20000000000ull,5000000ull},
+	{20000000000ull,50000000000ull,10000000ull},
+	{50000000000ull,100000000000ull,20000000ull},
+	{100000000000ull,200000000000ull,50000000ull},
+	{200000000000ull,999900000000ull,100000000ull}
+};
 
 SpreadTable::SpreadTable() {
 	// TODO Auto-generated constructor stub
@@ -36,21 +47,29 @@ SpreadTable::SpreadTable() {
 	//SpreadMap["03"] = spreadTable03;
 }
 
-float SpreadTable::getSpread(string spreadTableCode, float price) {
+unsigned long long SpreadTable::getSpread(string spreadTableCode, unsigned long long price) {
 
-	if(spreadTableCode.compare("01") == 0){
+	if(spreadTableCode.compare("01") == 0 || spreadTableCode.compare("04") == 0){
 		for(int i=0; i<11; i++){
-			if(price > spreadTable01[i][1] && price <= spreadTable01[i][2]){
+			if(price > spreadTable01[i][0] && price <= spreadTable01[i][1]){
 				//fprintf(stderr, "%4.5f %s Range %4.5f - %4.5f  Spread = %4.5f \n", price, spreadTableCode.c_str(), spreadTable01[i][1], spreadTable01[i][2], spreadTable01[i][3]);
-				return spreadTable01[i][3];
+				return spreadTable01[i][2];
 			}
 		}
 	}
 	if(spreadTableCode.compare("02") == 0){
-		return 0.125f;
+		return 12500000ull;
 	}
 	if(spreadTableCode.compare("03") == 0){
-		return 0.05f;
+		return 5000000ull;
+	}
+	if(spreadTableCode.compare("05") == 0){
+		for(int i=0; i<10; i++){
+			if(price > spreadTable01[i][0] && price <= spreadTable01[i][1]){
+				//fprintf(stderr, "%4.5f %s Range %4.5f - %4.5f  Spread = %4.5f \n", price, spreadTableCode.c_str(), spreadTable01[i][1], spreadTable01[i][2], spreadTable01[i][3]);
+				return spreadTable01[i][2];
+			}
+		}
 	}
 	//fprintf(stderr, "%4.5f %s Spread = 0 \n", price, spreadTableCode.c_str());
 	return 0;

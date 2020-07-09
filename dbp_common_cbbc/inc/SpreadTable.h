@@ -21,7 +21,7 @@ class SpreadTable {
 public:
 	SpreadTable();
 	virtual ~SpreadTable(){};
-	float getSpread(string spreadTableCode, float price);
+	unsigned long long getSpread(string spreadTableCode, unsigned long long price);
 };
 
 

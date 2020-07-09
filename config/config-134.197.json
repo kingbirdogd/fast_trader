@@ -78,6 +78,13 @@
 					"params":
 					{
 					}
+				},
+				"kenny_s1algo":
+				{
+					"lib": "s1algo",
+					"params":
+					{
+					}
 				}
 			}
 		},

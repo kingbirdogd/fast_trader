@@ -29,6 +29,7 @@ CS1SignalMap s1SignalMap;
 CPriceTableMap pricemarkMap;
 CPriceDataMap pricedataMap;
 AlgoParameter algoParam;
+SpreadTable spreadTable;
 
 
 
