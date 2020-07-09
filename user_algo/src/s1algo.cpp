@@ -83,7 +83,7 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 
 			unsigned long long wspread = wbest_ask_price - wbest_bid_price;
 
-			WarrantIv wiv = ivLoader.getWarrantIv(warrantVector[i]);
+			WarrantIv wiv = ivLoader.getWarrantIv(n);
 
 			if(wspread <= 0){
 				continue;
@@ -101,12 +101,12 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 			if(accept){
 				warrant* newWarrant = new warrant;
 				newWarrant->Date = DateUtil::getToday();
-				newWarrant->Code = warrantVector[i];
+				newWarrant->Code = n;
 				newWarrant->Status = STATUS_READY;
 				newWarrant->Egearing = wiv.Egearing;
-				newWarrant->UCode = code;
-				newWarrant->RefWBid = wbid;
-				newWarrant->RefWAsk = wask;
+				newWarrant->UCode = underlying;
+				newWarrant->RefWBid = wbest_bid_price;
+				newWarrant->RefWAsk = wbest_ask_price;
 				newWarrant->Quantity = 0;
 				newWarrant->Issuer = wiv.Issuer;
 				newWarrant->Status = STATUS_READY;

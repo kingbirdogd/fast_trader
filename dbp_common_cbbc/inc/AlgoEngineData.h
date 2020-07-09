@@ -85,8 +85,8 @@ struct warrant{
 	float StopLostPrice;
 	string DetectTime;
 	unsigned int UCode;
-	float RefWBid;
-	float RefWAsk;
+	unsigned long long RefWBid;
+	unsigned long long RefWAsk;
 	string SellMode;
 	unsigned long long Quantity;
 	unsigned long long BuyQty;
