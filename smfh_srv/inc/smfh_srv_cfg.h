@@ -677,7 +677,7 @@ inline static bool loadDefinition(json& _json)
 													NormalDistribution* nd = orderbookLoader.getNormDistribution(uSecurityCode);
 													if(nd != nullptr){
 														s1SignalMap[uSecurityCode] = new s1signal();
-														s1SignalMap[uSecurityCode].hasSignal = false;
+														//s1SignalMap[uSecurityCode].hasSignal = false;
 
 														unsigned int nooflot_RaiseStopLost = (unsigned int)(std::pow(10, nd->inverseCumulativeProbability(algoParam.RaiseStopLost))/omdcAdditionDefinition.LotSize) + 1;
 														unsigned int nooflot_ReadyBidBuy = (unsigned int)(std::pow(10, nd->inverseCumulativeProbability(algoParam.ReadyBidBuy))/omdcAdditionDefinition.LotSize) + 1;
