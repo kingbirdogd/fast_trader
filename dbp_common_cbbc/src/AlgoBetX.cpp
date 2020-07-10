@@ -6,12 +6,7 @@
  */
 
 #include "AlgoBetX.h"
-#include "AlgoBetNormal.h"
 #include "AlgoBetSmall.h"
-#include "AlgoBetXSmall.h"
-#include "AlgoBet60.h"
-#include "AlgoBet80.h"
-#include "AlgoBet50.h"
 
 
 AlgoBetX::AlgoBetX() {
