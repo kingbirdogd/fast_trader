@@ -51,6 +51,11 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					}
 				}
 
+				if(obs->StopLostPrice > oldstoplost){
+					Log("bid->Quantity0 = " + to_string(best_bid_qty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost));
+					Log("Security Code = " + to_string(tradable.m_Code) + " Rise Stop Lost Price from " + to_string(oldstoplost) + " To " + to_string(obs->StopLostPrice));
+				}
+
 				if(countspreadw > 0){
 					vector<warrant*> obsw = obs->getRelatedWarrant();
 					for(unsigned int i=0; i<obsw.size(); i++){
