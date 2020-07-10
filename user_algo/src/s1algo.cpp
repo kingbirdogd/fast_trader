@@ -55,7 +55,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					vector<warrant*> obsw = obs->getRelatedWarrant();
 					for(unsigned int i=0; i<obsw.size(); i++){
 
-						PriceMark spm = pricemarkMap[obsw[i]->Code];
+						PriceMark* spm = pricemarkMap[obsw[i]->Code];
 
 						auto it = omdcMap.find(n);
 						if(it != omdcMap.end()){
