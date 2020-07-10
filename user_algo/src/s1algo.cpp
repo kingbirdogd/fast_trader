@@ -249,10 +249,16 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 							if(wobsArray[i]->StopLostPrice < best_bid_vol){
 								continue;
 							}
-							wobsArray[i]->Status = STATUS_SELLING;
-							bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wobsArray[i]->RefWAsk, wobsArray[i]->BuyQuantity);
-							if(!result){
-								obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
+
+							auto it = omdcMap.find(obsw[i]->Code);
+							if(it != omdcMap.end()){
+								auto wbest_bid_price = static_cast<unsigned long long>(it->second.m_Bid[0].m_iPrice) * 100000;
+
+								wobsArray[i]->Status = STATUS_SELLING;
+								bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
+								if(!result){
+									obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
+								}
 							}
 						}
 					}
