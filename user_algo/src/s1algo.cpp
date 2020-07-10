@@ -27,7 +27,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 	auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
 	auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
 	auto best_bid_qty = tradable.m_Bid[0].m_uQuantity;
-	auto best_ask_qty = tradable.m_Ask[0].m_uQuantity;
+	//auto best_ask_qty = tradable.m_Ask[0].m_uQuantity;
 
 	auto itob = obMap.find(tradable.m_Code);
 	if(itob != obMap.end())
