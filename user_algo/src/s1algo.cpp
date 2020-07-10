@@ -7,19 +7,7 @@ s1algo::s1algo(user& u, const std::string& name):
 	algo(u, name)
 {
 	selectedIssuer.insert("MB");
-	std::unordered_map<unsigned int, s1signal*>::iterator it = s1SignalMap.begin();
-	Log("Start s1algo");
-	while(it != s1SignalMap.end())
-	{
-		//OBSetting obs = new OBSetting();
-		unsigned int code = it->first;
-		obMap[code] = new OBSetting();
-		obMap[code]->detected = false;
-		obMap[code]->SpreadTableCode = "";
-		obMap[code]->hasPosition = false;
-		Log("Init = " + to_string(code) + " OBSetting");
-		it++;
-	}
+
 }
 
 void s1algo::on_omdc_book(const Tradable& tradable)
@@ -35,6 +23,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 	auto itob = obMap.find(tradable.m_Code);
 	if(itob != obMap.end())
 	{
+		Log("on_omdc_book code = " + to_string(tradable.m_Code) + " OBSetting");
 		OBSetting* obs = obMap[tradable.m_Code];
 		if(obs->hasPosition)
 		{
@@ -88,6 +77,17 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 	auto it = s1SignalMap.find(tradable.m_Code);
 	if(it != s1SignalMap.end()){
+
+		auto itob = obMap.find(tradable.m_Code);
+		if(itob == obMap.end()){
+			obMap[tradable.m_Code] = new OBSetting();
+
+			obMap[tradable.m_Code]->detected = false;
+			obMap[tradable.m_Code]->SpreadTableCode = "";
+			obMap[tradable.m_Code]->hasPosition = false;
+			Log("Init = " + to_string(code) + " OBSetting");
+		}
+
 
 		OBSetting* obs = obMap[tradable.m_Code];
 		if(obs == nullptr)
@@ -236,6 +236,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		if (0 != type && 100 != type)
 			return;
 
+		Log("on_omdc_trade code = " + to_string(tradable.m_Code) + " OBSetting");
 		OBSetting* obs = obMap[tradable.m_Code];
 
 		if(obs->hasPosition)
