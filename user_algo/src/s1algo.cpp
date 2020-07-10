@@ -316,7 +316,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 }
 
-bool s1algo::doWarrantAction(warrant* w, unsigned char action, unsigned long long price, unsigned long long quantity)
+bool s1algo::doWarrantAction(warrant* w, dbp::top::order_side side, unsigned long long price, unsigned long long quantity)
 {
 
 	auto odr = this->_u.new_order(
