@@ -250,7 +250,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								continue;
 							}
 
-							auto it = omdcMap.find(obsw[i]->Code);
+							auto it = omdcMap.find(wobsArray[i]->Code);
 							if(it != omdcMap.end()){
 								auto wbest_bid_price = static_cast<unsigned long long>(it->second.m_Bid[0].m_iPrice) * 100000;
 
