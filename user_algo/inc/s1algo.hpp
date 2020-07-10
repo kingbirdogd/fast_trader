@@ -20,6 +20,9 @@
 #define MARKET_START 1
 #define MARKET_PAUSE 2
 
+#define BUY 1
+#define SELL 2
+
 
 class s1algo : public algo
 {
@@ -40,7 +43,7 @@ public:
 
 	virtual vector<warrant*> getSelectedWarrantFromMarketByIssuer(std::string issuercode, unsigned int underlying, unsigned long long ubid, unsigned long long uask);
 
-	virtual bool doWarrantAction(std::string action, unsigned int ucode, unsigned int code, unsigned long long price, unsigned long long quantity);
+	virtual bool doWarrantAction(std::string action, unsigned char side, unsigned long long price, unsigned long long quantity);
 
 	virtual void on_omdc_book(const Tradable&);
 	virtual void on_omdd_book(const Tradable&);
