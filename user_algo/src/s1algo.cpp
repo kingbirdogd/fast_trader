@@ -57,7 +57,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 						PriceMark* spm = pricemarkMap[obsw[i]->Code];
 
-						auto it = omdcMap.find(n);
+						auto it = omdcMap.find(obsw[i]->Code);
 						if(it != omdcMap.end()){
 							auto wbest_bid_price = static_cast<unsigned long long>(it->second.m_Bid[0].m_iPrice) * 100000;
 							//auto wbest_ask_price = static_cast<unsigned long long>(it->second.m_Ask[0].m_iPrice) * 100000;
