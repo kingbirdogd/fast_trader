@@ -325,7 +325,7 @@ bool s1algo::doWarrantAction(warrant* w, dbp::top::order_side side, unsigned lon
 			quantity,
 			price,
 			w->Code,
-			action,
+			side,
 			dbp::top::order_type::sl,
 			dbp::top::aon_type::non_ano,
 			dbp::top::ignore_price_type::ignore,
