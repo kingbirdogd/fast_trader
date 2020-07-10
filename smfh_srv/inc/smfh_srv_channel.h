@@ -224,13 +224,13 @@ public:
 															else if (bStartRefresh)
 															{
 																unsigned int ucode = OMD_GET_VALUE(pszBuffer, 4, unsigned int);
-																flush_printf("tm:%llu, Handle Refresh 1 , ChannelId:%u , mType: %u Code:%u\n", dbp::tools::srv::current(), _channel.m_uChannelId, mType, ucode);
+																//flush_printf("tm:%llu, Handle Refresh 1 , ChannelId:%u , mType: %u Code:%u\n", dbp::tools::srv::current(), _channel.m_uChannelId, mType, ucode);
 																_Handler(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), 0);
 															}
 															else
 															{
-																unsigned int ucode = OMD_GET_VALUE(pszBuffer, 4, unsigned int);
-																flush_printf("tm:%llu, ignore Refresh 1 , ChannelId:%u , mType: %u Code:%u\n", dbp::tools::srv::current(), _channel.m_uChannelId, mType, ucode);
+																//unsigned int ucode = OMD_GET_VALUE(pszBuffer, 4, unsigned int);
+																//flush_printf("tm:%llu, ignore Refresh 1 , ChannelId:%u , mType: %u Code:%u\n", dbp::tools::srv::current(), _channel.m_uChannelId, mType, ucode);
 															}
 															pszBuffer += OMD_GET_VALUE(pszBuffer, 0, unsigned short int);
 														}
@@ -262,7 +262,7 @@ public:
 																	}
 																	else
 																	{
-																		flush_printf("tm:%llu, Refresh Complete 2, ChannelId:%u, uStartSeq:%u, uOnRefreshStartIdx:%u, Vec.size:%lu\n", dbp::tools::srv::current(), _channel.m_uChannelId, uStartSeq, uOnRefreshStartIdx, Vec.size());
+																		//flush_printf("tm:%llu, Refresh Complete 2, ChannelId:%u, uStartSeq:%u, uOnRefreshStartIdx:%u, Vec.size:%lu\n", dbp::tools::srv::current(), _channel.m_uChannelId, uStartSeq, uOnRefreshStartIdx, Vec.size());
 
 																		for (unsigned int i =  uStartSeq - uOnRefreshStartIdx; i < Vec.size(); ++i)
 																		{
@@ -282,7 +282,7 @@ public:
 																else
 																{
 																	unsigned int ucode = OMD_GET_VALUE(pszBuffer, 4, unsigned int);
-																	flush_printf("tm:%llu, Handle Refresh 2 , ChannelId:%u , mType: %u Code:%u\n", dbp::tools::srv::current(), _channel.m_uChannelId, mType, ucode);
+																	//flush_printf("tm:%llu, Handle Refresh 2 , ChannelId:%u , mType: %u Code:%u\n", dbp::tools::srv::current(), _channel.m_uChannelId, mType, ucode);
 																	_Handler(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), 0);
 																}
 																pszBuffer += OMD_GET_VALUE(pszBuffer, 0, unsigned short int);
