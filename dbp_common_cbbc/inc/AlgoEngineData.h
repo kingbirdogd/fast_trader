@@ -78,11 +78,12 @@ struct warrant{
 	unsigned int Code;
 	bool hasPosition;
 	float Egearing;
+	unsigned long long BuyQuantity;
 	unsigned long long BuyPrice;
 	string BuyTime;
 	unsigned long long SellPrice;
 	string SoldTime;
-	float StopLostPrice;
+	unsigned long long StopLostPrice;
 	string DetectTime;
 	unsigned int UCode;
 	unsigned long long RefWBid;
@@ -99,8 +100,8 @@ struct warrant{
 	string Issuer;
 	string Strategy;
 
-	float UBuyPrice;
-	float USoldPrice;
+	unsigned long long UBuyPrice;
+	unsigned long long USoldPrice;
 
 	float UBid;
 	float UAsk;

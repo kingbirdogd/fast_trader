@@ -74,7 +74,7 @@ bool OBSetting::hasWarrants(){
 	return WarrantMap.size()>0;
 }
 
-float OBSetting::getHighestStopLostPrice(){
+unsigned long long OBSetting::getHighestStopLostPrice(){
 	float higheststoplost = 0;
 	for ( auto it = WarrantMap.begin(); it != WarrantMap.end(); ++it )
 	{
@@ -86,7 +86,7 @@ float OBSetting::getHighestStopLostPrice(){
 	return higheststoplost;
 }
 
-float OBSetting::getLowestStopLostPrice(){
+unsigned long long OBSetting::getLowestStopLostPrice(){
 	float loweststoplost = 9999;
 	for ( auto it = WarrantMap.begin(); it != WarrantMap.end(); ++it )
 	{

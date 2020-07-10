@@ -15,6 +15,7 @@ s1algo::s1algo(user& u, const std::string& name):
 		unsigned int code = it->first;
 		obMap[code] = new OBSetting();
 		obMap[code]->detected = false;
+		obMap[code]->SpreadTableCode = "";
 		Log("Init = " + to_string(code) + " OBSetting");
 		it++;
 	}
@@ -25,6 +26,57 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 	auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
 	auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
+	auto best_bid_qty = tradable.m_Bid[0].m_uQuantity;
+	auto best_ask_qty = tradable.m_Ask[0].m_uQuantity;
+
+	auto itob = obMap.find(tradable.m_Code);
+	if(itob != obMap.end())
+	{
+		OBSetting* obs = obMap[tradable.m_Code];
+		if(obs->hasPosition)
+		{
+			unsigned long long spread = spreadTable.getSpread(obs->SpreadTableCode, best_bid_price-1);
+			unsigned long long diffu = best_bid_price - obs->StopLostPrice;
+			unsigned long long diffw = best_bid_price - obs->getHighestStopLostPrice();
+
+			int countspreadu = static_cast<int>(diffu/spread);
+			int countspreadw = static_cast<int>(diffw/spread);
+
+			s1signal* s1 = s1SignalMap[tradable.m_Code];
+			if( ((countspreadw > 0) || (countspreadu > 0) || (best_bid_price > obs->StopLostPrice && best_bid_qty > s1->RaiseStopLost)) && ((obs->Status == STATUS_AVAILABLE))){
+				unsigned long long oldstoplost = obs->StopLostPrice;
+				if(countspreadu > 0){
+					if(best_bid_qty > s1->RaiseStopLost){
+						obs->StopLostPrice = best_bid_price;
+					}
+				}
+
+				if(countspreadw > 0){
+					vector<warrant*> obsw = obs->getRelatedWarrant();
+					for(unsigned int i=0; i<obsw.size(); i++){
+
+						PriceMark spm = pricemarkMap[obsw[i]->Code];
+
+						auto it = omdcMap.find(n);
+						if(it != omdcMap.end()){
+							auto wbest_bid_price = static_cast<unsigned long long>(it->second.m_Bid[0].m_iPrice) * 100000;
+							//auto wbest_ask_price = static_cast<unsigned long long>(it->second.m_Ask[0].m_iPrice) * 100000;
+
+							unsigned long long fpcb = spm.sellOut(wbest_bid_price);
+							if(fpcb > obsw[i]->StopLostPrice  && fpcb <= obs->StopLostPrice && fpcb <= best_bid_price){
+								obsw[i]->StopLostPrice = fpcb;
+							}else if(fpcb > obsw[i]->StopLostPrice && fpcb <= obs->StopLostPrice && fpcb > best_bid_price){
+								obsw[i]->StopLostPrice = best_bid_price;
+							}
+						}
+
+					}
+				}
+			}
+		}
+	}
+
+
 
 	auto it = s1SignalMap.find(tradable.m_Code);
 	if(it != s1SignalMap.end()){
@@ -43,6 +95,11 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			{
 				if(best_ask_price == it->second->DetectAsk){
 					obs->DetectedAsk = best_ask_price;
+
+					if(obs->SpreadTableCode == ""){
+						auto itdef = omdcAdditionDefinitionsMap[tradable.m_Code];
+						obs->SpreadTableCode = itdef->second.SpreadTableCode;
+					}
 
 					vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer("MB",tradable.m_Code, best_bid_price,best_ask_price );
 					if(selectedWarrant.size() == 0)
@@ -116,6 +173,15 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 			bool accept = CSelectedWarrant.isAccept(uspread, wiv.Delta, wiv.Cratio, wspread, 2);
 
 			if(accept){
+
+				auto itdef = omdcAdditionDefinitionsMap.find(wiv.Code);
+				unsigned long long lotsize = 0;
+				if(itdef != omdcAdditionDefinitionsMap.end()){
+					lotsize = static_cast<unsigned long long>(itdef->second.LotSize);
+				}
+				if(lotsize == 0)
+					continue;
+
 				warrant* newWarrant = new warrant;
 				newWarrant->Date = DateUtil::getToday();
 				newWarrant->Code = n;
@@ -124,6 +190,7 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 				newWarrant->UCode = underlying;
 				newWarrant->RefWBid = wbest_bid_price;
 				newWarrant->RefWAsk = wbest_ask_price;
+				newWarrant->BuyQuantity = algoBet.fixQuantity(wbest_ask_price, lotsize);
 				newWarrant->Quantity = 0;
 				newWarrant->Issuer = wiv.Issuer;
 				newWarrant->Status = STATUS_READY;
@@ -142,10 +209,121 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 	return selectedWarrant;
 }
 
-void s1algo::on_omdc_trade(const Tradable& )
+void s1algo::on_omdc_trade(const Tradable& tradable)
 {
 
 
+
+	auto it = obMap.find(tradable.m_Code);
+	if(it != obMap.end())
+	{
+		auto type = tradable.m_TradeType;
+		auto side = tradable.m_TradeSide;
+		auto bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
+		auto ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
+		auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice) * 100000;
+		auto best_bid_vol = static_cast<unsigned long long>(tradable.m_Bid[0].m_uQuantity);
+		auto best_ask_vol = static_cast<unsigned long long>(tradable.m_Ask[0].m_uQuantity);
+
+
+
+		OBSetting* obs = obMap[tradable.m_Code];
+
+		if(obs->hasPosition)
+		{
+			auto trade_quantity = static_cast<long long>(tradable.m_AccumulateSellQuantity);
+			if(TradeSide::SELL_SIDE == side && trade_quantity >= best_bid_vol){
+				vector<warrant*> wobsArray = obs->getRelatedWarrant();
+
+				if(trade_price <= obs->getHighestStopLostPrice()){
+					if(obs->hasRelatedWarrant(STATUS_AVAILABLE)){
+						for(unsigned int i=0; i<wobsArray.size(); i++){
+							if(wobsArray[i]->Status != STATUS_AVAILABLE){
+								continue;
+							}
+							if(wobsArray[i]->StopLostPrice < best_bid_vol){
+								continue;
+							}
+							wobsArray[i]->Status = STATUS_SELLING;
+							bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wobsArray[i]->RefWAsk, wobsArray[i]->BuyQuantity);
+							if(!result){
+								obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
+							}
+						}
+					}
+				}
+
+			}
+
+			return;
+		}
+
+		if(obs->detected)
+		{
+			auto trade_quantity = static_cast<long long>(tradable.m_AccumulateBuyQuantity);
+			if(TradeSide::BUY_SIDE == side && trade_quantity >= best_ask_vol){
+				vector<warrant*> wobsArray = obs->getRelatedWarrant();
+
+				for(unsigned int i=0; i<wobsArray.size(); i++){
+					if(wobsArray[i]->Status != STATUS_READY){
+						continue;
+					}
+
+					wobsArray[i]->Status = STATUS_PENDING;
+					wobsArray[i]->StopLostPrice = wobsArray[i]->RefWBid;
+					bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::buy, wobsArray[i]->RefWAsk, wobsArray[i]->BuyQuantity);
+					if(!result){
+						obs->removeWarrantOrCbbc(wobsArray[i]->Code);
+					}
+				}
+
+				if(obs->hasWarrants()){
+					Log("Ready Buy Enter :obs->hasWarrants() ");
+					//if(algoActionInterface->enableIB()){
+					if(obs->hasRelatedWarrant(STATUS_PENDING)){
+						Log("Ready Buy Enter :obs->hasRelatedWarrant(STATUS_PENDING)");
+						obs->Status = STATUS_PENDING;
+						obs->hasPosition = false;
+						obs->BuyPrice = ask_price;
+						obs->StopLostPrice = bid_price;
+						obs->BuyTime = DateUtil::getCurrentTime();
+						obs->TradeTime = DateUtil::getCurrentSystemTime();
+
+						//algoActionInterface->showLog("Ready Buy Enter :obs->Status=STATUS_PENDING");
+					}else{
+						Log("Ready Buy Enter :obs->hasRelatedWarrant(STATUS_PENDING) False");
+					}
+						//}
+				}else{
+					Log("Ready Buy Enter :obs->hasWarrants() false ");
+					obs->removeAllWarrants();
+					obs->detected = false;
+				}
+			}
+		}
+	}
+
+}
+
+bool s1algo::doWarrantAction(warrant* w, unsigned char action, unsigned long long price, unsigned long long quantity)
+{
+
+	auto odr = this->_u.new_order(
+			this,
+			quantity,
+			price,
+			w->Code,
+			action,
+			dbp::top::order_type::sl,
+			dbp::top::aon_type::non_ano,
+			dbp::top::ignore_price_type::ignore,
+			0);
+	if (odr.is_valid())
+	{
+		order_map[odr.order_id] = w->UCode;
+		return true;
+	}
+	return false;
 }
 
 void s1algo::on_omdd_book(const Tradable& )
@@ -159,9 +337,90 @@ void s1algo::on_omdd_trade(const Tradable& )
 }
 
 
-void s1algo::handler_order(const dbp::top::enhance_order& )
+void s1algo::handler_order(const dbp::top::enhance_order& odr)
 {
+	auto status = odr.status;
+	auto side = odr.side;
 
+	auto it = order_map.find(odr.order_id);
+	if(order_map.end() != it)
+	{
+		unsigned int ucode = it->second;
+		OBSetting* obs = obMap[ucode];
+		unsigned int code = odr.code;
+		if (dbp::top::order_status::rejected == status || dbp::top::order_status::canceled == status || dbp::top::order_status::deleted == status || dbp::top::order_status::filled == status)
+		{
+			if (dbp::top::order_side::buy == side)
+			{
+				if (dbp::top::order_status::filled == status)
+				{
+					warrant* obsw = obs->getRelatedWarrant(code);
+					obsw->BuyPrice = odr.match_price;
+					obsw->BuyTime = std::string(odr.transaction_tm);
+					obsw->Quantity += odr.filled_quantity;
+					obsw->OrderId = odr.order_id;
+
+
+
+					if(obs->allStatus(STATUS_AVAILABLE)){
+						obs->Status = STATUS_AVAILABLE;
+						obs->hasPosition = true;
+					}
+				}
+				if (dbp::top::order_status::canceled == status || dbp::top::order_status::rejected == status)
+				{
+
+					if(obs->warrantStatus(code, STATUS_PENDING)){
+						warrant* wobs = obs->getRelatedWarrant(code);
+						wobs->Status = STATUS_REJECTED;
+						obs->removeWarrantOrCbbc(code);
+						Log( "Cancelled Warrant Code = " + to_string(code));
+					}
+				}
+			}
+			else if (dbp::top::order_side::sell == side)
+			{
+				if (dbp::top::order_status::filled == status)
+				{
+					warrant* obsw = obs->removeWarrantOrCbbc(code);
+
+					obsw->Status = STATUS_SOLD;
+					obsw->Status = STATUS_SOLD;
+					obsw->SoldTime = std::string(odr.transaction_tm);
+					obsw->SellPrice = odr.match_price;
+
+					obsw->UBuyPrice = obs->BuyPrice;
+					obsw->USoldPrice = obs->SellPrice;
+
+					if(obsw->Quantity == odr.filled_quantity)
+					{
+						Log(" Sell Security Code = " + to_string(code));
+					}else{
+						obsw->Quantity = obsw->Quantity - odr.filled_quantity;
+						obsw->SoldTime = "";
+						obsw->SellPrice = 0;
+						obsw->Status = STATUS_AVAILABLE;
+						obs->addWarrantOrCbbc(obsw);
+					}
+
+					if(obs->getRelatedWarrantCount() == 0){
+						obs->hasPosition = false;
+						obs->detected = false;
+					}
+
+				}
+				if (dbp::top::order_status::canceled == status || dbp::top::order_status::rejected == status)
+				{
+					if(obs->warrantStatus(code, STATUS_SELLING)){
+						Log("Sell Cancelled Warrant Code = " + to_string(code) + " Update Status to Available");
+						obs->setRelatedWarrantStatus(code, STATUS_AVAILABLE);
+						obs->Status = STATUS_AVAILABLE;
+					}
+				}
+			}
+		}
+
+	}
 }
 
 void s1algo::Log(string msg){

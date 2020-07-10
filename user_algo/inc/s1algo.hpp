@@ -12,15 +12,24 @@
 #include <global_memory.hpp>
 #include <AlgoEngineData.h>
 #include <SelectedWarrant.h>
+#include <AlgoBetX.h>
 
 #define MaxBuyNoWarrant 1
+
+#define MARKET_NOTREADY 0
+#define MARKET_START 1
+#define MARKET_PAUSE 2
+
 
 class s1algo : public algo
 {
 public:
+	std::unordered_map<unsigned long long, unsigned int> order_map;
 	unordered_map<unsigned int, OBSetting*> obMap;
 	unordered_set<std::string> selectedIssuer;
 	SelectedWarrant CSelectedWarrant;
+	int MarketStatus;
+	AlgoBetX algoBet;
 public:
 	s1algo() = delete;
 	s1algo(user& u, const std::string& name);
@@ -30,6 +39,8 @@ public:
 	s1algo& operator= (algo&&) = delete;
 
 	virtual vector<warrant*> getSelectedWarrantFromMarketByIssuer(std::string issuercode, unsigned int underlying, unsigned long long ubid, unsigned long long uask);
+
+	virtual bool doWarrantAction(std::string action, unsigned int ucode, unsigned int code, unsigned long long price, unsigned long long quantity);
 
 	virtual void on_omdc_book(const Tradable&);
 	virtual void on_omdd_book(const Tradable&);

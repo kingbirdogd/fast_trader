@@ -35,13 +35,14 @@ public:
 	unsigned int Code;
 	bool detected = false;
 	bool hasPosition = false;
-	float BuyPrice;
+	unsigned long long BuyPrice;
 	string BuyTime;
-	float SellPrice;
+	unsigned long long SellPrice;
 	string SoldTime;
 	float StopLostPrice;
 	int StopLostTick;
 	string DetectTime;
+	string SpreadTableCode;
 	unsigned long long DetectedAsk;
 	unsigned long long DetectedBid;
 	int Status;
@@ -90,8 +91,8 @@ public:
 	warrant* removeWarrantOrCbbc(unsigned int);
 	warrant* getRelatedWarrant(unsigned int);
 	int getRelatedWarrantCount();
-	float getHighestStopLostPrice();
-	float getLowestStopLostPrice();
+	unsigned long long getHighestStopLostPrice();
+	unsigned long long getLowestStopLostPrice();
 	bool hasRelatedWarrant(int);
 	vector<warrant*> getRelatedWarrant();
 	void setRelatedWarrantStatus(unsigned int, int);
