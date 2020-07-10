@@ -230,7 +230,8 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		auto best_bid_vol = static_cast<unsigned long long>(tradable.m_Bid[0].m_uQuantity);
 		auto best_ask_vol = static_cast<unsigned long long>(tradable.m_Ask[0].m_uQuantity);
 
-
+		if (0 != type && 100 != type)
+			return;
 
 		OBSetting* obs = obMap[tradable.m_Code];
 
