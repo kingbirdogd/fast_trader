@@ -236,7 +236,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 		if(obs->hasPosition)
 		{
-			auto trade_quantity = static_cast<long long>(tradable.m_AccumulateSellQuantity);
+			auto trade_quantity = static_cast<unsigned long long>(tradable.m_AccumulateSellQuantity);
 			if(TradeSide::SELL_SIDE == side && trade_quantity >= best_bid_vol){
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
 
