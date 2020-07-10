@@ -102,8 +102,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					obs->DetectedAsk = best_ask_price;
 
 					if(obs->SpreadTableCode == ""){
-						auto itdef = omdcAdditionDefinitionsMap[tradable.m_Code];
-						obs->SpreadTableCode = itdef->second.SpreadTableCode;
+						COmdcAdditionDefinitions itdef = omdcAdditionDefinitionsMap[tradable.m_Code];
+						obs->SpreadTableCode = itdef.SpreadTableCode;
 					}
 
 					vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer("MB",tradable.m_Code, best_bid_price,best_ask_price );
