@@ -85,7 +85,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			obMap[tradable.m_Code]->detected = false;
 			obMap[tradable.m_Code]->SpreadTableCode = "";
 			obMap[tradable.m_Code]->hasPosition = false;
-			Log("Init = " + to_string(code) + " OBSetting");
+			Log("Init = " + to_string(tradable.m_Code) + " OBSetting");
 		}
 
 
