@@ -148,8 +148,6 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							obs->SpreadTableCode = itdef.SpreadTableCode;
 						}
 
-
-
 						auto pmsg = algo_signal_msg_pool.get_obj();
 						pmsg->al = this;
 						pmsg->algo_name = this->_name;
@@ -342,7 +340,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		if(obs->detected)
 		{
 			auto trade_quantity = static_cast<unsigned long long>(tradable.m_AccumulateBuyQuantity);
-			if(TradeSide::BUY_SIDE == side && trade_quantity >= best_ask_vol){
+			if(TradeSide::BUY_SIDE == side && trade_quantity >= best_ask_vol && obs->Status == STATUS_READY){
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
 
 				for(unsigned int i=0; i<wobsArray.size(); i++){
@@ -479,7 +477,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						obs->hasPosition = true;
 					}
 
-					Log("Filed Buy Warrant Code =  " + to_string(code));
+					Log("Filed Buy Warrant Code =  " + to_string(code) + " UCode = " + ucode);
 				}
 				if (dbp::top::order_status::canceled == status || dbp::top::order_status::rejected == status)
 				{
@@ -505,7 +503,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 
 						wobs->Status = STATUS_REJECTED;
 						obs->removeWarrantOrCbbc(code);
-						Log( "Cancelled Warrant Code = " + to_string(code));
+						Log( "Cancelled Warrant Code = " + to_string(code) + " UCode = " + ucode);
 					}
 				}
 			}
@@ -595,7 +593,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						obs->addWarrantOrCbbc(obsw);
 					}
 
-					Log("Filed Sell Warrant Code =  " + to_string(code));
+					Log("Filed Sell Warrant Code =  " + to_string(code) + " UCode = " + ucode);
 
 					if(obs->getRelatedWarrantCount() == 0){
 						obs->hasPosition = false;
@@ -624,7 +622,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						msg->reason = string(odr.reject_reason);
 						ouputQueue.enqueue(msg);
 
-						Log("Sell Cancelled Warrant Code = " + to_string(code) + " Update Status to Available");
+						Log("Sell Cancelled Warrant Code = " + to_string(code) + " Update Status to Available "  + " UCode = " + ucode);
 
 						obs->setRelatedWarrantStatus(code, STATUS_AVAILABLE);
 						obs->Status = STATUS_AVAILABLE;
