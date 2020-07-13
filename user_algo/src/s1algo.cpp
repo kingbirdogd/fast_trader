@@ -522,7 +522,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 				}
 				if (dbp::top::order_status::canceled == status || dbp::top::order_status::rejected == status)
 				{
-					warrant* wobs = _OBSetting->getRelatedWarrant(code);
+					warrant* wobs = obs->getRelatedWarrant(code);
 
 					if(wobs->Status == STATUS_SELLING)
 					{
