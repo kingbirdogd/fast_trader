@@ -116,6 +116,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					for(unsigned int i=0; i<selectedWarrant.size(); i++){
 						warrant* w = selectedWarrant[i];
 
+						Log("Selected Code = " + to_string(w->Code));
+
 						w->Status = STATUS_READY;
 						obs->addWarrantOrCbbc(w);
 					}
