@@ -503,7 +503,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 
 						wobs->Status = STATUS_REJECTED;
 						obs->removeWarrantOrCbbc(code);
-						Log( "Cancelled Warrant Code = " + to_string(code) + " UCode = " + ucode);
+						Log( "Cancelled Warrant Code = " + to_string(code) + " UCode = " + to_string(ucode));
 					}
 				}
 			}
@@ -593,7 +593,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						obs->addWarrantOrCbbc(obsw);
 					}
 
-					Log("Filed Sell Warrant Code =  " + to_string(code) + " UCode = " + ucode);
+					Log("Filed Sell Warrant Code =  " + to_string(code) + " UCode = " + to_string(ucode));
 
 					if(obs->getRelatedWarrantCount() == 0){
 						obs->hasPosition = false;
@@ -622,7 +622,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						msg->reason = string(odr.reject_reason);
 						ouputQueue.enqueue(msg);
 
-						Log("Sell Cancelled Warrant Code = " + to_string(code) + " Update Status to Available "  + " UCode = " + ucode);
+						Log("Sell Cancelled Warrant Code = " + to_string(code) + " Update Status to Available "  + " UCode = " + to_string(ucode));
 
 						obs->setRelatedWarrantStatus(code, STATUS_AVAILABLE);
 						obs->Status = STATUS_AVAILABLE;
