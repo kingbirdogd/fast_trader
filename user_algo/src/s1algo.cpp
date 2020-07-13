@@ -7,6 +7,9 @@ s1algo::s1algo(user& u, const std::string& name):
 	algo(u, name)
 {
 	selectedIssuer.insert("MB");
+	selectedIssuer.insert("GS");
+	selectedIssuer.insert("MS");
+	selectedIssuer.insert("CS");
 
 }
 
@@ -134,8 +137,9 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 					int selectcount = 0;
 
-					for(unsigned int j=0; j<selectedIssuer.size(); j++){
-						string issuer = selectedIssuer[j];
+					//for(unsigned int j=0; j<selectedIssuer.size(); j++){
+					for(auto f : selectedIssuer) {
+						string issuer = f;
 
 						vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer(issuer,tradable.m_Code, best_bid_price,best_ask_price );
 						if(selectedWarrant.size() == 0)
