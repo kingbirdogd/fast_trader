@@ -13,6 +13,7 @@ public:
 protected:
 	user& _u;
 	std::string _name;
+	long long _Profit;
 public:
 	algo() = delete;
 	algo(user& u, const std::string& name);
@@ -31,6 +32,7 @@ public:
 	virtual std::string get_lib_name() = 0;
 	const std::string& get_name() const;
 	static algo* get_algo(user& u, const std::string& name, const std::string& lib, json& cfg);
+	long long getProfit();
 };
 
 

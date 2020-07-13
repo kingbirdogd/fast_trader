@@ -340,11 +340,6 @@ void semi::position(algo_odr_position& msg) const
 	}
 }
 
-long long semi::getProfit()
-{
-	return _Profit;
-}
-
 void semi::handle_command(algo_msg_base& msg)
 {
 	msg.on_command();

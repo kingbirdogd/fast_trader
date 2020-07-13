@@ -20,7 +20,6 @@ private:
 	order_map _o_map;
 	md_map _u_map;
 	md_map _w_map;
-	long long _Profit;
 private:
 	class pair
 	{
@@ -102,7 +101,11 @@ private:
 			_auto_buy(false),
 			_auto_sell(false),
 			_is_omdd(false),
-			_is_reset_position(false)
+			_is_reset_position(false),
+			wbestbid(0),
+			wbestask(0),
+			_last_trigger_price(0),
+			_last_price(0)
 		{
 		}
 		pair
@@ -155,7 +158,11 @@ private:
 			_auto_buy(auto_buy),
 			_auto_sell(auto_sell),
 			_is_omdd(is_omdd),
-			_is_reset_position(is_reset_position)
+			_is_reset_position(is_reset_position),
+			wbestbid(0),
+			wbestask(0),
+			_last_trigger_price(0),
+			_last_price(0)
 		{
 		}
 		json to_json() const
@@ -637,7 +644,7 @@ private:
 						strstatus = "filled";
 						_last_trigger_price = _buy_trriger;
 						_last_price = odr.match_price;
-						//_Profit -= odr.filled_quantity * odr.match_price;
+						_algo->_Profit -= odr.filled_quantity * odr.match_price;
 					}
 					/*
 					if (odr.order_id == _auto_buy_id && dbp::top::order_status::filled != status)
@@ -668,7 +675,7 @@ private:
 							_last_trigger_price = _sell_trriger;
 							_last_price = odr.match_price;
 
-							//_Profit += odr.filled_quantity * odr.match_price;
+							_algo->_Profit += odr.filled_quantity * odr.match_price;
 						}
 					}else{
 						strstatus = "cancel";
@@ -880,7 +887,14 @@ private:
 		algo_odr_msg():
 			algo_msg_base(),
 			odr(),
-			p()
+			p(),
+			filled_price(0),
+			filled_quantity(0),
+			status(""),
+			side(""),
+			reason(""),
+			last_trigger_price(0),
+			last_price(0)
 		{
 		}
 		virtual nlohmann::json to_json() const
@@ -1228,7 +1242,6 @@ public:
 	std::string force_buy(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref);
 	std::string force_sell(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref);
 	void position(algo_odr_position& msg) const;
-	long long getProfit();
 	virtual ~semi() = default;
 	virtual void on_omdc_book(const Tradable&);
 	virtual void on_omdd_book(const Tradable&);

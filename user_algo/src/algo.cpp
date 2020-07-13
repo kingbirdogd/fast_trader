@@ -5,7 +5,8 @@
 
 algo::algo(user& u, const std::string& name):
 	_u(u),
-	_name(name)
+	_name(name),
+	_Profit(0)
 {
 }
 
@@ -32,6 +33,11 @@ algo* algo::get_algo(user& u, const std::string& name, const std::string& lib, j
 	{
 		return nullptr;
 	}
+}
+
+long long algo::getProfit()
+{
+	return _Profit;
 }
 
 
