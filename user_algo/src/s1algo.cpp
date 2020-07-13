@@ -143,7 +143,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 						vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer(issuer,tradable.m_Code, best_bid_price,best_ask_price );
 						if(selectedWarrant.size() == 0)
-							return;
+							continue;
 
 						for(unsigned int i=0; i<selectedWarrant.size(); i++){
 							warrant* w = selectedWarrant[i];
