@@ -441,7 +441,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						obs->hasPosition = true;
 					}
 
-					Log("Filed Buy Warrant Code =  " = to_string(code));
+					Log("Filed Buy Warrant Code =  " + to_string(code));
 				}
 				if (dbp::top::order_status::canceled == status || dbp::top::order_status::rejected == status)
 				{
