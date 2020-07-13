@@ -340,6 +340,11 @@ void semi::position(algo_odr_position& msg) const
 	}
 }
 
+long long semi::getProfit()
+{
+	return _Porfit;
+}
+
 void semi::handle_command(algo_msg_base& msg)
 {
 	msg.on_command();
@@ -549,6 +554,15 @@ algo_msg_base* semi::json_to_msg(json& json)
 			msg->ref = ref;
 			return msg;
 		}
+		else if (cmd == "getprofit")
+		{
+			auto msg = algo_getprofit_msg_pool.get_obj();
+			msg->al = this;
+			msg->algo_name = _name;
+			msg->id = _u.get_id();
+			msg->ref = ref;
+			return msg;
+		}
 		else if (cmd == "force_buy")
 		{
 			pforce_buy = algo_force_buy_pool.get_obj();
@@ -616,4 +630,5 @@ rapid_ring::spsc_ring_buffer_object_pool<semi::algo_del, 8192> semi::algo_del_po
 rapid_ring::spsc_ring_buffer_object_pool<semi::algo_get, 8192> semi::algo_get_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semi::algo_force_buy, 8192> semi::algo_force_buy_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semi::algo_force_sell, 8192> semi::algo_force_sell_pool;
+rapid_ring::spsc_ring_buffer_object_pool<semi::algo_getprofit_msg, 8192> semi::algo_getprofit_msg_pool;
 

@@ -20,6 +20,7 @@ private:
 	order_map _o_map;
 	md_map _u_map;
 	md_map _w_map;
+	long long _Porfit;
 private:
 	class pair
 	{
@@ -636,6 +637,7 @@ private:
 						strstatus = "filled";
 						_last_trigger_price = _buy_trriger;
 						_last_price = odr.match_price;
+						_Porfit -= odr.filled_quantity * odr.match_price;
 					}
 					/*
 					if (odr.order_id == _auto_buy_id && dbp::top::order_status::filled != status)
@@ -665,6 +667,8 @@ private:
 							}
 							_last_trigger_price = _sell_trriger;
 							_last_price = odr.match_price;
+
+							_Porfit += odr.filled_quantity * odr.match_price;
 						}
 					}else{
 						strstatus = "cancel";
@@ -967,6 +971,36 @@ private:
 		}
 		virtual ~algo_odr_position() = default;
 	};
+	struct algo_getprofit_msg: public algo_msg_base
+	{
+		long long profit;
+		algo_getprofit_msg():
+			algo_msg_base(),
+			profit(0)
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["msg_type"] = "algo_getprofit_msg";
+			j["profit"] = profit;
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<semi*>(al);
+			profit = self->getProfit();
+
+			ouputQueue.enqueue(this);
+
+
+		}
+		virtual void release()
+		{
+			algo_getprofit_msg_pool.release_obj(this);
+		}
+		virtual ~algo_getprofit_msg() = default;
+	};
 #ifndef NOT_MEASURE
 	struct algo_latency: public algo_msg_base
 	{
@@ -1194,6 +1228,7 @@ public:
 	std::string force_buy(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref);
 	std::string force_sell(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref);
 	void position(algo_odr_position& msg) const;
+	long long getProfit();
 	virtual ~semi() = default;
 	virtual void on_omdc_book(const Tradable&);
 	virtual void on_omdd_book(const Tradable&);
@@ -1215,6 +1250,7 @@ public:
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_get, 8192> algo_get_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_force_buy, 8192> algo_force_buy_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_force_sell, 8192> algo_force_sell_pool;
+	static rapid_ring::spsc_ring_buffer_object_pool<algo_getprofit_msg, 8192> algo_getprofit_msg_pool;
 };
 
 
