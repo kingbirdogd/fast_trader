@@ -39,7 +39,7 @@ public:
 	string BuyTime;
 	unsigned long long SellPrice;
 	string SoldTime;
-	float StopLostPrice;
+	unsigned long long StopLostPrice;
 	int StopLostTick;
 	string DetectTime;
 	string SpreadTableCode;

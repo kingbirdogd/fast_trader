@@ -114,15 +114,14 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			{
 				if(best_ask_price == it->second->DetectAsk){
 					obs->DetectedAsk = best_ask_price;
+					obs->StopLostPrice = best_bid_price;
 
 					if(obs->SpreadTableCode == ""){
 						COmdcAdditionDefinitions itdef = omdcAdditionDefinitionsMap[tradable.m_Code];
 						obs->SpreadTableCode = itdef.SpreadTableCode;
 					}
 
-					vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer("MB",tradable.m_Code, best_bid_price,best_ask_price );
-					if(selectedWarrant.size() == 0)
-						return;
+
 
 					auto pmsg = algo_signal_msg_pool.get_obj();
 					pmsg->al = this;
@@ -133,26 +132,39 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					pmsg->detect_ask = obs->DetectedAsk;
 					pmsg->selected = true;
 
+					int selectcount = 0;
 
-					for(unsigned int i=0; i<selectedWarrant.size(); i++){
-						warrant* w = selectedWarrant[i];
+					for(unsigned int j=0; j<selectedIssuer.size(); j++){
+						string issuer = selectedIssuer[j];
 
-						Log("Selected Code = " + to_string(w->Code));
+						vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer(issuer,tradable.m_Code, best_bid_price,best_ask_price );
+						if(selectedWarrant.size() == 0)
+							return;
 
-						w->Status = STATUS_READY;
-						obs->addWarrantOrCbbc(w);
+						for(unsigned int i=0; i<selectedWarrant.size(); i++){
+							warrant* w = selectedWarrant[i];
 
-						pmsg->detectedlist.insert(w);
+							Log("Issuer = " + issuer + " Selected Code = " + to_string(w->Code));
+
+							w->Status = STATUS_READY;
+							obs->addWarrantOrCbbc(w);
+
+							pmsg->detectedlist.insert(w);
+							selectcount++;
+						}
+
 					}
 
+					if(selectcount > 0){
 
-					ouputQueue.enqueue(pmsg);
+						ouputQueue.enqueue(pmsg);
 
 
-					obs->Status = STATUS_READY;
-					obs->detected = true;
+						obs->Status = STATUS_READY;
+						obs->detected = true;
 
-					Log("Code = " + to_string(tradable.m_Code) + " Has Signal @ " + to_string(best_ask_price));
+						Log("Code = " + to_string(tradable.m_Code) + " Has Signal @ " + to_string(best_ask_price));
+					}
 				}
 			}
 		}
@@ -329,7 +341,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					}
 
 					wobsArray[i]->Status = STATUS_PENDING;
-					wobsArray[i]->StopLostPrice = wobsArray[i]->RefWBid;
+					wobsArray[i]->StopLostPrice = wobsArray[i]->bid_price;
 					bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::buy, wobsArray[i]->RefWAsk, wobsArray[i]->BuyQuantity);
 					if(!result){
 						obs->removeWarrantOrCbbc(wobsArray[i]->Code);
@@ -419,6 +431,22 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					obsw->BuyTime = std::string(odr.transaction_tm);
 					obsw->Quantity += odr.filled_quantity;
 					obsw->OrderId = odr.order_id;
+
+
+
+					auto it = omdcMap.find(code);
+					if(it != omdcMap.end()){
+						auto wbest_bid_price = static_cast<unsigned long long>(it->second.m_Bid[0].m_iPrice) * 100000;
+						auto wbest_ask_price = static_cast<unsigned long long>(it->second.m_Ask[0].m_iPrice) * 100000;
+
+						PriceMark* spm = pricemarkMap[code];
+						unsigned long long pcb = spm->sellOut(wbest_bid_price);
+
+						obsw->StopLostPrice = pcb;
+
+						Log("Warrant Code = " + to_string(code) + " PCB@" + to_string(pcb));
+					}
+
 
 					auto msg = algo_order_msg_pool.get_obj();
 					msg->al = this;
