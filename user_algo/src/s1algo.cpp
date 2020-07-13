@@ -380,12 +380,12 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					obsw->OrderId = odr.order_id;
 
 					auto msg = algo_order_msg_pool.get_obj();
-					msg->al = _algo;
-					msg->algo_name = _algo->_name;
-					msg->id = _algo->_u.get_id();
-					msg->ref = _Ref;
+					msg->al = this;
+					msg->algo_name = this->_name;
+					msg->id = this->_u.get_id();
+					msg->ref = to_string(code);
 					msg->orderid = odr.order_id;
-					msg->warrant_code = _warrant_code;
+					msg->warrant_code = code;
 					msg->side = "BUY";
 					msg->filled_price = odr.match_price;
 					msg->filled_quantity = odr.filled_quantity;
@@ -411,7 +411,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						msg->al = _algo;
 						msg->algo_name = _algo->_name;
 						msg->id = _algo->_u.get_id();
-						msg->ref = _Ref;
+						msg->ref = to_string(code);
 						msg->orderid = odr.order_id;
 						msg->warrant_code = _warrant_code;
 						msg->side = "BUY";
@@ -447,10 +447,10 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						Log(" Sell Security Code = " + to_string(code));
 
 						auto msg = algo_order_msg_pool.get_obj();
-						msg->al = _algo;
-						msg->algo_name = _algo->_name;
-						msg->id = _algo->_u.get_id();
-						msg->ref = _Ref;
+						msg->al = this;
+						msg->algo_name = this->_name;
+						msg->id = this->_u.get_id();
+						msg->ref = to_string(code);
 						msg->orderid = odr.order_id;
 						msg->warrant_code = code;
 						msg->side = "SELL";
@@ -464,10 +464,10 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 
 
 						auto pmsg = algo_portfolio_msg_pool.get_obj();
-						pmsg->al = _algo;
-						pmsg->algo_name = _algo->_name;
-						pmsg->id = _algo->_u.get_id();
-						pmsg->ref = _Ref;
+						pmsg->al = this;
+						pmsg->algo_name = this->_name;
+						pmsg->id = this->_u.get_id();
+						pmsg->ref = to_string(code);
 						pmsg->warrant_code = code;
 						pmsg->buy_price = obsw->BuyPrice;
 						pmsg->sell_price = obsw->SellPrice;
@@ -478,10 +478,10 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 
 					}else{
 						auto msg = algo_order_msg_pool.get_obj();
-						msg->al = _algo;
-						msg->algo_name = _algo->_name;
-						msg->id = _algo->_u.get_id();
-						msg->ref = _Ref;
+						msg->al = this;
+						msg->algo_name = this->_name;
+						msg->id = this->_u.get_id();
+						msg->ref = to_string(code);
 						msg->orderid = odr.order_id;
 						msg->warrant_code = code;
 						msg->side = "SELL";
@@ -494,10 +494,10 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						ouputQueue.enqueue(msg);
 
 						auto pmsg = algo_portfolio_msg_pool.get_obj();
-						pmsg->al = _algo;
-						pmsg->algo_name = _algo->_name;
-						pmsg->id = _algo->_u.get_id();
-						pmsg->ref = _Ref;
+						pmsg->al = this;
+						pmsg->algo_name = this->_name;
+						pmsg->id = this->_u.get_id();
+						pmsg->ref = to_string(code);
 						pmsg->warrant_code = code;
 						pmsg->buy_price = obsw->BuyPrice;
 						pmsg->sell_price = obsw->SellPrice;
@@ -527,10 +527,10 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					if(wobs->Status == STATUS_SELLING)
 					{
 						auto msg = algo_order_msg_pool.get_obj();
-						msg->al = _algo;
-						msg->algo_name = _algo->_name;
-						msg->id = _algo->_u.get_id();
-						msg->ref = _Ref;
+						msg->al = this;
+						msg->algo_name = this->_name;
+						msg->id = this->_u.get_id();
+						msg->ref = to_string(code);
 						msg->orderid = odr.order_id;
 						msg->warrant_code = code;
 						msg->side = "SELL";
