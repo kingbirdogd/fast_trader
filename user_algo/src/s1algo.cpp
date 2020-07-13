@@ -408,9 +408,9 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					{
 
 						auto msg = algo_order_msg_pool.get_obj();
-						msg->al = _algo;
-						msg->algo_name = _algo->_name;
-						msg->id = _algo->_u.get_id();
+						msg->al = this;
+						msg->algo_name = this->_name;
+						msg->id = this->_u.get_id();
 						msg->ref = to_string(code);
 						msg->orderid = odr.order_id;
 						msg->warrant_code = _warrant_code;
