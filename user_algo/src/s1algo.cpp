@@ -78,7 +78,6 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 	}
 
 
-
 	auto it = s1SignalMap.find(tradable.m_Code);
 	if(it != s1SignalMap.end()){
 
@@ -96,8 +95,11 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		OBSetting* obs = obMap[tradable.m_Code];
 		if(obs == nullptr)
 			return;
-		if(it->second->hasSignal){
+
+		if(obs->Status == STATUS_NEW || obs->Status == STATUS_READY){
+
 			if(obs->detected){
+
 				if(best_ask_price != obs->DetectedAsk){
 					obs->Status = STATUS_NEW;
 					obs->detected = false;
@@ -112,86 +114,87 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					pmsg->detect_ask = 0;
 					pmsg->selected = false;
 					ouputQueue.enqueue(pmsg);
+					return;
 				}
-			}
-			else
-			{
-				if(best_ask_price == it->second->DetectAsk){
-					obs->DetectedAsk = best_ask_price;
-					obs->StopLostPrice = best_bid_price;
-
-					if(obs->SpreadTableCode == ""){
-						COmdcAdditionDefinitions itdef = omdcAdditionDefinitionsMap[tradable.m_Code];
-						obs->SpreadTableCode = itdef.SpreadTableCode;
-					}
-
-
-
+				if(!it->second->hasSignal){
 					auto pmsg = algo_signal_msg_pool.get_obj();
 					pmsg->al = this;
 					pmsg->algo_name = this->_name;
 					pmsg->id = this->_u.get_id();
 					pmsg->ref = to_string(tradable.m_Code);
 					pmsg->code = tradable.m_Code;
-					pmsg->detect_ask = obs->DetectedAsk;
-					pmsg->selected = true;
+					pmsg->detect_ask = 0;
+					pmsg->selected = false;
+					ouputQueue.enqueue(pmsg);
 
-					int selectcount = 0;
+					obs->removeAllWarrants();
+					obs->Status = STATUS_NEW;
+					obs->detected = false;
 
-					//for(unsigned int j=0; j<selectedIssuer.size(); j++){
-					for(auto f : selectedIssuer) {
-						string issuer = f;
+					Log("Code = " + to_string(tradable.m_Code) + " Reset Signal");
+				}
+				return;
+			}
+			else
+			{
+				if(it->second->hasSignal){
 
-						vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer(issuer,tradable.m_Code, best_bid_price,best_ask_price );
-						if(selectedWarrant.size() == 0)
-							continue;
+					if(best_ask_price == it->second->DetectAsk){
+						obs->DetectedAsk = best_ask_price;
+						obs->StopLostPrice = best_bid_price;
 
-						for(unsigned int i=0; i<selectedWarrant.size(); i++){
-							warrant* w = selectedWarrant[i];
-
-							Log("Issuer = " + issuer + " Selected Code = " + to_string(w->Code));
-
-							w->Status = STATUS_READY;
-							obs->addWarrantOrCbbc(w);
-
-							pmsg->detectedlist.insert(w);
-							selectcount++;
+						if(obs->SpreadTableCode == ""){
+							COmdcAdditionDefinitions itdef = omdcAdditionDefinitionsMap[tradable.m_Code];
+							obs->SpreadTableCode = itdef.SpreadTableCode;
 						}
 
-					}
-
-					if(selectcount > 0){
-
-						ouputQueue.enqueue(pmsg);
 
 
-						obs->Status = STATUS_READY;
-						obs->detected = true;
+						auto pmsg = algo_signal_msg_pool.get_obj();
+						pmsg->al = this;
+						pmsg->algo_name = this->_name;
+						pmsg->id = this->_u.get_id();
+						pmsg->ref = to_string(tradable.m_Code);
+						pmsg->code = tradable.m_Code;
+						pmsg->detect_ask = obs->DetectedAsk;
+						pmsg->selected = true;
 
-						Log("Code = " + to_string(tradable.m_Code) + " Has Signal @ " + to_string(best_ask_price));
+						int selectcount = 0;
+
+						//for(unsigned int j=0; j<selectedIssuer.size(); j++){
+						for(auto f : selectedIssuer) {
+							string issuer = f;
+
+							vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer(issuer,tradable.m_Code, best_bid_price,best_ask_price );
+							if(selectedWarrant.size() == 0)
+								continue;
+
+							for(unsigned int i=0; i<selectedWarrant.size(); i++){
+								warrant* w = selectedWarrant[i];
+
+								Log("Issuer = " + issuer + " Selected Code = " + to_string(w->Code));
+
+								w->Status = STATUS_READY;
+								obs->addWarrantOrCbbc(w);
+
+								pmsg->detectedlist.insert(w);
+								selectcount++;
+							}
+
+						}
+
+						if(selectcount > 0){
+
+							ouputQueue.enqueue(pmsg);
+
+
+							obs->Status = STATUS_READY;
+							obs->detected = true;
+
+							Log("Code = " + to_string(tradable.m_Code) + " Has Signal @ " + to_string(best_ask_price));
+						}
 					}
 				}
-			}
-		}
-		else
-		{
-			if(obs->detected ){
-
-				auto pmsg = algo_signal_msg_pool.get_obj();
-				pmsg->al = this;
-				pmsg->algo_name = this->_name;
-				pmsg->id = this->_u.get_id();
-				pmsg->ref = to_string(tradable.m_Code);
-				pmsg->code = tradable.m_Code;
-				pmsg->detect_ask = 0;
-				pmsg->selected = false;
-				ouputQueue.enqueue(pmsg);
-
-				obs->removeAllWarrants();
-				obs->Status = STATUS_NEW;
-				obs->detected = false;
-
-				Log("Code = " + to_string(tradable.m_Code) + " Reset Signal");
 			}
 		}
 	}
