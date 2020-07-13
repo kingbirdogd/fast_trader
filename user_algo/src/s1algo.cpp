@@ -379,7 +379,21 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					obsw->Quantity += odr.filled_quantity;
 					obsw->OrderId = odr.order_id;
 
-
+					auto msg = algo_order_msg_pool.get_obj();
+					msg->al = _algo;
+					msg->algo_name = _algo->_name;
+					msg->id = _algo->_u.get_id();
+					msg->ref = _Ref;
+					msg->orderid = odr.order_id;
+					msg->warrant_code = _warrant_code;
+					msg->side = "BUY";
+					msg->filled_price = odr.match_price;
+					msg->filled_quantity = odr.filled_quantity;
+					msg->order_price = obsw->BuyPrice;
+					msg->order_quantity = obsw->BuyQuantity;
+					msg->status = "filled";
+					msg->transaction_time = obsw->BuyTime;
+					ouputQueue.enqueue(msg);
 
 					if(obs->allStatus(STATUS_AVAILABLE)){
 						obs->Status = STATUS_AVAILABLE;
@@ -389,8 +403,25 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 				if (dbp::top::order_status::canceled == status || dbp::top::order_status::rejected == status)
 				{
 
-					if(obs->warrantStatus(code, STATUS_PENDING)){
-						warrant* wobs = obs->getRelatedWarrant(code);
+					warrant* wobs = obs->getRelatedWarrant(code);
+					if(wobs->Status == STATUS_PENDING)
+					{
+
+						auto msg = algo_order_msg_pool.get_obj();
+						msg->al = _algo;
+						msg->algo_name = _algo->_name;
+						msg->id = _algo->_u.get_id();
+						msg->ref = _Ref;
+						msg->orderid = odr.order_id;
+						msg->warrant_code = _warrant_code;
+						msg->side = "BUY";
+						msg->order_price = wobs->BuyPrice;
+						msg->order_quantity = wobs->BuyQuantity;
+						msg->transaction_time = wobs->BuyTime;
+						msg->status = "cancel";
+						msg->reason = string(odr.reject_reason);
+						ouputQueue.enqueue(msg);
+
 						wobs->Status = STATUS_REJECTED;
 						obs->removeWarrantOrCbbc(code);
 						Log( "Cancelled Warrant Code = " + to_string(code));
@@ -414,7 +445,68 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					if(obsw->Quantity == odr.filled_quantity)
 					{
 						Log(" Sell Security Code = " + to_string(code));
+
+						auto msg = algo_order_msg_pool.get_obj();
+						msg->al = _algo;
+						msg->algo_name = _algo->_name;
+						msg->id = _algo->_u.get_id();
+						msg->ref = _Ref;
+						msg->orderid = odr.order_id;
+						msg->warrant_code = code;
+						msg->side = "SELL";
+						msg->filled_price = odr.match_price;
+						msg->filled_quantity = odr.filled_quantity;
+						msg->order_price = obsw->SellPrice;
+						msg->order_quantity = obsw->Quantity;
+						msg->transaction_time = obsw->SoldTime;
+						msg->status = "filled";
+						ouputQueue.enqueue(msg);
+
+
+						auto pmsg = algo_portfolio_msg_pool.get_obj();
+						pmsg->al = _algo;
+						pmsg->algo_name = _algo->_name;
+						pmsg->id = _algo->_u.get_id();
+						pmsg->ref = _Ref;
+						pmsg->warrant_code = code;
+						pmsg->buy_price = obsw->BuyPrice;
+						pmsg->sell_price = obsw->SellPrice;
+						pmsg->quantity = obsw->Quantity;
+						pmsg->buytime = obsw->BuyTime;
+						pmsg->selltime= obsw->SoldTime;
+						ouputQueue.enqueue(pmsg);
+
 					}else{
+						auto msg = algo_order_msg_pool.get_obj();
+						msg->al = _algo;
+						msg->algo_name = _algo->_name;
+						msg->id = _algo->_u.get_id();
+						msg->ref = _Ref;
+						msg->orderid = odr.order_id;
+						msg->warrant_code = code;
+						msg->side = "SELL";
+						msg->filled_price = odr.match_price;
+						msg->filled_quantity = odr.filled_quantity;
+						msg->order_price = obsw->SellPrice;
+						msg->order_quantity = obsw->Quantity;
+						msg->transaction_time = obsw->SoldTime;
+						msg->status = "Partial filled";
+						ouputQueue.enqueue(msg);
+
+						auto pmsg = algo_portfolio_msg_pool.get_obj();
+						pmsg->al = _algo;
+						pmsg->algo_name = _algo->_name;
+						pmsg->id = _algo->_u.get_id();
+						pmsg->ref = _Ref;
+						pmsg->warrant_code = code;
+						pmsg->buy_price = obsw->BuyPrice;
+						pmsg->sell_price = obsw->SellPrice;
+						pmsg->quantity = odr.filled_quantity;
+						pmsg->buytime = obsw->BuyTime;
+						pmsg->selltime= obsw->SoldTime;
+						ouputQueue.enqueue(pmsg);
+
+
 						obsw->Quantity = obsw->Quantity - odr.filled_quantity;
 						obsw->SoldTime = "";
 						obsw->SellPrice = 0;
@@ -430,8 +522,27 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 				}
 				if (dbp::top::order_status::canceled == status || dbp::top::order_status::rejected == status)
 				{
-					if(obs->warrantStatus(code, STATUS_SELLING)){
+					warrant* wobs = _OBSetting->getRelatedWarrant(code);
+
+					if(wobs->Status == STATUS_SELLING)
+					{
+						auto msg = algo_order_msg_pool.get_obj();
+						msg->al = _algo;
+						msg->algo_name = _algo->_name;
+						msg->id = _algo->_u.get_id();
+						msg->ref = _Ref;
+						msg->orderid = odr.order_id;
+						msg->warrant_code = code;
+						msg->side = "SELL";
+						msg->order_price = wobs->SellPrice;
+						msg->order_quantity = wobs->Quantity;
+						msg->transaction_time =  string(odr.transaction_tm);
+						msg->status = "cancel";
+						msg->reason = string(odr.reject_reason);
+						ouputQueue.enqueue(msg);
+
 						Log("Sell Cancelled Warrant Code = " + to_string(code) + " Update Status to Available");
+
 						obs->setRelatedWarrantStatus(code, STATUS_AVAILABLE);
 						obs->Status = STATUS_AVAILABLE;
 					}
@@ -461,4 +572,5 @@ std::string s1algo::get_lib_name()
 	return "s1algo";
 }
 
-
+rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_order_msg, 8192> s1algo::algo_order_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_portfolio_msg, 8192> s1algo::algo_portfolio_msg_pool;

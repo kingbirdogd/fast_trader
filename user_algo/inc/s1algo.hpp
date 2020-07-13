@@ -33,6 +33,92 @@ public:
 	SelectedWarrant CSelectedWarrant;
 	int MarketStatus;
 	AlgoBetX algoBet;
+
+private:
+	struct algo_order_msg: public algo_msg_base
+	{
+		unsigned long long orderid;
+		unsigned int warrant_code;
+		std::string action;
+		std::string side;
+		unsigned long long order_price;
+		unsigned long long order_quantity;
+		unsigned long long filled_price;
+		unsigned long long filled_quantity;
+		std::string status;
+		std::string transaction_time;
+		std::string reason;
+
+		algo_order_msg():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["orderid"] = orderid;
+			j["warrant_code"] = warrant_code;
+			j["action"] = "order";
+			j["side"] = side;
+			j["order_price"] = order_price;
+			j["order_quantity"] = order_quantity;
+			if(status == "filled" || status == "Partial filled"){
+				j["filled_price"] = filled_price;
+				j["filled_quantity"] = filled_quantity;
+			}
+			j["status"] = status;
+			j["transaction_time"] = string(transaction_time);
+			j["reason"] = string(reason);
+			j["recovery"] = true;
+			return j;
+		}
+		virtual void on_command()
+		{
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_order_msg_pool.release_obj(this);
+		}
+		virtual ~algo_order_msg() = default;
+	};
+	struct algo_portfolio_msg: public algo_msg_base
+	{
+		unsigned long long orderid;
+		unsigned int warrant_code;
+		unsigned long long buy_price;
+		unsigned long long sell_price;
+		unsigned long long quantity;
+		std::string buytime;
+		std::string selltime;
+
+		algo_portfolio_msg():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["action"] = "portfolio";
+			j["warrant_code"] = warrant_code;
+			j["buy_price"] = buy_price;
+			j["buytime"] = buytime;
+			j["sell_price"] = sell_price;
+			j["sellime"] = selltime;
+			j["quantity"] = quantity;
+			j["recovery"] = true;
+			return j;
+		}
+		virtual void on_command()
+		{
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_portfolio_msg_pool.release_obj(this);
+		}
+		virtual ~algo_portfolio_msg() = default;
+	};
 public:
 	s1algo() = delete;
 	s1algo(user& u, const std::string& name);
@@ -56,7 +142,12 @@ public:
 	virtual std::string get_lib_name();
 
 	virtual void Log(std::string msg);
+public:
+	static rapid_ring::spsc_ring_buffer_object_pool<algo_order_msg, 8192> algo_order_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_portfolio_msg, 8192> algo_portfolio_msg_pool;
 };
+
+
 
 
 
