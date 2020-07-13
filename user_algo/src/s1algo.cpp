@@ -413,7 +413,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						msg->id = this->_u.get_id();
 						msg->ref = to_string(code);
 						msg->orderid = odr.order_id;
-						msg->warrant_code = _warrant_code;
+						msg->warrant_code = code;
 						msg->side = "BUY";
 						msg->order_price = wobs->BuyPrice;
 						msg->order_quantity = wobs->BuyQuantity;
