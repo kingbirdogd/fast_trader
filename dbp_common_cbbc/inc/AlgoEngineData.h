@@ -103,8 +103,8 @@ struct warrant{
 	unsigned long long UBuyPrice;
 	unsigned long long USoldPrice;
 
-	float UBid;
-	float UAsk;
+	unsigned long long UBid;
+	unsigned long long UAsk;
 
 	int DBuyPrice;
 	int DSellPrice;

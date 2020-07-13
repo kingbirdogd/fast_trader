@@ -261,6 +261,8 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 				newWarrant->Quantity = 0;
 				newWarrant->Issuer = wiv.Issuer;
 				newWarrant->Status = STATUS_READY;
+				newWarrant->UBid = ubid;
+				newWarrant->UAsk = uask;
 
 				selectedWarrant.push_back(newWarrant);
 			}
@@ -345,7 +347,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					}
 
 					wobsArray[i]->Status = STATUS_PENDING;
-					wobsArray[i]->StopLostPrice = wobsArray[i]->bid_price;
+					wobsArray[i]->StopLostPrice = wobsArray[i]->UBid;
 					bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::buy, wobsArray[i]->RefWAsk, wobsArray[i]->BuyQuantity);
 					if(!result){
 						obs->removeWarrantOrCbbc(wobsArray[i]->Code);
