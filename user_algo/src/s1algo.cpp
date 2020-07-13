@@ -97,6 +97,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 				if(best_ask_price != obs->DetectedAsk){
 					obs->Status = STATUS_NEW;
 					obs->detected = false;
+					Log("Code = " + to_string(tradable.m_Code) + " Reset Signal");
 				}
 			}
 			else
