@@ -147,7 +147,7 @@ private:
 				jw["code"] = f->Code;
 				jw["name"] = f->Name;
 				jw["ask"] = f->RefWAsk;
-				j["detectedlist"].insert(jw);
+				j["detectedlist"].push_back(jw);
 			}
 
 			return j;
