@@ -443,7 +443,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					auto it = omdcMap.find(code);
 					if(it != omdcMap.end()){
 						auto wbest_bid_price = static_cast<unsigned long long>(it->second.m_Bid[0].m_iPrice) * 100000;
-						auto wbest_ask_price = static_cast<unsigned long long>(it->second.m_Ask[0].m_iPrice) * 100000;
+						//auto wbest_ask_price = static_cast<unsigned long long>(it->second.m_Ask[0].m_iPrice) * 100000;
 
 						PriceMark* spm = pricemarkMap[code];
 						unsigned long long pcb = spm->sellOut(wbest_bid_price);
