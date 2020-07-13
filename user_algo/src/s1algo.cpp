@@ -142,7 +142,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						w->Status = STATUS_READY;
 						obs->addWarrantOrCbbc(w);
 
-						detectedlist.insert(w);
+						pmsg->detectedlist.insert(w);
 					}
 
 
