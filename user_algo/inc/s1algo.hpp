@@ -119,6 +119,40 @@ private:
 		}
 		virtual ~algo_portfolio_msg() = default;
 	};
+	struct algo_signal_msg: public algo_msg_base
+	{
+		unsigned int code;
+		unsigned long long detect_ask;
+		bool selected;
+
+		algo_signal_msg():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["action"] = "signal";
+			j["code"] = code;
+			j["detected_ask"] = detect_ask;
+			if(selected){
+				j["detected"] = true;
+			}else{
+				j["detected"] = false;
+			}
+
+			return j;
+		}
+		virtual void on_command()
+		{
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_signal_msg_pool.release_obj(this);
+		}
+		virtual ~algo_signal_msg() = default;
+	};
 public:
 	s1algo() = delete;
 	s1algo(user& u, const std::string& name);
@@ -145,6 +179,7 @@ public:
 public:
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_order_msg, 8192> algo_order_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_portfolio_msg, 8192> algo_portfolio_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_signal_msg, 8192> algo_signal_msg_pool;
 };
 
 

@@ -98,6 +98,16 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					obs->Status = STATUS_NEW;
 					obs->detected = false;
 					Log("Code = " + to_string(tradable.m_Code) + " Reset Signal");
+
+					auto pmsg = algo_signal_msg_pool.get_obj();
+					pmsg->al = this;
+					pmsg->algo_name = this->_name;
+					pmsg->id = this->_u.get_id();
+					pmsg->ref = to_string(code);
+					pmsg->code = code;
+					pmsg->detected_ask = 0;
+					pmsg->selected = false;
+					ouputQueue.enqueue(pmsg);
 				}
 			}
 			else
@@ -121,6 +131,18 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						w->Status = STATUS_READY;
 						obs->addWarrantOrCbbc(w);
 					}
+
+					auto pmsg = algo_signal_msg_pool.get_obj();
+					pmsg->al = this;
+					pmsg->algo_name = this->_name;
+					pmsg->id = this->_u.get_id();
+					pmsg->ref = to_string(code);
+					pmsg->code = code;
+					pmsg->detected_ask = obs->DetectedAsk;
+					pmsg->selected = true;
+					ouputQueue.enqueue(pmsg);
+
+
 					obs->Status = STATUS_READY;
 					obs->detected = true;
 
@@ -131,6 +153,17 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		else
 		{
 			if(obs->detected ){
+
+				auto pmsg = algo_signal_msg_pool.get_obj();
+				pmsg->al = this;
+				pmsg->algo_name = this->_name;
+				pmsg->id = this->_u.get_id();
+				pmsg->ref = to_string(code);
+				pmsg->code = code;
+				pmsg->detected_ask = 0;
+				pmsg->selected = false;
+				ouputQueue.enqueue(pmsg);
+
 				obs->removeAllWarrants();
 				obs->Status = STATUS_NEW;
 				obs->detected = false;
@@ -294,6 +327,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					if(!result){
 						obs->removeWarrantOrCbbc(wobsArray[i]->Code);
 					}
+					Log("Do Buy Warrant Code =  " = to_string(wobsArray[i]->Code) + " @ " + to_string(wobsArray[i]->RefWAsk));
 				}
 
 				if(obs->hasWarrants()){
@@ -399,6 +433,8 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						obs->Status = STATUS_AVAILABLE;
 						obs->hasPosition = true;
 					}
+
+					Log("Filed Buy Warrant Code =  " = to_string(code));
 				}
 				if (dbp::top::order_status::canceled == status || dbp::top::order_status::rejected == status)
 				{
@@ -514,6 +550,8 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						obs->addWarrantOrCbbc(obsw);
 					}
 
+					Log("Filed Sell Warrant Code =  " = to_string(code));
+
 					if(obs->getRelatedWarrantCount() == 0){
 						obs->hasPosition = false;
 						obs->detected = false;
@@ -574,3 +612,4 @@ std::string s1algo::get_lib_name()
 
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_order_msg, 8192> s1algo::algo_order_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_portfolio_msg, 8192> s1algo::algo_portfolio_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_signal_msg, 8192> s1algo::algo_signal_msg_pool;
