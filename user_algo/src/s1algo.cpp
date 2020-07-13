@@ -236,7 +236,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		if (0 != type && 100 != type)
 			return;
 
-		Log("on_omdc_trade code = " + to_string(tradable.m_Code) + " OBSetting");
+		//Log("on_omdc_trade code = " + to_string(tradable.m_Code) + " OBSetting");
 		OBSetting* obs = obMap[tradable.m_Code];
 
 		if(obs->hasPosition)
