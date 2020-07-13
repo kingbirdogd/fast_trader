@@ -123,14 +123,6 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer("MB",tradable.m_Code, best_bid_price,best_ask_price );
 					if(selectedWarrant.size() == 0)
 						return;
-					for(unsigned int i=0; i<selectedWarrant.size(); i++){
-						warrant* w = selectedWarrant[i];
-
-						Log("Selected Code = " + to_string(w->Code));
-
-						w->Status = STATUS_READY;
-						obs->addWarrantOrCbbc(w);
-					}
 
 					auto pmsg = algo_signal_msg_pool.get_obj();
 					pmsg->al = this;
@@ -140,6 +132,20 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					pmsg->code = code;
 					pmsg->detected_ask = obs->DetectedAsk;
 					pmsg->selected = true;
+
+
+					for(unsigned int i=0; i<selectedWarrant.size(); i++){
+						warrant* w = selectedWarrant[i];
+
+						Log("Selected Code = " + to_string(w->Code));
+
+						w->Status = STATUS_READY;
+						obs->addWarrantOrCbbc(w);
+
+						detectedlist.insert(w);
+					}
+
+
 					ouputQueue.enqueue(pmsg);
 
 
@@ -229,6 +235,7 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 				warrant* newWarrant = new warrant;
 				newWarrant->Date = DateUtil::getToday();
 				newWarrant->Code = n;
+				newWarrant->Name = itdef->second.SecuritySortName;
 				newWarrant->Status = STATUS_READY;
 				newWarrant->Egearing = wiv.Egearing;
 				newWarrant->UCode = underlying;
