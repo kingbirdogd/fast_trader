@@ -105,7 +105,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					pmsg->id = this->_u.get_id();
 					pmsg->ref = to_string(tradable.m_Code);
 					pmsg->code = tradable.m_Code;
-					pmsg->detected_ask = 0;
+					pmsg->detect_ask = 0;
 					pmsg->selected = false;
 					ouputQueue.enqueue(pmsg);
 				}
@@ -130,7 +130,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					pmsg->id = this->_u.get_id();
 					pmsg->ref = to_string(code);
 					pmsg->code = code;
-					pmsg->detected_ask = obs->DetectedAsk;
+					pmsg->detect_ask = obs->DetectedAsk;
 					pmsg->selected = true;
 
 
@@ -166,7 +166,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 				pmsg->id = this->_u.get_id();
 				pmsg->ref = to_string(code);
 				pmsg->code = code;
-				pmsg->detected_ask = 0;
+				pmsg->detect_ask = 0;
 				pmsg->selected = false;
 				ouputQueue.enqueue(pmsg);
 
