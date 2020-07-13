@@ -637,7 +637,7 @@ private:
 						strstatus = "filled";
 						_last_trigger_price = _buy_trriger;
 						_last_price = odr.match_price;
-						_Profit -= odr.filled_quantity * odr.match_price;
+						//_Profit -= odr.filled_quantity * odr.match_price;
 					}
 					/*
 					if (odr.order_id == _auto_buy_id && dbp::top::order_status::filled != status)
@@ -668,7 +668,7 @@ private:
 							_last_trigger_price = _sell_trriger;
 							_last_price = odr.match_price;
 
-							_Profit += odr.filled_quantity * odr.match_price;
+							//_Profit += odr.filled_quantity * odr.match_price;
 						}
 					}else{
 						strstatus = "cancel";
