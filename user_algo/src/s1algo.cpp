@@ -129,7 +129,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					pmsg->algo_name = this->_name;
 					pmsg->id = this->_u.get_id();
 					pmsg->ref = to_string(tradable.m_Code);
-					pmsg->code = code;
+					pmsg->code = tradable.m_Code;
 					pmsg->detect_ask = obs->DetectedAsk;
 					pmsg->selected = true;
 
