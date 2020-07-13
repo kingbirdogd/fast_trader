@@ -557,7 +557,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						obs->addWarrantOrCbbc(obsw);
 					}
 
-					Log("Filed Sell Warrant Code =  " = to_string(code));
+					Log("Filed Sell Warrant Code =  " + to_string(code));
 
 					if(obs->getRelatedWarrantCount() == 0){
 						obs->hasPosition = false;
