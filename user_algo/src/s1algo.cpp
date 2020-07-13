@@ -334,7 +334,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					if(!result){
 						obs->removeWarrantOrCbbc(wobsArray[i]->Code);
 					}
-					Log("Do Buy Warrant Code =  " = to_string(wobsArray[i]->Code) + " @ " + to_string(wobsArray[i]->RefWAsk));
+					Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wobsArray[i]->RefWAsk));
 				}
 
 				if(obs->hasWarrants()){
