@@ -103,8 +103,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					pmsg->al = this;
 					pmsg->algo_name = this->_name;
 					pmsg->id = this->_u.get_id();
-					pmsg->ref = to_string(code);
-					pmsg->code = code;
+					pmsg->ref = to_string(tradable.m_Code);
+					pmsg->code = tradable.m_Code;
 					pmsg->detected_ask = 0;
 					pmsg->selected = false;
 					ouputQueue.enqueue(pmsg);
