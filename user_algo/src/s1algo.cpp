@@ -672,7 +672,7 @@ void s1algo::handle_command(algo_msg_base& msg)
 	msg.on_command();
 }
 
-algo_msg_base* s1algo::json_to_msg(json& )
+algo_msg_base* s1algo::json_to_msg(json& json)
 {
 	algo_marketstatus_msg* pMarketStatus_msg = nullptr;
 	try
