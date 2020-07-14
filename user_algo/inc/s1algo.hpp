@@ -175,8 +175,8 @@ private:
 
 		algo_marketstatus_msg():
 			algo_msg_base(),
-			prevmarketstatus(MARKET_NOREADY),
-			currmarketstatus(MARKET_NOREADY),
+			prevmarketstatus(MARKET_NOTREADY),
+			currmarketstatus(MARKET_NOTREADY),
 			action("")
 		{
 		}
