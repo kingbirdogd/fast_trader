@@ -105,7 +105,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					//obs->Status = STATUS_NEW;
 					obs->removeAllWarrants();
 					obs->detected = false;
-					Log("Code = " + to_string(tradable.m_Code) + " Reset Signal");
+					Log("Code = " + to_string(tradable.m_Code) + " Reset Signal 1");
 
 					auto pmsg = algo_signal_msg_pool.get_obj();
 					pmsg->al = this;
@@ -133,7 +133,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					//obs->Status = STATUS_NEW;
 					obs->detected = false;
 
-					Log("Code = " + to_string(tradable.m_Code) + " Reset Signal");
+					Log("Code = " + to_string(tradable.m_Code) + " Reset Signal 2");
 				}
 				return;
 			}
@@ -454,6 +454,9 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 
 						PriceMark* spm = pricemarkMap[code];
 						unsigned long long pcb = spm->sellOut(wbest_bid_price);
+						if(pcb == 99999999){
+							pcb = obs->StopLostPrice;
+						}
 
 						obsw->StopLostPrice = pcb;
 
