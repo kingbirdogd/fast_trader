@@ -674,7 +674,46 @@ void s1algo::handle_command(algo_msg_base& msg)
 
 algo_msg_base* s1algo::json_to_msg(json& )
 {
-	return nullptr;
+	algo_marketstatus_msg* pMarketStatus_msg = nullptr;
+	try
+	{
+		auto cmd = json["cmd"].get<std::string>();
+		auto ref = json["ref"].get<std::string>();
+		if (cmd == "marketstatus"){
+			pMarketStatus_msg = algo_marketstatus_msg_pool.get_obj();
+			pMarketStatus_msg->al = this;
+			pMarketStatus_msg->algo_name = _name;
+			pMarketStatus_msg->id = _u.get_id();
+			pMarketStatus_msg->ref = ref;
+			pMarketStatus_msg->action = cmd;
+			pMarketStatus_msg->action = json["action"].get<std::string>();
+			return pMarketStatus_msg;
+		}
+		else
+		{
+			auto msg = algo_err_msg_pool.get_obj();
+			msg->al = this;
+			msg->algo_name = _name;
+			msg->id = _u.get_id();
+			msg->ref = ref;
+			msg->action = "json_to_msg";
+			msg->result = "FAIL";
+			msg->reason = std::string("invalid command");
+			return msg;
+		}
+	}
+	catch(const std::exception& e)
+	{
+		auto msg = algo_err_msg_pool.get_obj();
+		msg->al = this;
+		msg->algo_name = _name;
+		msg->id = _u.get_id();
+		msg->ref = "unknown";
+		msg->action = "json_to_msg";
+		msg->result = "FAIL";
+		msg->reason = std::string("Exception");
+		return msg;
+	}
 }
 
 std::string s1algo::get_lib_name()
@@ -682,6 +721,8 @@ std::string s1algo::get_lib_name()
 	return "s1algo";
 }
 
+rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_err_msg, 8192> s1algo::algo_err_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_marketstatus_msg, 8192> s1algo::algo_marketstatus_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_order_msg, 8192> s1algo::algo_order_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_portfolio_msg, 8192> s1algo::algo_portfolio_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_signal_msg, 8192> s1algo::algo_signal_msg_pool;

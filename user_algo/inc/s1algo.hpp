@@ -167,6 +167,80 @@ private:
 		}
 		virtual ~algo_signal_msg() = default;
 	};
+	struct algo_marketstatus_msg: public algo_msg_base
+	{
+		int prevmarketstatus;
+		int currmarketstatus;
+		std::string action;
+
+		algo_marketstatus_msg():
+			algo_msg_base(),
+			prevmarketstatus(MARKET_NOREADY),
+			currmarketstatus(MARKET_NOREADY),
+			action("")
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["action_type"] = action;
+			j["previous_action_status"] = prevmarketstatus;
+			j["new_action_status"] = currmarketstatus;
+			j["recovery"] = true;
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<s1algo*>(al);
+
+			prevmarketstatus = self->MarketStatus;
+			if(action == "start"){
+				self->MarketStatus = MARKET_START;
+			}
+			if(action == "stop"){
+				self->MarketStatus = MARKET_STOP;
+			}
+			currmarketstatus = self->MarketStatus;
+
+			ouputQueue.enqueue(this);
+
+		}
+		virtual void release()
+		{
+			algo_marketstatus_msg_pool.release_obj(this);
+		}
+		virtual ~algo_marketstatus_msg() = default;
+	};
+	struct algo_err_msg: public algo_msg_base
+	{
+		std::string action;
+		std::string result;
+		std::string reason;
+		algo_err_msg():
+			algo_msg_base(),
+			action(""),
+			result(""),
+			reason("")
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["action"] = action;
+			j["result"] = result;
+			j["reason"] = reason;
+			return j;
+		}
+		virtual void on_command()
+		{
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_err_msg_pool.release_obj(this);
+		}
+		virtual ~algo_err_msg() = default;
+	};
 public:
 	s1algo() = delete;
 	s1algo(user& u, const std::string& name);
@@ -191,6 +265,8 @@ public:
 
 	virtual void Log(std::string msg);
 public:
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_err_msg, 8192> algo_err_msg_pool;
+	static rapid_ring::spsc_ring_buffer_object_pool<algo_marketstatus_msg, 8192> algo_marketstatus_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_order_msg, 8192> algo_order_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_portfolio_msg, 8192> algo_portfolio_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_signal_msg, 8192> algo_signal_msg_pool;
