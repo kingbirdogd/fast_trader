@@ -97,12 +97,12 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		if(obs == nullptr)
 			return;
 
-		if(obs->Status == STATUS_NEW || obs->Status == STATUS_READY){
+//		if(obs->Status == STATUS_NEW || obs->Status == STATUS_READY){
 
 			if(obs->detected){
 
-				if(best_ask_price != obs->DetectedAsk){
-					obs->Status = STATUS_NEW;
+				if(best_ask_price != obs->DetectedAsk && obs->Status == STATUS_READY){
+					//obs->Status = STATUS_NEW;
 					obs->detected = false;
 					Log("Code = " + to_string(tradable.m_Code) + " Reset Signal");
 
@@ -117,7 +117,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					ouputQueue.enqueue(pmsg);
 					return;
 				}
-				if(!it->second->hasSignal){
+				if(!it->second->hasSignal  && obs->Status == STATUS_READY){
 					auto pmsg = algo_signal_msg_pool.get_obj();
 					pmsg->al = this;
 					pmsg->algo_name = this->_name;
@@ -195,7 +195,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					}
 				}
 			}
-		}
+		//}
 	}
 
 }
@@ -444,7 +444,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					obsw->Quantity += odr.filled_quantity;
 					obsw->OrderId = odr.order_id;
 
-
+					obsw->Status = STATUS_AVAILABLE;
 
 					auto it = omdcMap.find(code);
 					if(it != omdcMap.end()){
@@ -481,7 +481,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						obs->hasPosition = true;
 					}
 
-					Log("Filed Buy Warrant Code =  " + to_string(code) + " UCode = " + to_string(ucode));
+					Log("Filed Buy Warrant Code =  " + to_string(code) + " UCode = " + to_string(ucode) + " Status = " + to_string(obs->Status));
 				}
 				if (dbp::top::order_status::canceled == status || dbp::top::order_status::rejected == status)
 				{
@@ -600,6 +600,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					Log("Filed Sell Warrant Code =  " + to_string(code) + " UCode = " + to_string(ucode));
 
 					if(obs->getRelatedWarrantCount() == 0){
+						//obs->Status = STATUS_NEW;
 						obs->hasPosition = false;
 						obs->detected = false;
 					}
