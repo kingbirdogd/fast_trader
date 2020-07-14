@@ -75,7 +75,7 @@ bool OBSetting::hasWarrants(){
 }
 
 unsigned long long OBSetting::getHighestStopLostPrice(){
-	float higheststoplost = 0;
+	unsigned long long higheststoplost = 0;
 	for ( auto it = WarrantMap.begin(); it != WarrantMap.end(); ++it )
 	{
 		warrant *w = it->second;
@@ -87,7 +87,7 @@ unsigned long long OBSetting::getHighestStopLostPrice(){
 }
 
 unsigned long long OBSetting::getLowestStopLostPrice(){
-	float loweststoplost = 9999;
+	unsigned long long loweststoplost = 9999ull * 100000000ull;
 	for ( auto it = WarrantMap.begin(); it != WarrantMap.end(); ++it )
 	{
 		warrant *w = it->second;

@@ -306,9 +306,12 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		{
 			auto trade_quantity = static_cast<unsigned long long>(tradable.m_AccumulateSellQuantity);
 			if(TradeSide::SELL_SIDE == side && trade_quantity >= best_bid_vol){
+
+				unsigned long long highestStopLost = obs->getHighestStopLostPrice();
+				Log("UCode = " + to_string(tradable.m_Code) + " Highest StopLost = " + highestStopLost);
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
 
-				if(trade_price <= obs->getHighestStopLostPrice()){
+				if(trade_price <= highestStopLost){
 					if(obs->hasRelatedWarrant(STATUS_AVAILABLE)){
 						for(unsigned int i=0; i<wobsArray.size(); i++){
 							if(wobsArray[i]->Status != STATUS_AVAILABLE){
