@@ -510,7 +510,8 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						ouputQueue.enqueue(msg);
 
 						wobs->Status = STATUS_REJECTED;
-						obs->removeWarrantOrCbbc(code);
+						warrant* w = obs->removeWarrantOrCbbc(code);
+						delete w;
 						Log( "Cancelled Warrant Code = " + to_string(code) + " UCode = " + to_string(ucode));
 					}
 
@@ -572,6 +573,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						pmsg->selltime= obsw->SoldTime;
 						ouputQueue.enqueue(pmsg);
 
+						delete obsw;
 					}else{
 						auto msg = algo_order_msg_pool.get_obj();
 						msg->al = this;
