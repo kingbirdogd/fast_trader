@@ -43,6 +43,12 @@ warrant* OBSetting::removeWarrantOrCbbc(unsigned int code){
 }
 
 void OBSetting::removeAllWarrants(){
+
+	for (auto& it: WarrantMap) {
+	    // Do stuff
+	    delete it.second;
+	}
+
 	WarrantMap.clear();
 }
 
