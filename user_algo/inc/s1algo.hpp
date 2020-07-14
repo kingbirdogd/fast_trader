@@ -197,8 +197,8 @@ private:
 			if(action == "start"){
 				self->MarketStatus = MARKET_START;
 			}
-			if(action == "stop"){
-				self->MarketStatus = MARKET_STOP;
+			if(action == "pause"){
+				self->MarketStatus = MARKET_PAUSE;
 			}
 			currmarketstatus = self->MarketStatus;
 
