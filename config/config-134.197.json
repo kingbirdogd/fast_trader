@@ -45,6 +45,7 @@
 			"USER":"P990098",
 			"PASS":"pass",
 			"BUY_POWER":500000,
+			"DISABLE":true,
 			"ALGOS":
 			{
 				"leo_bear":
@@ -95,6 +96,7 @@
 			"USER":"P990098",
 			"PASS":"pass",
 			"BUY_POWER":500000,
+			"DISABLE":true,
 			"ALGOS":
 			{
 				"wendy_semi":
@@ -270,8 +272,7 @@
 	},
 	"ActivateChannel":
 	[
-		{"Channel":"OmdcChannel"},
-		{"Channel":"OmddChannel"},
+		{"Channel":"OmdcChannel"},		
 		{"Channel":"PriceTableChannel"},
 		{"Channel":"S1Channel"}
 	]
