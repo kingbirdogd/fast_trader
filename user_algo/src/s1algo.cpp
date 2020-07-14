@@ -255,7 +255,7 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 				newWarrant->Date = DateUtil::getToday();
 				newWarrant->Code = n;
 				newWarrant->Name = itdef->second.SecuritySortName;
-				newWarrant->Status = STATUS_READY;
+				//newWarrant->Status = STATUS_READY;
 				newWarrant->Egearing = wiv.Egearing;
 				newWarrant->UCode = underlying;
 				newWarrant->RefWBid = wbest_bid_price;
@@ -508,6 +508,15 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						wobs->Status = STATUS_REJECTED;
 						obs->removeWarrantOrCbbc(code);
 						Log( "Cancelled Warrant Code = " + to_string(code) + " UCode = " + to_string(ucode));
+					}
+
+					if(obs->getRelatedWarrantCount() == 0 ){
+						obs->detected = false;
+					}else{
+						if(obs->allStatus(STATUS_AVAILABLE)){
+							obs->Status = STATUS_AVAILABLE;
+							obs->hasPosition = true;
+						}
 					}
 				}
 			}
