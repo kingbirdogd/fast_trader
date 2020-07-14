@@ -33,6 +33,9 @@ public:
 	SelectedWarrant CSelectedWarrant;
 	int MarketStatus;
 	AlgoBetX algoBet;
+	time_t forceSoldTime;
+	time_t undetectedTime;
+	time_t soldendTime;
 
 private:
 	struct algo_order_msg: public algo_msg_base
@@ -150,6 +153,7 @@ private:
 				j["detectedlist"].push_back(jw);
 			}
 
+
 			return j;
 		}
 		virtual void on_command()
@@ -158,6 +162,7 @@ private:
 		}
 		virtual void release()
 		{
+			detectedlist.clear();
 			algo_signal_msg_pool.release_obj(this);
 		}
 		virtual ~algo_signal_msg() = default;

@@ -11,6 +11,10 @@ s1algo::s1algo(user& u, const std::string& name):
 	selectedIssuer.insert("MS");
 	selectedIssuer.insert("CS");
 
+	string today =  DateUtil::getToday();
+	forceSoldTime =  DateUtil::getTodayTime(today + " 154659");
+	undetectedTime =  DateUtil::getTodayTime(today + " 153600");
+	soldendTime =  DateUtil::getTodayTime(today + " 155959");
 }
 
 void s1algo::on_omdc_book(const Tradable& tradable)
@@ -77,7 +81,12 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		}
 	}
 
-
+/*
+	time_t currenttime = DateUtil::getCurrentSystemTime();
+	if(currenttime > undetectedTime) {
+		return;
+	}
+*/
 	auto it = s1SignalMap.find(tradable.m_Code);
 	if(it != s1SignalMap.end()){
 
