@@ -638,7 +638,7 @@ private:
 				auto itPf = _algo->portfolioMap.find(odr.code);
 				if(itPf == _algo->portfolioMap.end()){
 					_algo->portfolioMap[odr.code] = new portfolio();
-					_algo->portfolioMap[odr.code]->Code = odr.code;
+					_algo->portfolioMap[odr.code]->code = odr.code;
 					_algo->portfolioMap[odr.code]->averagebuy = 0;
 					_algo->portfolioMap[odr.code]->buyturnover = 0;
 					_algo->portfolioMap[odr.code]->averagesell = 0;
