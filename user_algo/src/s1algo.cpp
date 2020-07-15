@@ -33,7 +33,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 	if(itob != obMap.end())
 	{
 		//Log("on_omdc_book code = " + to_string(tradable.m_Code) + " OBSetting");
-		OBSetting* obs = obMap[tradable.m_Code];
+		OBSetting* obs = itob->second;
 		if(obs->hasPosition)
 		{
 			unsigned long long spread = spreadTable.getSpread(obs->SpreadTableCode, best_bid_price-1);
@@ -92,8 +92,11 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 	auto it = s1SignalMap.find(tradable.m_Code);
 	if(it != s1SignalMap.end()){
 
-		auto itob = obMap.find(tradable.m_Code);
-		if(itob == obMap.end()){
+		s1signal* signal = it->second;
+
+
+		auto itob2 = obMap.find(tradable.m_Code);
+		if(itob2 == obMap.end()){
 			obMap[tradable.m_Code] = new OBSetting();
 
 			obMap[tradable.m_Code]->detected = false;
@@ -134,7 +137,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 					return;
 				}
-				if(!it->second->hasSignal  && obs->Status == STATUS_READY){
+				if(!signal->hasSignal  && obs->Status == STATUS_READY){
 					auto pmsg = algo_signal_msg_pool.get_obj();
 					pmsg->al = this;
 					pmsg->algo_name = this->_name;
@@ -154,9 +157,9 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			}
 			else
 			{
-				if(it->second->hasSignal){
+				if(signal->hasSignal){
 
-					if(best_ask_price == it->second->DetectAsk){
+					if(best_ask_price == signal->DetectAsk){
 						obs->DetectedAsk = best_ask_price;
 						obs->StopLostPrice = best_bid_price;
 
@@ -327,7 +330,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 			return;
 
 		//Log("on_omdc_trade code = " + to_string(tradable.m_Code) + " OBSetting");
-		OBSetting* obs = obMap[tradable.m_Code];
+		OBSetting* obs = it->second;
 
 		if(obs->hasPosition)
 		{
@@ -382,7 +385,8 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					wobsArray[i]->StopLostPrice = wobsArray[i]->UBid;
 					bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::buy, wobsArray[i]->RefWAsk, wobsArray[i]->BuyQuantity);
 					if(!result){
-						obs->removeWarrantOrCbbc(wobsArray[i]->Code);
+						warrant* w = obs->removeWarrantOrCbbc(wobsArray[i]->Code);
+						delete w;
 					}
 					Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wobsArray[i]->RefWAsk));
 				}
