@@ -246,6 +246,35 @@ private:
 		}
 		virtual ~algo_marketstatus_msg() = default;
 	};
+	struct algo_setbet_msg: public algo_msg_base
+	{
+		std::string betsize;
+
+		algo_setbet_msg():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["betsize"] = betsize;
+			j["recovery"] = true;
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<s1algo*>(al);
+
+			self->setBetsize(betsize);
+			ouputQueue.enqueue(this);
+
+		}
+		virtual void release()
+		{
+			algo_setbet_msg_pool.release_obj(this);
+		}
+		virtual ~algo_setbet_msg() = default;
+	};
 	struct algo_err_msg: public algo_msg_base
 	{
 		std::string action;
@@ -299,9 +328,11 @@ public:
 	virtual std::string get_lib_name();
 
 	virtual void Log(std::string msg);
+	virtual void setBetsize(std::string betsize);
 public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_err_msg, 8192> algo_err_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_marketstatus_msg, 8192> algo_marketstatus_msg_pool;
+	static rapid_ring::spsc_ring_buffer_object_pool<algo_setbet_msg, 8192> algo_setbet_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_order_msg, 8192> algo_order_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_portfolio_msg, 8192> algo_portfolio_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_signal_msg, 8192> algo_signal_msg_pool;

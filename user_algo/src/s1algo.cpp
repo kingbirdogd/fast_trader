@@ -220,6 +220,10 @@ bool myfunction (warrant* i,warrant* j) {
 	return i->Egearing > j->Egearing;
 }
 
+void s1algo::setBetsize(std::string betsize){
+	algoBet.selectBet(betsize);
+}
+
 vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer, unsigned int underlying, unsigned long long ubid, unsigned long long uask)
 {
 
@@ -698,6 +702,7 @@ void s1algo::handle_command(algo_msg_base& msg)
 algo_msg_base* s1algo::json_to_msg(json& json)
 {
 	algo_marketstatus_msg* pMarketStatus_msg = nullptr;
+	algo_setbet_msg* pSetBet_msg = nullptr;
 	try
 	{
 		auto cmd = json["cmd"].get<std::string>();
@@ -708,9 +713,17 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			pMarketStatus_msg->algo_name = _name;
 			pMarketStatus_msg->id = _u.get_id();
 			pMarketStatus_msg->ref = ref;
-			pMarketStatus_msg->action = cmd;
 			pMarketStatus_msg->action = json["action"].get<std::string>();
 			return pMarketStatus_msg;
+		}
+		else if (cmd == "betsize"){
+			pSetBet_msg = algo_marketstatus_msg_pool.get_obj();
+			pSetBet_msg->al = this;
+			pSetBet_msg->algo_name = _name;
+			pSetBet_msg->id = _u.get_id();
+			pSetBet_msg->ref = ref;
+			pSetBet_msg->betsize = json["betsize"].get<std::string>();
+			return pSetBet_msg;
 		}
 		else
 		{
@@ -735,6 +748,12 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 		msg->action = "json_to_msg";
 		msg->result = "FAIL";
 		msg->reason = std::string("Exception");
+
+		if (pMarketStatus_msg)
+			pMarketStatus_msg->release();
+		if (pSetBet_msg)
+			pSetBet_msg->release();
+
 		return msg;
 	}
 }
@@ -746,6 +765,7 @@ std::string s1algo::get_lib_name()
 
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_err_msg, 8192> s1algo::algo_err_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_marketstatus_msg, 8192> s1algo::algo_marketstatus_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_setbet_msg, 8192> s1algo::algo_setbet_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_order_msg, 8192> s1algo::algo_order_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_portfolio_msg, 8192> s1algo::algo_portfolio_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_signal_msg, 8192> s1algo::algo_signal_msg_pool;
