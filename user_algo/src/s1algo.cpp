@@ -290,6 +290,7 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 					newWarrant->UBid = ubid;
 					newWarrant->UAsk = uask;
 
+
 					selectedWarrant.push_back(newWarrant);
 				}
 			}
