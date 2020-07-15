@@ -297,7 +297,7 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 			delete selectedWarrant[i];
 		}
 		selectedWarrant.erase(selectedWarrant.begin()+MaxBuyNoWarrant, selectedWarrant.end());
-		Log("Maximum selected= " + to_string(MaxBuyNoWarrant) +  issuer + " Selected = " + to_string(selectedWarrant.size()) + " on " + to_string(underlying) );
+		Log("Maximum selected= " + to_string(MaxBuyNoWarrant) + " " + issuer + " Selected = " + to_string(selectedWarrant.size()) + " on " + to_string(underlying) );
 	}
 	return selectedWarrant;
 }
