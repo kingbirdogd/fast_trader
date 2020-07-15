@@ -480,11 +480,13 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					msg->ref = to_string(code);
 					msg->orderid = odr.order_id;
 					msg->warrant_code = code;
+					msg->ucode = ucode;
 					msg->side = "BUY";
 					msg->filled_price = odr.match_price;
 					msg->filled_quantity = odr.filled_quantity;
 					msg->order_price = obsw->BuyPrice;
 					msg->order_quantity = obsw->BuyQuantity;
+					msg->stoplost = obsw->StopLostPrice;
 					msg->status = "filled";
 					msg->transaction_time = obsw->BuyTime;
 					ouputQueue.enqueue(msg);
@@ -510,7 +512,9 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						msg->ref = to_string(code);
 						msg->orderid = odr.order_id;
 						msg->warrant_code = code;
+						msg->ucode = ucode;
 						msg->side = "BUY";
+						msg->stoplost = 0;
 						msg->order_price = wobs->BuyPrice;
 						msg->order_quantity = wobs->BuyQuantity;
 						msg->transaction_time = wobs->BuyTime;
@@ -559,7 +563,9 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						msg->ref = to_string(code);
 						msg->orderid = odr.order_id;
 						msg->warrant_code = code;
+						msg->ucode = ucode;
 						msg->side = "SELL";
+						msg->stoplost = 0;
 						msg->filled_price = odr.match_price;
 						msg->filled_quantity = odr.filled_quantity;
 						msg->order_price = obsw->SellPrice;
@@ -575,6 +581,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						pmsg->id = this->_u.get_id();
 						pmsg->ref = to_string(code);
 						pmsg->warrant_code = code;
+						msg->ucode = ucode;
 						pmsg->buy_price = obsw->BuyPrice;
 						pmsg->sell_price = obsw->SellPrice;
 						pmsg->quantity = obsw->Quantity;
@@ -591,7 +598,9 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						msg->ref = to_string(code);
 						msg->orderid = odr.order_id;
 						msg->warrant_code = code;
+						msg->ucode = ucode;
 						msg->side = "SELL";
+						msg->stoplost = 0;
 						msg->filled_price = odr.match_price;
 						msg->filled_quantity = odr.filled_quantity;
 						msg->order_price = obsw->SellPrice;
@@ -606,6 +615,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						pmsg->id = this->_u.get_id();
 						pmsg->ref = to_string(code);
 						pmsg->warrant_code = code;
+						msg->ucode = ucode;
 						pmsg->buy_price = obsw->BuyPrice;
 						pmsg->sell_price = obsw->SellPrice;
 						pmsg->quantity = odr.filled_quantity;
@@ -644,6 +654,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						msg->orderid = odr.order_id;
 						msg->warrant_code = code;
 						msg->side = "SELL";
+						msg->stoplost = 0;
 						msg->order_price = wobs->SellPrice;
 						msg->order_quantity = wobs->Quantity;
 						msg->transaction_time =  string(odr.transaction_tm);
@@ -726,3 +737,4 @@ rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_marketstatus_msg, 8192> s1
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_order_msg, 8192> s1algo::algo_order_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_portfolio_msg, 8192> s1algo::algo_portfolio_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_signal_msg, 8192> s1algo::algo_signal_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_stoplost_msg, 8192> s1algo::algo_stoplost_msg_pool;

@@ -42,12 +42,14 @@ private:
 	{
 		unsigned long long orderid;
 		unsigned int warrant_code;
+		unsigned int ucode;
 		std::string action;
 		std::string side;
 		unsigned long long order_price;
 		unsigned long long order_quantity;
 		unsigned long long filled_price;
 		unsigned long long filled_quantity;
+		unsigned long long stoplost;
 		std::string status;
 		std::string transaction_time;
 		std::string reason;
@@ -61,6 +63,7 @@ private:
 			auto j = algo_msg_base::to_json();
 			j["orderid"] = orderid;
 			j["warrant_code"] = warrant_code;
+			j["ucode"] = ucode;
 			j["action"] = "order";
 			j["side"] = side;
 			j["order_price"] = order_price;
@@ -69,6 +72,7 @@ private:
 				j["filled_price"] = filled_price;
 				j["filled_quantity"] = filled_quantity;
 			}
+			j["stoplost"] = stoplost;
 			j["status"] = status;
 			j["transaction_time"] = string(transaction_time);
 			j["reason"] = string(reason);
@@ -89,6 +93,7 @@ private:
 	{
 		unsigned long long orderid;
 		unsigned int warrant_code;
+		unsigned int ucode;
 		unsigned long long buy_price;
 		unsigned long long sell_price;
 		unsigned long long quantity;
@@ -104,6 +109,7 @@ private:
 			auto j = algo_msg_base::to_json();
 			j["action"] = "portfolio";
 			j["warrant_code"] = warrant_code;
+			j["ucode"] = ucode;
 			j["buy_price"] = buy_price;
 			j["buytime"] = buytime;
 			j["sell_price"] = sell_price;
@@ -166,6 +172,35 @@ private:
 			algo_signal_msg_pool.release_obj(this);
 		}
 		virtual ~algo_signal_msg() = default;
+	};
+	struct algo_stoplost_msg: public algo_msg_base
+	{
+		unsigned int code;
+		unsigned long long stoplost;
+		unsigned long long wbid;
+
+		algo_stoplost_msg():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["action"] = "stoplost";
+			j["code"] = code;
+			j["stoplost"] = stoplost;
+			j["wbid"] = wbid;
+			return j;
+		}
+		virtual void on_command()
+		{
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_stoplost_msg_pool.release_obj(this);
+		}
+		virtual ~algo_stoplost_msg() = default;
 	};
 	struct algo_marketstatus_msg: public algo_msg_base
 	{
@@ -270,6 +305,7 @@ public:
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_order_msg, 8192> algo_order_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_portfolio_msg, 8192> algo_portfolio_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_signal_msg, 8192> algo_signal_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_stoplost_msg, 8192> algo_stoplost_msg_pool;
 };
 
 
