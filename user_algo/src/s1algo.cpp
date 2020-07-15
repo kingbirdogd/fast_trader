@@ -464,9 +464,9 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 
 					obsw->Status = STATUS_AVAILABLE;
 
-					auto it = omdcMap.find(code);
-					if(it != omdcMap.end()){
-						auto wbest_bid_price = static_cast<unsigned long long>(it->second.m_Bid[0].m_iPrice) * 100000;
+					auto it2 = omdcMap.find(code);
+					if(it2 != omdcMap.end()){
+						auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
 						//auto wbest_ask_price = static_cast<unsigned long long>(it->second.m_Ask[0].m_iPrice) * 100000;
 
 						PriceMark* spm = pricemarkMap[code];
