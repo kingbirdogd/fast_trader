@@ -93,7 +93,7 @@ struct AlgoParameter{
 	double TickRange;
 };
 
-struct profolio{
+struct portfolio{
 	unsigned int code;
 	long long averagebuy;
 	unsigned long long buyturnover;
@@ -358,7 +358,7 @@ using COutputQueue = container::sync_queue<algo_msg_base*>;
 typedef std::unordered_map<unsigned int, PriceMark*> CPriceTableMap;
 typedef std::unordered_map<unsigned int, s1signal*> CS1SignalMap;
 typedef std::unordered_map<unsigned int, pricedata*> CPriceDataMap;
-
+typedef std::map<unsigned int, portfolio*> CPortfolioMap;
 
 
 

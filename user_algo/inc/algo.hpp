@@ -14,6 +14,7 @@ protected:
 	user& _u;
 	std::string _name;
 	long long _Profit;
+	CPortfolioMap portfolioMap;
 public:
 	algo() = delete;
 	algo(user& u, const std::string& name);

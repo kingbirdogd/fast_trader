@@ -717,7 +717,7 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			return pMarketStatus_msg;
 		}
 		else if (cmd == "betsize"){
-			pSetBet_msg = algo_marketstatus_msg_pool.get_obj();
+			pSetBet_msg = algo_setbet_msg_pool.get_obj();
 			pSetBet_msg->al = this;
 			pSetBet_msg->algo_name = _name;
 			pSetBet_msg->id = _u.get_id();

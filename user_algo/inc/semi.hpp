@@ -635,6 +635,17 @@ private:
 
 				fprintf(stderr, "info Code: %u : matched price : %llu  matched quantity : %llu filled quantity : %llu Order Status : %u Side : %u \n",_warrant_code, odr.match_price, odr.match_quantity, odr.filled_quantity, static_cast<unsigned int>(status), static_cast<unsigned char>(side));
 
+				auto itPf = _algo->portfolioMap.find(odr.code);
+				if(itPf == _algo->portfolioMap.end()){
+					_algo->portfolioMap[odr.code] = new portfolio();
+					_algo->portfolioMap[odr.code]->Code = odr.code;
+					_algo->portfolioMap[odr.code]->averagebuy = 0;
+					_algo->portfolioMap[odr.code]->buyturnover = 0;
+					_algo->portfolioMap[odr.code]->averagesell = 0;
+					_algo->portfolioMap[odr.code]->sellturnover = 0;
+					_algo->portfolioMap[odr.code]->profit = 0;
+				}
+
 				if (dbp::top::order_side::buy == side)
 				{
 
@@ -645,6 +656,15 @@ private:
 						_last_trigger_price = _buy_trriger;
 						_last_price = odr.match_price;
 						_algo->_Profit -= odr.filled_quantity * odr.match_price;
+
+						portfolio* pf = _algo->portfolioMap[odr.code];
+
+						long long oldbuyturnover = pf->buyturnover;
+						long long newaveragebuyprice = (oldbuyturnover + odr.filled_quantity * odr.match_price )/(odr.filled_quantity + oldbuyturnover/pf->averagebuy);
+
+						pf->buyturnover += odr.filled_quantity * odr.match_price;
+						pf->profit -= odr.filled_quantity * odr.match_price;
+						pf->averagebuy = newaveragebuyprice;
 
 					}
 					/*
@@ -677,6 +697,16 @@ private:
 							_last_price = odr.match_price;
 
 							_algo->_Profit += odr.filled_quantity * odr.match_price;
+
+							portfolio* pf = _algo->portfolioMap[odr.code];
+
+							long long oldsellturnover = pf->sellturnover;
+							long long newaveragesellprice = (oldsellturnover + odr.filled_quantity * odr.match_price )/(odr.filled_quantity + oldsellturnover/pf->averagesell);
+
+
+							pf->sellturnover += odr.filled_quantity * odr.match_price;
+							pf->profit += odr.filled_quantity * odr.match_price;
+							pf->averagesell = newaveragesellprice;
 						}
 					}else{
 						strstatus = "cancel";
