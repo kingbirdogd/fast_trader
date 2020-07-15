@@ -281,14 +281,16 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 			}
 		}
 	}
-
+	unsigned int ssize = selectedWarrant.size();
 	if(selectedWarrant.size() > (unsigned int)MaxBuyNoWarrant){
 
+		Log("Accepted Size = " + to_string(ssize));
 		std::sort (selectedWarrant.begin(), selectedWarrant.end(), myfunction);
-		for(unsigned int i=MaxBuyNoWarrant; i<selectedWarrant.size(); i++){
+		for(unsigned int i=MaxBuyNoWarrant; i<ssize; i++){
 			delete selectedWarrant[i];
 		}
 		selectedWarrant.erase(selectedWarrant.begin()+MaxBuyNoWarrant, selectedWarrant.end());
+		Log("Maximum selected= " + to_string(MaxBuyNoWarrant) +  issuer + " Selected = " + to_string(selectedWarrant.size()) + " on " + to_string(underlying) );
 	}
 	return selectedWarrant;
 }
