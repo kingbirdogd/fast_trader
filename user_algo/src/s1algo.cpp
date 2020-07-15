@@ -15,6 +15,8 @@ s1algo::s1algo(user& u, const std::string& name):
 	forceSoldTime =  DateUtil::getTodayTime(today + " 154659");
 	undetectedTime =  DateUtil::getTodayTime(today + " 153600");
 	soldendTime =  DateUtil::getTodayTime(today + " 155959");
+
+	MarketStatus = MARKET_START;
 }
 
 void s1algo::on_omdc_book(const Tradable& tradable)
@@ -61,9 +63,9 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 						PriceMark* spm = pricemarkMap[obsw[i]->Code];
 
-						auto it = omdcMap.find(obsw[i]->Code);
-						if(it != omdcMap.end()){
-							auto wbest_bid_price = static_cast<unsigned long long>(it->second.m_Bid[0].m_iPrice) * 100000;
+						auto it2 = omdcMap.find(obsw[i]->Code);
+						if(it2 != omdcMap.end()){
+							auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
 							//auto wbest_ask_price = static_cast<unsigned long long>(it->second.m_Ask[0].m_iPrice) * 100000;
 
 							unsigned long long fpcb = spm->sellOut(wbest_bid_price);
@@ -159,8 +161,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						obs->StopLostPrice = best_bid_price;
 
 						if(obs->SpreadTableCode == ""){
-							COmdcAdditionDefinitions itdef = omdcAdditionDefinitionsMap[tradable.m_Code];
-							obs->SpreadTableCode = itdef.SpreadTableCode;
+							COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[tradable.m_Code];
+							obs->SpreadTableCode = omdcdef.SpreadTableCode;
 						}
 
 						auto pmsg = algo_signal_msg_pool.get_obj();
@@ -226,10 +228,10 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 	vector<warrant*> selectedWarrant;
 	unordered_set<unsigned int> warrantVector = ivLoader.getWarrantByIssuer(issuer,underlying);
 	for (const auto &n: warrantVector) {
-		auto it = omdcMap.find(n);
-		if(it != omdcMap.end()){
-			auto wbest_bid_price = static_cast<unsigned long long>(it->second.m_Bid[0].m_iPrice) * 100000;
-			auto wbest_ask_price = static_cast<unsigned long long>(it->second.m_Ask[0].m_iPrice) * 100000;
+		auto it2 = omdcMap.find(n);
+		if(it2 != omdcMap.end()){
+			auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
+			auto wbest_ask_price = static_cast<unsigned long long>(it2->second.m_Ask[0].m_iPrice) * 100000;
 
 			if(wbest_ask_price < 4000000){
 				continue;
@@ -261,27 +263,28 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 				unsigned long long lotsize = 0;
 				if(itdef != omdcAdditionDefinitionsMap.end()){
 					lotsize = static_cast<unsigned long long>(itdef->second.LotSize);
+
+					if(lotsize == 0)
+						continue;
+
+					warrant* newWarrant = new warrant;
+					newWarrant->Date = DateUtil::getToday();
+					newWarrant->Code = n;
+					newWarrant->Name = itdef->second.SecuritySortName;
+					//newWarrant->Status = STATUS_READY;
+					newWarrant->Egearing = wiv.Egearing;
+					newWarrant->UCode = underlying;
+					newWarrant->RefWBid = wbest_bid_price;
+					newWarrant->RefWAsk = wbest_ask_price;
+					newWarrant->BuyQuantity = algoBet.fixQuantity(wbest_ask_price, lotsize)*100000000ull;
+					newWarrant->Quantity = 0;
+					newWarrant->Issuer = wiv.Issuer;
+					newWarrant->Status = STATUS_READY;
+					newWarrant->UBid = ubid;
+					newWarrant->UAsk = uask;
+
+					selectedWarrant.push_back(newWarrant);
 				}
-				if(lotsize == 0)
-					continue;
-
-				warrant* newWarrant = new warrant;
-				newWarrant->Date = DateUtil::getToday();
-				newWarrant->Code = n;
-				newWarrant->Name = itdef->second.SecuritySortName;
-				//newWarrant->Status = STATUS_READY;
-				newWarrant->Egearing = wiv.Egearing;
-				newWarrant->UCode = underlying;
-				newWarrant->RefWBid = wbest_bid_price;
-				newWarrant->RefWAsk = wbest_ask_price;
-				newWarrant->BuyQuantity = algoBet.fixQuantity(wbest_ask_price, lotsize)*100000000ull;
-				newWarrant->Quantity = 0;
-				newWarrant->Issuer = wiv.Issuer;
-				newWarrant->Status = STATUS_READY;
-				newWarrant->UBid = ubid;
-				newWarrant->UAsk = uask;
-
-				selectedWarrant.push_back(newWarrant);
 			}
 		}
 	}
@@ -302,7 +305,8 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 void s1algo::on_omdc_trade(const Tradable& tradable)
 {
 
-
+	if(MarketStatus == MARKET_PAUSE)
+		return;
 
 	auto it = obMap.find(tradable.m_Code);
 	if(it != obMap.end())
