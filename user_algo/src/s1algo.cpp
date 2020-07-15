@@ -340,9 +340,9 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								continue;
 							}
 
-							auto it = omdcMap.find(wobsArray[i]->Code);
-							if(it != omdcMap.end()){
-								auto wbest_bid_price = static_cast<unsigned long long>(it->second.m_Bid[0].m_iPrice) * 100000;
+							auto it2 = omdcMap.find(wobsArray[i]->Code);
+							if(it2 != omdcMap.end()){
+								auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
 
 								wobsArray[i]->Status = STATUS_SELLING;
 								bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
