@@ -169,7 +169,9 @@ private:
 		}
 		virtual void release()
 		{
-			detectedlist.clear();
+			if(detectedlist.size() > 0){
+				detectedlist.clear();
+			}
 			algo_signal_msg_pool.release_obj(this);
 		}
 		virtual ~algo_signal_msg() = default;
