@@ -231,7 +231,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							obs->Status = STATUS_READY;
 							obs->detected = true;
 
-							Log("Code = " + to_string(tradable.m_Code) + " Has Signal @ " + to_string(best_ask_price));
+							Log("Code = " + to_string(code) + " Has Signal @ " + to_string(best_ask_price));
 						}
 					}
 				}
