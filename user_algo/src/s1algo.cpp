@@ -312,6 +312,15 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 	return selectedWarrant;
 }
 
+unsigned long long s1algo::getBestBid(unsigned int code){
+	auto it2 = omdcMap.find(code);
+	if(it2 != omdcMap.end()){
+		auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
+		return wbest_bid_price;
+	}
+	return 0;
+}
+
 void s1algo::on_omdc_trade(const Tradable& tradable)
 {
 
@@ -354,17 +363,22 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								continue;
 							}
 
-							auto it2 = omdcMap.find(wobsArray[i]->Code);
-							if(it2 != omdcMap.end()){
-								auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
 
-								wobsArray[i]->Status = STATUS_SELLING;
-								bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
-								//bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, RefWBid, wobsArray[i]->Quantity);
-								if(!result){
-									obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
-								}
+							unsigned long long wbest_bid_price = getBestBid(wobsArray[i]->Code);
+
+							if(wbest_bid_price == 0)
+								continue;
+							//auto it2 = omdcMap.find(wobsArray[i]->Code);
+							//if(it2 != omdcMap.end()){
+							//	auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
+
+							wobsArray[i]->Status = STATUS_SELLING;
+							bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
+							//bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, RefWBid, wobsArray[i]->Quantity);
+							if(!result){
+								obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
 							}
+							//}
 						}
 						if(obs->hasRelatedWarrant(STATUS_SELLING)){
 							obs->hasPosition = true;
@@ -485,22 +499,23 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 
 					obsw->Status = STATUS_AVAILABLE;
 
-					auto it2 = omdcMap.find(code);
-					if(it2 != omdcMap.end()){
-						auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
+					unsigned long long wbest_bid_price = getBestBid(code);
+					//auto it2 = omdcMap.find(code);
+					//if(it2 != omdcMap.end()){
+						//auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
 						//auto wbest_ask_price = static_cast<unsigned long long>(it->second.m_Ask[0].m_iPrice) * 100000;
 
-						PriceMark* spm = pricemarkMap[code];
-						unsigned long long pcb = spm->sellOut(wbest_bid_price);
-						if(pcb == 99999999){
-							pcb = obs->StopLostPrice;
-						}
-
-						obsw->StopLostPrice = pcb;
-						obsw->RefWBid = wbest_bid_price;
-
-						Log("Warrant Code = " + to_string(code) + " PCB@" + to_string(pcb) + " @WBid = " + to_string(wbest_bid_price) );
+					PriceMark* spm = pricemarkMap[code];
+					unsigned long long pcb = spm->sellOut(wbest_bid_price);
+					if(pcb == 99999999){
+						pcb = obs->StopLostPrice;
 					}
+
+					obsw->StopLostPrice = pcb;
+					obsw->RefWBid = wbest_bid_price;
+
+					Log("Warrant Code = " + to_string(code) + " PCB@" + to_string(pcb) + " @WBid = " + to_string(wbest_bid_price) );
+					//}
 
 
 					auto msg = algo_order_msg_pool.get_obj();
