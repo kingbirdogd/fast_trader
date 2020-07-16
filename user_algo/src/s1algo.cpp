@@ -109,25 +109,6 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			bool hasSignal = signal->hasSignal;
 			unsigned long long DetectAsk = signal->DetectAsk;
 
-			auto itob2 = obMap.find(code);
-			if(itob2 == obMap.end()){
-				obMap[code] = new OBSetting();
-
-				obMap[code]->detected = false;
-				obMap[code]->SpreadTableCode = "";
-				obMap[code]->hasPosition = false;
-				obMap[code]->Status = STATUS_NEW;
-				Log("Init = " + to_string(code) + " OBSetting");
-			}
-
-
-
-			//OBSetting* obs = obMap[code];
-			//if(obs == nullptr)
-			//	return;
-
-	//		if(obs->Status == STATUS_NEW || obs->Status == STATUS_READY){
-
 			if(obs->detected){
 
 				if(best_ask_price != obs->DetectedAsk && obs->Status == STATUS_READY){
@@ -228,6 +209,16 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 				}
 			}
 			//}
+		}
+	}else{
+		auto it = s1SignalMap.find(code);
+		if(it != s1SignalMap.end()){
+			obMap[code] = new OBSetting();
+			obMap[code]->detected = false;
+			obMap[code]->SpreadTableCode = "";
+			obMap[code]->hasPosition = false;
+			obMap[code]->Status = STATUS_NEW;
+			Log("Init = " + to_string(code) + " OBSetting");
 		}
 	}
 
