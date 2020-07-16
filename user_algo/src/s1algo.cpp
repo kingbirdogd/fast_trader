@@ -198,7 +198,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 								w->Status = STATUS_READY;
 								obs->addWarrantOrCbbc(w);
 
-								pmsg->detectedlist.insert(w);
+								std::string wStr = to_string(w->Code) + "|" + w->Name + "|" + to_string(w->RefWAsk);
+								pmsg->detectedlist.insert(wStr);
 								selectcount++;
 							}
 

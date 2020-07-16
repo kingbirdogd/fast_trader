@@ -133,7 +133,7 @@ private:
 		unsigned int code;
 		unsigned long long detect_ask;
 		bool selected;
-		unordered_set<warrant*> detectedlist;
+		unordered_set<std::string> detectedlist;
 
 		algo_signal_msg():
 			algo_msg_base()
@@ -155,9 +155,7 @@ private:
 				j["detectedlist"] = nlohmann::json::array();
 				for(auto f : detectedlist) {
 					json jw;
-					jw["code"] = f->Code;
-					jw["name"] = f->Name;
-					jw["ask"] = f->RefWAsk;
+					jw["warrantdesc"] = f
 					j["detectedlist"].push_back(jw);
 				}
 			}
