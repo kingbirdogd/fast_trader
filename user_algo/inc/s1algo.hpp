@@ -155,7 +155,7 @@ private:
 				j["detectedlist"] = nlohmann::json::array();
 				for(auto f : detectedlist) {
 					json jw;
-					jw["warrantdesc"] = f
+					jw["warrantdesc"] = f;
 					j["detectedlist"].push_back(jw);
 				}
 			}
