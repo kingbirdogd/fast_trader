@@ -340,7 +340,8 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice) * 100000;
 		auto best_bid_vol = static_cast<unsigned long long>(tradable.m_Bid[0].m_uQuantity);
 		auto best_ask_vol = static_cast<unsigned long long>(tradable.m_Ask[0].m_uQuantity);
-
+		auto trade_sell_quantity = static_cast<unsigned long long>(tradable.m_AccumulateSellQuantity);
+		auto trade_buy_quantity = static_cast<unsigned long long>(tradable.m_AccumulateBuyQuantity);
 		if (0 != type && 100 != type)
 			return;
 
@@ -349,8 +350,8 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 		if(obs->hasPosition)
 		{
-			auto trade_quantity = static_cast<unsigned long long>(tradable.m_AccumulateSellQuantity);
-			if(TradeSide::SELL_SIDE == side && trade_quantity >= best_bid_vol){
+
+			if(TradeSide::SELL_SIDE == side && trade_sell_quantity >= best_bid_vol){
 
 				unsigned long long highestStopLost = obs->getHighestStopLostPrice();
 				Log("UCode = " + to_string(code) + " Highest StopLost = " + to_string(highestStopLost));
@@ -397,8 +398,8 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 		if(obs->detected)
 		{
-			auto trade_quantity = static_cast<unsigned long long>(tradable.m_AccumulateBuyQuantity);
-			if(TradeSide::BUY_SIDE == side && trade_quantity >= best_ask_vol && obs->Status == STATUS_READY){
+
+			if(TradeSide::BUY_SIDE == side && trade_buy_quantity >= best_ask_vol && obs->Status == STATUS_READY){
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
 
 				for(unsigned int i=0; i<wobsArray.size(); i++){
