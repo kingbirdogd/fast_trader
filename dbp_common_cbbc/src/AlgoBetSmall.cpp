@@ -27,22 +27,27 @@ void AlgoBetSmall::selectBet(string){
 }
 
 unsigned long long AlgoBetSmall::fixQuantity(unsigned long long price, unsigned long long quantity){
+	unsigned long long betsize = quantity;
 	if(price >= 400000000){
-		return 1500;
+		betsize =  1500;
 	}
 	if(price >= 100000000 && price < 400000000){
-		return 6000;
+		betsize = 6000;
 	}
 	if(price >= 50000000 && price < 100000000){
-		return 8000;
+		betsize =  8000;
 	}
 	if(price >= 25000000 && price < 50000000){
-		return 16000;
+		betsize =  16000;
 	}
 	if(price < 25000000){
-		return 60000;
+		betsize = 60000;
 	}
-	return quantity;
+
+
+	betsize = static_cast<unsigned long long>((int)(betsize/quantity + 0.1))*quantity;
+
+	return betsize;
 }
 
 unsigned long long AlgoBetSmall::fixQuantityByIssuer(unsigned long long price,unsigned long long quantity, string ){
