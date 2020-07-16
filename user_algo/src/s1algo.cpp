@@ -359,10 +359,9 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 							if(wobsArray[i]->Status != STATUS_AVAILABLE){
 								continue;
 							}
-							if(wobsArray[i]->StopLostPrice < best_bid_vol){
+							if(wobsArray[i]->StopLostPrice < bid_price){
 								continue;
 							}
-
 
 							unsigned long long wbest_bid_price = getBestBid(wobsArray[i]->Code);
 
