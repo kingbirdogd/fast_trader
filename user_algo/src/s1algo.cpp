@@ -527,7 +527,8 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 
 					obsw->Status = STATUS_AVAILABLE;
 
-					unsigned long long wbest_bid_price = getBestBid(code);
+					//unsigned long long wbest_bid_price = getBestBid(code);
+					unsigned long long wbest_bid_price = warrantPriceMap[code]->Bestbid;
 					//auto it2 = omdcMap.find(code);
 					//if(it2 != omdcMap.end()){
 						//auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
