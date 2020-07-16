@@ -26,10 +26,10 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 	auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
 	auto best_bid_qty = tradable.m_Bid[0].m_uQuantity;
 	//auto best_ask_qty = tradable.m_Ask[0].m_uQuantity;
+	unsigned int code = tradable.m_Code;
 
 
-
-	auto itob = obMap.find(tradable.m_Code);
+	auto itob = obMap.find(code);
 	if(itob != obMap.end())
 	{
 		//Log("on_omdc_book code = " + to_string(tradable.m_Code) + " OBSetting");
@@ -43,7 +43,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			int countspreadu = static_cast<int>(diffu/spread);
 			int countspreadw = static_cast<int>(diffw/spread);
 
-			s1signal* s1 = s1SignalMap[tradable.m_Code];
+			s1signal* s1 = s1SignalMap[code];
 			if( ((countspreadw > 0) || (countspreadu > 0) || (best_bid_price > obs->StopLostPrice && best_bid_qty > s1->RaiseStopLost)) && ((obs->Status == STATUS_AVAILABLE))){
 				unsigned long long oldstoplost = obs->StopLostPrice;
 				if(countspreadu > 0){
@@ -54,7 +54,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 				if(obs->StopLostPrice > oldstoplost){
 					Log("bid->Quantity0 = " + to_string(best_bid_qty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost));
-					Log("Security Code = " + to_string(tradable.m_Code) + " Rise Stop Lost Price from " + to_string(oldstoplost) + " To " + to_string(obs->StopLostPrice));
+					Log("Security Code = " + to_string(code) + " Rise Stop Lost Price from " + to_string(oldstoplost) + " To " + to_string(obs->StopLostPrice));
 				}
 
 				if(countspreadw > 0){
@@ -91,25 +91,26 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		return;
 	}
 */
-	auto it = s1SignalMap.find(tradable.m_Code);
+	auto it = s1SignalMap.find(code);
 	if(it != s1SignalMap.end()){
 
 		s1signal* signal = it->second;
 
 
-		auto itob2 = obMap.find(tradable.m_Code);
+		auto itob2 = obMap.find(code);
 		if(itob2 == obMap.end()){
-			obMap[tradable.m_Code] = new OBSetting();
+			obMap[code] = new OBSetting();
 
-			obMap[tradable.m_Code]->detected = false;
-			obMap[tradable.m_Code]->SpreadTableCode = "";
-			obMap[tradable.m_Code]->hasPosition = false;
-			obMap[tradable.m_Code]->Status = STATUS_NEW;
-			Log("Init = " + to_string(tradable.m_Code) + " OBSetting");
+			obMap[code]->detected = false;
+			obMap[code]->SpreadTableCode = "";
+			obMap[code]->hasPosition = false;
+			obMap[code]->Status = STATUS_NEW;
+			Log("Init = " + to_string(code) + " OBSetting");
 		}
 
 
-		OBSetting* obs = obMap[tradable.m_Code];
+
+		OBSetting* obs = obMap[code];
 		if(obs == nullptr)
 			return;
 
@@ -126,8 +127,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					pmsg->al = this;
 					pmsg->algo_name = this->_name;
 					pmsg->id = this->_u.get_id();
-					pmsg->ref = to_string(tradable.m_Code);
-					pmsg->code = tradable.m_Code;
+					pmsg->ref = to_string(code);
+					pmsg->code = code;
 					pmsg->detect_ask = 0;
 					pmsg->selected = false;
 					ouputQueue.enqueue(pmsg);
@@ -135,7 +136,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					obs->removeAllWarrants();
 					obs->detected = false;
 
-					Log("Code = " + to_string(tradable.m_Code) + " Reset Signal 1");
+					Log("Code = " + to_string(code) + " Reset Signal 1");
 
 					return;
 				}
@@ -144,8 +145,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					pmsg->al = this;
 					pmsg->algo_name = this->_name;
 					pmsg->id = this->_u.get_id();
-					pmsg->ref = to_string(tradable.m_Code);
-					pmsg->code = tradable.m_Code;
+					pmsg->ref = to_string(code);
+					pmsg->code = code;
 					pmsg->detect_ask = 0;
 					pmsg->selected = false;
 					ouputQueue.enqueue(pmsg);
@@ -153,7 +154,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					obs->removeAllWarrants();
 					obs->detected = false;
 
-					Log("Code = " + to_string(tradable.m_Code) + " Reset Signal 2");
+					Log("Code = " + to_string(code) + " Reset Signal 2");
 				}
 				return;
 			}
@@ -166,7 +167,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						obs->StopLostPrice = best_bid_price;
 
 						if(obs->SpreadTableCode == ""){
-							COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[tradable.m_Code];
+							COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
 							obs->SpreadTableCode = omdcdef.SpreadTableCode;
 						}
 
@@ -174,8 +175,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						pmsg->al = this;
 						pmsg->algo_name = this->_name;
 						pmsg->id = this->_u.get_id();
-						pmsg->ref = to_string(tradable.m_Code);
-						pmsg->code = tradable.m_Code;
+						pmsg->ref = to_string(code);
+						pmsg->code = code;
 						pmsg->detect_ask = obs->DetectedAsk;
 						pmsg->selected = true;
 
@@ -185,7 +186,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						for(auto f : selectedIssuer) {
 							string issuer = f;
 
-							vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer(issuer,tradable.m_Code, best_bid_price,best_ask_price );
+							vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer(issuer,code, best_bid_price,best_ask_price );
 							if(selectedWarrant.size() == 0)
 								continue;
 
@@ -330,6 +331,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 	auto it = obMap.find(tradable.m_Code);
 	if(it != obMap.end())
 	{
+		auto code = tradable.m_Code;
 		auto type = tradable.m_TradeType;
 		auto side = tradable.m_TradeSide;
 		auto bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
@@ -350,7 +352,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 			if(TradeSide::SELL_SIDE == side && trade_quantity >= best_bid_vol){
 
 				unsigned long long highestStopLost = obs->getHighestStopLostPrice();
-				Log("UCode = " + to_string(tradable.m_Code) + " Highest StopLost = " + to_string(highestStopLost));
+				Log("UCode = " + to_string(code) + " Highest StopLost = " + to_string(highestStopLost));
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
 
 				if(trade_price <= highestStopLost){
