@@ -26,7 +26,7 @@ s1algo::s1algo(user& u, const std::string& name):
 		//Log("Init priceinfo = " + to_string(allW[i].Code));
 	}
 
-	logger = new ThreadLogger("home/fast_trader/log/s1algo.log");
+	logger = new ThreadLogger("/home/fast_trader/log/s1algo.log");
 	logger->start();
 
 	Log("Logger Inited");
