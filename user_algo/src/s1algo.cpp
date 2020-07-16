@@ -71,8 +71,10 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							unsigned long long fpcb = spm->sellOut(wbest_bid_price);
 							if(fpcb > obsw[i]->StopLostPrice  && fpcb <= obs->StopLostPrice && fpcb <= best_bid_price){
 								obsw[i]->StopLostPrice = fpcb;
+								obsw[i]->RefWBid = wbest_bid_price;
 							}else if(fpcb > obsw[i]->StopLostPrice && fpcb <= obs->StopLostPrice && fpcb > best_bid_price){
 								obsw[i]->StopLostPrice = best_bid_price;
+								obsw[i]->RefWBid = wbest_bid_price;
 							}
 						}
 
@@ -358,10 +360,16 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 								wobsArray[i]->Status = STATUS_SELLING;
 								bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
+								//bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, RefWBid, wobsArray[i]->Quantity);
 								if(!result){
 									obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
 								}
 							}
+						}
+						if(obs->hasRelatedWarrant(STATUS_SELLING)){
+							obs->hasPosition = true;
+							obs->SellPrice = bid_price;
+							obs->SoldTime = DateUtil::getCurrentTime();
 						}
 					}
 				}
@@ -489,8 +497,9 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						}
 
 						obsw->StopLostPrice = pcb;
+						obsw->RefWBid = wbest_bid_price;
 
-						Log("Warrant Code = " + to_string(code) + " PCB@" + to_string(pcb));
+						Log("Warrant Code = " + to_string(code) + " PCB@" + to_string(pcb) + " @WBid = " + to_string(wbest_bid_price) );
 					}
 
 
