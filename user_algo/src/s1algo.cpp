@@ -23,6 +23,7 @@ s1algo::s1algo(user& u, const std::string& name):
 		warrantPriceMap[allW[i]->Code] = new priceinfo();
 		warrantPriceMap[allW[i]->Code].Bestbid = 0;
 		warrantPriceMap[allW[i]->Code].Bestask = 0;
+		Log("Init priceinfo = " + to_string(allW[i]->Code));
 	}
 
 }
@@ -41,6 +42,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		priceinfo* p = itw->second;
 		p->Bestbid = best_bid_price;
 		p->Bestask = best_ask_price;
+		return;
 	}
 
 	auto itob = obMap.find(code);
