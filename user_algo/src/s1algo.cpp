@@ -23,8 +23,11 @@ s1algo::s1algo(user& u, const std::string& name):
 		warrantPriceMap[allW[i].Code] = new priceinfo();
 		warrantPriceMap[allW[i].Code]->Bestbid = 0;
 		warrantPriceMap[allW[i].Code]->Bestask = 0;
-		Log("Init priceinfo = " + to_string(allW[i].Code));
+		//Log("Init priceinfo = " + to_string(allW[i].Code));
 	}
+
+	logger = new ThreadLogger("home/fast_trader/log/s1algo.log");
+	logger->start();
 
 }
 
@@ -127,7 +130,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					obs->detected = false;
 
 					Log("Code = " + to_string(code) + " Reset Signal 1");
-
+					Log("Pass1");
 					return;
 				}
 				if(!hasSignal  && obs->Status == STATUS_READY){
@@ -145,6 +148,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					obs->detected = false;
 
 					Log("Code = " + to_string(code) + " Reset Signal 2");
+					Log("Pass2");
 				}
 				return;
 			}
@@ -732,7 +736,9 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 }
 
 void s1algo::Log(string msg){
-	fprintf(stderr, "%s %s \n",DateUtil::getCurrentTime(), msg.c_str());
+	//fprintf(stderr, "%s %s \n",DateUtil::getCurrentTime(), msg.c_str());
+	//logger
+	logger->Log("%s %s \n",DateUtil::getCurrentTime(), msg.c_str());
 }
 
 void s1algo::handle_command(algo_msg_base& msg)

@@ -13,6 +13,8 @@
 #include <AlgoEngineData.h>
 #include <SelectedWarrant.h>
 #include <AlgoBetX.h>
+#include "LoggerInterface.h"
+#include "ThreadLogger.h"
 
 #define MaxBuyNoWarrant 1
 
@@ -37,7 +39,7 @@ public:
 	time_t undetectedTime;
 	time_t soldendTime;
 	std::unordered_map<unsigned int, priceinfo*> warrantPriceMap;
-
+	LoggerInterface* logger;
 private:
 	struct algo_order_msg: public algo_msg_base
 	{
