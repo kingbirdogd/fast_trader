@@ -113,7 +113,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 	if(it != s1SignalMap.end()){
 
 		s1signal* signal = it->second;
-
+		bool hasSignal = signal->hasSignal;
+		unsigned long long DetectAsk = signal->DetectAsk;
 
 		auto itob2 = obMap.find(code);
 		if(itob2 == obMap.end()){
@@ -138,9 +139,6 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 				if(best_ask_price != obs->DetectedAsk && obs->Status == STATUS_READY){
 					//obs->Status = STATUS_NEW;
-
-
-
 					auto pmsg = algo_signal_msg_pool.get_obj();
 					pmsg->al = this;
 					pmsg->algo_name = this->_name;
@@ -158,7 +156,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 					return;
 				}
-				if(!signal->hasSignal  && obs->Status == STATUS_READY){
+				if(!hasSignal  && obs->Status == STATUS_READY){
 					auto pmsg = algo_signal_msg_pool.get_obj();
 					pmsg->al = this;
 					pmsg->algo_name = this->_name;
@@ -178,9 +176,9 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			}
 			else
 			{
-				if(signal->hasSignal){
+				if(hasSignal){
 
-					if(best_ask_price == signal->DetectAsk){
+					if(best_ask_price == DetectAsk){
 						obs->DetectedAsk = best_ask_price;
 						obs->StopLostPrice = best_bid_price;
 
