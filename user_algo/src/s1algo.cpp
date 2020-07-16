@@ -101,39 +101,32 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			}
 			return;
 		}
-	}
 
-/*
-	time_t currenttime = DateUtil::getCurrentSystemTime();
-	if(currenttime > undetectedTime) {
-		return;
-	}
-*/
-	auto it = s1SignalMap.find(code);
-	if(it != s1SignalMap.end()){
+		auto it = s1SignalMap.find(code);
+		if(it != s1SignalMap.end()){
 
-		s1signal* signal = it->second;
-		bool hasSignal = signal->hasSignal;
-		unsigned long long DetectAsk = signal->DetectAsk;
+			s1signal* signal = it->second;
+			bool hasSignal = signal->hasSignal;
+			unsigned long long DetectAsk = signal->DetectAsk;
 
-		auto itob2 = obMap.find(code);
-		if(itob2 == obMap.end()){
-			obMap[code] = new OBSetting();
+			auto itob2 = obMap.find(code);
+			if(itob2 == obMap.end()){
+				obMap[code] = new OBSetting();
 
-			obMap[code]->detected = false;
-			obMap[code]->SpreadTableCode = "";
-			obMap[code]->hasPosition = false;
-			obMap[code]->Status = STATUS_NEW;
-			Log("Init = " + to_string(code) + " OBSetting");
-		}
+				obMap[code]->detected = false;
+				obMap[code]->SpreadTableCode = "";
+				obMap[code]->hasPosition = false;
+				obMap[code]->Status = STATUS_NEW;
+				Log("Init = " + to_string(code) + " OBSetting");
+			}
 
 
 
-		OBSetting* obs = obMap[code];
-		if(obs == nullptr)
-			return;
+			//OBSetting* obs = obMap[code];
+			//if(obs == nullptr)
+			//	return;
 
-//		if(obs->Status == STATUS_NEW || obs->Status == STATUS_READY){
+	//		if(obs->Status == STATUS_NEW || obs->Status == STATUS_READY){
 
 			if(obs->detected){
 
@@ -234,7 +227,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					}
 				}
 			}
-		//}
+			//}
+		}
 	}
 
 }
