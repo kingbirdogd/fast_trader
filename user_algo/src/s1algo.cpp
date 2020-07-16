@@ -19,7 +19,7 @@ s1algo::s1algo(user& u, const std::string& name):
 	MarketStatus = MARKET_START;
 
 	vector<WarrantIv> allW = ivLoader.allWarrants();
-	for(unsigned int i=0; i<obsw.size(); i++){
+	for(unsigned int i=0; i<allW.size(); i++){
 		warrantPriceMap[allW[i]->Code] = new priceinfo();
 		warrantPriceMap[allW[i]->Code].Bestbid = 0;
 		warrantPriceMap[allW[i]->Code].Bestask = 0;
