@@ -8,7 +8,7 @@
 
 
 using namespace std;
-#define LOGGER CLogger::GetLogger()
+//#define LOGGER CLogger::GetLogger()
 /**
 *   Singleton Logger Class.
 */
@@ -16,6 +16,8 @@ using namespace std;
 class CLogger
 {
 public:
+	size_t initialSize = 256;
+	//m_sFileName = "Log.txt";
 	/**
 	*   Logs a message
 	*   @param sMessage message to be logged.
@@ -35,15 +37,15 @@ public:
 	*   Funtion to create the instance of logger class.
 	*   @return singleton object of Clogger class..
 	*/
-
+	CLogger();
+	CLogger(string);
+	virtual ~CLogger();
 	void close();
-	static CLogger* GetLogger();
-	static CLogger* GetLogger(string);
 private:
 	/**
 	*    Default constructor for the Logger class.
 	*/
-	CLogger();
+
 	/**
 	*   copy constructor for the Logger class.
 	*/
@@ -55,15 +57,15 @@ private:
 	/**
 	*   Log file name.
 	**/
-	static const std::string m_sFileName;
+	std::string m_sFileName;
 	/**
 	*   Singleton logger class object pointer.
 	**/
-	static CLogger* m_pThis;
+
 	/**
 	*   Log file stream object.
 	**/
-	static ofstream m_Logfile;
+	ofstream m_Logfile;
 
 	int mcount = 0;
 };

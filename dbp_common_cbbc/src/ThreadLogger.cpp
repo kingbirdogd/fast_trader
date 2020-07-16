@@ -13,7 +13,7 @@
 
 ThreadLogger::ThreadLogger(string logpath) {
 	// TODO Auto-generated constructor stub
-	logger = CLogger::GetLogger(logpath);
+	logger = new CLogger(logpath);
 }
 
 ThreadLogger::~ThreadLogger() {

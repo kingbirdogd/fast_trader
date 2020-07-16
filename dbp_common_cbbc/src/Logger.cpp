@@ -1,29 +1,24 @@
 #include "Logger.h"
 #include "Utilities.h"
 
-const string CLogger::m_sFileName = "Log.txt";
-CLogger* CLogger::m_pThis = NULL;
-ofstream CLogger::m_Logfile;
-const size_t initialSize = 256;
+//const string CLogger::m_sFileName = "Log.txt";
+//CLogger* CLogger::m_pThis = NULL;
+//ofstream CLogger::m_Logfile;
+//const size_t initialSize = 256;
 
-CLogger::CLogger()
-{
-
-}
-CLogger* CLogger::GetLogger(){
-	if (m_pThis == NULL){
-		m_pThis = new CLogger();
-		m_Logfile.open(m_sFileName.c_str(), ios::out | ios::app);
-	}
-	return m_pThis;
+CLogger::CLogger(){
+	m_sFileName = "Log.txt";
+	m_Logfile.open(m_sFileName.c_str(), ios::out | ios::app);
 }
 
-CLogger* CLogger::GetLogger(string logfile){
-	if (m_pThis == NULL){
-		m_pThis = new CLogger();
-		m_Logfile.open(logfile.c_str(), ios::out | ios::app);
-	}
-	return m_pThis;
+CLogger::CLogger(string logfile){
+
+	m_Logfile.open(logfile.c_str(), ios::out | ios::app);
+
+}
+
+CLogger::~CLogger() {
+
 }
 
 void CLogger::Log(const char * format, ...)
