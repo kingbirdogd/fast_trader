@@ -47,6 +47,11 @@ unsigned long long AlgoBetSmall::fixQuantity(unsigned long long price, unsigned 
 
 	betsize = static_cast<unsigned long long>((int)(betsize/quantity + 0.1))*quantity;
 
+	if(betsize < quantity){
+		betsize = quantity;
+	}
+
+
 	return betsize;
 }
 
