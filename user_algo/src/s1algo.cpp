@@ -17,6 +17,14 @@ s1algo::s1algo(user& u, const std::string& name):
 	soldendTime =  DateUtil::getTodayTime(today + " 155959");
 
 	MarketStatus = MARKET_START;
+
+	vector<WarrantIv> allW = ivLoader.allWarrants();
+	for(unsigned int i=0; i<obsw.size(); i++){
+		warrantPriceMap[allW[i]->Code] = new priceinfo();
+		warrantPriceMap[allW[i]->Code].Bestbid = 0;
+		warrantPriceMap[allW[i]->Code].Bestask = 0;
+	}
+
 }
 
 void s1algo::on_omdc_book(const Tradable& tradable)
@@ -28,6 +36,12 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 	//auto best_ask_qty = tradable.m_Ask[0].m_uQuantity;
 	unsigned int code = tradable.m_Code;
 
+	auto itw = warrantPriceMap.find(code);
+	if(itw != warrantPriceMap.end()){
+		priceinfo* p = itw->second;
+		p->Bestbid = best_bid_price;
+		p->Bestask = best_ask_price;
+	}
 
 	auto itob = obMap.find(code);
 	if(itob != obMap.end())
@@ -63,9 +77,11 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 						PriceMark* spm = pricemarkMap[obsw[i]->Code];
 
-						auto it2 = omdcMap.find(obsw[i]->Code);
-						if(it2 != omdcMap.end()){
-							auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
+						unsigned long long wbest_bid_price = warrantPriceMap[obsw[i]->Code]->Bestbid;
+
+						//auto it2 = omdcMap.find(obsw[i]->Code);
+						//if(it2 != omdcMap.end()){
+						//	auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
 							//auto wbest_ask_price = static_cast<unsigned long long>(it->second.m_Ask[0].m_iPrice) * 100000;
 
 							unsigned long long fpcb = spm->sellOut(wbest_bid_price);
@@ -76,7 +92,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 								obsw[i]->StopLostPrice = best_bid_price;
 								obsw[i]->RefWBid = wbest_bid_price;
 							}
-						}
+						//}
 
 					}
 				}
@@ -239,10 +255,15 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 	vector<warrant*> selectedWarrant;
 	unordered_set<unsigned int> warrantVector = ivLoader.getWarrantByIssuer(issuer,underlying);
 	for (const auto &n: warrantVector) {
-		auto it2 = omdcMap.find(n);
-		if(it2 != omdcMap.end()){
-			auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
-			auto wbest_ask_price = static_cast<unsigned long long>(it2->second.m_Ask[0].m_iPrice) * 100000;
+
+
+		unsigned long long wbest_bid_price = warrantPriceMap[n]->Bestbid;
+		unsigned long long wbest_ask_price = warrantPriceMap[n]->Bestask;
+
+		//auto it2 = omdcMap.find(n);
+		//if(it2 != omdcMap.end()){
+			//auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
+			//auto wbest_ask_price = static_cast<unsigned long long>(it2->second.m_Ask[0].m_iPrice) * 100000;
 
 			if(wbest_ask_price < 4000000){
 				continue;
@@ -298,7 +319,7 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 					selectedWarrant.push_back(newWarrant);
 				}
 			}
-		}
+		//}
 	}
 	unsigned int ssize = selectedWarrant.size();
 	if(selectedWarrant.size() > (unsigned int)MaxBuyNoWarrant){
@@ -367,7 +388,9 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								continue;
 							}
 
-							unsigned long long wbest_bid_price = getBestBid(wobsArray[i]->Code);
+							unsigned long long wbest_bid_price = warrantPriceMap[wobsArray[i]->Code]->Bestbid;
+
+							//unsigned long long wbest_bid_price = getBestBid(wobsArray[i]->Code);
 
 							if(wbest_bid_price == 0)
 								continue;

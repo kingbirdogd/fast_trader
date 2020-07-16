@@ -36,6 +36,7 @@ public:
 	time_t forceSoldTime;
 	time_t undetectedTime;
 	time_t soldendTime;
+	std::unordered_map<unsigned int, priceinfo*> warrantPriceMap;
 
 private:
 	struct algo_order_msg: public algo_msg_base
