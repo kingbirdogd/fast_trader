@@ -150,16 +150,17 @@ private:
 			}else{
 				j["detected"] = false;
 			}
-			j["detectedlist"] = nlohmann::json::array();
-			for(auto f : detectedlist) {
-				json jw;
-				jw["code"] = f->Code;
-				jw["name"] = f->Name;
-				jw["ask"] = f->RefWAsk;
-				j["detectedlist"].push_back(jw);
+
+			if(detectedlist.size() > 0){
+				j["detectedlist"] = nlohmann::json::array();
+				for(auto f : detectedlist) {
+					json jw;
+					jw["code"] = f->Code;
+					jw["name"] = f->Name;
+					jw["ask"] = f->RefWAsk;
+					j["detectedlist"].push_back(jw);
+				}
 			}
-
-
 			return j;
 		}
 		virtual void on_command()
