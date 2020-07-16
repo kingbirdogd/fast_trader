@@ -29,6 +29,8 @@ s1algo::s1algo(user& u, const std::string& name):
 	logger = new ThreadLogger("home/fast_trader/log/s1algo.log");
 	logger->start();
 
+	Log("Logger Inited");
+
 }
 
 void s1algo::on_omdc_book(const Tradable& tradable)
