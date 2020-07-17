@@ -740,7 +740,8 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 void s1algo::Log(string msg){
 	//fprintf(stderr, "%s %s \n",DateUtil::getCurrentTime(), msg.c_str());
 	//logger
-	logger->Log(DateUtil::getCurrentTime() + " " + msg);
+
+	logger->Log(string(DateUtil::getCurrentTime()) + " " + msg);
 }
 
 void s1algo::handle_command(algo_msg_base& msg)
