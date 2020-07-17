@@ -5,6 +5,7 @@
 #include <json.hpp>
 #include <string>
 #include <vector>
+#include <tools.h>
 #include <algo.hpp>
 #include <DateUtil.h>
 #include <unordered_map>
