@@ -26,7 +26,7 @@ s1algo::s1algo(user& u, const std::string& name):
 		//Log("Init priceinfo = " + to_string(allW[i].Code));
 	}
 
-	logger = new ThreadLogger("/home/fast_trader/log/s1algo.log");
+	logger = new ThreadLogger("log/s1algo" + name + DateUtil::getToday() + ".log");
 	logger->start();
 
 	Log("Logger Inited");
@@ -740,7 +740,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 void s1algo::Log(string msg){
 	//fprintf(stderr, "%s %s \n",DateUtil::getCurrentTime(), msg.c_str());
 	//logger
-	logger->Log(msg);
+	logger->Log(DateUtil::getCurrentTime() + " " + msg);
 }
 
 void s1algo::handle_command(algo_msg_base& msg)
