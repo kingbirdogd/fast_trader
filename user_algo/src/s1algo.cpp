@@ -278,7 +278,7 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 				continue;
 			}
 
-			float fuspread = uspread/100000000;
+			float fuspread = static_cast<float>(uspread/100000)/1000.0f;
 
 			Log("USPREAD = " + to_string(fuspread));
 
