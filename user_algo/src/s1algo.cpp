@@ -741,7 +741,9 @@ void s1algo::Log(string msg){
 	//fprintf(stderr, "%s %s \n",DateUtil::getCurrentTime(), msg.c_str());
 	//logger
 
-	logger->Log(string(DateUtil::getCurrentTime()) + " " + msg);
+	//logger->Log(string(DateUtil::getCurrentTime()) + " " + msg);
+
+	flush_printf("%s %s\n", DateUtil::getCurrentTime(), msg.c_str());
 }
 
 void s1algo::handle_command(algo_msg_base& msg)
