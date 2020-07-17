@@ -132,7 +132,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					obs->detected = false;
 
 					Log("Code = " + to_string(code) + " Reset Signal 1");
-					Log("Pass1");
+					//Log("Pass1");
 					return;
 				}
 				if(!hasSignal  && obs->Status == STATUS_READY){
@@ -150,7 +150,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					obs->detected = false;
 
 					Log("Code = " + to_string(code) + " Reset Signal 2");
-					Log("Pass2");
+					//Log("Pass2");
 				}
 				return;
 			}
@@ -210,7 +210,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							obs->detected = true;
 
 							Log("Code = " + to_string(code) + " Has Signal @ " + to_string(best_ask_price));
-							Log("Pass3");
+							//Log("Pass3");
 						}else{
 							algo_signal_msg_pool.release_obj(pmsg);
 						}
@@ -331,7 +331,7 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 			delete selectedWarrant[i];
 		}
 		selectedWarrant.erase(selectedWarrant.begin()+MaxBuyNoWarrant, selectedWarrant.end());
-		Log("Maximum selected= " + to_string(MaxBuyNoWarrant) + " " + issuer + " Selected = " + to_string(selectedWarrant.size()) + " on " + to_string(underlying) );
+		Log("Maximum selected = " + to_string(MaxBuyNoWarrant) + " " + issuer + " Selected = " + to_string(selectedWarrant.size()) + " on " + to_string(underlying) );
 	}
 	return selectedWarrant;
 }
