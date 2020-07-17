@@ -20,7 +20,7 @@ class SelectedWarrant {
 public:
 	SelectedWarrant();
 	virtual ~SelectedWarrant();
-	bool isAccept(float uspread, float delta, float cratio, float bidaskspread, float ticks);
+	bool isAccept(unsigned long long uspread, float delta, float cratio, float bidaskspread, float ticks);
 };
 
 

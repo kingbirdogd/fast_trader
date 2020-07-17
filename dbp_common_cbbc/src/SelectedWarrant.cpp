@@ -18,10 +18,10 @@ SelectedWarrant::~SelectedWarrant() {
 	// TODO Auto-generated destructor stub
 }
 
-bool SelectedWarrant::isAccept(float uspread, float delta, float cratio, float bidaskspread, float ticks){
+bool SelectedWarrant::isAccept(unsigned long long uspread, float delta, float cratio, float bidaskspread, float ticks){
 	//if(bidaskspread <= 0)
 	//		return false;
-	float result = uspread * delta / cratio;
+	float result = static_cast<float>(uspread/100000000) * delta / cratio;
 	//result = (float)((int)(result * 1000 + 0.1))/1000.0f;
 	return (result * ticks > bidaskspread);
 }
