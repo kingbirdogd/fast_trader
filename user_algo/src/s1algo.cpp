@@ -215,6 +215,9 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 				}
 			}
 			//}
+		}else{
+			if()
+			Log("No Signal Code = " + to_string(code) + " Has Signal @ " + to_string(best_ask_price));
 		}
 	}else{
 		auto it = s1SignalMap.find(code);
@@ -278,7 +281,11 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 				continue;
 			}
 
-			bool accept = CSelectedWarrant.isAccept(uspread, wiv.Delta, wiv.Cratio, wspread, 2);
+			float fuspread = uspread/100000000;
+
+			Log("USPREAD = " + to_string(fuspread));
+
+			bool accept = CSelectedWarrant.isAccept(fuspread, wiv.Delta, wiv.Cratio, wspread, 2);
 
 			if(accept){
 
@@ -741,9 +748,9 @@ void s1algo::Log(string msg){
 	//fprintf(stderr, "%s %s \n",DateUtil::getCurrentTime(), msg.c_str());
 	//logger
 
-	//logger->Log(string(DateUtil::getCurrentTime()) + " " + msg);
+	logger->Log(string(DateUtil::getCurrentTime()) + " " + msg);
 
-	flush_printf("%s %s\n", DateUtil::getCurrentTime(), msg.c_str());
+	//flush_printf("%s %s\n", DateUtil::getCurrentTime(), msg.c_str());
 }
 
 void s1algo::handle_command(algo_msg_base& msg)
