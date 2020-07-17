@@ -533,7 +533,7 @@ void s1algo::forcesold(){
 
 					if(wbest_bid_price == 0)
 						continue;
-					Log("Force Sell Warrant Code = " + obsw->Code + " @Wbid = " + to_string(wbest_bid_price));
+					Log("Force Sell Warrant Code = " + to_string(obsw->Code) + " @Wbid = " + to_string(wbest_bid_price));
 					wobsArray[i]->Status = STATUS_SELLING;
 					bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
 					if(!result){
