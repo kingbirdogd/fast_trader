@@ -241,7 +241,8 @@ void s1algo::setBetsize(std::string betsize){
 vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer, unsigned int underlying, unsigned long long ubid, unsigned long long uask)
 {
 
-	long long uspread =  static_cast<long long>(uask/100000 - ubid/100000);
+	//long long uspread =  static_cast<long long>(uask/100000 - ubid/100000);
+	unsigned long long uspread =  uask - ubid;
 
 	vector<warrant*> selectedWarrant;
 	unordered_set<unsigned int> warrantVector = ivLoader.getWarrantByIssuer(issuer,underlying);
@@ -278,11 +279,11 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 				continue;
 			}
 
-			float fuspread = static_cast<float>(uspread)/1000.0f;
+			//float fuspread = static_cast<float>(uspread)/1000.0f;
 
 			//Log("USPREAD = " + to_string(fuspread));
 
-			bool accept = CSelectedWarrant.isAccept(fuspread, wiv.Delta, wiv.Cratio, wspread, 2);
+			bool accept = CSelectedWarrant.isAccept(uspread, wiv.Delta, wiv.Cratio, wspread, 2);
 
 			if(accept){
 
