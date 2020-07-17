@@ -30,7 +30,14 @@ s1algo::s1algo(user& u, const std::string& name):
 	logger->start();
 
 	Log("Logger Inited");
+	Log("forceSoldTime = " + to_string(forceSoldTime) + " @" + today + " 154659");
+	Log("undetectedTime = " + to_string(undetectedTime) + " @" + today + " 153600");
+	Log("soldendTime = " + to_string(soldendTime) + " @" + today + " 155959");
 
+	for(auto f : selectedIssuer) {
+		string issuer = f;
+		Log("Trade Issuer = " + issuer);
+	}
 }
 
 void s1algo::on_omdc_book(const Tradable& tradable)
@@ -157,6 +164,11 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			else
 			{
 				if(hasSignal){
+
+					time_t currentTime = DateUtil::getCurrentSystemTime();
+					if(currentTime > undetectedTime){
+						return;
+					}
 
 					if(best_ask_price == DetectAsk){
 						obs->DetectedAsk = best_ask_price;
@@ -351,6 +363,11 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 	if(MarketStatus == MARKET_PAUSE)
 		return;
 
+	time_t currentTime = DateUtil::getCurrentSystemTime();
+	if(currentTime > forceSoldTime && currentTime < soldendTime){
+		forcesold();
+	}
+
 	auto it = obMap.find(tradable.m_Code);
 	if(it != obMap.end())
 	{
@@ -498,6 +515,39 @@ void s1algo::on_omdd_book(const Tradable& )
 void s1algo::on_omdd_trade(const Tradable& )
 {
 
+}
+
+void s1algo::forcesold(){
+
+	for (auto& it: obMap) {
+	    // Do stuff
+	    OBSetting* obs = it.second;
+
+	    if(obs->hasPosition){
+
+			vector<warrant*> wobsArray = obs->getRelatedWarrant();
+			for(unsigned int i = 0; i<wobsArray.size(); i++){
+				warrant* obsw = wobsArray[i];
+				if(obsw->Status == STATUS_AVAILABLE){
+					unsigned long long wbest_bid_price = warrantPriceMap[obsw->Code]->Bestbid;
+
+					if(wbest_bid_price == 0)
+						continue;
+					Log("Force Sell Warrant Code = " + obsw->Code + " @Wbid = " + to_string(wbest_bid_price));
+					wobsArray[i]->Status = STATUS_SELLING;
+					bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
+					if(!result){
+						obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
+					}
+				}
+				if(obs->hasRelatedWarrant(STATUS_SELLING)){
+					obs->hasPosition = true;
+					obs->SellPrice = 0;
+					obs->SoldTime = DateUtil::getCurrentTime();
+				}
+			}
+		}
+	}
 }
 
 
