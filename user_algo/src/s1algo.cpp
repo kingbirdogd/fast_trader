@@ -210,6 +210,9 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							obs->detected = true;
 
 							Log("Code = " + to_string(code) + " Has Signal @ " + to_string(best_ask_price));
+							Log("Pass3");
+						}else{
+							algo_signal_msg_pool.release_obj(pmsg);
 						}
 					}
 				}
