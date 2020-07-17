@@ -366,6 +366,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 	time_t currentTime = DateUtil::getCurrentSystemTime();
 	if(currentTime > forceSoldTime && currentTime < soldendTime){
 		forcesold();
+		return;
 	}
 
 	auto it = obMap.find(tradable.m_Code);
