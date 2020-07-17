@@ -282,9 +282,9 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 				continue;
 			}
 
-			//float fuspread = static_cast<float>(uspread/100000)/1000.0f;
+			float fuspread = static_cast<float>(uspread/100000)/1000.0f;
 			//Log("USPREAD = " + to_string(fuspread));
-			//float fwspread = static_cast<float>(wspread/100000)/1000.0f;
+			float fwspread = static_cast<float>(wspread/100000)/1000.0f;
 			//Log("WSPREAD = " + to_string(fwspread));
 
 			//bool accept = CSelectedWarrant.isAccept(uspread, wiv.Delta, wiv.Cratio, wspread, 2);
