@@ -236,6 +236,7 @@ private:
 			if(action == "pause"){
 				self->MarketStatus = MARKET_PAUSE;
 			}
+
 			currmarketstatus = self->MarketStatus;
 
 			ouputQueue.enqueue(this);
