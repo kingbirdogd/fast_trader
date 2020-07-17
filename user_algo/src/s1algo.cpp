@@ -215,9 +215,6 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 				}
 			}
 			//}
-		}else{
-			if()
-			Log("No Signal Code = " + to_string(code) + " Has Signal @ " + to_string(best_ask_price));
 		}
 	}else{
 		auto it = s1SignalMap.find(code);
