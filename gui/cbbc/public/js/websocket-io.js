@@ -1,5 +1,13 @@
-var domain = location.host; // 选择连接的服务器
+var domain = location.host;       // 选择连接的服务器
+var href = window.location.href;
+if (href.includes('cbbc'))
+  domain += '/origin=cbbc'
+else if (href.includes('a1'))
+  domain += '/origin=a1'
+else
+  domain += '/origin=unknown'
 var ws = null;
+var numConnect = 0;
 
 function sendWebsocket(data){
   if(!ws){
@@ -18,11 +26,10 @@ function initWebsocket(callback){
     if(!ws || ws.readyState == 3){
       ws = new WebSocket("ws://"+domain);
       console.log('建立WebSocket!');
-      // 导航栏Tab
-      initNavbar();
     }
     
     ws.onopen = function(){
+      numConnect = 0;
       console.log("已连接！");
     }
     ws.onmessage = function (evt){
@@ -30,8 +37,6 @@ function initWebsocket(callback){
         callback(evt.data);
       else
         console.log('callback不是回调!');
-      // 导航栏Tab
-      renderNavTab(evt.data);
       // 储存资料
       initDataInCookies(evt.data);
     }
@@ -55,6 +60,10 @@ function waitForSocketConnection(socket, callback){
       return;
     } else {
       waitForSocketConnection(socket,callback);
+      numConnect += 1;
+      // 超過10次重連
+      if (numConnect == 10)
+        global.func.logout();
     }
-  }, 1);
+  }, 5);
 };

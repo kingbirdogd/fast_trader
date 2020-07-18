@@ -86,16 +86,17 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 					//string swbid = to_string(wbid);
 					auto itp = pDnBidMark.find(wbid);
 					if(itp != pDnBidMark.end()){
+						/*
 						if(itp->second != fprice){
-							//fprintf(stderr, "BULL BID MARK CHANGE \n");
 							pDnBidMark[wbid] = fprice;
 							bidkey = wbid;
 							bidprice = fprice;
 							return true;
 						}else{
-							//fprintf(stderr, "BULL BID MARK NO CHANGE \n");
 							return false;
 						}
+						*/
+						return false;
 					}
 
 					//fprintf(stderr, "BULL BID MARK NEW ENTRY \n");
@@ -162,16 +163,16 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 
 					auto itp = pDnBidMark.find(wbid);
 					if(itp != pDnBidMark.end()){
+						/*
 						if(itp->second != fprice){
-							//fprintf(stderr, "BEAR BID MARK CHANGE \n");
 							pDnBidMark[wbid] = fprice;
 							bidkey = wbid;
 							bidprice = fprice;
 							return true;
 						}else{
-							//fprintf(stderr, "BEAR BID MARK NO CHANGE \n");
 							return false;
-						}
+						}*/
+						return false;
 					}
 					//fprintf(stderr, "BULL BID MARK NEW ENTRY \n");
 
@@ -200,14 +201,13 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 
 					auto itp = pDnBidMark.find(pwbid);
 					if(itp != pDnBidMark.end()){
+
 						if(itp->second != pfprice){
-							//fprintf(stderr, "BEAR BID MARK CHANGE \n");
 							pDnBidMark[pwbid] = pfprice;
 							bidkey = pwbid;
 							bidprice = pfprice;
 							return true;
 						}else{
-							//fprintf(stderr, "BEAR BID MARK NO CHANGE \n");
 							return false;
 						}
 					}
@@ -285,16 +285,16 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 
 						auto itp = pUpAskMark.find(wask);
 						if(itp != pUpAskMark.end()){
+							/*
 							if(itp->second != fprice){
-								//fprintf(stderr, "BULL ASK MARK CHANGE \n");
 								pUpAskMark[wask] = fprice;
 								askkey = wask;
 								askprice = fprice;
 								return true;
 							}else{
-								//fprintf(stderr, "BULL ASK MARK NO CHANGE \n");
 								return false;
-							}
+							}*/
+							return false;
 						}
 						//fprintf(stderr, "BULL ASK MARK NEW ENTRY \n");
 						pUpAskMark[wask] = fprice;
@@ -365,16 +365,16 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 
 						auto itp = pUpAskMark.find(wask);
 						if(itp != pUpAskMark.end()){
+							/*
 							if(itp->second != fprice){
-								//fprintf(stderr, "BEAR ASK MARK CHANGE \n");
 								pUpAskMark[wask] = fprice;
 								askkey = wask;
 								askprice = fprice;
 								return true;
 							}else{
-								//fprintf(stderr, "BEAR ASK MARK NO CHANGE \n");
 								return false;
-							}
+							}*/
+							return false;
 						}
 						//fprintf(stderr, "BEAR ASK MARK NEW ENTRY \n");
 						pUpAskMark[wask] = fprice;
@@ -409,16 +409,16 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 					//string swbid = to_string(wbid);
 					auto itp = pDnBidMark.find(wbid);
 					if(itp != pDnBidMark.end()){
+						/*
 						if(itp->second != fprice){
-							//fprintf(stderr, "BULL BID MARK CHANGE \n");
 							pDnBidMark[wbid] = fprice;
 							bidkey = wbid;
 							bidprice = fprice;
 							return true;
 						}else{
-							//fprintf(stderr, "BULL BID MARK NO CHANGE \n");
 							return false;
-						}
+						}*/
+						return false;
 					}
 
 					//fprintf(stderr, "BULL BID MARK NEW ENTRY \n");
@@ -485,16 +485,16 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 
 					auto itp = pDnBidMark.find(wbid);
 					if(itp != pDnBidMark.end()){
+						/*
 						if(itp->second != fprice){
-							//fprintf(stderr, "BEAR BID MARK CHANGE \n");
 							pDnBidMark[wbid] = fprice;
 							bidkey = wbid;
 							bidprice = fprice;
 							return true;
 						}else{
-							//fprintf(stderr, "BEAR BID MARK NO CHANGE \n");
 							return false;
-						}
+						}*/
+						return false;
 					}
 					//fprintf(stderr, "BULL BID MARK NEW ENTRY \n");
 
@@ -608,16 +608,16 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 
 						auto itp = pUpAskMark.find(wask);
 						if(itp != pUpAskMark.end()){
+							/*
 							if(itp->second != fprice){
-								//fprintf(stderr, "BULL ASK MARK CHANGE \n");
 								pUpAskMark[wask] = fprice;
 								askkey = wask;
 								askprice = fprice;
 								return true;
 							}else{
-								//fprintf(stderr, "BULL ASK MARK NO CHANGE \n");
 								return false;
-							}
+							}*/
+							return false;
 						}
 						//fprintf(stderr, "BULL ASK MARK NEW ENTRY \n");
 						pUpAskMark[wask] = fprice;
@@ -688,16 +688,16 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 
 						auto itp = pUpAskMark.find(wask);
 						if(itp != pUpAskMark.end()){
+							/*
 							if(itp->second != fprice){
-								//fprintf(stderr, "BEAR ASK MARK CHANGE \n");
 								pUpAskMark[wask] = fprice;
 								askkey = wask;
 								askprice = fprice;
 								return true;
 							}else{
-								//fprintf(stderr, "BEAR ASK MARK NO CHANGE \n");
 								return false;
-							}
+							}*/
+							return false;
 						}
 						//fprintf(stderr, "BEAR ASK MARK NEW ENTRY \n");
 						pUpAskMark[wask] = fprice;

@@ -1,0 +1,147 @@
+<html>
+<head>
+  <title>Session Panel</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"/>
+  <style>
+    form, #tvResult {padding: 10px; border: 1px solid #cfcfcf; background-color: #f9f9f9; font-size: 12px;}
+    form .form-group {margin-bottom: 10px;}
+    .col-form-label-sm, .form-control-sm, .btn-primary {font-size: 12px;}
+    .table {border: 1px solid #cfcfcf; font-size: 13px;}
+    .table td, .table th { padding: 6px;}
+  </style>
+  <script>
+  var ui = {};      // 组件
+  var global = {};  // 公共
+  global.host = location.host;
+  
+  $(document).ready(function() {
+    initUI();
+    ui.tvErrorMsg.hide();
+    ui.tvResult.hide();
+    ui.tbDoc.hide();
+
+    // 登入
+    ui.btnSubmit.click(function() {
+      $.ajax({
+        type: "POST",
+        crossDomain: true,
+        url: "http://"+global.host+"/status",
+        data: getFormData(ui.formLogin),
+        success: function(res) {
+          // 2.0 成功
+          if ('conns' in res) {
+            ui.tvErrorMsg.hide();
+            ui.tvResult.html(JSON.stringify(res, undefined, 2));
+            ui.tvResult.show();
+            ui.tbDoc.show();
+          }
+          // 1.0 错误
+          if ('result' in res && res.result == 'fail') {
+            ui.tvErrorMsg.html(res.error);
+            ui.tvErrorMsg.show();
+            ui.tvResult.hide();
+            ui.tbDoc.hide();
+          }
+        }
+      });
+    });
+    
+  });
+  
+  function initUI() {
+    ui.formLogin = $('#formLogin');
+    ui.btnSubmit = $('#btnSubmit');
+    ui.tvErrorMsg = $('#tvErrorMsg');
+    ui.tvResult = $('#tvResult');
+    ui.tbDoc = $('#tbDoc');
+  }
+  
+  function getFormData(obj) {
+    var data = {};
+    $.each(obj.serializeArray(), function(_, kv) {
+      data[kv.name] = kv.value;
+    });
+    return data;
+  }
+  </script>
+</head>
+<body>
+  <div class="container">
+  
+    <div class="row mt-4">
+    <div class="col-12">
+      <h6> Session Panel </h6>
+      <form id="formLogin">
+        <div class="form-group row">
+          <label for="name" class="col-sm-2 col-form-label col-form-label-sm">Name</label>
+          <div class="col-sm-10">
+            <input type="text" name="ac" class="form-control form-control-sm" value="fast_trader">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="pw" class="col-sm-2 col-form-label col-form-label-sm">Password</label>
+          <div class="col-sm-10">
+            <input type="text" name="pw" class="form-control form-control-sm" value="123a">
+          </div>
+        </div>
+        <button type="button" id="btnSubmit" class="btn btn-sm btn-primary">Submit</button>
+      </form>
+      <div id="tvErrorMsg" class="alert alert-danger" role="alert"></div>
+    </div>
+    </div>
+    
+    
+    <div class="row">
+    <div class="col-12">
+      <pre id="tvResult"></pre>
+    </div>
+    </div>
+    
+    <div class="row">
+    <div class="col-12">
+<table id="tbDoc" class="table table-striped">
+  <tbody>
+    <tr>
+      <th scope="row">1.0 密码层</th>
+      <td>
+        参数：Username + Password <br />
+        返回：安全认证Token（每次登入都不同的安全认证） <br />
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">2.0 认证层Sessions</th>
+      <td>
+        <ul>
+          <li> token - 安全认证 </li>
+          <li> userId - 用户ID </li>
+          <li> origin - 登入来源（cbbc / hts） </li>
+          <li> priority - 优先级（First in last out） </li>
+          <li> loginTime 登入时间 </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">3.0 通信层Websocket</th>
+      <td>
+        参数：Websocket（必须拥有安全认证Token才能访问） <br />
+        返回：响应Msg
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">4.0 应用层</th>
+      <td>
+        刷新：删除WS通信层=>重新建立WS<br />
+        登出：删除WS通信层=>删除Sessions认证层<br />
+        （最大的priority才能访问&操作WS通信层）<br />
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+    </div>
+  
+  </div>
+</body>
+</html>

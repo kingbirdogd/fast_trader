@@ -1,5 +1,5 @@
 {
-	"IN_OUT_PROCESS": "node ${HOME}/fast_trader/gui/db_server_uat_v1.0.1.js 9919",
+	"IN_OUT_PROCESS": "node ${HOME}/fast_trader/gui/db_server_uat_v2.0.0.js 9919",
 	"SCHED_PRIORITY": 0,
 	"SCHED_TYPE": "SCHED_OTHER",
 	"SOL_SOCKET":
@@ -105,6 +105,22 @@
 					}
 				}
 			}
+		},
+		{
+			"ID":5,
+			"USER":"P311831",
+			"PASS":"Shun2328",
+			"BUY_POWER":5000000,			
+			"ALGOS":
+			{
+				"kenny_s1algo":
+				{
+					"lib": "s1algo",
+					"params":
+					{
+					}
+				}
+			}
 		}
 	],
 	"Definition":
@@ -135,12 +151,19 @@
 	"RetranProxy":
 	[
 		{
+			"Market": "omdcsp",
 			"Ip": "192.168.118.106",
 			"Port": 41000
 		},
 		{
+			"Market": "omdd",
 			"Ip": "192.168.118.131",
 			"Port": 31000
+		},
+		{
+			"Market": "omdcss",
+			"Ip": "192.168.118.113",
+			"Port": 44000
 		}
 	],
 	"OmdcChannel":
@@ -213,10 +236,62 @@
 			"RetranProxyIndex": 1
 		}
 	],
+	"PriceTableChannel":
+	[
+		{
+			"ChannelId": 10,
+			"Hot":
+			{
+				"InterfaceIp": "10.122.78.196",
+				"MulticastIp": "239.1.1.2",
+				"MulticastPort": 51000
+			},
+			"Refresh":
+			{
+				"InterfaceIp": "10.122.78.196",
+				"MulticastIp": "239.1.1.12",
+				"MulticastPort": 51000
+			},
+			"RetranProxyIndex": 2
+		}
+	],
+	"S1Channel":
+	[
+		{
+			"ChannelId": 100,
+			"Hot":
+			{
+				"InterfaceIp": "10.122.78.196",
+				"MulticastIp": "239.1.127.2",
+				"MulticastPort": 51000
+			},
+			"Refresh":
+			{
+				"InterfaceIp": "10.122.78.196",
+				"MulticastIp": "239.1.127.12",
+				"MulticastPort": 51000
+			},
+			"RetranProxyIndex": 2
+		}
+	],
+	"IVFile":"/home/fast_trader/ivfile/ivall.txt",
+	"OrderbookFile":
+	{	
+		"OrderbookPath":"/home/fast_trader/orderbookfile/orderbook10dlog.txt",
+		"algothick": "0.7",
+		"algothin" : "0.5",
+		"algobidtriggersell":"0.001",
+		"algoasktriggerbuy":"0.001",
+		"algoraisestoplost":"0.2",
+		"algoreadybidbuy":"0.3",
+		"algotickrange":"2"
+	},
 	"ActivateChannel":
 	[
 		{"Channel":"OmdcChannel"},
-		{"Channel":"OmddChannel"}
+		{"Channel":"OmddChannel"},
+		{"Channel":"PriceTableChannel"},
+		{"Channel":"S1Channel"}
 	]
 }
 

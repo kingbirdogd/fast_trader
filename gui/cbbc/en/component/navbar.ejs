@@ -1,35 +1,23 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
-    <a class="navbar-brand" href="javascript:void(0);">Fast Trader (UAT)</a>
+    <a class="navbar-brand" href="javascript:void(0);">Fast Trader</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarContent">
-      <ul class="navbar-nav">
-        <!--li class="nav-item" data-nav="index">
-          <a class="nav-link" href="/index">Index</a>
-        </li>
-        <li class="nav-item" data-nav="warrant">
-          <a class="nav-link" href="/warrant">Warrant</a>
-        </li-->
+      
+      <!-- 1.0 navbar cbbc -->
+      <ul class="navbar-nav" id="navbar-nav-cbbc" style="display: none;">
         <li class="nav-item" data-nav="cbbc">
           <a class="nav-link" href="/cbbc">Cbbc</a>
         </li>
-        <!--li class="nav-item" data-nav="profilo">
-          <a class="nav-link" href="/profilo">Profilo</a>
-        </li-->
-        <!--li class="nav-item dropdown" data-nav="module">
-          <a class="nav-link dropdown-toggle" href="javascript:void(0);" id="navDropdownModule" role="button" 
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Module
-          </a>
-          <div class="dropdown-menu nav-dropdown-module" aria-labelledby="navDropdownModule">
-          </div>
-        </li-->
-        <!--li class="nav-item" data-nav="log">
-          <a class="nav-link" href="/log">Log</a>
-        </li-->
+      </ul>
+      <!-- 2.0 navbar a1 -->
+      <ul class="navbar-nav" id="navbar-nav-a1" style="display: none;">
+        <li class="nav-item" data-nav="a1">
+          <a class="nav-link" href="/a1">A1</a>
+        </li>
       </ul>
       
       <ul class="navbar-nav ml-auto">
@@ -51,11 +39,12 @@
         </li>
         
         <li class="nav-item mr-sm-2 my-sm-2">
-          <button id="btn-stop-server" class="btn btn-sm btn-outline-danger" style="display:none;">Stop</button>
-        </li>
-        
-        <li class="nav-item mr-sm-2 my-sm-2">
-          <form action="/logout" method="POST" class="form-inline">
+          <!-- 1.0 btn logout cbbc -->
+          <form action="cbbc-logout" id="btn-logout-cbbc" method="POST" class="form-inline" style="display: none;">
+            <button class="btn btn-sm btn-outline-success" type="submit">Logout</button>
+          </form>
+          <!-- 2.0 btn logout a1 -->
+          <form action="a1-logout" id="btn-logout-a1" method="POST" class="form-inline" style="display: none;">
             <button class="btn btn-sm btn-outline-success" type="submit">Logout</button>
           </form>
         </li>

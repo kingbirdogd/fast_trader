@@ -26,6 +26,24 @@ input, textarea, select, textarea:focus, input:focus, select:focus, .form-contro
   color: #ff0000;
 }
 
+#main .menu {
+  margin: 0 auto 100px;
+  padding: 45px;
+  width: 500px;
+  list-style-type: none;
+}
+
+#main .menu li {
+  padding: 15px;
+  margin: 0 0 15px 0;
+  border: 1px solid #ccc;
+  width: 100%;
+  color: #666;
+  font-size: 13px;
+  background: #f2f2f2;
+}
+
+#main.container,
 #login.container {
   margin-top: 20px;
 }

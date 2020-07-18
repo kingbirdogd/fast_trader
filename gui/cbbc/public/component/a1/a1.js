@@ -1,4 +1,4 @@
-class Cbbc extends React.Component {
+class A1 extends React.Component {
   constructor(props) {
     super(props)
     this.setStates = this.setStates.bind(this)
@@ -11,9 +11,9 @@ class Cbbc extends React.Component {
       value: this.props.config
     }
     
-    this.state.modules = {bull: null, bear: null}
+    this.state.modules = {bull: null, bear: null, call: null, put: null}
     this.state.prefix = 'u000_'
-    this.state.userId = parseInt(Cookies.get("cbbc-userId"))
+    this.state.userId = parseInt(Cookies.get("a1-userId"))
     
     this.state.recovery = {}
     this.state.recovery.isRecoveryEnd = false
@@ -64,6 +64,8 @@ class Cbbc extends React.Component {
     this.state.orders = orders
     this.state.positions = positions
     this.state.portfolios = portfolios
+    this.state.codeMapping = {}
+    this.msg = []
   }
   
   componentDidMount() {
@@ -76,6 +78,10 @@ class Cbbc extends React.Component {
       var data = JSON.parse(res)
       console.log(data)
       var obj = $.extend(true, {}, this.state)
+      
+      // 接口v3
+      if (!res.includes('connect_alive'))
+        this.msg.push(data)
       if ('action' in data) {
         // 接口v1
         if (data.action=='pricetable') {obj = this.setPriceTable(obj, data)}
@@ -113,6 +119,11 @@ class Cbbc extends React.Component {
         else if (data.msg_type=='algo_param_msg') {obj = this.setParam(obj, data)}
         else if (data.msg_type=='cbbc_algo_force_buy') {obj = this.checkForce(obj, data)}
         else if (data.msg_type=='cbbc_algo_force_sell') {obj = this.checkForce(obj, data)}
+      }
+      // 接口v3
+      else if ('algo_name' in data && data.algo_name.includes('s1')) {
+        if(data.action=='start') {}
+        else if (data.action=='pause') {}
       }
       // 接口v2
       else if ('action_type' in data) {
@@ -275,6 +286,8 @@ class Cbbc extends React.Component {
     for (var algo in data.algos)
       if (algo.includes('bear'))
         state.modules.bull = algo, state.modules.bear = algo
+      else if (algo.includes('s1'))
+        state.modules.call = algo, state.modules.put = algo
     // 沒有cbbc algo
     if ( (state.modules.bull != null && state.modules.bull.includes('bear')) && (state.modules.bear != null && state.modules.bear.includes('bear')) )
       console.log({log: 'algo exist'})
@@ -351,10 +364,21 @@ class Cbbc extends React.Component {
   
   // 明細 v2
   setPorfololioV2(state, data) {
-    var id = data.ref.replace(state.prefix, '')
+    // 數據映射, 輪證<=>正股
+    if (!(data.ref in state.codeMapping))
+      state.codeMapping[data.ref] = (data.ucode) ? formatCode(data.ucode, 4) : ''
+    
+    // 數據映射, 輪證<=>codeMapping id
+    var id = (data.ref.replace(/[^0-9]/g, '').length == 5)
+      ? Object.keys(state.codeMapping).indexOf(data.ref)        // a1
+      : data.ref.replace(state.prefix, '')                      // cbbc
+    
     var arr = {
-      ref:data.ref, mode:data.id, key: data.algo_name,
-      code: data.warrant_code, quantity: formatLong(data.quantity),
+      ref:data.ref, mode:data.id,
+      key: data.algo_name,
+      code: data.warrant_code,
+      ucode: (data.ucode) ? formatCode(data.ucode, 4) : '',
+      quantity: formatLong(data.quantity),
       buyPrice: formatLong(data.buy_price), buyTime: formatDate(data.buytime),
       sellPrice: formatLong(data.sell_price), soldTime: formatDate(data.sellime),
       profitLoss: (formatLong(data.sell_price)-formatLong(data.buy_price))*formatLong(data.quantity)
@@ -367,9 +391,18 @@ class Cbbc extends React.Component {
   
   // 買賣
   setOnOrder(state, data) {
-    var id = data.ref.replace(state.prefix, '')
+    // 數據映射, 輪證<=>正股
+    if (!(data.ref in state.codeMapping))
+      state.codeMapping[data.ref] = (data.ucode) ? formatCode(data.ucode, 4) : ''
+    
+    // 數據映射, 輪證<=>codeMapping id
+    var id = (data.ref.replace(/[^0-9]/g, '').length == 5)
+      ? Object.keys(state.codeMapping).indexOf(data.ref)        // a1
+      : data.ref.replace(state.prefix, '')                      // cbbc
+    
     var arr = {
       code: data.warrant_code, 
+      ucode: (data.ucode) ? formatCode(data.ucode, 4) : '',
       // side: data.action.toLowerCase(),
       side: data.side.toLowerCase(),
       status: data.status,
@@ -378,6 +411,7 @@ class Cbbc extends React.Component {
       matchQuantity: formatLong(data.filled_quantity),
       totalPrice: formatLong(data.filled_price)*formatLong(data.filled_quantity),
       futurePrice: ('sellout' in data) ? formatPrice(data.sellout) : ('buyin' in data) ? formatPrice(data.buyin) : '',
+      stoplost: (data.stoplost) ? formatLong(data.stoplost) : '',
       reason: ('reason' in data) ? data.reason: ''
     }
     
@@ -550,6 +584,10 @@ class Cbbc extends React.Component {
     }
     var style = (this.state.recovery.isRecoveryEnd) ? 'is_finish' : 'is_loading'
     var curYear = new Date().getFullYear()
+    
+    var log = "", cssLog = {width: '100%', height: 400, fontSize: 13, lineHeight: 1, backgroundColor: '#fdfdfe'}
+    for (var msg of this.msg) log += JSON.stringify(msg)+' \n\n\n'
+    
     return(
       <React.Fragment>
         <div className={classNames("custom-loader area", style)}>
@@ -563,7 +601,25 @@ class Cbbc extends React.Component {
             setStates={this.setStates}
             getStates={this.getStates}
           />
-          <div className='row'>{cells}</div>
+          <MarketStatus
+            key="marketStatus"
+            lang={this.props.lang}
+            setStates={this.setStates}
+            getStates={this.getStates}
+          />
+          <BetSize
+            key="betSize"
+            lang={this.props.lang}
+            setStates={this.setStates}
+            getStates={this.getStates}
+          />
+          <textarea
+            key="log"
+            id="log"
+            style={cssLog}
+            value={log}
+            readOnly
+          />
           <Position
             key="position"
             data={this.state.positions}
@@ -574,6 +630,7 @@ class Cbbc extends React.Component {
           <Portfolio
             key="portfolio"
             data={this.state.portfolios}
+            data2={this.state.codeMapping}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}
@@ -590,7 +647,9 @@ class Cbbc extends React.Component {
           Copyright © {curYear} Fast Trader v1.0.11
         </div>
       </React.Fragment>
-      /*<Selector
+      /*
+      <div className='row'>{cells}</div>
+       <Selector
         key="selector_cbbc"
         config={this.state.config}
         setStates={this.setStates}
@@ -600,5 +659,5 @@ class Cbbc extends React.Component {
   }
 }
 
-var lang = global.cookies['cbbc-lang']
-ReactDOM.render(<Cbbc config={config} lang={lang} />, document.getElementById('cbbc'))
+var lang = global.cookies['a1-lang']
+ReactDOM.render(<A1 config={config} lang={lang} />, document.getElementById('a1'))
