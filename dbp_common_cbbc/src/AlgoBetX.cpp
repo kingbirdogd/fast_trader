@@ -29,7 +29,7 @@ AlgoBetX::AlgoBetX() {
 	//betMap["Bet50"] = algoBet50;
 	//betMap["BetXSmall"] = algoBetXSmall;
 
-	currentBet = algoBetSmall;
+	currentBet = algoBet1Lot;
 }
 
 AlgoBetX::~AlgoBetX() {
