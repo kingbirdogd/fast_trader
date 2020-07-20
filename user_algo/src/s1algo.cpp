@@ -253,6 +253,24 @@ void s1algo::setBetsize(std::string betsize){
 	algoBet.selectBet(betsize);
 }
 
+bool s1algo::checkPrice(unsigned int code, unsigned long long ubid, unsigned long long uask)
+{
+	unsigned long long uspread =  uask - ubid;
+	unsigned long long wbest_bid_price = warrantPriceMap[code]->Bestbid;
+	unsigned long long wbest_ask_price = warrantPriceMap[code]->Bestask;
+	if(wbest_bid_price == 0 || wbest_ask_price == 0)
+		return false;
+	WarrantIv wiv = ivLoader.getWarrantIv(n);
+
+	float fuspread = static_cast<float>(uspread/100000)/1000.0f;
+
+	float fwspread = static_cast<float>(wspread/100000)/1000.0f;
+
+	bool accept = CSelectedWarrant.isAccept(fuspread, wiv.Delta, wiv.Cratio, fwspread, 2);
+	return accept;
+}
+
+
 vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer, unsigned int underlying, unsigned long long ubid, unsigned long long uask)
 {
 
@@ -448,7 +466,13 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					if(wobsArray[i]->Status != STATUS_READY){
 						continue;
 					}
-
+/*
+					if(!checkPrice(wobsArray[i]->Code, bid_price, ask_price)){
+						warrant* w = obs->removeWarrantOrCbbc(wobsArray[i]->Code);
+						delete w;
+						continue;
+					}
+*/
 					wobsArray[i]->Status = STATUS_PENDING;
 					wobsArray[i]->StopLostPrice = wobsArray[i]->UBid;
 					bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::buy, wobsArray[i]->RefWAsk, wobsArray[i]->BuyQuantity);

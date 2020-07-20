@@ -333,6 +333,7 @@ public:
 	virtual void setBetsize(std::string betsize);
 	virtual unsigned long long getBestBid(unsigned int code);
 	virtual void forcesold();
+	virtual bool checkPrice(unsigned int code, unsigned long long ubid, unsigned long long uask);
 public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_err_msg, 8192> algo_err_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_marketstatus_msg, 8192> algo_marketstatus_msg_pool;
