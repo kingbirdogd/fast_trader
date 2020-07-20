@@ -268,7 +268,7 @@ bool s1algo::checkPrice(unsigned int code, unsigned long long ubid, unsigned lon
 
 	PriceMark* spm = pricemarkMap[code];
 
-	unsigned long long wbidaskspread = wbest_ask_price - wbest_bid_price;
+	//unsigned long long wbidaskspread = wbest_ask_price - wbest_bid_price;
 
 	if(wbest_bid_price == 0 || wbest_ask_price == 0 ||wBidQty<spm->getIssuerBidQty() || wAskQty<spm->getIssuerAskQty())
 		return false;
