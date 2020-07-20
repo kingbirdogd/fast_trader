@@ -45,6 +45,8 @@ private:
 	unsigned long long askkey = 0;
 	unsigned long long bidprice = 0;
 	unsigned long long askprice = 0;
+	unsigned long long BidIssuerQty;
+	unsigned long long AskIssuerQty;
 public:
 	PriceMark(int wtype);
 	virtual ~PriceMark();
@@ -69,6 +71,11 @@ public:
 	unsigned long long getAskKey();
 	unsigned long long getBidPrice();
 	unsigned long long getAskPrice();
+
+	unsigned long long getIssuerBidQty();
+	unsigned long long getIssuerAskQty();
+	void setBidIssuerQty(unsigned long long qty);
+	void setAskIssuerQty(unsigned long long qty);
 };
 
 

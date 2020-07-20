@@ -26,5 +26,24 @@ bool SelectedWarrant::isAccept(float uspread, float delta, float cratio, float b
 	return (result * ticks > bidaskspread);
 }
 
+bool SelectedWarrant::isSpreadAccept(int noofspread, unsigned long long price){
+	if(price >= 50000000 && price < 1000000000){
+		if(noofspread>0 && noofspread <= 1){
+			return true;
+		}
+	}
+	if(price >= 25000000 && price < 50000000){
+		if(noofspread>0 && noofspread <= 1){
+			return true;
+		}
+	}
+	if(price < 25000000){
+		if(noofspread>0 && noofspread <= 4){
+			return true;
+		}
+	}
+	return false;
+}
+
 
 

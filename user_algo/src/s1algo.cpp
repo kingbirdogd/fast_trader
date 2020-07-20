@@ -46,6 +46,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 	auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
 	auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
 	auto best_bid_qty = tradable.m_Bid[0].m_uQuantity;
+	auto best_ask_qty = tradable.m_Ask[0].m_uQuantity;
 	//auto best_ask_qty = tradable.m_Ask[0].m_uQuantity;
 	unsigned int code = tradable.m_Code;
 
@@ -54,6 +55,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		priceinfo* p = itw->second;
 		p->Bestbid = best_bid_price;
 		p->Bestask = best_ask_price;
+		p->BidQty = best_bid_qty;
+		p->AskQty = best_ask_qty;
 		return;
 	}
 
@@ -210,7 +213,6 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 								pmsg->detectedlist.insert(wStr);
 								selectcount++;
 							}
-
 						}
 
 						if(selectcount > 0){
@@ -255,16 +257,38 @@ void s1algo::setBetsize(std::string betsize){
 
 bool s1algo::checkPrice(unsigned int code, unsigned long long ubid, unsigned long long uask)
 {
+	COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
+	string SpreadTableCode = omdcdef.SpreadTableCode;
+
 	unsigned long long uspread =  uask - ubid;
 	unsigned long long wbest_bid_price = warrantPriceMap[code]->Bestbid;
 	unsigned long long wbest_ask_price = warrantPriceMap[code]->Bestask;
-	if(wbest_bid_price == 0 || wbest_ask_price == 0)
+	unsigned long long wBidQty = warrantPriceMap[code]->BidQty;
+	unsigned long long wAskQty = warrantPriceMap[code]->AskQty;
+
+	PriceMark* spm = pricemarkMap[code];
+
+	unsigned long long wbidaskspread = wbest_ask_price - wbest_bid_price;
+
+	if(wbest_bid_price == 0 || wbest_ask_price == 0 || wBidQty<spm->BidIssuerQty || wAskQty<spm->AskIssuerQty)
 		return false;
-	WarrantIv wiv = ivLoader.getWarrantIv(n);
+
+	unsigned long long wspread = wbest_ask_price - wbest_bid_price;
+	WarrantIv wiv = ivLoader.getWarrantIv(code);
 
 	float fuspread = static_cast<float>(uspread/100000)/1000.0f;
 
 	float fwspread = static_cast<float>(wspread/100000)/1000.0f;
+
+
+	unsigned long long _wspread = spreadTable.getSpread(SpreadTableCode, wbest_bid_price);
+
+	int noofspread = static_cast<int>(wspread / _wspread);
+
+	bool acceptspread = CSelectedWarrant.isSpreadAccept(noofspread, wbest_bid_price);
+	if(!acceptspread){
+		return false;
+	}
 
 	bool accept = CSelectedWarrant.isAccept(fuspread, wiv.Delta, wiv.Cratio, fwspread, 2);
 	return accept;
@@ -277,6 +301,9 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 	//long long uspread =  static_cast<long long>(uask/100000 - ubid/100000);
 	unsigned long long uspread =  uask - ubid;
 
+	COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
+	string SpreadTableCode = omdcdef.SpreadTableCode;
+
 	vector<warrant*> selectedWarrant;
 	unordered_set<unsigned int> warrantVector = ivLoader.getWarrantByIssuer(issuer,underlying);
 	for (const auto &n: warrantVector) {
@@ -284,17 +311,24 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 
 		unsigned long long wbest_bid_price = warrantPriceMap[n]->Bestbid;
 		unsigned long long wbest_ask_price = warrantPriceMap[n]->Bestask;
+		unsigned long long wBidQty = warrantPriceMap[n]->BidQty;
+		unsigned long long wAskQty = warrantPriceMap[n]->AskQty;
 
 		//auto it2 = omdcMap.find(n);
 		//if(it2 != omdcMap.end()){
 			//auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
 			//auto wbest_ask_price = static_cast<unsigned long long>(it2->second.m_Ask[0].m_iPrice) * 100000;
 
+
+
 			if(wbest_ask_price < 4000000){
 				continue;
 			}
 
-			if(wbest_bid_price == 0 || wbest_ask_price == 0)
+			PriceMark* spm = pricemarkMap[n];
+
+
+			if(wbest_bid_price == 0 || wbest_ask_price == 0 || wBidQty<spm->BidIssuerQty || wAskQty<spm->AskIssuerQty)
 				continue;
 
 			unsigned long long wspread = wbest_ask_price - wbest_bid_price;
@@ -316,6 +350,15 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 			//Log("USPREAD = " + to_string(fuspread));
 			float fwspread = static_cast<float>(wspread/100000)/1000.0f;
 			//Log("WSPREAD = " + to_string(fwspread));
+
+			unsigned long long _wspread = spreadTable.getSpread(SpreadTableCode, wbest_bid_price);
+
+			int noofspread = static_cast<int>(wspread / _wspread);
+
+			bool acceptspread = CSelectedWarrant.isSpreadAccept(noofspread, wbest_bid_price);
+			if(!acceptspread){
+				continue;
+			}
 
 			//bool accept = CSelectedWarrant.isAccept(uspread, wiv.Delta, wiv.Cratio, wspread, 2);
 			bool accept = CSelectedWarrant.isAccept(fuspread, wiv.Delta, wiv.Cratio, fwspread, 2);
@@ -425,21 +468,42 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								continue;
 							}
 
+							if(wobsArray[i]->BuyPrice <= 0){
+								continue;
+							}
+
 							unsigned long long wbest_bid_price = warrantPriceMap[wobsArray[i]->Code]->Bestbid;
 
 							//unsigned long long wbest_bid_price = getBestBid(wobsArray[i]->Code);
 
 							if(wbest_bid_price == 0)
 								continue;
+
+							if(wbest_bid_price > wobsArray[i]->BuyPrice){
+								wobsArray[i]->Status = STATUS_SELLING;
+								bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
+								//bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, RefWBid, wobsArray[i]->Quantity);
+								if(!result){
+									obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
+								}
+							}else{
+								PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
+								unsigned long long sellout = spm->sellOut(wbest_bid_price);
+
+								if(sellout < wobsArray[i]->StopLostPrice || sellout == 99999999){
+									continue;
+								}
+
 							//auto it2 = omdcMap.find(wobsArray[i]->Code);
 							//if(it2 != omdcMap.end()){
 							//	auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
 
-							wobsArray[i]->Status = STATUS_SELLING;
-							bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
-							//bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, RefWBid, wobsArray[i]->Quantity);
-							if(!result){
-								obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
+								wobsArray[i]->Status = STATUS_SELLING;
+								bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
+								//bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, RefWBid, wobsArray[i]->Quantity);
+								if(!result){
+									obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
+								}
 							}
 							//}
 						}

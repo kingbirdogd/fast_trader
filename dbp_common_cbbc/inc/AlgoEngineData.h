@@ -40,6 +40,8 @@ struct priceinfo{
 
 	unsigned long long Bestbid;
 	unsigned long long Bestask;
+	unsigned long long BidQty;
+	unsigned long long AskQty;
 	unsigned long long PBestbid;
 	unsigned long long PBestask;
 
