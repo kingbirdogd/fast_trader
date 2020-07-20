@@ -270,7 +270,7 @@ bool s1algo::checkPrice(unsigned int code, unsigned long long ubid, unsigned lon
 
 	unsigned long long wbidaskspread = wbest_ask_price - wbest_bid_price;
 
-	if(wbest_bid_price == 0 || wbest_ask_price == 0 || wBidQty<spm->BidIssuerQty || wAskQty<spm->AskIssuerQty)
+	if(wbest_bid_price == 0 || wbest_ask_price == 0 ||wBidQty<spm->getIssuerBidQty() || wAskQty<spm->getIssuerAskQty())
 		return false;
 
 	unsigned long long wspread = wbest_ask_price - wbest_bid_price;
@@ -328,7 +328,7 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 			PriceMark* spm = pricemarkMap[n];
 
 
-			if(wbest_bid_price == 0 || wbest_ask_price == 0 || wBidQty<spm->BidIssuerQty || wAskQty<spm->AskIssuerQty)
+			if(wbest_bid_price == 0 || wbest_ask_price == 0 || wBidQty<spm->getIssuerBidQty() || wAskQty<spm->getIssuerAskQty())
 				continue;
 
 			unsigned long long wspread = wbest_ask_price - wbest_bid_price;
