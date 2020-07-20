@@ -1365,7 +1365,8 @@ private:
 
 			warrant* newWarrant = _OBSetting->getRelatedWarrant(_warrant_code);
 
-			if(wbestbid == newWarrant->BuyPrice && newWarrant->BuyPrice > 0){
+			//if(wbestbid == newWarrant->BuyPrice && newWarrant->BuyPrice > 0){
+			if(newWarrant->BuyPrice > 0){
 
 				Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Level Sell " );
 				newWarrant->Status = STATUS_SELLING;
