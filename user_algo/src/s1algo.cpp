@@ -490,7 +490,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
 								unsigned long long sellout = spm->sellOut(wbest_bid_price);
 
-								if(sellout < wobsArray[i]->StopLostPrice || sellout == 99999999){
+								if(sellout < trade_price || sellout == 99999999){
 									continue;
 								}
 
