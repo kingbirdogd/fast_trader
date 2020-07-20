@@ -301,8 +301,7 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 	//long long uspread =  static_cast<long long>(uask/100000 - ubid/100000);
 	unsigned long long uspread =  uask - ubid;
 
-	COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
-	string SpreadTableCode = omdcdef.SpreadTableCode;
+
 
 	vector<warrant*> selectedWarrant;
 	unordered_set<unsigned int> warrantVector = ivLoader.getWarrantByIssuer(issuer,underlying);
@@ -319,7 +318,8 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 			//auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
 			//auto wbest_ask_price = static_cast<unsigned long long>(it2->second.m_Ask[0].m_iPrice) * 100000;
 
-
+			COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[n];
+			string SpreadTableCode = omdcdef.SpreadTableCode;
 
 			if(wbest_ask_price < 4000000){
 				continue;
