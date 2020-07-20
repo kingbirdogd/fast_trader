@@ -530,13 +530,13 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					if(wobsArray[i]->Status != STATUS_READY){
 						continue;
 					}
-/*
+
 					if(!checkPrice(wobsArray[i]->Code, bid_price, ask_price)){
 						warrant* w = obs->removeWarrantOrCbbc(wobsArray[i]->Code);
 						delete w;
 						continue;
 					}
-*/
+
 					wobsArray[i]->Status = STATUS_PENDING;
 					wobsArray[i]->StopLostPrice = wobsArray[i]->UBid;
 					bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::buy, wobsArray[i]->RefWAsk, wobsArray[i]->BuyQuantity);
