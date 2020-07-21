@@ -655,7 +655,7 @@ private:
 						strstatus = "filled";
 						_last_trigger_price = _buy_trriger;
 						_last_price = odr.match_price;
-						_algo->_Profit -= odr.filled_quantity * odr.match_price;
+						_algo->_Profit -= odr.filled_quantity *  odr.match_price;
 /*
 						portfolio* pf = _algo->portfolioMap[odr.code];
 
