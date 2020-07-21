@@ -272,6 +272,7 @@
 	},
 	"ActivateChannel":
 	[
+	
 		{"Channel":"OmdcChannel"},	
 		{"Channel":"OmddChannel"},		
 		{"Channel":"PriceTableChannel"},
