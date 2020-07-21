@@ -1020,7 +1020,7 @@ private:
 	struct algo_getprofit_msg: public algo_msg_base
 	{
 		long long profit;
-		vector<json> codev
+		vector<json> codev;
 		algo_getprofit_msg():
 			algo_msg_base(),
 			profit(0)
