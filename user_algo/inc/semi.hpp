@@ -656,16 +656,15 @@ private:
 						_last_trigger_price = _buy_trriger;
 						_last_price = odr.match_price;
 						_algo->_Profit -= odr.filled_quantity *  odr.match_price;
-/*
+
 						portfolio* pf = _algo->portfolioMap[odr.code];
+						long long newaveragebuyprice = (pf->buyturnover + odr.filled_quantity * odr.match_price )/(odr.filled_quantity + pf->buyvolume);
 
-						long long oldbuyturnover = pf->buyturnover;
-						long long newaveragebuyprice = (oldbuyturnover + odr.filled_quantity * odr.match_price )/(odr.filled_quantity + oldbuyturnover/pf->averagebuy);
-
+						pf->buyvolume += odr.filled_quantity;
 						pf->buyturnover += odr.filled_quantity * odr.match_price;
 						pf->profit -= odr.filled_quantity * odr.match_price;
-						pf->averagebuy = newaveragebuyprice;
-						*/
+						pf->averagebuy = pf->buyturnover / pf->buyvolume ;
+
 
 					}
 					/*
@@ -698,17 +697,17 @@ private:
 							_last_price = odr.match_price;
 
 							_algo->_Profit += odr.filled_quantity * odr.match_price;
-/*
+
 							portfolio* pf = _algo->portfolioMap[odr.code];
 
-							long long oldsellturnover = pf->sellturnover;
-							long long newaveragesellprice = (oldsellturnover + odr.filled_quantity * odr.match_price )/(odr.filled_quantity + oldsellturnover/pf->averagesell);
 
+							long long newaveragesellprice = (pf->sellturnover + odr.filled_quantity * odr.match_price )/(odr.filled_quantity + pf->sellvolume);
 
+							pf->sellvolume += odr.filled_quantity;
 							pf->sellturnover += odr.filled_quantity * odr.match_price;
 							pf->profit += odr.filled_quantity * odr.match_price;
-							pf->averagesell = newaveragesellprice;
-							*/
+							pf->averagesell = pf->sellturnover / pf->sellvolume ;
+
 						}
 					}else{
 						strstatus = "cancel";

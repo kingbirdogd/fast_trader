@@ -96,8 +96,10 @@ struct AlgoParameter{
 struct portfolio{
 	unsigned int code;
 	long long averagebuy;
+	unsigned long long buyvolume;
 	unsigned long long buyturnover;
 	long long averagesell;
+	unsigned long long sellvolume;
 	unsigned long long sellturnover;
 	long long profit;
 };
