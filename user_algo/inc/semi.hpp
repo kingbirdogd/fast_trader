@@ -1044,9 +1044,9 @@ private:
 
 			for (auto& it: self->portfolioMap) {
 			    // Do stuff
-				portfolio* p = it->second;
+				portfolio* p = it.second;
 				json jw;
-				jw["code"] = it->first;
+				jw["code"] = it.first;
 				jw["averagebuy"] = p->averagebuy;
 				jw["averagesell"] = p->averagesell;
 				jw["buyturnover"] = p->buyturnover;
