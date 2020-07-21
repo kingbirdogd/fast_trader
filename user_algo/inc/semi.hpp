@@ -1020,6 +1020,7 @@ private:
 	struct algo_getprofit_msg: public algo_msg_base
 	{
 		long long profit;
+		vector<json> codev
 		algo_getprofit_msg():
 			algo_msg_base(),
 			profit(0)
@@ -1029,17 +1030,31 @@ private:
 		{
 			auto j = algo_msg_base::to_json();
 			j["msg_type"] = "algo_getprofit_msg";
-			j["profit"] = profit;
+			if(codev.size() > 0){
+				j["portfolio"] = nlohmann::json::array();
+				for(unsigned int i=0; i<codev.size(); i++){
+					j["portfolio"].push_back(codev[i]);
+				}
+			}
 			return j;
 		}
 		virtual void on_command()
 		{
 			auto* self = dynamic_cast<semi*>(al);
-			profit = self->getProfit();
 
+			for (auto& it: self->portfolioMap) {
+			    // Do stuff
+				portfolio* p = it->second;
+				json jw;
+				jw["code"] = it->first;
+				jw["averagebuy"] = p->averagebuy;
+				jw["averagesell"] = p->averagesell;
+				jw["buyturnover"] = p->buyturnover;
+				jw["sellturnover"] = p->sellturnover;
+				jw["profit"] = p->profit;
+				codev.pust_back(jw);
+			}
 			ouputQueue.enqueue(this);
-
-
 		}
 		virtual void release()
 		{
