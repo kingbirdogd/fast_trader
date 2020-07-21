@@ -365,33 +365,33 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 
 			if(accept){
 
-				auto itdef = omdcAdditionDefinitionsMap.find(wiv.Code);
-				unsigned long long lotsize = 0;
-				if(itdef != omdcAdditionDefinitionsMap.end()){
-					lotsize = static_cast<unsigned long long>(itdef->second.LotSize);
+				//auto itdef = omdcAdditionDefinitionsMap.find(wiv.Code);
+				//unsigned long long lotsize = 0;
+				//if(itdef != omdcAdditionDefinitionsMap.end()){
+				unsigned long long lotsize = static_cast<unsigned long long>(omdcdef->second.LotSize);
 
-					if(lotsize == 0)
-						continue;
+				if(lotsize == 0)
+					continue;
 
-					warrant* newWarrant = new warrant;
-					newWarrant->Date = DateUtil::getToday();
-					newWarrant->Code = n;
-					newWarrant->Name = itdef->second.SecuritySortName;
-					//newWarrant->Status = STATUS_READY;
-					newWarrant->Egearing = wiv.Egearing;
-					newWarrant->UCode = underlying;
-					newWarrant->RefWBid = wbest_bid_price;
-					newWarrant->RefWAsk = wbest_ask_price;
-					newWarrant->BuyQuantity = algoBet.fixQuantity(wbest_ask_price, lotsize)*100000000ull;
-					newWarrant->Quantity = 0;
-					newWarrant->Issuer = wiv.Issuer;
-					newWarrant->Status = STATUS_READY;
-					newWarrant->UBid = ubid;
-					newWarrant->UAsk = uask;
+				warrant* newWarrant = new warrant;
+				newWarrant->Date = DateUtil::getToday();
+				newWarrant->Code = n;
+				newWarrant->Name = itdef->second.SecuritySortName;
+				//newWarrant->Status = STATUS_READY;
+				newWarrant->Egearing = wiv.Egearing;
+				newWarrant->UCode = underlying;
+				newWarrant->RefWBid = wbest_bid_price;
+				newWarrant->RefWAsk = wbest_ask_price;
+				newWarrant->BuyQuantity = algoBet.fixQuantity(wbest_ask_price, lotsize)*100000000ull;
+				newWarrant->Quantity = 0;
+				newWarrant->Issuer = wiv.Issuer;
+				newWarrant->Status = STATUS_READY;
+				newWarrant->UBid = ubid;
+				newWarrant->UAsk = uask;
 
 
-					selectedWarrant.push_back(newWarrant);
-				}
+				selectedWarrant.push_back(newWarrant);
+				//}
 			}
 		//}
 	}
