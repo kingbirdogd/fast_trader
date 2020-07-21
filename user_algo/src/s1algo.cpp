@@ -368,7 +368,7 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 				//auto itdef = omdcAdditionDefinitionsMap.find(wiv.Code);
 				//unsigned long long lotsize = 0;
 				//if(itdef != omdcAdditionDefinitionsMap.end()){
-				unsigned long long lotsize = static_cast<unsigned long long>(omdcdef->second.LotSize);
+				unsigned long long lotsize = static_cast<unsigned long long>(omdcdef.second.LotSize);
 
 				if(lotsize == 0)
 					continue;
