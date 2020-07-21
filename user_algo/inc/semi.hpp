@@ -1030,12 +1030,11 @@ private:
 		{
 			auto j = algo_msg_base::to_json();
 			j["msg_type"] = "algo_getprofit_msg";
-			if(codev.size() > 0){
-				j["portfolio"] = nlohmann::json::array();
-				for(unsigned int i=0; i<codev.size(); i++){
-					j["portfolio"].push_back(codev[i]);
-				}
+			j["portfolio"] = nlohmann::json::array();
+			for(unsigned int i=0; i<codev.size(); i++){
+				j["portfolio"].push_back(codev[i]);
 			}
+
 			return j;
 		}
 		virtual void on_command()
