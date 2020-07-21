@@ -1052,7 +1052,7 @@ private:
 				jw["buyturnover"] = p->buyturnover;
 				jw["sellturnover"] = p->sellturnover;
 				jw["profit"] = p->profit;
-				codev.pust_back(jw);
+				codev.push_back(jw);
 			}
 			ouputQueue.enqueue(this);
 		}
