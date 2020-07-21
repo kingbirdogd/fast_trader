@@ -50,12 +50,14 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				if(pd->Bestbid != best_bid_price && best_bid_price > 0){
 					if(best_bid_qty >= pd->BidIssuerSize){
 						_PriceMark->updateBid(best_bid_price, pd->Bestbid, pdu->Bestbid, pdu->PBestbid);
+						_PriceMark->setBidIssuerQty(best_bid_qty);
 					}
 				}
 				if(pd->Bestask != best_ask_price && best_ask_price > 0){
 					//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark ASK");
 					if(best_ask_qty >= pd->AskIssuerSize){
 						_PriceMark->updateAsk(best_ask_price, pd->Bestask, pdu->Bestask, pdu->PBestask);
+						_PriceMark->setAskIssuerQty(best_ask_qty);
 					}
 				}
 			}else{
@@ -63,12 +65,14 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 					//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark BID");
 					if(best_bid_qty >= pd->BidIssuerSize){
 						_PriceMark->updateBid(best_bid_price, pd->Bestbid, pdu->Bestask, pdu->PBestask);
+						_PriceMark->setBidIssuerQty(best_bid_qty);
 					}
 				}
 				if(pd->Bestask != best_ask_price && best_ask_price > 0){
 					//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark ASK");
 					if(best_ask_qty >= pd->AskIssuerSize){
 						_PriceMark->updateAsk(best_ask_price, pd->Bestask, pdu->Bestbid, pdu->PBestbid);
+						_PriceMark->setAskIssuerQty(best_ask_qty);
 					}
 				}
 			}

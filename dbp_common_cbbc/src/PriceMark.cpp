@@ -322,5 +322,18 @@ map<unsigned long long,unsigned long long> PriceMark::getAskTable(){
 	return pUpAskMark;
 }
 
+unsigned long long PriceMark::getIssuerBidQty(){
+	return BidIssuerQty;
+}
+unsigned long long PriceMark::getIssuerAskQty(){
+	return BidIssuerQty;
+}
+void PriceMark::setBidIssuerQty(unsigned long long qty){
+	BidIssuerQty = qty;
+}
+void PriceMark::setAskIssuerQty(unsigned long long qty){
+	AskIssuerQty = qty;
+}
+
 
 

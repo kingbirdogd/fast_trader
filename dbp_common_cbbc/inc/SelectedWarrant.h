@@ -21,6 +21,7 @@ public:
 	SelectedWarrant();
 	virtual ~SelectedWarrant();
 	bool isAccept(float uspread, float delta, float cratio, float bidaskspread, float ticks);
+	bool isSpreadAccept(int noofspread, unsigned long long price);
 };
 
 
