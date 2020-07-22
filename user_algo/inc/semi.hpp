@@ -662,9 +662,9 @@ private:
 						portfolio* pf = _algo->portfolioMap[odr.code];
 						//long long newaveragebuyprice = (pf->buyturnover + odr.filled_quantity * odr.match_price )/(odr.filled_quantity + pf->buyvolume);
 
-						pf->buyvolume += odr.filled_quantity;
-						pf->buyturnover += odr.filled_quantity * odr.match_price;
-						pf->profit -= odr.filled_quantity * odr.match_price;
+						pf->buyvolume += odr.filled_quantity/100000ull;
+						pf->buyturnover += odr.filled_quantity/100000ull * odr.match_price/100000ull;
+						pf->profit -= odr.filled_quantity/100000ull * odr.match_price/100000ull;
 						pf->averagebuy = static_cast<long long>(pf->buyturnover / pf->buyvolume) ;
 
 
@@ -705,9 +705,9 @@ private:
 
 							//long long newaveragesellprice = (pf->sellturnover + odr.filled_quantity * odr.match_price )/(odr.filled_quantity + pf->sellvolume);
 
-							pf->sellvolume += odr.filled_quantity;
-							pf->sellturnover += odr.filled_quantity * odr.match_price;
-							pf->profit += odr.filled_quantity * odr.match_price;
+							pf->sellvolume += odr.filled_quantity/100000ull;
+							pf->sellturnover += odr.filled_quantity/100000ull * odr.match_price/100000ull;
+							pf->profit += odr.filled_quantity/100000ull * odr.match_price/100000ull;
 							pf->averagesell = static_cast<long long>(pf->sellturnover / pf->sellvolume);
 
 						}
