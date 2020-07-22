@@ -306,6 +306,8 @@ private:
 							newWarrant->BuyQty = _Quantity;
 							newWarrant->Name = std::to_string(_warrant_code);
 							newWarrant->BuyIn = _OBSetting->BuyIn;
+							newWarrant->SellOut = _OBSetting->SellOut;
+							newWarrant->LvlBid = _OBSetting->LvLBid;
 
 							_OBSetting->addWarrantOrCbbc(newWarrant);
 
@@ -369,8 +371,6 @@ private:
 				}
 
 				if(_Status == STATUS_READY && _Action_Status == STAGE_START){
-
-
 
 					if(_OBSetting->SellOut != 99999999 && _OBSetting->BuyIn != 0){
 						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " _INOUT=" + std::to_string(_INOUT) +  " _LVLRANGE=" + std::to_string(_LVLRANGE) +  " _PTRANGE=" + std::to_string(_PTRANGE) );
@@ -480,6 +480,9 @@ private:
 							newWarrant->BuyQty = _Quantity;
 							newWarrant->Name = std::to_string(_warrant_code);
 							newWarrant->BuyIn = _OBSetting->BuyIn;
+							newWarrant->SellOut = _OBSetting->SellOut;
+							newWarrant->LvlBid = _OBSetting->LvLBid;
+
 							_OBSetting->addWarrantOrCbbc(newWarrant);
 
 							doBuy(newWarrant);
@@ -1421,6 +1424,8 @@ private:
 						msg->order_price = obsw->BuyPrice;
 						msg->order_quantity = obsw->BuyQty;
 						msg->buyin = obsw->BuyIn;
+						msg->sellout = obsw->SellOut;
+						msg->lvlbid = obsw->LvlBid;
 						msg->status = "filled";
 						msg->transaction_time = obsw->BuyTime;
 						ouputQueue.enqueue(msg);
@@ -2245,6 +2250,7 @@ private:
 		std::string transaction_time;
 		unsigned long long sellout;
 		unsigned long long buyin;
+		unsigned long long lvlbid;
 		std::string reason;
 
 		algo_order_msg():
@@ -2260,6 +2266,8 @@ private:
 			j["side"] = side;
 			if(side == "BUY"){
 				j["buyin"] = buyin;
+				j["sellout"] = sellout;
+				j["lvlbid"] = lvlbid;
 			}else if(side == "SELL"){
 				j["sellout"] = sellout;
 			}

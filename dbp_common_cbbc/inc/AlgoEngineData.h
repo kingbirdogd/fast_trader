@@ -97,6 +97,7 @@ struct warrant{
 
 	unsigned long long BuyIn;
 	unsigned long long SellOut;
+	unsigned long long LvlBid
 
 
 	string Issuer;

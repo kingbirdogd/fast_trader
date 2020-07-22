@@ -199,7 +199,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						for(auto f : selectedIssuer) {
 							string issuer = f;
 
-							vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer(issuer,code, best_bid_price,best_ask_price );
+							vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer(issuer,code, best_bid_price, best_ask_price);
 							if(selectedWarrant.size() == 0)
 								continue;
 
@@ -220,13 +220,10 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						if(selectcount > 0){
 
 							ouputQueue.enqueue(pmsg);
-
-
 							obs->Status = STATUS_READY;
 							obs->detected = true;
-
 							Log("Code = " + to_string(code) + " Has Signal @ " + to_string(best_ask_price));
-							//Log("Pass3");
+
 						}else{
 							algo_signal_msg_pool.release_obj(pmsg);
 						}
@@ -355,7 +352,6 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 			}
 
 			PriceMark* spm = pricemarkMap[n];
-
 
 			if(wbest_bid_price == 0 || wbest_ask_price == 0 || wBidQty<spm->getIssuerBidQty() || wAskQty<spm->getIssuerAskQty())
 				continue;
