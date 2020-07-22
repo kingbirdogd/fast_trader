@@ -284,7 +284,7 @@ bool s1algo::checkPrice(unsigned int code, unsigned long long ubid, unsigned lon
 	unsigned long long _wspread = spreadTable.getSpread(SpreadTableCode, wbest_bid_price);
 
 	if(_wspread == 0)
-		continue;
+		return false;
 
 	int noofspread = static_cast<int>(wspread / _wspread);
 
