@@ -178,12 +178,12 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					if(best_ask_price == DetectAsk){
 						obs->DetectedAsk = best_ask_price;
 						obs->StopLostPrice = best_bid_price;
-
+/*
 						if(obs->SpreadTableCode == ""){
 							COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
 							obs->SpreadTableCode = omdcdef.SpreadTableCode;
 						}
-
+*/
 						auto pmsg = algo_signal_msg_pool.get_obj();
 						pmsg->al = this;
 						pmsg->algo_name = this->_name;
@@ -240,10 +240,15 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		if(it != s1SignalMap.end()){
 			obMap[code] = new OBSetting();
 			obMap[code]->detected = false;
-			obMap[code]->SpreadTableCode = "";
+			//obMap[code]->SpreadTableCode = "";
 			obMap[code]->hasPosition = false;
 			obMap[code]->Status = STATUS_NEW;
-			Log("Init = " + to_string(code) + " OBSetting");
+
+			COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
+			obMap[code]->SpreadTableCode = omdcdef.SpreadTableCode;
+
+
+			Log("Init = " + to_string(code) + " OBSetting and SpreadCode = " + obMap[code]->SpreadTableCode);
 		}
 	}
 
