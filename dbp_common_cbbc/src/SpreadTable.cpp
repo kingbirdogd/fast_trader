@@ -65,9 +65,9 @@ unsigned long long SpreadTable::getSpread(string spreadTableCode, unsigned long 
 	}
 	if(spreadTableCode.compare("05") == 0){
 		for(int i=0; i<10; i++){
-			if(price > spreadTable01[i][0] && price <= spreadTable01[i][1]){
+			if(price > spreadTable05[i][0] && price <= spreadTable05[i][1]){
 				//fprintf(stderr, "%4.5f %s Range %4.5f - %4.5f  Spread = %4.5f \n", price, spreadTableCode.c_str(), spreadTable01[i][1], spreadTable01[i][2], spreadTable01[i][3]);
-				return spreadTable01[i][2];
+				return spreadTable05[i][2];
 			}
 		}
 	}

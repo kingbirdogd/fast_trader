@@ -283,6 +283,9 @@ bool s1algo::checkPrice(unsigned int code, unsigned long long ubid, unsigned lon
 
 	unsigned long long _wspread = spreadTable.getSpread(SpreadTableCode, wbest_bid_price);
 
+	if(_wspread == 0)
+		continue;
+
 	int noofspread = static_cast<int>(wspread / _wspread);
 
 	bool acceptspread = CSelectedWarrant.isSpreadAccept(noofspread, wbest_bid_price);
@@ -321,7 +324,7 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 			COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[n];
 			string SpreadTableCode = omdcdef.SpreadTableCode;
 
-			if(wbest_ask_price < 4000000){
+			if(wbest_bid_price < 4000000){
 				continue;
 			}
 
@@ -352,6 +355,9 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 			//Log("WSPREAD = " + to_string(fwspread));
 
 			unsigned long long _wspread = spreadTable.getSpread(SpreadTableCode, wbest_bid_price);
+
+			if(_wspread == 0)
+				continue;
 
 			int noofspread = static_cast<int>(wspread / _wspread);
 
