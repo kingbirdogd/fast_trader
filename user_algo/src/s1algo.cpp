@@ -267,7 +267,7 @@ bool s1algo::setSelectedIssuer(std::string action, std::string issuer){
 	if(action == "remove"){
 		auto it = selectedIssuer.find(issuer);
 		if(it != selectedIssuer.end()){
-			it.erase(issuer);
+			selectedIssuer.erase(issuer);
 			return true;
 		}
 	}
