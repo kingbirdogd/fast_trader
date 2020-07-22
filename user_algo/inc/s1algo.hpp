@@ -16,7 +16,7 @@
 #include <AlgoBetX.h>
 #include "ThreadLogger.h"
 
-#define MaxBuyNoWarrant 2
+//#define MaxBuyNoWarrant 2
 
 #define MARKET_NOTREADY 0
 #define MARKET_START 1
@@ -40,6 +40,7 @@ public:
 	time_t soldendTime;
 	std::unordered_map<unsigned int, priceinfo*> warrantPriceMap;
 	ThreadLogger* logger;
+	int MaxBuyNoWarrant;
 private:
 	struct algo_order_msg: public algo_msg_base
 	{

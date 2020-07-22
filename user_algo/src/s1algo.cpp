@@ -6,6 +6,8 @@
 s1algo::s1algo(user& u, const std::string& name):
 	algo(u, name)
 {
+	MaxBuyNoWarrant = 2;
+
 	selectedIssuer.insert("MB");
 	//selectedIssuer.insert("GS");
 	//selectedIssuer.insert("MS");
