@@ -1052,6 +1052,8 @@ private:
 				jw["averagesell"] = p->averagesell;
 				jw["buyturnover"] = p->buyturnover;
 				jw["sellturnover"] = p->sellturnover;
+				jw["buyvolume"] = p->buyvolume;
+				jw["sellvolume"] = p->sellvolume;
 				jw["profit"] = p->profit;
 				codev.push_back(jw);
 			}
