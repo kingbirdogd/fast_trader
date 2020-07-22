@@ -16,7 +16,7 @@
 #include <AlgoBetX.h>
 #include "ThreadLogger.h"
 
-#define MaxBuyNoWarrant 1
+#define MaxBuyNoWarrant 2
 
 #define MARKET_NOTREADY 0
 #define MARKET_START 1
@@ -277,6 +277,42 @@ private:
 		}
 		virtual ~algo_setbet_msg() = default;
 	};
+	struct algo_issueraction_msg: public algo_msg_base
+	{
+		std::string issuer;
+		std::string action;
+		bool result;
+
+		algo_issueraction_msg():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["action"] = action;
+			j["issuer"] = issuer;
+			j["result"] = result;
+			if(result){
+				j["recovery"] = true;
+			}
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<s1algo*>(al);
+
+			result = self->setSelectedIssuer(action, issuer);
+
+			ouputQueue.enqueue(this);
+
+		}
+		virtual void release()
+		{
+			algo_issueraction_msg_pool.release_obj(this);
+		}
+		virtual ~algo_issueraction_msg() = default;
+	};
 	struct algo_err_msg: public algo_msg_base
 	{
 		std::string action;
@@ -331,6 +367,7 @@ public:
 
 	virtual void Log(std::string msg);
 	virtual void setBetsize(std::string betsize);
+	virtual bool setSelectedIssuer(std::string action, std::string issuer);
 	virtual unsigned long long getBestBid(unsigned int code);
 	virtual void forcesold();
 	virtual bool checkPrice(unsigned int code, unsigned long long ubid, unsigned long long uask);
@@ -338,6 +375,7 @@ public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_err_msg, 8192> algo_err_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_marketstatus_msg, 8192> algo_marketstatus_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_setbet_msg, 8192> algo_setbet_msg_pool;
+	static rapid_ring::spsc_ring_buffer_object_pool<algo_issueraction_msg, 8192> algo_issueraction_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_order_msg, 8192> algo_order_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_portfolio_msg, 8192> algo_portfolio_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_signal_msg, 8192> algo_signal_msg_pool;
