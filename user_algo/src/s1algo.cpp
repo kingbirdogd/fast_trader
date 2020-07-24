@@ -366,6 +366,29 @@ bool s1algo::checkPrice(unsigned int code, unsigned long long ubid, unsigned lon
 	return accept;
 }
 
+bool s1algo::force_sell(unsigned int ucode, unsigned int code, unsigned long long price){
+	auto it  = obMap.find(ucode);
+	if(it != obMap.end()){
+		OBSetting* obs = it->second;
+		if(obs->hasPosition){
+
+			if(obs->isExist(code)){
+				if(obs->getWarrantStatus(code) == STATUS_AVAILABLE){
+					warrant* wobs = obs->getRelatedWarrant(code);
+					wobs->Status == STATUS_SELLING;
+					bool result = doWarrantAction(wobs, dbp::top::order_side::sell, price, wobs->Quantity);
+					if(!result){
+						obs->setRelatedWarrantStatus(code, STATUS_AVAILABLE);
+						return false;
+					}
+					return true;
+				}
+
+			}
+		}
+	}
+	return false;
+}
 
 vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer, unsigned int underlying, unsigned long long ubid, unsigned long long uask)
 {
@@ -1020,9 +1043,9 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			pforce_sell->algo_name = _name;
 			pforce_sell->id = _u.get_id();
 			pforce_sell->ref = ref;
-			pforce_sell->code = json["warrant_code"].get<unsigned int>();
+			pforce_sell->ucode = json["ucode"].get<unsigned int>();
+			pforce_sell->code = json["code"].get<unsigned int>();
 			pforce_sell->price = json["price"].get<unsigned long long>();
-			pforce_sell->quantity = json["quantity"].get<unsigned long long>();
 			return pforce_sell;
 		}
 		else

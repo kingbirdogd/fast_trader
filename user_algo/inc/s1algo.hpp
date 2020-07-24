@@ -319,24 +319,20 @@ private:
 	struct algo_force_sell: public algo_msg_base
 	{
 		unsigned int code;
+		unsigned int ucode;
 		std::string result;
 		unsigned long long price;
-		unsigned long long quantity;
 		algo_force_sell():
-			algo_msg_base(),
-			code(0),
-			result(""),
-			price(0),
-			quantity(0)
+			algo_msg_base()
 		{
 		}
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
 			j["msg_type"] = "cbbc_algo_force_sell";
-			j["warrant_code"] = code;
+			j["code"] = code;
+			j["ucode"] = ucode;
 			j["price"] = price;
-			j["quantity"] = quantity;
 			if(result == "SUCCESS"){
 				j["result"] = "SUCCESS";
 			}else{
@@ -347,8 +343,8 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<bear*>(al);
-			result = self->force_sell(price, quantity,ref);
+			auto* self = dynamic_cast<s1algo*>(al);
+			result = self->force_sell(ucode, code, price);
 			ouputQueue.enqueue(this);
 		}
 		virtual void release()
@@ -449,6 +445,7 @@ public:
 	virtual unsigned long long getBestBid(unsigned int code);
 	virtual void forcesold();
 	virtual bool checkPrice(unsigned int code, unsigned long long ubid, unsigned long long uask);
+	virtual bool force_sell(unsigned int ucode, unsigned int code, unsigned long long price);
 public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_err_msg, 8192> algo_err_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_marketstatus_msg, 8192> algo_marketstatus_msg_pool;
