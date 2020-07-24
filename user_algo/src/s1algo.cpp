@@ -61,8 +61,11 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 		if(p->Bestbid != best_bid_price){
 			p->PBestbid = p->Bestbid;
-			if(obMap[p->UCode].hasPosition){
-				if(obMap[p->UCode].isExist(code)){
+
+			OBSetting* obs = obMap[p->UCode];
+
+			if(obs->hasPosition){
+				if(obs->isExist(code)){
 
 					auto msg = algo_warrantprice_msg_pool.get_obj();
 					msg->al = _algo;
