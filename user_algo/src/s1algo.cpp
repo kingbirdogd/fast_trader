@@ -137,9 +137,9 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							obsw[i]->RefWBid = wbest_bid_price;
 
 							auto msg = algo_stoplost_msg_pool.get_obj();
-							msg->al = _algo;
-							msg->algo_name = _algo->_name;
-							msg->id = _algo->_u.get_id();
+							msg->al = this;
+							msg->algo_name = _name;
+							msg->id = _u.get_id();
 							msg->ref = to_string(code);
 							msg->code = code;
 							msg->stoplost = fpcb;
