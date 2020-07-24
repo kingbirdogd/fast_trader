@@ -25,6 +25,9 @@ s1algo::s1algo(user& u, const std::string& name):
 		warrantPriceMap[allW[i].Code] = new priceinfo();
 		warrantPriceMap[allW[i].Code]->Bestbid = 0;
 		warrantPriceMap[allW[i].Code]->Bestask = 0;
+		warrantPriceMap[allW[i].Code]->PBestbid = 0;
+		warrantPriceMap[allW[i].Code]->PBestask = 0;
+		warrantPriceMap[allW[i].Code]->UCode = allW[i].UCode;
 		//Log("Init priceinfo = " + to_string(allW[i].Code));
 	}
 
@@ -55,6 +58,28 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 	auto itw = warrantPriceMap.find(code);
 	if(itw != warrantPriceMap.end()){
 		priceinfo* p = itw->second;
+
+		if(p->Bestbid != best_bid_price){
+			p->PBestbid = p->Bestbid;
+			if(obMap[p->UCode].hasPosition){
+				if(obMap[p->UCode].isExist(code)){
+
+					auto msg = algo_warrantprice_msg_pool.get_obj();
+					msg->al = _algo;
+					msg->algo_name = _algo->_name;
+					msg->id = _algo->_u.get_id();
+					msg->ref = to_string(code);
+					msg->warrant_code = code;
+					msg->side = "BID";
+					msg->wprice = best_bid_price;
+					ouputQueue.enqueue(msg);
+				}
+			}
+		}
+		if(p->Bestask != best_ask_price){
+			p->PBestask = p->Bestask;
+		}
+
 		p->Bestbid = best_bid_price;
 		p->Bestask = best_ask_price;
 		p->BidQty = best_bid_qty;
@@ -103,14 +128,35 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						//	auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
 							//auto wbest_ask_price = static_cast<unsigned long long>(it->second.m_Ask[0].m_iPrice) * 100000;
 
-							unsigned long long fpcb = spm->sellOut(wbest_bid_price);
-							if(fpcb > obsw[i]->StopLostPrice  && fpcb <= obs->StopLostPrice && fpcb <= best_bid_price){
-								obsw[i]->StopLostPrice = fpcb;
-								obsw[i]->RefWBid = wbest_bid_price;
-							}else if(fpcb > obsw[i]->StopLostPrice && fpcb <= obs->StopLostPrice && fpcb > best_bid_price){
-								obsw[i]->StopLostPrice = best_bid_price;
-								obsw[i]->RefWBid = wbest_bid_price;
-							}
+						unsigned long long fpcb = spm->sellOut(wbest_bid_price);
+						if(fpcb > obsw[i]->StopLostPrice  && fpcb <= obs->StopLostPrice && fpcb <= best_bid_price){
+							obsw[i]->StopLostPrice = fpcb;
+							obsw[i]->RefWBid = wbest_bid_price;
+
+							auto msg = algo_stoplost_msg_pool.get_obj();
+							msg->al = _algo;
+							msg->algo_name = _algo->_name;
+							msg->id = _algo->_u.get_id();
+							msg->ref = to_string(code);
+							msg->code = code;
+							msg->stoplost = fpcb;
+							msg->wbid = best_bid_price;
+							ouputQueue.enqueue(msg);
+
+						}else if(fpcb > obsw[i]->StopLostPrice && fpcb <= obs->StopLostPrice && fpcb > best_bid_price){
+							obsw[i]->StopLostPrice = best_bid_price;
+							obsw[i]->RefWBid = wbest_bid_price;
+
+							auto msg = algo_stoplost_msg_pool.get_obj();
+							msg->al = _algo;
+							msg->algo_name = _algo->_name;
+							msg->id = _algo->_u.get_id();
+							msg->ref = to_string(code);
+							msg->code = code;
+							msg->stoplost = fpcb;
+							msg->wbid = best_bid_price;
+							ouputQueue.enqueue(msg);
+						}
 						//}
 
 					}
@@ -727,6 +773,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					msg->order_price = obsw->BuyPrice;
 					msg->order_quantity = obsw->BuyQuantity;
 					msg->stoplost = obsw->StopLostPrice;
+					msg->wbid = obsw->RefWBid;
 					msg->status = "filled";
 					msg->transaction_time = obsw->BuyTime;
 					ouputQueue.enqueue(msg);
@@ -933,6 +980,7 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 	algo_marketstatus_msg* pMarketStatus_msg = nullptr;
 	algo_setbet_msg* pSetBet_msg = nullptr;
 	algo_issueraction_msg* pIssuerAction_msg = nullptr;
+	algo_force_sell* pforce_sell = nullptr;
 	try
 	{
 		auto cmd = json["cmd"].get<std::string>();
@@ -965,6 +1013,18 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			pIssuerAction_msg->action = json["action"].get<std::string>();
 			return pIssuerAction_msg;
 		}
+		else if(cmd == "force_sell")
+		{
+			pforce_sell = algo_force_sell_pool.get_obj();
+			pforce_sell->al = this;
+			pforce_sell->algo_name = _name;
+			pforce_sell->id = _u.get_id();
+			pforce_sell->ref = ref;
+			pforce_sell->code = json["warrant_code"].get<unsigned int>();
+			pforce_sell->price = json["price"].get<unsigned long long>();
+			pforce_sell->quantity = json["quantity"].get<unsigned long long>();
+			return pforce_sell;
+		}
 		else
 		{
 			auto msg = algo_err_msg_pool.get_obj();
@@ -991,6 +1051,8 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 
 		if (pMarketStatus_msg)
 			pMarketStatus_msg->release();
+		if (pforce_sell)
+			pforce_sell->release();
 		if (pSetBet_msg)
 			pSetBet_msg->release();
 		if(pIssuerAction_msg)
@@ -1012,3 +1074,5 @@ rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_order_msg, 8192> s1algo::a
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_portfolio_msg, 8192> s1algo::algo_portfolio_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_signal_msg, 8192> s1algo::algo_signal_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_stoplost_msg, 8192> s1algo::algo_stoplost_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_force_sell, 8192> s1algo::algo_force_sell_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_warrantprice_msg, 8192> s1algo::algo_warrantprice_msg_pool;

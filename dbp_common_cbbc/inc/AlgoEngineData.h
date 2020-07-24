@@ -38,6 +38,8 @@ using namespace std;
 
 struct priceinfo{
 
+	unsigned int UCode;
+
 	unsigned long long Bestbid;
 	unsigned long long Bestask;
 	unsigned long long BidQty;

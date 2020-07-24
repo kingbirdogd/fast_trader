@@ -54,6 +54,7 @@ private:
 		unsigned long long filled_price;
 		unsigned long long filled_quantity;
 		unsigned long long stoplost;
+		unsigned long long wbid;
 		std::string status;
 		std::string transaction_time;
 		std::string reason;
@@ -77,6 +78,7 @@ private:
 				j["filled_quantity"] = filled_quantity;
 			}
 			j["stoplost"] = stoplost;
+			j["wbid"] = wbid;
 			j["status"] = status;
 			j["transaction_time"] = string(transaction_time);
 			j["reason"] = string(reason);
@@ -314,6 +316,81 @@ private:
 		}
 		virtual ~algo_issueraction_msg() = default;
 	};
+	struct algo_force_sell: public algo_msg_base
+	{
+		unsigned int code;
+		std::string result;
+		unsigned long long price;
+		unsigned long long quantity;
+		algo_force_sell():
+			algo_msg_base(),
+			code(0),
+			result(""),
+			price(0),
+			quantity(0)
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["msg_type"] = "cbbc_algo_force_sell";
+			j["warrant_code"] = code;
+			j["price"] = price;
+			j["quantity"] = quantity;
+			if(result == "SUCCESS"){
+				j["result"] = "SUCCESS";
+			}else{
+				j["result"] = "FAIL";
+				j["reason"] = result;
+			}
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<bear*>(al);
+			result = self->force_sell(price, quantity,ref);
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_force_sell_pool.release_obj(this);
+		}
+		virtual ~algo_force_sell() = default;
+	};
+	struct algo_warrantprice_msg: public algo_msg_base
+	{
+		unsigned int warrant_code;
+		std::string side;
+		unsigned long long wkey;
+		unsigned long long wprice;
+		algo_warrantprice_msg():
+			algo_msg_base(),
+			warrant_code(0),
+			side(""),
+			wkey(0),
+			wprice(0)
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["msg_type"] = "wprice";
+			j["warrant_code"] = warrant_code;
+			j["side"] = side;
+			j["wkey"] = wkey;
+			j["wprice"] = wprice;
+			return j;
+		}
+		virtual void on_command()
+		{
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_warrantprice_msg_pool.release_obj(this);
+		}
+		virtual ~algo_warrantprice_msg() = default;
+	};
 	struct algo_err_msg: public algo_msg_base
 	{
 		std::string action;
@@ -381,6 +458,8 @@ public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_portfolio_msg, 8192> algo_portfolio_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_signal_msg, 8192> algo_signal_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_stoplost_msg, 8192> algo_stoplost_msg_pool;
+	static rapid_ring::spsc_ring_buffer_object_pool<algo_force_sell, 8192> algo_force_sell_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_warrantprice_msg, 8192> algo_warrantprice_msg_pool;
 };
 
 
