@@ -378,7 +378,7 @@ bool s1algo::force_sell(unsigned int ucode, unsigned int code, unsigned long lon
 			if(obs->isExist(code)){
 				if(obs->getWarrantStatus(code) == STATUS_AVAILABLE){
 					warrant* wobs = obs->getRelatedWarrant(code);
-					wobs->Status == STATUS_SELLING;
+					wobs->Status = STATUS_SELLING;
 					bool result = doWarrantAction(wobs, dbp::top::order_side::sell, price, wobs->Quantity);
 					if(!result){
 						obs->setRelatedWarrantStatus(code, STATUS_AVAILABLE);
