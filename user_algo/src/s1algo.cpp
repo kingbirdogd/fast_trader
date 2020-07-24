@@ -68,10 +68,10 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 				if(obs->isExist(code)){
 
 					auto msg = algo_warrantprice_msg_pool.get_obj();
-					msg->al = _algo;
-					msg->algo_name = _algo->_name;
-					msg->id = _algo->_u.get_id();
-					msg->ref = to_string(code);
+					msg->al = this;
+					msg->algo_name = _name;
+					msg->id = _u.get_id();
+					msg->ref = std::to_string(code);
 					msg->warrant_code = code;
 					msg->side = "BID";
 					msg->wprice = best_bid_price;
