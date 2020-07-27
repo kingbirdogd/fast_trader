@@ -314,7 +314,7 @@ void s1algo::setBetsize(std::string betsize){
 bool s1algo::setSelectedIssuer(std::string action, std::string issuer){
 
 	if(MarketStatus == MARKET_START)
-		return;
+		return false;
 
 	if(action == "select"){
 		auto it = selectedIssuer.find(issuer);
