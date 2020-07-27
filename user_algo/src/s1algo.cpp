@@ -62,20 +62,23 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		if(p->Bestbid != best_bid_price){
 			p->PBestbid = p->Bestbid;
 
-			OBSetting* obs = obMap[p->UCode];
-			if(obs != nullptr){
-				if(obs->hasPosition){
-					if(obs->isExist(code)){
+			auto itobs = obMap.find(p->UCode);
+			if(itobs != obMap.end()){
+				OBSetting* obs = itobs->second;
+				if(obs != nullptr){
+					if(obs->hasPosition){
+						if(obs->isExist(code)){
 
-						auto msg = algo_warrantprice_msg_pool.get_obj();
-						msg->al = this;
-						msg->algo_name = _name;
-						msg->id = _u.get_id();
-						msg->ref = std::to_string(code);
-						msg->warrant_code = code;
-						msg->side = "BID";
-						msg->wprice = best_bid_price;
-						ouputQueue.enqueue(msg);
+							auto msg = algo_warrantprice_msg_pool.get_obj();
+							msg->al = this;
+							msg->algo_name = _name;
+							msg->id = _u.get_id();
+							msg->ref = std::to_string(code);
+							msg->warrant_code = code;
+							msg->side = "BID";
+							msg->wprice = best_bid_price;
+							ouputQueue.enqueue(msg);
+						}
 					}
 				}
 			}
