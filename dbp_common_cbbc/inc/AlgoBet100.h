@@ -5,8 +5,8 @@
  *      Author: leo
  */
 
-#ifndef ALGOBET1LOT_H_
-#define ALGOBET1LOT_H_
+#ifndef ALGOBET100_H_
+#define ALGOBET100_H_
 
 #include "AlgoBet.h"
 
@@ -23,4 +23,4 @@ public:
 };
 
 
-#endif /* ALGOBET1LOT_H_ */
+#endif /* ALGOBET100_H_ */
