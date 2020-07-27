@@ -148,7 +148,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							msg->ref = to_string(code);
 							msg->code = code;
 							msg->stoplost = fpcb;
-							msg->wbid = best_bid_price;
+							msg->wbid = wbest_bid_price;
 							ouputQueue.enqueue(msg);
 
 						}else if(fpcb > obsw[i]->StopLostPrice && fpcb <= obs->StopLostPrice && fpcb > best_bid_price){
@@ -162,7 +162,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							msg->ref = to_string(code);
 							msg->code = code;
 							msg->stoplost = fpcb;
-							msg->wbid = best_bid_price;
+							msg->wbid = wbest_bid_price;
 							ouputQueue.enqueue(msg);
 						}
 						//}
