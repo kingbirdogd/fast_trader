@@ -31,6 +31,9 @@ s1algo::s1algo(user& u, const std::string& name):
 		//Log("Init priceinfo = " + to_string(allW[i].Code));
 	}
 
+
+	algoBet.selectBet("Bet100");
+
 	logger = new ThreadLogger("log/" + name + DateUtil::getToday() + ".log");
 	logger->start();
 
