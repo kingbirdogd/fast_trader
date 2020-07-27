@@ -1,0 +1,70 @@
+1) Get Available issuers 
+
+request:
+cmd = issuerlist
+
+response:
+action=issuerlist
+issuers=MB,CS,GS,MS
+
+2) Warrant Price
+
+request:
+NIL
+
+response:
+action=wprice
+warrant_code=[0-9]{1,5}
+side=[BID,ASK]
+price=decimal value
+
+3) Force Sell
+
+request:
+cmd=force_sell
+ucode=[0,9]{1,5}
+code=[0,9]{1,5}
+price=price*100000000
+
+response:
+action=force_sell
+ucode=[0,9]{1,5}
+code=[0,9]{1,5}
+price=price*100000000
+result=[SUCCESS,FAIL]
+reason=
+
+4) Select Issuer
+
+request
+cmd=selectissuer
+issuer=[MB,CS,MS,GS,SG,HT ..... ]
+action=[select,remove]
+
+response
+action=selectissuer
+selectaction=[select,remove]
+issuer=[MB,CS,MS,GS,SG,HT ..... ]
+success=[SUCCESS,FAIL]
+reason=
+
+5) Bet Size
+
+request
+cmd=betsize
+betsize=[Bet1Lot,BetSmall]
+
+response
+action=betsize
+betsize=[Bet1Lot,BetSmall]
+
+6) Market Status
+
+request
+cmd=marketstatus
+action=[start,pause]
+
+response
+action=marketstatus
+new_action_status=[start,pause]
+previous_action_status=[start,pause]
