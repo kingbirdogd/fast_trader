@@ -14,7 +14,7 @@
 class AlgoBet100 : public AlgoBet {
 public:
 	AlgoBet100();
-	virtual ~AlgoBet1Lot();
+	virtual ~AlgoBet100();
 	virtual AlgoBet* getCurrentBet(string);
 	virtual void selectBet(string);
 	virtual unsigned long long fixQuantityBySpread(unsigned long long , unsigned long long, unsigned long long );
