@@ -103,6 +103,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		if(obs->hasPosition)
 		{
 			if(obs->SpreadTableCode == ""){
+				Log("Code = " + to_string(code) + " Empty Spread Table ");
 				COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
 				obs->SpreadTableCode = omdcdef.SpreadTableCode;
 			}
@@ -501,7 +502,8 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 				newWarrant->UCode = underlying;
 				newWarrant->RefWBid = wbest_bid_price;
 				newWarrant->RefWAsk = wbest_ask_price;
-				newWarrant->BuyQuantity = algoBet.fixQuantity(wbest_ask_price, lotsize)*100000000ull;
+				//newWarrant->BuyQuantity = algoBet.fixQuantity(wbest_ask_price, lotsize)*100000000ull;
+				newWarrant->BuyQuantity = algoBet.fixQuantityBySpread(wbest_ask_price, lotsize, wspread)*100000000ull;
 				newWarrant->Quantity = 0;
 				newWarrant->Issuer = wiv.Issuer;
 				newWarrant->Status = STATUS_READY;
