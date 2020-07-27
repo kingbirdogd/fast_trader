@@ -26,7 +26,7 @@ void AlgoBet100::selectBet(string){
 
 }
 
-unsigned long long AlgoBet100::fixQuantity(unsigned long long price, unsigned long long quantity){
+unsigned long long AlgoBet100::fixQuantity(unsigned long long, unsigned long long quantity){
 	return quantity;
 }
 
@@ -34,7 +34,7 @@ unsigned long long AlgoBet100::fixQuantityByIssuer(unsigned long long ,unsigned 
 	return quantity;
 }
 
-unsigned long long AlgoBet100::fixQuantityBySpread(unsigned long long price, unsigned long long quantity, unsigned long long spread){
+unsigned long long AlgoBet100::fixQuantityBySpread(unsigned long long, unsigned long long quantity, unsigned long long spread){
 
 	int noofspread = static_cast<int>(spread / 100000ull);
 
