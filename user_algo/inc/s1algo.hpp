@@ -222,7 +222,7 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
-			j["action"] = action;
+			j["action"] = "marketstatus";
 			j["previous_action_status"] = prevmarketstatus;
 			j["new_action_status"] = currmarketstatus;
 			j["recovery"] = true;
@@ -262,7 +262,8 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
-			j["action"] = betsize;
+			j["action"] = "betsize";
+			j["betsize"] = betsize;
 			j["recovery"] = true;
 			return j;
 		}
@@ -293,12 +294,14 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
-			j["action"] = action;
+			j["action"] = "selectissuer";
+			j["selectaction"] = action;
 			j["issuer"] = issuer;
-			j["result"] = result;
 			if(result){
+				j["result"] = "SUCCESS";
 				j["recovery"] = true;
 			}else{
+				j["result"] = "FAIL";
 				j["reason"] = "Invalid Status";
 			}
 			return j;
@@ -331,7 +334,7 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
-			j["action"] = "forcesell";
+			j["action"] = "force_sell";
 			j["code"] = code;
 			j["ucode"] = ucode;
 			j["price"] = price;
@@ -359,13 +362,12 @@ private:
 	{
 		unsigned int warrant_code;
 		std::string side;
-		unsigned long long wkey;
+		//unsigned long long wkey;
 		unsigned long long wprice;
 		algo_warrantprice_msg():
 			algo_msg_base(),
 			warrant_code(0),
 			side(""),
-			wkey(0),
 			wprice(0)
 		{
 		}
@@ -375,8 +377,8 @@ private:
 			j["action"] = "wprice";
 			j["warrant_code"] = warrant_code;
 			j["side"] = side;
-			j["wkey"] = wkey;
-			j["wprice"] = wprice;
+			//j["wkey"] = wkey;
+			j["price"] = wprice;
 			return j;
 		}
 		virtual void on_command()
