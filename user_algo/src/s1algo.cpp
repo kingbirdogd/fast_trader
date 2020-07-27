@@ -96,6 +96,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 	{
 		//Log("on_omdc_book code = " + to_string(tradable.m_Code) + " OBSetting");
 		OBSetting* obs = itob->second;
+
 		if(obs->hasPosition)
 		{
 			unsigned long long spread = spreadTable.getSpread(obs->SpreadTableCode, best_bid_price-1);
