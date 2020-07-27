@@ -102,9 +102,17 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 		if(obs->hasPosition)
 		{
+			if(obs->SpreadTableCode == ""){
+				COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
+				obs->SpreadTableCode = omdcdef.SpreadTableCode;
+			}
+
 			unsigned long long spread = spreadTable.getSpread(obs->SpreadTableCode, best_bid_price-1);
 			unsigned long long diffu = best_bid_price - obs->StopLostPrice;
 			unsigned long long diffw = best_bid_price - obs->getHighestStopLostPrice();
+
+			if(spread == 0)
+				return;
 
 			int countspreadu = static_cast<int>(diffu/spread);
 			int countspreadw = static_cast<int>(diffw/spread);
