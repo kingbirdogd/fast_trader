@@ -222,7 +222,7 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
-			j["action_type"] = action;
+			j["action"] = action;
 			j["previous_action_status"] = prevmarketstatus;
 			j["new_action_status"] = currmarketstatus;
 			j["recovery"] = true;
@@ -262,7 +262,7 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
-			j["betsize"] = betsize;
+			j["action"] = betsize;
 			j["recovery"] = true;
 			return j;
 		}
@@ -298,6 +298,8 @@ private:
 			j["result"] = result;
 			if(result){
 				j["recovery"] = true;
+			}else{
+				j["reason"] = "Invalid Status";
 			}
 			return j;
 		}
@@ -329,7 +331,7 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
-			j["msg_type"] = "cbbc_algo_force_sell";
+			j["action"] = "forcesell";
 			j["code"] = code;
 			j["ucode"] = ucode;
 			j["price"] = price;
@@ -370,7 +372,7 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
-			j["msg_type"] = "wprice";
+			j["action"] = "wprice";
 			j["warrant_code"] = warrant_code;
 			j["side"] = side;
 			j["wkey"] = wkey;
@@ -386,6 +388,41 @@ private:
 			algo_warrantprice_msg_pool.release_obj(this);
 		}
 		virtual ~algo_warrantprice_msg() = default;
+	};
+	struct algo_issuerlist_msg: public algo_msg_base
+	{
+		std::string issuers;
+		algo_issuerlist_msg():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["action"] = "issuerlist";
+			j["issuers"] = issuers;
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<s1algo*>(al);
+			int i=0;
+			for(auto f : self->selectedIssuer) {
+				string iss = f;
+				if(i>0){
+					issuers += iss + ",";
+				}else{
+					issuers = iss;
+				}
+				i++;
+			}
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_issuerlist_msg_pool.release_obj(this);
+		}
+		virtual ~algo_issuerlist_msg() = default;
 	};
 	struct algo_err_msg: public algo_msg_base
 	{
@@ -451,12 +488,13 @@ public:
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_marketstatus_msg, 8192> algo_marketstatus_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_setbet_msg, 8192> algo_setbet_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_issueraction_msg, 8192> algo_issueraction_msg_pool;
-	static rapid_ring::spsc_ring_buffer_object_pool<algo_order_msg, 8192> algo_order_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_order_msg, 8192> algo_order_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_portfolio_msg, 8192> algo_portfolio_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_signal_msg, 8192> algo_signal_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_stoplost_msg, 8192> algo_stoplost_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_force_sell, 8192> algo_force_sell_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_warrantprice_msg, 8192> algo_warrantprice_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_issuerlist_msg, 8192> algo_issuerlist_msg_pool;
 };
 
 
