@@ -8,6 +8,7 @@
 #include "AlgoBetX.h"
 #include "AlgoBetSmall.h"
 #include "AlgoBet1Lot.h"
+#include "AlgoBet100.h"
 
 
 AlgoBetX::AlgoBetX() {
@@ -16,6 +17,7 @@ AlgoBetX::AlgoBetX() {
 	//AlgoBet* algoBetNormal = dynamic_cast<AlgoBet*>(new AlgoBetNormal());
 	AlgoBet* algoBetSmall = dynamic_cast<AlgoBet*>(new AlgoBetSmall());
 	AlgoBet* algoBet1Lot = dynamic_cast<AlgoBet*>(new AlgoBet1Lot());
+	AlgoBet* algoBet100 = dynamic_cast<AlgoBet*>(new AlgoBet100());
 	//AlgoBet* algoBet60 = dynamic_cast<AlgoBet*>(new AlgoBet60());
 	//AlgoBet* algoBet80 = dynamic_cast<AlgoBet*>(new AlgoBet80());
 	//AlgoBet* algoBet50 = dynamic_cast<AlgoBet*>(new AlgoBet50());
@@ -24,6 +26,7 @@ AlgoBetX::AlgoBetX() {
 	//betMap["BetNormal"] = algoBetNormal;
 	betMap["BetSmall"] = algoBetSmall;
 	betMap["Bet1Lot"] = algoBet1Lot;
+	betMap["Bet100"] = algoBet100;
 	//betMap["Bet60"] = algoBet60;
 	//betMap["Bet80"] = algoBet80;
 	//betMap["Bet50"] = algoBet50;
@@ -49,6 +52,10 @@ void AlgoBetX::selectBet(string name){
 	if(it != betMap.end()){
 		currentBet = betMap[name];
 	}
+}
+
+unsigned long long AlgoBetX::fixQuantityBySpread(unsigned long long price, unsigned long long quantity, unsigned long long spread){
+	return currentBet->fixQuantityBySpread(price,quantity,spread);
 }
 
 unsigned long long AlgoBetX::fixQuantity(unsigned long long price, unsigned long long quantity){

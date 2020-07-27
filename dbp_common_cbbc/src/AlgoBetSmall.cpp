@@ -74,4 +74,32 @@ unsigned long long AlgoBetSmall::fixQuantityByIssuer(unsigned long long price,un
 	return quantity;
 }
 
+unsigned long long AlgoBetSmall::fixQuantityBySpread(unsigned long long price, unsigned long long quantity, unsigned long long ){
+
+	unsigned long long betsize = quantity;
+	if(price >= 400000000){
+		betsize = 1500;
+	}
+	if(price >= 100000000 && price < 400000000){
+		betsize = 6000;
+	}
+	if(price >= 50000000 && price < 100000000){
+		betsize = 8000;
+	}
+	if(price >= 25000000 && price < 50000000){
+		betsize = 16000;
+	}
+	if(price < 25000000){
+		betsize = 60000;
+	}
+
+	betsize = static_cast<unsigned long long>((int)(betsize/quantity + 0.1))*quantity;
+
+	if(betsize < quantity){
+		betsize = quantity;
+	}
+
+	return betsize;
+}
+
 

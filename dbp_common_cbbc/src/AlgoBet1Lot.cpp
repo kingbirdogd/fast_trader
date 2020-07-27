@@ -34,4 +34,8 @@ unsigned long long AlgoBet1Lot::fixQuantityByIssuer(unsigned long long ,unsigned
 	return quantity;
 }
 
+unsigned long long AlgoBet1Lot::fixQuantityBySpread(unsigned long long , unsigned long long quantity, unsigned long long ){
+	return quantity;
+}
+
 
