@@ -150,6 +150,8 @@ void bear::on_omdd_trade(const Tradable& tradable)
 
 		auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
 		auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
+		auto best_bid_price1 = static_cast<unsigned long long>(tradable.m_Bid[1].m_iPrice) * 100000;
+		auto best_ask_price1 = static_cast<unsigned long long>(tradable.m_Ask[1].m_iPrice) * 100000;
 
 		//auto trade_quantity = tradable.m_uAccumulatedQuantity;
 		auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice) * 100000;
@@ -171,7 +173,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 				{
 
 					if(p->getWtype() == BULL){
-						if(p->getSellOut() == trade_price)
+						if((p->getSellOut() == trade_price) || (best_bid_price > p->getSellOut() && p->getSellOut() < best_bid_price1))
 						{
 							p->on_bull_trade(tradable);
 						}
@@ -198,7 +200,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 				{
 
 					if(p->getWtype() == BULL){
-						if(p->getSellOut() == trade_price && uprice->PTBestbid > trade_price && p->has_position())
+						if((p->getSellOut() == trade_price || (best_bid_price > p->getSellOut() && p->getSellOut() < best_bid_price1)) && uprice->PTBestbid > trade_price && p->has_position())
 						{
 							p->doSellLevel();
 						}
@@ -228,7 +230,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 							p->on_bull_trade(tradable);
 						}
 					}else{
-						if(p->getSellOut() == trade_price)
+						if(p->getSellOut() == trade_price || (best_ask_price < p->getSellOut() && p->getSellOut() < best_ask_price1))
 						{
 							p->on_bear_trade(tradable);
 						}
@@ -250,7 +252,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 				{
 
 					if(p->getWtype() == BEAR){
-						if(p->getSellOut() == trade_price && uprice->PTBestask < trade_price && p->has_position())
+						if((p->getSellOut() == trade_price  || (best_ask_price < p->getSellOut() && p->getSellOut() < best_ask_price1) ) && uprice->PTBestask < trade_price && p->has_position())
 						{
 							p->doSellLevel();
 						}
