@@ -173,7 +173,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 				{
 
 					if(p->getWtype() == BULL){
-						if((p->getSellOut() == trade_price) || (best_bid_price > p->getSellOut() && p->getSellOut() < best_bid_price1))
+						if((p->getSellOut() == trade_price) || (best_bid_price > p->getSellOut() && p->getSellOut() > best_bid_price1))
 						{
 							p->on_bull_trade(tradable);
 						}
@@ -200,7 +200,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 				{
 
 					if(p->getWtype() == BULL){
-						if((p->getSellOut() == trade_price || (best_bid_price > p->getSellOut() && p->getSellOut() < best_bid_price1)) && uprice->PTBestbid > trade_price && p->has_position())
+						if((p->getSellOut() == trade_price || (best_bid_price > p->getSellOut() && p->getSellOut() > best_bid_price1)) && uprice->PTBestbid > trade_price && p->has_position())
 						{
 							p->doSellLevel();
 						}
