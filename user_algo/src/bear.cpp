@@ -12,6 +12,8 @@ bear::bear(user& u, const std::string& name):
 	 sellout_map(),
 	 _p_map()
 {
+	logger = new ThreadLogger("log/" + name + DateUtil::getToday() + ".log");
+	logger->start();
 }
 
 void bear::on_omdc_book(const Tradable& tradable)

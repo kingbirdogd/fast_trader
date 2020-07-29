@@ -13,6 +13,7 @@
 #include <OBSetting.h>
 #include <AlgoEngineData.h>
 #include <rapid_ring/ring_buffer_object_poll.hpp>
+#include "ThreadLogger.h"
 
 
 class bear : public algo
@@ -36,6 +37,7 @@ private:
 
 	mutable inout_map buyin_map;
 	mutable inout_map sellout_map;
+	ThreadLogger* logger;
 private:
 	class pair
 	{
@@ -1765,7 +1767,8 @@ private:
 		}
 
 		void Log(string msg){
-			fprintf(stderr, "%s %s \n",DateUtil::getCurrentTime(), msg.c_str());
+			//fprintf(stderr, "%s %s \n",DateUtil::getCurrentTime(), msg.c_str());
+			logger->Log(string(DateUtil::getCurrentTime()) + " " + msg);
 		}
 	};
 private:
