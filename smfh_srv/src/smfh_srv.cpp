@@ -487,7 +487,6 @@ inline static bool initJson(const char* _pszJsonPath)
 
 	startDecode();
 	startOutput();
-	startUsers();
 	flush_printf("tm:%llu, loadRetran \n", dbp::tools::srv::current());
 	if (!loadRetran(j))
 	{
@@ -547,6 +546,7 @@ inline static bool initJson(const char* _pszJsonPath)
 			return false;
 		}
 	}
+	startUsers();
 	return true;
 }
 
