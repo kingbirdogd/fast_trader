@@ -286,18 +286,18 @@ std::string bear::set_pair(pair&& p)
 	auto itcr = _w_ref_map.find(p.warrant_code());
 	if(itcr != _w_ref_map.end()){
 		if(p.ref() != itcr->second){
-			fprintf(stderr, "Duplication Warrant Code \n");
+			Log("Duplication Warrant Code");
 			return "Duplicate Warrant";
 		}else{
 			_w_ref_map.erase(p.warrant_code());
-			fprintf(stderr, "remove Old entry Warrant Code \n");
+			Log("remove Old entry Warrant Code");
 		}
 	}
 
 
 
 
-	fprintf(stderr, "set_pair 1 %s \n", ref.c_str());
+	Log("set_pair 1 " + ref);
 
 	if (_p_map.end() != it)
 	{
@@ -305,13 +305,13 @@ std::string bear::set_pair(pair&& p)
 				|| (it->second.warrant_code() != p.warrant_code()))
 		{
 
-			fprintf(stderr, "set_pair 1 Code Exist %u \n", p.warrant_code());
+			Log("set_pair 1 Code Exist = " + to_string(p.warrant_code()));
 			auto symbol = it->second.commodity_symbol();
 			auto warrant_code = it->second.warrant_code();
 			auto underlying_code = it->second.underlying_code();
 
 
-			fprintf(stderr, "OLD Pair 1 Symbol = %s   Warrant Code= %u Underlying Code= %u \n", symbol.c_str(), warrant_code, underlying_code);
+			Log("OLD Pair 1 Symbol = " + symbol + " Warrant Code= " + to_string(warrant_code) + " Underlying Code= " + to_string(underlying_code));
 
 			auto node = &(it->second);
 			auto u_it = _u_map.find(underlying_code);
@@ -323,7 +323,7 @@ std::string bear::set_pair(pair&& p)
 					if(u_it->second.empty())
 					{
 						_u_map.erase(u_it);
-						fprintf(stderr, "set_pair 1 Delete  Exist %u \n", p.warrant_code());
+						Log("set_pair 1 Delete  Exist = " + to_string(p.warrant_code()));
 						//subscribe_omdd_trade(underlying_code, false);
 						//subscribe_omdd_book(underlying_code, false);
 					}
@@ -345,7 +345,7 @@ std::string bear::set_pair(pair&& p)
 		it = _p_map.find(ref);
 	}
 
-	fprintf(stderr, "%s \n", "set_pair 2");
+	Log("set_pair 2");
 
 	auto symbol = it->second.commodity_symbol();
 	auto underlying_code = it->second.underlying_code();
@@ -360,14 +360,14 @@ std::string bear::set_pair(pair&& p)
 
 
 
-	fprintf(stderr, "NEW Pair 1 Symbol = %s   Warrant Code= %u Underlying Code= %u  \n", symbol.c_str(), warrant_code, underlying_code);
+	Log("NEW Pair 1 Symbol = " + symbol + " Warrant Code= " + to_string(warrant_code ) + " Underlying Code= " + to_string(underlying_code));
 
 	auto itu = uprice_map.find(underlying_code);
 	if(itu  == uprice_map.end()){
 		uprice_map[underlying_code] = std::move(new priceinfo());
 	}
 
-	fprintf(stderr, "%s \n", "set_pair 3");
+	Log("set_pair 3");
 
 	//bool result = subscribe_omdc_book(warrant_code, true);
 	//if(!result){
@@ -388,7 +388,7 @@ std::string bear::set_pair(pair&& p)
 
 bear::action_resp bear::set_start(unsigned int code, const std::string& ref){
 
-	fprintf(stderr, "%s \n", "do set_start");
+	Log("do set_start");
 
 	action_resp a_resp;
 	auto it = _p_map.find(ref);
@@ -418,7 +418,7 @@ bear::action_resp bear::set_start(unsigned int code, const std::string& ref){
 
 bear::action_resp bear::set_pause(unsigned int code, const std::string& ref){
 
-	fprintf(stderr, "%s \n", "do set_pause");
+	Log("do set_pause");
 	action_resp a_resp;
 	auto it = _p_map.find(ref);
 	if (_p_map.end() == it)
@@ -447,7 +447,7 @@ bear::action_resp bear::set_pause(unsigned int code, const std::string& ref){
 
 bear::action_resp bear::set_stop(unsigned int code, const std::string& ref){
 
-	fprintf(stderr, "%s \n", "do set_stop");
+	Log("do set_stop");
 
 	action_resp a_resp;
 	auto it = _p_map.find(ref);
@@ -568,7 +568,7 @@ std::string bear::load_pricetable(unsigned int code, const std::string& ref){
 
 std::string bear::set_param(unsigned int code, const std::string& type, const std::string& value, const std::string& ref){
 
-	fprintf(stderr, "%s \n", "do set_param");
+	Log("do set_param");
 
 	auto it = _p_map.find(ref);
 	if (_p_map.end() == it)
@@ -760,6 +760,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 	try
 	{
 
+		Log(json.dump());
 		//fprintf(stdout, "bear %s\n", json.dump().c_str());
 
 		auto cmd = json["cmd"].get<std::string>();
@@ -794,7 +795,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 				p._Wtype = 2;
 			}
 
-			fprintf(stdout, "bear 1\n");
+			Log("bear 1");
 
 			//p._Symbol = json["symbol"].get<std::string>();
 			p._IssuerSize = json["issuersize"].get<unsigned long long>();
@@ -819,7 +820,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 
 			p._Underlying_code = 0;
 
-			fprintf(stdout, "bear 2\n");
+			Log("bear 2");
 
 			std::string str_underlying = json["symbol"].get<std::string>();
 			p._Symbol = str_underlying;
@@ -840,14 +841,14 @@ algo_msg_base* bear::json_to_msg(json& json)
 			}
 			p._Underlying_code = it_omdd->second;
 
-			fprintf(stdout, "bear 3\n");
+			Log("bear 3");
 			p._OBSetting = new OBSetting();
 			p._PriceInfo = new priceinfo();
 			p._PriceInfoU = new priceinfo();
 			p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, 100000);
 
 
-			fprintf(stdout, "bear 4\n");
+			Log("bear 4");
 
 			return pset;
 		}

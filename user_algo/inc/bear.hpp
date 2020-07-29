@@ -1817,12 +1817,12 @@ private:
 		}
 		virtual void on_command()
 		{
-			fprintf(stderr, "%s \n", "algo msg set oncommand");
+			//fprintf(stderr, "%s \n", "algo msg set oncommand");
 			auto* self = dynamic_cast<bear*>(al);
 			auto p2 = p;
 			std::string r = self->set_pair(std::move(p2));
 			result = r;
-			fprintf(stderr, "algo msg set oncommand result = %s \n", result.c_str());
+			//fprintf(stderr, "algo msg set oncommand result = %s \n", result.c_str());
 			ouputQueue.enqueue(this);
 		}
 		virtual void release()
