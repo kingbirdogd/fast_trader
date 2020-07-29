@@ -1767,8 +1767,9 @@ private:
 		}
 
 		void Log(string msg){
+			_algo->Log(msg);
 			//fprintf(stderr, "%s %s \n",DateUtil::getCurrentTime(), msg.c_str());
-			logger->Log(string(DateUtil::getCurrentTime()) + " " + msg);
+			//logger->Log(string(DateUtil::getCurrentTime()) + " " + msg);
 		}
 	};
 private:
@@ -2395,6 +2396,7 @@ public:
 	std::string force_buy(unsigned long long price, unsigned long long quantity, const std::string& ref);
 	std::string force_sell(unsigned long long price, unsigned long long quantity, const std::string& ref);
 	std::string set_position(unsigned long long price, unsigned long long quantity, const std::string& ref);
+	virtual void Log(std::string msg);
 	virtual void handle_command(algo_msg_base&);
 	virtual algo_msg_base* json_to_msg(json& msg);
 	virtual std::string get_lib_name();

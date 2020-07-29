@@ -739,6 +739,10 @@ std::string bear::set_position(unsigned long long price, unsigned long long quan
 	return "SUCCESS";
 }
 
+void bear::Log(string msg){
+	logger->Log(string(DateUtil::getCurrentTime()) + " " + msg);
+}
+
 void bear::handle_command(algo_msg_base& msg)
 {
 	msg.on_command();
