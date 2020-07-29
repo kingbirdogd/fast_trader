@@ -920,8 +920,9 @@ private:
 					}
 
 					if(best_bid_qty >= _IssuerSize){
-					_PriceInfo->PBestbid = _PriceInfo->Bestbid;
-					_PriceInfo->Bestbid = best_bid_price;
+						Log(std::string(" CODE = ") + std::to_string(code) + " Bid Change from " + to_string(_PriceInfo->Bestbid) + " to " + to_string(best_bid_price));
+						_PriceInfo->PBestbid = _PriceInfo->Bestbid;
+						_PriceInfo->Bestbid = best_bid_price;
 					}
 
 
@@ -975,8 +976,13 @@ private:
 
 					}
 					if(best_ask_qty >= _IssuerSize){
+
+						Log(std::string(" CODE = ") + std::to_string(code) + " Ask Change from " + to_string(_PriceInfo->Bestask) + " to " + to_string(best_ask_price));
+
 						_PriceInfo->PBestask = _PriceInfo->Bestask;
 						_PriceInfo->Bestask = best_ask_price;
+
+
 					}
 
 					auto msg = algo_warrantprice_msg_pool.get_obj();
@@ -1226,6 +1232,8 @@ private:
 
 						if(sellout != _OBSetting->SellOut && _Action_Status != STAGE_STOP){
 
+
+
 							_OBSetting->SellOut = sellout;
 							_OBSetting->LvLBid = lvlBid;
 
@@ -1233,6 +1241,9 @@ private:
 
 					}
 					if(best_bid_qty >= _IssuerSize){
+
+						Log(std::string(" CODE = ") + std::to_string(code) + " Bid Change from " + to_string(_PriceInfo->Bestbid) + " to " + to_string(best_bid_price));
+
 						_PriceInfo->PBestbid = _PriceInfo->Bestbid;
 						_PriceInfo->Bestbid = best_bid_price;
 					}
@@ -1286,6 +1297,9 @@ private:
 					}
 
 					if(best_ask_qty >= _IssuerSize){
+
+						Log(std::string(" CODE = ") + std::to_string(code) + " Ask Change from " + to_string(_PriceInfo->Bestask) + " to " + to_string(best_ask_price));
+
 						_PriceInfo->PBestask = _PriceInfo->Bestask;
 						_PriceInfo->Bestask = best_ask_price;
 					}
