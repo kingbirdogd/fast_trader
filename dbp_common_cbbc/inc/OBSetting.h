@@ -64,6 +64,8 @@ public:
 	unsigned long long RefWBid = -1;
 	unsigned long long RefWAsk = -1;
 
+	unsigned long long ReadyBidBuy = 0;
+
 	unsigned long AccumTrade = 0;
 	unsigned long ACount = 0;
 	unsigned long BCount = 0;

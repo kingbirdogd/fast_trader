@@ -192,6 +192,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			bool hasSignal = signal->hasSignal;
 			unsigned long long DetectAsk = signal->DetectAsk;
 
+
 			if(obs->detected){
 
 				if(best_ask_price != obs->DetectedAsk && obs->Status == STATUS_READY){
@@ -247,6 +248,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					if(best_ask_price == DetectAsk){
 						obs->DetectedAsk = best_ask_price;
 						obs->StopLostPrice = best_bid_price;
+						obs->ReadyBidBuy = signal->ReadyBidBuy;
 /*
 						if(obs->SpreadTableCode == ""){
 							COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
@@ -647,7 +649,10 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		if(obs->detected)
 		{
 
-			if(TradeSide::BUY_SIDE == side && trade_buy_quantity >= best_ask_vol && obs->Status == STATUS_READY){
+			//s1signal* s1s = s1SignalMap[code];
+
+
+			if(TradeSide::BUY_SIDE == side && trade_buy_quantity >= best_ask_vol && best_bid_vol>=obs->ReadyBidBuy && obs->Status == STATUS_READY){
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
 
 				for(unsigned int i=0; i<wobsArray.size(); i++){

@@ -205,7 +205,6 @@ void bear::on_omdd_trade(const Tradable& tradable)
 							p->doSellLevel();
 						}
 					}
-
 				}
 			}
 
