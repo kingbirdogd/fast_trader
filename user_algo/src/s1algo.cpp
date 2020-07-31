@@ -29,6 +29,11 @@ s1algo::s1algo(user& u, const std::string& name):
 		warrantPriceMap[allW[i].Code]->PBestask = 0;
 		warrantPriceMap[allW[i].Code]->UCode = allW[i].UCode;
 		//Log("Init priceinfo = " + to_string(allW[i].Code));
+
+		auto it = availableUCode.find(allW[i].UCode);
+		if(it == availableUCode.end()){
+			availableUCode.insert(allW[i].UCode);
+		}
 	}
 
 
@@ -1038,6 +1043,7 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 	algo_issueraction_msg* pIssuerAction_msg = nullptr;
 	algo_force_sell* pforce_sell = nullptr;
 	algo_issuerlist_msg* pissuerlist = nullptr;
+	algo_underlyinglist_msg* punderlyinglist = nullptr;
 	try
 	{
 		auto cmd = json["cmd"].get<std::string>();
@@ -1077,6 +1083,14 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			pissuerlist->id = _u.get_id();
 			pissuerlist->ref = ref;
 			return pissuerlist;
+		}
+		else if (cmd == "underlyinglist"){
+			punderlyinglist = algo_issuerlist_msg_pool.get_obj();
+			punderlyinglist->al = this;
+			punderlyinglist->algo_name = _name;
+			punderlyinglist->id = _u.get_id();
+			punderlyinglist->ref = ref;
+			return punderlyinglist;
 		}
 		else if(cmd == "force_sell")
 		{
@@ -1124,6 +1138,8 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			pIssuerAction_msg->release();
 		if(pissuerlist)
 			pissuerlist->release();
+		if(punderlyinglist)
+			punderlyinglist->release();
 		return msg;
 	}
 }
@@ -1144,3 +1160,4 @@ rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_stoplost_msg, 8192> s1algo
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_force_sell, 8192> s1algo::algo_force_sell_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_warrantprice_msg, 8192> s1algo::algo_warrantprice_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_issuerlist_msg, 8192> s1algo::algo_issuerlist_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_underlyinglist_msg, 8192> s1algo::algo_underlyinglist_msg_pool;

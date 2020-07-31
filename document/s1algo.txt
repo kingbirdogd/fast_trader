@@ -68,3 +68,12 @@ response
 action=marketstatus
 new_action_status=[start,pause]
 previous_action_status=[start,pause]
+
+7) Get Available Underlying 
+
+request:
+cmd = underlyinglist
+
+response:
+action=underlyinglist
+ucodes=[5,788,941,.......]
