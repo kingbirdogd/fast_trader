@@ -396,9 +396,9 @@ bool s1algo::setSelectedUnderlying(std::string action, unsigned int ucode){
 		}
 	}
 	if(action == "remove"){
-		auto it = unselectedUCode.find(issuer);
+		auto it = unselectedUCode.find(ucode);
 		if(it == unselectedUCode.end()){
-			selectedIssuer.insert(issuer);
+			selectedIssuer.insert(ucode);
 			return true;
 		}
 	}
