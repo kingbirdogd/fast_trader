@@ -1085,7 +1085,7 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			return pissuerlist;
 		}
 		else if (cmd == "underlyinglist"){
-			punderlyinglist = algo_issuerlist_msg_pool.get_obj();
+			punderlyinglist = algo_underlyinglist_msg_pool.get_obj();
 			punderlyinglist->al = this;
 			punderlyinglist->algo_name = _name;
 			punderlyinglist->id = _u.get_id();
