@@ -1130,7 +1130,7 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			pUnderlyingAction_msg->algo_name = _name;
 			pUnderlyingAction_msg->id = _u.get_id();
 			pUnderlyingAction_msg->ref = ref;
-			pUnderlyingAction_msg->ucode = json["ucode"].get<std::string>();
+			pUnderlyingAction_msg->ucode = json["ucode"].get<unsigned int>();
 			pUnderlyingAction_msg->action = json["action"].get<std::string>();
 			return pUnderlyingAction_msg;
 		}
