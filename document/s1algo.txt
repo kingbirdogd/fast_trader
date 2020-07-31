@@ -77,3 +77,18 @@ cmd = underlyinglist
 response:
 action=underlyinglist
 ucodes=[5,788,941,.......]
+
+
+8) Select Underlying
+
+request
+cmd=selectunderlying
+ucode=[1,5,788 ..... ]  
+action=[select,remove]
+
+response
+action=selectunderlying
+selectaction=[select,remove]
+ucode=[1,5,788 ..... ]
+success=[SUCCESS,FAIL]
+reason=
