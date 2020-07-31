@@ -446,11 +446,11 @@ private:
 			auto* self = dynamic_cast<s1algo*>(al);
 			int i=0;
 			for(auto f : self->availableUCode) {
-				string iss = f;
+				unsigned int iss = f;
 				if(i>0){
-					ucodes += iss + ",";
+					ucodes += to_string(iss) + ",";
 				}else{
-					ucodes = iss;
+					ucodes = to_string(iss);
 				}
 				i++;
 			}
