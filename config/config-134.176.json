@@ -55,7 +55,7 @@
 			{
 				"leo_s1algo":
 				{
-					"lib": "semi",
+					"lib": "s1algo",
 					"params":
 					{
 					}
