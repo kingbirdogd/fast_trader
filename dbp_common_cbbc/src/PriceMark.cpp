@@ -213,6 +213,7 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 						pUpAskMark[pwask] = pfprice;
 						askkey = pwask;
 						askprice = pfprice;
+
 						return true;
 					}else{
 						return false;
