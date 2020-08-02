@@ -71,104 +71,85 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 
 	if(pwtype == BULL){
 		if(wbid > pwbid && fprice > pfprice){
-			if(pwbid > 0){
-
+			if(pwbid > 0 && pfprice>0){
 				auto itp = pDnBidMark.find(wbid);
 				if(itp != pDnBidMark.end()){
+					/*
 					if(itp->second != fprice){
-						//fprintf(stderr, "BULL BID MARK CHANGE \n");
 						pDnBidMark[wbid] = fprice;
 						bidkey = wbid;
 						bidprice = fprice;
 						return true;
 					}else{
-						//fprintf(stderr, "BULL BID MARK NO CHANGE \n");
 						return false;
-					}
+					}*/
+					return false;
 				}
-
-				//fprintf(stderr, "BULL BID MARK NEW ENTRY \n");
 				pDnBidMark[wbid] = fprice;
 				bidkey = wbid;
 				bidprice = fprice;
-
 				return true;
 			}
 
 		}
 		if(wbid < pwbid && fprice < pfprice){
-			if(pwbid > 0){
+			if(pwbid > 0 && pfprice>0){
 				auto itp = pDnBidMark.find(pwbid);
 				if(itp != pDnBidMark.end()){
 					if(itp->second != pfprice){
-						//fprintf(stderr, "BULL BID MARK CHANGE \n");
 						pDnBidMark[pwbid] = pfprice;
 						bidkey = pwbid;
 						bidprice = pfprice;
 						return true;
 					}else{
-						//fprintf(stderr, "BULL BID MARK NO CHANGE \n");
 						return false;
 					}
 				}
-
-				//fprintf(stderr, "BULL BID MARK NEW ENTRY \n");
 				pDnBidMark[pwbid] = pfprice;
 				bidkey = pwbid;
 				bidprice = pfprice;
-				//algoActionInterface->showLog("Bid Table");
-				//printTable(pDnBidMark);
 				return true;
 			}
 		}
 	}
 	if(pwtype == BEAR){
 		if(wbid > pwbid && fprice < pfprice){
-			if(pwbid > 0){
+			if(pwbid > 0 && fprice>0){
 				auto itp = pDnBidMark.find(wbid);
 				if(itp != pDnBidMark.end()){
+					/*
 					if(itp->second != fprice){
-						//fprintf(stderr, "BEAR BID MARK CHANGE \n");
 						pDnBidMark[wbid] = fprice;
 						bidkey = wbid;
 						bidprice = fprice;
 						return true;
 					}else{
-						//fprintf(stderr, "BEAR BID MARK NO CHANGE \n");
 						return false;
-					}
+					}*/
+					return false;
 				}
-				//fprintf(stderr, "BULL BID MARK NEW ENTRY \n");
-
 				pDnBidMark[wbid] = fprice;
 				bidkey = wbid;
 				bidprice = fprice;
-				//algoActionInterface->showLog("Bid Table");
-				//printTable(pDnBidMark);
 				return true;
 			}
 		}
 		if(wbid < pwbid && fprice > pfprice){
-			if(pwbid > 0){
+			if(wbid > 0 && pfprice>0){
 				auto itp = pDnBidMark.find(pwbid);
 				if(itp != pDnBidMark.end()){
 					if(itp->second != pfprice){
-						//fprintf(stderr, "BEAR BID MARK CHANGE \n");
 						pDnBidMark[pwbid] = pfprice;
 						bidkey = pwbid;
 						bidprice = pfprice;
 						return true;
 					}else{
-						//fprintf(stderr, "BEAR BID MARK NO CHANGE \n");
 						return false;
 					}
 				}
-				//fprintf(stderr, "BEAR BID MARK NEW ENTRY \n");
 				pDnBidMark[pwbid] = pfprice;
 				bidkey = pwbid;
 				bidprice = pfprice;
-				//algoActionInterface->showLog("Bid Table");
-				//printTable(pDnBidMark);
 				return true;
 			}
 		}
@@ -179,112 +160,93 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, unsigned long long  fprice, unsigned long long  pfprice){
 	if(pwtype == BULL ){
 		if(wask > pwask && fprice > pfprice){
-			if(pwask > 0){
+			if(pwask > 0 && pfprice>0){
 
 				auto itp = pUpAskMark.find(pwask);
 				if(itp != pUpAskMark.end()){
 					if(itp->second != pfprice){
-						//fprintf(stderr, "BULL ASK MARK CHANGE \n");
 						pUpAskMark[pwask] = pfprice;
 						askkey = pwask;
 						askprice = pfprice;
 						return true;
 					}else{
-						//fprintf(stderr, "BULL ASK MARK NO CHANGE \n");
 						return false;
 					}
 				}
-				//fprintf(stderr, "BULL ASK MARK NEW ENTRY \n");
-
 				pUpAskMark[pwask] = pfprice;
 				askkey = pwask;
 				askprice = pfprice;
-				//algoActionInterface->showLog("Ask Table");
-				//printTable(pUpAskMark);
 				return true;
 			}
 		}
 		if(wask < pwask && fprice < pfprice){
-			if(pwask > 0){
-				if(fprice > 0){
+			if(fprice > 0 && wask>0){
 
-					auto itp = pUpAskMark.find(wask);
-					if(itp != pUpAskMark.end()){
-						if(itp->second != fprice){
-							//fprintf(stderr, "BULL ASK MARK CHANGE \n");
-							pUpAskMark[wask] = fprice;
-							askkey = wask;
-							askprice = fprice;
-							return true;
-						}else{
-							//fprintf(stderr, "BULL ASK MARK NO CHANGE \n");
-							return false;
-						}
-					}
-					//fprintf(stderr, "BULL ASK MARK NEW ENTRY \n");
-					pUpAskMark[wask] = fprice;
-					askkey = wask;
-					askprice = pfprice;
-					//algoActionInterface->showLog("Ask Table");
-					//printTable(pUpAskMark);
-					return true;
+				auto itp = pUpAskMark.find(wask);
+				if(itp != pUpAskMark.end()){
+					/*
+					if(itp->second != fprice){
+						pUpAskMark[wask] = fprice;
+						askkey = wask;
+						askprice = fprice;
+						return true;
+					}else{
+						return false;
+					}*/
+					return false;
 				}
+				pUpAskMark[wask] = fprice;
+				askkey = wask;
+				askprice = fprice;
+				return true;
 			}
+
 
 		}
 	}
 	if(pwtype == BEAR ){
 		if(wask > pwask && fprice < pfprice){
-			if(pwask > 0){
+			if(pwask > 0 && fprice>0){
 				auto itp = pUpAskMark.find(pwask);
 				if(itp != pUpAskMark.end()){
 					if(itp->second != pfprice){
-						//fprintf(stderr, "BEAR ASK MARK CHANGE \n");
 						pUpAskMark[pwask] = pfprice;
 						askkey = pwask;
 						askprice = pfprice;
 						return true;
 					}else{
-						//fprintf(stderr, "BEAR ASK MARK NO CHANGE \n");
 						return false;
 					}
 				}
-				//fprintf(stderr, "BEAR ASK MARK NEW ENTRY \n");
 				pUpAskMark[pwask] = pfprice;
 				askkey = pwask;
 				askprice = pfprice;
-				//algoActionInterface->showLog("Ask Table");
-				//printTable(pUpAskMark);
 				return true;
 			}
 		}
 		if(wask < pwask && fprice > pfprice){
-			if(pwask > 0){
 
-				if(fprice > 0){
+			if(pfprice > 0 && wask>0){
 
-					auto itp = pUpAskMark.find(wask);
-					if(itp != pUpAskMark.end()){
-						if(itp->second != fprice){
-							//fprintf(stderr, "BEAR ASK MARK CHANGE \n");
-							pUpAskMark[wask] = fprice;
-							askkey = wask;
-							askprice = fprice;
-							return true;
-						}else{
-							//fprintf(stderr, "BEAR ASK MARK NO CHANGE \n");
-							return false;
-						}
-					}
-					//fprintf(stderr, "BEAR ASK MARK NEW ENTRY \n");
-					pUpAskMark[wask] = fprice;
-					askkey = pwask;
-					askprice = fprice;
-					//algoActionInterface->showLog("Ask Table");
-					//printTable(pUpAskMark);
-					return true;
+				auto itp = pUpAskMark.find(wask);
+				if(itp != pUpAskMark.end()){
+					/*
+					if(itp->second != fprice){
+						pUpAskMark[wask] = fprice;
+						askkey = wask;
+						askprice = fprice;
+						return true;
+					}else{
+						return false;
+					}*/
+					return false;
 				}
+				pUpAskMark[wask] = fprice;
+				askkey = pwask;
+				askprice = fprice;
+				return true;
 			}
+
 		}
 	}
 	return false;
