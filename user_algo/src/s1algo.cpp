@@ -29,6 +29,11 @@ s1algo::s1algo(user& u, const std::string& name):
 		warrantPriceMap[allW[i].Code]->PBestask = 0;
 		warrantPriceMap[allW[i].Code]->UCode = allW[i].UCode;
 		//Log("Init priceinfo = " + to_string(allW[i].Code));
+
+		auto it = availableUCode.find(allW[i].UCode);
+		if(it == availableUCode.end()){
+			availableUCode.insert(allW[i].UCode);
+		}
 	}
 
 
@@ -232,11 +237,36 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					Log("Code = " + to_string(code) + " Reset Signal 2");
 					//Log("Pass2");
 				}
+
+				auto itucode = unselectedUCode.find(code);
+				if(itucode != unselectedUCode.end()){
+
+					auto pmsg = algo_signal_msg_pool.get_obj();
+					pmsg->al = this;
+					pmsg->algo_name = this->_name;
+					pmsg->id = this->_u.get_id();
+					pmsg->ref = to_string(code);
+					pmsg->code = code;
+					pmsg->detect_ask = 0;
+					pmsg->selected = false;
+					ouputQueue.enqueue(pmsg);
+
+					obs->removeAllWarrants();
+					obs->detected = false;
+
+					Log("Code = " + to_string(code) + " Reset Signal 3");
+					//Log("Pass2");
+				}
 				return;
 			}
 			else
 			{
 				if(hasSignal){
+
+					auto itucode = unselectedUCode.find(code);
+					if(itucode != unselectedUCode.end()){
+						return;
+					}
 
 					if(MarketStatus == MARKET_PAUSE)
 						return;
@@ -347,6 +377,28 @@ bool s1algo::setSelectedIssuer(std::string action, std::string issuer){
 		auto it = selectedIssuer.find(issuer);
 		if(it != selectedIssuer.end()){
 			selectedIssuer.erase(issuer);
+			return true;
+		}
+	}
+	return false;
+}
+
+bool s1algo::setSelectedUnderlying(std::string action, unsigned int ucode){
+
+	if(MarketStatus == MARKET_START)
+		return false;
+
+	if(action == "select"){
+		auto it = unselectedUCode.find(ucode);
+		if(it != unselectedUCode.end()){
+			unselectedUCode.erase(ucode);
+			return true;
+		}
+	}
+	if(action == "remove"){
+		auto it = unselectedUCode.find(ucode);
+		if(it == unselectedUCode.end()){
+			unselectedUCode.insert(ucode);
 			return true;
 		}
 	}
@@ -1036,8 +1088,10 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 	algo_marketstatus_msg* pMarketStatus_msg = nullptr;
 	algo_setbet_msg* pSetBet_msg = nullptr;
 	algo_issueraction_msg* pIssuerAction_msg = nullptr;
+	algo_underlyingaction_msg* pUnderlyingAction_msg = nullptr;
 	algo_force_sell* pforce_sell = nullptr;
 	algo_issuerlist_msg* pissuerlist = nullptr;
+	algo_underlyinglist_msg* punderlyinglist = nullptr;
 	try
 	{
 		auto cmd = json["cmd"].get<std::string>();
@@ -1070,6 +1124,16 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			pIssuerAction_msg->action = json["action"].get<std::string>();
 			return pIssuerAction_msg;
 		}
+		else if (cmd == "selectunderlying"){
+			pUnderlyingAction_msg = algo_underlyingaction_msg_pool.get_obj();
+			pUnderlyingAction_msg->al = this;
+			pUnderlyingAction_msg->algo_name = _name;
+			pUnderlyingAction_msg->id = _u.get_id();
+			pUnderlyingAction_msg->ref = ref;
+			pUnderlyingAction_msg->ucode = json["ucode"].get<unsigned int>();
+			pUnderlyingAction_msg->action = json["action"].get<std::string>();
+			return pUnderlyingAction_msg;
+		}
 		else if (cmd == "issuerlist"){
 			pissuerlist = algo_issuerlist_msg_pool.get_obj();
 			pissuerlist->al = this;
@@ -1077,6 +1141,14 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			pissuerlist->id = _u.get_id();
 			pissuerlist->ref = ref;
 			return pissuerlist;
+		}
+		else if (cmd == "underlyinglist"){
+			punderlyinglist = algo_underlyinglist_msg_pool.get_obj();
+			punderlyinglist->al = this;
+			punderlyinglist->algo_name = _name;
+			punderlyinglist->id = _u.get_id();
+			punderlyinglist->ref = ref;
+			return punderlyinglist;
 		}
 		else if(cmd == "force_sell")
 		{
@@ -1124,6 +1196,10 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			pIssuerAction_msg->release();
 		if(pissuerlist)
 			pissuerlist->release();
+		if(punderlyinglist)
+			punderlyinglist->release();
+		if(pUnderlyingAction_msg)
+			pUnderlyingAction_msg->release();
 		return msg;
 	}
 }
@@ -1137,6 +1213,7 @@ rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_err_msg, 8192> s1algo::alg
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_marketstatus_msg, 8192> s1algo::algo_marketstatus_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_setbet_msg, 8192> s1algo::algo_setbet_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_issueraction_msg, 8192> s1algo::algo_issueraction_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_underlyingaction_msg, 8192> s1algo::algo_underlyingaction_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_order_msg, 8192> s1algo::algo_order_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_portfolio_msg, 8192> s1algo::algo_portfolio_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_signal_msg, 8192> s1algo::algo_signal_msg_pool;
@@ -1144,3 +1221,4 @@ rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_stoplost_msg, 8192> s1algo
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_force_sell, 8192> s1algo::algo_force_sell_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_warrantprice_msg, 8192> s1algo::algo_warrantprice_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_issuerlist_msg, 8192> s1algo::algo_issuerlist_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_underlyinglist_msg, 8192> s1algo::algo_underlyinglist_msg_pool;
