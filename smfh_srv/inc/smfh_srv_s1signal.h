@@ -52,12 +52,12 @@ inline static void handleS1Signal(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 				s1s->DetectAsk = best_ask_price1;
 				s1s->hasSignal = true;
 
-				flush_printf("tm:%llu, s1signal = True \n", dbp::tools::srv::current());
+				//flush_printf("tm:%llu, s1signal = True \n", dbp::tools::srv::current());
 			}
 		}else{
 			if(best_ask_price1 != s1s->DetectAsk){
 				s1s->hasSignal = false;
-				flush_printf("tm:%llu, s1signal = False \n", dbp::tools::srv::current());
+				//flush_printf("tm:%llu, s1signal = False \n", dbp::tools::srv::current());
 
 				return;
 			}
