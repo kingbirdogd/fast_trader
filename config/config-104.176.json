@@ -36,20 +36,33 @@
 		10,
 		11,
 		12,
-		13	
+		13,
+		14,
+		15
 	],
 	"USERS":
 	[
 		{
 			"ID":1,
-			"IP":"192.168.104.88",
-			"PORT":35101,
-			"USER":"P990098",
-			"PASS":"pass",
+			"USER":"P311831",
+			"PASS":"Shun2328",
 			"BUY_POWER":5000000,
-			"DISABLE":true,
 			"ALGOS":
 			{
+				"leo_s1algo":
+				{
+					"lib": "s1algo",
+					"params":
+					{
+					}
+				},
+				"leo_bear":
+				{
+					"lib": "bear",
+					"params":
+					{
+					}
+				},
 				"leo_semi":
 				{
 					"lib": "semi",
@@ -61,71 +74,13 @@
 		},
 		{
 			"ID":2,
-			"IP":"192.168.104.88",
-			"PORT":35101,
-			"USER":"P990098",
-			"PASS":"pass",
-			"BUY_POWER":200000,
+			"USER":"P311831",
+			"PASS":"Shun2328",
+			"BUY_POWER":5000000,
 			"DISABLE":true,
 			"ALGOS":
 			{
-				"wendy_semi":
-				{
-					"lib": "semi",
-					"params":
-					{
-					}
-				}
-			}
-		},
-		{
-			"ID":3,
-			"IP":"192.168.104.88",
-			"PORT":35101,
-			"USER":"P990098",
-			"PASS":"pass",
-			"BUY_POWER":5000000,	
-			"DISABLE":true,		
-			"ALGOS":
-			{
-				"eric_semi":
-				{
-					"lib": "semi",
-					"params":
-					{
-					}
-				}
-			}
-		},
-		{
-			"ID":4,
-			"IP":"192.168.104.88",
-			"PORT":35101,
-			"USER":"P990098",
-			"PASS":"pass",
-			"BUY_POWER":5000000,	
-			"DISABLE":true,		
-			"ALGOS":
-			{
-				"hugo_bear":
-				{
-					"lib": "bear",
-					"params":
-					{
-					}
-				}
-			}
-		},
-		{
-			"ID":5,
-			"IP":"192.168.104.88",
-			"PORT":35101,
-			"USER":"P990098",
-			"PASS":"pass",
-			"BUY_POWER":5000000,			
-			"ALGOS":
-			{
-				"kenny_s1algo":
+				"s1algo_s1algo":
 				{
 					"lib": "s1algo",
 					"params":
@@ -141,7 +96,7 @@
 		"OMDC":
 		[
 			{
-				"InterfaceIp": "10.122.78.176",
+				"InterfaceIp": "10.122.78.196",
 				"MulticastIp": "239.1.1.11",
 				"MulticastPort": 51000
 			}
@@ -149,12 +104,12 @@
 		"OMDD":
 		[
 			{
-				"InterfaceIp": "10.123.132.88",
+				"InterfaceIp": "10.123.132.176",
 				"MulticastIp": "239.1.1.153",
 				"MulticastPort": 51003
 			},
 			{
-				"InterfaceIp": "10.123.132.88",
+				"InterfaceIp": "10.123.132.176",
 				"MulticastIp": "239.1.1.158",
 				"MulticastPort": 51003
 			}
@@ -181,32 +136,16 @@
 	"OmdcChannel":
 	[
 		{
-			"ChannelId": 23,
-			"Hot":
-			{
-				"InterfaceIp": "10.122.78.176",
-				"MulticastIp": "239.1.1.3",
-				"MulticastPort": 51003
-			},
-			"Refresh":
-			{
-				"InterfaceIp": "10.122.78.176",
-				"MulticastIp": "239.1.1.13",
-				"MulticastPort": 51003
-			},
-			"RetranProxyIndex": 0
-		},
-		{
 			"ChannelId": 20,
 			"Hot":
 			{
-				"InterfaceIp": "10.122.78.176",
+				"InterfaceIp": "10.122.78.196",
 				"MulticastIp": "239.1.1.3",
 				"MulticastPort": 51000
 			},
 			"Refresh":
 			{
-				"InterfaceIp": "10.122.78.176",
+				"InterfaceIp": "10.122.78.196",
 				"MulticastIp": "239.1.1.13",
 				"MulticastPort": 51000
 			},
@@ -216,13 +155,13 @@
 			"ChannelId": 21,
 			"Hot":
 			{
-				"InterfaceIp": "10.122.78.176",
+				"InterfaceIp": "10.122.78.196",
 				"MulticastIp": "239.1.1.3",
 				"MulticastPort": 51001
 			},
 			"Refresh":
 			{
-				"InterfaceIp": "10.122.78.176",
+				"InterfaceIp": "10.122.78.196",
 				"MulticastIp": "239.1.1.13",
 				"MulticastPort": 51001
 			},
@@ -232,13 +171,13 @@
 			"ChannelId": 22,
 			"Hot":
 			{
-				"InterfaceIp": "10.122.78.176",
+				"InterfaceIp": "10.122.78.196",
 				"MulticastIp": "239.1.1.3",
 				"MulticastPort": 51002
 			},
 			"Refresh":
 			{
-				"InterfaceIp": "10.122.78.176",
+				"InterfaceIp": "10.122.78.196",
 				"MulticastIp": "239.1.1.13",
 				"MulticastPort": 51002
 			},
@@ -251,13 +190,13 @@
 			"ChannelId": 231,
 			"Hot":
 			{
-				"InterfaceIp": "10.123.132.88",
+				"InterfaceIp": "10.123.132.176",
 				"MulticastIp": "239.1.1.131",
 				"MulticastPort": 51002
 			},
 			"Refresh":
 			{
-				"InterfaceIp": "10.123.132.88",
+				"InterfaceIp": "10.123.132.176",
 				"MulticastIp": "239.1.1.156",
 				"MulticastPort": 51002
 			},
@@ -270,13 +209,13 @@
 			"ChannelId": 10,
 			"Hot":
 			{
-				"InterfaceIp": "10.122.78.176",
+				"InterfaceIp": "10.122.78.196",
 				"MulticastIp": "239.1.1.2",
 				"MulticastPort": 51000
 			},
 			"Refresh":
 			{
-				"InterfaceIp": "10.122.78.176",
+				"InterfaceIp": "10.122.78.196",
 				"MulticastIp": "239.1.1.12",
 				"MulticastPort": 51000
 			},
@@ -289,13 +228,13 @@
 			"ChannelId": 100,
 			"Hot":
 			{
-				"InterfaceIp": "10.122.78.176",
+				"InterfaceIp": "10.122.78.196",
 				"MulticastIp": "239.1.127.2",
 				"MulticastPort": 51000
 			},
 			"Refresh":
 			{
-				"InterfaceIp": "10.122.78.176",
+				"InterfaceIp": "10.122.78.196",
 				"MulticastIp": "239.1.127.12",
 				"MulticastPort": 51000
 			},

@@ -313,8 +313,6 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							if(selectedWarrant.size() == 0)
 								continue;
 
-
-
 							for(unsigned int i=0; i<selectedWarrant.size(); i++){
 								warrant* w = selectedWarrant[i];
 
