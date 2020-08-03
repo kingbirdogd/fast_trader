@@ -285,6 +285,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						obs->StopLostPrice = best_bid_price;
 						obs->ReadyBidBuy = signal->ReadyBidBuy;
 /*
+ *
+ *
 						if(obs->SpreadTableCode == ""){
 							COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
 							obs->SpreadTableCode = omdcdef.SpreadTableCode;
@@ -304,6 +306,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						//for(unsigned int j=0; j<selectedIssuer.size(); j++){
 						for(auto f : selectedIssuer) {
 							string issuer = f;
+
+							Log("Code = " + to_string(code) + " Issuer = " + issuer + " Has Signal 1");
 
 							vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer(issuer,code, best_bid_price, best_ask_price);
 							if(selectedWarrant.size() == 0)
