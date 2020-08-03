@@ -38,7 +38,7 @@ s1algo::s1algo(user& u, const std::string& name):
 
 
 	//algoBet.selectBet("Bet100");
-	algoBet.selectBet("Bet100");
+	algoBet.selectBet("BetSmall");
 
 	logger = new ThreadLogger("log/" + name + DateUtil::getToday() + ".log");
 	logger->start();
