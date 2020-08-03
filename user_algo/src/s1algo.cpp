@@ -739,7 +739,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 						}
 					}
 				}
-				}
+
 
 			}
 
