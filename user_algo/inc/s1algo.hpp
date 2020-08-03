@@ -454,7 +454,7 @@ private:
 			for(auto f : self->selectedIssuer) {
 				string iss = f;
 				if(i>0){
-					issuers += iss + ",";
+					issuers += "," + iss;
 				}else{
 					issuers = iss;
 				}
