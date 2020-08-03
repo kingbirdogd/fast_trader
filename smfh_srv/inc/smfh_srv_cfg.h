@@ -391,7 +391,7 @@ inline static bool loadDefinition(json& _json)
 					s1SignalMap[code]->Thin = nooflot_Thin*defs.LotSize;
 
 
-					flush_printf("tm:%llu, fm cache s1SignalMap = %u  THICK = %llu \n\n", dbp::tools::srv::current(), uSecurityCode, s1SignalMap[uSecurityCode]->Thick);
+					flush_printf("tm:%llu, fm cache s1SignalMap = %u  THICK = %llu \n\n", dbp::tools::srv::current(), uSecurityCode, s1SignalMap[code]->Thick);
 				}
 
 
