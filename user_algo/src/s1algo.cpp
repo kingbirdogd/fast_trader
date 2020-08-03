@@ -707,6 +707,38 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 							obs->SoldTime = DateUtil::getCurrentTime();
 						}
 					}
+				}else{
+					if(obs->hasRelatedWarrant(STATUS_AVAILABLE)){
+						for(unsigned int i=0; i<wobsArray.size(); i++){
+							if(wobsArray[i]->Status != STATUS_AVAILABLE){
+								continue;
+							}
+
+							if(wobsArray[i]->BuyPrice <= 0){
+								continue;
+							}
+
+							unsigned long long wbest_bid_price = warrantPriceMap[wobsArray[i]->Code]->Bestbid;
+
+							if(wbest_bid_price == 0)
+								continue;
+
+							if(wbest_bid_price > wobsArray[i]->BuyPrice){
+								wobsArray[i]->Status = STATUS_SELLING;
+								bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
+								//bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, RefWBid, wobsArray[i]->Quantity);
+								if(!result){
+									obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
+								}
+							}
+						}
+						if(obs->hasRelatedWarrant(STATUS_SELLING)){
+							obs->hasPosition = true;
+							obs->SellPrice = bid_price;
+							obs->SoldTime = DateUtil::getCurrentTime();
+						}
+					}
+				}
 				}
 
 			}
