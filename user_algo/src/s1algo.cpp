@@ -307,7 +307,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						for(auto f : selectedIssuer) {
 							string issuer = f;
 
-							Log("Code = " + to_string(code) + " Issuer = " + issuer + " Has Signal 1");
+							//Log("Code = " + to_string(code) + " Issuer = " + issuer + " Has Signal 1");
 
 							vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer(issuer,code, best_bid_price, best_ask_price);
 							if(selectedWarrant.size() == 0)
@@ -492,7 +492,7 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 	vector<warrant*> selectedWarrant;
 	unordered_set<unsigned int> warrantVector = ivLoader.getWarrantByIssuer(issuer,underlying);
 	if(warrantVector.size() == 0){
-		Log("No warrant select on Issuer = " + issuer + " On Underlying = " + to_string(underlying));
+		return selectedWarrant;
 	}
 
 	for (const auto &n: warrantVector) {
