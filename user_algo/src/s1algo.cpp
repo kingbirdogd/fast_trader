@@ -273,7 +273,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					if(MarketStatus == MARKET_PAUSE)
 						return;
 
-					Log("Code = " + to_string(code) + " Has Signal 1");
+					//Log("Code = " + to_string(code) + " Has Signal 1");
 
 					time_t currentTime = DateUtil::getCurrentSystemTime();
 					if(currentTime > undetectedTime){
@@ -312,6 +312,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer(issuer,code, best_bid_price, best_ask_price);
 							if(selectedWarrant.size() == 0)
 								continue;
+
 
 							for(unsigned int i=0; i<selectedWarrant.size(); i++){
 								warrant* w = selectedWarrant[i];
@@ -497,6 +498,8 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 		unsigned long long wBidQty = warrantPriceMap[n]->BidQty;
 		unsigned long long wAskQty = warrantPriceMap[n]->AskQty;
 
+
+
 		//auto it2 = omdcMap.find(n);
 		//if(it2 != omdcMap.end()){
 			//auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
@@ -511,8 +514,13 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 
 			PriceMark* spm = pricemarkMap[n];
 
-			if(wbest_bid_price == 0 || wbest_ask_price == 0 || wBidQty<spm->getIssuerBidQty() || wAskQty<spm->getIssuerAskQty())
+			if(wbest_bid_price == 0 || wbest_ask_price == 0 || wBidQty<spm->getIssuerBidQty() || wAskQty<spm->getIssuerAskQty()){
+
+				Log("IssuerBid = " + to_string(spm->getIssuerBidQty()));
+				Log("IssuerAsk = " + to_string(spm->getIssuerAskQty()));
+
 				continue;
+			}
 
 			unsigned long long wspread = wbest_ask_price - wbest_bid_price;
 
