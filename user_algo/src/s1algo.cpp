@@ -263,6 +263,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			{
 				if(hasSignal){
 
+					Log("Code = " + to_string(code) + " Has Signal 1");
+
 					auto itucode = unselectedUCode.find(code);
 					if(itucode != unselectedUCode.end()){
 						return;
