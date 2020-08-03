@@ -57,6 +57,20 @@
 					"params":
 					{
 					}
+				},
+				"leo_bear":
+				{
+					"lib": "bear",
+					"params":
+					{
+					}
+				},
+				"leo_semi":
+				{
+					"lib": "semi",
+					"params":
+					{
+					}
 				}
 			}
 		}
