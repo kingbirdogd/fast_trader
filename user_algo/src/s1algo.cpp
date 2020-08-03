@@ -263,7 +263,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			{
 				if(hasSignal){
 
-					Log("Code = " + to_string(code) + " Has Signal 1");
+//					/Log("Code = " + to_string(code) + " Has Signal 1");
 
 					auto itucode = unselectedUCode.find(code);
 					if(itucode != unselectedUCode.end()){
@@ -272,6 +272,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 					if(MarketStatus == MARKET_PAUSE)
 						return;
+
+					Log("Code = " + to_string(code) + " Has Signal 1");
 
 					time_t currentTime = DateUtil::getCurrentSystemTime();
 					if(currentTime > undetectedTime){
