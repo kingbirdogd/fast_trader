@@ -73,6 +73,24 @@
 					}
 				}
 			}
+		},
+		{
+			"ID":2,
+			"IP":"192.168.134.176",
+			"PORT":35101,
+			"USER":"P990098",
+			"PASS":"pass",
+			"BUY_POWER":5000000,
+			"ALGOS":
+			{
+				"s1algo_s1algo":
+				{
+					"lib": "s1algo",
+					"params":
+					{
+					}
+				},
+			}
 		}
 	],
 	"Definition":
