@@ -489,7 +489,7 @@ private:
 			for(auto f : self->availableUCode) {
 				unsigned int iss = f;
 				if(i>0){
-					ucodes += to_string(iss) + ",";
+					ucodes += "," + to_string(iss);
 				}else{
 					ucodes = to_string(iss);
 				}
