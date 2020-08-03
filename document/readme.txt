@@ -12,6 +12,9 @@
   node set_user.js user_name=hugo password=12345678
   
   
+  node set_user.js user_name=s1algo password=12345678
+  
+  
   
   #192.168.134.196
   demo user
