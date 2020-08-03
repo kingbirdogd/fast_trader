@@ -520,10 +520,6 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 			PriceMark* spm = pricemarkMap[n];
 
 			if(wbest_bid_price == 0 || wbest_ask_price == 0 || wBidQty<spm->getIssuerBidQty() || wAskQty<spm->getIssuerAskQty()){
-
-				Log("IssuerBid = " + to_string(spm->getIssuerBidQty()));
-				Log("IssuerAsk = " + to_string(spm->getIssuerAskQty()));
-
 				continue;
 			}
 
