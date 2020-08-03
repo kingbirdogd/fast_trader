@@ -314,6 +314,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 								continue;
 
 
+
 							for(unsigned int i=0; i<selectedWarrant.size(); i++){
 								warrant* w = selectedWarrant[i];
 
@@ -490,6 +491,10 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 
 	vector<warrant*> selectedWarrant;
 	unordered_set<unsigned int> warrantVector = ivLoader.getWarrantByIssuer(issuer,underlying);
+	if(warrantVector.size() == 0){
+		Log("No warrant select on Issuer = " + issuer + " On Underlying = " + to_string(underlying))
+	}
+
 	for (const auto &n: warrantVector) {
 
 
