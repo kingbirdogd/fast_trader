@@ -49,6 +49,7 @@
 			"USER":"P990098",
 			"PASS":"pass",
 			"BUY_POWER":5000000,
+			"DISABLE":true,
 			"ALGOS":
 			{
 				"leo_s1algo":
