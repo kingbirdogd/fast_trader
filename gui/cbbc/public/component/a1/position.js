@@ -10,6 +10,7 @@ class Position extends React.Component {
     super(props)
     this.state = {}
     this.state.position = {}
+    this.handleForceSell = this.handleForceSell.bind(this)
   }
   
   static getDerivedStateFromProps(props, state) {
@@ -32,6 +33,7 @@ class Position extends React.Component {
           for (const [code, datas1] of Object.entries(datas)) {
             var buyTotalQuantity=0, buyTotalPrice=0, buyCount=0, buyQuantity=0, buyPrice=[]
             var sellTotalQuantity=0, sellTotalPrice=0, sellCount=0, sellQuantity=0, sellPrice=0
+            var wbid=0, stoplost=0, pnl=0
             var ucode=0
             for (var item1 of datas1) {
               if (item1.side=='buy') {
@@ -41,6 +43,8 @@ class Position extends React.Component {
                 buyPrice.push(item1.matchPrice)
                 buyQuantity = item1.matchQuantity
                 ucode = item1.ucode
+                wbid = item1.wbid
+                stoplost = item1.stoplost
               }
               else if (item1.side=='sell') {
                 sellTotalPrice += item1.matchPrice
@@ -87,7 +91,10 @@ class Position extends React.Component {
                   transactionTm: item1.transactionTm,
                   buyCount: buyCount,
                   sellCount: sellCount,
-                  ucode: ucode
+                  ucode: ucode,
+                  wbid: wbid,
+                  stoplost: stoplost,
+                  pnl: wbid-bpAvg
                 }
               }
             }
@@ -98,14 +105,28 @@ class Position extends React.Component {
     return state
   }
   
+  handleForceSell() {
+    var code = parseInt(event.target.name)
+    var ucode = parseInt(this.state.position[code].ucode)
+    var price = parseFloat(this.state.position[code].wbid)
+    
+    var states = this.props.getStates()
+    var userId = parseInt(states.userId)
+    var issuer = states.issuer.curIssuer
+    var algoName = (states.modules.call) ? states.modules.call : states.modules.put
+    
+    var command = {cmd: 'force_sell', algo_name: algoName, id: userId, ref: 'uid_'+userId.toString(), code: code, ucode: ucode, price: price}
+    sendWebsocket(JSON.stringify(command))
+  }
+  
   getText(lang) {
     var text = {
       en: {position: 'Position', ucode: 'Underlying', buyPrice: 'Buy Price', buyQuantity: 'Buy Quantity', sellPrice: 'Sell Price', 
-            sellQuantity: 'Sell Quantity', id: 'ID', code: 'Code', transactionTm: 'Last Update Time'},
+            sellQuantity: 'Sell Quantity', id: 'ID', code: 'Code', transactionTm: 'Last Update Time', warrantPrice: 'Wnt Price', stopLost: 'Stop Lost', pnl: 'Gain', forceSell: 'Sell'},
       sc: {position: '持仓', ucode: '相关资产', buyPrice: '买入价', buyQuantity: '买入单位', sellPrice: '卖出价', 
-            sellQuantity: '卖出单位', id: 'ID', code: '牛熊证', transactionTm: '交易时间'},
+            sellQuantity: '卖出单位', id: 'ID', code: '牛熊证', transactionTm: '交易时间', warrantPrice: '轮证现价', stopLost: '止损价', pnl: '盈亏', forceSell: '卖出'},
       tc: {position: '持倉', ucode: '相關資產', buyPrice: '買入價', buyQuantity: '買入單位', sellPrice: '賣出價', 
-            sellQuantity: '賣出單位', id: 'ID', code: '牛熊證', transactionTm: '交易時間'}
+            sellQuantity: '賣出單位', id: 'ID', code: '牛熊證', transactionTm: '交易時間', warrantPrice: '輪證現價', stopLost: '止蝕價', pnl: '盈虧', forceSell: '賣出'}
     }
     return text[lang]
   }
@@ -115,17 +136,32 @@ class Position extends React.Component {
     var len = Object.keys(this.state.position).length
     var rows = []
     var no = 0
-    for (const [code, d] of Object.entries(this.state.position)) {
+    // 排序
+    var orderKeys1 = Object.keys(this.state.position).reverse()
+    for (var code of orderKeys1) {
+      var d = this.state.position[code]
       rows.push(
         <tr key={'position_'+no}>
-          <td>{len-no}</td>
+          <td>{no+1}</td>
           <td>{code}</td>
           <td>{ d.ucode }</td>
           <td>{ parseFloat(d.buyPrice).toFixed(4) }</td>
+          <td> {d.wbid} </td>
           <td>{ parseFloat(d.sellPrice).toFixed(4) }</td>
+          <td> {d.stoplost} </td>
           <td>{ numberWithCommas(d.buyQuantity) }</td>
+          <td>{ parseFloat(d.pnl).toFixed(4) }</td>
           <td>{ numberWithCommas(d.sellQuantity) }</td>
           <td>{d.transactionTm}</td>
+          <td>
+            <button
+              name={code}
+              type="button"
+              className="btn btn-sm btn-secondary"
+              onClick={this.handleForceSell}>
+                {text.forceSell}
+            </button>
+          </td>
         </tr>)
       no+=1
     }
@@ -144,6 +180,10 @@ class Position extends React.Component {
               <col span="1" width="150px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />
+              <col span="1" width="150px" />
+              <col span="1" width="150px" />
+              <col span="1" width="150px" />
+              <col span="1" width="150px" />
             </colgroup>
             <thead>
               <tr>
@@ -151,8 +191,11 @@ class Position extends React.Component {
                 <th>{text.code}</th>
                 <th>{text.ucode}</th>
                 <th>{text.buyPrice}</th>
+                <th>{text.warrantPrice}</th>
                 <th>{text.sellPrice}</th>
+                <th>{text.stopLost}</th>
                 <th>{text.buyQuantity}</th>
+                <th>{text.pnl}</th>
                 <th>{text.sellQuantity}</th>
                 <th>{text.transactionTm}</th>
               </tr>

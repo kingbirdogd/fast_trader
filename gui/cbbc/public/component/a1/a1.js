@@ -20,6 +20,12 @@ class A1 extends React.Component {
     
     this.state.sizeReceiptData = {totalBytes: 0, noPackage: 0, lastAliveTime: null}
     
+    this.state.issuer = {curState: null, curIssuer: null, feedback: null, responseResult: null, selected: []}
+    this.state.marketStatus = null
+    this.state.betSize = null
+    this.state.underlying = {curState: null, curUnderlying: null, feedback: null, responseResult: null, removed: []}
+    this.state.underlyingList = null
+    
     var cells = []
     var orders = []
     var positions = []
@@ -109,6 +115,13 @@ class A1 extends React.Component {
         else if (data.action=='cmd set') {obj = this.checkOnCommand(obj, data)}
         else if (data.action=='connect_alive') { }
         else if (data.action=='connect_reject') { this.connectReject(data)}
+        // 接口v3
+        else if (data.action=='selectissuer') {this.setIssuer(obj, data)}
+        else if (data.action=='issuerlist') {this.setIssuerList(obj, data)}
+        else if (data.action=='marketstatus') {this.setMarketstatus(obj, data)}
+        else if (data.action=='betsize') {this.setBetSize(obj, data)}
+        else if (data.action=='underlyinglist') {this.setUnderlyingList(obj, data)}
+        else if (data.action=='selectunderlying') {this.setUnderlying(obj, data)}
       }
       // 接口v2
       else if ('msg_type' in data) {
@@ -324,6 +337,22 @@ class A1 extends React.Component {
       }
     }
     loadPrice(state)
+    
+    // 發行人
+    var userId = parseInt(state.userId)
+    var issuer = state.issuer.curIssuer
+    var algoName = (state.modules.call) ? state.modules.call : state.modules.put
+    var command = {cmd: 'issuerlist', algo_name: algoName, id: userId, ref: 'uid_'+userId.toString()}
+    sendWebsocket(JSON.stringify(command))
+    
+    // 
+    var command2 = {cmd: 'marketstatus', algo_name: algoName, id: userId, ref: 'uid_'+userId.toString(), action: ''}
+    sendWebsocket(JSON.stringify(command2))
+    
+    //
+    var command3 = {cmd: 'underlyinglist', algo_name: algoName, id: userId, ref: 'uid_'+userId.toString()}
+    sendWebsocket(JSON.stringify(command3))
+    
     return {modules: state.modules}
   }
   
@@ -412,7 +441,9 @@ class A1 extends React.Component {
       totalPrice: formatLong(data.filled_price)*formatLong(data.filled_quantity),
       futurePrice: ('sellout' in data) ? formatPrice(data.sellout) : ('buyin' in data) ? formatPrice(data.buyin) : '',
       stoplost: (data.stoplost) ? formatLong(data.stoplost) : '',
-      reason: ('reason' in data) ? data.reason: ''
+      reason: ('reason' in data) ? data.reason: '',
+      stoplost: formatLong(data.stoplost), 
+      wbid: formatLong(data.wbid)
     }
     
     if (!(id in state.orders))
@@ -453,7 +484,8 @@ class A1 extends React.Component {
   // 標的掛牌價
   setWprice(state, data) {
     var id = data.ref.replace(state.prefix, ''), side = data.side.toLowerCase(), wprice = formatLong(data.wprice)
-    state.cells[id].wPrice[side] = wprice
+    if ((id in state.cells) && ('wPrice' in state.cells[id]))
+      state.cells[id].wPrice[side] = wprice
     return {cells: state.cells}
   }
   
@@ -563,6 +595,88 @@ class A1 extends React.Component {
     global.func.logout();
   }
   
+  // 发行人
+  setIssuer(state, data) {
+    if (state.issuer.curIssuer) {
+      if ('selectaction' in data)
+        state.issuer.curState = data.selectaction
+      if('result' in data && data.result.toLowerCase()=='fail') {
+        state.issuer.feedback = data.reason
+        state.issuer.responseResult = null
+      }
+      else if ('result' in data && data.result.toLowerCase()=='success') {
+        state.issuer.feedback = null
+        state.issuer.responseResult = 'success'
+        if(data.selectaction=='select')
+          state.issuer.selected.push(data.issuer)
+        else if (data.selectaction=='remove')
+          state.issuer.selected.splice(state.issuer.selected.indexOf(data.issuer), 1)
+      }
+    }
+    return {issuer: state.issuer}
+  }
+  
+  // 发行人
+  setIssuerList(state, data) {
+    if (data.issuers)
+      state.issuer.selected = data.issuers.split(",")
+    return {issuer: state.issuer}
+  }
+  
+  //
+  setMarketstatus(state, data) {
+    if(data.new_action_status)
+      state.marketStatus = data.new_action_status
+    return {marketStatus: state.marketStatus}
+  }
+  
+  //
+  setBetSize(state, data) {
+    if('betsize' in data)
+      state.betSize = data.betsize
+    return {betSize: state.betSize}
+  }
+  
+  //
+  setUnderlyingList(state, data) {
+    if ('ucodes' in data) {
+      state.underlyingList = []
+      for (var ucode of data.ucodes.split(","))
+        state.underlyingList.push(formatCode(ucode, 5))
+      state.underlyingList.sort()
+    }
+    return {underlyingList: state.underlyingList}
+  }
+  
+  //
+  setUnderlying(state, data) {
+    if(state.underlying.curUnderlying) {
+      if ('selectaction' in data)
+        state.underlying.curState = data.selectaction
+      if('result' in data && data.result.toLowerCase()=='fail') {
+        state.underlying.feedback = data.reason
+        state.underlying.responseResult = null
+      }
+      else if ('result' in data && data.result.toLowerCase()=='success') {
+        state.underlying.feedback = null
+        state.underlying.responseResult = 'success'
+      }
+    }
+    
+    if ('result' in data && 'selectaction' in data && data.result.toLowerCase()=='success') {
+      var ucode = formatCode(data.ucode, 5)
+      if (data.selectaction == 'select') {
+        var i = state.underlying.removed.indexOf(ucode)
+        if (i>=0)
+          state.underlying.removed.splice(i, 1)
+      }
+      else if (data.selectaction == 'remove') {
+        state.underlying.removed.push(ucode)
+      }
+    }
+    return {underlying: state.underlying}
+  }
+  
   setStates(states) {this.setState(states)}
   
   getStates() {return this.state}
@@ -603,12 +717,31 @@ class A1 extends React.Component {
           />
           <MarketStatus
             key="marketStatus"
+            data={this.state.marketStatus}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}
           />
           <BetSize
             key="betSize"
+            lang={this.props.lang}
+            data={this.state.betSize}
+            setStates={this.setStates}
+            getStates={this.getStates}
+          />
+          <IssuerSelector
+            key="issuerSelector"
+            data={this.state.issuer}
+            data2={this.state.marketStatus}
+            lang={this.props.lang}
+            setStates={this.setStates}
+            getStates={this.getStates}
+          />
+          <UnderlyingSelector
+            key="underlyingSelector"
+            data={this.state.underlyingList}
+            data2={this.state.underlying}
+            data3={this.state.marketStatus}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}

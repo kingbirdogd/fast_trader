@@ -1,5 +1,6 @@
 class MarketStatus extends React.Component {
   static propTypes = {
+    data: PropTypes.number,
     lang: PropTypes.string,
     setStates: PropTypes.func,
     getStates: PropTypes.func
@@ -37,20 +38,37 @@ class MarketStatus extends React.Component {
   
   render() {
     var text = this.getText(this.props.lang)
+    var curStatus = this.props.data
+    
+    if (!this.props.data) {
+      var btnStartStyle = 'btn-secondary', btnStartIsDisable = false
+      var btnPauseStyle = 'btn-secondary', btnPauseIsDisable = false
+    }
+    else if (this.props.data == 1) {
+      var btnStartStyle = 'btn-primary', btnStartIsDisable = true
+      var btnPauseStyle = 'btn-secondary', btnPauseIsDisable = false
+    }
+    else if (this.props.data == 2) {
+      var btnStartStyle = 'btn-secondary', btnStartIsDisable = false
+      var btnPauseStyle = 'btn-warning', btnPauseIsDisable = true
+    }
+    
     return(
       <div className='row'>
         <div className="col-12 col-sm-6 col-md-3 mb-3">
           <button
             name="start"
             type="button"
-            className="btn btn-sm btn-primary"
+            className={classNames('btn btn-sm', btnStartStyle)}
+            disabled={btnStartIsDisable}
             onClick={this.handleAction}>
               {text.start}
           </button>
           <button
             name="pause"
             type="button"
-            className="btn btn-sm btn-warning"
+            className={classNames('btn btn-sm', btnPauseStyle)}
+            disabled={btnPauseIsDisable}
             onClick={this.handleAction}>
               {text.pause}
           </button>

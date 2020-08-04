@@ -67,13 +67,13 @@ class Portfolio extends React.Component {
   getText(lang) {
     var text = {
       en: {
-        id: 'ID', portfolio: 'Portfolio', ucode: 'Underlying', buyPrice: 'Avg Buy Price', code: 'Code', quantity: 'Total Quantity', ref: 'Ref', sellPrice: 'Avg Sell Price', soldTime: 'Last Update Time', profitLoss : 'Total P&L', noExecution: 'No. Execution', totalWin: 'Win', totalLoss: 'Loss', totalDraw: 'Draw'
+        id: 'ID', portfolio: 'Portfolio', ucode: 'Underlying', buyPrice: 'Avg Buy Price', code: 'Code', quantity: 'Total Quantity', ref: 'Ref', sellPrice: 'Avg Sell Price', soldTime: 'Last Update Time', profitLoss : 'P&L', noExecution: 'No. Execution', totalWin: 'Win', totalLoss: 'Loss', totalDraw: 'Draw', totalProfitLoss: 'Total P&L'
       },
       sc: {
-        id: 'ID', portfolio: '明细表', ucode: '相关资产', buyPrice: '平均买入价', code: '牛能证', quantity: '总买入单位', ref: 'Ref', sellPrice: '平均卖出价', soldTime: '最后卖出时间', profitLoss : '总盈亏', noExecution: '执行次数', totalWin: '赢', totalLoss: '亏', totalDraw: '平'
+        id: 'ID', portfolio: '明细表', ucode: '相关资产', buyPrice: '平均买入价', code: '牛能证', quantity: '总买入单位', ref: 'Ref', sellPrice: '平均卖出价', soldTime: '最后卖出时间', profitLoss : '盈亏', noExecution: '执行次数', totalWin: '赢', totalLoss: '亏', totalDraw: '平', totalProfitLoss: '总盈亏'
       },
       tc: {
-        id: 'ID', portfolio: '賺蝕紀錄', ucode: '相關資產', buyPrice: '平均買入價', code: '牛能證', quantity: '總買入單位', ref: 'Ref', sellPrice: '平均賣出價', soldTime: '最後賣出時間', profitLoss : '總盈虧', noExecution: '執行次數', totalWin: '贏', totalLoss: '虧', totalDraw: '平'
+        id: 'ID', portfolio: '賺蝕紀錄', ucode: '相關資產', buyPrice: '平均買入價', code: '牛能證', quantity: '總買入單位', ref: 'Ref', sellPrice: '平均賣出價', soldTime: '最後賣出時間', profitLoss : '盈虧', noExecution: '執行次數', totalWin: '贏', totalLoss: '虧', totalDraw: '平', totalProfitLoss: '總盈虧'
       }
     }
     return text[lang]
@@ -84,8 +84,10 @@ class Portfolio extends React.Component {
     var rows = []
     var no = 0
     var len = Object.keys(this.state.portfolio).length
+    var totalProfitLoss1 = 0
     for (const [code, d] of Object.entries(this.state.portfolio)) {
       var style = (d.totalProfitLoss==0) ? '' : (d.totalProfitLoss>0) ? 'font-up' : 'font-down'
+      totalProfitLoss1 += d.totalProfitLoss
       rows.push(
         <tr key={'portfolio_'+no}>
           <td>{len-no}</td>
@@ -105,10 +107,13 @@ class Portfolio extends React.Component {
       no+=1
     }
     
+    var style2 = (totalProfitLoss1==0) ? '' : (totalProfitLoss1>0) ? 'font-up' : 'font-down'
+    
     return(
       <div className="row">
         <div className="col-12">
           <h6> {text.portfolio} </h6>
+          <h4 className={style2}> {text.totalProfitLoss} : {parseFloat(totalProfitLoss1).toFixed(2)} </h4>
           <table className="table table-sm table-striped table-light table-portfolio">
             <colgroup>
               <col span="1" width="50px" />
