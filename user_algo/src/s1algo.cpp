@@ -679,7 +679,13 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								//bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, RefWBid, wobsArray[i]->Quantity);
 								if(!result){
 									obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
+									continue;
 								}
+#ifndef NOT_MEASURE
+								wobsArray[i]->pkg_tm = tradable.m_PkgTime;
+								wobsArray[i]->m_tm = tradable.m_MsgTime;
+								wobsArray[i]->t_tm = dbp::tools::srv::current();
+#endif
 							}else{
 								PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
 								unsigned long long sellout = spm->sellOut(wbest_bid_price);
@@ -736,7 +742,14 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								//bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, RefWBid, wobsArray[i]->Quantity);
 								if(!result){
 									obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
+									continue;
 								}
+
+#ifndef NOT_MEASURE
+								wobsArray[i]->pkg_tm = tradable.m_PkgTime;
+								wobsArray[i]->m_tm = tradable.m_MsgTime;
+								wobsArray[i]->t_tm = dbp::tools::srv::current();
+#endif
 							}
 						}
 						if(obs->hasRelatedWarrant(STATUS_SELLING)){
