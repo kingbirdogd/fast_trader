@@ -393,8 +393,8 @@ bool s1algo::setSelectedIssuer(std::string action, std::string issuer){
 
 bool s1algo::setSelectedUnderlying(std::string action, unsigned int ucode){
 
-	if(MarketStatus == MARKET_START)
-		return false;
+	//if(MarketStatus == MARKET_START)
+	//	return false;
 
 	if(action == "select"){
 		auto it = unselectedUCode.find(ucode);
