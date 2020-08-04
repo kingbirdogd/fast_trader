@@ -697,7 +697,14 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								//bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, RefWBid, wobsArray[i]->Quantity);
 								if(!result){
 									obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
+									continue;
 								}
+
+#ifndef NOT_MEASURE
+								wobsArray[i]->pkg_tm = tradable.m_PkgTime;
+								wobsArray[i]->m_tm = tradable.m_MsgTime;
+								wobsArray[i]->t_tm = dbp::tools::srv::current();
+#endif
 							}
 							//}
 						}
@@ -772,7 +779,17 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					if(!result){
 						warrant* w = obs->removeWarrantOrCbbc(wobsArray[i]->Code);
 						delete w;
+
+						continue;
 					}
+
+#ifndef NOT_MEASURE
+					wobsArray[i]->pkg_tm = tradable.m_PkgTime;
+					wobsArray[i]->m_tm = tradable.m_MsgTime;
+					wobsArray[i]->t_tm = dbp::tools::srv::current();
+#endif
+
+
 					Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wobsArray[i]->RefWAsk));
 				}
 
@@ -780,6 +797,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					Log("Ready Buy Enter :obs->hasWarrants() ");
 					//if(algoActionInterface->enableIB()){
 					if(obs->hasRelatedWarrant(STATUS_PENDING)){
+
 						Log("Ready Buy Enter :obs->hasRelatedWarrant(STATUS_PENDING)");
 						obs->Status = STATUS_PENDING;
 						obs->hasPosition = false;
@@ -931,6 +949,15 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					msg->wbid = obsw->RefWBid;
 					msg->status = "filled";
 					msg->transaction_time = obsw->BuyTime;
+
+#ifndef NOT_MEASURE
+					msg->pkg_tm = obsw->pkg_tm;
+					msg->m_tm = obsw->m_tm;
+					msg->t_tm = obsw->t_tm;
+					msg->o_tm = dbp::tools::srv::current();
+#endif
+
+
 					ouputQueue.enqueue(msg);
 
 					if(obs->allStatus(STATUS_AVAILABLE)){
@@ -962,6 +989,14 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						msg->transaction_time = wobs->BuyTime;
 						msg->status = "cancel";
 						msg->reason = string(odr.reject_reason);
+
+#ifndef NOT_MEASURE
+					msg->pkg_tm = wobs->pkg_tm;
+					msg->m_tm = wobs->m_tm;
+					msg->t_tm = wobs->t_tm;
+					msg->o_tm = dbp::tools::srv::current();
+#endif
+
 						ouputQueue.enqueue(msg);
 
 						wobs->Status = STATUS_REJECTED;
@@ -1013,6 +1048,14 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						msg->order_price = obsw->SellPrice;
 						msg->order_quantity = obsw->Quantity;
 						msg->transaction_time = obsw->SoldTime;
+
+#ifndef NOT_MEASURE
+					msg->pkg_tm = obsw->pkg_tm;
+					msg->m_tm = obsw->m_tm;
+					msg->t_tm = obsw->t_tm;
+					msg->o_tm = dbp::tools::srv::current();
+#endif
+
 						msg->status = "filled";
 						ouputQueue.enqueue(msg);
 
@@ -1102,6 +1145,14 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						msg->transaction_time =  string(odr.transaction_tm);
 						msg->status = "cancel";
 						msg->reason = string(odr.reject_reason);
+
+#ifndef NOT_MEASURE
+					msg->pkg_tm = wobs->pkg_tm;
+					msg->m_tm = wobs->m_tm;
+					msg->t_tm = wobs->t_tm;
+					msg->o_tm = dbp::tools::srv::current();
+#endif
+
 						ouputQueue.enqueue(msg);
 
 						Log("Sell Cancelled Warrant Code = " + to_string(code) + " Update Status to Available "  + " UCode = " + to_string(ucode));

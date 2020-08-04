@@ -101,6 +101,12 @@ struct warrant{
 	unsigned long long SellOut;
 	unsigned long long LvlBid;
 
+#ifndef NOT_MEASURE
+	unsigned long long pkg_tm;
+	unsigned long long m_tm;
+	unsigned long long t_tm;
+	unsigned long long o_tm;
+#endif
 
 	string Issuer;
 	string Strategy;

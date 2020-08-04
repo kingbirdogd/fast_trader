@@ -61,6 +61,14 @@ private:
 		std::string transaction_time;
 		std::string reason;
 
+
+#ifndef NOT_MEASURE
+		unsigned long long pkg_tm;
+		unsigned long long m_tm;
+		unsigned long long t_tm;
+		unsigned long long o_tm;
+#endif
+
 		algo_order_msg():
 			algo_msg_base()
 		{
@@ -84,6 +92,13 @@ private:
 			j["status"] = status;
 			j["transaction_time"] = string(transaction_time);
 			j["reason"] = string(reason);
+
+#ifndef NOT_MEASURE
+			j["hkex_to_order_latency"] = pkg_tm - m_tm;
+			j["tick_to_order_latency"] = t_tm - m_tm;
+			j["order_to_resp_latency"] = o_tm - t_tm;
+#endif
+
 			j["recovery"] = true;
 			return j;
 		}
