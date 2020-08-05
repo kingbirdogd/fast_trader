@@ -42,9 +42,9 @@ class IssuerSelector extends React.Component {
   
   getText(lang) {
     var text = {
-      en: {select: 'Select', remove: 'Remove', selected: 'Selected'},
-      sc: {select: '选择', remove: '删除', selected: '已选择'},
-      tc: {select: '選擇', remove: '刪除', selected: '已選擇'}
+      en: {select: 'Select', remove: 'Remove', selected: 'Selected', optionDefault: 'Select Issuer'},
+      sc: {select: '选择', remove: '删除', selected: '已选择', optionDefault: '选择发行人'},
+      tc: {select: '選擇', remove: '刪除', selected: '已選擇', optionDefault: '選擇發行人'},
     }
     return text[lang]
   }
@@ -84,14 +84,14 @@ class IssuerSelector extends React.Component {
       VT: {sc: '瑞通', tc: '瑞通', en: '瑞通'}
     }
     var optionHTML = []
-    optionHTML.push(<option value="default" key='issuer_default' disabled>Select Issuer</option>)
+    optionHTML.push(<option value="default" key='issuer_default' disabled> {text.optionDefault} </option>)
     for (const [k, v] of Object.entries(issuerList)) {
       var isSelect = '', style = ''
       if (selected && selected.includes(k))
         isSelect = text.selected, style = 'text-success'
       optionHTML.push(
         <option value={k} key={'issuer_'+k} className={style}>
-          {k} ({v[lang]}) {isSelect}
+          {k} ({v[this.props.lang]}) {isSelect}
         </option>)
     }
     

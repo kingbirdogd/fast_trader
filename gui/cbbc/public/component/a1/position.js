@@ -1,6 +1,7 @@
 class Position extends React.Component {
   static propTypes = {
     data: PropTypes.array,
+    data2: PropTypes.object,
     lang: PropTypes.string,
     setStates: PropTypes.func,
     getStates: PropTypes.func
@@ -14,6 +15,7 @@ class Position extends React.Component {
   }
   
   static getDerivedStateFromProps(props, state) {
+    var datas = {}
     if (typeof props.data !== 'undefined' && props.data.length > 0) {
       for (var arr of props.data) {
         if (typeof arr !== 'undefined' && arr.length > 0) {
@@ -23,85 +25,90 @@ class Position extends React.Component {
             codes.push(item.code)
           codes = Array.from(new Set(codes))
           // 重构数据集
-          var datas = {}
           for (var code of codes)
             datas[code] = []
           // 注入数据
           for (var item of arr)
             datas[item.code].push(item)
-          // 牛熊证，买入价，卖出价，买入单位, 卖出单位， 买入次数
-          for (const [code, datas1] of Object.entries(datas)) {
-            var buyTotalQuantity=0, buyTotalPrice=0, buyCount=0, buyQuantity=0, buyPrice=[]
-            var sellTotalQuantity=0, sellTotalPrice=0, sellCount=0, sellQuantity=0, sellPrice=0
-            var wbid=0, stoplost=0, pnl=0
-            var ucode=0
-            for (var item1 of datas1) {
-              if (item1.side=='buy') {
-                buyTotalPrice += item1.matchPrice
-                buyTotalQuantity += item1.matchQuantity
-                buyCount += 1
-                buyPrice.push(item1.matchPrice)
-                buyQuantity = item1.matchQuantity
-                ucode = item1.ucode
-                wbid = item1.wbid
-                stoplost = item1.stoplost
-              }
-              else if (item1.side=='sell') {
-                sellTotalPrice += item1.matchPrice
-                sellTotalQuantity += item1.matchQuantity
-                sellCount += 1
-                sellPrice = item1.matchPrice
-                sellQuantity = item1.matchQuantity
-                ucode = item1.ucode
-              }
-              // 手中持有倉位從其他渠道賣出
-              else if (item1.side=='reset') {
-                var remainQuantity = buyTotalQuantity-sellTotalQuantity
-                // 如手中持有，新增一筆賣盤，以抵銷之前的倉位
-                if (remainQuantity>0) {
-                  sellTotalPrice += item1.matchPrice
-                  sellTotalQuantity += remainQuantity
-                  sellCount += 1
-                  sellPrice = item1.matchPrice
-                  sellQuantity = item1.remainQuantity
-                  ucode = item1.ucode
-                }
-              }
-              
-              // 已平倉
-              if (buyTotalQuantity-sellTotalQuantity<=0) {
-                buyQuantity=0, buyPrice=[], sellQuantity=0, sellPrice=0
-                delete state.position[code]
-              }
-              // 未平倉
-              else if (buyTotalQuantity-sellTotalQuantity>0 && buyQuantity>0) {
-                // 蟹左半倉
-                if (buyQuantity>0 && sellQuantity>0) {}
-                // 未扔貨
-                else if(buyQuantity>0 && sellQuantity<=0) {}
-                // 平均买入价
-                var bpSum = buyPrice.reduce((a, b) => a + b, 0)
-                var bpAvg = (bpSum / buyPrice.length) || 0
-                
-                state.position[code] = {
-                  buyPrice: bpAvg,
-                  buyQuantity: buyTotalQuantity-sellTotalQuantity,
-                  sellPrice: sellPrice,
-                  sellQuantity: sellQuantity,
-                  transactionTm: item1.transactionTm,
-                  buyCount: buyCount,
-                  sellCount: sellCount,
-                  ucode: ucode,
-                  wbid: wbid,
-                  stoplost: stoplost,
-                  pnl: wbid-bpAvg
-                }
-              }
-            }
+        }
+      }
+    }
+    
+    // 牛熊证，买入价，卖出价，买入单位, 卖出单位， 买入次数
+    for (const [code, datas1] of Object.entries(datas)) {
+      var buyTotalQuantity=0, buyTotalPrice=0, buyCount=0, buyQuantity=0, buyPrice=[]
+      var sellTotalQuantity=0, sellTotalPrice=0, sellCount=0, sellQuantity=0, sellPrice=0
+      var wbid=0, stoplost=0, pnl=0
+      var ucode=0
+      for (var item1 of datas1) {
+        if (item1.side=='buy') {
+          buyTotalPrice += item1.matchPrice
+          buyTotalQuantity += item1.matchQuantity
+          buyCount += 1
+          buyPrice.push(item1.matchPrice)
+          buyQuantity = item1.matchQuantity
+          ucode = item1.ucode
+          wbid = item1.wbid
+          stoplost = item1.stoplost
+        }
+        else if (item1.side=='sell') {
+          sellTotalPrice += item1.matchPrice
+          sellTotalQuantity += item1.matchQuantity
+          sellCount += 1
+          sellPrice = item1.matchPrice
+          sellQuantity = item1.matchQuantity
+          ucode = item1.ucode
+        }
+        // 手中持有倉位從其他渠道賣出
+        else if (item1.side=='reset') {
+          var remainQuantity = buyTotalQuantity-sellTotalQuantity
+          // 如手中持有，新增一筆賣盤，以抵銷之前的倉位
+          if (remainQuantity>0) {
+            sellTotalPrice += item1.matchPrice
+            sellTotalQuantity += remainQuantity
+            sellCount += 1
+            sellPrice = item1.matchPrice
+            sellQuantity = item1.remainQuantity
+            ucode = item1.ucode
+          }
+        }
+        
+        // 已平倉
+        if (buyTotalQuantity-sellTotalQuantity<=0) {
+          buyQuantity=0, buyPrice=[], sellQuantity=0, sellPrice=0
+          delete state.position[code]
+        }
+        // 未平倉
+        else if (buyTotalQuantity-sellTotalQuantity>0 && buyQuantity>0) {
+          // 蟹左半倉
+          if (buyQuantity>0 && sellQuantity>0) {}
+          // 未扔貨
+          else if(buyQuantity>0 && sellQuantity<=0) {}
+          // 平均买入价
+          var bpSum = buyPrice.reduce((a, b) => a + b, 0)
+          var bpAvg = (bpSum / buyPrice.length) || 0
+          
+          // 輪 bid價
+          if ((code in props.data2) && props.data2[code].bid > 0)
+            wbid = props.data2[code].bid
+          
+          state.position[code] = {
+            buyPrice: bpAvg,
+            buyQuantity: buyTotalQuantity-sellTotalQuantity,
+            sellPrice: sellPrice,
+            sellQuantity: sellQuantity,
+            transactionTm: item1.transactionTm,
+            buyCount: buyCount,
+            sellCount: sellCount,
+            ucode: ucode,
+            wbid: wbid,
+            stoplost: stoplost,
+            pnl: wbid-bpAvg
           }
         }
       }
     }
+    
     return state
   }
   
@@ -116,7 +123,8 @@ class Position extends React.Component {
     var algoName = (states.modules.call) ? states.modules.call : states.modules.put
     
     var command = {cmd: 'force_sell', algo_name: algoName, id: userId, ref: 'uid_'+userId.toString(), code: code, ucode: ucode, price: price}
-    sendWebsocket(JSON.stringify(command))
+    if (price>0)
+      sendWebsocket(JSON.stringify(command))
   }
   
   getText(lang) {
@@ -140,17 +148,18 @@ class Position extends React.Component {
     var orderKeys1 = Object.keys(this.state.position).reverse()
     for (var code of orderKeys1) {
       var d = this.state.position[code]
+      var style = (d.pnl==0) ? '' : (d.pnl>0) ? 'font-up' : 'font-down'
       rows.push(
         <tr key={'position_'+no}>
           <td>{no+1}</td>
           <td>{code}</td>
           <td>{ d.ucode }</td>
           <td>{ parseFloat(d.buyPrice).toFixed(4) }</td>
-          <td> {d.wbid} </td>
-          <td>{ parseFloat(d.sellPrice).toFixed(4) }</td>
-          <td> {d.stoplost} </td>
+          <td> { parseFloat(d.wbid).toFixed(3)} </td>
+          <td>{ parseFloat(d.sellPrice).toFixed(4)}</td>
+          <td> { parseFloat(d.stoplost).toFixed(2)} </td>
           <td>{ numberWithCommas(d.buyQuantity) }</td>
-          <td>{ parseFloat(d.pnl).toFixed(4) }</td>
+          <td className={style}>{ parseFloat(d.pnl).toFixed(4) }</td>
           <td>{ numberWithCommas(d.sellQuantity) }</td>
           <td>{d.transactionTm}</td>
           <td>

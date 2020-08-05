@@ -2,7 +2,6 @@ class UnderlyingSelector extends React.Component {
   static propTypes = {
     data: PropTypes.array,
     data2: PropTypes.object,
-    data3: PropTypes.number,
     lang: PropTypes.string,
     setStates: PropTypes.func,
     getStates: PropTypes.func
@@ -43,9 +42,9 @@ class UnderlyingSelector extends React.Component {
   
   getText(lang) {
     var text = {
-      en: {select: 'Select', remove: 'Remove', removed: 'Removed'},
-      sc: {select: '选择', remove: '删除', removed: '已刪除'},
-      tc: {select: '選擇', remove: '刪除', removed: '已刪除'}
+      en: {select: 'Select', remove: 'Remove', removed: 'Removed', optionDefault: 'Select Underlying'},
+      sc: {select: '选择', remove: '删除', removed: '已删除', optionDefault: '选择相关资产'},
+      tc: {select: '選擇', remove: '刪除', removed: '已刪除', optionDefault: '選擇相關資產'},
     }
     return text[lang]
   }
@@ -73,7 +72,7 @@ class UnderlyingSelector extends React.Component {
 
     //
     var optionHTML = []
-    optionHTML.push(<option value="default" key='underlying_default' disabled>Select Underlying</option>)
+    optionHTML.push(<option value="default" key='underlying_default' disabled> {text.optionDefault} </option>)
     if (this.props.data) {
       for (var ucode of this.props.data) {
         var uname = (ucode in ucodesName2) ? ucodesName2[ucode] : ''
@@ -91,7 +90,7 @@ class UnderlyingSelector extends React.Component {
     var btnSelectStyle = 'btn-secondary', btnSelectIsDisable = false
     var btnRemoveStyle = 'btn-secondary', btnRemoveIsDisable = false
 
-    if (this.props.data3 == 1 || curUnderlying === null) {
+    if (curUnderlying === null) {
       var btnSelectStyle = 'btn-secondary', btnSelectIsDisable = true
       var btnRemoveStyle = 'btn-secondary', btnRemoveIsDisable = true
     }

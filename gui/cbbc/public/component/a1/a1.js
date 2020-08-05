@@ -25,6 +25,7 @@ class A1 extends React.Component {
     this.state.betSize = null
     this.state.underlying = {curState: null, curUnderlying: null, feedback: null, responseResult: null, removed: []}
     this.state.underlyingList = null
+    this.state.wntPrice = {}
     
     var cells = []
     var orders = []
@@ -71,6 +72,7 @@ class A1 extends React.Component {
     this.state.positions = positions
     this.state.portfolios = portfolios
     this.state.codeMapping = {}
+    this.state.codeId = []
     this.msg = []
   }
   
@@ -396,11 +398,13 @@ class A1 extends React.Component {
     // 數據映射, 輪證<=>正股
     if (!(data.ref in state.codeMapping))
       state.codeMapping[data.ref] = (data.ucode) ? formatCode(data.ucode, 4) : ''
+    if (!state.codeId.includes(data.ref))
+      state.codeId.push(data.ref)
     
     // 數據映射, 輪證<=>codeMapping id
     var id = (data.ref.replace(/[^0-9]/g, '').length == 5)
-      ? Object.keys(state.codeMapping).indexOf(data.ref)        // a1
-      : data.ref.replace(state.prefix, '')                      // cbbc
+      ? state.codeId.indexOf(data.ref)        // a1
+      : data.ref.replace(state.prefix, '')    // cbbc
     
     var arr = {
       ref:data.ref, mode:data.id,
@@ -423,11 +427,13 @@ class A1 extends React.Component {
     // 數據映射, 輪證<=>正股
     if (!(data.ref in state.codeMapping))
       state.codeMapping[data.ref] = (data.ucode) ? formatCode(data.ucode, 4) : ''
+    if (!state.codeId.includes(data.ref))
+      state.codeId.push(data.ref)
     
     // 數據映射, 輪證<=>codeMapping id
     var id = (data.ref.replace(/[^0-9]/g, '').length == 5)
-      ? Object.keys(state.codeMapping).indexOf(data.ref)        // a1
-      : data.ref.replace(state.prefix, '')                      // cbbc
+      ? state.codeId.indexOf(data.ref)        // a1
+      : data.ref.replace(state.prefix, '')    // cbbc
     
     var arr = {
       code: data.warrant_code, 
@@ -483,10 +489,17 @@ class A1 extends React.Component {
   
   // 標的掛牌價
   setWprice(state, data) {
-    var id = data.ref.replace(state.prefix, ''), side = data.side.toLowerCase(), wprice = formatLong(data.wprice)
-    if ((id in state.cells) && ('wPrice' in state.cells[id]))
-      state.cells[id].wPrice[side] = wprice
-    return {cells: state.cells}
+    var id = data.ref.replace(state.prefix, ''), side = data.side.toLowerCase()
+    if ((id in state.cells) && ('wPrice' in state.cells[id])) {
+      state.cells[id].wPrice[side] = formatLong(data.wprice)
+      return {cells: state.cells}
+    }
+    
+    if (('price' in data) && ('side' in data) && ('ref' in data)) {
+      if (!(data.ref in state.wntPrice)) state.wntPrice[data.ref] = {bid: null, ask: ''}
+      state.wntPrice[data.ref][side] = formatLong(data.price)
+      return {wntPrice: state.wntPrice}
+    }
   }
   
   // 参数
@@ -700,7 +713,13 @@ class A1 extends React.Component {
     var curYear = new Date().getFullYear()
     
     var log = "", cssLog = {width: '100%', height: 400, fontSize: 13, lineHeight: 1, backgroundColor: '#fdfdfe'}
+    var logError = "", cssLogError = {width: '100%', height: 100, fontSize: 13, lineHeight: 1, backgroundColor: '#fdfdfe'}
     for (var msg of this.msg) log += JSON.stringify(msg)+' \n\n\n'
+    for (var msg of this.msg) {
+      var msg = JSON.stringify(msg)
+      if (msg.toLowerCase().indexOf('error') >= 0 || msg.toLowerCase().indexOf('fail') >= 0)
+        logError += msg+' \n\n\n'
+    }
     
     return(
       <React.Fragment>
@@ -741,7 +760,6 @@ class A1 extends React.Component {
             key="underlyingSelector"
             data={this.state.underlyingList}
             data2={this.state.underlying}
-            data3={this.state.marketStatus}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}
@@ -753,9 +771,17 @@ class A1 extends React.Component {
             value={log}
             readOnly
           />
+          <textarea
+            key="logError"
+            id="logError"
+            style={cssLogError}
+            value={logError}
+            readOnly
+          />
           <Position
             key="position"
             data={this.state.positions}
+            data2={this.state.wntPrice}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}
@@ -777,7 +803,7 @@ class A1 extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.11
+          Copyright © {curYear} Fast Trader v1.0.13
         </div>
       </React.Fragment>
       /*

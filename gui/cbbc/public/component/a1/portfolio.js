@@ -14,6 +14,7 @@ class Portfolio extends React.Component {
   }
   
   static getDerivedStateFromProps(props, state) {
+    var datas = {}
     if (typeof props.data !== 'undefined' && props.data.length > 0) {
       for (var arr of props.data) {
         if (typeof arr !== 'undefined' && arr.length > 0) {
@@ -23,44 +24,45 @@ class Portfolio extends React.Component {
             codes.push(item.code)
           codes = Array.from(new Set(codes))
           // 重构数据集
-          var datas = {}
           for (var code of codes)
             datas[code] = []
           // 注入数据
           for (var item of arr)
             datas[item.code].push(item)
-          // 牛熊证，总买入价，总卖出价, 总买入单位, 总盈亏, 最后卖出时时
-          for (const [code, datas1] of Object.entries(datas)) {
-            var noExecution=0, totalBuyPrice=0, totalSellPrice=0, totalQuantity=0, totalProfitLoss=0, lastSoldTime=null, totalWin=0, totalLoss=0, totalDraw=0, ucode:null
-            for (var item1 of datas1) {
-              noExecution+=1
-              totalBuyPrice+=item1.buyPrice
-              totalSellPrice+=item1.sellPrice
-              totalQuantity+=item1.quantity
-              totalProfitLoss+=item1.profitLoss
-              lastSoldTime=item1.soldTime
-              totalWin = (item1.sellPrice>item1.buyPrice) ? totalWin+1 : totalWin
-              totalLoss = (item1.sellPrice<item1.buyPrice) ? totalLoss+1 : totalLoss
-              totalDraw = (item1.sellPrice==item1.buyPrice) ? totalDraw+1 : totalDraw
-              ucode = (code in props.data2) ? props.data2[code] : ''
-            }
-            // 平均
-            state.portfolio[code] = {
-              avgBuyPrice: totalBuyPrice/noExecution,
-              avgSellPrice: totalSellPrice/noExecution,
-              totalQuantity: totalQuantity,
-              totalProfitLoss: totalProfitLoss,
-              noExecution: noExecution,
-              lastSoldTime: lastSoldTime,
-              totalWin: totalWin,
-              totalLoss: totalLoss,
-              totalDraw: totalDraw,
-              ucode: ucode
-            }
-          }
         }
       }
     }
+    
+    // 牛熊证，总买入价，总卖出价, 总买入单位, 总盈亏, 最后卖出时时
+    for (const [code, datas1] of Object.entries(datas)) {
+      var noExecution=0, totalBuyAmount=0, totalSellAmount=0, totalQuantity=0, totalProfitLoss=0, lastSoldTime=null, totalWin=0, totalLoss=0, totalDraw=0, ucode=null
+      for (var item1 of datas1) {
+        noExecution+=1
+        totalBuyAmount+=item1.buyPrice*item1.quantity
+        totalSellAmount+=item1.sellPrice*item1.quantity
+        totalQuantity+=item1.quantity
+        totalProfitLoss+=item1.profitLoss
+        lastSoldTime=item1.soldTime
+        totalWin = (item1.sellPrice>item1.buyPrice) ? totalWin+1 : totalWin
+        totalLoss = (item1.sellPrice<item1.buyPrice) ? totalLoss+1 : totalLoss
+        totalDraw = (item1.sellPrice==item1.buyPrice) ? totalDraw+1 : totalDraw
+        ucode = (code in props.data2) ? props.data2[code] : ''
+      }
+      // 平均
+      state.portfolio[code] = {
+        avgBuyPrice: totalBuyAmount/totalQuantity,
+        avgSellPrice: totalSellAmount/totalQuantity,
+        totalQuantity: totalQuantity,
+        totalProfitLoss: totalProfitLoss,
+        noExecution: noExecution,
+        lastSoldTime: lastSoldTime,
+        totalWin: totalWin,
+        totalLoss: totalLoss,
+        totalDraw: totalDraw,
+        ucode: ucode
+      }
+    }
+    
     return state
   }
   
@@ -113,7 +115,7 @@ class Portfolio extends React.Component {
       <div className="row">
         <div className="col-12">
           <h6> {text.portfolio} </h6>
-          <h4 className={style2}> {text.totalProfitLoss} : {parseFloat(totalProfitLoss1).toFixed(2)} </h4>
+          <h4 className={style2}> {text.totalProfitLoss} : {numberWithCommas(parseFloat(totalProfitLoss1).toFixed(2))} </h4>
           <table className="table table-sm table-striped table-light table-portfolio">
             <colgroup>
               <col span="1" width="50px" />
