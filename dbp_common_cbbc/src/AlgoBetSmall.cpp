@@ -22,8 +22,12 @@ AlgoBet* AlgoBetSmall::getCurrentBet(string){
 	return this;
 }
 
-void AlgoBetSmall::selectBet(string){
+string AlgoBetSmall::getBetName(){
+	return "BetSmall";
+}
 
+string AlgoBetSmall::selectBet(string){
+	return "BetSmall";
 }
 
 unsigned long long AlgoBetSmall::fixQuantity(unsigned long long price, unsigned long long quantity){

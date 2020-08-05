@@ -18,12 +18,16 @@ AlgoBet100::~AlgoBet100() {
 	// TODO Auto-generated destructor stub
 }
 
+string AlgoBet100::getBetName(){
+	return "Bet100";
+}
+
 AlgoBet* AlgoBet100::getCurrentBet(string){
 	return this;
 }
 
-void AlgoBet100::selectBet(string){
-
+string AlgoBet100::selectBet(string){
+	return "Bet100";
 }
 
 unsigned long long AlgoBet100::fixQuantity(unsigned long long, unsigned long long quantity){

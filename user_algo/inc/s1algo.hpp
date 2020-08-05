@@ -271,6 +271,7 @@ private:
 	struct algo_setbet_msg: public algo_msg_base
 	{
 		std::string betsize;
+		std::string selectedbet;
 
 		algo_setbet_msg():
 			algo_msg_base()
@@ -281,14 +282,21 @@ private:
 			auto j = algo_msg_base::to_json();
 			j["action"] = "betsize";
 			j["betsize"] = betsize;
-			j["recovery"] = true;
+			j["selectedbet"] = selectedbet;
+			if(selectedbet != betsize){
+				j["result"] = "FAIL";
+			}else{
+				j["result"] = "SUCCESS";
+				j["recovery"] = true;
+			}
+
 			return j;
 		}
 		virtual void on_command()
 		{
 			auto* self = dynamic_cast<s1algo*>(al);
 
-			self->setBetsize(betsize);
+			selectedbet = self->setBetsize(betsize);
 			ouputQueue.enqueue(this);
 
 		}

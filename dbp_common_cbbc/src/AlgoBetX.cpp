@@ -39,6 +39,10 @@ AlgoBetX::~AlgoBetX() {
 	// TODO Auto-generated destructor stub
 }
 
+string AlgoBetX::getBetName(){
+	return currentBet->getBetName();
+}
+
 AlgoBet* AlgoBetX::getCurrentBet(string name){
 	auto it = betMap.find(name);
 	if(it != betMap.end()){
@@ -47,11 +51,14 @@ AlgoBet* AlgoBetX::getCurrentBet(string name){
 	return currentBet;
 }
 
-void AlgoBetX::selectBet(string name){
+string AlgoBetX::selectBet(string name){
 	auto it = betMap.find(name);
 	if(it != betMap.end()){
 		currentBet = betMap[name];
+
+		return name;
 	}
+	return currentBet->getBetName();
 }
 
 unsigned long long AlgoBetX::fixQuantityBySpread(unsigned long long price, unsigned long long quantity, unsigned long long spread){
