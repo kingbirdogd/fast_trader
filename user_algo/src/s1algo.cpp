@@ -365,8 +365,8 @@ bool myfunction (warrant* i,warrant* j) {
 	return i->Egearing > j->Egearing;
 }
 
-void s1algo::setBetsize(std::string betsize){
-	algoBet.selectBet(betsize);
+string s1algo::setBetsize(std::string betsize){
+	return algoBet.selectBet(betsize);
 }
 
 bool s1algo::setSelectedIssuer(std::string action, std::string issuer){

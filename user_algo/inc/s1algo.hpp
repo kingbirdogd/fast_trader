@@ -579,7 +579,7 @@ public:
 	virtual std::string get_lib_name();
 
 	virtual void Log(std::string msg);
-	virtual void setBetsize(std::string betsize);
+	virtual string setBetsize(std::string betsize);
 	virtual bool setSelectedIssuer(std::string action, std::string issuer);
 	virtual bool setSelectedUnderlying(std::string action, unsigned int ucode);
 	virtual unsigned long long getBestBid(unsigned int code);
