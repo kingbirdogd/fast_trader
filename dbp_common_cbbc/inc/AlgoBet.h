@@ -18,7 +18,7 @@ using namespace std;
 class AlgoBet{
 	public:
 		virtual string getBetName();
-		virtual AlgoBet* getCurrentBet(string){return nullptr;}
+		virtual AlgoBet* getCurrentBet(string);
 		virtual string selectBet(string){}
 		virtual unsigned long long fixQuantityBySpread(unsigned long long , unsigned long long, unsigned long long ){return 0;}
 		virtual unsigned long long fixQuantity(unsigned long long , unsigned long long ){return 0;}
