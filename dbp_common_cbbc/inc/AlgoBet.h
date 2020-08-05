@@ -19,7 +19,7 @@ class AlgoBet{
 	public:
 		virtual string getBetName(){return "";}
 		virtual AlgoBet* getCurrentBet(string){return nullptr;}
-		virtual string selectBet(string){}
+		virtual string selectBet(string){return "";}
 		virtual unsigned long long fixQuantityBySpread(unsigned long long , unsigned long long, unsigned long long ){return 0;}
 		virtual unsigned long long fixQuantity(unsigned long long , unsigned long long ){return 0;}
 		virtual unsigned long long fixQuantityByIssuer(unsigned long long ,unsigned long long , string ){return 0;}
