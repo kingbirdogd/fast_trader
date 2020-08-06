@@ -47,6 +47,7 @@ s1algo::s1algo(user& u, const std::string& name):
 
 
 	//unordered_set<unsigned int> allucode = ivLoader.allUnderlying();
+
 	for(auto f : availableUCode) {
 		unsigned int ucode = f;
 		obMap[ucode] = new OBSetting();
@@ -57,7 +58,6 @@ s1algo::s1algo(user& u, const std::string& name):
 
 		COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[ucode];
 		obMap[ucode]->SpreadTableCode = omdcdef.SpreadTableCode;
-
 
 		Log("Init = " + to_string(ucode) + " OBSetting and SpreadCode = " + obMap[ucode]->SpreadTableCode);
 	}
@@ -363,7 +363,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			//}
 		}
 	}
-	/*
+/*
 	else{
 		auto it = s1SignalMap.find(code);
 		if(it != s1SignalMap.end()){
@@ -379,8 +379,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 			Log("Init = " + to_string(code) + " OBSetting and SpreadCode = " + obMap[code]->SpreadTableCode);
 		}
-	}*/
-
+	}
+*/
 }
 
 bool myfunction (warrant* i,warrant* j) {

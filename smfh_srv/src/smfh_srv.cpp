@@ -448,12 +448,13 @@ inline static bool initJson(const char* _pszJsonPath)
 	flush_printf("tm:%llu, loadOrderbookFile \n", dbp::tools::srv::current());
 	loadOrderbookFile(j);
 
+	/*
 	flush_printf("tm:%llu, loadUser \n", dbp::tools::srv::current());
 	if (!loadUsers(j))
 	{
 		std::cerr << "loadUsers fail" << std::endl;
 		return false;
-	}
+	}*/
 	flush_printf("tm:%llu, loadInOut \n", dbp::tools::srv::current());
 	if (!loadInOut(j))
 	{
@@ -547,6 +548,13 @@ inline static bool initJson(const char* _pszJsonPath)
 			return false;
 		}
 	}
+	flush_printf("tm:%llu, loadUser \n", dbp::tools::srv::current());
+	if (!loadUsers(j))
+	{
+		std::cerr << "loadUsers fail" << std::endl;
+		return false;
+	}
+
 	startUsers();
 	return true;
 }
