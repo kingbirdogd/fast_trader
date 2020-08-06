@@ -52,6 +52,8 @@ class Portfolio extends React.Component {
       state.portfolio[code] = {
         avgBuyPrice: totalBuyAmount/totalQuantity,
         avgSellPrice: totalSellAmount/totalQuantity,
+        totalBuyAmount: totalBuyAmount,
+        totalSellAmount: totalSellAmount,
         totalQuantity: totalQuantity,
         totalProfitLoss: totalProfitLoss,
         noExecution: noExecution,

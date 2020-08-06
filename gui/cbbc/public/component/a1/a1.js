@@ -148,7 +148,7 @@ class A1 extends React.Component {
       }
       // 接口v2
       else if ('cmd' in data) {
-        if (data.cmd=='get_algo_names') {obj = this.setAlgoV2(obj, data)}
+        if (data.cmd=='get_algo_names') {obj = this.setAlgoV2(this, obj, data)}
       }
       else if ('type' in data) {
         // 接口v2
@@ -158,6 +158,8 @@ class A1 extends React.Component {
       }
       this.setState(obj)
     }
+    
+    this.render2 = render
     initWebsocket(render)
     initTablePrice()
   }
@@ -297,7 +299,7 @@ class A1 extends React.Component {
   }
   
   // Algo v2
-  setAlgoV2(state, data) {
+  setAlgoV2(_this, state, data) {
     for (var algo in data.algos)
       if (algo.includes('bear'))
         state.modules.bull = algo, state.modules.bear = algo
@@ -354,6 +356,9 @@ class A1 extends React.Component {
     //
     var command3 = {cmd: 'underlyinglist', algo_name: algoName, id: userId, ref: 'uid_'+userId.toString()}
     sendWebsocket(JSON.stringify(command3))
+    
+    //
+    _this.testData(_this.render2)
     
     return {modules: state.modules}
   }
@@ -690,6 +695,18 @@ class A1 extends React.Component {
     return {underlying: state.underlying}
   }
   
+  // 测试集
+  testData(render) {
+    function test(data) {
+      if (false) render(JSON.stringify(data))
+    }
+    // portfolio
+    test({"action":"portfolio","algo_name":"kenny_s1algo","buy_price":0.125*100000000,"buytime":"20200806130826223","id":2,"quantity":40000*100000000,"recovery":true,"ref":"99999","sell_price":0.165*100000000,"sellime":"20200806131116300","ucode":0,"warrant_code":99999,"tm":1596690676300})
+    test({"action":"portfolio","algo_name":"kenny_s1algo","buy_price":0.135*100000000,"buytime":"20200806130826223","id":2,"quantity":20000*100000000,"recovery":true,"ref":"99999","sell_price":0.155*100000000,"sellime":"20200806131116300","ucode":0,"warrant_code":99999,"tm":1596690676300})
+    test({"action":"portfolio","algo_name":"kenny_s1algo","buy_price":0.092*100000000,"buytime":"20200806130826223","id":2,"quantity":10000*100000000,"recovery":true,"ref":"99999","sell_price":0.094*100000000,"sellime":"20200806131116300","ucode":0,"warrant_code":99999,"tm":1596690676300})
+    //
+  }
+  
   setStates(states) {this.setState(states)}
   
   getStates() {return this.state}
@@ -803,7 +820,7 @@ class A1 extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.13
+          Copyright © {curYear} Fast Trader v1.0.14
         </div>
       </React.Fragment>
       /*
