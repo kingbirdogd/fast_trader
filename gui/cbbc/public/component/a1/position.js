@@ -88,9 +88,13 @@ class Position extends React.Component {
           var bpSum = buyPrice.reduce((a, b) => a + b, 0)
           var bpAvg = (bpSum / buyPrice.length) || 0
           
-          // 輪 bid價
-          if ((code in props.data2) && props.data2[code].bid > 0)
+          var pnl = 0
+          if ((code in props.data2) && props.data2[code].bid > 0) {
+            // 輪 bid價
             wbid = props.data2[code].bid
+            // 盈亏
+            pnl = wbid-bpAvg
+          }
           
           state.position[code] = {
             buyPrice: bpAvg,
@@ -103,7 +107,7 @@ class Position extends React.Component {
             ucode: ucode,
             wbid: wbid,
             stoplost: stoplost,
-            pnl: wbid-bpAvg
+            pnl: pnl
           }
         }
       }
@@ -122,7 +126,7 @@ class Position extends React.Component {
     var issuer = states.issuer.curIssuer
     var algoName = (states.modules.call) ? states.modules.call : states.modules.put
     
-    var command = {cmd: 'force_sell', algo_name: algoName, id: userId, ref: 'uid_'+userId.toString(), code: code, ucode: ucode, price: price}
+    var command = {cmd: 'force_sell', algo_name: algoName, id: userId, ref: 'uid_'+userId.toString(), code: code, ucode: ucode, price: formatLongV2(price)}
     if (price>0)
       sendWebsocket(JSON.stringify(command))
   }
