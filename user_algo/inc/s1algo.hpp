@@ -390,7 +390,7 @@ private:
 	{
 		unsigned int code;
 		unsigned int ucode;
-		std::string result;
+		bool result;
 		unsigned long long price;
 		algo_force_sell():
 			algo_msg_base()
@@ -403,7 +403,7 @@ private:
 			j["code"] = code;
 			j["ucode"] = ucode;
 			j["price"] = price;
-			if(result == "SUCCESS"){
+			if(result){
 				j["result"] = "SUCCESS";
 			}else{
 				j["result"] = "FAIL";
