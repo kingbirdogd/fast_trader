@@ -258,6 +258,7 @@
 	[
 		{"Channel":"OmdcChannel"},
 		{"Channel":"PriceTableChannel"},
+
 		{"Channel":"S1Channel"}
 	]
 }
