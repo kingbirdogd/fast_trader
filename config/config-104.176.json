@@ -55,20 +55,6 @@
 					"params":
 					{
 					}
-				},
-				"leo_bear":
-				{
-					"lib": "bear",
-					"params":
-					{
-					}
-				},
-				"leo_semi":
-				{
-					"lib": "semi",
-					"params":
-					{
-					}
 				}
 			}
 		},
@@ -271,7 +257,6 @@
 	"ActivateChannel":
 	[
 		{"Channel":"OmdcChannel"},
-		{"Channel":"OmddChannel"},
 		{"Channel":"PriceTableChannel"},
 		{"Channel":"S1Channel"}
 	]
