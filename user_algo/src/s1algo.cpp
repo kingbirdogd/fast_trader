@@ -36,6 +36,16 @@ s1algo::s1algo(user& u, const std::string& name):
 		}
 	}
 
+
+
+
+	//algoBet.selectBet("Bet100");
+	algoBet.selectBet("BetSmall");
+
+	logger = new ThreadLogger("log/" + name + DateUtil::getToday() + ".log");
+	logger->start();
+
+
 	//unordered_set<unsigned int> allucode = ivLoader.allUnderlying();
 	for(auto f : availableUCode) {
 		unsigned int ucode = f;
@@ -52,12 +62,6 @@ s1algo::s1algo(user& u, const std::string& name):
 		Log("Init = " + to_string(ucode) + " OBSetting and SpreadCode = " + obMap[ucode]->SpreadTableCode);
 	}
 
-
-	//algoBet.selectBet("Bet100");
-	algoBet.selectBet("BetSmall");
-
-	logger = new ThreadLogger("log/" + name + DateUtil::getToday() + ".log");
-	logger->start();
 
 	Log("Logger Inited");
 	Log("forceSoldTime = " + to_string(forceSoldTime) + " @" + today + " 154659");
