@@ -277,6 +277,7 @@ inline void startOutput()
 
 inline void startUsers()
 {
+	flush_printf("tm:%llu, Start Users \n", dbp::tools::srv::current());
 	for (auto& item : userMap)
 	{
 		auto pUser = item.second;
