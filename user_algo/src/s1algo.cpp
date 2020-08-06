@@ -36,6 +36,22 @@ s1algo::s1algo(user& u, const std::string& name):
 		}
 	}
 
+	//unordered_set<unsigned int> allucode = ivLoader.allUnderlying();
+	for(auto f : availableUCode) {
+		unsigned int ucode = f;
+		obMap[ucode] = new OBSetting();
+		obMap[ucode]->detected = false;
+		//obMap[code]->SpreadTableCode = "";
+		obMap[ucode]->hasPosition = false;
+		obMap[ucode]->Status = STATUS_NEW;
+
+		COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[ucode];
+		obMap[ucode]->SpreadTableCode = omdcdef.SpreadTableCode;
+
+
+		Log("Init = " + to_string(ucode) + " OBSetting and SpreadCode = " + obMap[ucode]->SpreadTableCode);
+	}
+
 
 	//algoBet.selectBet("Bet100");
 	algoBet.selectBet("BetSmall");
@@ -342,7 +358,9 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			}
 			//}
 		}
-	}else{
+	}
+	/*
+	else{
 		auto it = s1SignalMap.find(code);
 		if(it != s1SignalMap.end()){
 			obMap[code] = new OBSetting();
@@ -357,7 +375,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 			Log("Init = " + to_string(code) + " OBSetting and SpreadCode = " + obMap[code]->SpreadTableCode);
 		}
-	}
+	}*/
 
 }
 
@@ -614,19 +632,18 @@ unsigned long long s1algo::getBestBid(unsigned int code){
 
 void s1algo::on_omdc_trade(const Tradable& tradable)
 {
-
-	if(MarketStatus == MARKET_PAUSE)
-		return;
-
-	time_t currentTime = DateUtil::getCurrentSystemTime();
-	if(currentTime > forceSoldTime && currentTime < soldendTime){
-		forcesold();
-		return;
-	}
-
 	auto it = obMap.find(tradable.m_Code);
 	if(it != obMap.end())
 	{
+		if(MarketStatus == MARKET_PAUSE)
+			return;
+
+		time_t currentTime = DateUtil::getCurrentSystemTime();
+		if(currentTime > forceSoldTime && currentTime < soldendTime){
+			forcesold();
+			return;
+		}
+
 		auto code = tradable.m_Code;
 		auto type = tradable.m_TradeType;
 		auto side = tradable.m_TradeSide;
