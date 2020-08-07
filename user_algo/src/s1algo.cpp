@@ -400,6 +400,7 @@ bool s1algo::setSelectedIssuer(std::string action, std::string issuer){
 		auto it = selectedIssuer.find(issuer);
 		if(it == selectedIssuer.end()){
 			selectedIssuer.insert(issuer);
+			Log("Selected Issuer = " + issuer);
 			return true;
 		}
 	}
@@ -407,6 +408,7 @@ bool s1algo::setSelectedIssuer(std::string action, std::string issuer){
 		auto it = selectedIssuer.find(issuer);
 		if(it != selectedIssuer.end()){
 			selectedIssuer.erase(issuer);
+			Log("Remove Issuer = " + issuer);
 			return true;
 		}
 	}
@@ -422,6 +424,7 @@ bool s1algo::setSelectedUnderlying(std::string action, unsigned int ucode){
 		auto it = unselectedUCode.find(ucode);
 		if(it != unselectedUCode.end()){
 			unselectedUCode.erase(ucode);
+			Log("Selected Underlying = " + to_string(ucode));
 			return true;
 		}
 	}
@@ -429,6 +432,7 @@ bool s1algo::setSelectedUnderlying(std::string action, unsigned int ucode){
 		auto it = unselectedUCode.find(ucode);
 		if(it == unselectedUCode.end()){
 			unselectedUCode.insert(ucode);
+			Log("Unselected Underlying = " + to_string(ucode));
 			return true;
 		}
 	}

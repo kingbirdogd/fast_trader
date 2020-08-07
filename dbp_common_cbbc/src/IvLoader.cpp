@@ -71,6 +71,16 @@ void IvLoader::load(const char* filename){
 	file.close();
 }
 
+unordered_set<unsigned int> IvLoader::allUnderlying(){
+	unordered_set<unsigned int> vd;
+	for (auto& it: UMap) {
+	    // Do stuff
+	    unsigned int code = it.first;
+	    vd.insert(code);
+	}
+	return vd;
+}
+
 vector<WarrantIv> IvLoader::allWarrants(){
 	vector<WarrantIv> vd;
 	vd.reserve(IvMap.size());

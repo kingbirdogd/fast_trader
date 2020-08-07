@@ -50,6 +50,7 @@ public:
 	int getUnderlyingCount();
 	int getWarrantCount();
 	unordered_set<unsigned int> getWarrantByIssuer(string ,unsigned int);
+	unordered_set<unsigned int> allUnderlying();
 };
 
 
