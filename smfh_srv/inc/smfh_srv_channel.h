@@ -11,6 +11,7 @@
 #include "smfh_srv_omdd.h"
 #include "smfh_srv_pricetable.h"
 #include "smfh_srv_s1signal.h"
+#include "smfh_srv_slimomdc.h"
 
 typedef void (*PFuncOmdMsgHandler)(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long _uPkgTm);
 template <const PFuncOmdMsgHandler _Handler>
@@ -513,7 +514,7 @@ public:
 };
 inline static bool startOmdcChannel()
 {
-	return ChannelHandler<handleOmdc>::handleChannelVec(omdcStreams);
+	return ChannelHandler<handleSlimOmdc>::handleChannelVec(omdcStreams);
 }
 inline static bool startOmddChannel()
 {

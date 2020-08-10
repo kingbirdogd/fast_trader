@@ -7,6 +7,7 @@ inline static void buildOmdcOrderBook(dbp::omd::COmdMsgHeader* _pMsg, COmdOrderb
 	unsigned char uNoEntries = OMD_GET_VALUE(_pMsg, 11, unsigned char);
 	char* pszMsgPointer = (char*)_pMsg + 12;
 	OrderItem* pOrderArray = 0;
+
 	for (unsigned char i = 0; i < uNoEntries; ++i)
 	{
 		unsigned long long uAggregateQuantity = OMD_GET_VALUE(pszMsgPointer, 0, unsigned long long);
@@ -50,6 +51,68 @@ inline static void buildOmdcOrderBook(dbp::omd::COmdMsgHeader* _pMsg, COmdOrderb
 		pszMsgPointer += 24;
 	}
 }
+
+
+inline static unsigned char buildSlimOmdcOrderBook(dbp::omd::COmdMsgHeader* _pMsg, COmdOrderbook& rOrderBook)
+{
+	unsigned char uNoEntries = OMD_GET_VALUE(_pMsg, 11, unsigned char);
+	char* pszMsgPointer = (char*)_pMsg + 12;
+	OrderItem* pOrderArray = 0;
+	unsigned char smallestlevel = 10;
+	for (unsigned char i = 0; i < uNoEntries; ++i)
+	{
+		unsigned long long uAggregateQuantity = OMD_GET_VALUE(pszMsgPointer, 0, unsigned long long);
+		int iPrice = OMD_GET_VALUE(pszMsgPointer, 8, int);
+		unsigned int uNumberOfOrders = OMD_GET_VALUE(pszMsgPointer, 12, unsigned int);
+		unsigned short int uSide = OMD_GET_VALUE(pszMsgPointer, 16, unsigned short int);
+		unsigned char uPriceLevel = (unsigned int)OMD_GET_VALUE(pszMsgPointer, 18, unsigned char);
+		unsigned char uUpdateAction = (unsigned int)OMD_GET_VALUE(pszMsgPointer, 19, unsigned char);
+		if (0 == uSide)
+		{
+			pOrderArray = &(rOrderBook.m_BidOrder[0]);
+		}
+		else
+		{
+			pOrderArray = &(rOrderBook.m_AskOrder[0]);
+		}
+		if (74 == uUpdateAction)
+		{
+			memset(static_cast<void*>(pOrderArray), 0, sizeof(OrderItem) * 10);
+		}
+		else if (1 == uUpdateAction)
+		{
+			pOrderArray[uPriceLevel - 1].m_iPrice = iPrice;
+			pOrderArray[uPriceLevel - 1].m_uQuantity = uAggregateQuantity;
+			pOrderArray[uPriceLevel - 1].m_uNumberOfOrder = uNumberOfOrders;
+			if(uPriceLevel < smallestlevel){
+				smallestlevel = uPriceLevel;
+			}
+		}
+		else if (2 == uUpdateAction)
+		{
+			memmove(static_cast<void*>(pOrderArray + uPriceLevel - 1), static_cast<void*>(pOrderArray + uPriceLevel), sizeof(OrderItem) * (10 - uPriceLevel));
+			pOrderArray[9].m_iPrice = 0;
+			pOrderArray[9].m_uQuantity = 0;
+			pOrderArray[9].m_uNumberOfOrder = 0;
+		}
+		else if (0 == uUpdateAction)
+		{
+			memmove(static_cast<void*>(pOrderArray + uPriceLevel), static_cast<void*>(pOrderArray + uPriceLevel - 1), sizeof(OrderItem) * (10 - uPriceLevel));
+			pOrderArray[uPriceLevel - 1].m_iPrice = iPrice;
+			pOrderArray[uPriceLevel - 1].m_uQuantity = uAggregateQuantity;
+			pOrderArray[uPriceLevel - 1].m_uNumberOfOrder = uNumberOfOrders;
+
+			if(uPriceLevel < smallestlevel){
+				smallestlevel = uPriceLevel;
+			}
+
+		}
+		pszMsgPointer += 24;
+	}
+	return smallestlevel;
+}
+
+
 inline static void buildOmddOrderBook(dbp::omd::COmdMsgHeader* _pMsg, COmdOrderbook& rOrderBook)
 {
 	unsigned char uNoEntries = OMD_GET_VALUE(_pMsg, 11, unsigned char);
