@@ -317,7 +317,7 @@ inline static bool start()
 			return false;
 		}
 	}
-	auto itActivate = mActivateChannel.find("SlimOmdcChannel");
+	itActivate = mActivateChannel.find("SlimOmdcChannel");
 	if(itActivate != mActivateChannel.end())
 	{
 		flush_printf("tm:%llu, Start startSlimOmdcChannel \n", dbp::tools::srv::current());
