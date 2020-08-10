@@ -16,13 +16,6 @@ inline static void handleSlimOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 		return;
 	}
 
-	auto it2 = pricedataMap.find(uSecurityCode);
-	if(pricedataMap.end() == it2)
-	{
-		return;
-	}
-
-
 	COmdOrderbook& rOrderBook = it->second;
 #ifndef NOT_MEASURE
 	rOrderBook.m_PkgTime = _uPkgTm;

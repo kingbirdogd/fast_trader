@@ -116,7 +116,17 @@ unordered_set<unsigned int> IvLoader::getWarrantByIssuer(string issuer, unsigned
 	return vd;
 }
 
-
+bool IvLoader::exist(unsigned int code){
+	auto it = IvMap.find(code);
+	if(IvMap.end() != it){
+		return true;
+	}
+	auto it2 = UMap.find(code);
+	if(UMap.end() != it2){
+		return true;
+	}
+	return false;
+}
 
 
 int IvLoader::getUnderlyingCount(){
