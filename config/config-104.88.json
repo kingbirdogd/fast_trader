@@ -315,7 +315,7 @@
 	},
 	"ActivateChannel":
 	[
-		{"Channel":"OmdcChannel"},
+		{"Channel":"SlimOmdcChannel"},
 		{"Channel":"OmddChannel"},
 		{"Channel":"PriceTableChannel"},
 		{"Channel":"S1Channel"}
