@@ -10,8 +10,8 @@ inline static void handleSlimOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 #endif
 {
 	unsigned int uSecurityCode = OMD_GET_VALUE(_pMsg, 4, unsigned int);
-	auto it = omdcMap.find(uSecurityCode);
-	if (omdcMap.end() == it)
+	auto it = omdcSlimMap.find(uSecurityCode);
+	if (omdcSlimMap.end() == it)
 	{
 		return;
 	}

@@ -1,6 +1,7 @@
 #include <global_memory.hpp>
 dbp::cpu::CpuInfo cpuInfo;
 COmdOrderMap omdcMap;
+COmdOrderMap omdcSlimMap;
 COmdOrderMap omddMap;
 COmdOrderMap ptomdcMap;
 COmdOrderMap s1omdcMap;

@@ -284,6 +284,13 @@ inline static bool loadDefinition(json& _json)
 			{
 				const auto& code = omdc[i].get<unsigned int>();
 				omdcMap[code].m_Code = code;
+
+
+				if(ivLoader.exist(code)){
+					omdcSlimMap[code].m_Code = code;
+				}
+
+
 			}
 			for (std::size_t i = 0; i < omdd.size(); ++i)
 			{
@@ -667,6 +674,13 @@ inline static bool loadDefinition(json& _json)
 													omdcAdditionDefinition.ProductType = OMD_GET_VALUE(pszBuffer, 28, unsigned char);
 													omdcAdditionDefinition.LotSize = OMD_GET_VALUE(pszBuffer, 195, unsigned int);
 													omdcMap[uSecurityCode].m_Code = uSecurityCode;
+
+													if(ivLoader.exist(uSecurityCode)){
+														omdcSlimMap[uSecurityCode].m_Code = uSecurityCode;
+													}
+
+
+
 													cache["omdc"].push_back(uSecurityCode);
 													auto strSecurityCode = std::to_string(uSecurityCode);
 													cache["omdc_addition_definition"][strSecurityCode] = json::object();

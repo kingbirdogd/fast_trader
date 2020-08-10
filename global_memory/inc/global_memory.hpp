@@ -12,6 +12,7 @@ class user;
 using CUserMap = std::unordered_map<unsigned long long, user*>;
 extern dbp::cpu::CpuInfo cpuInfo;
 extern COmdOrderMap omdcMap;
+extern COmdOrderMap omdcSlimMap;
 extern COmdOrderMap omddMap;
 extern COmdOrderMap ptomdcMap;
 extern COmdOrderMap s1omdcMap;
