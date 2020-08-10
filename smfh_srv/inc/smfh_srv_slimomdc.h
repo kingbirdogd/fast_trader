@@ -16,8 +16,8 @@ inline static void handleSlimOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 		return;
 	}
 
-	auto it2 = s1SignalMap.find(uSecurityCode);
-	if(s1SignalMap.end() == it2)
+	auto it2 = pricedataMap.find(uSecurityCode);
+	if(pricedataMap.end() == it2)
 	{
 		return;
 	}
