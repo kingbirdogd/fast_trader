@@ -15,6 +15,14 @@ inline static void handleSlimOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 	{
 		return;
 	}
+
+	auto it2 = s1SignalMap.find(uSecurityCode);
+	if(s1SignalMap.end() == it2)
+	{
+		return;
+	}
+
+
 	COmdOrderbook& rOrderBook = it->second;
 #ifndef NOT_MEASURE
 	rOrderBook.m_PkgTime = _uPkgTm;
@@ -24,6 +32,7 @@ inline static void handleSlimOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 	{
 		rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 		unsigned char updatelvl = buildSlimOmdcOrderBook(_pMsg, rOrderBook);
+
 		if(updatelvl >= TRADABLE_BOOK_SIZE ){
 			std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
 			std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));

@@ -317,6 +317,16 @@ inline static bool start()
 			return false;
 		}
 	}
+	auto itActivate = mActivateChannel.find("SlimOmdcChannel");
+	if(itActivate != mActivateChannel.end())
+	{
+		flush_printf("tm:%llu, Start startSlimOmdcChannel \n", dbp::tools::srv::current());
+		if (!startSlimOmdcChannel())
+		{
+			return false;
+		}
+	}
+
 	itActivate = mActivateChannel.find("OmddChannel");
 	if(itActivate != mActivateChannel.end())
 	{
@@ -515,6 +525,16 @@ inline static bool initJson(const char* _pszJsonPath)
 		if (!loadChannel(j, "OmdcChannel", omdcStreams))
 		{
 			std::cerr << "loadChannel OmdcChannel" << std::endl;
+			return false;
+		}
+	}
+	auto itActivate = mActivateChannel.find("SlimOmdcChannel");
+	if(itActivate != mActivateChannel.end())
+	{
+		flush_printf("tm:%llu, loadChannel = SlimOmdcChannel \n", dbp::tools::srv::current());
+		if (!loadChannel(j, "OmdcChannel", omdcStreams))
+		{
+			std::cerr << "loadChannel SlimOmdcChannel" << std::endl;
 			return false;
 		}
 	}

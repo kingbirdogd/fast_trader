@@ -512,9 +512,13 @@ public:
 		return true;
 	}
 };
-inline static bool startOmdcChannel()
+inline static bool startSlimOmdcChannel()
 {
 	return ChannelHandler<handleSlimOmdc>::handleChannelVec(omdcStreams);
+}
+inline static bool startOmdcChannel()
+{
+	return ChannelHandler<handleOmdc>::handleChannelVec(omdcStreams);
 }
 inline static bool startOmddChannel()
 {
