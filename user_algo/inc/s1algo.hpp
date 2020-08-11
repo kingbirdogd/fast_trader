@@ -25,12 +25,15 @@
 #define BUY 1
 #define SELL 2
 
+typedef void (*signal_cb)(const unsigned int, const bool);
+
 
 class s1algo : public algo
 {
 public:
 	std::unordered_map<unsigned long long, unsigned int> order_map;
 	unordered_map<unsigned int, OBSetting*> obMap;
+	unordered_set<signal_cb*> cnSignalMap;
 	unordered_set<std::string> selectedIssuer;
 	unordered_set<unsigned int> unselectedUCode;
 	unordered_set<unsigned int> availableUCode;
@@ -586,6 +589,8 @@ public:
 	virtual void forcesold();
 	virtual bool checkPrice(unsigned int code, unsigned long long ubid, unsigned long long uask);
 	virtual bool force_sell(unsigned int ucode, unsigned int code, unsigned long long price);
+
+	virtual void onSignal(unsigned int ucode, bool status);
 public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_err_msg, 8192> algo_err_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_marketstatus_msg, 8192> algo_marketstatus_msg_pool;

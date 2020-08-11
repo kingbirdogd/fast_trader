@@ -74,6 +74,10 @@ s1algo::s1algo(user& u, const std::string& name):
 	}
 }
 
+void s1algo::onSignal(unsigned int , bool ){
+
+}
+
 void s1algo::on_omdc_book(const Tradable& tradable)
 {
 
