@@ -672,11 +672,14 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 				unsigned long long highestStopLost = obs->getHighestStopLostPrice();
 				Log("UCode = " + to_string(code) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(best_bid_vol) );
+
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
 
 				if(trade_price <= highestStopLost){
 					if(obs->hasRelatedWarrant(STATUS_AVAILABLE)){
 						for(unsigned int i=0; i<wobsArray.size(); i++){
+							unsigned long long t_start = dbp::tools::srv::current();
+
 							if(wobsArray[i]->Status != STATUS_AVAILABLE){
 								continue;
 							}
@@ -705,6 +708,14 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 									obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
 									continue;
 								}
+
+								unsigned long long t_end = dbp::tools::srv::current();
+
+								unsigned long long t_diff = t_end - t_start;
+
+								Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price) + " time = " + to_string(t_diff));
+
+
 #ifndef NOT_MEASURE
 								wobsArray[i]->pkg_tm = tradable.m_PkgTime;
 								wobsArray[i]->m_tm = tradable.m_MsgTime;
@@ -733,6 +744,12 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 									continue;
 								}
 
+								unsigned long long t_end = dbp::tools::srv::current();
+
+								unsigned long long t_diff = t_end - t_start;
+
+								Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price) + " time = " + to_string(t_diff));
+
 #ifndef NOT_MEASURE
 								wobsArray[i]->pkg_tm = tradable.m_PkgTime;
 								wobsArray[i]->m_tm = tradable.m_MsgTime;
@@ -750,6 +767,8 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 				}else{
 					if(obs->hasRelatedWarrant(STATUS_AVAILABLE)){
 						for(unsigned int i=0; i<wobsArray.size(); i++){
+							unsigned long long t_start = dbp::tools::srv::current();
+
 							if(wobsArray[i]->Status != STATUS_AVAILABLE){
 								continue;
 							}
@@ -772,6 +791,11 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 									continue;
 								}
 
+								unsigned long long t_end = dbp::tools::srv::current();
+
+								unsigned long long t_diff = t_end - t_start;
+
+								Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price) + " time = " + to_string(t_diff));
 #ifndef NOT_MEASURE
 								wobsArray[i]->pkg_tm = tradable.m_PkgTime;
 								wobsArray[i]->m_tm = tradable.m_MsgTime;
