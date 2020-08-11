@@ -363,7 +363,4 @@ typedef std::unordered_map<unsigned int, pricedata*> CPriceDataMap;
 typedef std::map<unsigned int, portfolio*> CPortfolioMap;
 
 
-typedef void (*signal_cb)(const unsigned int, const bool);
-typedef std::unordered_set<signal_cb*> cnSignalMap;
-
 #endif /* INC_MSG_HPP_ */

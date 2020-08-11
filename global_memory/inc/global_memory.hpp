@@ -22,7 +22,6 @@ extern CUnderlyingWarrants underlyingToWarrant;
 extern COmddCodeToNameMap codeToName;
 extern COmddNameToCodeMap nameToCode;
 extern COmddCodeToUnderlying codeTounderlying;
-extern cnSignalMap CsSignalMap;
 extern CRetranVec retranVec;
 extern CStreamVec omdcStreams;
 extern CStreamVec omddStreams;
