@@ -803,6 +803,9 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
 
 				for(unsigned int i=0; i<wobsArray.size(); i++){
+
+					unsigned long long t_start = dbp::tools::srv::current();
+
 					if(wobsArray[i]->Status != STATUS_READY){
 						continue;
 					}
@@ -828,9 +831,11 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					wobsArray[i]->m_tm = tradable.m_MsgTime;
 					wobsArray[i]->t_tm = dbp::tools::srv::current();
 #endif
+					unsigned long long t_end = dbp::tools::srv::current();
 
+					unsigned long long t_diff = t_end - t_start;
 
-					Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wobsArray[i]->RefWAsk));
+					Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wobsArray[i]->RefWAsk) + " time = " + to_string(t_diff));
 				}
 
 				if(obs->hasWarrants()){
