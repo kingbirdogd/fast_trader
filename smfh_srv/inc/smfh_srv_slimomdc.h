@@ -26,12 +26,13 @@ inline static void handleSlimOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 		rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 		unsigned char updatelvl = buildSlimOmdcOrderBook(_pMsg, rOrderBook);
 
-		std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
-		std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
+
 		rOrderBook.m_AccumulateBuyQuantity = 0;
 		rOrderBook.m_AccumulateSellQuantity = 0;
 		rOrderBook.m_AccumulateBlankQuantity = 0;
 		if(updatelvl <= TRADABLE_BOOK_SIZE ){
+			std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
+			std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
 			broadcastQueue.enqueue(rOrderBook);
 		}
 	}
