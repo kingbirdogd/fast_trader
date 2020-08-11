@@ -36,7 +36,7 @@ s1algo::s1algo(user& u, const std::string& name):
 		}
 	}
 
-
+	CsSignalMap.insert(onSignal);
 
 
 	//algoBet.selectBet("Bet100");

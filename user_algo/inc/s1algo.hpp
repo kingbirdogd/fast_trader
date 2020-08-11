@@ -25,7 +25,7 @@
 #define BUY 1
 #define SELL 2
 
-typedef void (*signal_cb)(const unsigned int, const bool);
+
 
 
 class s1algo : public algo
@@ -33,7 +33,7 @@ class s1algo : public algo
 public:
 	std::unordered_map<unsigned long long, unsigned int> order_map;
 	unordered_map<unsigned int, OBSetting*> obMap;
-	unordered_set<signal_cb*> cnSignalMap;
+
 	unordered_set<std::string> selectedIssuer;
 	unordered_set<unsigned int> unselectedUCode;
 	unordered_set<unsigned int> availableUCode;

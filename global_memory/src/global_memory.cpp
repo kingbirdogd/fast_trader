@@ -21,6 +21,7 @@ CBroadCastQueue broadcastQueue;
 COutputQueue ouputQueue;
 CUserMap userMap;
 OrderbookLoader orderbookLoader;
+cnSignalMap CsSignalMap
 IvLoader ivLoader;
 FILE* input_stream = stdin;
 FILE* output_stream = stdout;
