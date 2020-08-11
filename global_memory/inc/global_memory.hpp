@@ -46,5 +46,4 @@ extern SpreadTable spreadTable;
 
 
 
-
 #endif /* INC_GLOBAL_MEMORY_HPP_ */

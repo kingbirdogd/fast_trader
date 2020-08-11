@@ -362,5 +362,4 @@ typedef std::unordered_map<unsigned int, s1signal*> CS1SignalMap;
 typedef std::unordered_map<unsigned int, pricedata*> CPriceDataMap;
 typedef std::map<unsigned int, portfolio*> CPortfolioMap;
 
-
 #endif /* INC_MSG_HPP_ */

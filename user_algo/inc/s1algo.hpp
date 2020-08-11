@@ -33,7 +33,6 @@ class s1algo : public algo
 public:
 	std::unordered_map<unsigned long long, unsigned int> order_map;
 	unordered_map<unsigned int, OBSetting*> obMap;
-
 	unordered_set<std::string> selectedIssuer;
 	unordered_set<unsigned int> unselectedUCode;
 	unordered_set<unsigned int> availableUCode;

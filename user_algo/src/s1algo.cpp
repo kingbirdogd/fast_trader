@@ -60,7 +60,7 @@ s1algo::s1algo(user& u, const std::string& name):
 	}
 
 
-	Log("Logger Inited");
+	Log("Logger Inited ");
 	Log("forceSoldTime = " + to_string(forceSoldTime) + " @" + today + " 154659");
 	Log("undetectedTime = " + to_string(undetectedTime) + " @" + today + " 153600");
 	Log("soldendTime = " + to_string(soldendTime) + " @" + today + " 155959");
