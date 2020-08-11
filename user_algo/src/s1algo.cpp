@@ -678,7 +678,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 			if(TradeSide::SELL_SIDE == side && trade_sell_quantity >= best_bid_vol){
 
 				unsigned long long highestStopLost = obs->getHighestStopLostPrice();
-				Log("UCode = " + to_string(code) + " Highest StopLost = " + to_string(highestStopLost));
+				Log("UCode = " + to_string(code) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(best_bid_vol) );
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
 
 				if(trade_price <= highestStopLost){
@@ -696,6 +696,8 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 							}
 
 							unsigned long long wbest_bid_price = warrantPriceMap[wobsArray[i]->Code]->Bestbid;
+
+
 
 							//unsigned long long wbest_bid_price = getBestBid(wobsArray[i]->Code);
 
@@ -717,14 +719,14 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 #endif
 							}else{
 
-								/*
+/*
 								PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
 								unsigned long long sellout = spm->sellOut(wbest_bid_price);
 
-								if(sellout < trade_price || sellout == 99999999){
+								if(sellout == 99999999){
 									continue;
 								}
-								*/
+*/
 
 							//auto it2 = omdcMap.find(wobsArray[i]->Code);
 							//if(it2 != omdcMap.end()){
