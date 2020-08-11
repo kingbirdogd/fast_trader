@@ -712,12 +712,15 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								wobsArray[i]->t_tm = dbp::tools::srv::current();
 #endif
 							}else{
+
+								/*
 								PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
 								unsigned long long sellout = spm->sellOut(wbest_bid_price);
 
 								if(sellout < trade_price || sellout == 99999999){
 									continue;
 								}
+								*/
 
 							//auto it2 = omdcMap.find(wobsArray[i]->Code);
 							//if(it2 != omdcMap.end()){
