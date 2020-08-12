@@ -45,12 +45,12 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 					{
 						//auto turnover = odr.price * odr.quantity;
 
-						fprintf(stderr, "info Error Buy Old Buy Power : %llu \n", _buy_power);
+						//fprintf(stderr, "info Error Buy Old Buy Power : %llu \n", _buy_power);
 
 						auto turnover =  (odr.price/1000ull * odr.quantity/1000ull)/(100000ull * 100000ull);
 						_buy_power += turnover;
 
-						fprintf(stderr, "info Error Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
+						//fprintf(stderr, "info Error Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
 					}
 					std::snprintf(odr.transaction_tm, sizeof(odr.transaction_tm), "%llu", dbp::tools::srv::get_YYYYMMDDHHMMSSsss());
 					if (_on_order)
@@ -96,7 +96,7 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 								if (dbp::top::order_status::canceled == report.status || dbp::top::order_status::rejected == report.status)
 								//if (dbp::top::report_type::order_cancel_approve == report.rep_type)
 								{
-									fprintf(stderr, "info Cancel Buy Old Buy Power : %llu \n", _buy_power);
+									//fprintf(stderr, "info Cancel Buy Old Buy Power : %llu \n", _buy_power);
 									//unsigned long long turnover =  static_cast<unsigned long long>((it->second.price/1000ull * it->second.remain_quantity/1000ull)/(100000ull * 100000ull));
 									//_buy_power += (it->second.price/1000ull * it->second.remain_quantity/1000ull)/(100000ull * 100000ull) ;
 									unsigned long long turnover = 0;
@@ -107,7 +107,7 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 									}
 
 									_buy_power += turnover;
-									fprintf(stderr, "info Cancel Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
+									//fprintf(stderr, "info Cancel Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
 								}
 								/*
 								else if (dbp::top::report_type::order_modify_approve == report.rep_type)
@@ -125,7 +125,7 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 									//fprintf(stderr, "info Fill BUY 1 match_quantity: %llu \n",report.price);
 									//fprintf(stderr, "info Fill BUY 1 match_price: %llu \n",report.match_price);
 									//fprintf(stderr, "info Fill BUY 1 match_quantity: %llu \n",report.match_quantity);
-									fprintf(stderr, "info Cancel Partial Buy Old Buy Power : %llu \n", _buy_power);
+									//fprintf(stderr, "info Cancel Partial Buy Old Buy Power : %llu \n", _buy_power);
 									if(report.match_price != report.price && report.match_quantity == report.quantity){
 										//_buy_power += ((it->second.price - it->second.match_price)/1000ull * it->second.match_quantity/1000ull)/(100000ull * 100000ull);
 
@@ -133,20 +133,20 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 
 										_buy_power += turnover;
 
-										fprintf(stderr, "1 info Cancel Partial Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
+										//fprintf(stderr, "1 info Cancel Partial Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
 										//fprintf(stderr, "info Fill Buy New Buy Power : %llu \n", _buy_power);
 									}else if(report.match_price == report.price && report.match_quantity != report.quantity){
 										unsigned long long turnover =  ((report.match_price)/1000ull * ((report.quantity - report.match_quantity)/1000ull))/(100000ull * 100000ull);
 
 										_buy_power += turnover;
 
-										fprintf(stderr, "2 info Cancel Partial Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
+										//fprintf(stderr, "2 info Cancel Partial Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
 									}else if(report.match_price != report.price && report.match_quantity != report.quantity){
 										unsigned long long turnover =  ((report.price - report.match_price)/1000ull * ((report.quantity - report.match_quantity)/1000ull))/(100000ull * 100000ull);
 
 										_buy_power += turnover;
 
-										fprintf(stderr, "3 info Cancel Partial Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
+										//fprintf(stderr, "3 info Cancel Partial Buy Turnover: %llu  New Buy Power : %llu \n", turnover, _buy_power);
 									}
 								}
 							}
@@ -157,9 +157,9 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 									//fprintf(stderr, "info Fill Sell 1 match_price: %llu \n",it->second.match_price);
 									//fprintf(stderr, "info Fill Sell 1 match_quantity: %llu \n",it->second.match_quantity);
 
-									fprintf(stderr, "info Fill Sell 1 match_price: %llu \n",report.match_price);
-									fprintf(stderr, "info Fill Sell 1 match_quantity: %llu \n",report.match_quantity);
-									fprintf(stderr, "info Sell Fill Buy Old Buy Power : %llu \n", _buy_power);
+									//fprintf(stderr, "info Fill Sell 1 match_price: %llu \n",report.match_price);
+									//fprintf(stderr, "info Fill Sell 1 match_quantity: %llu \n",report.match_quantity);
+									//fprintf(stderr, "info Sell Fill Buy Old Buy Power : %llu \n", _buy_power);
 									unsigned long long turnover =  static_cast<unsigned long long>((report.match_price/1000ull * report.match_quantity/1000ull)/(100000ull * 100000ull));
 									//_buy_power += (it->second.match_price/1000ull * it->second.match_quantity/1000ull)/ (100000ull * 100000ull);
 
@@ -167,7 +167,7 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 
 									_buy_power += turnover;
 
-									fprintf(stderr, "info Fill Sell 2 Turnover: %llu : New Buy Power : %llu \n",turnover, _buy_power);
+									//fprintf(stderr, "info Fill Sell 2 Turnover: %llu : New Buy Power : %llu \n",turnover, _buy_power);
 								}
 							}
 							it->second = report;
@@ -306,8 +306,8 @@ dbp::top::enhance_order top_client::new_order
 		if (dbp::top::order_side::buy == side)
 		{
 			//auto turnover = (quantity/100000000 * price/1000000000) ;
-			fprintf(stderr, " PRICE: %llu\n",  price);
-			fprintf(stderr, " QUANTITY: %llu\n",  quantity);
+			//fprintf(stderr, " PRICE: %llu\n",  price);
+			//fprintf(stderr, " QUANTITY: %llu\n",  quantity);
 
 			unsigned long long turnover =  static_cast<unsigned long long>(quantity/1000ull * price/1000ull)/static_cast<unsigned long long>(100000ull * 100000ull);
 			if (turnover > _buy_power)
@@ -316,9 +316,9 @@ dbp::top::enhance_order top_client::new_order
 				std::string reason = "Exceed Buy Power";
 				memcpy(report.reject_reason, reason.c_str(), reason.size());
 				report.status = dbp::top::order_status::canceled;
-				fprintf(stderr, " BUY POWER: %llu\n",  _buy_power);
-				fprintf(stderr, " TURNOVER: %llu\n",  turnover);
-				fprintf(stderr, " ERROR: %s\n",  reason.c_str());
+				//fprintf(stderr, " BUY POWER: %llu\n",  _buy_power);
+				//fprintf(stderr, " TURNOVER: %llu\n",  turnover);
+				//fprintf(stderr, " ERROR: %s\n",  reason.c_str());
 
 				return report;
 			}
@@ -374,7 +374,7 @@ bool top_client::get_top_buy_power(const std::string& ref, const std::string& al
 		_top_buy_power_map[request.order_id].ref = ref;
 		_top_buy_power_map[request.order_id].algo_name = algo_name;
 		send(request);
-		flush_printf("buy_power send request msg, id:%llu, ref:%s, algo_name:%s\n", request.order_id, ref.c_str(), algo_name.c_str());
+		//flush_printf("buy_power send request msg, id:%llu, ref:%s, algo_name:%s\n", request.order_id, ref.c_str(), algo_name.c_str());
 		return true;
 	}
 }
