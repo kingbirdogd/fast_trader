@@ -798,7 +798,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								unsigned long long t_tdiff = t_end - t_btrade;
 								unsigned long long t_diff = t_end - t_start;
 
-								Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price) + " time = " + to_string(t_diff)  + " Ttime = " + t_tdiff);
+								Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price) + " time = " + to_string(t_diff)  + " Ttime = " + to_string(t_tdiff));
 #ifndef NOT_MEASURE
 								wobsArray[i]->pkg_tm = tradable.m_PkgTime;
 								wobsArray[i]->m_tm = tradable.m_MsgTime;
