@@ -700,7 +700,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 							if(wbest_bid_price == 0)
 								continue;
 
-							if(wbest_bid_price > wobsArray[i]->BuyPrice){
+							if(wbest_bid_price >= wobsArray[i]->BuyPrice){
 								wobsArray[i]->Status = STATUS_SELLING;
 								bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
 								//bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, RefWBid, wobsArray[i]->Quantity);
@@ -723,14 +723,13 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 #endif
 							}else{
 
-/*
-								PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
-								unsigned long long sellout = spm->sellOut(wbest_bid_price);
 
-								if(sellout == 99999999){
+								PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
+
+								unsigned long long wbest_bid_Qty = warrantPriceMap[wobsArray[i]->Code]->BidQty;
+								if(wbest_bid_Qty < spm->getIssuerBidQty()){
 									continue;
 								}
-*/
 
 							//auto it2 = omdcMap.find(wobsArray[i]->Code);
 							//if(it2 != omdcMap.end()){
