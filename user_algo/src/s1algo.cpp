@@ -862,9 +862,11 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					wobsArray[i]->t_tm = dbp::tools::srv::current();
 #endif
 					unsigned long long t_docheck = t_btrade - t_check;
-					unsigned long long t_doorder = t_end - t_btrade;
+
 
 					unsigned long long t_end = dbp::tools::srv::current();
+
+					unsigned long long t_doorder = t_end - t_btrade;
 
 					unsigned long long t_diff = t_end - t_start;
 
