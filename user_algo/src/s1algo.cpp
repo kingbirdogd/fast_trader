@@ -850,7 +850,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 						continue;
 					}
 
-					unsigned long long wbest_ask_price = warrantPriceMap[wobsArray[i]]->Bestask;
+					unsigned long long wbest_ask_price = warrantPriceMap[wobsArray[i]->Code]->Bestask;
 
 
 					unsigned long long t_btrade = dbp::tools::srv::current();
