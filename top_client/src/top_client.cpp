@@ -380,7 +380,8 @@ bool top_client::get_top_buy_power(const std::string& ref, const std::string& al
 		dbp::top::buy_power_request request
 		(
 			&_session_id[0],
-			_client_order_id.fetch_add(1, std::memory_order_relaxed)
+			//_client_order_id.fetch_add(1, std::memory_order_relaxed)
+			_client_order_id++
 		);
 		_top_buy_power_map[request.order_id].ref = ref;
 		_top_buy_power_map[request.order_id].algo_name = algo_name;
