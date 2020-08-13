@@ -368,8 +368,8 @@ dbp::top::enhance_order top_client::new_order
 
 		unsigned long long t2_end = dbp::tools::srv::current();
 
-		unsigned long long t_diff = t2_end - t1_end;
-		fprintf(stderr, " Time Diff 2: %llu\n",  t_diff);
+		unsigned long long t_diff2 = t2_end - t1_end;
+		fprintf(stderr, " Time Diff 2: %llu\n",  t_diff2);
 
 		return report;
 	}
