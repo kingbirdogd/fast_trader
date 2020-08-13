@@ -843,7 +843,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 						continue;
 					}
 
-					unsigned long long t_check = dbp::tools::srv::current();
+					//unsigned long long t_check = dbp::tools::srv::current();
 					if(!checkPrice(wobsArray[i]->Code, bid_price, ask_price)){
 						warrant* w = obs->removeWarrantOrCbbc(wobsArray[i]->Code);
 						delete w;
