@@ -327,6 +327,9 @@ dbp::top::enhance_order top_client::new_order
 				_buy_power -= turnover;
 			}
 		}
+
+		unsigned long long t_start = dbp::tools::srv::current();
+
 		dbp::top::new_order_request request
 		(
 			&_session_id[0],
@@ -340,6 +343,12 @@ dbp::top::enhance_order top_client::new_order
 			ignore,
 			broker_id
 		);
+
+		unsigned long long t_end = dbp::tools::srv::current();
+
+		unsigned long long t_diff = t_end - t_start;
+		fprintf(stderr, " Time Diff: %llu\n",  t_diff);
+
 		dbp::top::header& h_report = report;
 		dbp::top::header& h_request = request;
 		h_report = h_request;
