@@ -346,10 +346,10 @@ dbp::top::enhance_order top_client::new_order
 			broker_id
 		);
 
-		unsigned long long t_end = dbp::tools::srv::current();
+		unsigned long long t1_end = dbp::tools::srv::current();
 
-		unsigned long long t_diff = t_end - t_start;
-		fprintf(stderr, " Time Diff: %llu\n",  t_diff);
+		unsigned long long t_diff = t1_end - t_start;
+		fprintf(stderr, " Time Diff 1: %llu\n",  t_diff);
 
 		dbp::top::header& h_report = report;
 		dbp::top::header& h_request = request;
@@ -365,6 +365,12 @@ dbp::top::enhance_order top_client::new_order
 		std::strncpy(report.broker_id, sbroker_id.c_str(), sizeof(report.broker_id));
 		_order_map[report.order_id] = report;
 		send(request);
+
+		unsigned long long t2_end = dbp::tools::srv::current();
+
+		unsigned long long t_diff = t2_end - t1_end;
+		fprintf(stderr, " Time Diff 2: %llu\n",  t_diff);
+
 		return report;
 	}
 }
