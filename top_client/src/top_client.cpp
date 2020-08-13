@@ -3,7 +3,7 @@
 #include <tools.h>
 #include <macro.h>
 
-std::atomic<unsigned long long> top_client::_client_order_id(100);
+std::atomic<unsigned long long> top_client::_base_order_id(100);
 
 void top_client::handle_msg(const char* ptr, std::size_t size)
 {
