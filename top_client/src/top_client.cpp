@@ -248,8 +248,9 @@ top_client::top_client
 	_on_login(),
 	_on_top_buy_power(),
 	_buy_power(buy_power),
-	_ready(false),
-	_client_order_id( _base_order_id.fetch_add(100000, std::memory_order_relaxed))
+	_ready(false)
+	//,
+	//_client_order_id( _base_order_id.fetch_add(100000, std::memory_order_relaxed))
 {
 }
 
@@ -334,8 +335,8 @@ dbp::top::enhance_order top_client::new_order
 		dbp::top::new_order_request request
 		(
 			&_session_id[0],
-			//_client_order_id.fetch_add(1, std::memory_order_relaxed),
-			_client_order_id++,
+			_client_order_id.fetch_add(1, std::memory_order_relaxed),
+			//_client_order_id++,
 			quantity,
 			price,
 			code,
@@ -390,8 +391,8 @@ bool top_client::get_top_buy_power(const std::string& ref, const std::string& al
 		dbp::top::buy_power_request request
 		(
 			&_session_id[0],
-			//_client_order_id.fetch_add(1, std::memory_order_relaxed)
-			_client_order_id++
+			_client_order_id.fetch_add(1, std::memory_order_relaxed)
+			//_client_order_id++
 		);
 		_top_buy_power_map[request.order_id].ref = ref;
 		_top_buy_power_map[request.order_id].algo_name = algo_name;
