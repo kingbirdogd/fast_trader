@@ -3,8 +3,8 @@
 #include <tools.h>
 #include <macro.h>
 
-//std::atomic<unsigned long long> top_client::_base_order_id(100);
-std::atomic<unsigned long long> top_client::_client_order_id(100);
+std::atomic<unsigned long long> top_client::_base_order_id(100);
+//std::atomic<unsigned long long> top_client::_client_order_id(100);
 
 void top_client::handle_msg(const char* ptr, std::size_t size)
 {
@@ -249,10 +249,10 @@ top_client::top_client
 	_on_login(),
 	_on_top_buy_power(),
 	_buy_power(buy_power),
-	_ready(false)
-	//,
-	//_client_order_id( _base_order_id.fetch_add(100000, std::memory_order_relaxed))
+	_ready(false),
+	_client_order_id( _base_order_id.fetch_add(100000, std::memory_order_relaxed))
 {
+		fprintf(stderr, " Base ID : %llu\n",  _client_order_id);
 }
 
 top_client::top_client(top_client&& client):
@@ -263,7 +263,8 @@ top_client::top_client(top_client&& client):
 	_on_login(std::move(client._on_login)),
 	_on_top_buy_power(std::move(client._on_top_buy_power)),
 	_buy_power(client._buy_power),
-	_ready(client._ready)
+	_ready(client._ready),
+	_client_order_id(client._client_order_id)
 {
 	std::memcpy(_session_id, client._session_id, sizeof(_session_id));
 	client._ready = false;
@@ -280,6 +281,7 @@ top_client& top_client::operator= (top_client&& client)
 	_ready = client._ready;
 	std::memcpy(_session_id, client._session_id, sizeof(_session_id));
 	client._ready = false;
+	_client_order_id = client._client_order_id;
 	return *this;
 }
 
@@ -336,8 +338,8 @@ dbp::top::enhance_order top_client::new_order
 		dbp::top::new_order_request request
 		(
 			&_session_id[0],
-			_client_order_id.fetch_add(1, std::memory_order_relaxed),
-			//_client_order_id++,
+			//_client_order_id.fetch_add(1, std::memory_order_relaxed),
+			_client_order_id++,
 			quantity,
 			price,
 			code,
@@ -392,8 +394,8 @@ bool top_client::get_top_buy_power(const std::string& ref, const std::string& al
 		dbp::top::buy_power_request request
 		(
 			&_session_id[0],
-			_client_order_id.fetch_add(1, std::memory_order_relaxed)
-			//_client_order_id++
+			//_client_order_id.fetch_add(1, std::memory_order_relaxed)
+			_client_order_id++
 		);
 		_top_buy_power_map[request.order_id].ref = ref;
 		_top_buy_power_map[request.order_id].algo_name = algo_name;

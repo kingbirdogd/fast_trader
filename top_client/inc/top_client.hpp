@@ -25,8 +25,8 @@ private:
 	using top_buy_power_map = std::unordered_map<unsigned long long, buy_power_info>;
 	using buffer = std::vector<char>;
 private:
-	//static std::atomic<unsigned long long> _base_order_id;
-	static std::atomic<unsigned long long> _client_order_id;
+	static std::atomic<unsigned long long> _base_order_id;
+	//static std::atomic<unsigned long long> _client_order_id;
 private:
 	buffer _buffer;
 	unsigned char _session_id[sizeof(dbp::top::header::session_id)];
@@ -39,7 +39,7 @@ protected:
 	top_buy_power_event _on_top_buy_power;
 	unsigned long long _buy_power;
 	bool _ready;
-	//unsigned long long _client_order_id;
+	unsigned long long _client_order_id;
 protected:
 	void handle_msg(const char* ptr, std::size_t size);
 public:
