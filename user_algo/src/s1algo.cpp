@@ -702,7 +702,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 							if(wbest_bid_price >= wobsArray[i]->BuyPrice){
 
-								unsigned long long t_btrade = dbp::tools::srv::current();
+								//unsigned long long t_btrade = dbp::tools::srv::current();
 
 								wobsArray[i]->Status = STATUS_SELLING;
 								bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
@@ -712,12 +712,12 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 									continue;
 								}
 
-								unsigned long long t_end = dbp::tools::srv::current();
+								//unsigned long long t_end = dbp::tools::srv::current();
 
-								unsigned long long t_tdiff = t_end - t_btrade;
-								unsigned long long t_diff = t_end - t_start;
+								//unsigned long long t_tdiff = t_end - t_btrade;
+								//unsigned long long t_diff = t_end - t_start;
 
-								Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price) + " time = " + to_string(t_diff) + " Ttime = " + to_string(t_tdiff));
+								Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
 
 
 #ifndef NOT_MEASURE
@@ -739,7 +739,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 							//if(it2 != omdcMap.end()){
 							//	auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
 
-								unsigned long long t_btrade = dbp::tools::srv::current();
+								//unsigned long long t_btrade = dbp::tools::srv::current();
 
 								wobsArray[i]->Status = STATUS_SELLING;
 								bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
@@ -749,11 +749,11 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 									continue;
 								}
 
-								unsigned long long t_end = dbp::tools::srv::current();
-								unsigned long long t_tdiff = t_end - t_btrade;
-								unsigned long long t_diff = t_end - t_start;
+								//unsigned long long t_end = dbp::tools::srv::current();
+								//unsigned long long t_tdiff = t_end - t_btrade;
+								//unsigned long long t_diff = t_end - t_start;
 
-								Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price) + " time = " + to_string(t_diff)  + " Ttime = " + to_string(t_tdiff));
+								//Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price) + " time = " + to_string(t_diff)  + " Ttime = " + to_string(t_tdiff));
 
 #ifndef NOT_MEASURE
 								wobsArray[i]->pkg_tm = tradable.m_PkgTime;
@@ -772,7 +772,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 				}else{
 					if(obs->hasRelatedWarrant(STATUS_AVAILABLE)){
 						for(unsigned int i=0; i<wobsArray.size(); i++){
-							unsigned long long t_start = dbp::tools::srv::current();
+							//unsigned long long t_start = dbp::tools::srv::current();
 
 							if(wobsArray[i]->Status != STATUS_AVAILABLE){
 								continue;
@@ -790,7 +790,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 							if(wbest_bid_price > wobsArray[i]->BuyPrice){
 								wobsArray[i]->Status = STATUS_SELLING;
 
-								unsigned long long t_btrade = dbp::tools::srv::current();
+								//unsigned long long t_btrade = dbp::tools::srv::current();
 
 								bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
 								//bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, RefWBid, wobsArray[i]->Quantity);
@@ -799,12 +799,12 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 									continue;
 								}
 
-								unsigned long long t_end = dbp::tools::srv::current();
+								//unsigned long long t_end = dbp::tools::srv::current();
 
-								unsigned long long t_tdiff = t_end - t_btrade;
-								unsigned long long t_diff = t_end - t_start;
+								//unsigned long long t_tdiff = t_end - t_btrade;
+								//unsigned long long t_diff = t_end - t_start;
 
-								Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price) + " time = " + to_string(t_diff)  + " Ttime = " + to_string(t_tdiff));
+								//Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price) + " time = " + to_string(t_diff)  + " Ttime = " + to_string(t_tdiff));
 #ifndef NOT_MEASURE
 								wobsArray[i]->pkg_tm = tradable.m_PkgTime;
 								wobsArray[i]->m_tm = tradable.m_MsgTime;
@@ -837,7 +837,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 				for(unsigned int i=0; i<wobsArray.size(); i++){
 
-					unsigned long long t_start = dbp::tools::srv::current();
+					//unsigned long long t_start = dbp::tools::srv::current();
 
 					if(wobsArray[i]->Status != STATUS_READY){
 						continue;
@@ -853,7 +853,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					unsigned long long wbest_ask_price = warrantPriceMap[wobsArray[i]->Code]->Bestask;
 
 
-					unsigned long long t_btrade = dbp::tools::srv::current();
+					//unsigned long long t_btrade = dbp::tools::srv::current();
 
 					wobsArray[i]->Status = STATUS_PENDING;
 					wobsArray[i]->StopLostPrice = wobsArray[i]->UBid;
@@ -871,16 +871,17 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					wobsArray[i]->m_tm = tradable.m_MsgTime;
 					wobsArray[i]->t_tm = dbp::tools::srv::current();
 #endif
-					unsigned long long t_docheck = t_btrade - t_check;
+					//unsigned long long t_docheck = t_btrade - t_check;
 
 
-					unsigned long long t_end = dbp::tools::srv::current();
+					//unsigned long long t_end = dbp::tools::srv::current();
 
-					unsigned long long t_doorder = t_end - t_btrade;
+					//unsigned long long t_doorder = t_end - t_btrade;
 
-					unsigned long long t_diff = t_end - t_start;
+					//unsigned long long t_diff = t_end - t_start;
 
-					Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wobsArray[i]->RefWAsk) + " time = " + to_string(t_diff) + " TCheck = " + to_string(t_docheck) + " TOrder = " + to_string(t_doorder));
+					//Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wobsArray[i]->RefWAsk) + " time = " + to_string(t_diff) + " TCheck = " + to_string(t_docheck) + " TOrder = " + to_string(t_doorder));
+					Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wobsArray[i]->RefWAsk));
 				}
 
 				if(obs->hasWarrants()){
