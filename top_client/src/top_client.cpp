@@ -364,12 +364,16 @@ dbp::top::enhance_order top_client::new_order
 		std::string sbroker_id = std::to_string(broker_id);
 		std::strncpy(report.broker_id, sbroker_id.c_str(), sizeof(report.broker_id));
 		_order_map[report.order_id] = report;
-		send(request);
-
 		unsigned long long t2_end = dbp::tools::srv::current();
+		send(request);
+		unsigned long long t3_end = dbp::tools::srv::current();
+
 
 		unsigned long long t_diff2 = t2_end - t1_end;
 		fprintf(stderr, " Time Diff 2: %llu\n",  t_diff2);
+
+		unsigned long long t_diff3 = t3_end - t2_end;
+		fprintf(stderr, " Time Diff 3: %llu\n",  t_diff3);
 
 		return report;
 	}
