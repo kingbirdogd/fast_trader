@@ -117,6 +117,36 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			p->PBestask = p->Bestask;
 		}
 
+		time_t currentTime = DateUtil::getCurrentSystemTime();
+		if(currentTime > lastReadyTime && lastReadyTime>0){
+
+			if(best_ask_price < 10000000ull && best_ask_price>0){
+
+				unsigned long long best_minor_10 = best_ask_price - 1000000ull;
+				auto idef = omdcAdditionDefinitionsMap.find(code);
+				if(idef != omdcAdditionDefinitionsMap.end()){
+					COmdcAdditionDefinitions omdcdef = idef->second;
+					unsigned long long lotsize = static_cast<unsigned long long>(omdcdef.LotSize);
+
+					warrant* newWarrant = new warrant;
+					newWarrant->Date = DateUtil::getToday();
+					newWarrant->Code = code;
+					newWarrant->Name = omdcdef.SecuritySortName;
+					newWarrant->RefWBid = best_bid_price;
+					newWarrant->RefWAsk = best_ask_price;
+					newWarrant->BuyQuantity = algoBet.fixQuantity(best_minor_10, lotsize)*100000000ull;
+					newWarrant->Quantity = 0;
+					newWarrant->UCode = code;
+					newWarrant->Status = STATUS_READY;
+
+					doWarrantAction(newWarrant, dbp::top::order_side::buy, best_minor_10, newWarrant->BuyQuantity);
+
+					Log("Code = " + to_string(code) + "BestAsk = " + to_string(best_ask_price) +  " Dummy Buy @ " + to_string(best_minor_10) + " Qty = " + to_string(lotsize));
+				}
+			}
+
+		}
+
 		p->Bestbid = best_bid_price;
 		p->Bestask = best_ask_price;
 		p->BidQty = best_bid_qty;
@@ -700,35 +730,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		}
 
 
-		//time_t currentTime = DateUtil::getCurrentSystemTime();
-		if(currentTime > lastReadyTime && lastReadyTime>0){
 
-			if(best_ask_price < 10000000ull && best_ask_price>0){
-
-				unsigned long long best_minor_10 = best_ask_price - 1000000ull;
-				auto idef = omdcAdditionDefinitionsMap.find(code);
-				if(idef != omdcAdditionDefinitionsMap.end()){
-					COmdcAdditionDefinitions omdcdef = idef->second;
-					unsigned long long lotsize = static_cast<unsigned long long>(omdcdef.LotSize);
-
-					warrant* newWarrant = new warrant;
-					newWarrant->Date = DateUtil::getToday();
-					newWarrant->Code = code;
-					newWarrant->Name = omdcdef.SecuritySortName;
-					newWarrant->RefWBid = best_bid_price;
-					newWarrant->RefWAsk = best_ask_price;
-					newWarrant->BuyQuantity = algoBet.fixQuantity(best_minor_10, lotsize)*100000000ull;
-					newWarrant->Quantity = 0;
-					newWarrant->UCode = code;
-					newWarrant->Status = STATUS_READY;
-
-					doWarrantAction(newWarrant, dbp::top::order_side::buy, best_minor_10, newWarrant->BuyQuantity);
-
-					Log("Code = " + to_string(code) + "BestAsk = " + to_string(best_ask_price) +  " Dummy Buy @ " + to_string(best_minor_10) + " Qty = " + to_string(lotsize));
-				}
-			}
-
-		}
 
 		auto code = tradable.m_Code;
 		auto type = tradable.m_TradeType;
