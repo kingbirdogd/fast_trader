@@ -132,8 +132,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 				newWarrant->Date = DateUtil::getToday();
 				newWarrant->Code = code;
 				newWarrant->Name = omdcdef.SecuritySortName;
-				newWarrant->RefWBid = wbest_bid_price;
-				newWarrant->RefWAsk = wbest_ask_price;
+				newWarrant->RefWBid = best_bid_price;
+				newWarrant->RefWAsk = best_ask_price;
 				newWarrant->BuyQuantity = algoBet.fixQuantity(best_minor_10, lotsize)*100000000ull;
 				newWarrant->Quantity = 0;
 				newWarrant->UCode = p->UCode;
