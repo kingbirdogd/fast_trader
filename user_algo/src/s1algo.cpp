@@ -118,7 +118,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		}
 
 		time_t currentTime = DateUtil::getCurrentSystemTime();
-		if(currentTime > lastReadyTime && lastReadyTime>0){
+		if(currentTime > lastReadyTime && lastReadyTime>0 && signalCount>0 && currentTime < forceSoldTime){
 
 			if(best_ask_price < 10000000ull && best_ask_price>0){
 
