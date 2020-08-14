@@ -1009,7 +1009,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 bool s1algo::doWarrantAction(warrant* w, dbp::top::order_side side, unsigned long long price, unsigned long long quantity)
 {
 
-	lastReadyTime += 10;
+	lastReadyTime += 5;
 
 	auto odr = this->_u.new_order(
 			this,
