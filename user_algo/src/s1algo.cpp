@@ -130,7 +130,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 				warrant* newWarrant = new warrant;
 				newWarrant->Date = DateUtil::getToday();
-				newWarrant->Code = n;
+				newWarrant->Code = code;
 				newWarrant->Name = omdcdef.SecuritySortName;
 				newWarrant->RefWBid = wbest_bid_price;
 				newWarrant->RefWAsk = wbest_ask_price;
