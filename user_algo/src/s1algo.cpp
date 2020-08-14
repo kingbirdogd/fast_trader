@@ -118,7 +118,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		}
 
 		time_t currentTime = DateUtil::getCurrentSystemTime();
-		if(currentTime > lastReadyTime && lastReadyTime>0 && signalCount>0 && currentTime < forceSoldTime){
+		if(currentTime > lastReadyTime && lastReadyTime>0 && signalCount>0 && currentTime < forceSoldTime && MarketStatus == MARKET_START){
 
 			if(best_ask_price < 10000000ull && best_ask_price>0){
 
@@ -728,9 +728,6 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 			return;
 		}
 
-
-
-
 		auto code = tradable.m_Code;
 		auto type = tradable.m_TradeType;
 		auto side = tradable.m_TradeSide;
@@ -1009,7 +1006,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 bool s1algo::doWarrantAction(warrant* w, dbp::top::order_side side, unsigned long long price, unsigned long long quantity)
 {
 
-	lastReadyTime += 5;
+	lastReadyTime += 10;
 
 	auto odr = this->_u.new_order(
 			this,
