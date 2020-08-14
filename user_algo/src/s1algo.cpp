@@ -144,8 +144,6 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 				}
 			}
 
-
-
 		}
 
 
