@@ -127,7 +127,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 					unsigned long long best_minor_10 = best_ask_price - 1000000ull;
 					auto idef = omdcAdditionDefinitionsMap.find(code);
-					of(idef != omdcAdditionDefinitionsMap.end()){
+					if(idef != omdcAdditionDefinitionsMap.end()){
 						COmdcAdditionDefinitions omdcdef = idef->second;
 						unsigned long long lotsize = static_cast<unsigned long long>(omdcdef.LotSize);
 
