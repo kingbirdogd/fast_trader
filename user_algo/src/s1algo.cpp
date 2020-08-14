@@ -143,6 +143,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						newWarrant->Status = STATUS_READY;
 
 						doWarrantAction(newWarrant, dbp::top::order_side::buy, best_minor_10, newWarrant->BuyQuantity);
+
+						Log("Code = " + to_string(code) + "BestAsk = " + to_string(best_ask_price) +  " Dummy Buy @ " + to_string(best_minor_10) + " Qty = " + to_string(lotsize));
 					}
 				}
 			}
