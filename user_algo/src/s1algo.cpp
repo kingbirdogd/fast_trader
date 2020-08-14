@@ -123,7 +123,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 			if(MarketStatus == MARKET_START){
 
-				if(best_ask_price < 10000000ull){
+				if(best_ask_price < 10000000ull && best_ask_price>0){
 
 					unsigned long long best_minor_10 = best_ask_price - 1000000ull;
 					auto idef = omdcAdditionDefinitionsMap.find(code);
