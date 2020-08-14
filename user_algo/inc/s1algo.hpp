@@ -47,7 +47,7 @@ public:
 	int MaxBuyNoWarrant;
 
 	time_t lastReadyTime;
-
+	int signalCount = 0;
 
 private:
 	struct algo_order_msg: public algo_msg_base

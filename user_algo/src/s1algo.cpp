@@ -273,6 +273,14 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					obs->detected = false;
 
 					Log("Code = " + to_string(code) + " Reset Signal 1");
+
+					signalCount--;
+
+					if(signalCount <= 0){
+						lastReadyTime = 0;
+						Log("No Detected Signal");
+					}
+
 					//Log("Pass1");
 					return;
 				}
@@ -289,6 +297,13 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 					obs->removeAllWarrants();
 					obs->detected = false;
+
+					signalCount--;
+
+					if(signalCount <= 0){
+						lastReadyTime = 0;
+						Log("No Detected Signal");
+					}
 
 					Log("Code = " + to_string(code) + " Reset Signal 2");
 					//Log("Pass2");
@@ -310,9 +325,19 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					obs->removeAllWarrants();
 					obs->detected = false;
 
+					signalCount--;
+
+					if(signalCount <= 0){
+						lastReadyTime = 0;
+						Log("No Detected Signal");
+					}
+
 					Log("Code = " + to_string(code) + " Reset Signal 3");
 					//Log("Pass2");
 				}
+
+
+
 				return;
 			}
 			else
@@ -390,10 +415,24 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							obs->detected = true;
 							Log("Code = " + to_string(code) + " Has Signal @ " + to_string(best_ask_price));
 
+							signalCount++;
+
+							if(signalCount > 0){
+								lastReadyTime = DateUtil::getCurrentSystemTime() + 5;
+
+								Log("No of Detected Signal = " + to_string(signalCount));
+
+							}
+
+
 						}else{
 							algo_signal_msg_pool.release_obj(pmsg);
 						}
 					}
+
+
+
+
 				}
 			}
 			//}
@@ -948,6 +987,14 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					Log("Ready Buy Enter :obs->hasWarrants() false ");
 					obs->removeAllWarrants();
 					obs->detected = false;
+
+					signalCount--;
+
+					if(signalCount <= 0){
+						lastReadyTime = 0;
+						Log("No Detected Signal");
+					}
+
 				}
 			}
 		}
@@ -1149,6 +1196,14 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 
 					if(obs->getRelatedWarrantCount() == 0 ){
 						obs->detected = false;
+
+						signalCount--;
+
+						if(signalCount <= 0){
+							lastReadyTime = 0;
+							Log( "No Detected Signal ");
+						}
+
 					}else{
 						if(obs->allStatus(STATUS_AVAILABLE)){
 							obs->Status = STATUS_AVAILABLE;
@@ -1264,6 +1319,13 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						//obs->Status = STATUS_NEW;
 						obs->hasPosition = false;
 						obs->detected = false;
+
+						signalCount--;
+
+						if(signalCount <= 0){
+							lastReadyTime = 0;
+							Log( "No Detected Signal ");
+						}
 					}
 
 				}
