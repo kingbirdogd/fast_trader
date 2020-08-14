@@ -45,6 +45,10 @@ public:
 	std::unordered_map<unsigned int, priceinfo*> warrantPriceMap;
 	ThreadLogger* logger;
 	int MaxBuyNoWarrant;
+
+	time_t lastReadyTime;
+
+
 private:
 	struct algo_order_msg: public algo_msg_base
 	{

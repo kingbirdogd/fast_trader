@@ -18,6 +18,10 @@ s1algo::s1algo(user& u, const std::string& name):
 	undetectedTime =  DateUtil::getTodayTime(today + " 153600");
 	soldendTime =  DateUtil::getTodayTime(today + " 155959");
 
+
+	lastReadyTime =  DateUtil::getTodayTime(today + " 093100");
+
+
 	MarketStatus = MARKET_START;
 
 	vector<WarrantIv> allW = ivLoader.allWarrants();
@@ -112,6 +116,38 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		if(p->Bestask != best_ask_price){
 			p->PBestask = p->Bestask;
 		}
+
+
+		time_t currentTime = DateUtil::getCurrentSystemTime();
+		if(currentTime > lastReadyTime){
+
+			if(best_ask_price < 10000000ull){
+
+				unsigned long long best_minor_10 = best_ask_price - 1000000ull;
+
+				COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
+				unsigned long long lotsize = static_cast<unsigned long long>(omdcdef.LotSize);
+
+				warrant* newWarrant = new warrant;
+				newWarrant->Date = DateUtil::getToday();
+				newWarrant->Code = n;
+				newWarrant->Name = omdcdef.SecuritySortName;
+				newWarrant->RefWBid = wbest_bid_price;
+				newWarrant->RefWAsk = wbest_ask_price;
+				newWarrant->BuyQuantity = algoBet.fixQuantity(best_minor_10, lotsize)*100000000ull;
+				newWarrant->Quantity = 0;
+				newWarrant->Status = STATUS_READY;
+
+				bool result = doWarrantAction(newWarrant, dbp::top::order_side::buy, best_minor_10, newWarrant->BuyQuantity);
+				if(result){
+					lastReadyTime += 10;
+				}
+			}
+
+
+
+		}
+
 
 		p->Bestbid = best_bid_price;
 		p->Bestask = best_ask_price;
