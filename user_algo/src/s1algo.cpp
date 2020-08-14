@@ -140,9 +140,6 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 				newWarrant->Status = STATUS_READY;
 
 				bool result = doWarrantAction(newWarrant, dbp::top::order_side::buy, best_minor_10, newWarrant->BuyQuantity);
-				if(result){
-					lastReadyTime += 10;
-				}
 			}
 
 		}
@@ -953,6 +950,8 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 bool s1algo::doWarrantAction(warrant* w, dbp::top::order_side side, unsigned long long price, unsigned long long quantity)
 {
+
+	lastReadyTime += 10;
 
 	auto odr = this->_u.new_order(
 			this,
