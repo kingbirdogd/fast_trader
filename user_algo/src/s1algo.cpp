@@ -170,9 +170,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 			if(signalCount <= 0){
 				signalCount = 1;
-				lastReadyTime = DateUtil::getCurrentSystemTime() + 5;
+				lastReadyTime = DateUtil::getCurrentSystemTime();
 				Log("No of Detected Signal = " + to_string(signalCount));
-				signalCount = 1;
 			}
 
 			unsigned long long spread = spreadTable.getSpread(obs->SpreadTableCode, best_bid_price-1);
@@ -421,11 +420,11 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 							if(signalCount <= 0){
 								signalCount = 1;
+								lastReadyTime = DateUtil::getCurrentSystemTime();
 							}
 
-							lastReadyTime = DateUtil::getCurrentSystemTime() + 5;
 							Log("No of Detected Signal = " + to_string(signalCount));
-							signalCount = 1;
+							//signalCount = 1;
 
 						}else{
 							algo_signal_msg_pool.release_obj(pmsg);
