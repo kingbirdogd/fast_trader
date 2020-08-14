@@ -19,7 +19,7 @@ s1algo::s1algo(user& u, const std::string& name):
 	soldendTime =  DateUtil::getTodayTime(today + " 155959");
 
 
-	lastReadyTime =  DateUtil::getTodayTime(today + " 093100");
+	lastReadyTime =  0;
 
 
 	MarketStatus = MARKET_START;
@@ -119,7 +119,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 
 		time_t currentTime = DateUtil::getCurrentSystemTime();
-		if(currentTime > lastReadyTime){
+		if(currentTime > lastReadyTime && lastReadyTime>0){
 
 			if(MarketStatus == MARKET_START){
 
