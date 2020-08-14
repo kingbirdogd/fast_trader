@@ -139,7 +139,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						newWarrant->RefWAsk = best_ask_price;
 						newWarrant->BuyQuantity = algoBet.fixQuantity(best_minor_10, lotsize)*100000000ull;
 						newWarrant->Quantity = 0;
-						newWarrant->UCode = p->UCode;
+						newWarrant->UCode = code;
 						newWarrant->Status = STATUS_READY;
 
 						doWarrantAction(newWarrant, dbp::top::order_side::buy, best_minor_10, newWarrant->BuyQuantity);
@@ -1031,7 +1031,14 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 	if(order_map.end() != it)
 	{
 		unsigned int ucode = it->second;
-		OBSetting* obs = obMap[ucode];
+
+		auto itObs = obMap.find(ucode);
+		if(itObs == obMap.end()){
+			Log("Code = " + to_string(ucode) + "OBS not Found");
+			return;
+		}
+
+		OBSetting* obs = itObs->second;
 		unsigned int code = odr.code;
 		if (dbp::top::order_status::rejected == status || dbp::top::order_status::canceled == status || dbp::top::order_status::deleted == status || dbp::top::order_status::filled == status)
 		{
