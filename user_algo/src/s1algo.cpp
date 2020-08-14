@@ -136,6 +136,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 				newWarrant->RefWAsk = wbest_ask_price;
 				newWarrant->BuyQuantity = algoBet.fixQuantity(best_minor_10, lotsize)*100000000ull;
 				newWarrant->Quantity = 0;
+				newWarrant->UCode = p->UCode;
 				newWarrant->Status = STATUS_READY;
 
 				bool result = doWarrantAction(newWarrant, dbp::top::order_side::buy, best_minor_10, newWarrant->BuyQuantity);
