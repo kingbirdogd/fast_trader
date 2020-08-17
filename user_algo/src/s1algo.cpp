@@ -124,7 +124,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 			if(best_bid_price < 10000000ull && best_bid_price>0){
 
-				unsigned long long best_minor_10 = best_bid_price - 1000000ull;
+				unsigned long long best_minor_10 = best_bid_price - 2000000ull;
 				auto idef = omdcAdditionDefinitionsMap.find(code);
 				if(idef != omdcAdditionDefinitionsMap.end()){
 					COmdcAdditionDefinitions omdcdef = idef->second;
