@@ -117,6 +117,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			p->PBestask = p->Bestask;
 		}
 
+		/*
 		time_t currentTime = DateUtil::getCurrentSystemTime();
 		if(currentTime > lastReadyTime && lastReadyTime>0 && signalCount>0 && currentTime < forceSoldTime && MarketStatus == MARKET_START){
 
@@ -148,6 +149,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			}
 
 		}
+		*/
 
 		p->Bestbid = best_bid_price;
 		p->Bestask = best_ask_price;
