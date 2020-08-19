@@ -37,6 +37,7 @@ private:
 	unsigned int pcode;
 	int pwtype;
 	unsigned long long pIssuerSize;
+	map<string,string> priceMarkTable;
 	map<unsigned long long,unsigned long long> pUpAskMark;
 	map<unsigned long long,unsigned long long> pDnBidMark;
 	SpreadTable spreadTable;
@@ -55,6 +56,9 @@ public:
 	bool updateBid(unsigned long long wbid, unsigned long long pwbid, unsigned long long fbid, unsigned long long pfbid);
 	bool updateAsk(unsigned long long wask, unsigned long long pwask, unsigned long long fask, unsigned long long pfask);
 
+	string updateTableBid(string key, unsigned long long bidprice);
+	string updateTableAsk(string key, unsigned long long askprice);
+
 	unsigned long long buyIn(unsigned long long wprice);
 	unsigned long long sellOut(unsigned long long wprice);
 
@@ -66,6 +70,8 @@ public:
 
 	map<unsigned long long,unsigned long long> getBidTable();
 	map<unsigned long long,unsigned long long> getAskTable();
+
+	unsigned long long getWarrantBidAskSpread(string key);
 
 	unsigned long long getBidKey();
 	unsigned long long getAskKey();

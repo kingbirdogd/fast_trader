@@ -64,7 +64,76 @@ unsigned long long PriceMark::getAskPrice(){
 	return askprice;
 }
 
+string PriceMark::updateTableBid(string key, unsigned long long bestbidprice){
+	auto it = priceMarkTable.find(key);
+	if(priceMarkTable.end() == it){
+		string bestvalue = to_string(bestbidprice) + "-#";
+		priceMarkTable[key] = bestvalue;
+		return bestvalue;
+	}else{
+		string bestvalue = it->second;
+		vector<string> bidask = split(bestvalue, '-');
+		string newbestvalue = "";
+		if(bidask[0].compare("#") == 0){
+			newbestvalue = to_string(bestbidprice) + "-" + bidask[1];
+		}else{
+			if(bidask[1].compare(to_string(bestbidprice)) != 0){
+				newbestvalue = to_string(bestbidprice) + "-" + bidask[1];
+			}else{
+				newbestvalue = bestvalue;
+			}
+		}
+		priceMarkTable[key] = newbestvalue;
+		return newbestvalue;
+	}
+}
 
+string PriceMark::updateTableAsk(string key, unsigned long long bestaskprice){
+	auto it = priceMarkTable.find(key);
+	if(priceMarkTable.end() == it){
+		string bestvalue = "#-" + to_string(bestaskprice);
+		priceMarkTable[key] = bestvalue;
+		return bestvalue;
+	}else{
+		string bestvalue = it->second;
+		vector<string> bidask = split(bestvalue, '-');
+		string newbestvalue = "";
+		if(bidask[1].compare("#") == 0){
+			newbestvalue = bidask[0] + "-" + to_string(bestaskprice);
+		}else{
+			if(bidask[0].compare(to_string(bestaskprice)) != 0){
+				newbestvalue = bidask[0] + "-" + to_string(bestaskprice);
+			}else{
+				newbestvalue = bestvalue;
+			}
+		}
+		//string newbestvalue = bidask[0] + "-" + ftos(bestaskprice,3);
+		priceMarkTable[key] = newbestvalue;
+		return newbestvalue;
+	}
+}
+
+unsigned long long PriceMark::getWarrantBidAskSpread(string key){
+	auto it = priceMarkTable.find(key);
+	if(priceMarkTable.end() == it){
+		return 999999ull;
+	}
+	string value = it->second;
+	vector<string> bidask = split(value, '-');
+
+	if(bidask[0].compare("#") == 0 || if(bidask[1].compare("#") == 0) ){
+		return 999999ull;
+	}
+
+	unsigned long long wbid = std::stoull(bidask[0]);
+	unsigned long long wask = std::stoull(bidask[1]);
+
+	if(wbid > wask){
+		return 999999ull;
+	}
+
+	return wask - wbid;
+}
 
 //bool PriceMark::updateBid(float wbid, float pwbid, int fbid, int pfbid){
 bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, unsigned long long fprice, unsigned long long  pfprice){
@@ -88,6 +157,12 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 				pDnBidMark[wbid] = fprice;
 				bidkey = wbid;
 				bidprice = fprice;
+
+				unsigned long long spread = spreadTable.getSpread("01", fprice + 1llu);
+				unsigned long long refask = fprice+spread;
+				string ukey = to_string(fprice) +"-"+ to_string(refask);
+				updateTableBid(ukey, wbid);
+
 				return true;
 			}
 
@@ -108,6 +183,11 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 				pDnBidMark[pwbid] = pfprice;
 				bidkey = pwbid;
 				bidprice = pfprice;
+
+				unsigned long long spread = spreadTable.getSpread("01", pfprice + 1llu);
+				unsigned long long refask = pfprice+spread;
+				string ukey = to_string(pfprice) +"-"+ to_string(refask);
+				updateTableBid(ukey, pwbid);
 				return true;
 			}
 		}
@@ -131,6 +211,12 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 				pDnBidMark[wbid] = fprice;
 				bidkey = wbid;
 				bidprice = fprice;
+
+				unsigned long long spread = spreadTable.getSpread("01", fprice + 1llu);
+				unsigned long long refask = fprice+spread;
+				string ukey = to_string(fprice) +"-"+ to_string(refask);
+				updateTableBid(ukey, wbid);
+
 				return true;
 			}
 		}
@@ -147,9 +233,18 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 						return false;
 					}
 				}
+
+
+
 				pDnBidMark[pwbid] = pfprice;
 				bidkey = pwbid;
 				bidprice = pfprice;
+
+				unsigned long long spread = spreadTable.getSpread("01", pfprice + 1llu);
+				unsigned long long refask = pfprice+spread;
+				string ukey = to_string(pfprice) +"-"+ to_string(refask);
+				updateTableBid(ukey, pwbid);
+
 				return true;
 			}
 		}
@@ -176,6 +271,12 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 				pUpAskMark[pwask] = pfprice;
 				askkey = pwask;
 				askprice = pfprice;
+
+				unsigned long long spread = spreadTable.getSpread("01", pfprice - 1llu);
+				unsigned long long refbid = pfprice-spread;
+				string ukey = to_string(refbid) +"-"+ to_string(pfprice)  ;
+				updateTableAsk(ukey, pwask);
+
 				return true;
 			}
 		}
@@ -198,6 +299,12 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 				pUpAskMark[wask] = fprice;
 				askkey = wask;
 				askprice = fprice;
+
+				unsigned long long spread = spreadTable.getSpread("01", fprice - 1llu);
+				unsigned long long refbid = fprice-spread;
+				string ukey = to_string(refbid) +"-"+ to_string(fprice)  ;
+				updateTableAsk(ukey, wask);
+
 				return true;
 			}
 
@@ -222,6 +329,12 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 				pUpAskMark[pwask] = pfprice;
 				askkey = pwask;
 				askprice = pfprice;
+
+				unsigned long long spread = spreadTable.getSpread("01", pfprice - 1llu);
+				unsigned long long refbid = pfprice-spread;
+				string ukey = to_string(refbid) +"-"+ to_string(pfprice)  ;
+				updateTableAsk(ukey, pwask);
+
 				return true;
 			}
 		}
@@ -245,6 +358,12 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 				pUpAskMark[wask] = fprice;
 				askkey = pwask;
 				askprice = fprice;
+
+				unsigned long long spread = spreadTable.getSpread("01", fprice - 1llu);
+				unsigned long long refbid = fprice-spread;
+				string ukey = to_string(refbid) +"-"+ to_string(fprice)  ;
+				updateTableAsk(ukey, wask);
+
 				return true;
 			}
 

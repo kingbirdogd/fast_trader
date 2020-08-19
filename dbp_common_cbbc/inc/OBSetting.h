@@ -55,7 +55,7 @@ public:
 	int DetectedDBid;
 	int DetectedDAsk;
 	int wtype;
-
+	unsigned long long UAskSpread;
 	unsigned long long IssuerSize;
 
 	unsigned long long BuyIn = -1;

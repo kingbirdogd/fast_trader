@@ -370,6 +370,10 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						obs->DetectedAsk = best_ask_price;
 						obs->StopLostPrice = best_bid_price;
 						obs->ReadyBidBuy = signal->ReadyBidBuy;
+
+
+
+						obs->UAskSpread = spreadTable.getSpread(obs->SpreadTableCode, best_ask_price-1);
 /*
  *
  *
@@ -539,6 +543,12 @@ bool s1algo::checkPrice(unsigned int code, unsigned long long ubid, unsigned lon
 
 	unsigned long long wspread = wbest_ask_price - wbest_bid_price;
 	WarrantIv wiv = ivLoader.getWarrantIv(code);
+
+
+	string key = to_string(ubid) +"-"+to_string(uask);
+
+	unsigned long long refwbidaskSpread = spm->getWarrantBidAskSpread(key);
+	Log("Code = " + to_string(code) + " BidaskSpread = " + to_string(wspread) + " RefBidAskSpread = " + to_string(refwbidaskSpread));
 
 	float fuspread = static_cast<float>(uspread/100000)/1000.0f;
 
@@ -921,6 +931,10 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 			if(TradeSide::BUY_SIDE == side && trade_buy_quantity >= best_ask_vol && best_bid_vol>=obs->ReadyBidBuy && obs->Status == STATUS_READY){
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
 
+
+				unsigned long long refbid = ask_price - obs->UAskSpread;
+				bool spread1 = (refbid == bid_price);
+
 				for(unsigned int i=0; i<wobsArray.size(); i++){
 
 					//unsigned long long t_start = dbp::tools::srv::current();
@@ -929,14 +943,33 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 						continue;
 					}
 
-					//unsigned long long t_check = dbp::tools::srv::current();
-					if(!checkPrice(wobsArray[i]->Code, bid_price, ask_price)){
+					if(!spread1){
+						Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " UPrice Not 1 Spread Width");
 						warrant* w = obs->removeWarrantOrCbbc(wobsArray[i]->Code);
 						delete w;
 						continue;
 					}
 
+					//unsigned long long t_check = dbp::tools::srv::current();
+					if(!checkPrice(wobsArray[i]->Code, bid_price, ask_price)){
+						Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " Not Pass Checkprice");
+						warrant* w = obs->removeWarrantOrCbbc(wobsArray[i]->Code);
+						delete w;
+						continue;
+					}
+
+
+
 					unsigned long long wbest_ask_price = warrantPriceMap[wobsArray[i]->Code]->Bestask;
+					unsigned long long wbest_bid_price = warrantPriceMap[wobsArray[i]->Code]->Bestbid;
+
+
+					PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
+					unsigned long long buyin = spm->buyIn(wbest_ask_price);
+					unsigned long long sellout = spm->buyIn(wbest_bid_price);
+					unsigned long long lvlbid = spm->buyIn(wbest_ask_price);
+
+					Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " Buy In  = " + to_string(buyin) + " Sellout = " + to_string(sellout) + "lvlbid = " + to_string(lvlbid));
 
 
 					unsigned long long t_btrade = dbp::tools::srv::current();
