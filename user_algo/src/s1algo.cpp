@@ -943,8 +943,8 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 					wobsArray[i]->Status = STATUS_PENDING;
 					wobsArray[i]->StopLostPrice = wobsArray[i]->UBid;
-					//bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::buy, wobsArray[i]->RefWAsk, wobsArray[i]->BuyQuantity);
-					bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::buy, wbest_ask_price, wobsArray[i]->BuyQuantity);
+					bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::buy, wobsArray[i]->RefWAsk, wobsArray[i]->BuyQuantity);
+					//bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::buy, wbest_ask_price, wobsArray[i]->BuyQuantity);
 					if(!result){
 						warrant* w = obs->removeWarrantOrCbbc(wobsArray[i]->Code);
 						delete w;
@@ -967,7 +967,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					//unsigned long long t_diff = t_end - t_start;
 
 					//Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wobsArray[i]->RefWAsk) + " time = " + to_string(t_diff) + " TCheck = " + to_string(t_docheck) + " TOrder = " + to_string(t_doorder));
-					Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wobsArray[i]->RefWAsk) + " TTrade = " + to_string(t_doorder));
+					Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wobsArray[i]->RefWAsk) + "Wbid = " + to_string(wbest_ask_price) + " TTrade = " + to_string(t_doorder));
 				}
 
 				if(obs->hasWarrants()){

@@ -426,7 +426,10 @@ bool top_client::modify_order(unsigned long long order_id, unsigned long long ne
 		}
 		if (dbp::top::order_side::buy == report.side)
 		{
-			auto turnover = new_quantity * report.price;
+			//auto turnover = new_quantity * report.price;
+
+			auto turnover = static_cast<unsigned long long>(new_quantity/1000ull * report.price/1000ull)/static_cast<unsigned long long>(100000ull * 100000ull);
+
 			if (turnover > _buy_power)
 			{
 				return false;
