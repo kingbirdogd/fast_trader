@@ -121,7 +121,7 @@ unsigned long long PriceMark::getWarrantBidAskSpread(string key){
 	string value = it->second;
 	vector<string> bidask = split(value, '-');
 
-	if(bidask[0].compare("#") == 0 || if(bidask[1].compare("#") == 0) ){
+	if(bidask[0].compare("#") == 0 || bidask[1].compare("#") == 0 ){
 		return 999999ull;
 	}
 
