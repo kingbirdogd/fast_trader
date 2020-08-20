@@ -85,7 +85,8 @@
 
 #a1 .table-portfolio,
 #a1 .table-order,
-#a1 .table-position {
+#a1 .table-position,
+#a1 .table-signal {
   display: block;
   overflow-y: scroll;
   margin-bottom: 0.5rem;
@@ -97,12 +98,17 @@
 
 #a1 .table-portfolio.table-sm td, #a1 .table-portfolio.table-sm th,
 #a1 .table-order.table-sm td, #a1 .table-order.table-sm th,
-#a1 .table-position.table-sm td, #a1 .table-position.table-sm th {
+#a1 .table-position.table-sm td, #a1 .table-position.table-sm th,
+#a1 .table-signal.table-sm td, #a1 .table-signal.table-sm th {
   padding: .1rem;
 }
 
 #a1 .table-position {
-  height: 110px;
+  height: 212px;
+}
+
+#a1 .table-position .btn-sm {
+  line-height: 1.15;
 }
 
 #a1 .is-invalid {

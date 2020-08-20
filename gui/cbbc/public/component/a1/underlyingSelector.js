@@ -65,17 +65,11 @@ class UnderlyingSelector extends React.Component {
       hint = <div className="text-success"> {responseResult} : {curState} </div>
     
     //
-    var ucodesName2 = {}
-    for (const [k, v] of Object.entries(ucodesName))
-      for (const [k1, v1] of Object.entries(v))
-        ucodesName2[k1] = v1
-
-    //
     var optionHTML = []
     optionHTML.push(<option value="default" key='underlying_default' disabled> {text.optionDefault} </option>)
     if (this.props.data) {
       for (var ucode of this.props.data) {
-        var uname = (ucode in ucodesName2) ? ucodesName2[ucode] : ''
+        var uname = getUnderlyingName2(ucode)
         var isRemove = '', style = ''
         if (removed && removed.includes(ucode))
           isRemove = text.removed, style = 'text-danger'

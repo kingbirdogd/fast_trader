@@ -91,12 +91,13 @@ class Portfolio extends React.Component {
     var totalProfitLoss1 = 0
     for (const [code, d] of Object.entries(this.state.portfolio)) {
       var style = (d.totalProfitLoss==0) ? '' : (d.totalProfitLoss>0) ? 'font-up' : 'font-down'
+      var uname = getUnderlyingName2(d.ucode)
       totalProfitLoss1 += d.totalProfitLoss
       rows.push(
         <tr key={'portfolio_'+no}>
           <td>{len-no}</td>
           <td>{code}</td>
-          <td> { d.ucode }</td>
+          <td> {d.ucode} {uname}</td>
           <td>{ parseFloat(d.avgBuyPrice).toFixed(4) }</td>
           <td>{ parseFloat(d.avgSellPrice).toFixed(4) }</td>
           <td>{ numberWithCommas(d.totalQuantity) }</td>
@@ -122,7 +123,7 @@ class Portfolio extends React.Component {
             <colgroup>
               <col span="1" width="50px" />
               <col span="1" width="100px" />
-              <col span="1" width="100px" />
+              <col span="1" width="200px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />

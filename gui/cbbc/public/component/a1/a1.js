@@ -26,6 +26,7 @@ class A1 extends React.Component {
     this.state.underlying = {curState: null, curUnderlying: null, feedback: null, responseResult: null, removed: []}
     this.state.underlyingList = null
     this.state.wntPrice = {}
+    this.state.stockPrice = {}
     
     var cells = []
     var orders = []
@@ -73,6 +74,7 @@ class A1 extends React.Component {
     this.state.portfolios = portfolios
     this.state.codeMapping = {}
     this.state.codeId = []
+    this.state.signal = {}
     this.msg = []
   }
   
@@ -124,6 +126,8 @@ class A1 extends React.Component {
         else if (data.action=='betsize') {this.setBetSize(obj, data)}
         else if (data.action=='underlyinglist') {this.setUnderlyingList(obj, data)}
         else if (data.action=='selectunderlying') {this.setUnderlying(obj, data)}
+        else if (data.action=='signal') {this.setSignal(obj, data)}
+        else if (data.action=='stoplost') {this.setStoplost(obj, data)}
       }
       // 接口v2
       else if ('msg_type' in data) {
@@ -401,8 +405,8 @@ class A1 extends React.Component {
   // 明細 v2
   setPorfololioV2(state, data) {
     // 數據映射, 輪證<=>正股
-    if (!(data.ref in state.codeMapping))
-      state.codeMapping[data.ref] = (data.ucode) ? formatCode(data.ucode, 4) : ''
+    if (!(data.ref in state.codeMapping) && ('ucode' in data) && data.ucode>0)
+      state.codeMapping[data.ref] = formatCode(data.ucode, 4)
     if (!state.codeId.includes(data.ref))
       state.codeId.push(data.ref)
     
@@ -430,8 +434,8 @@ class A1 extends React.Component {
   // 買賣
   setOnOrder(state, data) {
     // 數據映射, 輪證<=>正股
-    if (!(data.ref in state.codeMapping))
-      state.codeMapping[data.ref] = (data.ucode) ? formatCode(data.ucode, 4) : ''
+    if (!(data.ref in state.codeMapping) && ('ucode' in data) && data.ucode>0)
+      state.codeMapping[data.ref] = formatCode(data.ucode, 4)
     if (!state.codeId.includes(data.ref))
       state.codeId.push(data.ref)
     
@@ -453,7 +457,6 @@ class A1 extends React.Component {
       futurePrice: ('sellout' in data) ? formatPrice(data.sellout) : ('buyin' in data) ? formatPrice(data.buyin) : '',
       stoplost: (data.stoplost) ? formatLong(data.stoplost) : '',
       reason: ('reason' in data) ? data.reason: '',
-      stoplost: formatLong(data.stoplost), 
       wbid: formatLong(data.wbid)
     }
     
@@ -695,6 +698,41 @@ class A1 extends React.Component {
     return {underlying: state.underlying}
   }
   
+  //
+  setSignal(state, data) {
+    if (('ref' in data) && ('detected_ask' in data) && ('detected' in data) && ('detectedlist' in data)) {
+      if (data.detected === true) {
+        //
+        if (!(data.ref in state.signal)) state.signal[data.ref] = {}
+        //
+        state.signal[data.ref].ask = formatLong(data.detected_ask)
+        var detectedlist = []
+        //
+        for (var v of data.detectedlist) {
+          var temp = v.warrantdesc.split("|")
+          for (var k in temp) 
+            temp[k] = temp[k].replace(/\s+/, "") 
+          //
+          if (temp.length>=2)
+            temp[2] = formatLong(temp[2])
+          detectedlist.push(temp)
+        }
+        state.signal[data.ref].detectedlist = detectedlist
+      }
+      else if (data.detected === false) {}
+    }
+    return {signal: state.signal}
+  }
+  
+  //
+  setStoplost(state, data) {
+    state.stockPrice[data.code] = {
+      stoplost: formatLong(data.stoplost),
+      wbid: formatLong(data.wbid)
+    }
+    return {stockPrice: state.stockPrice}
+  }
+  
   // 测试集
   testData(render) {
     function test(data) {
@@ -704,7 +742,17 @@ class A1 extends React.Component {
     test({"action":"portfolio","algo_name":"kenny_s1algo","buy_price":0.125*100000000,"buytime":"20200806130826223","id":2,"quantity":40000*100000000,"recovery":true,"ref":"99999","sell_price":0.165*100000000,"sellime":"20200806131116300","ucode":0,"warrant_code":99999,"tm":1596690676300})
     test({"action":"portfolio","algo_name":"kenny_s1algo","buy_price":0.135*100000000,"buytime":"20200806130826223","id":2,"quantity":20000*100000000,"recovery":true,"ref":"99999","sell_price":0.155*100000000,"sellime":"20200806131116300","ucode":0,"warrant_code":99999,"tm":1596690676300})
     test({"action":"portfolio","algo_name":"kenny_s1algo","buy_price":0.092*100000000,"buytime":"20200806130826223","id":2,"quantity":10000*100000000,"recovery":true,"ref":"99999","sell_price":0.094*100000000,"sellime":"20200806131116300","ucode":0,"warrant_code":99999,"tm":1596690676300})
-    //
+    // order
+    test({"action":"order","algo_name":"s1algo_s1algo","filled_price":9200000,"filled_quantity":500000000000,"hkex_to_order_latency":18446744073706473000,"id":2,"order_price":9200000,"order_quantity":500000000000,"order_to_resp_latency":2160474,"orderid":172,"reason":"","recovery":true,"ref":"12946","side":"BUY","status":"filled","stoplost":5465000000,"tick_to_order_latency":144107,"transaction_time":"20200810095111000","ucode":941,"warrant_code":12946,"wbid":8900000,"tm":1597024271900})
+    test({"action":"order","algo_name":"s1algo_s1algo","hkex_to_order_latency":18446744073707164000,"id":2,"order_price":0,"order_quantity":500000000000,"order_to_resp_latency":983908,"orderid":191,"reason":"2043 Invalid order price","recovery":true,"ref":"12946","side":"SELL","status":"cancel","stoplost":0,"tick_to_order_latency":59522,"transaction_time":"20200810095706000","ucode":0,"warrant_code":12946,"wbid":0,"tm":1597024626201})
+    // signal
+    test({"action":"signal","algo_name":"kenny_s1algo","code":1177,"detected":false,"detected_ask":0,"detectedlist":[{"warrantdesc":"25652|MBCKINF@EC2101A                         |17700000"},{"warrantdesc":"25088|JPCKINF@EC2011A                         |17200000"}],"id":2,"ref":"1177","tm":1597902254339})
+    test({"action":"signal","algo_name":"kenny_s1algo","code":941,"detected":true,"detected_ask":5780000000,"detectedlist":[{"warrantdesc":"24031|JP-CMOB@EC2101B                         |13400000"},{"warrantdesc":"12195|JP-CMOB@EC2011A                         |21000000"}],"id":2,"ref":"941","tm":1597904514028})
+    // stoplost
+    test({"action":"stoplost","algo_name":"kenny_s1algo","code":3319,"id":2,"ref":"3319","stoplost":4175000000,"wbid":24400000,"tm":1597904884462})
+    test({"action":"stoplost","algo_name":"kenny_s1algo","code":1548,"id":2,"ref":"3319","stoplost":4175000000,"wbid":24400000,"tm":1597904884462})
+    // error
+    test({"action":"marketstatus","algo_name":"kenny_s1algo","id":2,"new_action_status":2,"previous_action_status":2,"recovery":true,"ref":"uid_2_fail","tm":1597908039983})
   }
   
   setStates(states) {this.setState(states)}
@@ -730,7 +778,7 @@ class A1 extends React.Component {
     var curYear = new Date().getFullYear()
     
     var log = "", cssLog = {width: '100%', height: 400, fontSize: 13, lineHeight: 1, backgroundColor: '#fdfdfe'}
-    var logError = "", cssLogError = {width: '100%', height: 100, fontSize: 13, lineHeight: 1, backgroundColor: '#fdfdfe'}
+    var logError = "", cssLogError = {width: '100%', height: 60, fontSize: 13, lineHeight: 1, backgroundColor: '#fdfdfe'}
     for (var msg of this.msg) log += JSON.stringify(msg)+' \n\n\n'
     for (var msg of this.msg) {
       var msg = JSON.stringify(msg)
@@ -795,10 +843,19 @@ class A1 extends React.Component {
             value={logError}
             readOnly
           />
+          <SignalTable 
+            key="SignalTable"
+            data={this.state.signal}
+            lang={this.props.lang}
+            setStates={this.setStates}
+            getStates={this.getStates}
+          />
           <Position
             key="position"
             data={this.state.positions}
             data2={this.state.wntPrice}
+            data3={this.state.codeMapping}
+            data4={this.state.stockPrice}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}
@@ -814,13 +871,14 @@ class A1 extends React.Component {
           <OrderList
             key="orderList"
             data={this.state.orders}
+            data2={this.state.codeMapping}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.14
+          Copyright © {curYear} Fast Trader v1.0.15
         </div>
       </React.Fragment>
       /*

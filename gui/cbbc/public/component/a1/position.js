@@ -2,6 +2,8 @@ class Position extends React.Component {
   static propTypes = {
     data: PropTypes.array,
     data2: PropTypes.object,
+    data3: PropTypes.object,
+    data4: PropTypes.object,
     lang: PropTypes.string,
     setStates: PropTypes.func,
     getStates: PropTypes.func
@@ -49,7 +51,7 @@ class Position extends React.Component {
           buyQuantity = item1.matchQuantity
           ucode = item1.ucode
           wbid = item1.wbid
-          stoplost = item1.stoplost
+          stoplost = (item1.ucode in props.data4) ? props.data4[item1.ucode].stoplost : item1.stoplost
         }
         else if (item1.side=='sell') {
           sellTotalPrice += item1.matchPrice
@@ -88,7 +90,7 @@ class Position extends React.Component {
           var bpSum = buyPrice.reduce((a, b) => a + b, 0)
           var bpAvg = (bpSum / buyPrice.length) || 0
           
-          var pnl = 0
+          var pnl = wbid-bpAvg
           if ((code in props.data2) && props.data2[code].bid > 0) {
             // 輪 bid價
             wbid = props.data2[code].bid
@@ -153,11 +155,17 @@ class Position extends React.Component {
     for (var code of orderKeys1) {
       var d = this.state.position[code]
       var style = (d.pnl==0) ? '' : (d.pnl>0) ? 'font-up' : 'font-down'
+      var ucode = (d.ucode>0) 
+        ? d.ucode 
+        : ((this.props.data3) && (code in this.props.data3)) 
+        ? this.props.data3[code] 
+        : ''
+      var uname = getUnderlyingName2(ucode)
       rows.push(
         <tr key={'position_'+no}>
           <td>{no+1}</td>
           <td>{code}</td>
-          <td>{ d.ucode }</td>
+          <td>{ucode} {uname}</td>
           <td>{ parseFloat(d.buyPrice).toFixed(4) }</td>
           <td> { parseFloat(d.wbid).toFixed(3)} </td>
           <td>{ parseFloat(d.sellPrice).toFixed(4)}</td>
@@ -187,16 +195,16 @@ class Position extends React.Component {
             <colgroup>
               <col span="1" width="50px" />
               <col span="1" width="100px" />
+              <col span="1" width="200px" />
               <col span="1" width="100px" />
-              <col span="1" width="150px" />
-              <col span="1" width="150px" />
-              <col span="1" width="150px" />
-              <col span="1" width="150px" />
-              <col span="1" width="150px" />
-              <col span="1" width="150px" />
-              <col span="1" width="150px" />
-              <col span="1" width="150px" />
-              <col span="1" width="150px" />
+              <col span="1" width="100px" />
+              <col span="1" width="100px" />
+              <col span="1" width="100px" />
+              <col span="1" width="100px" />
+              <col span="1" width="100px" />
+              <col span="1" width="100px" />
+              <col span="1" width="200px" />
+              <col span="1" width="100px" />
             </colgroup>
             <thead>
               <tr>

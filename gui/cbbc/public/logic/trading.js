@@ -44,6 +44,28 @@ const validate2 = (lang, state, fields) => {
   return error
 }
 
+const getUnderlyingName = (code) => {
+  var ucodesName2 = {}, name = '', code = formatCode(code, 5)
+  for (const [k, v] of Object.entries(ucodesName))
+    for (const [k1, v1] of Object.entries(v))
+      ucodesName2[k1] = v1
+  if (code in ucodesName2)
+    name = ucodesName2[code]
+  return name
+}
+
+const getUnderlyingName2 = (code) => {
+  if (!('underlyingName' in global)) global.underlyingName = {}
+  if (parseInt(code) in global.underlyingName)
+    return global.underlyingName[parseInt(code)]
+  for(var v of ucodesName2)
+    if (parseInt(v.code) == parseInt(code)) {
+      global.underlyingName[parseInt(v.code)] = v.nmll
+      return v.nmll
+    }
+  return ''
+}
+
 const formatCommand = (key, state, fields, original) => {
   var command = new Array()
   var unit = 100000000

@@ -1,6 +1,7 @@
 class OrderList extends React.Component {
   static propTypes = {
     data: PropTypes.array,
+    data2: PropTypes.object,
     lang: PropTypes.string,
     setStates: PropTypes.func,
     getStates: PropTypes.func
@@ -63,11 +64,17 @@ class OrderList extends React.Component {
       var prefixPrice = (d.side=='') ? '' : (d.side=='sell') ? '+' : '-'
       var futurePrice = (d.futurePrice<100000 && d.futurePrice!=0) ? parseFloat(d.futurePrice).toFixed(2) : ''
       var reason = (d.reason.length==0 || d.reason=='') ? '' : '('+d.reason+')'
+      var ucode = (d.ucode>0) 
+        ? d.ucode 
+        : ((this.props.data2) && (d.code in this.props.data2)) 
+        ? this.props.data2[d.code]
+        : ''
+      var uname = getUnderlyingName2(ucode)
       rows.push(
         <tr key={'portfolio_'+i}>
           <td>{len-i}</td>
           <td>{d.code}</td>
-          <td>{d.ucode}</td>
+          <td>{ucode} {uname}</td>
           <td>{ parseFloat(d.matchPrice).toFixed(4) }</td>
           <td>{ numberWithCommas(d.matchQuantity) }</td>
           <td>{ numberWithCommas(parseFloat(d.totalPrice).toFixed(2)) }</td>
@@ -87,7 +94,7 @@ class OrderList extends React.Component {
             <colgroup>
               <col span="1" width="50px" />
               <col span="1" width="100px" />
-              <col span="1" width="100px" />
+              <col span="1" width="200px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />
