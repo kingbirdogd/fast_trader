@@ -969,7 +969,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					unsigned long long sellout = spm->buyIn(wbest_bid_price);
 					unsigned long long lvlbid = spm->buyIn(wbest_ask_price);
 
-					Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " Buy In  = " + to_string(buyin) + " Sellout = " + to_string(sellout) + "lvlbid = " + to_string(lvlbid));
+					Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " Buy In  = " + to_string(buyin) + " Sellout = " + to_string(sellout) + " lvlbid = " + to_string(lvlbid));
 
 
 					unsigned long long t_btrade = dbp::tools::srv::current();
