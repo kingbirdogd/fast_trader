@@ -1142,6 +1142,14 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 			{
 				if (dbp::top::order_status::filled == status)
 				{
+
+					if(odr.match_records.size() > 1){
+						for(unsigned int i=0; i<odr.match_records.size(); i++){
+							dbp::top::match_record mr = odr.match_records[i];
+							Log("Match Price = " + to_string(mr.match_price) + " Match Qty = " + to_string(mr.match_quantity));
+						}
+					}
+
 					warrant* obsw = obs->getRelatedWarrant(code);
 					obsw->BuyPrice = odr.match_price;
 					obsw->BuyTime = std::string(odr.transaction_tm);
@@ -1284,6 +1292,13 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 
 					obsw->UBuyPrice = obs->BuyPrice;
 					obsw->USoldPrice = obs->SellPrice;
+
+					if(odr.match_records.size() > 1){
+						for(unsigned int i=0; i<odr.match_records.size(); i++){
+							dbp::top::match_record mr = odr.match_records[i];
+							Log("Match Price = " + to_string(mr.match_price) + " Match Qty = " + to_string(mr.match_quantity));
+						}
+					}
 
 					if(obsw->Quantity == odr.filled_quantity)
 					{
@@ -1590,6 +1605,7 @@ rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_order_msg, 8192> s1algo::a
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_portfolio_msg, 8192> s1algo::algo_portfolio_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_signal_msg, 8192> s1algo::algo_signal_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_stoplost_msg, 8192> s1algo::algo_stoplost_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_winsell_msg, 8192> s1algo::algo_winsell_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_force_sell, 8192> s1algo::algo_force_sell_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_warrantprice_msg, 8192> s1algo::algo_warrantprice_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_issuerlist_msg, 8192> s1algo::algo_issuerlist_msg_pool;

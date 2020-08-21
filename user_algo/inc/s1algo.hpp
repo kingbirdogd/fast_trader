@@ -229,6 +229,34 @@ private:
 		}
 		virtual ~algo_stoplost_msg() = default;
 	};
+	struct algo_winsell_msg: public algo_msg_base
+	{
+		unsigned int ucode;
+		unsigned int wcode;
+		string action;
+
+		algo_stoplost_msg():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["action"] = "winsell";
+			j["code"] = wcode;
+			j["set"] = action;
+			return j;
+		}
+		virtual void on_command()
+		{
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_winsell_msg_pool.release_obj(this);
+		}
+		virtual ~algo_winsell_msg() = default;
+	};
 	struct algo_marketstatus_msg: public algo_msg_base
 	{
 		int prevmarketstatus;
@@ -603,6 +631,7 @@ public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_portfolio_msg, 8192> algo_portfolio_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_signal_msg, 8192> algo_signal_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_stoplost_msg, 8192> algo_stoplost_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_winsell_msg, 8192> algo_winsell_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_force_sell, 8192> algo_force_sell_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_warrantprice_msg, 8192> algo_warrantprice_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_issuerlist_msg, 8192> algo_issuerlist_msg_pool;
