@@ -30,6 +30,7 @@ class SignalTable extends React.Component {
     for (const [ucode, d] of Object.entries(this.props.data)) {
       no++
       var uname = getUnderlyingName2(ucode)
+      var ucode1 = formatCode(ucode, 4)
       //
       var rows2 = []
       for (var d2 of d.detectedlist)
@@ -39,7 +40,7 @@ class SignalTable extends React.Component {
       rows1.push(
         <tr key={'signal_'+no}>
           <td>{no}</td>
-          <td>{ucode} {uname}</td>
+          <td>{ucode1} {uname}</td>
           <td>{d.ask}</td>
           {rows2}
         </tr>

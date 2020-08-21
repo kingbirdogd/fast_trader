@@ -700,7 +700,7 @@ class A1 extends React.Component {
   
   //
   setSignal(state, data) {
-    if (('ref' in data) && ('detected_ask' in data) && ('detected' in data) && ('detectedlist' in data)) {
+    if (('ref' in data) && ('detected_ask' in data) && ('detected' in data)) {
       if (data.detected === true) {
         //
         if (!(data.ref in state.signal)) state.signal[data.ref] = {}
@@ -719,7 +719,11 @@ class A1 extends React.Component {
         }
         state.signal[data.ref].detectedlist = detectedlist
       }
-      else if (data.detected === false) {}
+      //
+      else if (data.detected === false) {
+        if (data.ref in state.signal)
+          delete state.signal[data.ref]
+      }
     }
     return {signal: state.signal}
   }
@@ -878,7 +882,7 @@ class A1 extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.15
+          Copyright © {curYear} Fast Trader v1.0.16
         </div>
       </React.Fragment>
       /*
