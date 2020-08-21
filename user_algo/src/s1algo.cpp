@@ -1028,6 +1028,17 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 					signalCount--;
 
+					auto pmsg = algo_signal_msg_pool.get_obj();
+					pmsg->al = this;
+					pmsg->algo_name = this->_name;
+					pmsg->id = this->_u.get_id();
+					pmsg->ref = to_string(obs->Code);
+					pmsg->code = obs->Code;
+					pmsg->detect_ask = 0;
+					pmsg->selected = false;
+					ouputQueue.enqueue(pmsg);
+
+
 					if(signalCount <= 0){
 						lastReadyTime = 0;
 						Log("No Detected Signal");
@@ -1235,6 +1246,16 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					if(obs->getRelatedWarrantCount() == 0 ){
 						obs->detected = false;
 
+						auto pmsg = algo_signal_msg_pool.get_obj();
+						pmsg->al = this;
+						pmsg->algo_name = this->_name;
+						pmsg->id = this->_u.get_id();
+						pmsg->ref = to_string(obs->Code);
+						pmsg->code = obs->Code;
+						pmsg->detect_ask = 0;
+						pmsg->selected = false;
+						ouputQueue.enqueue(pmsg);
+
 						signalCount--;
 
 						if(signalCount <= 0){
@@ -1357,6 +1378,16 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						//obs->Status = STATUS_NEW;
 						obs->hasPosition = false;
 						obs->detected = false;
+
+						auto pmsg = algo_signal_msg_pool.get_obj();
+						pmsg->al = this;
+						pmsg->algo_name = this->_name;
+						pmsg->id = this->_u.get_id();
+						pmsg->ref = to_string(obs->Code);
+						pmsg->code = obs->Code;
+						pmsg->detect_ask = 0;
+						pmsg->selected = false;
+						ouputQueue.enqueue(pmsg);
 
 						signalCount--;
 
