@@ -235,7 +235,7 @@ private:
 		unsigned int wcode;
 		string action;
 
-		algo_stoplost_msg():
+		algo_winsell_msg():
 			algo_msg_base()
 		{
 		}
