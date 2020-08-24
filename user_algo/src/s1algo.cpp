@@ -1252,7 +1252,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					}
 
 					if(obs->getRelatedWarrantCount() == 0 ){
-						obs->detected = false;
+
 
 						auto pmsg = algo_signal_msg_pool.get_obj();
 						pmsg->al = this;
@@ -1264,6 +1264,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						pmsg->selected = false;
 						ouputQueue.enqueue(pmsg);
 
+						obs->detected = false;
 						signalCount--;
 
 						if(signalCount <= 0){
