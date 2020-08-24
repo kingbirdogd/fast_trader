@@ -1258,8 +1258,8 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						pmsg->al = this;
 						pmsg->algo_name = this->_name;
 						pmsg->id = this->_u.get_id();
-						pmsg->ref = to_string(obs->Code);
-						pmsg->code = obs->Code;
+						pmsg->ref = to_string(ucode);
+						pmsg->code = ucode;
 						pmsg->detect_ask = 0;
 						pmsg->selected = false;
 						ouputQueue.enqueue(pmsg);
@@ -1391,18 +1391,22 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 
 					if(obs->getRelatedWarrantCount() == 0){
 						//obs->Status = STATUS_NEW;
-						obs->hasPosition = false;
-						obs->detected = false;
 
 						auto pmsg = algo_signal_msg_pool.get_obj();
 						pmsg->al = this;
 						pmsg->algo_name = this->_name;
 						pmsg->id = this->_u.get_id();
-						pmsg->ref = to_string(obs->Code);
-						pmsg->code = obs->Code;
+						pmsg->ref = to_string(ucode);
+						pmsg->code = ucode;
 						pmsg->detect_ask = 0;
 						pmsg->selected = false;
 						ouputQueue.enqueue(pmsg);
+
+
+						obs->hasPosition = false;
+						obs->detected = false;
+
+
 
 						signalCount--;
 
