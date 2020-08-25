@@ -844,8 +844,8 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 								unsigned long long refbid = spm->getRefWarrantBid(ukey);
 
-								Log("WCode = " + wobsArray[i]->Code + " Expect Sell Out = " + to_string(expectSellOut));
-								Log("WCode = " + wobsArray[i]->Code + " Ref Warrant bid = " + to_string(refbid) + " WBest Bid = " + to_string(wbest_bid_price));
+								Log("WCode = " + to_string(wobsArray[i]->Code) + " Expect Sell Out = " + to_string(expectSellOut));
+								Log("WCode = " + to_string(wobsArray[i]->Code) + " Ref Warrant bid = " + to_string(refbid) + " WBest Bid = " + to_string(wbest_bid_price));
 
 								if(refbid > 0){
 									if(wbest_bid_price < (refbid - 300000) ){
