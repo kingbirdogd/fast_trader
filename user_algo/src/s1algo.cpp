@@ -1178,7 +1178,8 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 				if (dbp::top::order_status::filled == status)
 				{
 
-					if(odr.match_records.size() > 1){
+
+					if(odr.match_records.size() > 0){
 						for(unsigned int i=0; i<odr.match_records.size(); i++){
 							dbp::top::match_record mr = odr.match_records[i];
 							Log("Match Price = " + to_string(mr.match_price) + " Match Qty = " + to_string(mr.match_quantity));
@@ -1187,6 +1188,17 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 
 					warrant* obsw = obs->getRelatedWarrant(code);
 					obsw->BuyPrice = odr.match_price;
+					if(odr.match_price == 0){
+						for(unsigned int i=0; i<odr.match_records.size(); i++){
+							dbp::top::match_record mr = odr.match_records[i];
+							Log(">>> Match Price = " + to_string(mr.match_price) + " Match Qty = " + to_string(mr.match_quantity));
+							if(mr.match_price > 0){
+								obsw->BuyPrice = mr.match_price;
+								break;
+							}
+
+						}
+					}
 					obsw->BuyTime = std::string(odr.transaction_tm);
 					obsw->Quantity += odr.filled_quantity;
 					obsw->OrderId = odr.order_id;
@@ -1329,7 +1341,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					obsw->UBuyPrice = obs->BuyPrice;
 					obsw->USoldPrice = obs->SellPrice;
 
-					if(odr.match_records.size() > 1){
+					if(odr.match_records.size() > 0){
 						for(unsigned int i=0; i<odr.match_records.size(); i++){
 							dbp::top::match_record mr = odr.match_records[i];
 							Log("Match Price = " + to_string(mr.match_price) + " Match Qty = " + to_string(mr.match_quantity));
@@ -1339,6 +1351,10 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					if(obsw->Quantity == odr.filled_quantity)
 					{
 						Log(" Sell Security Code = " + to_string(code));
+
+
+
+
 
 						auto msg = algo_order_msg_pool.get_obj();
 						msg->al = this;
