@@ -820,13 +820,48 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 #endif
 							}else{
 
+								//unsigned long long wbest_bid_Qty = warrantPriceMap[wobsArray[i]->Code]->BidQty;
+
+								//WarrantIv wiv = ivLoader.getWarrantIv(wobsArray[i]->Code);
+
+								//unsigned long long diff = highestStopLost - trade_price;
+								//float fudiff = static_cast<float>(diff/100000)/1000.0f;
+
+								//unsigned long long estwprice = CSelectedWarrant.estimateWarrantPrice(fudiff, wiv.Delta, wiv.Cratio);
+
+
 
 								PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
 
-								unsigned long long wbest_bid_Qty = warrantPriceMap[wobsArray[i]->Code]->BidQty;
-								if(wbest_bid_Qty < spm->getIssuerBidQty()){
-									continue;
+
+								unsigned long long expectSellOut = spm->sellOut(bid_price);
+
+								//COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
+
+								unsigned long long spread = spreadTable.getSpread(obs->SpreadTableCode, bid_price + 1llu);
+								unsigned long long refask = spread + bid_price;
+								string ukey = to_string(bid_price) +"-"+ to_string(refask);
+
+								unsigned long long refbid = spm->getRefWarrantBid(ukey);
+
+								Log("WCode = " + wobsArray[i]->Code + " Expect Sell Out = " + to_string(expectSellOut));
+								Log("WCode = " + wobsArray[i]->Code + " Ref Warrant bid = " + to_string(refbid) + " WBest Bid = " + to_string(wbest_bid_price));
+
+								if(refbid > 0){
+									if(wbest_bid_price < (refbid - 300000) ){
+										return;
+									}
+								}else if(expectSellOut != 99999999){
+									if(expectSellOut >=  trade_price){
+										return;
+									}
 								}
+
+
+								//unsigned long long wbest_bid_Qty = warrantPriceMap[wobsArray[i]->Code]->BidQty;
+								//if(wbest_bid_Qty < spm->getIssuerBidQty()){
+								//	continue;
+								//}
 
 							//auto it2 = omdcMap.find(wobsArray[i]->Code);
 							//if(it2 != omdcMap.end()){

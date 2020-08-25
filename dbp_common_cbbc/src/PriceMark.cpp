@@ -135,6 +135,21 @@ unsigned long long PriceMark::getWarrantBidAskSpread(string key){
 	return wask - wbid;
 }
 
+unsigned long long PriceMark::getRefWarrantBid(string key){
+	auto it = priceMarkTable.find(key);
+	if(priceMarkTable.end() != it){
+		string value = it->second;
+		vector<string> bidask = split(value, '-');
+		if(bidask[0].compare("#") != 0){
+			unsigned long long bid = std::stoull(bidask[0].c_str());
+			return bid;
+		}
+		return 0;
+	}
+	return 0;
+}
+
+
 //bool PriceMark::updateBid(float wbid, float pwbid, int fbid, int pfbid){
 bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, unsigned long long fprice, unsigned long long  pfprice){
 

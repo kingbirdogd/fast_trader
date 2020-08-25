@@ -72,6 +72,7 @@ public:
 	map<unsigned long long,unsigned long long> getAskTable();
 
 	unsigned long long getWarrantBidAskSpread(string key);
+	unsigned long long getRefWarrantBid(string key);
 
 	unsigned long long getBidKey();
 	unsigned long long getAskKey();
