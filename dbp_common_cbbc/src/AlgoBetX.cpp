@@ -9,6 +9,7 @@
 #include "AlgoBetSmall.h"
 #include "AlgoBet1Lot.h"
 #include "AlgoBet100.h"
+#include "AlgoBetXSmall.h"
 
 
 AlgoBetX::AlgoBetX() {
@@ -18,6 +19,7 @@ AlgoBetX::AlgoBetX() {
 	AlgoBet* algoBetSmall = dynamic_cast<AlgoBet*>(new AlgoBetSmall());
 	AlgoBet* algoBet1Lot = dynamic_cast<AlgoBet*>(new AlgoBet1Lot());
 	AlgoBet* algoBet100 = dynamic_cast<AlgoBet*>(new AlgoBet100());
+	AlgoBet* algoBetXSmall = dynamic_cast<AlgoBet*>(new AlgoBetXSmall());
 	//AlgoBet* algoBet60 = dynamic_cast<AlgoBet*>(new AlgoBet60());
 	//AlgoBet* algoBet80 = dynamic_cast<AlgoBet*>(new AlgoBet80());
 	//AlgoBet* algoBet50 = dynamic_cast<AlgoBet*>(new AlgoBet50());
@@ -27,6 +29,7 @@ AlgoBetX::AlgoBetX() {
 	betMap["BetSmall"] = algoBetSmall;
 	betMap["Bet1Lot"] = algoBet1Lot;
 	betMap["Bet100"] = algoBet100;
+	betMap["BetXSmall"] = algoBet100;
 	//betMap["Bet60"] = algoBet60;
 	//betMap["Bet80"] = algoBet80;
 	//betMap["Bet50"] = algoBet50;
