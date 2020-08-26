@@ -834,7 +834,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
 
 
-								unsigned long long expectSellOut = spm->sellOut(bid_price);
+								unsigned long long expectSellOut = spm->sellOut(wbest_bid_price);
 
 								//COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
 
