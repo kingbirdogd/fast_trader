@@ -17,11 +17,16 @@ class SignalTable extends React.Component {
   
   getText(lang) {
     var text = {
-      en: {id: 'ID', ucode: 'Underlying', ask: 'ask'},
-      sc: {id: 'ID', ucode: '相关资产', ask: '卖牌'},
-      tc: {id: 'ID', ucode: '相關資產', ask: '賣牌'},
+      en: {id: 'ID', ucode: 'Underlying', ask: 'ask', wnt: 'wnt', reset: 'Reset'},
+      sc: {id: 'ID', ucode: '相关资产', ask: '卖牌', wnt: '轮证', reset: '重設'},
+      tc: {id: 'ID', ucode: '相關資產', ask: '賣牌', wnt: '輪証', reset: '重设'},
     }
     return text[lang]
+  }
+  
+  handleReset() {
+    var code = parseInt(event.target.name)
+    console.log('handleReset', code)
   }
   
   render() {
@@ -32,10 +37,15 @@ class SignalTable extends React.Component {
       var uname = getUnderlyingName2(ucode)
       var ucode1 = formatCode(ucode, 4)
       //
-      var rows2 = []
+      var rows2 = [], noShow=5
+      if (d.detectedlist.length>noShow) d.detectedlist.length=noShow
       for (var d2 of d.detectedlist)
         rows2.push(<td key={'signal_'+no+'_'+d2[0]}>{d2[0]}: {d2[1]}</td>)
       
+      //
+      while (rows2.length<5)
+        rows2.push(<td key={'signal_'+no+'_'+rows2.length}>/</td>)
+        
       //
       rows1.push(
         <tr key={'signal_'+no}>
@@ -43,6 +53,15 @@ class SignalTable extends React.Component {
           <td>{ucode1} {uname}</td>
           <td>{d.ask}</td>
           {rows2}
+          <td>
+            <button
+              name={ucode1}
+              type="button"
+              className="btn btn-sm btn-secondary"
+              onClick={this.handleReset}>
+                {text.reset}
+            </button>
+          </td>
         </tr>
       )
     }
@@ -61,17 +80,19 @@ class SignalTable extends React.Component {
               <col span="1" width="200px" />
               <col span="1" width="200px" />
               <col span="1" width="200px" />
+              <col span="1" width="50px" />
             </colgroup>
             <thead>
               <tr>
                 <th>{text.id}</th>
                 <th>{text.ucode}</th>
                 <th>{text.ask}</th>
-                <th>wnt 1</th>
-                <th>wnt 2</th>
-                <th>wnt 3</th>
-                <th>wnt 4</th>
-                <th>wnt 5</th>
+                <th>{text.wnt} 1</th>
+                <th>{text.wnt} 2</th>
+                <th>{text.wnt} 3</th>
+                <th>{text.wnt} 4</th>
+                <th>{text.wnt} 5</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>

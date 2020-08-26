@@ -133,14 +133,24 @@ class Position extends React.Component {
       sendWebsocket(JSON.stringify(command))
   }
   
+  handleWs() {
+    var code = parseInt(event.target.name)
+    console.log('handleWs', code)
+  }
+  
+  handleWls() {
+    var code = parseInt(event.target.name)
+    console.log('handleWls', code)
+  }
+  
   getText(lang) {
     var text = {
       en: {position: 'Position', ucode: 'Underlying', buyPrice: 'Buy Price', buyQuantity: 'Buy Quantity', sellPrice: 'Sell Price', 
-            sellQuantity: 'Sell Quantity', id: 'ID', code: 'Code', transactionTm: 'Last Update Time', warrantPrice: 'Wnt Price', stopLost: 'Stop Lost', pnl: 'Gain', forceSell: 'Sell'},
+            sellQuantity: 'Sell Quantity', id: 'ID', code: 'Code', transactionTm: 'Last Update Time', warrantPrice: 'Wnt Price', stopLost: 'Stop Lost', pnl: 'Gain', forceSell: 'Sell', ws: 'WS', wls: 'WLS'},
       sc: {position: '持仓', ucode: '相关资产', buyPrice: '买入价', buyQuantity: '买入单位', sellPrice: '卖出价', 
-            sellQuantity: '卖出单位', id: 'ID', code: '牛熊证', transactionTm: '交易时间', warrantPrice: '轮证现价', stopLost: '止损价', pnl: '盈亏', forceSell: '卖出'},
+            sellQuantity: '卖出单位', id: 'ID', code: '牛熊证', transactionTm: '交易时间', warrantPrice: '轮证现价', stopLost: '止损价', pnl: '盈亏', forceSell: '卖出', ws: '赚/卖', wls: '赚/平/卖'},
       tc: {position: '持倉', ucode: '相關資產', buyPrice: '買入價', buyQuantity: '買入單位', sellPrice: '賣出價', 
-            sellQuantity: '賣出單位', id: 'ID', code: '牛熊證', transactionTm: '交易時間', warrantPrice: '輪證現價', stopLost: '止蝕價', pnl: '盈虧', forceSell: '賣出'}
+            sellQuantity: '賣出單位', id: 'ID', code: '牛熊證', transactionTm: '交易時間', warrantPrice: '輪證現價', stopLost: '止蝕價', pnl: '盈虧', forceSell: '賣出', ws: '賺/賣', wls: '賺/平/賣'}
     }
     return text[lang]
   }
@@ -175,6 +185,7 @@ class Position extends React.Component {
           <td>{ numberWithCommas(d.sellQuantity) }</td>
           <td>{d.transactionTm}</td>
           <td>
+          
             <button
               name={code}
               type="button"
@@ -182,6 +193,23 @@ class Position extends React.Component {
               onClick={this.handleForceSell}>
                 {text.forceSell}
             </button>
+            
+            <button
+              name={code}
+              type="button"
+              className="btn btn-sm btn-secondary"
+              onClick={this.handleWs}>
+                {text.ws}
+            </button>
+            
+            <button
+              name={code}
+              type="button"
+              className="btn btn-sm btn-secondary"
+              onClick={this.handleWls}>
+                {text.wls}
+            </button>
+            
           </td>
         </tr>)
       no+=1
@@ -204,7 +232,7 @@ class Position extends React.Component {
               <col span="1" width="100px" />
               <col span="1" width="100px" />
               <col span="1" width="200px" />
-              <col span="1" width="100px" />
+              <col span="1" width="180px" />
             </colgroup>
             <thead>
               <tr>

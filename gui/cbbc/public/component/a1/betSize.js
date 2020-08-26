@@ -29,9 +29,9 @@ class BetSize extends React.Component {
   
   getText(lang) {
     var text = {
-      en: {small: 'Small', oneLot: '1 Lot', '100': '100'},
-      sc: {small: '细档', oneLot: '1手', '100': '100'},
-      tc: {small: '細檔', oneLot: '1手', '100': '100'}
+      en: {xsmall: 'Xsmall', small: 'Small', oneLot: '1 Lot', '100': '100'},
+      sc: {xsmall: '超细档',small: '细档', oneLot: '1手', '100': '100'},
+      tc: {xsmall: '超細檔',small: '細檔', oneLot: '1手', '100': '100'}
     }
     return text[lang]
   }
@@ -40,25 +40,38 @@ class BetSize extends React.Component {
     var text = this.getText(this.props.lang)
     var curBetSize = this.props.data
     
-    var btnSmallStyle = 'btn-secondary', btn1LotStyle = 'btn-secondary', btn100Style = 'btn-secondary'
-    var btnSmallIsDisable = false, btn1LotIsDisable = false, btn100IsDisable = false
+    var btnXsmallStyle = 'btn-secondary', btnSmallStyle = 'btn-secondary', btn1LotStyle = 'btn-secondary', btn100Style = 'btn-secondary'
+    var btnXsmallIsDisable = false, btnSmallIsDisable = false, btn1LotIsDisable = false, btn100IsDisable = false
     
-    if (curBetSize == 'BetSmall') {
-      btnSmallStyle= 'btn-primary', btn1LotStyle = 'btn-secondary', btn100Style = 'btn-secondary'
-      btnSmallIsDisable = true, btn1LotIsDisable = false, btn100IsDisable = false
+    if (curBetSize == 'BetXSmall') {
+      btnXsmallStyle = 'btn-primary', btnSmallStyle = 'btn-secondary', btn1LotStyle = 'btn-secondary', btn100Style = 'btn-secondary'
+      btnXsmallIsDisable = true, btnSmallIsDisable = false, btn1LotIsDisable = false, btn100IsDisable = false
+    }
+    else if (curBetSize == 'BetSmall') {
+      btnXsmallStyle = 'btn-secondary', btnSmallStyle = 'btn-primary', btn1LotStyle = 'btn-secondary', btn100Style = 'btn-secondary'
+      btnXsmallIsDisable = false, btnSmallIsDisable = true, btn1LotIsDisable = false, btn100IsDisable = false
     }
     else if (curBetSize == 'Bet1Lot') {
-      btnSmallStyle= 'btn-secondary', btn1LotStyle = 'btn-primary', btn100Style = 'btn-secondary'
-      btnSmallIsDisable = false, btn1LotIsDisable = true, btn100IsDisable = false
+      btnXsmallStyle = 'btn-secondary', btnSmallStyle= 'btn-secondary', btn1LotStyle = 'btn-primary', btn100Style = 'btn-secondary'
+      btnXsmallIsDisable = '', btnSmallIsDisable = false, btn1LotIsDisable = true, btn100IsDisable = false
     }
     else if (curBetSize == 'Bet100') {
-      btnSmallStyle= 'btn-secondary', btn1LotStyle = 'btn-secondary', btn100Style = 'btn-primary'
-      btnSmallIsDisable = false, btn1LotIsDisable = false, btn100IsDisable = true
+      btnXsmallStyle = 'btn-secondary', btnSmallStyle= 'btn-secondary', btn1LotStyle = 'btn-secondary', btn100Style = 'btn-primary'
+      btnXsmallIsDisable = false, btnSmallIsDisable = false, btn1LotIsDisable = false, btn100IsDisable = true
     }
     
     return(
       <div className='row'>
         <div className="col-12 col-sm-6 col-md-3 mb-3">
+          <button
+            name="BetXSmall"
+            type="button"
+            className={classNames('btn btn-sm', btnXsmallStyle)}
+            disabled={btnXsmallIsDisable}
+            onClick={this.handleAction}>
+              {text.xsmall}
+          </button>
+          
           <button
             name="BetSmall"
             type="button"

@@ -470,6 +470,10 @@ class A1 extends React.Component {
       state.orders[id].push(arr)
     // 真實買賣+借仓(用戶另外set prsitions)
     state.positions[id].push(arr)
+    
+    // 删除旧的wprice
+    if (data.warrant_code in state.wntPrice)
+      delete state.wntPrice[data.warrant_code]
     return state
   }
   
@@ -882,7 +886,7 @@ class A1 extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.16
+          Copyright © {curYear} Fast Trader v1.0.17
         </div>
       </React.Fragment>
       /*
