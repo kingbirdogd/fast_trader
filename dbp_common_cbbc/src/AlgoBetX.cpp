@@ -29,7 +29,7 @@ AlgoBetX::AlgoBetX() {
 	betMap["BetSmall"] = algoBetSmall;
 	betMap["Bet1Lot"] = algoBet1Lot;
 	betMap["Bet100"] = algoBet100;
-	betMap["BetXSmall"] = algoBet100;
+	betMap["BetXSmall"] = algoBetXSmall;
 	//betMap["Bet60"] = algoBet60;
 	//betMap["Bet80"] = algoBet80;
 	//betMap["Bet50"] = algoBet50;
