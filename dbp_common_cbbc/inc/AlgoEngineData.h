@@ -122,6 +122,9 @@ struct warrant{
 	unsigned long long DBid;
 	unsigned long long DAsk;
 
+	bool isWinSell;
+	bool isWinOrLvlSell;
+
 	int NoOfTrade;
 };
 

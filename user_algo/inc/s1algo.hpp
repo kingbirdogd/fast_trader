@@ -234,6 +234,7 @@ private:
 		unsigned int ucode;
 		unsigned int wcode;
 		string action;
+		bool result;
 
 		algo_winsell_msg():
 			algo_msg_base()
@@ -244,7 +245,49 @@ private:
 			auto j = algo_msg_base::to_json();
 			j["action"] = "winsell";
 			j["code"] = wcode;
-			j["set"] = action;
+			j["setaction"] = action;
+			if(result){
+				j["result"] = "SUCCESS";
+			}else{
+				j["result"] = "FAIL";
+			}
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<s1algo*>(al);
+			result = self->setWinSell(action,ucode, wcode);
+
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_winsell_msg_pool.release_obj(this);
+		}
+		virtual ~algo_winsell_msg() = default;
+	};
+	struct algo_winlvlsell_msg: public algo_msg_base
+	{
+		unsigned int ucode;
+		unsigned int wcode;
+		string action;
+		bool result;
+
+		algo_winlvlsell_msg():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["action"] = "winlvlsell";
+			j["code"] = wcode;
+			j["setaction"] = action;
+			if(result){
+				j["result"] = "SUCCESS";
+			}else{
+				j["result"] = "FAIL";
+			}
 			return j;
 		}
 		virtual void on_command()
@@ -253,9 +296,9 @@ private:
 		}
 		virtual void release()
 		{
-			algo_winsell_msg_pool.release_obj(this);
+			algo_winlvlsell_msg_pool.release_obj(this);
 		}
-		virtual ~algo_winsell_msg() = default;
+		virtual ~algo_winlvlsell_msg() = default;
 	};
 	struct algo_marketstatus_msg: public algo_msg_base
 	{
@@ -614,6 +657,9 @@ public:
 
 	virtual void Log(std::string msg);
 	virtual string setBetsize(std::string betsize);
+
+	virtual bool setWinSell(std::string action, unsigned int ucode, unsigned int code);
+	virtual bool setWinLvlSell(std::string action, unsigned int ucode, unsigned int code);
 	virtual bool setSelectedIssuer(std::string action, std::string issuer);
 	virtual bool setSelectedUnderlying(std::string action, unsigned int ucode);
 	virtual unsigned long long getBestBid(unsigned int code);
@@ -632,6 +678,7 @@ public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_signal_msg, 8192> algo_signal_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_stoplost_msg, 8192> algo_stoplost_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_winsell_msg, 8192> algo_winsell_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_winlvlsell_msg, 8192> algo_winlvlsell_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_force_sell, 8192> algo_force_sell_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_warrantprice_msg, 8192> algo_warrantprice_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_issuerlist_msg, 8192> algo_issuerlist_msg_pool;

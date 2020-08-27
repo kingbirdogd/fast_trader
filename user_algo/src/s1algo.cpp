@@ -99,6 +99,32 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					if(obs->hasPosition){
 						if(obs->isExist(code)){
 
+							warrant* w = obs->getRelatedWarrant(code);
+							if(w->isWinSell){
+								if(w->BuyPrice > 0 && best_bid_price > 0){
+									if(best_bid_price > w->BuyPrice && w->Status == STATUS_AVAILABLE){
+										Log("Warrant Code = " + to_string(code) + " Do Quick Win Sell @ " + to_string(best_bid_price) + " Buy Price = " + to_string(w->BuyPrice));
+										w->Status = STATUS_SELLING;
+										bool result = doWarrantAction(w, dbp::top::order_side::sell, best_bid_price, w->Quantity);
+										if(!result){
+											obs->setRelatedWarrantStatus(w->Code, STATUS_AVAILABLE);
+										}
+									}
+								}
+							}
+							if(w->isWinOrLvlSell){
+								if(w->BuyPrice > 0 && best_bid_price > 0){
+									if(best_bid_price >= w->BuyPrice && w->Status == STATUS_AVAILABLE){
+										Log("Warrant Code = " + to_string(code) + " Do Quick Win Lvl Sell @ " + to_string(best_bid_price) + " Buy Price = " + to_string(w->BuyPrice));
+										w->Status = STATUS_SELLING;
+										bool result = doWarrantAction(w, dbp::top::order_side::sell, best_bid_price, w->Quantity);
+										if(!result){
+											obs->setRelatedWarrantStatus(w->Code, STATUS_AVAILABLE);
+										}
+									}
+								}
+							}
+
 							auto msg = algo_warrantprice_msg_pool.get_obj();
 							msg->al = this;
 							msg->algo_name = _name;
@@ -475,6 +501,76 @@ string s1algo::setBetsize(std::string betsize){
 	return algoBet.selectBet(betsize);
 }
 
+
+bool s1algo::setWinSell(std::string action, unsigned int ucode, unsigned int code){
+	if(action == "set"){
+		auto it = obMap.find(ucode);
+		if(it != obMap.end()){
+			OBSetting* obs = it->second;
+			if(obs->hasPosition){
+				if(obs->isExist(code)){
+					warrant* w = obs->getRelatedWarrant(code);
+					if(w != nullptr){
+						w->isWinSell = true;
+						return true;
+					}
+				}
+			}
+		}
+	}
+	if(action == "unset"){
+		auto it = obMap.find(ucode);
+		if(it != obMap.end()){
+			OBSetting* obs = it->second;
+			if(obs->hasPosition){
+				if(obs->isExist(code)){
+					warrant* w = obs->getRelatedWarrant(code);
+					if(w != nullptr){
+						w->isWinSell = false;
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
+
+bool s1algo::setWinLvlSell(std::string action, unsigned int ucode, unsigned int code){
+	if(action == "set"){
+		auto it = obMap.find(ucode);
+		if(it != obMap.end()){
+			OBSetting* obs = it->second;
+			if(obs->hasPosition){
+				if(obs->isExist(code)){
+					warrant* w = obs->getRelatedWarrant(code);
+					if(w != nullptr){
+						w->isWinLvlSell = true;
+						return true;
+					}
+				}
+			}
+		}
+	}
+	if(action == "unset"){
+		auto it = obMap.find(ucode);
+		if(it != obMap.end()){
+			OBSetting* obs = it->second;
+			if(obs->hasPosition){
+				if(obs->isExist(code)){
+					warrant* w = obs->getRelatedWarrant(code);
+					if(w != nullptr){
+						w->isWinLvlSell = false;
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
+
+
 bool s1algo::setSelectedIssuer(std::string action, std::string issuer){
 
 	if(MarketStatus == MARKET_START)
@@ -698,6 +794,8 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 				newWarrant->Status = STATUS_READY;
 				newWarrant->UBid = ubid;
 				newWarrant->UAsk = uask;
+				newWarrant->isWinSell = false;
+				newWarrant->isWinOrLvlSell = false;
 
 
 				selectedWarrant.push_back(newWarrant);
@@ -1535,6 +1633,8 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 	algo_force_sell* pforce_sell = nullptr;
 	algo_issuerlist_msg* pissuerlist = nullptr;
 	algo_underlyinglist_msg* punderlyinglist = nullptr;
+	algo_winsell_msg* pwinsell = nullptr;
+	algo_winlvlsell_msg* pwinlvlsell = nullptr;
 	try
 	{
 		auto cmd = json["cmd"].get<std::string>();
@@ -1605,6 +1705,30 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			pforce_sell->price = json["price"].get<unsigned long long>();
 			return pforce_sell;
 		}
+		else if(cmd == "winsell")
+		{
+			pwinsell = algo_winsell_pool.get_obj();
+			pwinsell->al = this;
+			pwinsell->algo_name = _name;
+			pwinsell->id = _u.get_id();
+			pwinsell->ref = ref;
+			pwinsell->ucode = json["ucode"].get<unsigned int>();
+			pwinsell->code = json["code"].get<unsigned int>();
+			pwinsell->action = json["action"].get<std::string>();
+			return pwinsell;
+		}
+		else if(cmd == "winlvlsell")
+		{
+			pwinlvlsell = algo_winlvlsell_pool.get_obj();
+			pwinlvlsell->al = this;
+			pwinlvlsell->algo_name = _name;
+			pwinlvlsell->id = _u.get_id();
+			pwinlvlsell->ref = ref;
+			pwinlvlsell->ucode = json["ucode"].get<unsigned int>();
+			pwinlvlsell->code = json["code"].get<unsigned int>();
+			pwinlvlsell->action = json["action"].get<std::string>();
+			return pwinlvlsell;
+		}
 		else
 		{
 			auto msg = algo_err_msg_pool.get_obj();
@@ -1643,6 +1767,10 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			punderlyinglist->release();
 		if(pUnderlyingAction_msg)
 			pUnderlyingAction_msg->release();
+		if(pwinsell)
+			pwinsell->release();
+		if(pwinlvlsell)
+			pwinlvlsell->release();
 		return msg;
 	}
 }
@@ -1662,6 +1790,7 @@ rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_portfolio_msg, 8192> s1alg
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_signal_msg, 8192> s1algo::algo_signal_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_stoplost_msg, 8192> s1algo::algo_stoplost_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_winsell_msg, 8192> s1algo::algo_winsell_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_winlvlsell_msg, 8192> s1algo::algo_winlvlsell_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_force_sell, 8192> s1algo::algo_force_sell_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_warrantprice_msg, 8192> s1algo::algo_warrantprice_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_issuerlist_msg, 8192> s1algo::algo_issuerlist_msg_pool;
