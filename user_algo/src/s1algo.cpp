@@ -1707,7 +1707,7 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 		}
 		else if(cmd == "winsell")
 		{
-			pwinsell = algo_winsell_pool.get_obj();
+			pwinsell = algo_winsell_msg_pool.get_obj();
 			pwinsell->al = this;
 			pwinsell->algo_name = _name;
 			pwinsell->id = _u.get_id();
@@ -1719,7 +1719,7 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 		}
 		else if(cmd == "winlvlsell")
 		{
-			pwinlvlsell = algo_winlvlsell_pool.get_obj();
+			pwinlvlsell = algo_winlvlsell_msg_pool.get_obj();
 			pwinlvlsell->al = this;
 			pwinlvlsell->algo_name = _name;
 			pwinlvlsell->id = _u.get_id();
