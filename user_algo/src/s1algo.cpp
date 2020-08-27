@@ -545,7 +545,7 @@ bool s1algo::setWinLvlSell(std::string action, unsigned int ucode, unsigned int 
 				if(obs->isExist(code)){
 					warrant* w = obs->getRelatedWarrant(code);
 					if(w != nullptr){
-						w->isWinLvlSell = true;
+						w->isWinOrLvlSell = true;
 						return true;
 					}
 				}
@@ -560,7 +560,7 @@ bool s1algo::setWinLvlSell(std::string action, unsigned int ucode, unsigned int 
 				if(obs->isExist(code)){
 					warrant* w = obs->getRelatedWarrant(code);
 					if(w != nullptr){
-						w->isWinLvlSell = false;
+						w->isWinOrLvlSell = false;
 						return true;
 					}
 				}
