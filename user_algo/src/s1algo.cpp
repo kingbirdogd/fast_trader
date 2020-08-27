@@ -1713,7 +1713,7 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			pwinsell->id = _u.get_id();
 			pwinsell->ref = ref;
 			pwinsell->ucode = json["ucode"].get<unsigned int>();
-			pwinsell->code = json["code"].get<unsigned int>();
+			pwinsell->wcode = json["code"].get<unsigned int>();
 			pwinsell->action = json["action"].get<std::string>();
 			return pwinsell;
 		}
@@ -1725,7 +1725,7 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			pwinlvlsell->id = _u.get_id();
 			pwinlvlsell->ref = ref;
 			pwinlvlsell->ucode = json["ucode"].get<unsigned int>();
-			pwinlvlsell->code = json["code"].get<unsigned int>();
+			pwinlvlsell->wcode = json["code"].get<unsigned int>();
 			pwinlvlsell->action = json["action"].get<std::string>();
 			return pwinlvlsell;
 		}
