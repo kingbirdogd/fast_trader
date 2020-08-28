@@ -1157,9 +1157,6 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 				}else{
 					Log("Ready Buy Enter :obs->hasWarrants() false ");
 					obs->removeAllWarrants();
-					obs->detected = false;
-
-					signalCount--;
 
 					auto pmsg = algo_signal_msg_pool.get_obj();
 					pmsg->al = this;
@@ -1170,6 +1167,13 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					pmsg->detect_ask = 0;
 					pmsg->selected = false;
 					ouputQueue.enqueue(pmsg);
+
+
+					obs->detected = false;
+
+					signalCount--;
+
+
 
 
 					if(signalCount <= 0){
@@ -1439,6 +1443,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					obsw->UBuyPrice = obs->BuyPrice;
 					obsw->USoldPrice = obs->SellPrice;
 
+					Log("Odr Match Price = " + to_string(odr.match_price) + " Odr Match Qty = " + to_string(odr.filled_quantity));
 					if(odr.match_records.size() > 0){
 						for(unsigned int i=0; i<odr.match_records.size(); i++){
 							dbp::top::match_record mr = odr.match_records[i];
