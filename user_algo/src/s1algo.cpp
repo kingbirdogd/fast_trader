@@ -851,15 +851,18 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		auto trade_sell_quantity = static_cast<unsigned long long>(tradable.m_AccumulateSellQuantity);
 		auto trade_buy_quantity = static_cast<unsigned long long>(tradable.m_AccumulateBuyQuantity);
 
-
-		auto bid_price1 = static_cast<unsigned long long>(tradable.m_Bid[1].m_iPrice) * 100000;
-		auto ask_price1 = static_cast<unsigned long long>(tradable.m_Ask[1].m_iPrice) * 100000;
-		auto bid_price2 = static_cast<unsigned long long>(tradable.m_Bid[2].m_iPrice) * 100000;
-		auto ask_price2 = static_cast<unsigned long long>(tradable.m_Ask[2].m_iPrice) * 100000;
-		auto best_bid_vol1 = static_cast<unsigned long long>(tradable.m_Bid[1].m_uQuantity);
-		auto best_ask_vol1 = static_cast<unsigned long long>(tradable.m_Ask[1].m_uQuantity);
-		auto best_bid_vol2 = static_cast<unsigned long long>(tradable.m_Bid[2].m_uQuantity);
-		auto best_ask_vol2 = static_cast<unsigned long long>(tradable.m_Ask[2].m_uQuantity);
+		auto bid_price1 = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice);
+		auto ask_price1 = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice);
+		auto bid_price2 = static_cast<unsigned long long>(tradable.m_Bid[1].m_iPrice);
+		auto ask_price2 = static_cast<unsigned long long>(tradable.m_Ask[1].m_iPrice);
+		auto bid_price3 = static_cast<unsigned long long>(tradable.m_Bid[2].m_iPrice);
+		auto ask_price3 = static_cast<unsigned long long>(tradable.m_Ask[2].m_iPrice);
+		auto best_bid_vol1 = static_cast<unsigned long long>(tradable.m_Bid[0].m_uQuantity);
+		auto best_ask_vol1 = static_cast<unsigned long long>(tradable.m_Ask[0].m_uQuantity);
+		auto best_bid_vol2 = static_cast<unsigned long long>(tradable.m_Bid[1].m_uQuantity);
+		auto best_ask_vol2 = static_cast<unsigned long long>(tradable.m_Ask[1].m_uQuantity);
+		auto best_bid_vol3 = static_cast<unsigned long long>(tradable.m_Bid[2].m_uQuantity);
+		auto best_ask_vol3 = static_cast<unsigned long long>(tradable.m_Ask[2].m_uQuantity);
 
 
 		if (0 != type && 100 != type)
@@ -876,11 +879,12 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 			if(TradeSide::SELL_SIDE == side && trade_sell_quantity >= best_bid_vol){
 
-				unsigned long long wp = calWeightedPrice(bid_price,bid_price1,bid_price2,
-									best_bid_vol-trade_sell_quantity, best_bid_vol1, best_bid_vol2,
-									ask_price,ask_price1,ask_price2,
-									best_ask_vol-trade_buy_quantity, best_ask_vol1, best_ask_vol2
+				unsigned long long wp = calWeightedPrice(bid_price1,bid_price2,bid_price3,
+									best_bid_vol1-trade_sell_quantity, best_bid_vol2, best_bid_vol3,
+									ask_price1,ask_price2,ask_price3,
+									best_ask_vol1-trade_buy_quantity, best_ask_vol2, best_ask_vol3
 					);
+				wp = wp * 100000;
 
 				unsigned long long highestStopLost = obs->getHighestStopLostPrice();
 				Log("UCode = " + to_string(code) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price)  + " WP = " + to_string(wp));
