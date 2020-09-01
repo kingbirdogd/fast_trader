@@ -24,3 +24,8 @@
   	demo002
   	
   		node set_user.js user_name=demo002 password=12345678
+  		
+  		
+  		
+  	#192.168.104.176
+  		node set_user.js user_name=demo001 password=12345678
