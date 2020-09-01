@@ -859,34 +859,34 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		auto trade_sell_quantity = static_cast<unsigned long long>(tradable.m_AccumulateSellQuantity);
 		auto trade_buy_quantity = static_cast<unsigned long long>(tradable.m_AccumulateBuyQuantity);
 
-		auto bid_price1 = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice);
-		auto ask_price1 = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice);
-		auto bid_price2 = static_cast<unsigned long long>(tradable.m_Bid[1].m_iPrice);
-		auto ask_price2 = static_cast<unsigned long long>(tradable.m_Ask[1].m_iPrice);
-		auto bid_price3 = static_cast<unsigned long long>(tradable.m_Bid[2].m_iPrice);
-		auto ask_price3 = static_cast<unsigned long long>(tradable.m_Ask[2].m_iPrice);
-		auto best_bid_vol1 = static_cast<unsigned long long>(tradable.m_Bid[0].m_uQuantity);
-		auto best_ask_vol1 = static_cast<unsigned long long>(tradable.m_Ask[0].m_uQuantity);
-		auto best_bid_vol2 = static_cast<unsigned long long>(tradable.m_Bid[1].m_uQuantity);
-		auto best_ask_vol2 = static_cast<unsigned long long>(tradable.m_Ask[1].m_uQuantity);
-		auto best_bid_vol3 = static_cast<unsigned long long>(tradable.m_Bid[2].m_uQuantity);
-		auto best_ask_vol3 = static_cast<unsigned long long>(tradable.m_Ask[2].m_uQuantity);
+		unsigned long long bid_price1 = 0ull;
+		unsigned long long  ask_price1 = 0ull;
+		unsigned long long  bid_price2 = 0ull;
+		unsigned long long  ask_price2 = 0ull;
+		unsigned long long  bid_price3 = 0ull;
+		unsigned long long  ask_price3 = 0ull;
+		unsigned long long  best_bid_vol1 = 0ull;
+		unsigned long long  best_ask_vol1 = 0ull;
+		unsigned long long  best_bid_vol2 = 0ull;
+		unsigned long long  best_ask_vol2 = 0ull;
+		unsigned long long  best_bid_vol3 = 0ull;
+		unsigned long long  best_ask_vol3 = 0ull;
 
 		auto itpdata = pricedataMap.find(code);
 		if(itpdata == pricedataMap.end()){
 			pricedata* pd = itpdata->second;
-			auto bid_price1 = pd->Bestbid1;
-			auto ask_price1 = pd->Bestask1;
-			auto bid_price2 = pd->Bestbid2;
-			auto ask_price2 = pd->Bestask2;
-			auto bid_price3 = pd->Bestbid3;
-			auto ask_price3 = pd->Bestask3;
-			auto best_bid_vol1 = pd->BestBidQty1;
-			auto best_ask_vol1 = pd->BestAskQty1;
-			auto best_bid_vol2 = pd->BestBidQty2;
-			auto best_ask_vol2 = pd->BestAskQty2;
-			auto best_bid_vol3 = pd->BestBidQty3;
-			auto best_ask_vol3 = pd->BestAskQty3;
+			bid_price1 = pd->Bestbid1;
+			ask_price1 = pd->Bestask1;
+			bid_price2 = pd->Bestbid2;
+			ask_price2 = pd->Bestask2;
+			bid_price3 = pd->Bestbid3;
+			ask_price3 = pd->Bestask3;
+			best_bid_vol1 = pd->BestBidQty1;
+			best_ask_vol1 = pd->BestAskQty1;
+			best_bid_vol2 = pd->BestBidQty2;
+			best_ask_vol2 = pd->BestAskQty2;
+			best_bid_vol3 = pd->BestBidQty3;
+			best_ask_vol3 = pd->BestAskQty3;
 		}
 
 
