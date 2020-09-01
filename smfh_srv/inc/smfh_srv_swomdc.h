@@ -38,7 +38,7 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 		rOrderBook.m_AccumulateSellQuantity = 0;
 		rOrderBook.m_AccumulateBlankQuantity = 0;
 		//if(updatelvl <= TRADABLE_BOOK_SIZE ){
-		if(updatelvl <= TRADABLE_BOOK_SIZE && uSecurityCode>10000){
+		if(updatelvl <= TRADABLE_BOOK_SIZE){
 			std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
 			std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
 			//std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, 3 * sizeof(OrderItem));
