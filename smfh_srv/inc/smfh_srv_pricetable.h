@@ -33,9 +33,9 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 		auto best_ask_price = static_cast<unsigned long long>(rOrderBook.m_Ask[0].m_iPrice) * 100000;
 		auto best_ask_qty = static_cast<unsigned long long>(rOrderBook.m_Ask[0].m_uQuantity);
 
+
+
 		pricedata* pd = pricedataMap[uSecurityCode];
-
-
 
 		if(pd->isWarrant){
 
@@ -89,6 +89,33 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 			pd->PBestask = pd->Bestask;
 			pd->Bestask = best_ask_price;
 			pd->BestAskQty = best_ask_qty;
+		}
+
+		if(pd->isUnderlying){
+			auto best_bid_price1 = static_cast<unsigned long long>(rOrderBook.m_Bid[0].m_iPrice);
+			auto best_ask_price1 = static_cast<unsigned long long>(rOrderBook.m_Ask[0].m_iPrice);
+			auto best_bid_price2 = static_cast<unsigned long long>(rOrderBook.m_Bid[1].m_iPrice);
+			auto best_ask_price2 = static_cast<unsigned long long>(rOrderBook.m_Ask[1].m_iPrice);
+			auto best_bid_price3 = static_cast<unsigned long long>(rOrderBook.m_Bid[2].m_iPrice);
+			auto best_ask_price3 = static_cast<unsigned long long>(rOrderBook.m_Ask[2].m_iPrice);
+			auto best_bid_qty1 = static_cast<unsigned long long>(rOrderBook.m_Bid[0].m_uQuantity);
+			auto best_ask_qty1 = static_cast<unsigned long long>(rOrderBook.m_Ask[0].m_uQuantity);
+			auto best_bid_qty2 = static_cast<unsigned long long>(rOrderBook.m_Bid[1].m_uQuantity);
+			auto best_ask_qty2 = static_cast<unsigned long long>(rOrderBook.m_Ask[1].m_uQuantity);
+			auto best_bid_qty3 = static_cast<unsigned long long>(rOrderBook.m_Bid[2].m_uQuantity);
+			auto best_ask_qty3 = static_cast<unsigned long long>(rOrderBook.m_Ask[2].m_uQuantity);
+			pd->Bestbid1 = best_bid_price1;
+			pd->Bestbid2 = best_bid_price2;
+			pd->Bestbid3 = best_bid_price3;
+			pd->Bestask1 = best_ask_price1;
+			pd->Bestask2 = best_ask_price2;
+			pd->Bestask3 = best_ask_price3;
+			pd->BestBidQty1 = best_bid_qty1;
+			pd->BestBidQty2 = best_bid_qty2;
+			pd->BestBidQty3 = best_bid_qty3;
+			pd->BestAskQty1 = best_ask_qty1;
+			pd->BestAskQty2 = best_ask_qty2;
+			pd->BestAskQty3 = best_ask_qty3;
 		}
 
 	}

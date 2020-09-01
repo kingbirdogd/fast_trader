@@ -872,6 +872,25 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		auto best_bid_vol3 = static_cast<unsigned long long>(tradable.m_Bid[2].m_uQuantity);
 		auto best_ask_vol3 = static_cast<unsigned long long>(tradable.m_Ask[2].m_uQuantity);
 
+		auto itpdata = pricedataMap.find(code);
+		if(itpdata == pricedataMap.end()){
+			pricedata* pd = itpdata->second;
+			auto bid_price1 = pd->Bestbid1;
+			auto ask_price1 = pd->Bestask1;
+			auto bid_price2 = pd->Bestbid2;
+			auto ask_price2 = pd->Bestask2;
+			auto bid_price3 = pd->Bestbid3;
+			auto ask_price3 = pd->Bestask3;
+			auto best_bid_vol1 = pd->BestBidQty1;
+			auto best_ask_vol1 = pd->BestAskQty1;
+			auto best_bid_vol2 = pd->BestBidQty2;
+			auto best_ask_vol2 = pd->BestAskQty2;
+			auto best_bid_vol3 = pd->BestBidQty3;
+			auto best_ask_vol3 = pd->BestAskQty3;
+		}
+
+
+
 
 		if (0 != type && 100 != type)
 			return;
