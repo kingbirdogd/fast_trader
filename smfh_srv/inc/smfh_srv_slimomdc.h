@@ -10,18 +10,18 @@ inline static void handleSlimOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 #endif
 {
 	unsigned int uSecurityCode = OMD_GET_VALUE(_pMsg, 4, unsigned int);
-	/*
+
 	auto it = omdcSlimMap.find(uSecurityCode);
 	if (omdcSlimMap.end() == it)
 	{
 		return;
 	}
-	*/
+	/*
 	auto it = omdcMap.find(uSecurityCode);
 	if (omdcMap.end() == it)
 	{
 		return;
-	}
+	}*/
 
 	COmdOrderbook& rOrderBook = it->second;
 #ifndef NOT_MEASURE
@@ -37,12 +37,12 @@ inline static void handleSlimOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 		rOrderBook.m_AccumulateBuyQuantity = 0;
 		rOrderBook.m_AccumulateSellQuantity = 0;
 		rOrderBook.m_AccumulateBlankQuantity = 0;
-		//if(updatelvl <= TRADABLE_BOOK_SIZE ){
-		if(updatelvl <= 3 ){
-			//std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
-			//std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
-			std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, 3 * sizeof(OrderItem));
-			std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, 3 * sizeof(OrderItem));
+		if(updatelvl <= TRADABLE_BOOK_SIZE ){
+		//if(updatelvl <= 3 ){
+			std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
+			std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
+			//std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, 3 * sizeof(OrderItem));
+			//std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, 3 * sizeof(OrderItem));
 			broadcastQueue.enqueue(rOrderBook);
 		}
 	}

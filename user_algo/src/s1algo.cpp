@@ -878,16 +878,17 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 
 			if(TradeSide::SELL_SIDE == side && trade_sell_quantity >= best_bid_vol){
-
+/*
 				unsigned long long wp = calWeightedPrice(bid_price1,bid_price2,bid_price3,
 									best_bid_vol1-trade_sell_quantity, best_bid_vol2, best_bid_vol3,
 									ask_price1,ask_price2,ask_price3,
 									best_ask_vol1-trade_buy_quantity, best_ask_vol2, best_ask_vol3
 					);
-				wp = wp * 100000;
+				wp = wp * 100000;*/
 
 				unsigned long long highestStopLost = obs->getHighestStopLostPrice();
-				Log("UCode = " + to_string(code) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price)  + " WP = " + to_string(wp));
+				//Log("UCode = " + to_string(code) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price)  + " WP = " + to_string(wp));
+				Log("UCode = " + to_string(code) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price));
 
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
 
