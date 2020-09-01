@@ -669,6 +669,9 @@ bool s1algo::checkPrice(unsigned int code, unsigned long long ubid, unsigned lon
 	}
 
 	bool accept = CSelectedWarrant.isAccept(fuspread, wiv.Delta, wiv.Cratio, fwspread, 2);
+	if(!accept){
+		Log("Code = " + to_string(code) + " CSelectedWarrant.isAccept ");
+	}
 	return accept;
 }
 
