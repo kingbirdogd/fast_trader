@@ -872,8 +872,18 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		unsigned long long  best_bid_vol3 = 0ull;
 		unsigned long long  best_ask_vol3 = 0ull;
 
-		auto itpdata = pricedataMap.find(code);
-		if(itpdata == pricedataMap.end()){
+		//unsigned int uSecurityCode = static_cast<unsigned long long>();
+
+
+
+
+
+
+		if (0 != type && 100 != type)
+			return;
+
+		auto itpdata = pricedataMap.find(tradable.m_Code);
+		if(itpdata != pricedataMap.end()){
 			pricedata* pd = itpdata->second;
 			bid_price1 = pd->Bestbid1;
 			ask_price1 = pd->Bestask1;
@@ -888,12 +898,6 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 			best_bid_vol3 = pd->BestBidQty3;
 			best_ask_vol3 = pd->BestAskQty3;
 		}
-
-
-
-
-		if (0 != type && 100 != type)
-			return;
 
 		//Log("on_omdc_trade code = " + to_string(tradable.m_Code) + " OBSetting");
 		OBSetting* obs = it->second;
