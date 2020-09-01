@@ -309,6 +309,11 @@ inline static bool loadDefinition(json& _json)
 				warrantToUnderlying[warrent] = underlying;
 				underlyingToWarrant[underlying].insert(warrent);
 
+				if(underlying > 0){
+					stockWarrantomdcMap[warrent].m_Code = warrent;
+					stockWarrantomdcMap[underlying].m_Code = underlying;
+				}
+
 //New
 				ptomdcMap[warrent].m_Code = warrent;
 				ptomdcMap[underlying].m_Code = underlying;
@@ -574,7 +579,65 @@ inline static bool loadDefinition(json& _json)
 				return false;
 			}
 		}
-
+		itActivate = mActivateChannel.find("SWOmdcChannel");
+		if(itActivate != mActivateChannel.end())
+		{
+			try
+			{
+				flush_printf("tm:%llu, Load Omdc Definition Config \n", dbp::tools::srv::current());
+				auto& Omdc = Definition["OMDC"];
+				if (0 == Omdc.size())
+				{
+					std::cerr << "OMDC node size is 0" << std::endl;
+					::close(iDefEopll);
+					return false;
+				}
+				for (std::size_t i = 0; i < Omdc.size(); ++i)
+				{
+					auto& UdpNode = Omdc[i];
+					std::string strInterfaceIp = UdpNode["InterfaceIp"].get<std::string>();
+					std::string strMulticastIp = UdpNode["MulticastIp"].get<std::string>();
+					unsigned short int uMulticastPort = UdpNode["MulticastPort"].get<unsigned short int>();
+					int iUdpHandler = dbp::net::srv::getNoBlockReuseUdpListener(uMulticastPort, strMulticastIp, strInterfaceIp);
+					if (iUdpHandler <= 0)
+					{
+						std::cerr << "OMDC node[" << i << "] Create Socket Error, MulticastIp:" << strMulticastIp <<
+						", MulticastPort:" << uMulticastPort <<
+							", InterfaceIp:" << strInterfaceIp << std::endl;
+						::close(iDefEopll);
+						for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
+						{
+							::close(it->first);
+						}
+						return false;
+					}
+					struct epoll_event objEvent;
+					std::memset(&objEvent, 0, sizeof(struct epoll_event));
+					objEvent.events = EPOLLIN | EPOLLET;
+					objEvent.data.fd = iUdpHandler;
+					if (0 != epoll_ctl(iDefEopll, EPOLL_CTL_ADD, objEvent.data.fd, &objEvent))
+					{
+						std::cerr << "OMDC node[" << i << "] Add to Epoll Error, MulticastIp:" << strMulticastIp <<
+							", MulticastPort:" << uMulticastPort <<
+							", InterfaceIp:" << strInterfaceIp << std::endl;
+						::close(iDefEopll);
+						for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
+						{
+							::close(it->first);
+						}
+						return false;
+					}
+					omdcStatus[iUdpHandler].m_Status = CDefChannel::NO_READY;
+					omdcStatus[iUdpHandler].m_uSeq = 0;
+				}
+			}
+			catch(...)
+			{
+				std::cerr << "OMDC load Json fail" << std::endl;
+				::close(iDefEopll);
+				return false;
+			}
+		}
 		CDefMap omddStatus;
 		itActivate = mActivateChannel.find("OmddChannel");
 		if(itActivate != mActivateChannel.end())
@@ -786,6 +849,10 @@ inline static bool loadDefinition(json& _json)
 														underlyingToWarrant[underlying_code].insert(warrant_code);
 														cache["warrent_map"][std::to_string(warrant_code)] = underlying_code;
 
+														if(underlying_code > 0){
+															stockWarrantomdcMap[warrant_code].m_Code = warrant_code;
+															stockWarrantomdcMap[underlying_code].m_Code = underlying_code;
+														}
 
 														int wtype = 0;
 														if(omdcAdditionDefinition.CallPutFlag == "C")
