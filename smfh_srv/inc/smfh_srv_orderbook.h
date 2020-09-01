@@ -84,9 +84,11 @@ inline static unsigned char buildSlimOmdcOrderBook(dbp::omd::COmdMsgHeader* _pMs
 			pOrderArray[uPriceLevel - 1].m_iPrice = iPrice;
 			pOrderArray[uPriceLevel - 1].m_uQuantity = uAggregateQuantity;
 			pOrderArray[uPriceLevel - 1].m_uNumberOfOrder = uNumberOfOrders;
+			/*
 			if(uPriceLevel < smallestlevel){
 				smallestlevel = uPriceLevel;
 			}
+			*/
 		}
 		else if (2 == uUpdateAction)
 		{
@@ -94,6 +96,10 @@ inline static unsigned char buildSlimOmdcOrderBook(dbp::omd::COmdMsgHeader* _pMs
 			pOrderArray[9].m_iPrice = 0;
 			pOrderArray[9].m_uQuantity = 0;
 			pOrderArray[9].m_uNumberOfOrder = 0;
+
+			if(uPriceLevel < smallestlevel){
+				smallestlevel = uPriceLevel;
+			}
 		}
 		else if (0 == uUpdateAction)
 		{
