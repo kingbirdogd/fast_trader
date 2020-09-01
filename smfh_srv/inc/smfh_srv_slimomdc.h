@@ -10,19 +10,20 @@ inline static void handleSlimOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 #endif
 {
 	unsigned int uSecurityCode = OMD_GET_VALUE(_pMsg, 4, unsigned int);
-/*
+
 	auto it = omdcSlimMap.find(uSecurityCode);
 	if (omdcSlimMap.end() == it)
 	{
 		return;
 	}
-	*/
 
+
+	/*
 	auto it = omdcMap.find(uSecurityCode);
 	if (omdcMap.end() == it)
 	{
 		return;
-	}
+	}*/
 
 	COmdOrderbook& rOrderBook = it->second;
 #ifndef NOT_MEASURE

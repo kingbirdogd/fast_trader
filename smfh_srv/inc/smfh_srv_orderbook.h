@@ -84,11 +84,11 @@ inline static unsigned char buildSlimOmdcOrderBook(dbp::omd::COmdMsgHeader* _pMs
 			pOrderArray[uPriceLevel - 1].m_iPrice = iPrice;
 			pOrderArray[uPriceLevel - 1].m_uQuantity = uAggregateQuantity;
 			pOrderArray[uPriceLevel - 1].m_uNumberOfOrder = uNumberOfOrders;
-			/*
+
 			if(uPriceLevel < smallestlevel){
 				smallestlevel = uPriceLevel;
 			}
-			*/
+
 		}
 		else if (2 == uUpdateAction)
 		{

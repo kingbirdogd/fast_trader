@@ -34,12 +34,11 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 		rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 		unsigned char updatelvl = buildSlimOmdcOrderBook(_pMsg, rOrderBook);
 
-
 		rOrderBook.m_AccumulateBuyQuantity = 0;
 		rOrderBook.m_AccumulateSellQuantity = 0;
 		rOrderBook.m_AccumulateBlankQuantity = 0;
 		//if(updatelvl <= TRADABLE_BOOK_SIZE ){
-		if(updatelvl <= TRADABLE_BOOK_SIZE ){
+		if(updatelvl <= TRADABLE_BOOK_SIZE && uSecurityCode>10000){
 			std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
 			std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
 			//std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, 3 * sizeof(OrderItem));
@@ -68,7 +67,9 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 			rOrderBook.m_TradeSide = TradeSide::NO_SIDE;
 			rOrderBook.m_AccumulateBlankQuantity += rOrderBook.m_LastTradeQuantity;
 		}
-		broadcastQueue.enqueue(rOrderBook);
+		if(uSecurityCode<10000){
+			broadcastQueue.enqueue(rOrderBook);
+		}
 	}
 }
 #endif
