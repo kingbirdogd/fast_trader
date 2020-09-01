@@ -272,7 +272,7 @@
 	},
 	"ActivateChannel":
 	[
-		{"Channel":"SlimOmdcChannel"},
+		{"Channel":"SWOmdcChannel"},
 		{"Channel":"PriceTableChannel"},
 		{"Channel":"S1Channel"}
 	]
