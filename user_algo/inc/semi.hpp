@@ -205,8 +205,8 @@ private:
 		unsigned long long default_buy_price()
 		{
 			unsigned long long price = _buy_price;
-			auto it = omdcMap.find(_warrant_code);
-			if (omdcMap.end() != it)
+			auto it = stockWarrantomdcMap.find(_warrant_code);
+			if (stockWarrantomdcMap.end() != it)
 			{
 				auto& tradable = it->second;
 				if (0 != tradable.m_Ask[0].m_iPrice)
@@ -219,8 +219,8 @@ private:
 		unsigned long long default_sell_price()
 		{
 			unsigned long long price = _sell_price;
-			auto it = omdcMap.find(_warrant_code);
-			if (omdcMap.end() != it)
+			auto it = stockWarrantomdcMap.find(_warrant_code);
+			if (stockWarrantomdcMap.end() != it)
 			{
 				auto& tradable = it->second;
 				if (0 != tradable.m_Bid[0].m_iPrice)

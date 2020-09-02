@@ -427,7 +427,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 				p._underlying_code = it_omdd->second;
 				p._is_omdd = true;
 			}
-			if (omdcMap.end() == omdcMap.find(p._warrant_code))
+			if (stockWarrantomdcMap.end() == stockWarrantomdcMap.find(p._warrant_code))
 			{
 				auto msg = algo_err_msg_pool.get_obj();
 				msg->al = this;
@@ -455,7 +455,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 			}
 			else
 			{
-				if (omdcMap.end() == omdcMap.find(p._underlying_code))
+				if (stockWarrantomdcMap.end() == stockWarrantomdcMap.find(p._underlying_code))
 				{
 					auto msg = algo_err_msg_pool.get_obj();
 					msg->al = this;
