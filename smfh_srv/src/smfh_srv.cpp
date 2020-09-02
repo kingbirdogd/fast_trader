@@ -47,8 +47,23 @@ inline void decode()
 		if (cmd == "get_omdc_tradable")
 		{
 			auto code = j["code"].get<unsigned int>();
+			/*
 			auto it = omdcMap.find(code);
 			if (omdcMap.end() == it)
+			{
+				j["error"] = "omdc code not found";
+				output(j);
+				return;
+			}
+			else
+			{
+				j["omdc_tradable"] = it->second.to_json();
+				output(j);
+				return;
+			}
+			*/
+			auto it = stockWarrantomdcMap.find(code);
+			if (stockWarrantomdcMap.end() == it)
 			{
 				j["error"] = "omdc code not found";
 				output(j);
