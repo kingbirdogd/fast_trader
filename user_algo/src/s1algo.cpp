@@ -134,6 +134,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							msg->side = "BID";
 							msg->wprice = best_bid_price;
 							ouputQueue.enqueue(msg);
+
+							Log("Warrant Code = " + to_string(code) + " WBid Change from " + to_string(p->PBestbid) + " To " + to_string(best_bid_price));
 						}
 					}
 				}
@@ -1116,9 +1118,16 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		{
 
 			//s1signal* s1s = s1SignalMap[code];
+			unsigned long long wp = calWeightedPrice(bid_price1,bid_price2,bid_price3,
+												best_bid_vol1-trade_sell_quantity, best_bid_vol2, best_bid_vol3,
+												ask_price1,ask_price2,ask_price3,
+												best_ask_vol1-trade_buy_quantity, best_ask_vol2, best_ask_vol3
+				);
+			wp = wp * 100000;
 
+			Log("UCode =  " + to_string(code) + " BestBid = " + to_string(bid_price) + " Ask Price = " + to_string(ask_price) + " WP = " + to_string(wp)) ;
 
-			if(TradeSide::BUY_SIDE == side && trade_buy_quantity >= best_ask_vol && best_bid_vol>=obs->ReadyBidBuy && obs->Status == STATUS_READY){
+			if(TradeSide::BUY_SIDE == side && obs->DetectedAsk == trade_price && trade_buy_quantity >= best_ask_vol && best_bid_vol>=obs->ReadyBidBuy && obs->Status == STATUS_READY){
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
 
 
