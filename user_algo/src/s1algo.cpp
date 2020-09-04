@@ -218,7 +218,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			unsigned long long  best_bid_vol3 = 0ull;
 			unsigned long long  best_ask_vol3 = 0ull;
 
-			auto itpdata = pricedataMap.find(tradable.m_Code);
+			auto itpdata = pricedataMap.find(code);
 			if(itpdata != pricedataMap.end()){
 				pricedata* pd = itpdata->second;
 				bid_price1 = pd->Bestbid1;
