@@ -89,60 +89,71 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 	if(itw != warrantPriceMap.end()){
 		priceinfo* p = itw->second;
 
+		auto itobs = obMap.find(p->UCode);
+		if(itobs == obMap.end()){
+			return;
+		}
+
+		OBSetting* obs = itobs->second;
+		if(obs == nullptr)
+			return;
+
 		if(p->Bestbid != best_bid_price){
 			p->PBestbid = p->Bestbid;
 
-			auto itobs = obMap.find(p->UCode);
-			if(itobs != obMap.end()){
-				OBSetting* obs = itobs->second;
-				if(obs != nullptr){
-					if(obs->hasPosition){
-						if(obs->isExist(code)){
+			if(obs->hasPosition){
+				if(obs->isExist(code)){
 
-							warrant* w = obs->getRelatedWarrant(code);
-							if(w->isWinSell){
-								if(w->BuyPrice > 0 && best_bid_price > 0){
-									if(best_bid_price > w->BuyPrice && w->Status == STATUS_AVAILABLE){
-										Log("Warrant Code = " + to_string(code) + " Do Quick Win Sell @ " + to_string(best_bid_price) + " Buy Price = " + to_string(w->BuyPrice));
-										w->Status = STATUS_SELLING;
-										bool result = doWarrantAction(w, dbp::top::order_side::sell, best_bid_price, w->Quantity);
-										if(!result){
-											obs->setRelatedWarrantStatus(w->Code, STATUS_AVAILABLE);
-										}
-									}
+					warrant* w = obs->getRelatedWarrant(code);
+					if(w->isWinSell){
+						if(w->BuyPrice > 0 && best_bid_price > 0){
+							if(best_bid_price > w->BuyPrice && w->Status == STATUS_AVAILABLE){
+								Log("Warrant Code = " + to_string(code) + " Do Quick Win Sell @ " + to_string(best_bid_price) + " Buy Price = " + to_string(w->BuyPrice));
+								w->Status = STATUS_SELLING;
+								bool result = doWarrantAction(w, dbp::top::order_side::sell, best_bid_price, w->Quantity);
+								if(!result){
+									obs->setRelatedWarrantStatus(w->Code, STATUS_AVAILABLE);
 								}
 							}
-							if(w->isWinOrLvlSell){
-								if(w->BuyPrice > 0 && best_bid_price > 0){
-									if(best_bid_price >= w->BuyPrice && w->Status == STATUS_AVAILABLE){
-										Log("Warrant Code = " + to_string(code) + " Do Quick Win Lvl Sell @ " + to_string(best_bid_price) + " Buy Price = " + to_string(w->BuyPrice));
-										w->Status = STATUS_SELLING;
-										bool result = doWarrantAction(w, dbp::top::order_side::sell, best_bid_price, w->Quantity);
-										if(!result){
-											obs->setRelatedWarrantStatus(w->Code, STATUS_AVAILABLE);
-										}
-									}
-								}
-							}
-
-							auto msg = algo_warrantprice_msg_pool.get_obj();
-							msg->al = this;
-							msg->algo_name = _name;
-							msg->id = _u.get_id();
-							msg->ref = std::to_string(code);
-							msg->warrant_code = code;
-							msg->side = "BID";
-							msg->wprice = best_bid_price;
-							ouputQueue.enqueue(msg);
-
-							Log("Warrant Code = " + to_string(code) + " WBid Change from " + to_string(p->PBestbid) + " To " + to_string(best_bid_price));
 						}
 					}
+					if(w->isWinOrLvlSell){
+						if(w->BuyPrice > 0 && best_bid_price > 0){
+							if(best_bid_price >= w->BuyPrice && w->Status == STATUS_AVAILABLE){
+								Log("Warrant Code = " + to_string(code) + " Do Quick Win Lvl Sell @ " + to_string(best_bid_price) + " Buy Price = " + to_string(w->BuyPrice));
+								w->Status = STATUS_SELLING;
+								bool result = doWarrantAction(w, dbp::top::order_side::sell, best_bid_price, w->Quantity);
+								if(!result){
+									obs->setRelatedWarrantStatus(w->Code, STATUS_AVAILABLE);
+								}
+							}
+						}
+					}
+
+					auto msg = algo_warrantprice_msg_pool.get_obj();
+					msg->al = this;
+					msg->algo_name = _name;
+					msg->id = _u.get_id();
+					msg->ref = std::to_string(code);
+					msg->warrant_code = code;
+					msg->side = "BID";
+					msg->wprice = best_bid_price;
+					ouputQueue.enqueue(msg);
+
+					Log("UCODE = " + to_string(p->UCode) + " Warrant Code = " + to_string(code) + " WBid Change from " + to_string(p->PBestbid) + " To " + to_string(best_bid_price));
 				}
 			}
+
 		}
+
 		if(p->Bestask != best_ask_price){
 			p->PBestask = p->Bestask;
+
+			if(obs->Status == STATUS_READY || obs->Status == STATUS_AVAILABLE){
+				if(obs->isExist(code)){
+					Log("UCODE = " + to_string(p->UCode) + " Warrant Code = " + to_string(code) + " WAsk Change from " + to_string(p->PBestask) + " To " + to_string(best_ask_price));
+				}
+			}
 		}
 
 		/*
@@ -194,6 +205,45 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 		if(obs->hasPosition)
 		{
+			unsigned long long  bid_price1 = 0ull;
+			unsigned long long  ask_price1 = 0ull;
+			unsigned long long  bid_price2 = 0ull;
+			unsigned long long  ask_price2 = 0ull;
+			unsigned long long  bid_price3 = 0ull;
+			unsigned long long  ask_price3 = 0ull;
+			unsigned long long  best_bid_vol1 = 0ull;
+			unsigned long long  best_ask_vol1 = 0ull;
+			unsigned long long  best_bid_vol2 = 0ull;
+			unsigned long long  best_ask_vol2 = 0ull;
+			unsigned long long  best_bid_vol3 = 0ull;
+			unsigned long long  best_ask_vol3 = 0ull;
+
+			auto itpdata = pricedataMap.find(tradable.m_Code);
+			if(itpdata != pricedataMap.end()){
+				pricedata* pd = itpdata->second;
+				bid_price1 = pd->Bestbid1;
+				ask_price1 = pd->Bestask1;
+				bid_price2 = pd->Bestbid2;
+				ask_price2 = pd->Bestask2;
+				bid_price3 = pd->Bestbid3;
+				ask_price3 = pd->Bestask3;
+				best_bid_vol1 = pd->BestBidQty1;
+				best_ask_vol1 = pd->BestAskQty1;
+				best_bid_vol2 = pd->BestBidQty2;
+				best_ask_vol2 = pd->BestAskQty2;
+				best_bid_vol3 = pd->BestBidQty3;
+				best_ask_vol3 = pd->BestAskQty3;
+			}
+
+			unsigned long long wp = calWeightedPrice(bid_price1,bid_price2,bid_price3,
+							best_bid_vol1, best_bid_vol2, best_bid_vol3,
+							ask_price1,ask_price2,ask_price3,
+							best_ask_vol1, best_ask_vol2, best_ask_vol3
+				);
+			wp = wp * 100000;
+
+			Log("Code = " + to_string(code) + " BestBid : " + to_string(bid_price1) + " BestAsk : " + to_string(ask_price1) + " WP : " + to_string(wp));
+
 			if(obs->SpreadTableCode == ""){
 				Log("Code = " + to_string(code) + " Empty Spread Table ");
 				COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
@@ -861,7 +911,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		auto trade_sell_quantity = static_cast<unsigned long long>(tradable.m_AccumulateSellQuantity);
 		auto trade_buy_quantity = static_cast<unsigned long long>(tradable.m_AccumulateBuyQuantity);
 
-		unsigned long long bid_price1 = 0ull;
+		unsigned long long  bid_price1 = 0ull;
 		unsigned long long  ask_price1 = 0ull;
 		unsigned long long  bid_price2 = 0ull;
 		unsigned long long  ask_price2 = 0ull;
