@@ -76,14 +76,15 @@ void top_shared_client::send(const void* ptr, std::size_t size)
 {
 	if (_connected)
 	{
-		//std::fprintf(stderr, "top_shared_client::send\n");
 		auto it = _node->obj_to_id.find(this);
 		if (_node->obj_to_id.end() != it)
 		{
-			//std::fprintf(stderr, "top_shared_client::find obj : send\n");
-			SendClientRequest(it->second, static_cast<const char*>(ptr), size);
+			send_item item;
+			item.connectionID = it->second;
+			item.buff.resize(size);
+			std::memcpy(&item.buff[0], ptr, size);
+			_send_queue.enqueue(item);
 		}
-		//std::fprintf(stderr, "top_shared_client::end send\n");
 	}
 }
 
