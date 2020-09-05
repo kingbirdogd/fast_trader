@@ -7,6 +7,7 @@
 #include <sstream>
 #include <algorithm>
 #include <algo.hpp>
+#include <top_shared_client.hpp>
 #include "smfh_srv_channel.h"
 using namespace std;
 using namespace dbp;
@@ -321,6 +322,35 @@ inline void startUsers()
 	}
 }
 
+inline void startTopSend()
+{
+	if (top_shared_client::has_instanse)
+	{
+		std::thread* pThread = new std::thread
+		(
+			[&]
+			()
+			{
+				while (true)
+					top_shared_client::do_send();
+			}
+		);
+		pthread_t iThread = pThread->native_handle();
+#ifndef __APPLE__
+		cpu_set_t cpuset;
+		CPU_ZERO(&cpuset);
+		CPU_SET(cpuInfo.getCore(), &cpuset);
+		pthread_setaffinity_np(iThread, sizeof(cpu_set_t), &cpuset);
+#endif
+		struct sched_param sch;
+		memset (&sch, 0, sizeof(struct sched_param));
+		int iPolicy = 0;
+		pthread_getschedparam(iThread, &iPolicy, &sch);
+		sch.sched_priority = SCHED_PRIORITY;
+		pthread_setschedparam(iThread, SCHED_TYPE, &sch);
+	}
+}
+
 inline static bool start()
 {
 	auto itActivate = mActivateChannel.find("OmdcChannel");
@@ -610,6 +640,7 @@ inline static bool initJson(const char* _pszJsonPath)
 	}
 
 	startUsers();
+	startTopSend();
 	return true;
 }
 
