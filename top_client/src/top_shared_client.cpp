@@ -3,6 +3,18 @@
 
 top_shared_node* top_shared_client::_node = nullptr;
 
+top_shared_client::top_send_buffer_queue top_shared_client::_send_queue;
+bool top_shared_client::has_instanse = false;
+
+void top_shared_client::do_send()
+{
+	send_item item;
+	if (_send_queue.try_dequeue(item))
+	{
+		SendClientRequest(item.connectionID, static_cast<const char*>(&item.buff[0]), item.buff.size());
+	}
+}
+
 top_shared_client::top_shared_client
 (
 	const std::string& user,
@@ -19,6 +31,11 @@ top_shared_client::top_shared_client
 	}
 	std::fprintf(stderr, "start top_shared_client\n");
 	_queue.warm_up();
+	if (!has_instanse)
+	{
+		has_instanse = true;
+		_send_queue.warm_up();
+	}
 }
 
 top_shared_client::top_shared_client(top_shared_client&& client):

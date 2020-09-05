@@ -10,8 +10,19 @@ class top_shared_client : public top_client
 private:
 	using top_buffer = std::vector<char>;
 	using top_buffer_queue = rapid_ring::mpsc_ring_buffer_queue<top_buffer, 8192>;
+	struct send_item
+	{
+		int connectionID;
+		top_buffer buff;
+	};
+	using top_send_buffer_queue = rapid_ring::mpsc_ring_buffer_queue<send_item, 8192>;
 private:
 	static top_shared_node* _node;
+	static top_send_buffer_queue _send_queue;
+public:
+	static bool has_instanse;
+public:
+	static void do_send();
 private:
 	top_buffer_queue _queue;
 	bool _connected;
