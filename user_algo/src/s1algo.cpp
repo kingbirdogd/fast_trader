@@ -970,7 +970,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 
 				unsigned long long highestStopLost = obs->getHighestStopLostPrice();
-				Log("UCode = " + to_string(code) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price) + " Best Ask = " + to_string(ask_price)  + " WP = " + to_string(wp));
+				Log("UCode = " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price) + " Best Ask = " + to_string(ask_price)  + " WP = " + to_string(wp));
 				//Log("UCode = " + to_string(code) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price));
 
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
@@ -1175,7 +1175,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 				);
 			wp = wp * 100000;
 
-			Log("UCode =  " + to_string(code) + " BestBid = " + to_string(bid_price) + " Ask Price = " + to_string(ask_price) + " WP = " + to_string(wp)) ;
+			Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " BestBid = " + to_string(bid_price) + " Ask Price = " + to_string(ask_price) + " WP = " + to_string(wp)) ;
 
 			if(TradeSide::BUY_SIDE == side && obs->DetectedAsk == trade_price && trade_buy_quantity >= best_ask_vol && best_bid_vol>=obs->ReadyBidBuy && obs->Status == STATUS_READY){
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
