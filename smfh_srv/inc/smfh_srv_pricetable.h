@@ -23,9 +23,55 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 	if (53 == _pMsg->m_uMsgType)
 	{
 		rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
-		buildOmdcOrderBook(_pMsg, rOrderBook);
-		std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, 3 * sizeof(OrderItem));
-		std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, 3 * sizeof(OrderItem));
+		//buildOmdcOrderBook(_pMsg, rOrderBook);
+		unsigned char updatelvl = buildSlimOmdcOrderBook(_pMsg, rOrderBook);
+
+		pricedata* pd = pricedataMap[uSecurityCode];
+
+		if(pd->isWarrant){
+			if(updatelvl <= 1){
+				std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, 1 * sizeof(OrderItem));
+				std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, 1 * sizeof(OrderItem));
+			}else{
+				return;
+			}
+		}else{
+			if(updatelvl <= 3){
+				std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, 3 * sizeof(OrderItem));
+				std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, 3 * sizeof(OrderItem));
+
+				auto best_bid_price1 = static_cast<unsigned long long>(rOrderBook.m_Bid[0].m_iPrice);
+				auto best_ask_price1 = static_cast<unsigned long long>(rOrderBook.m_Ask[0].m_iPrice);
+				auto best_bid_price2 = static_cast<unsigned long long>(rOrderBook.m_Bid[1].m_iPrice);
+				auto best_ask_price2 = static_cast<unsigned long long>(rOrderBook.m_Ask[1].m_iPrice);
+				auto best_bid_price3 = static_cast<unsigned long long>(rOrderBook.m_Bid[2].m_iPrice);
+				auto best_ask_price3 = static_cast<unsigned long long>(rOrderBook.m_Ask[2].m_iPrice);
+				auto best_bid_qty1 = static_cast<unsigned long long>(rOrderBook.m_Bid[0].m_uQuantity);
+				auto best_ask_qty1 = static_cast<unsigned long long>(rOrderBook.m_Ask[0].m_uQuantity);
+				auto best_bid_qty2 = static_cast<unsigned long long>(rOrderBook.m_Bid[1].m_uQuantity);
+				auto best_ask_qty2 = static_cast<unsigned long long>(rOrderBook.m_Ask[1].m_uQuantity);
+				auto best_bid_qty3 = static_cast<unsigned long long>(rOrderBook.m_Bid[2].m_uQuantity);
+				auto best_ask_qty3 = static_cast<unsigned long long>(rOrderBook.m_Ask[2].m_uQuantity);
+				pd->Bestbid1 = best_bid_price1;
+				pd->Bestbid2 = best_bid_price2;
+				pd->Bestbid3 = best_bid_price3;
+				pd->Bestask1 = best_ask_price1;
+				pd->Bestask2 = best_ask_price2;
+				pd->Bestask3 = best_ask_price3;
+				pd->BestBidQty1 = best_bid_qty1;
+				pd->BestBidQty2 = best_bid_qty2;
+				pd->BestBidQty3 = best_bid_qty3;
+				pd->BestAskQty1 = best_ask_qty1;
+				pd->BestAskQty2 = best_ask_qty2;
+				pd->BestAskQty3 = best_ask_qty3;
+
+			}else{
+				return;
+			}
+		}
+
+		//std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, 3 * sizeof(OrderItem));
+		//std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, 3 * sizeof(OrderItem));
 		//std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
 		//std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
 
@@ -37,7 +83,7 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 
 
 
-		pricedata* pd = pricedataMap[uSecurityCode];
+		//pricedata* pd = pricedataMap[uSecurityCode];
 
 		if(pd->isWarrant){
 
@@ -92,7 +138,7 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 			pd->Bestask = best_ask_price;
 			pd->BestAskQty = best_ask_qty;
 		}
-
+/*
 		if(pd->isUnderlying){
 			auto best_bid_price1 = static_cast<unsigned long long>(rOrderBook.m_Bid[0].m_iPrice);
 			auto best_ask_price1 = static_cast<unsigned long long>(rOrderBook.m_Ask[0].m_iPrice);
@@ -119,7 +165,7 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 			pd->BestAskQty2 = best_ask_qty2;
 			pd->BestAskQty3 = best_ask_qty3;
 		}
-
+*/
 	}
 	else if( 60 == _pMsg->m_uMsgType)
 	{
