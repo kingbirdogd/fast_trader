@@ -149,7 +149,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		if(p->Bestask != best_ask_price){
 			p->PBestask = p->Bestask;
 
-			if(obs->Status == STATUS_READY || obs->Status == STATUS_AVAILABLE){
+			if(obs->Status == STATUS_READY || obs->Status == STATUS_AVAILABLE || obs->Status == STATUS_PENDING){
 				if(obs->isExist(code)){
 					Log("UCODE = " + to_string(p->UCode) + " Warrant Code = " + to_string(code) + " WAsk Change from " + to_string(p->PBestask) + " To " + to_string(best_ask_price));
 				}
@@ -503,6 +503,48 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							Log("Code = " + to_string(code) + " Has Signal @ " + to_string(best_ask_price));
 
 							signalCount++;
+
+							unsigned long long  bid_price1 = 0ull;
+							unsigned long long  ask_price1 = 0ull;
+							unsigned long long  bid_price2 = 0ull;
+							unsigned long long  ask_price2 = 0ull;
+							unsigned long long  bid_price3 = 0ull;
+							unsigned long long  ask_price3 = 0ull;
+							unsigned long long  best_bid_vol1 = 0ull;
+							unsigned long long  best_ask_vol1 = 0ull;
+							unsigned long long  best_bid_vol2 = 0ull;
+							unsigned long long  best_ask_vol2 = 0ull;
+							unsigned long long  best_bid_vol3 = 0ull;
+							unsigned long long  best_ask_vol3 = 0ull;
+
+							auto itpdata = pricedataMap.find(code);
+							if(itpdata != pricedataMap.end()){
+								pricedata* pd = itpdata->second;
+								bid_price1 = pd->Bestbid1;
+								ask_price1 = pd->Bestask1;
+								bid_price2 = pd->Bestbid2;
+								ask_price2 = pd->Bestask2;
+								bid_price3 = pd->Bestbid3;
+								ask_price3 = pd->Bestask3;
+								best_bid_vol1 = pd->BestBidQty1;
+								best_ask_vol1 = pd->BestAskQty1;
+								best_bid_vol2 = pd->BestBidQty2;
+								best_ask_vol2 = pd->BestAskQty2;
+								best_bid_vol3 = pd->BestBidQty3;
+								best_ask_vol3 = pd->BestAskQty3;
+							}
+
+							unsigned long long wp = calWeightedPrice(bid_price1,bid_price2,bid_price3,
+											best_bid_vol1, best_bid_vol2, best_bid_vol3,
+											ask_price1,ask_price2,ask_price3,
+											best_ask_vol1, best_ask_vol2, best_ask_vol3
+								);
+							wp = wp * 100000;
+
+							Log("Detected Code = " + to_string(code) + " BestBid : " + to_string(bid_price1) + " BestAsk : " + to_string(ask_price1) + " WP : " + to_string(wp));
+
+
+
 
 							if(signalCount <= 0){
 								signalCount = 1;
