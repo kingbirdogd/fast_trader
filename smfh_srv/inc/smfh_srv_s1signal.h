@@ -28,18 +28,22 @@ inline static void handleS1Signal(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 	{
 		rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 		buildOmdcOrderBook(_pMsg, rOrderBook);
-		std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, 3 * sizeof(OrderItem));
-		std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, 3 * sizeof(OrderItem));
+
+		OrderItem m_Bid[3];
+		OrderItem m_Ask[3];
+
+		std::memcpy(m_Bid, rOrderBook.m_BidOrder, 3 * sizeof(OrderItem));
+		std::memcpy(m_Ask, rOrderBook.m_AskOrder, 3 * sizeof(OrderItem));
 
 		//auto best_bid_price = static_cast<unsigned long long>(rOrderBook.m_Bid[0].m_iPrice) * 100000;
 		//auto best_bid_qty = static_cast<unsigned long long>(rOrderBook.m_Bid[0].m_uQuantity);
 
-		auto best_ask_price1 = static_cast<unsigned long long>(rOrderBook.m_Ask[0].m_iPrice) * 100000;
-		auto best_ask_qty1 = static_cast<unsigned long long>(rOrderBook.m_Ask[0].m_uQuantity);
+		auto best_ask_price1 = static_cast<unsigned long long>(m_Ask[0].m_iPrice) * 100000;
+		auto best_ask_qty1 = static_cast<unsigned long long>(m_Ask[0].m_uQuantity);
 		//auto best_ask_price2 = static_cast<unsigned long long>(rOrderBook.m_Ask[1].m_iPrice) * 100000;
-		auto best_ask_qty2 = static_cast<unsigned long long>(rOrderBook.m_Ask[1].m_uQuantity);
+		auto best_ask_qty2 = static_cast<unsigned long long>(m_Ask[1].m_uQuantity);
 		//auto best_ask_price3 = static_cast<unsigned long long>(rOrderBook.m_Ask[2].m_iPrice) * 100000;
-		auto best_ask_qty3 = static_cast<unsigned long long>(rOrderBook.m_Ask[2].m_uQuantity);
+		auto best_ask_qty3 = static_cast<unsigned long long>(m_Ask[2].m_uQuantity);
 
 		s1signal* s1s = s1SignalMap[uSecurityCode];
 
