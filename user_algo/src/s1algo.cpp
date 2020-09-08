@@ -1326,6 +1326,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 						obs->hasPosition = false;
 						obs->BuyPrice = ask_price;
 						obs->StopLostPrice = bid_price;
+						obs->HighestStopLost = bid_price;
 						obs->BuyTime = DateUtil::getCurrentTime();
 						obs->TradeTime = DateUtil::getCurrentSystemTime();
 
@@ -1627,6 +1628,9 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					if(odr.match_records.size() > 0){
 						for(unsigned int i=0; i<odr.match_records.size(); i++){
 							dbp::top::match_record mr = odr.match_records[i];
+
+							obsw->SellPrice = mr.match_price;
+
 							Log("Match Price = " + to_string(mr.match_price) + " Match Qty = " + to_string(mr.match_quantity));
 						}
 					}

@@ -40,6 +40,7 @@ public:
 	unsigned long long SellPrice;
 	string SoldTime;
 	unsigned long long StopLostPrice;
+	unsigned long long HighestStopLost;
 	int StopLostTick;
 	string DetectTime;
 	string SpreadTableCode;

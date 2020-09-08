@@ -52,6 +52,7 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				auto best_ask_qty2 = static_cast<unsigned long long>(rOrderBook.m_Ask[1].m_uQuantity);
 				auto best_bid_qty3 = static_cast<unsigned long long>(rOrderBook.m_Bid[2].m_uQuantity);
 				auto best_ask_qty3 = static_cast<unsigned long long>(rOrderBook.m_Ask[2].m_uQuantity);
+
 				pd->Bestbid1 = best_bid_price1;
 				pd->Bestbid2 = best_bid_price2;
 				pd->Bestbid3 = best_bid_price3;
