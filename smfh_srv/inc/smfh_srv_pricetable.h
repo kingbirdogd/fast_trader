@@ -33,8 +33,8 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 
 		if(pd->isWarrant){
 			if(updatelvl <= 1){
-				std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, 1 * sizeof(OrderItem));
-				std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, 1 * sizeof(OrderItem));
+				std::memcpy(m_Bid, rOrderBook.m_BidOrder, 1 * sizeof(OrderItem));
+				std::memcpy(m_Ask, rOrderBook.m_AskOrder, 1 * sizeof(OrderItem));
 			}else{
 				return;
 			}

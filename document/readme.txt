@@ -37,3 +37,20 @@
   	smfh_srv.cpp
   	top_shared_client.hpp
   	top_shared_client.cpp
+  	
+  #Item 2: Integrate TCP Data to Framework Channel
+  e.g: smfh_srv_tcpchannel
+  
+  MsgType: REUTERS_DATA
+  REUTERS_DATA = 0x07
+  
+  	*ReutersCodeMap
+  	*Assign a m_Code in tradeable for each Reuters Symbol
+  	*The Data Broadcast to the broadcastQueue
+  	
+  	
+  	  
+  
+  
+  
+  
