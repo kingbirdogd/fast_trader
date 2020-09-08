@@ -91,11 +91,11 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 		//std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
 		//std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
 
-		auto best_bid_price = static_cast<unsigned long long>(rOrderBook.m_Bid[0].m_iPrice) * 100000;
-		auto best_bid_qty = static_cast<unsigned long long>(rOrderBook.m_Bid[0].m_uQuantity);
+		auto best_bid_price = static_cast<unsigned long long>(m_Bid[0].m_iPrice) * 100000;
+		auto best_bid_qty = static_cast<unsigned long long>(m_Bid[0].m_uQuantity);
 
-		auto best_ask_price = static_cast<unsigned long long>(rOrderBook.m_Ask[0].m_iPrice) * 100000;
-		auto best_ask_qty = static_cast<unsigned long long>(rOrderBook.m_Ask[0].m_uQuantity);
+		auto best_ask_price = static_cast<unsigned long long>(m_Ask[0].m_iPrice) * 100000;
+		auto best_ask_qty = static_cast<unsigned long long>(m_Ask[0].m_uQuantity);
 
 
 
