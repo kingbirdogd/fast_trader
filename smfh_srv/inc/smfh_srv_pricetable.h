@@ -66,6 +66,9 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				pd->BestAskQty2 = best_ask_qty2;
 				pd->BestAskQty3 = best_ask_qty3;
 
+				flush_printf("Code = %u B1 = %llu B2 = %llu B3 = %llu \n", uSecurityCode, best_bid_price1, best_bid_price2, best_bid_price2);
+				flush_printf("Code = %u A1 = %llu A2 = %llu A3 = %llu \n", uSecurityCode, best_ask_price1, best_ask_price2, best_ask_price3);
+
 			}else{
 				return;
 			}

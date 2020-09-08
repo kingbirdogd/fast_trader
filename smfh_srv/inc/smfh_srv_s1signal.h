@@ -50,7 +50,7 @@ inline static void handleS1Signal(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 
 			if(isThick&&isThin1&&isThin2){
 
-				flush_printf("Code = %ul A1 = %llu A2 = %llu A3 = %llu \n", uSecurityCode, best_ask_qty1, best_ask_qty2, best_ask_qty3);
+				//flush_printf("Code = %u A1 = %llu A2 = %llu A3 = %llu \n", uSecurityCode, best_ask_qty1, best_ask_qty2, best_ask_qty3);
 
 
 				s1s->DetectAsk = best_ask_price1;
