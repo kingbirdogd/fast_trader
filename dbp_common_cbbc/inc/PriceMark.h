@@ -83,6 +83,7 @@ public:
 	unsigned long long getIssuerAskQty();
 	void setBidIssuerQty(unsigned long long qty);
 	void setAskIssuerQty(unsigned long long qty);
+	string printTable(unsigned long long ubid);
 };
 
 

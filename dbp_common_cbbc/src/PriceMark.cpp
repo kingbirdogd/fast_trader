@@ -432,5 +432,24 @@ void PriceMark::setAskIssuerQty(unsigned long long qty){
 	AskIssuerQty = qty;
 }
 
+string PriceMark::printTable(unsigned long long ubid){
+
+	unsigned long long spread = spreadTable.getSpread("01", ubid + 1llu);
+	unsigned long long refask = ubid+spread;
+	string ukey = to_string(ubid) +"-"+ to_string(refask);
+
+	string data;
+	int count = 0;
+	for (auto it = priceMarkTable.begin(); it != priceMarkTable.end(); ++it ){
+		string key = it->first.c_str();
+		if(key.compare(ukey) >= 0){
+			data += it->first.c_str() + "=" + it->second.c_str() + "\n";
+			count++;
+		}
+		if(count > 10)
+			break;
+	}
+	return data;
+}
 
 

@@ -1496,6 +1496,13 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						//auto wbest_ask_price = static_cast<unsigned long long>(it->second.m_Ask[0].m_iPrice) * 100000;
 
 					PriceMark* spm = pricemarkMap[code];
+
+					string tTable = spm->printTable(obs->StopLostPrice);
+
+					Log("Warrant Code = " + to_string(code) + " Price Table");
+					Log(tTable);
+
+
 					unsigned long long pcb = spm->sellOut(wbest_bid_price);
 					if(pcb == 99999999){
 						pcb = obs->StopLostPrice;
