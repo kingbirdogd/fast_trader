@@ -441,9 +441,10 @@ string PriceMark::printTable(unsigned long long ubid){
 	string data;
 	int count = 0;
 	for (auto it = priceMarkTable.begin(); it != priceMarkTable.end(); ++it ){
-		string key = it->first.c_str();
+		string key = it->first;
+		string value = it->second;
 		if(key.compare(ukey) >= 0){
-			data += it->first.c_str() + "=" + it->second.c_str() + "\n";
+			data += key + "=" + value + "\n";
 			count++;
 		}
 		if(count > 10)
