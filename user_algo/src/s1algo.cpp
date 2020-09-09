@@ -1129,6 +1129,8 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								}
 
 
+
+
 								//unsigned long long wbest_bid_Qty = warrantPriceMap[wobsArray[i]->Code]->BidQty;
 								//if(wbest_bid_Qty < spm->getIssuerBidQty()){
 								//	continue;
@@ -1506,7 +1508,12 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					unsigned long long pcb = spm->sellOut(wbest_bid_price);
 					if(pcb == 99999999){
 						pcb = obs->StopLostPrice;
+					}else{
+						if(pcb > obs->StopLostPrice){
+							pcb = obs->StopLostPrice;
+						}
 					}
+
 
 					obsw->StopLostPrice = pcb;
 					obsw->RefWBid = wbest_bid_price;
@@ -1569,7 +1576,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						msg->stoplost = 0;
 						msg->order_price = odr.ori_price;
 						msg->order_quantity = wobs->BuyQuantity;
-						msg->transaction_time = wobs->BuyTime;
+						msg->transaction_time = string(odr.transaction_tm);
 						msg->status = "cancel";
 						msg->reason = string(odr.reject_reason);
 

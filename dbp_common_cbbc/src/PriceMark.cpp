@@ -15,7 +15,8 @@
 
 
 
-PriceMark::PriceMark(int wtype){
+PriceMark::PriceMark(unsigned int code, int wtype){
+	pcode = code;
 	pwtype = wtype;
 }
 
@@ -438,7 +439,7 @@ string PriceMark::printTable(unsigned long long ubid){
 	unsigned long long refask = ubid+spread;
 	string ukey = to_string(ubid) +"-"+ to_string(refask);
 
-	string data;
+	string data = "Warrant Code = " + to_string(pcode) + " Price Table\n";
 	int count = 0;
 	for (auto it = priceMarkTable.begin(); it != priceMarkTable.end(); ++it ){
 		string key = it->first;

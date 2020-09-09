@@ -418,7 +418,7 @@ inline static bool loadDefinition(json& _json)
 					wtype = 2;
 				}
 				if(wtype > 0){
-					pricemarkMap[code] = new PriceMark(wtype);
+					pricemarkMap[code] = new PriceMark(code, wtype);
 				}
 
 
@@ -866,7 +866,7 @@ inline static bool loadDefinition(json& _json)
 
 
 
-														pricemarkMap[uSecurityCode] = new PriceMark(wtype);
+														pricemarkMap[uSecurityCode] = new PriceMark(uSecurityCode, wtype);
 														ptomdcMap[uSecurityCode].m_Code = uSecurityCode;
 														ptomdcMap[underlying_code].m_Code = underlying_code;
 

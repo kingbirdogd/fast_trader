@@ -49,7 +49,7 @@ private:
 	unsigned long long BidIssuerQty;
 	unsigned long long AskIssuerQty;
 public:
-	PriceMark(int wtype);
+	PriceMark(unsigned int code, int wtype);
 	virtual ~PriceMark();
 	vector<string> split(string str, char delimiter);
 
