@@ -503,6 +503,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 						int selectcount = 0;
 
+						pmsg->detectedlist.clear();
+
 						//for(unsigned int j=0; j<selectedIssuer.size(); j++){
 						for(auto f : selectedIssuer) {
 							string issuer = f;
