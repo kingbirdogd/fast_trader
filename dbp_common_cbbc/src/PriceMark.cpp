@@ -157,17 +157,9 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 	if(pwtype == BULL){
 		if(wbid > pwbid && fprice > pfprice){
 			if(pwbid > 0 && pfprice>0){
+				/*
 				auto itp = pDnBidMark.find(wbid);
 				if(itp != pDnBidMark.end()){
-					/*
-					if(itp->second != fprice){
-						pDnBidMark[wbid] = fprice;
-						bidkey = wbid;
-						bidprice = fprice;
-						return true;
-					}else{
-						return false;
-					}*/
 					return false;
 				}
 				pDnBidMark[wbid] = fprice;
@@ -180,11 +172,14 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 				updateTableBid(ukey, wbid);
 
 				return true;
+				*/
+				return false;
 			}
 
 		}
 		if(wbid < pwbid && fprice < pfprice){
 			if(pwbid > 0 && pfprice>0){
+				/*
 				auto itp = pDnBidMark.find(pwbid);
 				if(itp != pDnBidMark.end()){
 					if(itp->second != pfprice){
@@ -195,7 +190,8 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 					}else{
 						return false;
 					}
-				}
+				}*/
+
 				pDnBidMark[pwbid] = pfprice;
 				bidkey = pwbid;
 				bidprice = pfprice;
@@ -273,6 +269,7 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 		if(wask > pwask && fprice > pfprice){
 			if(pwask > 0 && pfprice>0){
 
+				/*
 				auto itp = pUpAskMark.find(pwask);
 				if(itp != pUpAskMark.end()){
 					if(itp->second != pfprice){
@@ -284,6 +281,8 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 						return false;
 					}
 				}
+				*/
+
 				pUpAskMark[pwask] = pfprice;
 				askkey = pwask;
 				askprice = pfprice;
@@ -298,18 +297,9 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 		}
 		if(wask < pwask && fprice < pfprice){
 			if(fprice > 0 && wask>0){
-
+				/*
 				auto itp = pUpAskMark.find(wask);
 				if(itp != pUpAskMark.end()){
-					/*
-					if(itp->second != fprice){
-						pUpAskMark[wask] = fprice;
-						askkey = wask;
-						askprice = fprice;
-						return true;
-					}else{
-						return false;
-					}*/
 					return false;
 				}
 				pUpAskMark[wask] = fprice;
@@ -322,6 +312,8 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 				updateTableAsk(ukey, wask);
 
 				return true;
+				*/
+				return false;
 			}
 
 

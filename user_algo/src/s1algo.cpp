@@ -247,9 +247,11 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			Log("Code = " + to_string(code) + " BestBid : " + to_string(bid_price1) + " BestAsk : " + to_string(ask_price1) + " WP : " + to_string(wp));
 			 */
 
+			/*
 			auto itpdata = pricedataMap.find(code);
 			if(itpdata != pricedataMap.end()){
 				pricedata* pd = itpdata->second;
+
 				unsigned long long bid_price1 = pd->Bestbid1;
 				unsigned long long ask_price1 = pd->Bestask1;
 				unsigned long long bid_price2 = pd->Bestbid2;
@@ -273,7 +275,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 				Log("Detected Code = " + to_string(code) + " BestBid : " + to_string(bid_price1) + " BestAsk : " + to_string(ask_price1) + " WP : " + to_string(wp));
 
 			}
-
+*/
 
 
 			if(obs->SpreadTableCode == ""){
@@ -538,6 +540,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 							signalCount++;
 
+							/*
 							auto itpdata = pricedataMap.find(code);
 							if(itpdata != pricedataMap.end()){
 								pricedata* pd = itpdata->second;
@@ -564,7 +567,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 								Log("Detected Code = " + to_string(code) + " BestBid : " + to_string(bid_price1) + " BestAsk : " + to_string(ask_price1) + " WP : " + to_string(wp));
 
 							}
-
+*/
 
 
 
@@ -977,6 +980,8 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		auto trade_sell_quantity = static_cast<unsigned long long>(tradable.m_AccumulateSellQuantity);
 		auto trade_buy_quantity = static_cast<unsigned long long>(tradable.m_AccumulateBuyQuantity);
 
+
+		/*
 		unsigned long long  bid_price1 = 0ull;
 		unsigned long long  ask_price1 = 0ull;
 		unsigned long long  bid_price2 = 0ull;
@@ -989,7 +994,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		unsigned long long  best_ask_vol2 = 0ull;
 		unsigned long long  best_bid_vol3 = 0ull;
 		unsigned long long  best_ask_vol3 = 0ull;
-
+*/
 		//unsigned int uSecurityCode = static_cast<unsigned long long>();
 
 
@@ -999,7 +1004,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 		if (0 != type && 100 != type)
 			return;
-
+/*
 		auto itpdata = pricedataMap.find(tradable.m_Code);
 		if(itpdata != pricedataMap.end()){
 			pricedata* pd = itpdata->second;
@@ -1016,27 +1021,28 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 			best_bid_vol3 = pd->BestBidQty3;
 			best_ask_vol3 = pd->BestAskQty3;
 		}
-
+*/
 		//Log("on_omdc_trade code = " + to_string(tradable.m_Code) + " OBSetting");
 		OBSetting* obs = it->second;
 
 		if(obs->hasPosition)
 		{
-
+/*
 			unsigned long long wp = calWeightedPrice(bid_price1,bid_price2,bid_price3,
 												best_bid_vol1-trade_sell_quantity, best_bid_vol2, best_bid_vol3,
 												ask_price1,ask_price2,ask_price3,
 												best_ask_vol1-trade_buy_quantity, best_ask_vol2, best_ask_vol3
 				);
 			wp = wp * 100000;
-
+*/
 
 			if(TradeSide::SELL_SIDE == side && trade_sell_quantity >= best_bid_vol){
 
 
 
 				unsigned long long highestStopLost = obs->getHighestStopLostPrice();
-				Log("UCode = " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price) + " Best Ask = " + to_string(ask_price)  + " WP = " + to_string(wp));
+				Log("UCode = " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price) + " Best Ask = " + to_string(ask_price));
+				//Log("UCode = " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price) + " Best Ask = " + to_string(ask_price)  + " WP = " + to_string(wp));
 				//Log("UCode = " + to_string(code) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price));
 
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
@@ -1236,14 +1242,18 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		{
 
 			//s1signal* s1s = s1SignalMap[code];
+			/*
 			unsigned long long wp = calWeightedPrice(bid_price1,bid_price2,bid_price3,
 												best_bid_vol1-trade_sell_quantity, best_bid_vol2, best_bid_vol3,
 												ask_price1,ask_price2,ask_price3,
 												best_ask_vol1-trade_buy_quantity, best_ask_vol2, best_ask_vol3
 				);
 			wp = wp * 100000;
+			*/
 
-			Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + " Ask Price = " + to_string(ask_price) + " WP = " + to_string(wp)) ;
+			//Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + " Ask Price = " + to_string(ask_price) + " WP = " + to_string(wp)) ;
+
+			Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + " Ask Price = " + to_string(ask_price)) ;
 
 			if(TradeSide::BUY_SIDE == side && obs->DetectedAsk == trade_price && trade_buy_quantity >= best_ask_vol && best_bid_vol>=obs->ReadyBidBuy && obs->Status == STATUS_READY){
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();

@@ -28,8 +28,18 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 
 		pricedata* pd = pricedataMap[uSecurityCode];
 
-		OrderItem m_Bid[3];
-		OrderItem m_Ask[3];
+		OrderItem m_Bid[1];
+		OrderItem m_Ask[1];
+
+
+		if(updatelvl <= 1){
+			std::memcpy(m_Bid, rOrderBook.m_BidOrder, 1 * sizeof(OrderItem));
+			std::memcpy(m_Ask, rOrderBook.m_AskOrder, 1 * sizeof(OrderItem));
+		}else{
+			return;
+		}
+
+		/*
 
 		if(pd->isWarrant){
 			if(updatelvl <= 1){
@@ -76,15 +86,12 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				pd->BestAskQty2 = best_ask_qty2;
 				pd->BestAskQty3 = best_ask_qty3;
 
-				//flush_printf("Code = %u B1 = %llu B2 = %llu B3 = %llu \n", uSecurityCode, best_bid_price1, best_bid_price2, best_bid_price3);
-				//flush_printf("Code = %u A1 = %llu A2 = %llu A3 = %llu \n", uSecurityCode, best_ask_price1, best_ask_price2, best_ask_price3);
-				//flush_printf("Code = %u BQ1 = %llu BQ2 = %llu BQ3 = %llu \n", uSecurityCode, best_bid_qty1, best_bid_qty2, best_bid_qty3);
-				//flush_printf("Code = %u AQ1 = %llu AQ2 = %llu AQ3 = %llu \n", uSecurityCode, best_ask_qty1, best_ask_qty2, best_ask_qty3);
-
 			}else{
 				return;
 			}
 		}
+
+*/
 
 		//std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, 3 * sizeof(OrderItem));
 		//std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, 3 * sizeof(OrderItem));
@@ -113,30 +120,42 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 			if(_PriceMark->getWType() == 1){
 				if(pd->Bestbid != best_bid_price && best_bid_price > 0){
 					if(best_bid_qty >= pd->BidIssuerSize){
-						_PriceMark->updateBid(best_bid_price, pd->Bestbid, pdu->Bestbid, pdu->PBestbid);
-						_PriceMark->setBidIssuerQty(best_bid_qty);
+						if(pd->LastBidSeq != pdu->BidSeq){
+							pd->LastBidSeq = pdu->BidSeq;
+							_PriceMark->updateBid(best_bid_price, pd->Bestbid, pdu->Bestbid, pdu->PBestbid);
+							_PriceMark->setBidIssuerQty(best_bid_qty);
+						}
 					}
 				}
 				if(pd->Bestask != best_ask_price && best_ask_price > 0){
 					//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark ASK");
 					if(best_ask_qty >= pd->AskIssuerSize){
-						_PriceMark->updateAsk(best_ask_price, pd->Bestask, pdu->Bestask, pdu->PBestask);
-						_PriceMark->setAskIssuerQty(best_ask_qty);
+						if(pd->LastAskSeq != pdu->AskSeq){
+							pd->LastAskSeq = pdu->AskSeq;
+							_PriceMark->updateAsk(best_ask_price, pd->Bestask, pdu->Bestask, pdu->PBestask);
+							_PriceMark->setAskIssuerQty(best_ask_qty);
+						}
 					}
 				}
 			}else{
 				if(pd->Bestbid != best_bid_price && best_bid_price > 0){
 					//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark BID");
 					if(best_bid_qty >= pd->BidIssuerSize){
-						_PriceMark->updateBid(best_bid_price, pd->Bestbid, pdu->Bestask, pdu->PBestask);
-						_PriceMark->setBidIssuerQty(best_bid_qty);
+						if(pd->LastAskSeq != pdu->AskSeq){
+							pd->LastAskSeq = pdu->AskSeq;
+							_PriceMark->updateBid(best_bid_price, pd->Bestbid, pdu->Bestask, pdu->PBestask);
+							_PriceMark->setBidIssuerQty(best_bid_qty);
+						}
 					}
 				}
 				if(pd->Bestask != best_ask_price && best_ask_price > 0){
 					//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark ASK");
 					if(best_ask_qty >= pd->AskIssuerSize){
-						_PriceMark->updateAsk(best_ask_price, pd->Bestask, pdu->Bestbid, pdu->PBestbid);
-						_PriceMark->setAskIssuerQty(best_ask_qty);
+						if(pd->LastBidSeq != pdu->BidSeq){
+							pd->LastBidSeq = pdu->BidSeq;
+							_PriceMark->updateAsk(best_ask_price, pd->Bestask, pdu->Bestbid, pdu->PBestbid);
+							_PriceMark->setAskIssuerQty(best_ask_qty);
+						}
 					}
 				}
 			}
@@ -145,11 +164,13 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 		}
 
 		if(pd->Bestbid != best_bid_price){
+			pd->BidSeq ++;
 			pd->PBestbid = pd->Bestbid;
 			pd->Bestbid = best_bid_price;
 			pd->BestBidQty = best_bid_qty;
 		}
 		if(pd->Bestask != best_ask_price ){
+			pd->AskSeq ++;
 			pd->PBestask = pd->Bestask;
 			pd->Bestask = best_ask_price;
 			pd->BestAskQty = best_ask_qty;
