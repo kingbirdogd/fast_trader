@@ -1253,7 +1253,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 			//Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + " Ask Price = " + to_string(ask_price) + " WP = " + to_string(wp)) ;
 
-			Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + " Ask Price = " + to_string(ask_price)) ;
+			//Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + " Ask Price = " + to_string(ask_price)) ;
 
 			if(TradeSide::BUY_SIDE == side && obs->DetectedAsk == trade_price && trade_buy_quantity >= best_ask_vol && best_bid_vol>=obs->ReadyBidBuy && obs->Status == STATUS_READY){
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
@@ -1485,12 +1485,13 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 
 					warrant* obsw = obs->getRelatedWarrant(code);
 					obsw->BuyPrice = odr.match_price;
-					if(odr.match_price == 0){
+					unsigned long long filledprice = odr.match_price;
+					if(filledprice == 0){
 						for(unsigned int i=0; i<odr.match_records.size(); i++){
 							dbp::top::match_record mr = odr.match_records[i];
 							Log(">>> Match Price = " + to_string(mr.match_price) + " Match Qty = " + to_string(mr.match_quantity));
 							if(mr.match_price > 0){
-								obsw->BuyPrice = mr.match_price;
+								filledprice = mr.match_price;
 								break;
 							}
 
@@ -1543,7 +1544,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					msg->warrant_code = code;
 					msg->ucode = ucode;
 					msg->side = "BUY";
-					msg->filled_price = odr.match_price;
+					msg->filled_price = filledprice;
 					msg->filled_quantity = odr.filled_quantity;
 					msg->order_price = obsw->BuyPrice;
 					msg->order_quantity = obsw->BuyQuantity;
