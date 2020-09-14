@@ -116,10 +116,12 @@ void bear::on_omdd_book(const Tradable& tradable)
 
 
 		if(uit->second->FBestbid != best_bid_price){
+			uit->second->BidSeq++;
 			uit->second->PFBestbid = uit->second->FBestbid;
 			uit->second->FBestbid = best_bid_price;
 		}
 		if(uit->second->FBestask != best_ask_price ){
+			uit->second->AskSeq++;
 			uit->second->PFBestask = uit->second->FBestask;
 			uit->second->FBestask = best_ask_price;
 		}
@@ -365,6 +367,8 @@ std::string bear::set_pair(pair&& p)
 	auto itu = uprice_map.find(underlying_code);
 	if(itu  == uprice_map.end()){
 		uprice_map[underlying_code] = std::move(new priceinfo());
+		uprice_map[underlying_code]->BidSeq = 0;
+		uprice_map[underlying_code]->AskSeq = 0;
 	}
 
 	Log("set_pair 3");

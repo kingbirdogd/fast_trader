@@ -70,6 +70,11 @@ struct priceinfo{
 
 	int BidChange;
 	int AskChange;
+
+	long BidSeq;
+	long AskSeq;
+	long LastBidSeq;
+	long LastAskSeq;
 };
 
 struct warrant{
