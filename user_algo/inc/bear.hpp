@@ -1083,6 +1083,8 @@ private:
 				_PriceInfoU->PFBestbid =  uprice->PTBestbid;
 				_PriceInfoU->FBestask =  uprice->TBestask;
 				_PriceInfoU->PFBestask =  uprice->PTBestask;
+				_PriceInfoU->BidSeq =  uprice->BidSeq;
+				_PriceInfoU->AskSeq =  uprice->AskSeq;
 
 
 				/*

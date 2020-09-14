@@ -848,6 +848,8 @@ algo_msg_base* bear::json_to_msg(json& json)
 			Log("bear 3");
 			p._OBSetting = new OBSetting();
 			p._PriceInfo = new priceinfo();
+			p._PriceInfo->LastBidSeq=0;
+			p._PriceInfo->LastAskSeq=0;
 			p._PriceInfoU = new priceinfo();
 			p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, 100000);
 
