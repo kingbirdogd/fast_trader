@@ -300,6 +300,9 @@ private:
 		}
 		virtual void on_command()
 		{
+			auto* self = dynamic_cast<s1algo*>(al);
+			result = self->setWinLvlSell(action,ucode, wcode);
+
 			ouputQueue.enqueue(this);
 		}
 		virtual void release()
