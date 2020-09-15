@@ -22,7 +22,7 @@ s1csalgo::s1csalgo(user& u, const std::string& name):
 	lastReadyTime =  0;
 
 
-	MarketStatus = MARKET_PAUSE;
+	MarketStatus = MARKET_START;
 
 	vector<WarrantIv> allW = ivLoader.allWarrants();
 	for(unsigned int i=0; i<allW.size(); i++){
