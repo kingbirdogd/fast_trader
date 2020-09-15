@@ -174,7 +174,9 @@ void s1csalgo::on_omdc_book(const Tradable& tradable)
 		if(issuerit == selectedIssuer.end())
 			return;
 
-
+		if(best_bid_price >= 25000000 ){
+			return;
+		}
 
 
 
@@ -203,6 +205,8 @@ void s1csalgo::on_omdc_book(const Tradable& tradable)
 					obs->removeWarrantOrCbbc(code);
 
 					Log("UCODE = " + to_string(p->UCode) + " Warrant Code = " + to_string(code) + " Remove Detected");
+
+					return;
 				}
 			}
 
