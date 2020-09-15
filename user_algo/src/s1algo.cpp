@@ -861,14 +861,14 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 			if(wbest_bid_price == 0 || wbest_ask_price == 0 || wBidQty<spm->getIssuerBidQty() || wAskQty<spm->getIssuerAskQty()){
 				continue;
 			}
-
+/*
 			unsigned long long buyin = spm->buyIn(wbest_ask_price);
 			unsigned long long sellout = spm->sellOut(wbest_bid_price);
 
 			if(sellout == 99999999 || buyin == 0){
 				continue;
 			}
-
+*/
 			unsigned long long wspread = wbest_ask_price - wbest_bid_price;
 
 			WarrantIv wiv = ivLoader.getWarrantIv(n);
