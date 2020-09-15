@@ -170,11 +170,6 @@ void s1csalgo::on_omdc_book(const Tradable& tradable)
 		p->BidQty = best_bid_qty;
 		p->AskQty = best_ask_qty;
 
-
-		auto issuerit = selectedIssuer.find(p->Issuer);
-		if(issuerit == selectedIssuer.end())
-			return;
-
 		if(best_bid_price >= 25000000 ){
 			return;
 		}
