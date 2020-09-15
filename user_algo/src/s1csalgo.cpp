@@ -249,10 +249,6 @@ void s1csalgo::on_omdc_book(const Tradable& tradable)
 	uprice->Bestask = best_ask_price;
 }
 
-bool myfunction (warrant* i,warrant* j) {
-	return i->Egearing > j->Egearing;
-}
-
 string s1csalgo::setBetsize(std::string betsize){
 	return algoBet.selectBet(betsize);
 }
