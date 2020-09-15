@@ -39,6 +39,7 @@ using namespace std;
 struct priceinfo{
 
 	unsigned int UCode;
+	std::string Issuer;
 
 	unsigned long long Bestbid;
 	unsigned long long Bestask;
@@ -105,6 +106,8 @@ struct warrant{
 	unsigned long long BuyIn;
 	unsigned long long SellOut;
 	unsigned long long LvlBid;
+
+	unsigned long long DetectedAsk;
 
 #ifndef NOT_MEASURE
 	unsigned long long pkg_tm;

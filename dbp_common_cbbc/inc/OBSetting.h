@@ -96,6 +96,7 @@ public:
 	int getRelatedWarrantCount();
 	unsigned long long getHighestStopLostPrice();
 	unsigned long long getLowestStopLostPrice();
+	unsigned long long getHighestDetectedBidPrice();
 	bool hasRelatedWarrant(int);
 	vector<warrant*> getRelatedWarrant();
 	void setRelatedWarrantStatus(unsigned int, int);

@@ -83,13 +83,12 @@
 			"PORT":35101,
 			"USER":"P990098",
 			"PASS":"pass",
-			"BUY_POWER":5000000,	
-			"DISABLE":true,		
+			"BUY_POWER":5000000,		
 			"ALGOS":
 			{
-				"eric_semi":
+				"eric_s1csalgo":
 				{
-					"lib": "semi",
+					"lib": "s1csalgo",
 					"params":
 					{
 					}
