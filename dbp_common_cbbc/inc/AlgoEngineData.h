@@ -38,6 +38,7 @@ using namespace std;
 
 struct priceinfo{
 
+	unsigned int Code;
 	unsigned int UCode;
 	std::string Issuer;
 
