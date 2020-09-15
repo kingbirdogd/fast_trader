@@ -207,7 +207,7 @@ void s1csalgo::on_omdc_book(const Tradable& tradable)
 			}
 
 			if(newWarrant->Status == STATUS_AVAILABLE){
-				long newsellout = spm->sellOut(best_bid_price);
+				unsigned long long long newsellout = spm->sellOut(best_bid_price);
 				if(newsellout > newWarrant->StopLostPrice && newsellout <= uprice->Bestbid){
 					Log("UCODE = " + to_string(p->UCode) + " Warrant Code = " + to_string(code) + " Raise Stoplost from " + to_string(newWarrant->StopLostPrice) + " To " + to_string(newsellout));
 					newWarrant->StopLostPrice = newsellout;
