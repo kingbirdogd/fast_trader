@@ -157,6 +157,26 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 	if(pwtype == BULL){
 		if(wbid > pwbid && fprice > pfprice){
 			if(pwbid > 0 && pfprice>0){
+
+				unsigned long long spread = spreadTable.getSpread("01", pfprice + 1llu);
+				unsigned long long refprice = pfprice+spread;
+				bool eq1 = (refprice == fprice);
+				if(eq1){
+					auto itp = pDnBidMark.find(wbid);
+					if(itp != pDnBidMark.end()){
+						return false;
+					}
+					pDnBidMark[wbid] = fprice;
+					bidkey = wbid;
+					bidprice = fprice;
+
+					unsigned long long spread = spreadTable.getSpread("01", fprice + 1llu);
+					unsigned long long refask = fprice+spread;
+					string ukey = to_string(fprice) +"-"+ to_string(refask);
+					updateTableBid(ukey, wbid);
+
+					return true;
+				}
 				/*
 				auto itp = pDnBidMark.find(wbid);
 				if(itp != pDnBidMark.end()){
@@ -297,6 +317,28 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 		}
 		if(wask < pwask && fprice < pfprice){
 			if(fprice > 0 && wask>0){
+
+
+				unsigned long long spread = spreadTable.getSpread("01", pfprice - 1llu);
+				unsigned long long refprice = pfprice-spread;
+				bool eq1 = (refprice == fprice);
+				if(eq1){
+					auto itp = pUpAskMark.find(wask);
+					if(itp != pUpAskMark.end()){
+						return false;
+					}
+					pUpAskMark[wask] = fprice;
+					askkey = wask;
+					askprice = fprice;
+
+					unsigned long long spread = spreadTable.getSpread("01", fprice - 1llu);
+					unsigned long long refbid = fprice-spread;
+					string ukey = to_string(refbid) +"-"+ to_string(fprice)  ;
+					updateTableAsk(ukey, wask);
+
+					return true;
+				}
+
 				/*
 				auto itp = pUpAskMark.find(wask);
 				if(itp != pUpAskMark.end()){
