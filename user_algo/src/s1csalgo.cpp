@@ -182,7 +182,7 @@ void s1csalgo::on_omdc_book(const Tradable& tradable)
 		unsigned long long refask = best_bid_price+spread;
 
 		unsigned long long buyin = spm->buyIn(refask);
-		unsigned long long sellout = spm->buyIn(refask);
+		unsigned long long sellout = spm->sellOut(refask);
 
 		priceinfo* uprice = underlyingPriceMap[p->UCode];
 
