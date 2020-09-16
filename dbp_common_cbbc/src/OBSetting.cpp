@@ -87,8 +87,8 @@ unsigned long long OBSetting::getHighestDetectedBidPrice(){
 	for ( auto it = WarrantMap.begin(); it != WarrantMap.end(); ++it )
 	{
 		warrant *w = it->second;
-		if(w->DBid > higheststoplost){
-			higheststoplost = w->DBid;
+		if(w->UBid > higheststoplost){
+			higheststoplost = w->UBid;
 		}
 	}
 	return higheststoplost;

@@ -64,6 +64,8 @@ s1csalgo::s1csalgo(user& u, const std::string& name):
 
 		underlyingPriceMap[ucode] = new priceinfo();
 		underlyingPriceMap[ucode]->Code = ucode;
+		underlyingPriceMap[ucode]->Bestbid = 0;
+		underlyingPriceMap[ucode]->Bestask = 0;
 
 		Log("Init = " + to_string(ucode) + " OBSetting and SpreadCode = " + obMap[ucode]->SpreadTableCode);
 	}
