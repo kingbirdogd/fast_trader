@@ -1081,7 +1081,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 							if(wbest_bid_price >= wobsArray[i]->BuyPrice){
 
-								unsigned long long t_btrade = dbp::tools::srv::current();
+								//unsigned long long t_btrade = dbp::tools::srv::current();
 
 								wobsArray[i]->Status = STATUS_SELLING;
 								bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
