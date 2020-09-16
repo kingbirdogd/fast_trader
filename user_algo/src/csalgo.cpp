@@ -1,9 +1,10 @@
 #include <vector>
-#include <s1csalgo.hpp>
+
+#include <csalgo.hpp>
 
 //std::unordered_map<unsigned int, priceinfo*> bear::uprice_map;
 
-s1csalgo::s1csalgo(user& u, const std::string& name):
+csalgo::csalgo(user& u, const std::string& name):
 	algo(u, name)
 {
 	MaxBuyNoWarrant = 2;
@@ -82,7 +83,7 @@ s1csalgo::s1csalgo(user& u, const std::string& name):
 	}
 }
 
-void s1csalgo::on_omdc_book(const Tradable& tradable)
+void csalgo::on_omdc_book(const Tradable& tradable)
 {
 
 	auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
@@ -251,12 +252,12 @@ void s1csalgo::on_omdc_book(const Tradable& tradable)
 	uprice->Bestask = best_ask_price;
 }
 
-string s1csalgo::setBetsize(std::string betsize){
+string csalgo::setBetsize(std::string betsize){
 	return algoBet.selectBet(betsize);
 }
 
 
-bool s1csalgo::setWinSell(std::string action, unsigned int ucode, unsigned int code){
+bool csalgo::setWinSell(std::string action, unsigned int ucode, unsigned int code){
 	if(action == "set"){
 		auto it = obMap.find(ucode);
 		if(it != obMap.end()){
@@ -290,7 +291,7 @@ bool s1csalgo::setWinSell(std::string action, unsigned int ucode, unsigned int c
 	return false;
 }
 
-bool s1csalgo::setWinLvlSell(std::string action, unsigned int ucode, unsigned int code){
+bool csalgo::setWinLvlSell(std::string action, unsigned int ucode, unsigned int code){
 	if(action == "set"){
 		auto it = obMap.find(ucode);
 		if(it != obMap.end()){
@@ -325,7 +326,7 @@ bool s1csalgo::setWinLvlSell(std::string action, unsigned int ucode, unsigned in
 }
 
 
-bool s1csalgo::setSelectedIssuer(std::string action, std::string issuer){
+bool csalgo::setSelectedIssuer(std::string action, std::string issuer){
 
 	if(MarketStatus == MARKET_START)
 		return false;
@@ -349,7 +350,7 @@ bool s1csalgo::setSelectedIssuer(std::string action, std::string issuer){
 	return false;
 }
 
-bool s1csalgo::setSelectedUnderlying(std::string action, unsigned int ucode){
+bool csalgo::setSelectedUnderlying(std::string action, unsigned int ucode){
 
 	//if(MarketStatus == MARKET_START)
 	//	return false;
@@ -373,7 +374,7 @@ bool s1csalgo::setSelectedUnderlying(std::string action, unsigned int ucode){
 	return false;
 }
 
-bool s1csalgo::checkPrice(unsigned int code, unsigned long long ubid, unsigned long long uask)
+bool csalgo::checkPrice(unsigned int code, unsigned long long ubid, unsigned long long uask)
 {
 	COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
 	string SpreadTableCode = omdcdef.SpreadTableCode;
@@ -429,7 +430,7 @@ bool s1csalgo::checkPrice(unsigned int code, unsigned long long ubid, unsigned l
 	return accept;
 }
 
-bool s1csalgo::force_sell(unsigned int ucode, unsigned int code, unsigned long long price){
+bool csalgo::force_sell(unsigned int ucode, unsigned int code, unsigned long long price){
 	auto it  = obMap.find(ucode);
 	if(it != obMap.end()){
 		OBSetting* obs = it->second;
@@ -453,13 +454,13 @@ bool s1csalgo::force_sell(unsigned int ucode, unsigned int code, unsigned long l
 	return false;
 }
 
-vector<warrant*> s1csalgo::getSelectedWarrantFromMarketByIssuer(std::string , unsigned int , unsigned long long , unsigned long long )
+vector<warrant*> csalgo::getSelectedWarrantFromMarketByIssuer(std::string , unsigned int , unsigned long long , unsigned long long )
 {
 	vector<warrant*> selectedWarrant;
 	return selectedWarrant;
 }
 
-unsigned long long s1csalgo::getBestBid(unsigned int code){
+unsigned long long csalgo::getBestBid(unsigned int code){
 	auto it2 = omdcMap.find(code);
 	if(it2 != omdcMap.end()){
 		auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
@@ -468,7 +469,7 @@ unsigned long long s1csalgo::getBestBid(unsigned int code){
 	return 0;
 }
 
-void s1csalgo::on_omdc_trade(const Tradable& tradable)
+void csalgo::on_omdc_trade(const Tradable& tradable)
 {
 	auto it = obMap.find(tradable.m_Code);
 	if(it != obMap.end())
@@ -654,7 +655,7 @@ void s1csalgo::on_omdc_trade(const Tradable& tradable)
 
 }
 
-bool s1csalgo::doWarrantAction(warrant* w, dbp::top::order_side side, unsigned long long price, unsigned long long quantity)
+bool csalgo::doWarrantAction(warrant* w, dbp::top::order_side side, unsigned long long price, unsigned long long quantity)
 {
 
 	lastReadyTime += 10;
@@ -677,17 +678,17 @@ bool s1csalgo::doWarrantAction(warrant* w, dbp::top::order_side side, unsigned l
 	return false;
 }
 
-void s1csalgo::on_omdd_book(const Tradable& )
+void csalgo::on_omdd_book(const Tradable& )
 {
 
 }
 
-void s1csalgo::on_omdd_trade(const Tradable& )
+void csalgo::on_omdd_trade(const Tradable& )
 {
 
 }
 
-void s1csalgo::forcesold(){
+void csalgo::forcesold(){
 
 	for (auto& it: obMap) {
 	    // Do stuff
@@ -721,7 +722,7 @@ void s1csalgo::forcesold(){
 }
 
 
-void s1csalgo::handler_order(const dbp::top::enhance_order& odr)
+void csalgo::handler_order(const dbp::top::enhance_order& odr)
 {
 	auto status = odr.status;
 	auto side = odr.side;
@@ -1093,7 +1094,7 @@ void s1csalgo::handler_order(const dbp::top::enhance_order& odr)
 	}
 }
 
-void s1csalgo::Log(string msg){
+void csalgo::Log(string msg){
 	//fprintf(stderr, "%s %s \n",DateUtil::getCurrentTime(), msg.c_str());
 	//logger
 
@@ -1102,12 +1103,12 @@ void s1csalgo::Log(string msg){
 	//flush_printf("%s %s\n", DateUtil::getCurrentTime(), msg.c_str());
 }
 
-void s1csalgo::handle_command(algo_msg_base& msg)
+void csalgo::handle_command(algo_msg_base& msg)
 {
 	msg.on_command();
 }
 
-algo_msg_base* s1csalgo::json_to_msg(json& json)
+algo_msg_base* csalgo::json_to_msg(json& json)
 {
 	algo_marketstatus_msg* pMarketStatus_msg = nullptr;
 	algo_setbet_msg* pSetBet_msg = nullptr;
@@ -1258,23 +1259,23 @@ algo_msg_base* s1csalgo::json_to_msg(json& json)
 	}
 }
 
-std::string s1csalgo::get_lib_name()
+std::string csalgo::get_lib_name()
 {
-	return "s1csalgo";
+	return "csalgo";
 }
 
-rapid_ring::spmc_ring_buffer_object_pool<s1csalgo::algo_err_msg, 8192> s1csalgo::algo_err_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<s1csalgo::algo_marketstatus_msg, 8192> s1csalgo::algo_marketstatus_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<s1csalgo::algo_setbet_msg, 8192> s1csalgo::algo_setbet_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<s1csalgo::algo_issueraction_msg, 8192> s1csalgo::algo_issueraction_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<s1csalgo::algo_underlyingaction_msg, 8192> s1csalgo::algo_underlyingaction_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1csalgo::algo_order_msg, 8192> s1csalgo::algo_order_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1csalgo::algo_portfolio_msg, 8192> s1csalgo::algo_portfolio_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1csalgo::algo_signal_msg, 8192> s1csalgo::algo_signal_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1csalgo::algo_stoplost_msg, 8192> s1csalgo::algo_stoplost_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1csalgo::algo_winsell_msg, 8192> s1csalgo::algo_winsell_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1csalgo::algo_winlvlsell_msg, 8192> s1csalgo::algo_winlvlsell_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<s1csalgo::algo_force_sell, 8192> s1csalgo::algo_force_sell_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1csalgo::algo_warrantprice_msg, 8192> s1csalgo::algo_warrantprice_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1csalgo::algo_issuerlist_msg, 8192> s1csalgo::algo_issuerlist_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1csalgo::algo_underlyinglist_msg, 8192> s1csalgo::algo_underlyinglist_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<csalgo::algo_err_msg, 8192> csalgo::algo_err_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<csalgo::algo_marketstatus_msg, 8192> csalgo::algo_marketstatus_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<csalgo::algo_setbet_msg, 8192> csalgo::algo_setbet_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<csalgo::algo_issueraction_msg, 8192> csalgo::algo_issueraction_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<csalgo::algo_underlyingaction_msg, 8192> csalgo::algo_underlyingaction_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<csalgo::algo_order_msg, 8192> csalgo::algo_order_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<csalgo::algo_portfolio_msg, 8192> csalgo::algo_portfolio_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<csalgo::algo_signal_msg, 8192> csalgo::algo_signal_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<csalgo::algo_stoplost_msg, 8192> csalgo::algo_stoplost_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<csalgo::algo_winsell_msg, 8192> csalgo::algo_winsell_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<csalgo::algo_winlvlsell_msg, 8192> csalgo::algo_winlvlsell_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<csalgo::algo_force_sell, 8192> csalgo::algo_force_sell_pool;
+rapid_ring::spmc_ring_buffer_object_pool<csalgo::algo_warrantprice_msg, 8192> csalgo::algo_warrantprice_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<csalgo::algo_issuerlist_msg, 8192> csalgo::algo_issuerlist_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<csalgo::algo_underlyinglist_msg, 8192> csalgo::algo_underlyinglist_msg_pool;

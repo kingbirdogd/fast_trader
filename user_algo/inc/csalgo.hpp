@@ -1,5 +1,5 @@
-#ifndef USER_ALGO_INC_S1CSALGO_HPP_
-#define USER_ALGO_INC_S1CSALGO_HPP_
+#ifndef USER_ALGO_INC_CSALGO_HPP_
+#define USER_ALGO_INC_CSALGO_HPP_
 #include <msg.hpp>
 #include <user.hpp>
 #include <json.hpp>
@@ -25,7 +25,7 @@
 #define BUY 1
 #define SELL 2
 
-class s1csalgo : public algo
+class csalgo : public algo
 {
 public:
 	std::unordered_map<unsigned long long, unsigned int> order_map;
@@ -254,7 +254,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1csalgo*>(al);
+			auto* self = dynamic_cast<csalgo*>(al);
 			result = self->setWinSell(action,ucode, wcode);
 
 			ouputQueue.enqueue(this);
@@ -323,7 +323,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1csalgo*>(al);
+			auto* self = dynamic_cast<csalgo*>(al);
 
 			prevmarketstatus = self->MarketStatus;
 			if(action == "start"){
@@ -370,7 +370,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1csalgo*>(al);
+			auto* self = dynamic_cast<csalgo*>(al);
 
 			selectedbet = self->setBetsize(betsize);
 			ouputQueue.enqueue(this);
@@ -409,7 +409,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1csalgo*>(al);
+			auto* self = dynamic_cast<csalgo*>(al);
 
 			result = self->setSelectedIssuer(action, issuer);
 
@@ -449,7 +449,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1csalgo*>(al);
+			auto* self = dynamic_cast<csalgo*>(al);
 
 			result = self->setSelectedUnderlying(action, ucode);
 
@@ -489,7 +489,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1csalgo*>(al);
+			auto* self = dynamic_cast<csalgo*>(al);
 			result = self->force_sell(ucode, code, price);
 			ouputQueue.enqueue(this);
 		}
@@ -548,7 +548,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1csalgo*>(al);
+			auto* self = dynamic_cast<csalgo*>(al);
 			int i=0;
 			for(auto f : self->selectedIssuer) {
 				string iss = f;
@@ -583,7 +583,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1csalgo*>(al);
+			auto* self = dynamic_cast<csalgo*>(al);
 			int i=0;
 			for(auto f : self->availableUCode) {
 				unsigned int iss = f;
@@ -633,12 +633,12 @@ private:
 		virtual ~algo_err_msg() = default;
 	};
 public:
-	s1csalgo() = delete;
-	s1csalgo(user& u, const std::string& name);
-	s1csalgo(const algo&) = delete;
-	s1csalgo(algo&&) = delete;
-	s1csalgo& operator= (const algo&) = delete;
-	s1csalgo& operator= (algo&&) = delete;
+	csalgo() = delete;
+	csalgo(user& u, const std::string& name);
+	csalgo(const algo&) = delete;
+	csalgo(algo&&) = delete;
+	csalgo& operator= (const algo&) = delete;
+	csalgo& operator= (algo&&) = delete;
 
 	virtual vector<warrant*> getSelectedWarrantFromMarketByIssuer(std::string issuercode, unsigned int underlying, unsigned long long ubid, unsigned long long uask);
 
@@ -688,4 +688,4 @@ public:
 
 
 
-#endif /* USER_ALGO_INC_S1CSALGO_HPP_ */
+#endif /* USER_ALGO_INC_CSALGO_HPP_ */

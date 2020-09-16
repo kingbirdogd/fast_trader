@@ -328,7 +328,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							//auto wbest_ask_price = static_cast<unsigned long long>(it->second.m_Ask[0].m_iPrice) * 100000;
 
 						unsigned long long fpcb = spm->sellOut(wbest_bid_price);
-						if(fpcb > obsw[i]->StopLostPrice  && fpcb <= obs->StopLostPrice && fpcb <= best_bid_price){
+						if(fpcb > obsw[i]->StopLostPrice  && fpcb <= obs->StopLostPrice && fpcb <= best_bid_price && wbest_bid_price>obsw[i]->RefWBid){
 							obsw[i]->StopLostPrice = fpcb;
 							obsw[i]->RefWBid = wbest_bid_price;
 
@@ -342,7 +342,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							msg->wbid = wbest_bid_price;
 							ouputQueue.enqueue(msg);
 
-						}else if(fpcb > obsw[i]->StopLostPrice && fpcb <= obs->StopLostPrice && fpcb > best_bid_price){
+						}else if(fpcb > obsw[i]->StopLostPrice && fpcb <= obs->StopLostPrice && fpcb > best_bid_price && wbest_bid_price>obsw[i]->RefWBid){
 							obsw[i]->StopLostPrice = best_bid_price;
 							obsw[i]->RefWBid = wbest_bid_price;
 
