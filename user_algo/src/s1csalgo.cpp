@@ -594,7 +594,9 @@ void s1csalgo::on_omdc_trade(const Tradable& tradable)
 			return;
 		}
 
-		if(obs->getHighestDetectedBidPrice() == bid_price && TradeSide::BUY_SIDE == side)
+		unsigned long long largerbid = obs->getHighestDetectedBidPrice();
+		Log("UCode =  " + to_string(code) + " largerbid = " + to_string(largerbid) + " Bid Price = " + to_string(bid_price));
+		if(largerbid == bid_price && TradeSide::BUY_SIDE == side)
 		{
 			Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + " Ask Price = " + to_string(ask_price)) ;
 
