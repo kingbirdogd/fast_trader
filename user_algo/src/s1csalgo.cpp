@@ -233,7 +233,7 @@ void s1csalgo::on_omdc_book(const Tradable& tradable)
 				newWarrant->StopLostPrice = uprice->Bestbid;
 				obs->addWarrantOrCbbc(newWarrant);
 
-				Log("UCODE = " + to_string(p->UCode) + " Warrant Code = " + to_string(code) + " Add Detected");
+				Log("UCODE = " + to_string(p->UCode) + " Warrant Code = " + to_string(code) + " Add Detected " + to_string(uprice->Bestbid) + " --- " + to_string(uprice->Bestask));
 
 			}
 		}
