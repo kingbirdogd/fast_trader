@@ -1091,31 +1091,9 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 									continue;
 								}
 
-								unsigned long long t_end = dbp::tools::srv::current();
+								Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
 
-								unsigned long long t_tdiff = t_end - t_btrade;
-								//unsigned long long t_diff = t_end - t_start;
-
-								Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price) + " TDiff = " + to_string(t_tdiff));
-
-
-#ifndef NOT_MEASURE
-								wobsArray[i]->pkg_tm = tradable.m_PkgTime;
-								wobsArray[i]->m_tm = tradable.m_MsgTime;
-								wobsArray[i]->t_tm = dbp::tools::srv::current();
-#endif
 							}else{
-
-								//unsigned long long wbest_bid_Qty = warrantPriceMap[wobsArray[i]->Code]->BidQty;
-
-								//WarrantIv wiv = ivLoader.getWarrantIv(wobsArray[i]->Code);
-
-								//unsigned long long diff = highestStopLost - trade_price;
-								//float fudiff = static_cast<float>(diff/100000)/1000.0f;
-
-								//unsigned long long estwprice = CSelectedWarrant.estimateWarrantPrice(fudiff, wiv.Delta, wiv.Cratio);
-
-
 
 								PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
 
@@ -1124,15 +1102,17 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 								//COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
 
-								unsigned long long spread = spreadTable.getSpread(obs->SpreadTableCode, bid_price + 1llu);
-								unsigned long long refask = spread + bid_price;
-								string ukey = to_string(bid_price) +"-"+ to_string(refask);
+								//unsigned long long spread = spreadTable.getSpread(obs->SpreadTableCode, bid_price + 1llu);
+								//unsigned long long refask = spread + bid_price;
+								//string ukey = to_string(bid_price) +"-"+ to_string(refask);
 
-								unsigned long long refbid = spm->getRefWarrantBid(ukey);
+								//unsigned long long refbid = spm->getRefWarrantBid(ukey);
 
 								Log("WCode = " + to_string(wobsArray[i]->Code) + " Expect Sell Out = " + to_string(expectSellOut));
-								Log("WCode = " + to_string(wobsArray[i]->Code) + " Ref Warrant bid = " + to_string(refbid) + " WBest Bid = " + to_string(wbest_bid_price));
+								//Log("WCode = " + to_string(wobsArray[i]->Code) + " Ref Warrant bid = " + to_string(refbid) + " WBest Bid = " + to_string(wbest_bid_price));
+								Log("WCode = " + to_string(wobsArray[i]->Code) + " WBest Bid = " + to_string(wbest_bid_price));
 
+								/*
 								if(refbid > 0){
 									if(wbest_bid_price < (refbid - 300000) ){
 										return;
@@ -1141,8 +1121,12 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 									if(expectSellOut >=  trade_price){
 										return;
 									}
+								}*/
+								if(expectSellOut != 99999999){
+									if(expectSellOut <  trade_price){
+										return;
+									}
 								}
-
 
 
 
