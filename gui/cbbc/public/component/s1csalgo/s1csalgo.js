@@ -1,4 +1,4 @@
-class A1 extends React.Component {
+class S1csalgo extends React.Component {
   constructor(props) {
     super(props)
     this.setStates = this.setStates.bind(this)
@@ -13,7 +13,7 @@ class A1 extends React.Component {
     
     this.state.modules = {bull: null, bear: null, call: null, put: null}
     this.state.prefix = 'u000_'
-    this.state.userId = parseInt(Cookies.get("a1-userId"))
+    this.state.userId = parseInt(Cookies.get("s1csalgo-userId"))
     
     this.state.recovery = {}
     this.state.recovery.isRecoveryEnd = false
@@ -906,5 +906,5 @@ class A1 extends React.Component {
   }
 }
 
-var lang = global.cookies['a1-lang']
-ReactDOM.render(<A1 config={config} lang={lang} />, document.getElementById('a1'))
+var lang = global.cookies['s1csalgo-lang']
+ReactDOM.render(<S1csalgo config={config} lang={lang} />, document.getElementById('s1csalgo'))

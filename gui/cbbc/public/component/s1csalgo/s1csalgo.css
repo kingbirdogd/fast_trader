@@ -1,0 +1,225 @@
+#s1csalgo.container {
+  max-width: 1480px;
+}
+
+#s1csalgo.container .row {
+  max-width: 1480px;
+}
+
+#s1csalgo .nav-tabs {
+  background-color: #f0f0f0;
+}
+
+#s1csalgo .nav-item {
+  font-size: 11px;
+}
+
+#s1csalgo .nav-item .nav-link {
+  padding: .3rem 1rem;
+}
+
+#s1csalgo .tab-content {
+  height: 300px;
+  border: 1px solid #e6e6e6;
+  border-width: 0 1px 1px 1px;
+  padding: 8px 12px 4px 12px;
+  background-color: #f9f9f9;
+}
+
+#s1csalgo .tab-pane.fade {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+#s1csalgo .form-group {
+  margin-bottom: 0px;
+}
+
+#s1csalgo .col-form-label-sm,
+#s1csalgo .form-control-sm {
+  font-size: 11px;
+}
+
+#s1csalgo input.form-control-sm {
+  padding: 0rem .5rem;
+}
+
+#s1csalgo .btn_control {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  font-size: 14px;
+}
+
+#s1csalgo .btn-sm {
+  font-size: 11px;
+  line-height: 1.25;
+}
+
+#s1csalgo .btn_trade_control {
+  position: absolute;
+  width: 100%;
+  bottom: 35px;
+}
+
+#s1csalgo .price_table {
+  overflow:auto;
+  display: block;
+  height: 255px;
+  width: calc(100% + 12px);
+  font-size: 11px;
+  margin-top: -4px;
+}
+
+#s1csalgo .price_table .table-sm td,
+#s1csalgo .price_table .table-sm th {
+  padding: .10rem;
+}
+
+#s1csalgo .price_table .cur_bid,
+#s1csalgo .price_table .cur_ask {
+  color: #2ECC71;
+  font-weight: bold;
+}
+
+#s1csalgo .table-portfolio,
+#s1csalgo .table-order,
+#s1csalgo .table-position,
+#s1csalgo .table-signal {
+  display: block;
+  overflow-y: scroll;
+  margin-bottom: 0.5rem;
+  height: 192px;
+  width: 100%;
+  font-size: 11px;
+  border: 1px solid #e6e6e6;
+}
+
+#s1csalgo .table-portfolio.table-sm td, #s1csalgo .table-portfolio.table-sm th,
+#s1csalgo .table-order.table-sm td, #s1csalgo .table-order.table-sm th,
+#s1csalgo .table-position.table-sm td, #s1csalgo .table-position.table-sm th,
+#s1csalgo .table-signal.table-sm td, #s1csalgo .table-signal.table-sm th {
+  padding: .1rem;
+}
+
+#s1csalgo .table-position {
+  height: 212px;
+}
+
+#s1csalgo .table-position .btn-sm {
+  line-height: 1.15;
+}
+
+#s1csalgo .is-invalid {
+  border: 1px solid #ff0000 !important;
+}
+
+#s1csalgo .is-valid {
+  border: 1px solid #28a745 !important;
+}
+
+#s1csalgo .invalid-feedback {
+  margin: 0;
+  font-size: 10px;
+  line-height: 10px;
+  margin: 0px 0px 4px 0px;
+}
+
+#s1csalgo .config_selector {
+  display: inline;
+}
+
+#s1csalgo .config_selector ul {
+  display: inline-block;
+}
+
+#s1csalgo .config_selector ul li {
+  padding: 2px 6px 2px 6px;
+  border: 1px solid #e6e6e6;
+  text-align: center;
+  background-color: #f7f7f7;
+}
+
+.select2-container--bootstrap4.select2-container--focus .select2-selection {
+  border-color: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+#s1csalgo .custom-loader.content.is_loading {
+  opacity: 0.2;
+}
+
+#s1csalgo .custom-loader.area.is_loading {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#s1csalgo .custom-loader.area.is_finish {
+  display: none;
+}
+
+#s1csalgo .custom-loader.spinner.is_loading {
+  width: 75px;
+  height: 75px;
+  display: inline-block;
+  border-width: 2px;
+  border-color: rgba(0, 0, 0, 0.75);
+  border-top-color: #fff;
+  animation: spin 0.5s infinite linear;
+  border-radius: 100%;
+  border-style: solid;
+}
+
+#s1csalgo .custom-loader.spinner.is_finish {
+  display: none;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+#s1csalgo .footer {
+  position: absolute;
+  left: 0;
+  margin: 24px 0 0 0;
+  width: 100%;
+  height: 48px;
+  font-size: 12px;
+  line-height: 48px;
+  background-color: #f8f9fa!important;
+  border-top: 1px solid #cfcfcf;
+}
+
+#s1csalgo .status .status-icon {
+  padding: 4px;
+  font-size: 12px;
+  color: #fff;
+}
+
+#s1csalgo .status .status-icon.btn-success,
+#s1csalgo .status .status-icon.btn-success.focus {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+#s1csalgo .status .status-icon.btn-danger,
+#s1csalgo .status .status-icon.btn-danger.focus {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+#s1csalgo .status #status_detail {
+  font-size: 12px;
+}
+
+#s1csalgo .status #status_detail .card-body {
+  padding: 12px;
+  border: 1px solid #e6e6e6;
+  background-color: #f9f9f9;
+}

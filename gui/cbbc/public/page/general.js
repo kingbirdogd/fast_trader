@@ -6,12 +6,16 @@ $(document).ready(function() {
     'cbbc-uname': Cookies.get('cbbc-uname'),
     'a1-lang': Cookies.get('a1-lang'),
     'a1-uname': Cookies.get('a1-uname'),
+    's1csalgo-lang': Cookies.get('s1csalgo-lang'),
+    's1csalgo-uname': Cookies.get('s1csalgo-uname'),
   }
   global.ui = {
     'navbar-a1': $("#navbar-nav-a1"),
     'navbar-cbbc': $("#navbar-nav-cbbc"),
+    'navbar-s1csalgo': $("#navbar-nav-s1csalgo"),
     'btn-logout-a1': $("#btn-logout-a1"),
     'btn-logout-cbbc': $("#btn-logout-cbbc"),
+    'btn-logout-s1csalgo': $("#btn-logout-s1csalgo"),
     'navber-personal-info': $('.nav-personal-info'),
   };
   global.func = {};
@@ -21,6 +25,8 @@ $(document).ready(function() {
       global.ui['btn-logout-cbbc'].submit();
     else if (href.includes('a1'))
       global.ui['btn-logout-a1'].submit();
+    else if (href.includes('s1csalgo'))
+      global.ui['btn-logout-s1csalgo'].submit();
   }
   
   initNavbar();
@@ -48,6 +54,9 @@ function initNavbar() {
     // 隱藏
     global.ui['btn-logout-a1'].hide();
     global.ui['navbar-a1'].hide();
+    
+    global.ui['btn-logout-s1csalgo'].hide();
+    global.ui['navbar-s1csalgo'].hide();
   }
   else if (href.includes('a1')) {
     // 标题
@@ -60,7 +69,27 @@ function initNavbar() {
     // 隱藏
     global.ui['btn-logout-cbbc'].hide();
     global.ui['navbar-cbbc'].hide();
+    
+    global.ui['btn-logout-s1csalgo'].hide();
+    global.ui['navbar-s1csalgo'].hide();
   }
+  else if (href.includes('s1csalgo')) {
+    // 标题
+    document.title += ' (s1csalgo)'
+    // 用戶名
+    global.ui['navber-personal-info'].html(global.cookies['s1csalgo-uname']);
+    // 顯示
+    global.ui['btn-logout-s1csalgo'].show();
+    global.ui['navbar-s1csalgo'].show();
+    // 隱藏
+    global.ui['btn-logout-a1'].hide();
+    global.ui['navbar-a1'].hide();
+    
+    global.ui['btn-logout-cbbc'].hide();
+    global.ui['navbar-cbbc'].hide();
+  }
+  else
+    console.log('initNavbar error!');
 }
 
 // 储存资料
@@ -72,6 +101,8 @@ function initDataInCookies(res) {
       Cookies.set('cbbc-userId', data.user_id);
     else if (href.includes('a1'))
       Cookies.set('a1-userId', data.user_id);
+    else if (href.includes('s1csalgo'))
+      Cookies.set('s1csalgo-userId', data.user_id);
   }
 }
 
@@ -86,6 +117,8 @@ function changeLanguage() {
       Cookies.set('cbbc-lang', lang);
     else if (href.includes('a1'))
       Cookies.set('a1-lang', lang);
+    else if (href.includes('s1csalgo'))
+      Cookies.set('s1csalgo-lang', lang);
     else
       Cookies.set('lang', lang);
     
