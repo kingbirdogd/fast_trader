@@ -206,7 +206,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		if(obs->hasPosition)
 		{
 
-			/*
+
 			unsigned long long  bid_price1 = 0ull;
 			unsigned long long  ask_price1 = 0ull;
 			unsigned long long  bid_price2 = 0ull;
@@ -244,8 +244,10 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 				);
 			wp = wp * 100000;
 
-			Log("Code = " + to_string(code) + " BestBid : " + to_string(bid_price1) + " BestAsk : " + to_string(ask_price1) + " WP : " + to_string(wp));
-			 */
+			unsigned long long mid = (bid_price1+ask_price1)/2;
+
+			//Log("Code = " + to_string(code) + " BestBid : " + to_string(bid_price1) + " BestAsk : " + to_string(ask_price1) + " WP : " + to_string(wp));
+
 
 			/*
 			auto itpdata = pricedataMap.find(code);
@@ -304,7 +306,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			if( ((countspreadw > 0) || (countspreadu > 0) || (best_bid_price > obs->StopLostPrice && best_bid_qty > s1->RaiseStopLost)) && ((obs->Status == STATUS_AVAILABLE))){
 				unsigned long long oldstoplost = obs->StopLostPrice;
 				if(countspreadu > 0){
-					if(best_bid_qty > s1->RaiseStopLost){
+					if(best_bid_qty > s1->RaiseStopLost && wp>mid){
 						obs->StopLostPrice = best_bid_price;
 					}
 				}
@@ -341,8 +343,9 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							msg->stoplost = fpcb;
 							msg->wbid = wbest_bid_price;
 							ouputQueue.enqueue(msg);
-
-						}else if(fpcb > obsw[i]->StopLostPrice && fpcb <= obs->StopLostPrice && fpcb > best_bid_price && wbest_bid_price>obsw[i]->RefWBid){
+						}
+						/*
+						else if(fpcb > obsw[i]->StopLostPrice && fpcb <= obs->StopLostPrice && fpcb > best_bid_price && wbest_bid_price>obsw[i]->RefWBid){
 							obsw[i]->StopLostPrice = best_bid_price;
 							obsw[i]->RefWBid = wbest_bid_price;
 
@@ -356,6 +359,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							msg->wbid = wbest_bid_price;
 							ouputQueue.enqueue(msg);
 						}
+						*/
+
 						//}
 
 					}
