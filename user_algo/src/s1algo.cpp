@@ -1062,7 +1062,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 							if(wobsArray[i]->Status != STATUS_AVAILABLE){
 								continue;
 							}
-							if(wobsArray[i]->StopLostPrice < bid_price){
+							if(wobsArray[i]->StopLostPrice < trade_price){
 								continue;
 							}
 
@@ -1126,6 +1126,8 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 									if(expectSellOut <  trade_price){
 										return;
 									}
+								}else{
+									return;
 								}
 
 
