@@ -902,6 +902,9 @@ void csalgo::handler_order(const dbp::top::enhance_order& odr)
 				if (dbp::top::order_status::filled == status)
 				{
 					warrant* obsw = obs->removeWarrantOrCbbc(code);
+					//if(obsw == nullptr){
+						Log("Fill Sell Code  = " + to_string(code) + " Ucode = " + to_string(ucode));
+					//}
 
 					//obsw->Status = STATUS_SOLD;
 					obsw->Status = STATUS_SOLD;
