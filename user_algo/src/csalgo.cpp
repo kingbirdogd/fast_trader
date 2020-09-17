@@ -561,8 +561,10 @@ void csalgo::on_omdc_trade(const Tradable& tradable)
 
 								if(expectSellOut != 99999999){
 									if(expectSellOut >=  trade_price){
-										return;
+										continue;
 									}
+								}else{
+									continue;
 								}
 /*
 								if(refbid > 0){
@@ -905,7 +907,10 @@ void csalgo::handler_order(const dbp::top::enhance_order& odr)
 					//if(obsw == nullptr){
 						Log("Fill Sell Code  = " + to_string(code) + " Ucode = " + to_string(ucode));
 					//}
-
+						if(obsw == nullptr){
+							Log("Fill Sell Code  = " + to_string(code) + " Ucode = " + to_string(ucode) + " Error Not Exist");
+							return;
+						}
 					//obsw->Status = STATUS_SOLD;
 					obsw->Status = STATUS_SOLD;
 					obsw->SoldTime = std::string(odr.transaction_tm);

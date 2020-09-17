@@ -1124,10 +1124,10 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								}*/
 								if(expectSellOut != 99999999){
 									if(expectSellOut <  trade_price){
-										return;
+										continue;
 									}
 								}else{
-									return;
+									continue;
 								}
 
 
