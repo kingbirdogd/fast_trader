@@ -46,12 +46,11 @@
 			"USER":"P990098",
 			"PASS":"pass",
 			"BUY_POWER":500000,
-			"DISABLE":true,
 			"ALGOS":
 			{
-				"leo_bear":
+				"leo_csalgo":
 				{
-					"lib": "bear",
+					"lib": "csalgo",
 					"params":
 					{
 					}
