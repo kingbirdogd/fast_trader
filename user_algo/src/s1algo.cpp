@@ -312,7 +312,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 				}
 
 				if(obs->StopLostPrice > oldstoplost){
-					Log("bid->Quantity0 = " + to_string(best_bid_qty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost));
+					Log("bid->Quantity0 = " + to_string(best_bid_qty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost) + " WP = " + to_string(wp) + " mid = " + to_string(mid));
 					Log("Security Code = " + to_string(code) + " Rise Stop Lost Price from " + to_string(oldstoplost) + " To " + to_string(obs->StopLostPrice));
 				}
 
