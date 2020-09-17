@@ -86,9 +86,9 @@
 			"BUY_POWER":5000000,		
 			"ALGOS":
 			{
-				"eric_s1csalgo":
+				"eric_csalgo":
 				{
-					"lib": "s1csalgo",
+					"lib": "csalgo",
 					"params":
 					{
 					}
