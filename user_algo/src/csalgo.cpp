@@ -564,13 +564,13 @@ void csalgo::on_omdc_trade(const Tradable& tradable)
 										return;
 									}
 								}
-
+/*
 								if(refbid > 0){
 									if(wbest_bid_price < (refbid - 300000) ){
 										return;
 									}
 								}
-
+*/
 								wobsArray[i]->Status = STATUS_SELLING;
 								bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
 								//bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, RefWBid, wobsArray[i]->Quantity);
@@ -828,14 +828,6 @@ void csalgo::handler_order(const dbp::top::enhance_order& odr)
 					msg->status = "filled";
 					msg->transaction_time = obsw->BuyTime;
 
-#ifndef NOT_MEASURE
-					msg->pkg_tm = obsw->pkg_tm;
-					msg->m_tm = obsw->m_tm;
-					msg->t_tm = obsw->t_tm;
-					msg->o_tm = dbp::tools::srv::current();
-#endif
-
-
 					ouputQueue.enqueue(msg);
 
 					if(obs->allStatus(STATUS_AVAILABLE)){
@@ -867,13 +859,6 @@ void csalgo::handler_order(const dbp::top::enhance_order& odr)
 						msg->transaction_time = string(odr.transaction_tm);
 						msg->status = "cancel";
 						msg->reason = string(odr.reject_reason);
-
-#ifndef NOT_MEASURE
-					msg->pkg_tm = wobs->pkg_tm;
-					msg->m_tm = wobs->m_tm;
-					msg->t_tm = wobs->t_tm;
-					msg->o_tm = dbp::tools::srv::current();
-#endif
 
 						ouputQueue.enqueue(msg);
 
@@ -918,7 +903,7 @@ void csalgo::handler_order(const dbp::top::enhance_order& odr)
 				{
 					warrant* obsw = obs->removeWarrantOrCbbc(code);
 
-					obsw->Status = STATUS_SOLD;
+					//obsw->Status = STATUS_SOLD;
 					obsw->Status = STATUS_SOLD;
 					obsw->SoldTime = std::string(odr.transaction_tm);
 					obsw->SellPrice = odr.match_price;
@@ -960,13 +945,6 @@ void csalgo::handler_order(const dbp::top::enhance_order& odr)
 						msg->order_price = obsw->SellPrice;
 						msg->order_quantity = obsw->Quantity;
 						msg->transaction_time = obsw->SoldTime;
-
-#ifndef NOT_MEASURE
-					msg->pkg_tm = obsw->pkg_tm;
-					msg->m_tm = obsw->m_tm;
-					msg->t_tm = obsw->t_tm;
-					msg->o_tm = dbp::tools::srv::current();
-#endif
 
 						msg->status = "filled";
 						ouputQueue.enqueue(msg);
