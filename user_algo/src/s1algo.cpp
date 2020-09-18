@@ -623,6 +623,10 @@ bool myfunction (warrant* i,warrant* j) {
 	return i->Egearing > j->Egearing;
 }
 
+unsigned long long issuerSize80(unsigned long long size){
+	return static_cast<unsigned long long>(size*0.8);
+}
+
 string s1algo::setBetsize(std::string betsize){
 	return algoBet.selectBet(betsize);
 }
@@ -760,7 +764,7 @@ bool s1algo::checkPrice(unsigned int code, unsigned long long ubid, unsigned lon
 
 	//unsigned long long wbidaskspread = wbest_ask_price - wbest_bid_price;
 
-	if(wbest_bid_price == 0 || wbest_ask_price == 0 ||wBidQty<spm->getIssuerBidQty() || wAskQty<spm->getIssuerAskQty()){
+	if(wbest_bid_price == 0 || wbest_ask_price == 0 ||wBidQty< issuerSize80(spm->getIssuerBidQty()) || wAskQty < issuerSize80(spm->getIssuerAskQty())){
 		Log("Code = " + to_string(code) + " wbest_bid_price == 0 || wbest_ask_price == 0 ||wBidQty<spm->getIssuerBidQty() || wAskQty<spm->getIssuerAskQty() ");
 		return false;
 	}
