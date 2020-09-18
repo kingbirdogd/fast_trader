@@ -744,7 +744,7 @@ class A1 extends React.Component {
   // 测试集
   testData(render) {
     function test(data) {
-      if (true) render(JSON.stringify(data))
+      if (false) render(JSON.stringify(data))
     }
     // portfolio
     test({"action":"portfolio","algo_name":"kenny_s1algo","buy_price":0.125*100000000,"buytime":"20200806130826223","id":2,"quantity":40000*100000000,"recovery":true,"ref":"99999","sell_price":0.165*100000000,"sellime":"20200806131116300","ucode":0,"warrant_code":99999,"tm":1596690676300})
