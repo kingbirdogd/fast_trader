@@ -244,7 +244,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 				);
 			wp = wp * 100000;
 
-			unsigned long long mid = (best_bid_price+best_ask_price)/2;
+			unsigned long long mid = (best_bid_price + best_ask_price)/2;
 
 			//Log("Code = " + to_string(code) + " BestBid : " + to_string(bid_price1) + " BestAsk : " + to_string(ask_price1) + " WP : " + to_string(wp));
 
