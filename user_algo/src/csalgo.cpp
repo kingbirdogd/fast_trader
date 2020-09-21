@@ -68,6 +68,8 @@ csalgo::csalgo(user& u, const std::string& name):
 		underlyingPriceMap[ucode]->Bestbid = 0;
 		underlyingPriceMap[ucode]->Bestask = 0;
 
+		unselectedUCode.insert(ucode);
+
 		Log("Init = " + to_string(ucode) + " OBSetting and SpreadCode = " + obMap[ucode]->SpreadTableCode);
 	}
 
@@ -219,6 +221,11 @@ void csalgo::on_omdc_book(const Tradable& tradable)
 		}else{
 			if(buyin==sellout){
 				COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
+
+
+				auto selit = unselectedUCode.find(p->UCode);
+				if(selit != unselectedUCode.end())
+					return;
 
 				warrant* newWarrant = new warrant;
 				newWarrant->Date = DateUtil::getToday();
