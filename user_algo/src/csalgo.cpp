@@ -115,7 +115,9 @@ void csalgo::on_omdc_book(const Tradable& tradable)
 		if(p->Bestbid != best_bid_price){
 			p->PBestbid = p->Bestbid;
 
-			if(obs->hasPosition){
+			//if(obs->hasPosition){
+			if(obs->warrantStatus(code, STATUS_AVAILABLE))
+
 				if(obs->isExist(code)){
 
 					warrant* w = obs->getRelatedWarrant(code);
