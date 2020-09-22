@@ -664,7 +664,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<csalgo*>(al);
+			//auto* self = dynamic_cast<csalgo*>(al);
 
 			unordered_set<unsigned int> wcodeset = ivLoader.getWarrantByIssuer(issuer, ucode);
 			int i=0;
