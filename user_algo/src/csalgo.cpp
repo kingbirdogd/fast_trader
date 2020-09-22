@@ -228,6 +228,11 @@ void csalgo::on_omdc_book(const Tradable& tradable)
 				if(selit != unselectedUCode.end())
 					return;
 
+
+				auto selectwit = selectedWarrant.find(code);
+				if(selectwit == selectedWarrant.end())
+					return;
+
 				warrant* newWarrant = new warrant;
 				newWarrant->Date = DateUtil::getToday();
 				newWarrant->Code = code;
@@ -385,7 +390,7 @@ bool csalgo::setSelectedUnderlying(std::string action, unsigned int ucode){
 bool csalgo::setSelectedWarrant(std::string action, unsigned int code){
 
 	if(action == "select"){
-		auto it = selectedWarrant.find(ucode);
+		auto it = selectedWarrant.find(code);
 		if(it != selectedWarrant.end()){
 			selectedWarrant.erase(ucode);
 			Log("Selected Warrant = " + to_string(code));
@@ -393,7 +398,7 @@ bool csalgo::setSelectedWarrant(std::string action, unsigned int code){
 		}
 	}
 	if(action == "remove"){
-		auto it = selectedWarrant.find(ucode);
+		auto it = selectedWarrant.find(code);
 		if(it == selectedWarrant.end()){
 			selectedWarrant.insert(ucode);
 			Log("Unselected Warrant = " + to_string(code));
