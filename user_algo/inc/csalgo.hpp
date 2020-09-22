@@ -766,6 +766,7 @@ public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_warrantprice_msg, 8192> algo_warrantprice_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_issuerlist_msg, 8192> algo_issuerlist_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_underlyinglist_msg, 8192> algo_underlyinglist_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_uwarrantlist_msg, 8192> algo_uwarrantlist_msg_pool;
 };
 
 

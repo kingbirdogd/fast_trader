@@ -1310,3 +1310,4 @@ rapid_ring::spsc_ring_buffer_object_pool<csalgo::algo_force_sell, 8192> csalgo::
 rapid_ring::spmc_ring_buffer_object_pool<csalgo::algo_warrantprice_msg, 8192> csalgo::algo_warrantprice_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<csalgo::algo_issuerlist_msg, 8192> csalgo::algo_issuerlist_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<csalgo::algo_underlyinglist_msg, 8192> csalgo::algo_underlyinglist_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<csalgo::algo_uwarrantlist_msg, 8192> csalgo::algo_uwarrantlist_msg_pool;
