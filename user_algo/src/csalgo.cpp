@@ -228,10 +228,11 @@ void csalgo::on_omdc_book(const Tradable& tradable)
 				if(selit != unselectedUCode.end())
 					return;
 
-
+/*
 				auto selectwit = selectedWarrant.find(code);
 				if(selectwit == selectedWarrant.end())
 					return;
+*/
 
 				warrant* newWarrant = new warrant;
 				newWarrant->Date = DateUtil::getToday();
