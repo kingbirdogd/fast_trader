@@ -382,6 +382,27 @@ bool csalgo::setSelectedUnderlying(std::string action, unsigned int ucode){
 	return false;
 }
 
+bool csalgo::setSelectedWarrant(std::string action, unsigned int code){
+
+	if(action == "select"){
+		auto it = selectedWarrant.find(ucode);
+		if(it != selectedWarrant.end()){
+			selectedWarrant.erase(ucode);
+			Log("Selected Warrant = " + to_string(code));
+			return true;
+		}
+	}
+	if(action == "remove"){
+		auto it = selectedWarrant.find(ucode);
+		if(it == selectedWarrant.end()){
+			selectedWarrant.insert(ucode);
+			Log("Unselected Warrant = " + to_string(code));
+			return true;
+		}
+	}
+	return false;
+}
+
 bool csalgo::checkPrice(unsigned int code, unsigned long long ubid, unsigned long long uask)
 {
 	COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
@@ -1117,6 +1138,7 @@ algo_msg_base* csalgo::json_to_msg(json& json)
 	algo_underlyinglist_msg* punderlyinglist = nullptr;
 	algo_winsell_msg* pwinsell = nullptr;
 	algo_winlvlsell_msg* pwinlvlsell = nullptr;
+	algo_uwarrantlist_msg* puwarrantlist = nullptr;
 	try
 	{
 		auto cmd = json["cmd"].get<std::string>();
@@ -1173,6 +1195,16 @@ algo_msg_base* csalgo::json_to_msg(json& json)
 			punderlyinglist->algo_name = _name;
 			punderlyinglist->id = _u.get_id();
 			punderlyinglist->ref = ref;
+			return punderlyinglist;
+		}
+		else if (cmd == "uwarrantlist"){
+			puwarrantlist = algo_uwarrantlist_msg_pool.get_obj();
+			puwarrantlist->al = this;
+			puwarrantlist->algo_name = _name;
+			puwarrantlist->id = _u.get_id();
+			puwarrantlist->ref = ref;
+			puwarrantlist->ucode = json["ucode"].get<unsigned int>();
+			puwarrantlist->issuer = json["issuer"].get<std::string>();
 			return punderlyinglist;
 		}
 		else if(cmd == "force_sell")
@@ -1267,6 +1299,7 @@ rapid_ring::spsc_ring_buffer_object_pool<csalgo::algo_marketstatus_msg, 8192> cs
 rapid_ring::spsc_ring_buffer_object_pool<csalgo::algo_setbet_msg, 8192> csalgo::algo_setbet_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<csalgo::algo_issueraction_msg, 8192> csalgo::algo_issueraction_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<csalgo::algo_underlyingaction_msg, 8192> csalgo::algo_underlyingaction_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<csalgo::algo_warrantaction_msg, 8192> csalgo::algo_warrantaction_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<csalgo::algo_order_msg, 8192> csalgo::algo_order_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<csalgo::algo_portfolio_msg, 8192> csalgo::algo_portfolio_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<csalgo::algo_signal_msg, 8192> csalgo::algo_signal_msg_pool;

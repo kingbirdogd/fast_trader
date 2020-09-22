@@ -33,6 +33,7 @@ public:
 	unordered_set<std::string> selectedIssuer;
 	unordered_set<unsigned int> unselectedUCode;
 	unordered_set<unsigned int> availableUCode;
+	unordered_set<unsigned int> selectedWarrant;
 	SelectedWarrant CSelectedWarrant;
 	int MarketStatus;
 	AlgoBetX algoBet;
@@ -462,6 +463,46 @@ private:
 		}
 		virtual ~algo_underlyingaction_msg() = default;
 	};
+	struct algo_warrantaction_msg: public algo_msg_base
+	{
+		unsigned int code;
+		std::string action;
+		bool result;
+
+		algo_warrantaction_msg():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["action"] = "selectwarrant";
+			j["selectaction"] = action;
+			j["code"] = code;
+			if(result){
+				j["result"] = "SUCCESS";
+				j["recovery"] = true;
+			}else{
+				j["result"] = "FAIL";
+				j["reason"] = "Invalid Status";
+			}
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<csalgo*>(al);
+
+			result = self->setSelectedWarrant(action, code);
+
+			ouputQueue.enqueue(this);
+
+		}
+		virtual void release()
+		{
+			algo_warrantaction_msg_pool.release_obj(this);
+		}
+		virtual ~algo_warrantaction_msg() = default;
+	};
 	struct algo_force_sell: public algo_msg_base
 	{
 		unsigned int code;
@@ -602,6 +643,47 @@ private:
 		}
 		virtual ~algo_underlyinglist_msg() = default;
 	};
+	struct algo_uwarrantlist_msg: public algo_msg_base
+	{
+		unsigned int ucode;
+		std::string issuer;
+		std::string wcodes;
+
+		algo_uwarrantlist_msg():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["action"] = "uwarrantlist";
+			j["codes"] = wcodes;
+			j["issuer"] = issuer;
+			j["ucode"] = ucode;
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<csalgo*>(al);
+
+			unordered_set<unsigned int> wcodeset = ivLoader.getWarrantByIssuer(issuer, ucode);
+			int i=0;
+			for (const auto &n: wcodeset){
+				unsigned int wcode = n;
+				if(i>0){
+					wcodes += "," + to_string(wcode);
+				}else{
+					wcodes = to_string(wcode);
+				}
+			}
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_uwarrantlist_msg_pool.release_obj(this);
+		}
+		virtual ~algo_uwarrantlist_msg() = default;
+	};
 	struct algo_err_msg: public algo_msg_base
 	{
 		std::string action;
@@ -661,6 +743,7 @@ public:
 	virtual bool setWinLvlSell(std::string action, unsigned int ucode, unsigned int code);
 	virtual bool setSelectedIssuer(std::string action, std::string issuer);
 	virtual bool setSelectedUnderlying(std::string action, unsigned int ucode);
+	virtual bool setSelectedWarrant(std::string action, unsigned int code);
 	virtual unsigned long long getBestBid(unsigned int code);
 	virtual void forcesold();
 	virtual bool checkPrice(unsigned int code, unsigned long long ubid, unsigned long long uask);
@@ -672,6 +755,7 @@ public:
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_setbet_msg, 8192> algo_setbet_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_issueraction_msg, 8192> algo_issueraction_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_underlyingaction_msg, 8192> algo_underlyingaction_msg_pool;
+	static rapid_ring::spsc_ring_buffer_object_pool<algo_warrantaction_msg, 8192> algo_warrantaction_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_order_msg, 8192> algo_order_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_portfolio_msg, 8192> algo_portfolio_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_signal_msg, 8192> algo_signal_msg_pool;

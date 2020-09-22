@@ -40,6 +40,7 @@ private:
 	unordered_map<unsigned int, WarrantIv> IvMap;
 	unordered_map<unsigned int, unsigned int> UMap;
 	unordered_map<string, unordered_map<unsigned int, std::unordered_set<unsigned int>>> IssuerMap;
+	unordered_map<unsigned int, std::unordered_set<unsigned int>> UWarrantMap;
 public:
 	IvLoader();
 	virtual ~IvLoader();
@@ -51,6 +52,7 @@ public:
 	int getWarrantCount();
 	bool exist(unsigned int);
 	unordered_set<unsigned int> getWarrantByIssuer(string ,unsigned int);
+	unordered_set<unsigned int> getWarrantUCode(unsigned int);
 	unordered_set<unsigned int> allUnderlying();
 };
 

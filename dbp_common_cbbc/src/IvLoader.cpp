@@ -60,6 +60,9 @@ void IvLoader::load(const char* filename){
 
 		IssuerMap[wiv.Issuer][wiv.UCode].insert(wiv.Code);
 
+		UWarrantMap[wiv.UCode].insert(wiv.Code);
+
+
 		auto umap = UMap.find(wiv.UCode);
 		if(UMap.end() == umap){
 			UMap[wiv.UCode] = 1;
@@ -112,6 +115,16 @@ unordered_set<unsigned int> IvLoader::getWarrantByIssuer(string issuer, unsigned
 			}
 
 		}
+	}
+	return vd;
+}
+
+unordered_set<unsigned int> IvLoader::getWarrantUCode(unsigned int code){
+
+	unordered_set<unsigned int> vd;
+	auto it = UWarrantMap.find(code);
+	if(it != UWarrantMap.end()){
+		return it->second;
 	}
 	return vd;
 }
