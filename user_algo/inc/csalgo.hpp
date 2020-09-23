@@ -673,10 +673,19 @@ private:
 			int i=0;
 			for (const auto &n: wcodeset){
 				unsigned int wcode = n;
+
+
+				string selected = "u";
+				auto itw = selectedWarrant.find(wcode);
+				if(itw != selectedWarrant.end() ){
+					selected = "s";
+				}
+
+
 				if(i>0){
-					wcodes += "," + to_string(wcode);
+					wcodes += "," + to_string(wcode) + ":" + selected;
 				}else{
-					wcodes = to_string(wcode);
+					wcodes = to_string(wcode) + ":" + selected;
 				}
 			}
 			ouputQueue.enqueue(this);
