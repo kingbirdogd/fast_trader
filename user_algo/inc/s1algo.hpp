@@ -653,6 +653,7 @@ public:
 	s1algo& operator= (algo&&) = delete;
 
 	virtual vector<warrant*> getSelectedWarrantFromMarketByIssuer(std::string issuercode, unsigned int underlying, unsigned long long ubid, unsigned long long uask);
+	virtual vector<warrant*> getWinpriceWarrantFromMarketByIssuer(std::string issuercode, unsigned int underlying, unsigned long long ubid, unsigned long long uask);
 
 	virtual bool doWarrantAction(warrant* w, dbp::top::order_side side, unsigned long long price, unsigned long long quantity);
 

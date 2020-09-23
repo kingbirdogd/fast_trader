@@ -518,7 +518,15 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 							//Log("Code = " + to_string(code) + " Issuer = " + issuer + " Has Signal 1");
 
-							vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer(issuer,code, best_bid_price, best_ask_price);
+							//vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer(issuer,code, best_bid_price, best_ask_price);
+							vector<warrant*> selectedWarrant;
+
+							if( "CS" == issuer){
+								selectedWarrant = getWinpriceWarrantFromMarketByIssuer(issuer,code, best_bid_price, best_ask_price);
+							}else{
+								selectedWarrant = getSelectedWarrantFromMarketByIssuer(issuer,code, best_bid_price, best_ask_price);
+							}
+
 							if(selectedWarrant.size() == 0)
 								continue;
 
@@ -962,6 +970,95 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 	return selectedWarrant;
 }
 
+vector<warrant*> s1algo::getWinpriceWarrantFromMarketByIssuer(std::string issuer, unsigned int underlying, unsigned long long ubid, unsigned long long uask)
+{
+
+	//long long uspread =  static_cast<long long>(uask/100000 - ubid/100000);
+	unsigned long long uspread =  uask - ubid;
+
+	vector<warrant*> selectedWarrant;
+	unordered_set<unsigned int> warrantVector = ivLoader.getWarrantByIssuer(issuer,underlying);
+	if(warrantVector.size() == 0){
+		return selectedWarrant;
+	}
+
+	for (const auto &n: warrantVector) {
+
+		unsigned long long wbest_bid_price = warrantPriceMap[n]->Bestbid;
+		unsigned long long wbest_ask_price = warrantPriceMap[n]->Bestask;
+		unsigned long long wBidQty = warrantPriceMap[n]->BidQty;
+		unsigned long long wAskQty = warrantPriceMap[n]->AskQty;
+
+			COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[n];
+			string SpreadTableCode = omdcdef.SpreadTableCode;
+
+			if(wbest_bid_price < 4000000){
+				continue;
+			}
+
+			PriceMark* spm = pricemarkMap[n];
+
+			if(wbest_bid_price == 0 || wbest_ask_price == 0 || wBidQty<spm->getIssuerBidQty() || wAskQty<spm->getIssuerAskQty()){
+				continue;
+			}
+
+			if(wbest_ask_price >= 25000000 ){
+				continue;
+			}
+
+			unsigned long long spread = spreadTable.getSpread("01", wbest_bid_price + 1llu);
+			unsigned long long refask = wbest_bid_price+spread;
+
+			unsigned long long buyin = spm->buyIn(refask);
+			unsigned long long sellout = spm->sellOut(refask);
+
+			if(buyin != sellout)
+				continue;
+
+			unsigned long long lotsize = static_cast<unsigned long long>(omdcdef.LotSize);
+
+			if(lotsize == 0)
+				continue;
+
+			warrant* newWarrant = new warrant;
+			newWarrant->Date = DateUtil::getToday();
+			newWarrant->Code = n;
+			newWarrant->Name = omdcdef.SecuritySortName;
+			//newWarrant->Status = STATUS_READY;
+			newWarrant->Egearing = wiv.Egearing;
+			newWarrant->UCode = underlying;
+			newWarrant->RefWBid = wbest_bid_price;
+			newWarrant->RefWAsk = wbest_ask_price;
+			//newWarrant->BuyQuantity = algoBet.fixQuantity(wbest_ask_price, lotsize)*100000000ull;
+			newWarrant->BuyQuantity = algoBet.fixQuantityBySpread(wbest_ask_price, lotsize, wspread)*100000000ull;
+			newWarrant->Quantity = 0;
+			newWarrant->Issuer = wiv.Issuer;
+			newWarrant->Status = STATUS_READY;
+			newWarrant->UBid = ubid;
+			newWarrant->UAsk = uask;
+			newWarrant->isWinSell = false;
+			newWarrant->isWinOrLvlSell = false;
+
+
+			selectedWarrant.push_back(newWarrant);
+				//}
+
+		//}
+	}
+	unsigned int ssize = selectedWarrant.size();
+	if(selectedWarrant.size() > (unsigned int)MaxBuyNoWarrant){
+
+		Log("Accepted Size = " + to_string(ssize));
+		std::sort (selectedWarrant.begin(), selectedWarrant.end(), myfunction);
+		for(unsigned int i=MaxBuyNoWarrant; i<ssize; i++){
+			delete selectedWarrant[i];
+		}
+		selectedWarrant.erase(selectedWarrant.begin()+MaxBuyNoWarrant, selectedWarrant.end());
+		Log("Maximum selected = " + to_string(MaxBuyNoWarrant) + " " + issuer + " Selected = " + to_string(selectedWarrant.size()) + " on " + to_string(underlying) );
+	}
+	return selectedWarrant;
+}
+
 unsigned long long s1algo::getBestBid(unsigned int code){
 	auto it2 = omdcMap.find(code);
 	if(it2 != omdcMap.end()){
@@ -1284,12 +1381,16 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 						continue;
 					}
 
-					//unsigned long long t_check = dbp::tools::srv::current();
-					if(!checkPrice(wobsArray[i]->Code, bid_price, ask_price)){
-						Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " Not Pass Checkprice");
-						warrant* w = obs->removeWarrantOrCbbc(wobsArray[i]->Code);
-						delete w;
-						continue;
+					if("CS" == wobsArray[i]->Issuer){
+
+					}else{
+						//unsigned long long t_check = dbp::tools::srv::current();
+						if(!checkPrice(wobsArray[i]->Code, bid_price, ask_price)){
+							Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " Not Pass Checkprice");
+							warrant* w = obs->removeWarrantOrCbbc(wobsArray[i]->Code);
+							delete w;
+							continue;
+						}
 					}
 
 
