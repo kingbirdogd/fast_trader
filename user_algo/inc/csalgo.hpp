@@ -667,7 +667,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			//auto* self = dynamic_cast<csalgo*>(al);
+			auto* self = dynamic_cast<csalgo*>(al);
 
 			unordered_set<unsigned int> wcodeset = ivLoader.getWarrantByIssuer(issuer, ucode);
 			int i=0;
@@ -676,8 +676,8 @@ private:
 
 
 				string selected = "u";
-				auto itw = selectedWarrant.find(wcode);
-				if(itw != selectedWarrant.end() ){
+				auto itw = self->selectedWarrant.find(wcode);
+				if(itw != self->selectedWarrant.end() ){
 					selected = "s";
 				}
 
