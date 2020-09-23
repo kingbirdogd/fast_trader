@@ -974,7 +974,7 @@ vector<warrant*> s1algo::getWinpriceWarrantFromMarketByIssuer(std::string issuer
 {
 
 	//long long uspread =  static_cast<long long>(uask/100000 - ubid/100000);
-	unsigned long long uspread =  uask - ubid;
+	//unsigned long long uspread =  uask - ubid;
 
 	vector<warrant*> selectedWarrant;
 	unordered_set<unsigned int> warrantVector = ivLoader.getWarrantByIssuer(issuer,underlying);
