@@ -1020,6 +1020,8 @@ vector<warrant*> s1algo::getWinpriceWarrantFromMarketByIssuer(std::string issuer
 			if(lotsize == 0)
 				continue;
 
+			WarrantIv wiv = ivLoader.getWarrantIv(n);
+
 			warrant* newWarrant = new warrant;
 			newWarrant->Date = DateUtil::getToday();
 			newWarrant->Code = n;
