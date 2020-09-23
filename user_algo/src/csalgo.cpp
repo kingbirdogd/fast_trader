@@ -117,7 +117,7 @@ void csalgo::on_omdc_book(const Tradable& tradable)
 
 			//if(obs->hasPosition){
 			if(obs->warrantStatus(code, STATUS_AVAILABLE)){
-				if(obs->isExist(code)){
+				//if(obs->isExist(code)){
 
 					warrant* w = obs->getRelatedWarrant(code);
 					if(w->isWinSell){
@@ -156,7 +156,7 @@ void csalgo::on_omdc_book(const Tradable& tradable)
 					ouputQueue.enqueue(msg);
 
 					Log("UCODE = " + to_string(p->UCode) + " Warrant Code = " + to_string(code) + " WBid Change from " + to_string(p->PBestbid) + " To " + to_string(best_bid_price));
-				}
+				//}
 			}
 
 		}
