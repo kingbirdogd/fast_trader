@@ -176,10 +176,6 @@ void csalgo::on_omdc_book(const Tradable& tradable)
 		p->BidQty = best_bid_qty;
 		p->AskQty = best_ask_qty;
 
-		if(best_bid_price >= 25000000 ){
-			return;
-		}
-
 
 
 		PriceMark* spm = pricemarkMap[code];
@@ -193,6 +189,7 @@ void csalgo::on_omdc_book(const Tradable& tradable)
 		priceinfo* uprice = underlyingPriceMap[p->UCode];
 
 		if(obs->isExist(code)){
+
 			warrant* newWarrant = obs->getRelatedWarrant(code);
 			if(buyin==sellout){
 				if(newWarrant->Status == STATUS_READY){
@@ -227,6 +224,10 @@ void csalgo::on_omdc_book(const Tradable& tradable)
 				auto selit = unselectedUCode.find(p->UCode);
 				if(selit != unselectedUCode.end())
 					return;
+
+				if(best_ask_price >= 25000000 ){
+					return;
+				}
 
 /*
 				auto selectwit = selectedWarrant.find(code);

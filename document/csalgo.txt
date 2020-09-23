@@ -1,0 +1,29 @@
+1) Underlying Warrant List
+cmd=uwarrantlist
+
+parameters:
+issuer : Issuer code  (CS, MB, SG ....)
+ucode : underlying code
+
+response:
+
+action=uwarrantlist
+ucode=[0,9]{1,5}   unsigned int
+codes=12345, 23456    (String Type)
+issuer=[CS, MB, SG .....]
+result=[SUCCESS,FAIL]
+
+
+2) Select Warrant
+
+request
+cmd=selectwarrant
+ucode=[1,5,788 ..... ]  
+action=[select,remove]
+
+response
+action=selectwarrant
+selectaction=[select,remove]
+ucode=[1,5,788 ..... ]
+success=[SUCCESS,FAIL]
+reason=
