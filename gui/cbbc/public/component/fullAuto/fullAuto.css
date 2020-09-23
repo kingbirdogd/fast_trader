@@ -1,0 +1,225 @@
+#fullAuto.container {
+  max-width: 1480px;
+}
+
+#fullAuto.container .row {
+  max-width: 1480px;
+}
+
+#fullAuto .nav-tabs {
+  background-color: #f0f0f0;
+}
+
+#fullAuto .nav-item {
+  font-size: 11px;
+}
+
+#fullAuto .nav-item .nav-link {
+  padding: .3rem 1rem;
+}
+
+#fullAuto .tab-content {
+  height: 300px;
+  border: 1px solid #e6e6e6;
+  border-width: 0 1px 1px 1px;
+  padding: 8px 12px 4px 12px;
+  background-color: #f9f9f9;
+}
+
+#fullAuto .tab-pane.fade {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+#fullAuto .form-group {
+  margin-bottom: 0px;
+}
+
+#fullAuto .col-form-label-sm,
+#fullAuto .form-control-sm {
+  font-size: 11px;
+}
+
+#fullAuto input.form-control-sm {
+  padding: 0rem .5rem;
+}
+
+#fullAuto .btn_control {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  font-size: 14px;
+}
+
+#fullAuto .btn-sm {
+  font-size: 11px;
+  line-height: 1.25;
+}
+
+#fullAuto .btn_trade_control {
+  position: absolute;
+  width: 100%;
+  bottom: 35px;
+}
+
+#fullAuto .price_table {
+  overflow:auto;
+  display: block;
+  height: 255px;
+  width: calc(100% + 12px);
+  font-size: 11px;
+  margin-top: -4px;
+}
+
+#fullAuto .price_table .table-sm td,
+#fullAuto .price_table .table-sm th {
+  padding: .10rem;
+}
+
+#fullAuto .price_table .cur_bid,
+#fullAuto .price_table .cur_ask {
+  color: #2ECC71;
+  font-weight: bold;
+}
+
+#fullAuto .table-portfolio,
+#fullAuto .table-order,
+#fullAuto .table-position,
+#fullAuto .table-signal {
+  display: block;
+  overflow-y: scroll;
+  margin-bottom: 0.5rem;
+  height: 192px;
+  width: 100%;
+  font-size: 11px;
+  border: 1px solid #e6e6e6;
+}
+
+#fullAuto .table-portfolio.table-sm td, #fullAuto .table-portfolio.table-sm th,
+#fullAuto .table-order.table-sm td, #fullAuto .table-order.table-sm th,
+#fullAuto .table-position.table-sm td, #fullAuto .table-position.table-sm th,
+#fullAuto .table-signal.table-sm td, #fullAuto .table-signal.table-sm th {
+  padding: .1rem;
+}
+
+#fullAuto .table-position {
+  height: 212px;
+}
+
+#fullAuto .table-position .btn-sm {
+  line-height: 1.15;
+}
+
+#fullAuto .is-invalid {
+  border: 1px solid #ff0000 !important;
+}
+
+#fullAuto .is-valid {
+  border: 1px solid #28a745 !important;
+}
+
+#fullAuto .invalid-feedback {
+  margin: 0;
+  font-size: 10px;
+  line-height: 10px;
+  margin: 0px 0px 4px 0px;
+}
+
+#fullAuto .config_selector {
+  display: inline;
+}
+
+#fullAuto .config_selector ul {
+  display: inline-block;
+}
+
+#fullAuto .config_selector ul li {
+  padding: 2px 6px 2px 6px;
+  border: 1px solid #e6e6e6;
+  text-align: center;
+  background-color: #f7f7f7;
+}
+
+.select2-container--bootstrap4.select2-container--focus .select2-selection {
+  border-color: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+#fullAuto .custom-loader.content.is_loading {
+  opacity: 0.2;
+}
+
+#fullAuto .custom-loader.area.is_loading {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#fullAuto .custom-loader.area.is_finish {
+  display: none;
+}
+
+#fullAuto .custom-loader.spinner.is_loading {
+  width: 75px;
+  height: 75px;
+  display: inline-block;
+  border-width: 2px;
+  border-color: rgba(0, 0, 0, 0.75);
+  border-top-color: #fff;
+  animation: spin 0.5s infinite linear;
+  border-radius: 100%;
+  border-style: solid;
+}
+
+#fullAuto .custom-loader.spinner.is_finish {
+  display: none;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+#fullAuto .footer {
+  position: absolute;
+  left: 0;
+  margin: 24px 0 0 0;
+  width: 100%;
+  height: 48px;
+  font-size: 12px;
+  line-height: 48px;
+  background-color: #f8f9fa!important;
+  border-top: 1px solid #cfcfcf;
+}
+
+#fullAuto .status .status-icon {
+  padding: 4px;
+  font-size: 12px;
+  color: #fff;
+}
+
+#fullAuto .status .status-icon.btn-success,
+#fullAuto .status .status-icon.btn-success.focus {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+#fullAuto .status .status-icon.btn-danger,
+#fullAuto .status .status-icon.btn-danger.focus {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+#fullAuto .status #status_detail {
+  font-size: 12px;
+}
+
+#fullAuto .status #status_detail .card-body {
+  padding: 12px;
+  border: 1px solid #e6e6e6;
+  background-color: #f9f9f9;
+}

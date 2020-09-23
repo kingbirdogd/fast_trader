@@ -1,15 +1,15 @@
 var ui = new Array();
 var config = ['bull', 'bull', 'bear', 'bear'];    // 预设布局
-var lang = 'a1-lang'
-var userId = 'a1-userId'
-var underlyingDefault = 'remove'
+var lang = 'csalgo-lang'
+var userId = 'csalgo-userId'
+var underlyingDefault = 'select'
 
 $(document).ready(function() {
   initUI();
 });
 
 function initUI() {
-  ui.container = $('#a1');
+  ui.container = $('#csalgo');
   ui.tablePrice = $(".price_table");
 }
 

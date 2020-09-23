@@ -4,8 +4,8 @@ if (href.includes('cbbc'))
   domain += '/origin=cbbc'
 else if (href.includes('a1'))
   domain += '/origin=a1'
-else if (href.includes('s1csalgo'))
-  domain += '/origin=s1csalgo'
+else if (href.includes('csalgo'))
+  domain += '/origin=csalgo'
 else
   domain += '/origin=unknown'
 var ws = null;

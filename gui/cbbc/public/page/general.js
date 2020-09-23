@@ -6,16 +6,16 @@ $(document).ready(function() {
     'cbbc-uname': Cookies.get('cbbc-uname'),
     'a1-lang': Cookies.get('a1-lang'),
     'a1-uname': Cookies.get('a1-uname'),
-    's1csalgo-lang': Cookies.get('s1csalgo-lang'),
-    's1csalgo-uname': Cookies.get('s1csalgo-uname'),
+    'csalgo-lang': Cookies.get('csalgo-lang'),
+    'csalgo-uname': Cookies.get('csalgo-uname'),
   }
   global.ui = {
     'navbar-a1': $("#navbar-nav-a1"),
     'navbar-cbbc': $("#navbar-nav-cbbc"),
-    'navbar-s1csalgo': $("#navbar-nav-s1csalgo"),
+    'navbar-csalgo': $("#navbar-nav-csalgo"),
     'btn-logout-a1': $("#btn-logout-a1"),
     'btn-logout-cbbc': $("#btn-logout-cbbc"),
-    'btn-logout-s1csalgo': $("#btn-logout-s1csalgo"),
+    'btn-logout-csalgo': $("#btn-logout-csalgo"),
     'navber-personal-info': $('.nav-personal-info'),
   };
   global.func = {};
@@ -25,8 +25,8 @@ $(document).ready(function() {
       global.ui['btn-logout-cbbc'].submit();
     else if (href.includes('a1'))
       global.ui['btn-logout-a1'].submit();
-    else if (href.includes('s1csalgo'))
-      global.ui['btn-logout-s1csalgo'].submit();
+    else if (href.includes('csalgo'))
+      global.ui['btn-logout-csalgo'].submit();
   }
   
   initNavbar();
@@ -55,8 +55,8 @@ function initNavbar() {
     global.ui['btn-logout-a1'].hide();
     global.ui['navbar-a1'].hide();
     
-    global.ui['btn-logout-s1csalgo'].hide();
-    global.ui['navbar-s1csalgo'].hide();
+    global.ui['btn-logout-csalgo'].hide();
+    global.ui['navbar-csalgo'].hide();
   }
   else if (href.includes('a1')) {
     // 标题
@@ -70,17 +70,17 @@ function initNavbar() {
     global.ui['btn-logout-cbbc'].hide();
     global.ui['navbar-cbbc'].hide();
     
-    global.ui['btn-logout-s1csalgo'].hide();
-    global.ui['navbar-s1csalgo'].hide();
+    global.ui['btn-logout-csalgo'].hide();
+    global.ui['navbar-csalgo'].hide();
   }
-  else if (href.includes('s1csalgo')) {
+  else if (href.includes('csalgo')) {
     // 标题
-    document.title += ' (s1csalgo)'
+    document.title += ' (csalgo)'
     // 用戶名
-    global.ui['navber-personal-info'].html(global.cookies['s1csalgo-uname']);
+    global.ui['navber-personal-info'].html(global.cookies['csalgo-uname']);
     // 顯示
-    global.ui['btn-logout-s1csalgo'].show();
-    global.ui['navbar-s1csalgo'].show();
+    global.ui['btn-logout-csalgo'].show();
+    global.ui['navbar-csalgo'].show();
     // 隱藏
     global.ui['btn-logout-a1'].hide();
     global.ui['navbar-a1'].hide();
@@ -101,8 +101,8 @@ function initDataInCookies(res) {
       Cookies.set('cbbc-userId', data.user_id);
     else if (href.includes('a1'))
       Cookies.set('a1-userId', data.user_id);
-    else if (href.includes('s1csalgo'))
-      Cookies.set('s1csalgo-userId', data.user_id);
+    else if (href.includes('csalgo'))
+      Cookies.set('csalgo-userId', data.user_id);
   }
 }
 
@@ -117,8 +117,8 @@ function changeLanguage() {
       Cookies.set('cbbc-lang', lang);
     else if (href.includes('a1'))
       Cookies.set('a1-lang', lang);
-    else if (href.includes('s1csalgo'))
-      Cookies.set('s1csalgo-lang', lang);
+    else if (href.includes('csalgo'))
+      Cookies.set('csalgo-lang', lang);
     else
       Cookies.set('lang', lang);
     
