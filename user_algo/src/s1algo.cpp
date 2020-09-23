@@ -1020,7 +1020,13 @@ vector<warrant*> s1algo::getWinpriceWarrantFromMarketByIssuer(std::string issuer
 			if(lotsize == 0)
 				continue;
 
+			unsigned long long wspread = wbest_ask_price - wbest_bid_price;
+
 			WarrantIv wiv = ivLoader.getWarrantIv(n);
+
+			if(wspread <= 0){
+				continue;
+			}
 
 			warrant* newWarrant = new warrant;
 			newWarrant->Date = DateUtil::getToday();
