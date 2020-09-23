@@ -277,14 +277,14 @@ bool csalgo::setWinSell(std::string action, unsigned int ucode, unsigned int cod
 		auto it = obMap.find(ucode);
 		if(it != obMap.end()){
 			OBSetting* obs = it->second;
-			if(obs->hasPosition){
-				if(obs->isExist(code)){
+			if(obs->warrantStatus(code, STATUS_AVAILABLE)){
+				//if(obs->isExist(code)){
 					warrant* w = obs->getRelatedWarrant(code);
 					if(w != nullptr){
 						w->isWinSell = true;
 						return true;
 					}
-				}
+				//}
 			}
 		}
 	}
@@ -292,7 +292,8 @@ bool csalgo::setWinSell(std::string action, unsigned int ucode, unsigned int cod
 		auto it = obMap.find(ucode);
 		if(it != obMap.end()){
 			OBSetting* obs = it->second;
-			if(obs->hasPosition){
+			//if(obs->hasPosition){
+			if(obs->warrantStatus(code, STATUS_AVAILABLE)){
 				if(obs->isExist(code)){
 					warrant* w = obs->getRelatedWarrant(code);
 					if(w != nullptr){
@@ -311,14 +312,15 @@ bool csalgo::setWinLvlSell(std::string action, unsigned int ucode, unsigned int 
 		auto it = obMap.find(ucode);
 		if(it != obMap.end()){
 			OBSetting* obs = it->second;
-			if(obs->hasPosition){
-				if(obs->isExist(code)){
+			//if(obs->hasPosition){
+			if(obs->warrantStatus(code, STATUS_AVAILABLE)){
+				//if(obs->isExist(code)){
 					warrant* w = obs->getRelatedWarrant(code);
 					if(w != nullptr){
 						w->isWinOrLvlSell = true;
 						return true;
 					}
-				}
+				//}
 			}
 		}
 	}
@@ -326,14 +328,15 @@ bool csalgo::setWinLvlSell(std::string action, unsigned int ucode, unsigned int 
 		auto it = obMap.find(ucode);
 		if(it != obMap.end()){
 			OBSetting* obs = it->second;
-			if(obs->hasPosition){
-				if(obs->isExist(code)){
+			//if(obs->hasPosition){
+			if(obs->warrantStatus(code, STATUS_AVAILABLE)){
+				//if(obs->isExist(code)){
 					warrant* w = obs->getRelatedWarrant(code);
 					if(w != nullptr){
 						w->isWinOrLvlSell = false;
 						return true;
 					}
-				}
+				//}
 			}
 		}
 	}
