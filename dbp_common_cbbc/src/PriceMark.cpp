@@ -442,6 +442,14 @@ unsigned long long PriceMark::sellOut(unsigned long long wprice){
 	return sellOutDnBid;
 }
 
+void PriceMark::setSellout(unsigned long long wprice, unsigned long long uprice){
+	auto bdn = pDnBidMark.find(wprice);
+	if(bdn != pDnBidMark.end())
+		return;
+
+	pDnBidMark[wprice] = uprice;
+}
+
 unsigned long long PriceMark::getIssuerIize(){
 	return pIssuerSize;
 }

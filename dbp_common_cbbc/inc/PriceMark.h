@@ -62,6 +62,8 @@ public:
 	unsigned long long buyIn(unsigned long long wprice);
 	unsigned long long sellOut(unsigned long long wprice);
 
+	void setSellout(unsigned long long wprice, unsigned long long uprice);
+
 	void clearall();
 
 	unsigned long long getIssuerIize();

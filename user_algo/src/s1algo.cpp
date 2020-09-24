@@ -892,6 +892,13 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 				continue;
 			}
 */
+
+			unsigned long long stoplostsellout = spm->sellOut(wbest_bid_price);
+			if(stoplostsellout == 99999999){
+				spm->setSellout(wbest_bid_price, ubid);
+			}
+
+
 			unsigned long long wspread = wbest_ask_price - wbest_bid_price;
 
 			WarrantIv wiv = ivLoader.getWarrantIv(n);
@@ -1018,8 +1025,16 @@ vector<warrant*> s1algo::getWinpriceWarrantFromMarketByIssuer(std::string issuer
 			unsigned long long buyin = spm->buyIn(refask);
 			unsigned long long sellout = spm->sellOut(refask);
 
+
+
 			if(buyin != sellout)
 				continue;
+
+			unsigned long long stoplostsellout = spm->sellOut(wbest_bid_price);
+			if(stoplostsellout == 99999999){
+				spm->setSellout(wbest_bid_price, ubid);
+			}
+
 
 			unsigned long long lotsize = static_cast<unsigned long long>(omdcdef.LotSize);
 
@@ -1247,6 +1262,23 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 										continue;
 									}
 								}else{
+
+/*
+									unsigned long long spread = spreadTable.getSpread("01", wbest_bid_price+1);
+									unsigned long long prevbid = wbest_bid_price + spread;
+
+
+									unsigned long long estimateSellout = spm->sellOut(prevbid);
+									if(estimateSellout == 99999999)
+										continue;
+
+									unsigned long long uspread = spreadTable.getSpread("01", bid_price+1);
+									unsigned long long estimateStopLost = estimateSellout - uspread;
+
+									if(estimateStopLost != bid_price)
+										continue;
+*/
+
 									continue;
 								}
 
