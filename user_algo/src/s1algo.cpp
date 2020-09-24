@@ -26,12 +26,18 @@ s1algo::s1algo(user& u, const std::string& name):
 
 	vector<WarrantIv> allW = ivLoader.allWarrants();
 	for(unsigned int i=0; i<allW.size(); i++){
+
+		COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[allW[i].Code];
+
+
 		warrantPriceMap[allW[i].Code] = new priceinfo();
 		warrantPriceMap[allW[i].Code]->Bestbid = 0;
 		warrantPriceMap[allW[i].Code]->Bestask = 0;
 		warrantPriceMap[allW[i].Code]->PBestbid = 0;
 		warrantPriceMap[allW[i].Code]->PBestask = 0;
 		warrantPriceMap[allW[i].Code]->UCode = allW[i].UCode;
+
+		warrantPriceMap[allW[i].Code]->Lotsize = static_cast<unsigned long long>(omdcdef.LotSize);
 		//Log("Init priceinfo = " + to_string(allW[i].Code));
 
 		auto it = availableUCode.find(allW[i].UCode);
@@ -1382,16 +1388,24 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 						continue;
 					}
 
-					if(!spread1){
-						Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " UPrice Not 1 Spread Width");
-						warrant* w = obs->removeWarrantOrCbbc(wobsArray[i]->Code);
-						delete w;
-						continue;
-					}
+
+
+
 
 					if("CS" == wobsArray[i]->Issuer){
-
+						if(wobsArray[i]->UBid != bid_price){
+							Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " UBid != Bestbid");
+							continue;
+						}
 					}else{
+
+						if(!spread1){
+							Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " UPrice Not 1 Spread Width");
+							warrant* w = obs->removeWarrantOrCbbc(wobsArray[i]->Code);
+							delete w;
+							continue;
+						}
+
 						//unsigned long long t_check = dbp::tools::srv::current();
 						if(!checkPrice(wobsArray[i]->Code, bid_price, ask_price)){
 							Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " Not Pass Checkprice");
@@ -1405,6 +1419,8 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 					unsigned long long wbest_ask_price = warrantPriceMap[wobsArray[i]->Code]->Bestask;
 					unsigned long long wbest_bid_price = warrantPriceMap[wobsArray[i]->Code]->Bestbid;
+					unsigned long long lotsize =  warrantPriceMap[wobsArray[i]->Code]->Lotsize;
+					unsigned long long wspread = wbest_ask_price - wbest_bid_price;
 
 
 					PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
@@ -1413,6 +1429,10 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					unsigned long long lvlbid = spm->buyIn(wbest_ask_price);
 
 					Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " Buy In  = " + to_string(buyin) + " Sellout = " + to_string(sellout) + " lvlbid = " + to_string(lvlbid));
+
+					wobsArray[i]->BuyQuantity = algoBet.fixQuantityBySpread(wbest_ask_price, lotsize, wspread)*100000000ull;
+
+
 
 
 					unsigned long long t_btrade = dbp::tools::srv::current();

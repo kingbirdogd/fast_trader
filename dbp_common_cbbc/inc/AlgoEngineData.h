@@ -41,6 +41,7 @@ struct priceinfo{
 	unsigned int Code;
 	unsigned int UCode;
 	std::string Issuer;
+	unsigned long long Lotsize;
 
 	unsigned long long Bestbid;
 	unsigned long long Bestask;
