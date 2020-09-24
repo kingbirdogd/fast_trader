@@ -1454,8 +1454,8 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 					PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
 					unsigned long long buyin = spm->buyIn(wbest_ask_price);
-					unsigned long long sellout = spm->sellout(wbest_bid_price);
-					unsigned long long lvlbid = spm->sellout(wbest_ask_price);
+					unsigned long long sellout = spm->sellOut(wbest_bid_price);
+					unsigned long long lvlbid = spm->sellOut(wbest_ask_price);
 
 
 
