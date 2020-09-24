@@ -893,10 +893,7 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 			}
 */
 
-			unsigned long long stoplostsellout = spm->sellOut(wbest_bid_price);
-			if(stoplostsellout == 99999999){
-				spm->setSellout(wbest_bid_price, ubid);
-			}
+
 
 
 			unsigned long long wspread = wbest_ask_price - wbest_bid_price;
@@ -1457,10 +1454,18 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 					PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
 					unsigned long long buyin = spm->buyIn(wbest_ask_price);
-					unsigned long long sellout = spm->buyIn(wbest_bid_price);
-					unsigned long long lvlbid = spm->buyIn(wbest_ask_price);
+					unsigned long long sellout = spm->sellout(wbest_bid_price);
+					unsigned long long lvlbid = spm->sellout(wbest_ask_price);
+
+
+
+
 
 					Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " Buy In  = " + to_string(buyin) + " Sellout = " + to_string(sellout) + " lvlbid = " + to_string(lvlbid));
+
+					if(sellout == 99999999){
+						spm->setSellout(wbest_bid_price, bid_price);
+					}
 
 					wobsArray[i]->BuyQuantity = algoBet.fixQuantityBySpread(wbest_ask_price, lotsize, wspread)*100000000ull;
 
