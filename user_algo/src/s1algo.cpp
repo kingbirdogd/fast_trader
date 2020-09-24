@@ -893,7 +893,10 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 			}
 */
 
-
+			//unsigned long long stoplostsellout = spm->sellOut(wbest_bid_price);
+			//if(stoplostsellout == 99999999){
+			//	spm->setSellout(wbest_bid_price, ubid);
+			//}
 
 
 			unsigned long long wspread = wbest_ask_price - wbest_bid_price;
@@ -1027,10 +1030,10 @@ vector<warrant*> s1algo::getWinpriceWarrantFromMarketByIssuer(std::string issuer
 			if(buyin != sellout)
 				continue;
 
-			unsigned long long stoplostsellout = spm->sellOut(wbest_bid_price);
-			if(stoplostsellout == 99999999){
-				spm->setSellout(wbest_bid_price, ubid);
-			}
+			//unsigned long long stoplostsellout = spm->sellOut(wbest_bid_price);
+			//if(stoplostsellout == 99999999){
+			//	spm->setSellout(wbest_bid_price, ubid);
+			//}
 
 
 			unsigned long long lotsize = static_cast<unsigned long long>(omdcdef.LotSize);
