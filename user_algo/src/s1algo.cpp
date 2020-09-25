@@ -468,6 +468,32 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 				}
 
 
+				time_t currentTime = DateUtil::getCurrentSystemTime();
+				if(currentTime > undetectedTime && obs->Status == STATUS_READY){
+
+					auto pmsg = algo_signal_msg_pool.get_obj();
+					pmsg->al = this;
+					pmsg->algo_name = this->_name;
+					pmsg->id = this->_u.get_id();
+					pmsg->ref = to_string(code);
+					pmsg->code = code;
+					pmsg->detect_ask = 0;
+					pmsg->selected = false;
+					ouputQueue.enqueue(pmsg);
+
+					obs->removeAllWarrants();
+					obs->detected = false;
+
+					signalCount--;
+
+					if(signalCount <= 0){
+						lastReadyTime = 0;
+						Log("No Detected Signal");
+					}
+
+					Log("Code = " + to_string(code) + " Reset Signal 4");
+				}
+
 
 				return;
 			}
@@ -1424,9 +1450,6 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					if(wobsArray[i]->Status != STATUS_READY){
 						continue;
 					}
-
-
-
 
 
 					if("CS" == wobsArray[i]->Issuer){
