@@ -477,9 +477,15 @@ void PriceMark::setAskIssuerQty(unsigned long long qty){
 
 string PriceMark::printTable(unsigned long long ubid){
 
-	unsigned long long spread = spreadTable.getSpread("01", ubid + 1llu);
-	unsigned long long refask = ubid+spread;
-	string ukey = to_string(ubid) +"-"+ to_string(refask);
+	unsigned long long spread = spreadTable.getSpread("01", ubid - 1llu);
+
+
+	unsigned long long refbid = ubid - 2*spread;
+
+	unsigned long long aspread = spreadTable.getSpread("01", refbid + 1llu);
+
+	unsigned long long refask = refbid+aspread;
+	string ukey = to_string(refbid) +"-"+ to_string(refask);
 
 	string data = "Warrant Code = " + to_string(pcode) + " Price Table\n";
 	int count = 0;

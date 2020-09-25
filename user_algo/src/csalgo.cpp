@@ -112,7 +112,7 @@ void csalgo::on_omdc_book(const Tradable& tradable)
 		if(obs == nullptr)
 			return;
 
-		if(p->Bestbid != best_bid_price){
+		if(p->Bestbid != best_bid_price && best_bid_price>0){
 			p->PBestbid = p->Bestbid;
 
 			//if(obs->hasPosition){
@@ -158,10 +158,11 @@ void csalgo::on_omdc_book(const Tradable& tradable)
 					Log("UCODE = " + to_string(p->UCode) + " Warrant Code = " + to_string(code) + " WBid Change from " + to_string(p->PBestbid) + " To " + to_string(best_bid_price));
 				//}
 			}
-
+			p->Bestbid = best_bid_price;
+			p->BidQty = best_bid_qty;
 		}
 
-		if(p->Bestask != best_ask_price){
+		if(p->Bestask != best_ask_price && best_ask_price>0){
 			p->PBestask = p->Bestask;
 
 			if(obs->Status == STATUS_READY || obs->Status == STATUS_AVAILABLE || obs->Status == STATUS_PENDING){
@@ -169,12 +170,14 @@ void csalgo::on_omdc_book(const Tradable& tradable)
 					Log("UCODE = " + to_string(p->UCode) + " Warrant Code = " + to_string(code) + " WAsk Change from " + to_string(p->PBestask) + " To " + to_string(best_ask_price));
 				}
 			}
+			p->Bestask = best_ask_price;
+			p->AskQty = best_ask_qty;
 		}
 
-		p->Bestbid = best_bid_price;
-		p->Bestask = best_ask_price;
-		p->BidQty = best_bid_qty;
-		p->AskQty = best_ask_qty;
+		//p->Bestbid = best_bid_price;
+		//p->Bestask = best_ask_price;
+		//p->BidQty = best_bid_qty;
+		//p->AskQty = best_ask_qty;
 
 
 
