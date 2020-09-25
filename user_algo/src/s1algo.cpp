@@ -1030,7 +1030,8 @@ vector<warrant*> s1algo::getWinpriceWarrantFromMarketByIssuer(std::string issuer
 
 
 
-			if(buyin != sellout)
+
+			if(buyin != sellout && refask == wbest_ask_price)
 				continue;
 
 			//unsigned long long stoplostsellout = spm->sellOut(wbest_bid_price);
@@ -1060,6 +1061,7 @@ vector<warrant*> s1algo::getWinpriceWarrantFromMarketByIssuer(std::string issuer
 			newWarrant->Egearing = wiv.Egearing;
 			newWarrant->UCode = underlying;
 			newWarrant->RefWBid = wbest_bid_price;
+			//newWarrant->RefWAsk = wbest_ask_price;
 			newWarrant->RefWAsk = wbest_ask_price;
 			//newWarrant->BuyQuantity = algoBet.fixQuantity(wbest_ask_price, lotsize)*100000000ull;
 			newWarrant->BuyQuantity = algoBet.fixQuantityBySpread(wbest_ask_price, lotsize, wspread)*100000000ull;
