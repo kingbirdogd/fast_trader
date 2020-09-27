@@ -1057,7 +1057,7 @@ vector<warrant*> s1algo::getWinpriceWarrantFromMarketByIssuer(std::string issuer
 
 
 
-			if(buyin != sellout && refask == wbest_ask_price)
+			if(buyin != sellout || refask != wbest_ask_price)
 				continue;
 
 			//unsigned long long stoplostsellout = spm->sellOut(wbest_bid_price);
