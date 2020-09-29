@@ -350,6 +350,12 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						//	auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
 							//auto wbest_ask_price = static_cast<unsigned long long>(it->second.m_Ask[0].m_iPrice) * 100000;
 
+						unsigned long long lvlbid = spm->sellOut(obsw[i]->BuyPrice);
+
+						if(lvlbid != 0 && lvlbid != 99999999){
+							obsw[i]->LvlBid = lvlbid;
+						}
+
 						unsigned long long fpcb = spm->sellOut(wbest_bid_price);
 						if(fpcb > obsw[i]->StopLostPrice  && fpcb <= obs->StopLostPrice && fpcb <= best_bid_price && wbest_bid_price>obsw[i]->RefWBid){
 							obsw[i]->StopLostPrice = fpcb;
@@ -1003,6 +1009,9 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 				newWarrant->UAsk = uask;
 				newWarrant->isWinSell = false;
 				newWarrant->isWinOrLvlSell = false;
+				newWarrant->BuyIn = 0;
+				newWarrant->SellOut = 0;
+				newWarrant->LvlBid = 0;
 
 
 				selectedWarrant.push_back(newWarrant);
@@ -1111,8 +1120,8 @@ vector<warrant*> s1algo::getWinpriceWarrantFromMarketByIssuer(std::string issuer
 			newWarrant->isWinSell = false;
 			newWarrant->isWinOrLvlSell = false;
 			newWarrant->BuyIn = 0;
-			newWarrant->SellOut = 99999999;
-			newWarrant->LvlBid = 99999999;
+			newWarrant->SellOut = 0;
+			newWarrant->LvlBid = 0;
 
 
 			selectedWarrant.push_back(newWarrant);
@@ -1240,10 +1249,27 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 						for(unsigned int i=0; i<wobsArray.size(); i++){
 							//unsigned long long t_start = dbp::tools::srv::current();
 
+							unsigned long long wbest_bid_price = warrantPriceMap[wobsArray[i]->Code]->Bestbid;
+
 							if(wobsArray[i]->Status != STATUS_AVAILABLE){
 								continue;
 							}
-							if(wobsArray[i]->StopLostPrice < trade_price && wobsArray[i]->LvlBid < trade_price){
+
+							if(wobsArray[i]->LvlBid == trade_price && wbest_bid_price >= wobsArray[i]->BuyPrice){
+
+								wobsArray[i]->Status = STATUS_SELLING;
+								bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
+								if(!result){
+									obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
+									continue;
+								}
+
+								Log("Do Sell Warrant Code @ LVL =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
+							}
+
+
+
+							if(wobsArray[i]->StopLostPrice < trade_price){
 								continue;
 							}
 
@@ -1251,7 +1277,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								continue;
 							}
 
-							unsigned long long wbest_bid_price = warrantPriceMap[wobsArray[i]->Code]->Bestbid;
+
 
 
 
