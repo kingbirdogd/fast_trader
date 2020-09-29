@@ -107,47 +107,58 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		if(p->Bestbid != best_bid_price && best_bid_price>0){
 			p->PBestbid = p->Bestbid;
 
-			if(obs->hasPosition){
-				if(obs->isExist(code)){
+			if(obs->warrantStatus(code, STATUS_AVAILABLE)){
+				//if(obs->isExist(code)){
 
-					warrant* w = obs->getRelatedWarrant(code);
-					if(w->isWinSell){
-						if(w->BuyPrice > 0 && best_bid_price > 0){
-							if(best_bid_price > w->BuyPrice && w->Status == STATUS_AVAILABLE){
-								Log("Warrant Code = " + to_string(code) + " Do Quick Win Sell @ " + to_string(best_bid_price) + " Buy Price = " + to_string(w->BuyPrice));
-								w->Status = STATUS_SELLING;
-								bool result = doWarrantAction(w, dbp::top::order_side::sell, best_bid_price, w->Quantity);
-								if(!result){
-									obs->setRelatedWarrantStatus(w->Code, STATUS_AVAILABLE);
-								}
+				warrant* w = obs->getRelatedWarrant(code);
+				if(w->isWinSell){
+					if(w->BuyPrice > 0 && best_bid_price > 0){
+						if(best_bid_price > w->BuyPrice && w->Status == STATUS_AVAILABLE){
+							Log("Warrant Code = " + to_string(code) + " Do Quick Win Sell @ " + to_string(best_bid_price) + " Buy Price = " + to_string(w->BuyPrice));
+							w->Status = STATUS_SELLING;
+							bool result = doWarrantAction(w, dbp::top::order_side::sell, best_bid_price, w->Quantity);
+							if(!result){
+								obs->setRelatedWarrantStatus(w->Code, STATUS_AVAILABLE);
 							}
 						}
 					}
-					if(w->isWinOrLvlSell){
-						if(w->BuyPrice > 0 && best_bid_price > 0){
-							if(best_bid_price >= w->BuyPrice && w->Status == STATUS_AVAILABLE){
-								Log("Warrant Code = " + to_string(code) + " Do Quick Win Lvl Sell @ " + to_string(best_bid_price) + " Buy Price = " + to_string(w->BuyPrice));
-								w->Status = STATUS_SELLING;
-								bool result = doWarrantAction(w, dbp::top::order_side::sell, best_bid_price, w->Quantity);
-								if(!result){
-									obs->setRelatedWarrantStatus(w->Code, STATUS_AVAILABLE);
-								}
-							}
-						}
-					}
-
-					auto msg = algo_warrantprice_msg_pool.get_obj();
-					msg->al = this;
-					msg->algo_name = _name;
-					msg->id = _u.get_id();
-					msg->ref = std::to_string(code);
-					msg->warrant_code = code;
-					msg->side = "BID";
-					msg->wprice = best_bid_price;
-					ouputQueue.enqueue(msg);
-
-					Log("UCODE = " + to_string(p->UCode) + " Warrant Code = " + to_string(code) + " WBid Change from " + to_string(p->PBestbid) + " To " + to_string(best_bid_price));
 				}
+				if(w->isWinOrLvlSell){
+					if(w->BuyPrice > 0 && best_bid_price > 0){
+						if(best_bid_price >= w->BuyPrice && w->Status == STATUS_AVAILABLE){
+							Log("Warrant Code = " + to_string(code) + " Do Quick Win Lvl Sell @ " + to_string(best_bid_price) + " Buy Price = " + to_string(w->BuyPrice));
+							w->Status = STATUS_SELLING;
+							bool result = doWarrantAction(w, dbp::top::order_side::sell, best_bid_price, w->Quantity);
+							if(!result){
+								obs->setRelatedWarrantStatus(w->Code, STATUS_AVAILABLE);
+							}
+						}
+					}
+				}
+
+				if(w->BuyPrice > 0 && best_bid_price > 0){
+					if(best_bid_price == w->BuyPrice && w->Status == STATUS_AVAILABLE){
+						PriceMark* spm = pricemarkMap[code];
+						unsigned long long lvlbid = spm->sellOut(best_bid_price);
+						if(lvlbid != 0 && lvlbid != 99999999){
+							w->LvlBid = lvlbid;
+							Log("Warrant Code = " + to_string(code) + " Lvl Bid @ " + to_string(best_bid_price) + " UBid = " + to_string(lvlbid));
+						}
+					}
+				}
+
+				auto msg = algo_warrantprice_msg_pool.get_obj();
+				msg->al = this;
+				msg->algo_name = _name;
+				msg->id = _u.get_id();
+				msg->ref = std::to_string(code);
+				msg->warrant_code = code;
+				msg->side = "BID";
+				msg->wprice = best_bid_price;
+				ouputQueue.enqueue(msg);
+
+				Log("UCODE = " + to_string(p->UCode) + " Warrant Code = " + to_string(code) + " WBid Change from " + to_string(p->PBestbid) + " To " + to_string(best_bid_price));
+				//}
 			}
 			p->Bestbid = best_bid_price;
 			p->BidQty = best_bid_qty;
@@ -155,12 +166,13 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 		if(p->Bestask != best_ask_price && best_ask_price>0){
 			p->PBestask = p->Bestask;
-
+			/*
 			if(obs->Status == STATUS_READY || obs->Status == STATUS_AVAILABLE || obs->Status == STATUS_PENDING){
 				if(obs->isExist(code)){
 					Log("UCODE = " + to_string(p->UCode) + " Warrant Code = " + to_string(code) + " WAsk Change from " + to_string(p->PBestask) + " To " + to_string(best_ask_price));
 				}
 			}
+			*/
 			p->Bestask = best_ask_price;
 			p->AskQty = best_ask_qty;
 		}
@@ -1098,6 +1110,9 @@ vector<warrant*> s1algo::getWinpriceWarrantFromMarketByIssuer(std::string issuer
 			newWarrant->UAsk = uask;
 			newWarrant->isWinSell = false;
 			newWarrant->isWinOrLvlSell = false;
+			newWarrant->BuyIn = 0;
+			newWarrant->SellOut = 99999999;
+			newWarrant->LvlBid = 99999999;
 
 
 			selectedWarrant.push_back(newWarrant);
@@ -1211,7 +1226,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 			if(TradeSide::SELL_SIDE == side && trade_sell_quantity >= best_bid_vol){
 
-
+				unsigned long long highestLvlBid = obs->getHighestLevelPrice();
 
 				unsigned long long highestStopLost = obs->getHighestStopLostPrice();
 				Log("UCode = " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price) + " Best Ask = " + to_string(ask_price));
@@ -1220,7 +1235,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
 
-				if(trade_price <= highestStopLost){
+				if(trade_price <= highestStopLost || trade_price == highestLvlBid){
 					if(obs->hasRelatedWarrant(STATUS_AVAILABLE)){
 						for(unsigned int i=0; i<wobsArray.size(); i++){
 							//unsigned long long t_start = dbp::tools::srv::current();
@@ -1228,7 +1243,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 							if(wobsArray[i]->Status != STATUS_AVAILABLE){
 								continue;
 							}
-							if(wobsArray[i]->StopLostPrice < trade_price){
+							if(wobsArray[i]->StopLostPrice < trade_price && wobsArray[i]->LvlBid < trade_price){
 								continue;
 							}
 
@@ -1497,6 +1512,10 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					if(sellout == 99999999){
 						spm->setSellout(wbest_bid_price, bid_price);
 					}
+
+					wobsArray[i]->BuyIn = buyin;
+					wobsArray[i]->SellOut = sellout;
+					wobsArray[i]->LvlBid = lvlbid;
 
 					wobsArray[i]->BuyQuantity = algoBet.fixQuantityBySpread(wbest_ask_price, lotsize, wspread)*100000000ull;
 

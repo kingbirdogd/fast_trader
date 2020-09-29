@@ -95,6 +95,7 @@ public:
 	warrant* getRelatedWarrant(unsigned int);
 	int getRelatedWarrantCount();
 	unsigned long long getHighestStopLostPrice();
+	unsigned long long getHighestLevelPrice();
 	unsigned long long getLowestStopLostPrice();
 	unsigned long long getHighestDetectedBidPrice();
 	bool hasRelatedWarrant(int);

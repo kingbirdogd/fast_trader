@@ -80,6 +80,18 @@ bool OBSetting::hasWarrants(){
 	return WarrantMap.size()>0;
 }
 
+unsigned long long OBSetting::getHighestLevelPrice(){
+		unsigned long long levelbid = 0;
+		for ( auto it = WarrantMap.begin(); it != WarrantMap.end(); ++it )
+		{
+			warrant *w = it->second;
+			if(w->LvlBid > levelbid){
+				levelbid = w->LvlBid;
+			}
+		}
+		return levelbid;
+	}
+
 unsigned long long OBSetting::getHighestDetectedBidPrice(){
 	unsigned long long higheststoplost = 0;
 	if(WarrantMap.size() == 0)
