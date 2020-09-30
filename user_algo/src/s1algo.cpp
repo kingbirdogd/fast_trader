@@ -1285,7 +1285,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 							if(wbest_bid_price == 0)
 								continue;
-
+/*
 							if(wbest_bid_price >= wobsArray[i]->BuyPrice){
 
 								//unsigned long long t_btrade = dbp::tools::srv::current();
@@ -1300,7 +1300,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 								Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
 
-							}else{
+							}else{*/
 
 								PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
 
@@ -1389,7 +1389,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								wobsArray[i]->m_tm = tradable.m_MsgTime;
 								wobsArray[i]->t_tm = dbp::tools::srv::current();
 #endif
-							}
+							//}
 							//}
 						}
 						if(obs->hasRelatedWarrant(STATUS_SELLING)){
