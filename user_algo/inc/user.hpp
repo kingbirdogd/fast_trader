@@ -40,13 +40,13 @@ public:
 		}
 		algo_order& operator= (const enhance_order& report)
 		{
-			algo_order& self = *this;
+			enhance_order& self = *this;
 			self = report;
 			return *this;
 		}
 		algo_order& operator= (enhance_order&& report)
 		{
-			algo_order& self = *this;
+			enhance_order& self = *this;
 			self = std::move(report);
 			return *this;
 		}

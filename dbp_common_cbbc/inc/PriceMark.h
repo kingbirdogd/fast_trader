@@ -1,7 +1,7 @@
 /*
  * PriceMark.h
  *
- *  Created on: 2017¦~5¤ë22¤é
+ *  Created on: 2017ï¿½~5ï¿½ï¿½22ï¿½ï¿½
  *      Author: leo
  */
 
@@ -33,7 +33,7 @@ using namespace std;
 
 class PriceMark {
 private:
-	unsigned int porderbookid;
+	//unsigned int porderbookid;
 	unsigned int pcode;
 	int pwtype;
 	unsigned long long pIssuerSize;

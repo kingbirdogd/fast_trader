@@ -20,7 +20,7 @@ CLogger::CLogger(string logfile){
 CLogger::~CLogger() {
 
 }
-
+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
 void CLogger::Log(const char * format, ...)
 {
 
@@ -49,6 +49,7 @@ void CLogger::Log(const char * format, ...)
 
 	//delete [] sMessage;
 }
+#pragma GCC diagnostic warning "-Wformat-nonliteral"
 
 void CLogger::Log(const string& sMessage)
 {
