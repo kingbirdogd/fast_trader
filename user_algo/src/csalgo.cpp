@@ -1307,6 +1307,14 @@ std::string csalgo::get_lib_name()
 	return "csalgo";
 }
 
+void csalgo::on_tcp_book(const Tradable&)
+{
+}
+
+void csalgo::on_tcp_trade(const Tradable&)
+{
+}
+
 rapid_ring::spmc_ring_buffer_object_pool<csalgo::algo_err_msg, 8192> csalgo::algo_err_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<csalgo::algo_marketstatus_msg, 8192> csalgo::algo_marketstatus_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<csalgo::algo_setbet_msg, 8192> csalgo::algo_setbet_msg_pool;

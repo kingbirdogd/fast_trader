@@ -4,6 +4,7 @@ COmdOrderMap omdcMap;
 COmdOrderMap stockWarrantomdcMap;
 COmdOrderMap omdcSlimMap;
 COmdOrderMap omddMap;
+CTcpOrderMap tcpMap;
 COmdOrderMap ptomdcMap;
 COmdOrderMap s1omdcMap;
 COmdcAdditionDefinitionsMap omdcAdditionDefinitionsMap;

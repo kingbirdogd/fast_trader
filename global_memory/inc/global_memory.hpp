@@ -15,6 +15,7 @@ extern COmdOrderMap omdcMap;
 extern COmdOrderMap stockWarrantomdcMap;
 extern COmdOrderMap omdcSlimMap;
 extern COmdOrderMap omddMap;
+extern CTcpOrderMap tcpMap;
 extern COmdOrderMap ptomdcMap;
 extern COmdOrderMap s1omdcMap;
 extern COmdcAdditionDefinitionsMap omdcAdditionDefinitionsMap;

@@ -143,6 +143,10 @@ void bear::on_omdd_book(const Tradable& tradable)
 
 }
 
+void bear::on_tcp_book(const Tradable&)
+{
+}
+
 void bear::on_omdd_trade(const Tradable& tradable)
 {
 	auto it = _u_map.find(tradable.m_Code);
@@ -267,6 +271,10 @@ void bear::on_omdd_trade(const Tradable& tradable)
 		}
 
 	}
+}
+
+void bear::on_tcp_trade(const Tradable&)
+{
 }
 
 

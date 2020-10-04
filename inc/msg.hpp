@@ -42,7 +42,9 @@ enum MsgType : unsigned char
 	OMDD_BOOK = 0x03,
 	OMDD_TRADE = 0x04,
 	COMMAND = 0x05,
-	ORDER_LIST = 0x06
+	ORDER_LIST = 0x06,
+	TCP_BOOK = 0x07,
+	TCP_TRADE = 0x08
 };
 
 enum TradeSide : char
@@ -122,16 +124,27 @@ struct portfolio{
 	unsigned long long sellturnover;
 	long long profit;
 };
-
+struct algo_msg_base;
 struct Tradable
 {
 #ifndef NOT_MEASURE
 	unsigned long long m_PkgTime;
 	unsigned long long m_MsgTime;
 #endif
-	unsigned long long m_LastTradeQuantity;
-	unsigned long long m_AccumulateBuyQuantity;
-	unsigned long long m_AccumulateSellQuantity;
+	union
+	{
+		unsigned long long m_LastTradeQuantity;
+		algo_msg_base* m_AlgoBase;
+	};
+	union
+	{
+		struct
+		{
+			unsigned long long m_AccumulateBuyQuantity;
+			unsigned long long m_AccumulateSellQuantity;
+		};
+		char m_TcpCode[16];
+	};
 	unsigned long long m_AccumulateBlankQuantity;
 	unsigned int m_Code;
 	int m_LastTradePrice;
@@ -170,7 +183,14 @@ struct Tradable
 		j["m_AccumulateBuyQuantity"] = m_AccumulateBuyQuantity;
 		j["m_AccumulateSellQuantity"] = m_AccumulateSellQuantity;
 		j["m_AccumulateBlankQuantity"] = m_AccumulateBlankQuantity;
-		j["m_Code"] = m_Code;
+		if (MsgType::TCP_BOOK == m_MsgType || MsgType::TCP_TRADE == m_MsgType)
+		{
+			j["m_Code"] = m_TcpCode;
+		}
+		else
+		{
+			j["m_Code"] = m_Code;
+		}
 		j["m_LastTradePrice"] = m_LastTradePrice;
 		j["m_TradeType"] = m_TradeType;
 		if (MsgType::NONE == m_MsgType)
@@ -192,6 +212,18 @@ struct Tradable
 		else if (MsgType::OMDD_TRADE == m_MsgType)
 		{
 			j["m_MsgType"] = "OMDD_TRADE";
+		}
+		else if (MsgType::TCP_BOOK == m_MsgType)
+		{
+			j["m_MsgType"] = "TCP_BOOK";
+		}
+		else if (MsgType::TCP_TRADE == m_MsgType)
+		{
+			j["m_MsgType"] = "TCP_TRADE";
+		}
+		else if (MsgType::ORDER_LIST == m_MsgType)
+		{
+			j["m_MsgType"] = "ORDER_LIST";
 		}
 		else
 		{
@@ -365,6 +397,7 @@ struct COmdcAdditionDefinitions
 typedef std::unordered_map<std::string, std::string> CActivateChannel;
 typedef std::vector<CRetranProxy> CRetranVec;
 typedef std::unordered_map<unsigned int, COmdOrderbook> COmdOrderMap;
+typedef std::unordered_map<std::string, COmdOrderbook> CTcpOrderMap;
 typedef std::unordered_map<unsigned int, COmdcAdditionDefinitions> COmdcAdditionDefinitionsMap;
 typedef std::unordered_map<unsigned int, unsigned int> CWarrants;
 typedef std::unordered_map<unsigned int, std::unordered_set<unsigned int>> CUnderlyingWarrants;

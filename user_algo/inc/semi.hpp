@@ -1295,8 +1295,10 @@ public:
 	virtual ~semi() = default;
 	virtual void on_omdc_book(const Tradable&);
 	virtual void on_omdd_book(const Tradable&);
+	virtual void on_tcp_book(const Tradable&);
 	virtual void on_omdc_trade(const Tradable&);
 	virtual void on_omdd_trade(const Tradable&);
+	virtual void on_tcp_trade(const Tradable&);
 	virtual void handler_order(const dbp::top::enhance_order&);
 	virtual void handle_command(algo_msg_base&);
 	virtual algo_msg_base* json_to_msg(json& msg);

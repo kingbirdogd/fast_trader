@@ -2419,8 +2419,10 @@ public:
 public:
 	virtual void on_omdc_book(const Tradable&);
 	virtual void on_omdd_book(const Tradable&);
+	virtual void on_tcp_book(const Tradable&);
 	virtual void on_omdc_trade(const Tradable&);
 	virtual void on_omdd_trade(const Tradable&);
+	virtual void on_tcp_trade(const Tradable&);
 	virtual void handler_order(const dbp::top::enhance_order&);
 	std::string set_pair(pair&& p);
 	action_resp set_pause(unsigned int code, const std::string& ref);

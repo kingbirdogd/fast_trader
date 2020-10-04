@@ -72,9 +72,17 @@ void user::run()
 			for (auto& item : _algos)
 				item.second->on_omdd_trade(msg);
 			break;
+		case MsgType::TCP_BOOK:
+			for (auto& item : _algos)
+				item.second->on_tcp_trade(msg);
+			break;
+		case MsgType::TCP_TRADE:
+			for (auto& item : _algos)
+				item.second->on_tcp_trade(msg);
+			break;
 		case MsgType::COMMAND:
 			{
-				auto ptr = reinterpret_cast<algo_msg_base*>(msg.m_LastTradeQuantity);
+				auto ptr = msg.m_AlgoBase;
 				auto& cmd = *ptr;
 				if (cmd.id == _id)
 				{
@@ -88,7 +96,7 @@ void user::run()
 			break;
 		case MsgType::ORDER_LIST:
 			{
-				auto base = reinterpret_cast<algo_msg_base*>(msg.m_LastTradeQuantity);
+				auto base = msg.m_AlgoBase;
 				auto ptr = dynamic_cast<user::user_order_list*>(base);
 				if (ptr->id == _id)
 				{

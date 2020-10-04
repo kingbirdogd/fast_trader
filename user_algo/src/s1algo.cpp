@@ -2245,6 +2245,14 @@ std::string s1algo::get_lib_name()
 	return "s1algo";
 }
 
+void s1algo::on_tcp_book(const Tradable&)
+{
+}
+
+void s1algo::on_tcp_trade(const Tradable&)
+{
+}
+
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_err_msg, 8192> s1algo::algo_err_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_marketstatus_msg, 8192> s1algo::algo_marketstatus_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_setbet_msg, 8192> s1algo::algo_setbet_msg_pool;

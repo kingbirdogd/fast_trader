@@ -614,6 +614,14 @@ std::string semi::get_lib_name()
 	return "semi";
 }
 
+void semi::on_tcp_book(const Tradable&)
+{
+}
+
+void semi::on_tcp_trade(const Tradable&)
+{
+}
+
 rapid_ring::spmc_ring_buffer_object_pool<semi::algo_odr_msg, 8192> semi::algo_odr_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<semi::algo_err_msg, 8192> semi::algo_err_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semi::algo_odr_position, 8192> semi::algo_odr_position_pool;

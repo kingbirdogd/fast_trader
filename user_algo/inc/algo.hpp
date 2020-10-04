@@ -25,8 +25,10 @@ public:
 	virtual ~algo() = default;
 	virtual void on_omdc_book(const Tradable&) = 0;
 	virtual void on_omdd_book(const Tradable&) = 0;
+	virtual void on_tcp_book(const Tradable&) = 0;
 	virtual void on_omdc_trade(const Tradable&) = 0;
 	virtual void on_omdd_trade(const Tradable&) = 0;
+	virtual void on_tcp_trade(const Tradable&) = 0;
 	virtual void handler_order(const dbp::top::enhance_order&) = 0;
 	virtual void handle_command(algo_msg_base& cmd) = 0;
 	virtual algo_msg_base* json_to_msg(json& msg) = 0;

@@ -136,6 +136,23 @@ inline void decode()
 				return;
 			}
 		}
+		else if (cmd == "get_tcp_tradable")
+		{
+			auto code = j["code"].get<std::string>();
+			auto it = tcpMap.find(code);
+			if (tcpMap.end() == it)
+			{
+				j["error"] = "tcp code not found";
+				output(j);
+				return;
+			}
+			else
+			{
+				j["tcp_tradable"] = it->second.to_json();
+				output(j);
+				return;
+			}
+		}
 		else
 		{
 			auto id = j["id"].get<unsigned long long>();
@@ -213,7 +230,7 @@ inline void decode()
 				msg->ref = j["ref"].get<std::string>();
 				Tradable t;
 				t.m_MsgType = MsgType::ORDER_LIST;
-				t.m_LastTradeQuantity = reinterpret_cast<unsigned long long>(msg);
+				t.m_AlgoBase = msg;
 				broadcastQueue.enqueue(t);
 			}
 			else if (cmd == "get_algo_names")
@@ -242,7 +259,7 @@ inline void decode()
 				msg->ref = j["ref"].get<std::string>();
 				Tradable t;
 				t.m_MsgType = MsgType::COMMAND;
-				t.m_LastTradeQuantity = reinterpret_cast<unsigned long long>(msg);
+				t.m_AlgoBase = msg;
 				broadcastQueue.enqueue(t);
 			}
 		}
