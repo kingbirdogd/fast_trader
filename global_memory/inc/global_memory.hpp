@@ -8,6 +8,19 @@
 #include <OrderbookLoader.h>
 #include <SpreadTable.h>
 
+struct TcpChannelConfig
+{
+	std::string IP;
+	unsigned short int PORT;
+	bool BIND;
+	TcpChannelConfig():
+		IP(""),
+		PORT(0),
+		BIND(false)
+	{
+	};
+};
+
 class user;
 using CUserMap = std::unordered_map<unsigned long long, user*>;
 extern dbp::cpu::CpuInfo cpuInfo;
@@ -44,6 +57,7 @@ extern CPriceTableMap pricemarkMap;
 extern CPriceDataMap pricedataMap;
 extern AlgoParameter algoParam;
 extern SpreadTable spreadTable;
+extern TcpChannelConfig tcpConfig;
 
 
 

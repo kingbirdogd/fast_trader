@@ -33,6 +33,7 @@ CPriceTableMap pricemarkMap;
 CPriceDataMap pricedataMap;
 AlgoParameter algoParam;
 SpreadTable spreadTable;
+TcpChannelConfig tcpConfig;
 
 
 
