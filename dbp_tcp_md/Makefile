@@ -1,3 +1,3 @@
 TYPE:=STATIC
-DEPS:=tcp_client
+DEPS:=net/tcp_client
 include $(PROJECT_HOME)/common.mk
