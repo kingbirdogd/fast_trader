@@ -77,7 +77,7 @@ public:
 	using trade_handler = std::function<void(const trade&)>;
 private:
 	std::unordered_map<std::string, code_node> _codes;
-	tcp_client _client;
+	net::tcp_client _client;
 	Handler _handler;
 	book_handler _handle_book;
 	trade_handler _handle_trade;
