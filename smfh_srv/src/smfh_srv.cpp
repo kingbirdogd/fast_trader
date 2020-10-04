@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <algo.hpp>
 #include <top_shared_client.hpp>
+#include <dbp_tcp_md.hpp>
 #include "smfh_srv_channel.h"
 using namespace std;
 using namespace dbp;
@@ -308,6 +309,23 @@ inline void startOutput()
 	);
 }
 
+inline void bindThread(std::thread* pThread)
+{
+	pthread_t iThread = pThread->native_handle();
+#ifndef __APPLE__
+	cpu_set_t cpuset;
+	CPU_ZERO(&cpuset);
+	CPU_SET(cpuInfo.getCore(), &cpuset);
+	pthread_setaffinity_np(iThread, sizeof(cpu_set_t), &cpuset);
+#endif
+	struct sched_param sch;
+	memset (&sch, 0, sizeof(struct sched_param));
+	int iPolicy = 0;
+	pthread_getschedparam(iThread, &iPolicy, &sch);
+	sch.sched_priority = SCHED_PRIORITY;
+	pthread_setschedparam(iThread, SCHED_TYPE, &sch);
+}
+
 inline void startUsers()
 {
 	flush_printf("tm:%llu, Start Users \n", dbp::tools::srv::current());
@@ -323,19 +341,7 @@ inline void startUsers()
 					pUser->run();
 			}
 		);
-		pthread_t iThread = pThread->native_handle();
-#ifndef __APPLE__
-		cpu_set_t cpuset;
-		CPU_ZERO(&cpuset);
-		CPU_SET(cpuInfo.getCore(), &cpuset);
-		pthread_setaffinity_np(iThread, sizeof(cpu_set_t), &cpuset);
-#endif
-		struct sched_param sch;
-		memset (&sch, 0, sizeof(struct sched_param));
-		int iPolicy = 0;
-		pthread_getschedparam(iThread, &iPolicy, &sch);
-		sch.sched_priority = SCHED_PRIORITY;
-		pthread_setschedparam(iThread, SCHED_TYPE, &sch);
+		bindThread(pThread);
 	}
 }
 
@@ -352,19 +358,82 @@ inline void startTopSend()
 					top_shared_client::do_send();
 			}
 		);
-		pthread_t iThread = pThread->native_handle();
-#ifndef __APPLE__
-		cpu_set_t cpuset;
-		CPU_ZERO(&cpuset);
-		CPU_SET(cpuInfo.getCore(), &cpuset);
-		pthread_setaffinity_np(iThread, sizeof(cpu_set_t), &cpuset);
+		bindThread(pThread);
+	}
+}
+
+
+inline void startTcpChannel()
+{
+	if (tcpConfig.IP != "")
+	{
+		std::thread* pThread = new std::thread
+		(
+			[&]
+			()
+			{
+				dbp_tcp_md tcp
+				(
+						tcpConfig.IP,
+						tcpConfig.PORT,
+						[&](const dbp_tcp_md::book& md)
+						{
+							auto it = tcpMap.find(md.code);
+							if (tcpMap.end() != it)
+							{
+								auto& tradable = it->second;
+#ifndef NOT_MEASURE
+								tradable.m_PkgTime = md.timestamp;
+								tradable.m_MsgTime = dbp::tools::srv::current();
 #endif
-		struct sched_param sch;
-		memset (&sch, 0, sizeof(struct sched_param));
-		int iPolicy = 0;
-		pthread_getschedparam(iThread, &iPolicy, &sch);
-		sch.sched_priority = SCHED_PRIORITY;
-		pthread_setschedparam(iThread, SCHED_TYPE, &sch);
+								tradable.m_Ask[0].m_iPrice = md.best_ask_price;
+								tradable.m_Ask[0].m_uQuantity = md.best_ask_quantity;
+								tradable.m_Ask[0].m_uNumberOfOrder = 1;
+								tradable.m_Bid[0].m_iPrice = md.best_bid_price;
+								tradable.m_Bid[0].m_uQuantity = md.best_bid_quantity;
+								tradable.m_Bid[0].m_uNumberOfOrder = 1;
+								tradable.m_MsgType = MsgType::TCP_BOOK;
+								broadcastQueue.enqueue(tradable);
+							}
+						},
+						[&](const dbp_tcp_md::trade& md)
+						{
+							auto it = tcpMap.find(md.code);
+							if (tcpMap.end() != it)
+							{
+								Tradable& tradable = it->second;
+#ifndef NOT_MEASURE
+								tradable.m_PkgTime = md.timestamp;
+								tradable.m_MsgTime = dbp::tools::srv::current();
+#endif
+								if (2 == md.aggressive_side)
+								{
+									tradable.m_TradeSide = TradeSide::BUY_SIDE;
+								}
+								else if (3 == md.aggressive_side)
+								{
+									tradable.m_TradeSide = TradeSide::SELL_SIDE;
+								}
+								else
+								{
+									tradable.m_TradeSide = TradeSide::NO_SIDE;
+								}
+								tradable.m_TradeType = md.trade_type;
+								tradable.m_LastTradePrice = md.trade_price;
+								tradable.m_LastTradeQuantity = md.trade_quantity;
+								tradable.m_MsgType = MsgType::TCP_TRADE;
+								broadcastQueue.enqueue(tradable);
+							}
+						}
+				);
+				while(true)
+					tcp.run();
+			}
+		);
+		if (tcpConfig.BIND)
+		{
+			bindThread(pThread);
+		}
 	}
 }
 
@@ -425,6 +494,7 @@ inline static bool start()
 			return false;
 		}
 	}
+	startTcpChannel();
 	return true;
 }
 inline static void closeAll()
@@ -577,6 +647,11 @@ inline static bool initJson(const char* _pszJsonPath)
 		return false;
 	}
 	flush_printf("tm:%llu, loadActivateChannel \n", dbp::tools::srv::current());
+	if (!loadTcpChannel(j))
+	{
+		std::cerr << "loadTcpChannel fail" << std::endl;
+		return false;
+	}
 	if (!loadActivateChannel(j))
 	{
 		std::cerr << "loadActivateChannel fail" << std::endl;

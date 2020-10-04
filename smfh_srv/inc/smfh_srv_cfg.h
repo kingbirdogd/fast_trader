@@ -15,6 +15,7 @@
 #include <global_memory.hpp>
 #include <user.hpp>
 #include <limits>
+#include <dbp_tcp_md.hpp>
 
 using json = nlohmann::json;
 
@@ -1187,6 +1188,46 @@ inline static bool loadActivateChannel(json& _json)
 	catch(...)
 	{
 		std::cerr << "load loadActivateChannel fail" << std::endl;
+		return false;
+	}
+	return true;
+}
+
+inline static bool loadTcpChannel(json& _json)
+{
+	try
+	{
+		auto it = _json.find("TcpChannel");
+		if (_json.end() != it)
+		{
+			auto cfg = _json["TcpChannel"];
+			tcpConfig.IP = cfg["IP"];
+			tcpConfig.PORT = cfg["PORT"];
+			tcpConfig.BIND = cfg["BIND"];
+			auto items = dbp_tcp_md::get_codes(tcpConfig.IP, tcpConfig.PORT);
+			for (const auto& item : items)
+			{
+				auto& tradable = tcpMap[item.code];
+				std::memcpy(tradable.m_TcpCode, item.code.c_str(), sizeof(item.code.length()));
+				tradable.m_TradeSide = TradeSide::NO_SIDE;
+				tradable.m_TradeType = 0;
+				tradable.m_MsgTime = 0;
+				tradable.m_MsgType = MsgType::TCP_TRADE;
+				tradable.m_Code = 0;
+				tradable.m_LastTradePrice = 0;
+				tradable.m_LastTradeQuantity = 0;
+				tradable.m_Ask[0].m_iPrice = 0;
+				tradable.m_Ask[0].m_uNumberOfOrder = 0;
+				tradable.m_Ask[0].m_uQuantity = 0;
+				tradable.m_Bid[0].m_iPrice = 0;
+				tradable.m_Bid[0].m_uNumberOfOrder = 0;
+				tradable.m_Bid[0].m_uQuantity = 0;
+			}
+		}
+	}
+	catch(...)
+	{
+		std::cerr << "load loadTcpChannel fail" << std::endl;
 		return false;
 	}
 	return true;
