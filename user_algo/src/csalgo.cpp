@@ -244,7 +244,7 @@ void csalgo::on_omdc_book(const Tradable& tradable)
 				newWarrant->UCode = p->UCode;
 				newWarrant->RefWBid = best_bid_price;
 				newWarrant->RefWAsk = best_ask_price;
-				newWarrant->BuyQuantity = algoBet.fixQuantityBySpread(best_ask_price, omdcdef.LotSize, 0)*100000000ull;
+				newWarrant->BuyQuantity = algoBet.fixQuantityBySpread(best_ask_price, omdcdef.LotSize, 1)*100000000ull;
 				newWarrant->Quantity = 0;
 				newWarrant->Status = STATUS_READY;
 				newWarrant->UBid = uprice->Bestbid;
