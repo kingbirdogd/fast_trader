@@ -1,5 +1,5 @@
 {
-	"IN_OUT_PROCESS": "node ${HOME}/fast_trader/gui/db_server_uat_v4.0.1.js 9919",
+	"IN_OUT_PROCESS": "node ${HOME}/fast_trader/gui/db_server_uat_v4.0.2.js 9919",
 	"SCHED_PRIORITY": 0,
 	"SCHED_TYPE": "SCHED_OTHER",
 	"SOL_SOCKET":
