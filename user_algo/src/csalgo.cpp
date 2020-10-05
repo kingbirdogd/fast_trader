@@ -1145,6 +1145,7 @@ algo_msg_base* csalgo::json_to_msg(json& json)
 	algo_marketstatus_msg* pMarketStatus_msg = nullptr;
 	algo_setbet_msg* pSetBet_msg = nullptr;
 	algo_issueraction_msg* pIssuerAction_msg = nullptr;
+	algo_warrantaction_msg* pWarrantAction_msg = nullptr;
 	algo_underlyingaction_msg* pUnderlyingAction_msg = nullptr;
 	algo_force_sell* pforce_sell = nullptr;
 	algo_issuerlist_msg* pissuerlist = nullptr;
@@ -1193,6 +1194,17 @@ algo_msg_base* csalgo::json_to_msg(json& json)
 			pUnderlyingAction_msg->ucode = json["ucode"].get<unsigned int>();
 			pUnderlyingAction_msg->action = json["action"].get<std::string>();
 			return pUnderlyingAction_msg;
+		}
+		else if (cmd == "selectwarrant"){
+			pWarrantAction_msg = algo_warrantaction_msg_pool.get_obj();
+			pWarrantAction_msg->al = this;
+			pWarrantAction_msg->algo_name = _name;
+			pWarrantAction_msg->id = _u.get_id();
+			pWarrantAction_msg->ref = ref;
+			//pWarrantAction_msg->ucode = json["ucode"].get<unsigned int>();
+			pWarrantAction_msg->code = json["code"].get<std::string>();
+			pWarrantAction_msg->action = json["action"].get<std::string>();
+			return pWarrantAction_msg;
 		}
 		else if (cmd == "issuerlist"){
 			pissuerlist = algo_issuerlist_msg_pool.get_obj();
