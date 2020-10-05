@@ -687,6 +687,7 @@ private:
 				}else{
 					wcodes = to_string(wcode) + ":" + selected;
 				}
+				i++;
 			}
 			ouputQueue.enqueue(this);
 		}
