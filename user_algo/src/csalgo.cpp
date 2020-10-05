@@ -1218,7 +1218,7 @@ algo_msg_base* csalgo::json_to_msg(json& json)
 			puwarrantlist->ref = ref;
 			puwarrantlist->ucode = json["ucode"].get<unsigned int>();
 			puwarrantlist->issuer = json["issuer"].get<std::string>();
-			return punderlyinglist;
+			return puwarrantlist;
 		}
 		else if(cmd == "force_sell")
 		{
