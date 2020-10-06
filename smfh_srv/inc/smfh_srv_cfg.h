@@ -1211,7 +1211,9 @@ inline static bool loadTcpChannel(json& _json)
 				std::memcpy(tradable.m_TcpCode, item.code.c_str(), sizeof(item.code.length()));
 				tradable.m_TradeSide = TradeSide::NO_SIDE;
 				tradable.m_TradeType = 0;
+#ifndef NOT_MEASURE
 				tradable.m_MsgTime = 0;
+#endif
 				tradable.m_MsgType = MsgType::TCP_TRADE;
 				tradable.m_Code = 0;
 				tradable.m_LastTradePrice = 0;
