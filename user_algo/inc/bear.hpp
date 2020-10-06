@@ -556,6 +556,14 @@ private:
 
 		}
 
+		void on_tcp_book(const Tradable& tradable){
+			std::string code = tradable.m_TcpCode;
+			if(code != _Symbol){
+
+			}
+
+		}
+
 		void on_omdd_book(const Tradable& tradable){
 			unsigned int code = tradable.m_Code;
 
