@@ -3,6 +3,7 @@ class UnderlyingSelector extends React.Component {
     data: PropTypes.array,
     data2: PropTypes.object,
     data3: PropTypes.string,
+    func: PropTypes.func,
     lang: PropTypes.string,
     setStates: PropTypes.func,
     getStates: PropTypes.func
@@ -22,12 +23,22 @@ class UnderlyingSelector extends React.Component {
   componentDidMount() {}
   
   handleChange(event) {
+    //
+    this.props.func({ucode: event.target.value})
+    //
     var states = this.props.getStates()
     var obj = $.extend(true, {}, states.underlying)
     obj.curUnderlying = event.target.value
     obj.feedback = null
     obj.responseResult = null
     this.props.setStates({underlying: obj})
+    //
+    var obj2 = $.extend(true, {}, states.wntList)
+    obj2.wntCode = null
+    obj2.curState = null
+    obj2.feedback = null
+    obj2.responseResult = null
+    this.props.setStates({wntList: obj2})
   }
   
   handleAction() {

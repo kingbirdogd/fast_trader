@@ -179,6 +179,23 @@ class Position extends React.Component {
     sendWebsocket(JSON.stringify(command))
   }
   
+  componentDidUpdate() {
+    // 如已沒有倉位, 清除倉位行動狀態
+    var objPos = Object.assign({}, this.props.data5);
+    var posAction = Object.keys(objPos)
+    var pos = Object.keys(this.state.position)
+    var notPosAction = posAction.filter(function(itm){
+      return pos.indexOf(itm)==-1
+    })
+    // 
+    if (notPosAction.length) {
+      for (var c of notPosAction)
+        delete objPos[c]
+      //
+      this.props.setStates({positionActions: objPos})
+    }
+  }
+  
   getText(lang) {
     var text = {
       en: {position: 'Position', ucode: 'Underlying', buyPrice: 'Buy Price', buyQuantity: 'Buy Quantity', sellPrice: 'Sell Price', 

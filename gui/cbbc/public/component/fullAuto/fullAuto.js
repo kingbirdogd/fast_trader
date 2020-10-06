@@ -27,6 +27,7 @@ class FullAuto extends React.Component {
     this.state.underlying = {curState: null, curUnderlying: null, feedback: null, responseResult: null, selected: [], removed: []}
     this.state.underlyingList = null
     this.state.wntPrice = {}
+    this.state.wntList = {}
     this.state.stockPrice = {}
     
     var cells = []
@@ -78,6 +79,8 @@ class FullAuto extends React.Component {
     this.state.codeId = []
     this.state.signal = {}
     this.msg = []
+    
+    this.sendUWarrantlist = this.sendUWarrantlist.bind(this)
   }
   
   componentDidMount() {
@@ -131,6 +134,8 @@ class FullAuto extends React.Component {
         else if (data.action=='signal') {this.setSignal(obj, data)}
         else if (data.action=='stoplost') {this.setStoplost(obj, data)}
         else if (data.action=='winlvlsell' || data.action== 'winsell') {this.setPositionAction(obj, data)}
+        else if (data.action=='uwarrantlist') {obj = this.setUWarrantList(obj, data)}
+        else if (data.action=='selectwarrant') {obj = this.setSelectUWarrant(obj, data)}
       }
       // 接口v2
       else if ('msg_type' in data) {
@@ -664,6 +669,8 @@ class FullAuto extends React.Component {
   setIssuerList(state, data) {
     if (data.issuers)
       state.issuer.selected = data.issuers.split(",")
+    if (!state.issuer.curIssuer && state.issuer.selected.length)
+      state.issuer.curIssuer = state.issuer.selected[0]
     return {issuer: state.issuer}
   }
   
@@ -768,6 +775,56 @@ class FullAuto extends React.Component {
     return {stockPrice: state.stockPrice}
   }
   
+  setUWarrantList(state, data) {
+    state.wntList.ucode = data.ucode
+    state.wntList.issuer = data.issuer
+    state.wntList.codes = {}
+    if (data.codes) {
+      var codes = data.codes.split(",")
+      for (var v of codes) {
+        var data2 = v.split(":")
+        var code = data2[0], status = data2[1]
+        state.wntList.codes[code] = status
+      }
+    }
+    return {wntList: state.wntList}
+  }
+  
+  setSelectUWarrant(state, data) {
+    if (state.wntList.wntCode) {
+      if ('selectaction' in data)
+        state.wntList.curState = data.selectaction
+      if('result' in data && data.result.toLowerCase()=='fail') {
+        state.wntList.feedback = data.reason
+        state.wntList.responseResult = null
+      }
+      else if ('result' in data && data.result.toLowerCase()=='success') {
+        state.wntList.feedback = null
+        state.wntList.responseResult = 'success'
+        if(data.selectaction=='select')
+          state.wntList.codes[data.code] = 's'
+        else if (data.selectaction=='remove')
+          state.wntList.codes[data.code] = 'u'
+      }
+    }
+    return {wntList: state.wntList}
+  }
+  
+  sendUWarrantlist(data) {
+    var userId = parseInt(this.state.userId)
+    var algoName = (this.state.modules.call) ? this.state.modules.call : this.state.modules.put
+    var issuer = this.state.issuer.curIssuer
+    var ucode = parseInt(this.state.underlying.curUnderlying)
+    
+    if ('ucode' in data) ucode = parseInt(data.ucode)
+    else if ('issuer' in data) issuer = data.issuer
+    
+    if (issuer && ucode) {
+      var command = {cmd: 'uwarrantlist', algo_name: algoName, id: userId, ref: 'uid_'+userId.toString(), issuer: issuer, ucode: ucode}
+      sendWebsocket(JSON.stringify(command))
+    }
+  }
+  
   // 测试集
   testData(render) {
     function test(data) {
@@ -792,7 +849,6 @@ class FullAuto extends React.Component {
     // error
     test({"action":"marketstatus","algo_name":"kenny_s1algo","id":2,"new_action_status":2,"previous_action_status":2,"recovery":true,"ref":"uid_2_fail","tm":1597908039983})
     // postiton
-    
   }
   
   setStates(states) {this.setState(states)}
@@ -824,6 +880,12 @@ class FullAuto extends React.Component {
       var msg = JSON.stringify(msg)
       if (msg.toLowerCase().indexOf('error') >= 0 || msg.toLowerCase().indexOf('fail') >= 0)
         logError += msg+' \n\n\n'
+    }
+    
+    var isShowWarrantSelector = false, modules = this.state.modules
+    if (('call' in modules) && modules.call && modules.call.includes('csalgo') || 
+        ('put' in modules) && modules.put && modules.put.includes('csalgo')) {
+      isShowWarrantSelector = true
     }
     
     return(
@@ -858,6 +920,7 @@ class FullAuto extends React.Component {
             key="issuerSelector"
             data={this.state.issuer}
             data2={this.state.marketStatus}
+            func={this.sendUWarrantlist}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}
@@ -867,10 +930,20 @@ class FullAuto extends React.Component {
             data={this.state.underlyingList}
             data2={this.state.underlying}
             data3={this.state.underlyingDefault}
+            func={this.sendUWarrantlist}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}
           />
+
+          {isShowWarrantSelector && 
+          <WarrantSelector
+            key="warrantSelector"
+            data={this.state.wntList}
+            lang={this.props.lang}
+            setStates={this.setStates}
+            getStates={this.getStates}
+          />}
           <textarea
             key="log"
             id="log"
@@ -921,7 +994,7 @@ class FullAuto extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.20
+          Copyright © {curYear} Fast Trader v1.0.22
         </div>
       </React.Fragment>
       /*

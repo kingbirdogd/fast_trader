@@ -36,9 +36,18 @@
   margin-bottom: 0px;
 }
 
+#fullAuto .form-control {
+  font-size: 14px;
+}
+
 #fullAuto .col-form-label-sm,
 #fullAuto .form-control-sm {
   font-size: 11px;
+}
+
+#fullAuto select.form-control[multiple],
+#fullAuto select.form-control[size] {
+  height: 110px;
 }
 
 #fullAuto input.form-control-sm {

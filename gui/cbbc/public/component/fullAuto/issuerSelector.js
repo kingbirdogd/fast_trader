@@ -2,6 +2,7 @@ class IssuerSelector extends React.Component {
   static propTypes = {
     data: PropTypes.object,
     data2: PropTypes.number,
+    func: PropTypes.func,
     lang: PropTypes.string,
     setStates: PropTypes.func,
     getStates: PropTypes.func
@@ -21,6 +22,9 @@ class IssuerSelector extends React.Component {
   componentDidMount() {}
   
   handleChange(event) {
+    //
+    this.props.func({issuer: event.target.value})
+    //
     var states = this.props.getStates()
     var obj = $.extend(true, {}, states.issuer)
     obj.curIssuer = event.target.value
