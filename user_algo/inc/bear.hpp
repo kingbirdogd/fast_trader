@@ -22,15 +22,18 @@ private:
 	class pair;
 private:
 	std::unordered_map<unsigned int, priceinfo*> uprice_map;
+	std::unordered_map<std::string, priceinfo*> rprice_map;
 	using order_map = std::unordered_map<unsigned long long, pair*>;
 	using mdw_map = std::unordered_map<unsigned int, pair*>;
 	using w_ref_map = std::unordered_map<unsigned int, std::string>;
 	using md_map = std::unordered_map<unsigned int, std::unordered_set<pair*>>;
+	using rmd_map = std::unordered_map<std::string, std::unordered_set<pair*>>;
 	using inout_map = std::map<unsigned long long, std::unordered_set<pair*>>;
 	friend class pair;
 private:
 	order_map _o_map;
 	md_map _u_map;
+	rmd_map _rumap;
 	mdw_map _w_map;
 	md_map _u_position_map;
 	w_ref_map _w_ref_map;
@@ -54,6 +57,7 @@ private:
 		CbbcPriceMark* _CbbcPriceMark;
 		unsigned int _warrant_code;
 		int _Wtype = -1;
+		int _Utype = -1;
 		std::string _Ref;
 		int _Win_Tick = 0;
 		int _Stop_Lost = 0;
@@ -80,6 +84,7 @@ private:
 			_CbbcPriceMark(nullptr),
 			_warrant_code(0),
 			_Wtype(0),
+			_Utype(0),
 			_Ref("")
 		{
 		}
@@ -97,6 +102,7 @@ private:
 			CbbcPriceMark* pricemark,
 			unsigned int warrant_code,
 			int wtype,
+			int utype,
 			std::string Ref
 		):
 			_algo(algo),
@@ -111,6 +117,7 @@ private:
 			_CbbcPriceMark(pricemark),
 			_warrant_code(warrant_code),
 			_Wtype(wtype),
+			_Utype(utype),
 			_Ref(Ref)
 		{
 		}

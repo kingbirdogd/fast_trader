@@ -34,6 +34,9 @@
 #define BULL 1
 #define BEAR 2
 
+#define HSI_SYMBOL 1
+#define NQ_SYMBOL 2
+
 using namespace std;
 
 struct priceinfo{
