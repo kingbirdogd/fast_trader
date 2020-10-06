@@ -1000,8 +1000,8 @@ algo_msg_base* bear::json_to_msg(json& json)
 			if(str_underlying.rfind("NQ", 0) == 0){
 				p._Symbol = str_underlying;
 
-				auto tcpMap = tcpMap.find(str_underlying);
-				if (tcpMap.end() == tcpMap)
+				auto ittcpMap = tcpMap.find(str_underlying);
+				if (tcpMap.end() == ittcpMap)
 				{
 					auto msg = algo_err_msg_pool.get_obj();
 					msg->al = this;
