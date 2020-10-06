@@ -146,9 +146,10 @@ void bear::on_omdd_book(const Tradable& tradable)
 void bear::on_tcp_book(const Tradable& tradable)
 {
 
-	Log("on_tcp_book symbol = " + tradable.m_TcpCode);
+	string code = string(tradable.m_TcpCode);
+	Log("on_tcp_book symbol = " + code);
 
-	auto uit = rprice_map.find(tradable.m_TcpCode);
+	auto uit = rprice_map.find(code);
 	if(rprice_map.end() != uit){
 
 		//unsigned int code = tradable.m_Code;
@@ -317,13 +318,14 @@ void bear::on_omdd_trade(const Tradable& tradable)
 void bear::on_tcp_trade(const Tradable& tradable)
 {
 
-	Log("on_tcp_trade symbol = " + tradable.m_TcpCode);
+	Log("on_tcp_trade symbol = " + string(tradable.m_TcpCode));
 
-	auto it = _ru_map.find(tradable.m_TcpCode);
+	string code = string(tradable.m_TcpCode);
+	auto it = _ru_map.find(code);
 	if (_ru_map.end() != it)
 	{
 
-		priceinfo* uprice = rprice_map[tradable.m_TcpCode];
+		priceinfo* uprice = rprice_map[code];
 
 
 		auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
