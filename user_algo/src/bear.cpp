@@ -325,7 +325,7 @@ void bear::on_tcp_trade(const Tradable& tradable)
 
 	string code(tradable.m_TcpCode);
 	rtrim(code);
-	Log("on_tcp trade symbol = >>>" + code + "<<<");
+	//Log("on_tcp trade symbol = >>>" + code + "<<<");
 	auto it = _ru_map.find(code);
 	if (_ru_map.end() != it)
 	{

@@ -74,7 +74,7 @@ void user::run()
 			break;
 		case MsgType::TCP_BOOK:
 			for (auto& item : _algos)
-				item.second->on_tcp_trade(msg);
+				item.second->on_tcp_book(msg);
 			break;
 		case MsgType::TCP_TRADE:
 			for (auto& item : _algos)
