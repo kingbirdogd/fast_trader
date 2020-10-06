@@ -1659,6 +1659,10 @@ private:
 		{
 			return _Wtype;
 		}
+		int getUtype() const
+		{
+			return _Utype;
+		}
 		const std::string& ref()
 		{
 			return _Ref;

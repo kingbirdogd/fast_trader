@@ -449,8 +449,7 @@ std::string bear::set_pair(pair&& p)
 
 	if (_p_map.end() != it)
 	{
-		if ((it->second.commodity_symbol() != p.commodity_symbol())
-				|| (it->second.warrant_code() != p.warrant_code()))
+		if ((it->second.commodity_symbol() != p.commodity_symbol())	|| (it->second.warrant_code() != p.warrant_code()))
 		{
 
 			Log("set_pair 1 Code Exist = " + to_string(p.warrant_code()));
@@ -458,22 +457,42 @@ std::string bear::set_pair(pair&& p)
 			auto warrant_code = it->second.warrant_code();
 			auto underlying_code = it->second.underlying_code();
 
+			auto utype = it->second.getUtype();
+
 
 			Log("OLD Pair 1 Symbol = " + symbol + " Warrant Code= " + to_string(warrant_code) + " Underlying Code= " + to_string(underlying_code));
 
 			auto node = &(it->second);
-			auto u_it = _u_map.find(underlying_code);
-			if (_u_map.end() != u_it)
-			{
-				if (u_it->second.end() != u_it->second.find(node))
+
+			if(utype == HI_SYMBOL){
+
+				auto u_it = _u_map.find(underlying_code);
+				if (_u_map.end() != u_it)
 				{
-					u_it->second.erase(node);
-					if(u_it->second.empty())
+					if (u_it->second.end() != u_it->second.find(node))
 					{
-						_u_map.erase(u_it);
-						Log("set_pair 1 Delete  Exist = " + to_string(p.warrant_code()));
-						//subscribe_omdd_trade(underlying_code, false);
-						//subscribe_omdd_book(underlying_code, false);
+						u_it->second.erase(node);
+						if(u_it->second.empty())
+						{
+							_u_map.erase(u_it);
+							Log("set_pair 1 Delete  Exist = " + to_string(p.warrant_code()));
+							//subscribe_omdd_trade(underlying_code, false);
+							//subscribe_omdd_book(underlying_code, false);
+						}
+					}
+				}
+			}else{
+				auto u_it = _ru_map.find(symbol);
+				if (_ru_map.end() != u_it)
+				{
+					if (u_it->second.end() != u_it->second.find(node))
+					{
+						u_it->second.erase(node);
+						if(u_it->second.empty())
+						{
+							_ru_map.erase(u_it);
+							Log("set_pair RU 1 Delete  Exist = " + to_string(p.warrant_code()));
+						}
 					}
 				}
 			}
@@ -498,10 +517,15 @@ std::string bear::set_pair(pair&& p)
 	auto symbol = it->second.commodity_symbol();
 	auto underlying_code = it->second.underlying_code();
 	auto warrant_code = it->second.warrant_code();
+	auto utype = it->second.getUtype();
 	//json["result"] = "SUCCESS";
 	//send_out(json.dump());
 	auto node = &(it->second);
-	_u_map[underlying_code].insert(node);
+	if(utype == HSI_SYMBOL){
+		_u_map[underlying_code].insert(node);
+	}else{
+		_ru_map[symbol].insert(node);
+	}
 	_w_map[warrant_code] = node;
 
 	_w_ref_map[warrant_code] = it->second.ref();
@@ -510,11 +534,20 @@ std::string bear::set_pair(pair&& p)
 
 	Log("NEW Pair 1 Symbol = " + symbol + " Warrant Code= " + to_string(warrant_code ) + " Underlying Code= " + to_string(underlying_code));
 
-	auto itu = uprice_map.find(underlying_code);
-	if(itu  == uprice_map.end()){
-		uprice_map[underlying_code] = std::move(new priceinfo());
-		uprice_map[underlying_code]->BidSeq = 0;
-		uprice_map[underlying_code]->AskSeq = 0;
+	if(utype == HSI_SYMBOL){
+		auto itu = uprice_map.find(underlying_code);
+		if(itu  == uprice_map.end()){
+			uprice_map[underlying_code] = std::move(new priceinfo());
+			uprice_map[underlying_code]->BidSeq = 0;
+			uprice_map[underlying_code]->AskSeq = 0;
+		}
+	}else{
+		auto itu = rprice_map.find(symbol);
+		if(itu  == rprice_map.end()){
+			rprice_map[symbol] = std::move(new priceinfo());
+			rprice_map[symbol]->BidSeq = 0;
+			rprice_map[symbol]->AskSeq = 0;
+		}
 	}
 
 	Log("set_pair 3");
