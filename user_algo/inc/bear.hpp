@@ -833,7 +833,7 @@ private:
 				priceinfo* uprice = nullptr;
 
 				//priceinfo* uprice = _algo->uprice_map[_Underlying_code];
-				if(_Wtype == HSI_SYMBOL){
+				if(_Utype == HSI_SYMBOL){
 					uprice = _algo->uprice_map[_Underlying_code];
 				}else{
 					uprice = _algo->rprice_map[_Symbol];
@@ -1168,7 +1168,7 @@ private:
 				priceinfo* uprice = nullptr;
 
 				//priceinfo* uprice = _algo->uprice_map[_Underlying_code];
-				if(_Wtype == HSI_SYMBOL){
+				if(_Utype == HSI_SYMBOL){
 					uprice = _algo->uprice_map[_Underlying_code];
 				}else{
 					uprice = _algo->rprice_map[_Symbol];

@@ -1015,6 +1015,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 
 			std::string str_underlying = json["symbol"].get<std::string>();
 
+
 			p._Symbol = "";
 			if(str_underlying.rfind("HSI", 0) == 0){
 				p._Symbol = str_underlying;
@@ -1058,6 +1059,8 @@ algo_msg_base* bear::json_to_msg(json& json)
 				p._Underlying_code = 0;
 				p._Utype = NQ_SYMBOL;
 			}
+
+			Log("Set Pair Utype = " + to_string(p._Utype));
 
 			if(p._Symbol == ""){
 				auto msg = algo_err_msg_pool.get_obj();
