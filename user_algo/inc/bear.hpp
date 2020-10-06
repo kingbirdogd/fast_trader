@@ -557,9 +557,68 @@ private:
 		}
 
 		void on_tcp_book(const Tradable& tradable){
-			std::string code = tradable.m_TcpCode;
+			std::string code = string(tradable.m_TcpCode);
 			if(code != _Symbol){
+				return;
+			}
 
+			priceinfo* uprice = _algo->rprice_map[code];
+
+			_PriceInfoU->FBestbid =  uprice->FBestbid;
+			_PriceInfoU->PFBestbid =  uprice->PFBestbid;
+			_PriceInfoU->FBestask =  uprice->FBestask;
+			_PriceInfoU->PFBestask =  uprice->PFBestask;
+
+			if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Win_Tick >= 0 ) {
+
+				unsigned long long wbestbid = default_sell_price();
+				warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
+				if(warrant == nullptr)
+					return;
+
+
+				if(_Win_Tick >= 0 && wbestbid>0 && warrant->BuyPrice > 0){
+
+					unsigned long long refSpread = _SPREAD;
+					unsigned long long rwinPrice = (unsigned long long) (warrant->BuyPrice + _Win_Tick * refSpread);
+
+					unsigned long long bp = warrant->BuyPrice;
+
+					if(_Win_Tick == 0){
+						if(wbestbid >= bp){
+							Log(std::string(" CODE = ") + std::to_string(_warrant_code) + " SEll Win Tick = 0 " + to_string(wbestbid) + " Warrant Buy Price = " + to_string(warrant->BuyPrice) );
+							warrant->SellPrice = wbestbid;
+							warrant->Status = STATUS_SELLING;
+							warrant->SellQty = warrant->Quantity;
+
+							if(_OBSetting->SellOut == 99999999){
+								warrant->SellOut = _PriceInfoU->FBestbid;
+							}else{
+								warrant->SellOut = _OBSetting->SellOut;
+							}
+							_Status = STATUS_SELLING;
+							doSell(warrant);
+						}
+					}else{
+
+						//if(_PriceInfo->Bestbid >= rwinPrice){
+						if(wbestbid >= rwinPrice  ){
+							Log(std::string(" CODE = ") + std::to_string(_warrant_code) + " SEll Win Tick > 0 " + to_string(wbestbid) + " Warrant Buy Price = " + to_string(warrant->BuyPrice) );
+							warrant->SellPrice = wbestbid;
+							warrant->SellQty = warrant->Quantity;
+							warrant->Status = STATUS_SELLING;
+							if(_OBSetting->SellOut == 99999999){
+								warrant->SellOut = _PriceInfoU->FBestbid;
+							}else{
+								warrant->SellOut = _OBSetting->SellOut;
+							}
+							_Status = STATUS_SELLING;
+
+							doSell(warrant);
+
+						}
+					}
+				}
 			}
 
 		}
@@ -771,8 +830,16 @@ private:
 				return;
 			}else if(code == _warrant_code){
 
+				priceinfo* uprice = nullptr;
 
-				priceinfo* uprice = _algo->uprice_map[_Underlying_code];
+				//priceinfo* uprice = _algo->uprice_map[_Underlying_code];
+				if(_Wtype == HSI_SYMBOL){
+					uprice = _algo->uprice_map[_Underlying_code];
+				}else{
+					uprice = _algo->rprice_map[_Symbol];
+				}
+
+				//priceinfo* uprice = _algo->uprice_map[_Underlying_code];
 
 
 				_PriceInfoU->FBestbid =  uprice->FBestbid;
@@ -1097,8 +1164,18 @@ private:
 				return;
 			}else if(code == _warrant_code){
 
+				//priceinfo* uprice = _algo->uprice_map[_Underlying_code];
+				priceinfo* uprice = nullptr;
 
-				priceinfo* uprice = _algo->uprice_map[_Underlying_code];
+				//priceinfo* uprice = _algo->uprice_map[_Underlying_code];
+				if(_Wtype == HSI_SYMBOL){
+					uprice = _algo->uprice_map[_Underlying_code];
+				}else{
+					uprice = _algo->rprice_map[_Symbol];
+				}
+
+
+				//priceinfo* uprice = _algo->uprice_map[_Underlying_code];
 
 				_PriceInfoU->FBestbid =  uprice->FBestbid;
 				_PriceInfoU->PFBestbid =  uprice->PFBestbid;
