@@ -174,7 +174,7 @@ void bear::on_tcp_book(const Tradable& tradable)
 			uit->second->FBestask = best_ask_price;
 		}
 
-		auto it = _ru_map.find(tradable.m_TcpCode);
+		auto it = _ru_map.find(code);
 		if (_ru_map.end() != it)
 		{
 			for (const auto& p : it->second)
