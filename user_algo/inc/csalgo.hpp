@@ -484,7 +484,7 @@ private:
 			j["code"] = code;
 			if(result){
 				j["result"] = "SUCCESS";
-				j["recovery"] = true;
+//				j["recovery"] = true;
 			}else{
 				j["result"] = "FAIL";
 				j["reason"] = "Invalid Status";

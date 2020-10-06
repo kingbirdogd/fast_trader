@@ -399,7 +399,7 @@ bool csalgo::setSelectedUnderlying(std::string action, unsigned int ucode){
 
 bool csalgo::setSelectedWarrant(std::string action, unsigned int code){
 
-	if(action == "select"){
+	if(action == "remove"){
 		auto it = selectedWarrant.find(code);
 		if(it != selectedWarrant.end()){
 			selectedWarrant.erase(code);
@@ -407,7 +407,7 @@ bool csalgo::setSelectedWarrant(std::string action, unsigned int code){
 			return true;
 		}
 	}
-	if(action == "remove"){
+	if(action == "select"){
 		auto it = selectedWarrant.find(code);
 		if(it == selectedWarrant.end()){
 			selectedWarrant.insert(code);
