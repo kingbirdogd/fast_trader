@@ -160,6 +160,7 @@ void bear::on_tcp_book(const Tradable& tradable)
 		//auto best_ask_qty = tradable.m_Ask[0].m_uQuantity;
 		auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
 
+		Log(" Code = " + code + " Best Bid = " + to_string(best_bid_price) + " Best Ask = " + to_string(best_ask_price));
 
 
 		if(uit->second->FBestbid != best_bid_price){
