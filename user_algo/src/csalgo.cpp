@@ -1202,7 +1202,7 @@ algo_msg_base* csalgo::json_to_msg(json& json)
 			pWarrantAction_msg->id = _u.get_id();
 			pWarrantAction_msg->ref = ref;
 			//pWarrantAction_msg->ucode = json["ucode"].get<unsigned int>();
-			pWarrantAction_msg->code = json["code"].get<std::string>();
+			pWarrantAction_msg->code = json["code"].get<unsigned int>();
 			pWarrantAction_msg->action = json["action"].get<std::string>();
 			return pWarrantAction_msg;
 		}
