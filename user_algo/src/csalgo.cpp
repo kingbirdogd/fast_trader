@@ -232,6 +232,8 @@ void csalgo::on_omdc_book(const Tradable& tradable)
 					return;
 				}
 
+				unsigned long long swidth = best_ask_price - best_bid_price;
+
 /*
 				auto selectwit = selectedWarrant.find(code);
 				if(selectwit == selectedWarrant.end())
@@ -244,7 +246,7 @@ void csalgo::on_omdc_book(const Tradable& tradable)
 				newWarrant->UCode = p->UCode;
 				newWarrant->RefWBid = best_bid_price;
 				newWarrant->RefWAsk = best_ask_price;
-				newWarrant->BuyQuantity = algoBet.fixQuantityBySpread(best_ask_price, omdcdef.LotSize, 1)*100000000ull;
+				newWarrant->BuyQuantity = algoBet.fixQuantityBySpread(best_ask_price, omdcdef.LotSize, swidth)*100000000ull;
 				newWarrant->Quantity = 0;
 				newWarrant->Status = STATUS_READY;
 				newWarrant->UBid = uprice->Bestbid;
