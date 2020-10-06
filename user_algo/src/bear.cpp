@@ -147,6 +147,7 @@ void bear::on_tcp_book(const Tradable& tradable)
 {
 
 	string code = string(tradable.m_TcpCode);
+	code = rtrim(code);
 	//Log("on_tcp_book symbol = " + code);
 
 	auto uit = rprice_map.find(code);
@@ -322,6 +323,7 @@ void bear::on_tcp_trade(const Tradable& tradable)
 	//Log("on_tcp_trade symbol = " + string(tradable.m_TcpCode));
 
 	string code = string(tradable.m_TcpCode);
+	code = rtrim(code);
 	auto it = _ru_map.find(code);
 	if (_ru_map.end() != it)
 	{
