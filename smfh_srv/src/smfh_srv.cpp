@@ -367,6 +367,7 @@ inline void startTcpChannel()
 {
 	if (tcpConfig.IP != "")
 	{
+
 		std::thread* pThread = new std::thread
 		(
 			[&]
@@ -494,7 +495,12 @@ inline static bool start()
 			return false;
 		}
 	}
-	startTcpChannel();
+	itActivate = mActivateChannel.find("TcpChannel");
+	if(itActivate != mActivateChannel.end())
+	{
+		flush_printf("tm:%llu, Start TCP Channel \n", dbp::tools::srv::current());
+		startTcpChannel();
+	}
 	return true;
 }
 inline static void closeAll()

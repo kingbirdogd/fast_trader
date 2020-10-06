@@ -282,7 +282,8 @@
 		{"Channel":"SlimOmdcChannel"},	
 		{"Channel":"OmddChannel"},		
 		{"Channel":"PriceTableChannel"},
-		{"Channel":"S1Channel"}
+		{"Channel":"S1Channel"},
+		{"Channel":"TcpChannel"}
 	]
 }
 
