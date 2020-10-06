@@ -20,6 +20,7 @@ dbp_tcp_md::dbp_tcp_md
 {
 	_client.set_connected([&]()
 	{
+		flush_printf("tm:%llu, Tcp Channel Connected \n", dbp::tools::srv::current());
 	});
 	_client.set_disconnected([&]()
 	{
