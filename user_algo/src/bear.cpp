@@ -148,7 +148,7 @@ void bear::on_tcp_book(const Tradable& tradable)
 
 	string code = string(tradable.m_TcpCode);
 	rtrim(code);
-	//Log("on_tcp_book symbol = " + code);
+	Log("on_tcp_book symbol = >>>" + code + "<<<");
 
 	auto uit = rprice_map.find(code);
 	if(rprice_map.end() != uit){
@@ -324,6 +324,7 @@ void bear::on_tcp_trade(const Tradable& tradable)
 
 	string code = string(tradable.m_TcpCode);
 	rtrim(code);
+	Log("on_tcp_book symbol = >>>" + code + "<<<");
 	auto it = _ru_map.find(code);
 	if (_ru_map.end() != it)
 	{
@@ -543,7 +544,7 @@ std::string bear::set_pair(pair&& p)
 
 
 
-	Log("NEW Pair 1 Symbol = " + symbol + " Warrant Code= " + to_string(warrant_code ) + " Underlying Code= " + to_string(underlying_code) + " UType = " + to_string(utype));
+	Log("NEW Pair 1 Symbol = >>>" + symbol + "<<< Warrant Code= " + to_string(warrant_code ) + " Underlying Code= " + to_string(underlying_code) + " UType = " + to_string(utype));
 
 	if(utype == HSI_SYMBOL){
 		auto itu = uprice_map.find(underlying_code);
