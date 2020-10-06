@@ -20,7 +20,7 @@ dbp_tcp_md::dbp_tcp_md
 {
 	_client.set_connected([&]()
 	{
-		flush_printf("tm:%llu, Tcp Channel Connected \n", dbp::tools::srv::current());
+		 fprintf(stderr, "Tcp Channel Connected\n");
 	});
 	_client.set_disconnected([&]()
 	{
@@ -87,6 +87,9 @@ void dbp_tcp_md::handle_static(const char* ptr)
 	n.md_code = ptr + 8;
 	n.trade_code = n.code;
 	n.underlying_code = ptr + 132;
+
+	fprintf(stderr, "Available Code  = %s \n", n.code.c_str());
+
 	if (_codes.end() != _codes.find(n.code))
 	{
 		auto tm = time(0);
