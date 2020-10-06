@@ -549,6 +549,7 @@ std::string bear::set_pair(pair&& p)
 	if(utype == HSI_SYMBOL){
 		auto itu = uprice_map.find(underlying_code);
 		if(itu  == uprice_map.end()){
+			Log("Init HSI Priceinfo : Orderbook ID = >>>" +to_string(underlying_code)+"<<<" );
 			uprice_map[underlying_code] = std::move(new priceinfo());
 			uprice_map[underlying_code]->BidSeq = 0;
 			uprice_map[underlying_code]->AskSeq = 0;
@@ -556,6 +557,7 @@ std::string bear::set_pair(pair&& p)
 	}else{
 		auto itu = rprice_map.find(symbol);
 		if(itu  == rprice_map.end()){
+			Log("Init NQ Priceinfo : Symbol = >>>" +symbol+"<<<" );
 			rprice_map[symbol] = std::move(new priceinfo());
 			rprice_map[symbol]->BidSeq = 0;
 			rprice_map[symbol]->AskSeq = 0;
