@@ -523,7 +523,7 @@ std::string bear::set_pair(pair&& p)
 
 	Log("set_pair 2");
 
-	auto symbol = it->second.commodity_symbol();
+	string symbol = it->second.commodity_symbol();
 	auto underlying_code = it->second.underlying_code();
 	auto warrant_code = it->second.warrant_code();
 	auto utype = it->second.getUtype();
@@ -541,7 +541,7 @@ std::string bear::set_pair(pair&& p)
 
 
 
-	Log("NEW Pair 1 Symbol = " + symbol + " Warrant Code= " + to_string(warrant_code ) + " Underlying Code= " + to_string(underlying_code));
+	Log("NEW Pair 1 Symbol = " + symbol + " Warrant Code= " + to_string(warrant_code ) + " Underlying Code= " + to_string(underlying_code) + " UType = " + to_string(utype));
 
 	if(utype == HSI_SYMBOL){
 		auto itu = uprice_map.find(underlying_code);
