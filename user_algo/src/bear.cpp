@@ -464,7 +464,7 @@ std::string bear::set_pair(pair&& p)
 
 			auto node = &(it->second);
 
-			if(utype == HI_SYMBOL){
+			if(utype == HSI_SYMBOL){
 
 				auto u_it = _u_map.find(underlying_code);
 				if (_u_map.end() != u_it)
