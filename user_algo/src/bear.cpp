@@ -145,6 +145,9 @@ void bear::on_omdd_book(const Tradable& tradable)
 
 void bear::on_tcp_book(const Tradable& tradable)
 {
+
+	Log("on_tcp_book symbol = " + tradable.m_TcpCode);
+
 	auto uit = rprice_map.find(tradable.m_TcpCode);
 	if(rprice_map.end() != uit){
 
@@ -313,6 +316,9 @@ void bear::on_omdd_trade(const Tradable& tradable)
 
 void bear::on_tcp_trade(const Tradable& tradable)
 {
+
+	Log("on_tcp_trade symbol = " + tradable.m_TcpCode);
+
 	auto it = _ru_map.find(tradable.m_TcpCode);
 	if (_ru_map.end() != it)
 	{
