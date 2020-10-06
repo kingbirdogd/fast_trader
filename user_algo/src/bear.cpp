@@ -162,7 +162,7 @@ void bear::on_tcp_book(const Tradable& tradable)
 		//auto best_ask_qty = tradable.m_Ask[0].m_uQuantity;
 		auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
 
-		Log(" Code = " + code + " Best Bid = " + to_string(best_bid_price) + " Best Ask = " + to_string(best_ask_price));
+		//Log(" Code = " + code + " Best Bid = " + to_string(best_bid_price) + " Best Ask = " + to_string(best_ask_price));
 
 
 		if(uit->second->FBestbid != best_bid_price){
@@ -1114,8 +1114,12 @@ algo_msg_base* bear::json_to_msg(json& json)
 			p._PriceInfo->LastBidSeq=0;
 			p._PriceInfo->LastAskSeq=0;
 			p._PriceInfoU = new priceinfo();
+			if(p._Utype == HSI_SYMBOL){
 			p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, 100000);
-
+			}
+			if(p._Utype == NQ_SYMBOL){
+			p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, 250000000);
+			}
 
 			Log("bear 4");
 
