@@ -150,7 +150,8 @@ void bear::on_tcp_book(const Tradable& tradable)
 	rtrim(code);
 	//Log("on_tcp_book symbol = >>>" + code + "<<<");
 
-	auto uit = rprice_map.find(code);
+	//auto uit = rprice_map.find(code);
+	auto uit = rprice_map.find("NQZ0");
 	if(rprice_map.end() != uit){
 
 		//unsigned int code = tradable.m_Code;
@@ -526,7 +527,7 @@ std::string bear::set_pair(pair&& p)
 
 	Log("set_pair 2");
 
-	string symbol = it->second.commodity_symbol();
+	auto symbol = it->second.commodity_symbol();
 	auto underlying_code = it->second.underlying_code();
 	auto warrant_code = it->second.warrant_code();
 	auto utype = it->second.getUtype();
