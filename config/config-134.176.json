@@ -138,6 +138,12 @@
 			"Port": 44000
 		}
 	],
+	"TcpChannel":
+	{
+		"IP": "192.168.134.116",
+		"PORT": 5000,
+		"BIND": false
+	},
 	"OmdcChannel":
 	[
 		{
@@ -263,7 +269,8 @@
 		{"Channel":"SlimOmdcChannel"},
 		{"Channel":"OmddChannel"},
 		{"Channel":"PriceTableChannel"},
-		{"Channel":"S1Channel"}
+		{"Channel":"S1Channel"},
+		{"Channel":"TcpChannel"}
 	]
 }
 
