@@ -148,7 +148,7 @@ void bear::on_tcp_book(const Tradable& tradable)
 
 	string code(tradable.m_TcpCode);
 	rtrim(code);
-	Log("on_tcp_book symbol = >>>" + code + "<<<");
+	//Log("on_tcp_book symbol = >>>" + code + "<<<");
 
 	auto uit = rprice_map.find(code);
 	//auto uit = rprice_map.find("NQZ0");
@@ -560,11 +560,11 @@ std::string bear::set_pair(pair&& p)
 		if(itu  == rprice_map.end()){
 			Log("Init NQ Priceinfo : Symbol = >>>" +symbol+"<<<" );
 
-			string a = "NQZ0";
+			//string a = "NQZ0";
 
-			rprice_map[a] = std::move(new priceinfo());
-			rprice_map[a]->BidSeq = 0;
-			rprice_map[a]->AskSeq = 0;
+			rprice_map[symbol] = std::move(new priceinfo());
+			rprice_map[symbol]->BidSeq = 0;
+			rprice_map[symbol]->AskSeq = 0;
 		}
 	}
 
