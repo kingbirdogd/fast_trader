@@ -88,10 +88,11 @@ void dbp_tcp_md::handle_static(const char* ptr)
 	n.trade_code = n.code;
 	n.underlying_code = ptr + 132;
 
-	fprintf(stderr, "Available Code  = %s \n", n.code.c_str());
+	//fprintf(stderr, "Available Code  = %s \n", n.code.c_str());
 
 	if (_codes.end() != _codes.find(n.code))
 	{
+		fprintf(stderr, "Available Code  = %s \n", n.code.c_str());
 		auto tm = time(0);
 		auto size = _codes.size();
 		if (0 == _last_map_tm || size != _last_map_size)
