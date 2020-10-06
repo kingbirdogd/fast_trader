@@ -994,7 +994,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 					return msg;
 				}
 				p._Underlying_code = it_omdd->second;
-				p._UType = HSI_SYMBOL;
+				p._Utype = HSI_SYMBOL;
 			}
 
 			if(str_underlying.rfind("NQ", 0) == 0){
@@ -1015,7 +1015,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 					return msg;
 				}
 				p._Underlying_code = 0;
-				p._UType = NQ_SYMBOL;
+				p._Utype = NQ_SYMBOL;
 			}
 
 			if(p._Symbol == ""){
