@@ -33,7 +33,7 @@ private:
 private:
 	order_map _o_map;
 	md_map _u_map;
-	rmd_map _rumap;
+	rmd_map _ru_map;
 	mdw_map _w_map;
 	md_map _u_position_map;
 	w_ref_map _w_ref_map;
