@@ -571,8 +571,8 @@ private:
 		void on_tcp_book(const Tradable& tradable){
 			std::string code(tradable.m_TcpCode);
 
-			rtrim(code);
-			Log("Pair on_tcp_book symbol = >>>" + code + "<<<");
+			//rtrim(code);
+			//Log("Pair on_tcp_book symbol = >>>" + code + "<<<");
 
 			if(code != _Symbol){
 				return;

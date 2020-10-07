@@ -826,7 +826,7 @@ bool s1algo::checkPrice(unsigned int code, unsigned long long ubid, unsigned lon
 	//unsigned long long wbidaskspread = wbest_ask_price - wbest_bid_price;
 
 	if(wbest_bid_price == 0 || wbest_ask_price == 0 ||wBidQty< issuerSize80(spm->getIssuerBidQty()) || wAskQty < issuerSize80(spm->getIssuerAskQty())){
-		Log("Code = " + to_string(code) + " wbest_bid_price == 0 || wbest_ask_price == 0 ||wBidQty<spm->getIssuerBidQty() || wAskQty<spm->getIssuerAskQty() ");
+		Log("Code = " + to_string(code) + " Warrant Qty Not Pass  wBidQty = " + to_string(wBidQty) + ": wAskQty = " + to_string(wAskQty));
 		return false;
 	}
 
