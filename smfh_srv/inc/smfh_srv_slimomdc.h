@@ -69,7 +69,9 @@ inline static void handleSlimOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 			rOrderBook.m_TradeSide = TradeSide::NO_SIDE;
 			rOrderBook.m_AccumulateBlankQuantity += rOrderBook.m_LastTradeQuantity;
 		}
-		broadcastQueue.enqueue(rOrderBook);
+		if(uSecurityCode<10000){
+			broadcastQueue.enqueue(rOrderBook);
+		}
 	}
 }
 #endif
