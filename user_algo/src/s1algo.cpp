@@ -1222,7 +1222,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		//Log("on_omdc_trade code = " + to_string(tradable.m_Code) + " OBSetting");
 		OBSetting* obs = it->second;
 
-		if(obs->hasPosition)
+		if(obs->hasPosition && TradeSide::SELL_SIDE == side)
 		{
 /*
 			unsigned long long wp = calWeightedPrice(bid_price1,bid_price2,bid_price3,
@@ -1448,7 +1448,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 			return;
 		}
 
-		if(obs->detected)
+		if(obs->detected && TradeSide::BUY_SIDE == side)
 		{
 
 			//s1signal* s1s = s1SignalMap[code];
@@ -1463,7 +1463,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 			unsigned long long mid = (bid_price+ask_price)/2;
 
 
-			Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + "(" + to_string(mid) + ")" + " Ask Price = " + to_string(ask_price) + " WP = " + to_string(wp)) ;
+			Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + "(" + to_string(mid) + ")" + " Ask Price = " + to_string(ask_price) + " AskQty = " + to_string(best_ask_vol) + " WP = " + to_string(wp)) ;
 
 			//Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + " Ask Price = " + to_string(ask_price)) ;
 
