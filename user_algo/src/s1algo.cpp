@@ -671,24 +671,6 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			//}
 		}
 	}
-/*
-	else{
-		auto it = s1SignalMap.find(code);
-		if(it != s1SignalMap.end()){
-			obMap[code] = new OBSetting();
-			obMap[code]->detected = false;
-			//obMap[code]->SpreadTableCode = "";
-			obMap[code]->hasPosition = false;
-			obMap[code]->Status = STATUS_NEW;
-
-			COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
-			obMap[code]->SpreadTableCode = omdcdef.SpreadTableCode;
-
-
-			Log("Init = " + to_string(code) + " OBSetting and SpreadCode = " + obMap[code]->SpreadTableCode);
-		}
-	}
-*/
 }
 
 bool myfunction (warrant* i,warrant* j) {
@@ -1262,6 +1244,9 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 							unsigned long long wbest_bid_price = warrantPriceMap[wobsArray[i]->Code]->Bestbid;
 
+							if(wbest_bid_price == 0)
+								continue;
+
 							if(wobsArray[i]->Status != STATUS_AVAILABLE){
 								continue;
 							}
@@ -1287,9 +1272,6 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								continue;
 							}
 
-							if(wbest_bid_price == 0)
-								continue;
-/*
 							if(wbest_bid_price >= wobsArray[i]->BuyPrice){
 
 								//unsigned long long t_btrade = dbp::tools::srv::current();
@@ -1304,72 +1286,25 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 								Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
 
-							}else{*/
+							}else{
 
 								PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
 
 
 								unsigned long long expectSellOut = spm->sellOut(wbest_bid_price);
 
-								//COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
-
-								//unsigned long long spread = spreadTable.getSpread(obs->SpreadTableCode, bid_price + 1llu);
-								//unsigned long long refask = spread + bid_price;
-								//string ukey = to_string(bid_price) +"-"+ to_string(refask);
-
-								//unsigned long long refbid = spm->getRefWarrantBid(ukey);
-
 								Log("WCode = " + to_string(wobsArray[i]->Code) + " Expect Sell Out = " + to_string(expectSellOut));
-								//Log("WCode = " + to_string(wobsArray[i]->Code) + " Ref Warrant bid = " + to_string(refbid) + " WBest Bid = " + to_string(wbest_bid_price));
 								Log("WCode = " + to_string(wobsArray[i]->Code) + " WBest Bid = " + to_string(wbest_bid_price));
 
-								/*
-								if(refbid > 0){
-									if(wbest_bid_price < (refbid - 300000) ){
-										return;
-									}
-								}else if(expectSellOut != 99999999){
-									if(expectSellOut >=  trade_price){
-										return;
-									}
-								}*/
 								if(expectSellOut != 99999999){
 									if(expectSellOut <  trade_price){
 										continue;
 									}
 								}else{
-
-/*
-									unsigned long long spread = spreadTable.getSpread("01", wbest_bid_price+1);
-									unsigned long long prevbid = wbest_bid_price + spread;
-
-
-									unsigned long long estimateSellout = spm->sellOut(prevbid);
-									if(estimateSellout == 99999999)
-										continue;
-
-									unsigned long long uspread = spreadTable.getSpread("01", bid_price+1);
-									unsigned long long estimateStopLost = estimateSellout - uspread;
-
-									if(estimateStopLost != bid_price)
-										continue;
-*/
-
 									continue;
 								}
 
 
-
-								//unsigned long long wbest_bid_Qty = warrantPriceMap[wobsArray[i]->Code]->BidQty;
-								//if(wbest_bid_Qty < spm->getIssuerBidQty()){
-								//	continue;
-								//}
-
-							//auto it2 = omdcMap.find(wobsArray[i]->Code);
-							//if(it2 != omdcMap.end()){
-							//	auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
-
-								//unsigned long long t_btrade = dbp::tools::srv::current();
 								unsigned long long t_btrade = dbp::tools::srv::current();
 								wobsArray[i]->Status = STATUS_SELLING;
 								bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
@@ -1382,19 +1317,10 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 								unsigned long long t_tdiff = t_end - t_btrade;
 
-								//unsigned long long t_end = dbp::tools::srv::current();
-								//unsigned long long t_tdiff = t_end - t_btrade;
-								//unsigned long long t_diff = t_end - t_start;
-
 								Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price) + " Ttime = " + to_string(t_tdiff));
 
-#ifndef NOT_MEASURE
-								wobsArray[i]->pkg_tm = tradable.m_PkgTime;
-								wobsArray[i]->m_tm = tradable.m_MsgTime;
-								wobsArray[i]->t_tm = dbp::tools::srv::current();
-#endif
-							//}
-							//}
+
+							}
 						}
 						if(obs->hasRelatedWarrant(STATUS_SELLING)){
 							obs->hasPosition = true;
@@ -1548,7 +1474,6 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					wobsArray[i]->LvlBid = lvlbid;
 
 					wobsArray[i]->BuyQuantity = algoBet.fixQuantityBySpread(wbest_ask_price, lotsize, wspread)*100000000ull;
-
 
 
 
