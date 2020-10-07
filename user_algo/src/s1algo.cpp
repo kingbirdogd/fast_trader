@@ -421,6 +421,12 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					obs->removeAllWarrants();
 					obs->detected = false;
 
+					unsigned long long detecttime = dbp::tools::srv::current();
+					unsigned long long diff = detecttime - signal->m_SignalTime;
+
+					Log("Reset1 Signal Time Diff = " + to_string(diff) + " ---d= " + to_string(detecttime) + " ---s= " + to_string(signal->m_SignalTime));
+
+
 					Log("Code = " + to_string(code) + " Reset Signal 1");
 
 					signalCount--;
@@ -452,7 +458,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					unsigned long long detecttime = dbp::tools::srv::current();
 					unsigned long long diff = detecttime - signal->m_SignalTime;
 
-					Log("Reset Signal Time Diff = " + to_string(diff));
+					Log("Reset2 Signal Time Diff = " + to_string(diff) + " ---d= " + to_string(detecttime) + " ---s= " + to_string(signal->m_SignalTime));
 
 					if(signalCount <= 0){
 						lastReadyTime = 0;
