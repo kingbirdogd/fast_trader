@@ -449,6 +449,11 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 					signalCount--;
 
+					unsigned long long detecttime = dbp::tools::srv::current();
+					unsigned long long diff = detecttime - signal->m_SignalTime;
+
+					Log("Reset Signal Time Diff = " + to_string(diff));
+
 					if(signalCount <= 0){
 						lastReadyTime = 0;
 						Log("No Detected Signal");
@@ -855,13 +860,13 @@ bool s1algo::checkPrice(unsigned int code, unsigned long long ubid, unsigned lon
 
 	bool acceptspread = CSelectedWarrant.isSpreadAccept(noofspread, wbest_bid_price);
 	if(!acceptspread){
-		Log("Code = " + to_string(code) + " acceptspread ");
+		Log("Code = " + to_string(code) + " acceptspread : false");
 		return false;
 	}
 
 	bool accept = CSelectedWarrant.isAccept(fuspread, wiv.Delta, wiv.Cratio, fwspread, 2);
 	if(!accept){
-		Log("Code = " + to_string(code) + " CSelectedWarrant.isAccept ");
+		Log("Code = " + to_string(code) + " CSelectedWarrant.isAccept : false");
 	}
 	return accept;
 }

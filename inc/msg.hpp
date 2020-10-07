@@ -102,6 +102,8 @@ struct s1signal{
 	unsigned long long BidTriggerSell;
 	unsigned long long Thick;
 	unsigned long long Thin;
+	unsigned long long m_SignalTime;
+	int SignalType;
 };
 
 struct AlgoParameter{
