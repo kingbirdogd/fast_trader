@@ -274,7 +274,7 @@ void csalgo::on_omdc_book(const Tradable& tradable)
 	uprice->Bestask = best_ask_price;
 }
 
-unsigned long long issuerSize80(unsigned long long size){
+unsigned long longcsalgo:: issuerSize80(unsigned long long size){
 	return static_cast<unsigned long long>(size*0.8);
 }
 

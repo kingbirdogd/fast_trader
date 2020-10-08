@@ -670,6 +670,7 @@ public:
 	virtual std::string get_lib_name();
 
 	virtual void Log(std::string msg);
+	virtual unsigned long long issuerSize80(unsigned long long size);
 	virtual string setBetsize(std::string betsize);
 
 	virtual bool setWinSell(std::string action, unsigned int ucode, unsigned int code);

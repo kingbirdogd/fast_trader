@@ -678,7 +678,7 @@ bool myfunction (warrant* i,warrant* j) {
 	return i->Egearing > j->Egearing;
 }
 
-unsigned long long issuerSize80(unsigned long long size){
+unsigned long long s1algo::issuerSize80(unsigned long long size){
 	return static_cast<unsigned long long>(size*0.8);
 }
 
