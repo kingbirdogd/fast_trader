@@ -274,10 +274,13 @@ void csalgo::on_omdc_book(const Tradable& tradable)
 	uprice->Bestask = best_ask_price;
 }
 
+unsigned long long issuerSize80(unsigned long long size){
+	return static_cast<unsigned long long>(size*0.8);
+}
+
 string csalgo::setBetsize(std::string betsize){
 	return algoBet.selectBet(betsize);
 }
-
 
 bool csalgo::setWinSell(std::string action, unsigned int ucode, unsigned int code){
 	if(action == "set"){
