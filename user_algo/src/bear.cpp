@@ -357,6 +357,11 @@ void bear::on_tcp_trade(const Tradable& tradable)
 
 			if (trade_price == best_bid_price && trade_quantity >= tradable.m_Bid[0].m_uQuantity &&	0 != tradable.m_Bid[0].m_uQuantity )
 			{
+				Log(code + " BestBid = " + to_string(best_bid_price) + "(" + to_string(tradable.m_Bid[0].m_uQuantity)+ ")" +
+						   " BestAsk = " + to_string(best_ask_price) + "(" + to_string(tradable.m_Ask[0].m_uQuantity)+ ")"
+						);
+				Lof(code + "Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_quantity));
+
 				for (const auto& p : it->second)
 				{
 
