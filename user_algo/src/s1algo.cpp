@@ -1229,9 +1229,9 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 			if(TradeSide::SELL_SIDE == side && trade_sell_quantity >= best_bid_vol){
 
-				unsigned long long highestLvlBid = obs->getHighestLevelPrice();
+				//unsigned long long highestLvlBid = obs->getHighestLevelPrice();
 
-				//unsigned long long highestStopLost = obs->getHighestStopLostPrice();
+				unsigned long long highestStopLost = obs->getHighestStopLostPrice();
 				Log("UCode = " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price) + " Best Ask = " + to_string(ask_price));
 				//Log("UCode = " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price) + " Best Ask = " + to_string(ask_price)  + " WP = " + to_string(wp));
 				//Log("UCode = " + to_string(code) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price));
