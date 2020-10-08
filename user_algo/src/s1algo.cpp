@@ -304,17 +304,20 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 */
 
 
+			/*
 			if(obs->SpreadTableCode == ""){
 				Log("Code = " + to_string(code) + " Empty Spread Table ");
 				COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
 				obs->SpreadTableCode = omdcdef.SpreadTableCode;
 			}
+			*/
 
+			/*
 			if(signalCount <= 0){
 				signalCount = 1;
 				lastReadyTime = DateUtil::getCurrentSystemTime();
 				Log("No of Detected Signal = " + to_string(signalCount));
-			}
+			}*/
 
 			unsigned long long spread = spreadTable.getSpread(obs->SpreadTableCode, best_bid_price-1);
 			unsigned long long diffu = best_bid_price - obs->StopLostPrice;
@@ -1165,6 +1168,10 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 		auto code = tradable.m_Code;
 		auto type = tradable.m_TradeType;
+
+		if (0 != type && 100 != type)
+			return;
+
 		auto side = tradable.m_TradeSide;
 		auto bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
 		auto ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
@@ -1191,8 +1198,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 */
 		//unsigned int uSecurityCode = static_cast<unsigned long long>();
 
-		if (0 != type && 100 != type)
-			return;
+
 
 		/*
 		auto itpdata = pricedataMap.find(tradable.m_Code);
