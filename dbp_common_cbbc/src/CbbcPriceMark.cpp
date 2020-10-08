@@ -129,6 +129,7 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 				pDnBidMark[pwbid] = pfprice;
 				bidkey = pwbid;
 				bidprice = pfprice;
+				return true;
 			}
 		}
 	}
