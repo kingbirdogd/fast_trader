@@ -159,8 +159,9 @@ void csalgo::on_omdc_book(const Tradable& tradable)
 				//}
 			}
 			p->Bestbid = best_bid_price;
-			p->BidQty = best_bid_qty;
+
 		}
+		p->BidQty = best_bid_qty;
 
 		if(p->Bestask != best_ask_price && best_ask_price>0){
 			p->PBestask = p->Bestask;
@@ -171,8 +172,9 @@ void csalgo::on_omdc_book(const Tradable& tradable)
 				}
 			}
 			p->Bestask = best_ask_price;
-			p->AskQty = best_ask_qty;
+
 		}
+		p->AskQty = best_ask_qty;
 
 		//p->Bestbid = best_bid_price;
 		//p->Bestask = best_ask_price;
@@ -570,6 +572,7 @@ void csalgo::on_omdc_trade(const Tradable& tradable)
 							}
 
 							unsigned long long wbest_bid_price = warrantPriceMap[wobsArray[i]->Code]->Bestbid;
+							unsigned long long wbest_bid_qty = warrantPriceMap[wobsArray[i]->Code]->BidQty;
 
 							if(wbest_bid_price == 0)
 								continue;
@@ -593,6 +596,7 @@ void csalgo::on_omdc_trade(const Tradable& tradable)
 								PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
 
 								unsigned long long expectSellOut = spm->sellOut(wbest_bid_price);
+								unsigned long long bidIssuerQty = spm->getIssuerBidQty();
 
 								unsigned long long spread = spreadTable.getSpread(obs->SpreadTableCode, bid_price + 1llu);
 								unsigned long long refask = spread + bid_price;
@@ -600,16 +604,28 @@ void csalgo::on_omdc_trade(const Tradable& tradable)
 
 								unsigned long long refbid = spm->getRefWarrantBid(ukey);
 
-								Log("WCode = " + to_string(wobsArray[i]->Code) + " Expect Sell Out = " + to_string(expectSellOut));
-								Log("WCode = " + to_string(wobsArray[i]->Code) + " Ref Warrant bid = " + to_string(refbid) + " WBest Bid = " + to_string(wbest_bid_price));
+								//Log("WCode = " + to_string(wobsArray[i]->Code) + " Expect Sell Out = " + to_string(expectSellOut));
+								//Log("WCode = " + to_string(wobsArray[i]->Code) + " Ref Warrant bid = " + to_string(refbid) + " WBest Bid = " + to_string(wbest_bid_price));
+								Log("WCode = " + to_string(wobsArray[i]->Code) +
+										" Expect Sell Out = " + to_string(expectSellOut) +
+										" WBestBid = " +  to_string(wbest_bid_price) +
+										" BidQty = " +  to_string(wbest_bid_qty) +
+										" IssuerQty = " +  to_string(bidIssuerQty)
+								);
 
+								if(wbest_bid_qty < issuerSize80(bidIssuerQty))
+									continue;
+
+								/*
 								if(expectSellOut != 99999999){
 									if(expectSellOut >=  trade_price){
 										continue;
 									}
 								}else{
 									continue;
-								}
+								}*/
+
+
 /*
 								if(refbid > 0){
 									if(wbest_bid_price < (refbid - 300000) ){
