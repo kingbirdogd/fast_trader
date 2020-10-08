@@ -79,8 +79,12 @@ struct priceinfo{
 
 	long BidSeq;
 	long AskSeq;
+	long TBidSeq;
+	long TAskSeq;
 	long LastBidSeq;
 	long LastAskSeq;
+	long LastTBidSeq;
+	long LastTAskSeq;
 };
 
 struct warrant{

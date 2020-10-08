@@ -337,8 +337,8 @@ void bear::on_tcp_trade(const Tradable& tradable)
 
 		auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
 		auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
-		auto best_bid_price1 = static_cast<unsigned long long>(tradable.m_Bid[1].m_iPrice) * 100000;
-		auto best_ask_price1 = static_cast<unsigned long long>(tradable.m_Ask[1].m_iPrice) * 100000;
+		//auto best_bid_price1 = static_cast<unsigned long long>(tradable.m_Bid[1].m_iPrice) * 100000;
+		//auto best_ask_price1 = static_cast<unsigned long long>(tradable.m_Ask[1].m_iPrice) * 100000;
 
 		//auto trade_quantity = tradable.m_uAccumulatedQuantity;
 		auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice) * 100000;
@@ -351,6 +351,7 @@ void bear::on_tcp_trade(const Tradable& tradable)
 			if(uprice->TBestbid != trade_price){
 				uprice->PTBestbid = uprice->TBestbid;
 				uprice->TBestbid = trade_price;
+				uprice->TBidSeq++;
 			}
 
 
@@ -360,7 +361,8 @@ void bear::on_tcp_trade(const Tradable& tradable)
 				{
 
 					if(p->getWtype() == BULL){
-						if((p->getSellOut() == trade_price) || (best_bid_price > p->getSellOut() && p->getSellOut() > best_bid_price1))
+						//if((p->getSellOut() == trade_price) || (best_bid_price > p->getSellOut() && p->getSellOut() > best_bid_price1))
+						if((p->getSellOut() == trade_price))
 						{
 							p->on_bull_trade(tradable);
 						}
@@ -372,6 +374,7 @@ void bear::on_tcp_trade(const Tradable& tradable)
 					}
 				}
 			}else{
+				/*
 				for (const auto& p : it->second)
 				{
 
@@ -382,6 +385,7 @@ void bear::on_tcp_trade(const Tradable& tradable)
 						}
 					}
 				}
+				*/
 			}
 
 		}
@@ -392,6 +396,7 @@ void bear::on_tcp_trade(const Tradable& tradable)
 			if(uprice->TBestask != trade_price ){
 				uprice->PTBestask = uprice->TBestask;
 				uprice->TBestask = trade_price;
+				uprice->TAskSeq++;
 			}
 
 			if (trade_price == best_ask_price && trade_quantity >= tradable.m_Ask[0].m_uQuantity &&	0 != tradable.m_Ask[0].m_uQuantity )
@@ -405,13 +410,15 @@ void bear::on_tcp_trade(const Tradable& tradable)
 							p->on_bull_trade(tradable);
 						}
 					}else{
-						if(p->getSellOut() == trade_price || (best_ask_price < p->getSellOut() && p->getSellOut() < best_ask_price1))
+						//if(p->getSellOut() == trade_price || (best_ask_price < p->getSellOut() && p->getSellOut() < best_ask_price1))
+						if(p->getSellOut() == trade_price)
 						{
 							p->on_bear_trade(tradable);
 						}
 					}
 				}
 			}else{
+				/*
 				for (const auto& p : it->second)
 				{
 
@@ -422,7 +429,7 @@ void bear::on_tcp_trade(const Tradable& tradable)
 						}
 					}
 
-				}
+				}*/
 			}
 
 		}
