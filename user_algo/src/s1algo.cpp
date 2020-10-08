@@ -107,7 +107,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		if(p->Bestbid != best_bid_price && best_bid_price>0){
 			p->PBestbid = p->Bestbid;
 
-			if(obs->warrantStatus(code, STATUS_AVAILABLE)){
+			if(obs->warrantStatus(code, STATUS_AVAILABLE) || obs->warrantStatus(code, STATUS_SELLING)){
 				//if(obs->isExist(code)){
 
 				warrant* w = obs->getRelatedWarrant(code);
@@ -161,8 +161,9 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 				//}
 			}
 			p->Bestbid = best_bid_price;
-			p->BidQty = best_bid_qty;
+
 		}
+		p->BidQty = best_bid_qty;
 
 		if(p->Bestask != best_ask_price && best_ask_price>0){
 			p->PBestask = p->Bestask;
@@ -174,8 +175,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			}
 			*/
 			p->Bestask = best_ask_price;
-			p->AskQty = best_ask_qty;
 		}
+		p->AskQty = best_ask_qty;
 
 		/*
 		time_t currentTime = DateUtil::getCurrentSystemTime();
@@ -1237,12 +1238,13 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
 
-				if(trade_price <= highestStopLost || trade_price == highestLvlBid){
+				if(trade_price <= highestStopLost){
 					if(obs->hasRelatedWarrant(STATUS_AVAILABLE)){
 						for(unsigned int i=0; i<wobsArray.size(); i++){
 							//unsigned long long t_start = dbp::tools::srv::current();
 
 							unsigned long long wbest_bid_price = warrantPriceMap[wobsArray[i]->Code]->Bestbid;
+							unsigned long long wbest_bid_qty = warrantPriceMap[wobsArray[i]->Code]->BidQty;
 
 							if(wbest_bid_price == 0)
 								continue;
@@ -1254,7 +1256,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 							if(wobsArray[i]->BuyPrice <= 0){
 								continue;
 							}
-
+/*
 							if(wobsArray[i]->LvlBid == trade_price && wbest_bid_price >= wobsArray[i]->BuyPrice){
 
 								wobsArray[i]->Status = STATUS_SELLING;
@@ -1267,7 +1269,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								Log("Do Sell Warrant Code @ LVL =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
 								continue;
 							}
-
+*/
 							if(wobsArray[i]->StopLostPrice < trade_price){
 								continue;
 							}
@@ -1290,20 +1292,33 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 								PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
 
+								unsigned long long bidIssuerQty = spm->getIssuerBidQty();
+
 
 								unsigned long long expectSellOut = spm->sellOut(wbest_bid_price);
 
-								Log("WCode = " + to_string(wobsArray[i]->Code) + " Expect Sell Out = " + to_string(expectSellOut));
-								Log("WCode = " + to_string(wobsArray[i]->Code) + " WBest Bid = " + to_string(wbest_bid_price));
+								Log("WCode = " + to_string(wobsArray[i]->Code) +
+										" Expect Sell Out = " + to_string(expectSellOut) +
+										" WBestBid = " +  to_string(wbest_bid_price) +
+										" BidQty = " +  to_string(wbest_bid_qty) +
+										" IssuerQty = " +  to_string(bidIssuerQty)
+								);
+								//Log("WCode = " + to_string(wobsArray[i]->Code) + " WBest Bid = " + to_string(wbest_bid_price));
+								//Log("WCode = " + to_string(wobsArray[i]->Code) + " WBest Bid = " + to_string(wbest_bid_price));
+								//Log("WCode = " + to_string(wobsArray[i]->Code) + " WBest Bid = " + to_string(wbest_bid_price));
 
+								if(wbest_bid_qty < issuerSize80(bidIssuerQty))
+									continue;
+
+/*
 								if(expectSellOut != 99999999){
-									if(expectSellOut <  trade_price){
+									if(expectSellOut <  trade_price ){
 										continue;
 									}
 								}else{
 									continue;
 								}
-
+*/
 
 								unsigned long long t_btrade = dbp::tools::srv::current();
 								wobsArray[i]->Status = STATUS_SELLING;
@@ -1328,7 +1343,9 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 							obs->SoldTime = DateUtil::getCurrentTime();
 						}
 					}
-				}else{
+				}
+				/*
+				else{
 					if(obs->hasRelatedWarrant(STATUS_AVAILABLE)){
 						for(unsigned int i=0; i<wobsArray.size(); i++){
 							//unsigned long long t_start = dbp::tools::srv::current();
@@ -1377,7 +1394,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 							obs->SoldTime = DateUtil::getCurrentTime();
 						}
 					}
-				}
+				}*/
 
 
 			}
@@ -1400,7 +1417,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 			unsigned long long mid = (bid_price+ask_price)/2;
 
 
-			Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + "(" + to_string(mid) + ")" + " Ask Price = " + to_string(ask_price) + " AskQty = " + to_string(best_ask_vol) + " WP = " + to_string(wp)) ;
+			//Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + "(" + to_string(mid) + ")" + " Ask Price = " + to_string(ask_price) + " AskQty = " + to_string(best_ask_vol) + " WP = " + to_string(wp)) ;
 
 			//Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + " Ask Price = " + to_string(ask_price)) ;
 
