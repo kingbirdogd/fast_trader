@@ -342,11 +342,11 @@ void bear::on_tcp_trade(const Tradable& tradable)
 
 		//auto trade_quantity = tradable.m_uAccumulatedQuantity;
 		auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice) * 100000;
-
+		//auto trade_q = static_cast<unsigned long long>(tradable.m_LastTradePrice) * 100000;
 
 
 		if(BUY_ORDER == tradable.m_TradeSide){
-			auto trade_quantity = static_cast<unsigned long long>(tradable.m_AccumulateSellQuantity);
+			auto trade_quantity = static_cast<unsigned long long>(tradable.m_LastTradeQuantity);
 
 			if(uprice->TBestbid != trade_price){
 				uprice->PTBestbid = uprice->TBestbid;
@@ -391,7 +391,7 @@ void bear::on_tcp_trade(const Tradable& tradable)
 		}
 
 		if(SELL_ORDER == tradable.m_TradeSide){
-			auto trade_quantity = static_cast<unsigned long long>(tradable.m_AccumulateBuyQuantity);
+			auto trade_quantity = static_cast<unsigned long long>(tradable.m_LastTradeQuantity);
 
 			if(uprice->TBestask != trade_price ){
 				uprice->PTBestask = uprice->TBestask;
