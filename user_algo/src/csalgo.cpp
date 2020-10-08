@@ -611,6 +611,7 @@ void csalgo::on_omdc_trade(const Tradable& tradable)
 								//Log("WCode = " + to_string(wobsArray[i]->Code) + " Ref Warrant bid = " + to_string(refbid) + " WBest Bid = " + to_string(wbest_bid_price));
 								Log("WCode = " + to_string(wobsArray[i]->Code) +
 										" Expect Sell Out = " + to_string(expectSellOut) +
+										" Ref Warrant bid = " + to_string(refbid) +
 										" WBestBid = " +  to_string(wbest_bid_price) +
 										" BidQty = " +  to_string(wbest_bid_qty) +
 										" IssuerQty = " +  to_string(bidIssuerQty)
