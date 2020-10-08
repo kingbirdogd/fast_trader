@@ -58,16 +58,16 @@ inline static void handleS1Signal(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 
 
 				s1s->DetectAsk = best_ask_price1;
-				s1s->m_SignalTime = dbp::tools::srv::current();
-				s1s->SignalType = 0;
+				//s1s->m_SignalTime = dbp::tools::srv::current();
+				//s1s->SignalType = 0;
 				s1s->hasSignal = true;
 
 				//flush_printf("tm:%llu, s1signal = True \n", dbp::tools::srv::current());
 			}
 		}else{
 			if(best_ask_price1 != s1s->DetectAsk){
-				s1s->m_SignalTime = dbp::tools::srv::current();
-				s1s->SignalType = 1;
+				//s1s->m_SignalTime = dbp::tools::srv::current();
+				//s1s->SignalType = 1;
 				s1s->hasSignal = false;
 				//flush_printf("tm:%llu, s1signal = False \n", dbp::tools::srv::current());
 
@@ -77,8 +77,8 @@ inline static void handleS1Signal(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 			bool isThin1 = best_ask_qty2 < s1s->Thin;
 			bool isThin2 = best_ask_qty3 < s1s->Thin;
 			if(!isThin1 || !isThin2){
-				s1s->m_SignalTime = dbp::tools::srv::current();
-				s1s->SignalType = 2;
+				//s1s->m_SignalTime = dbp::tools::srv::current();
+				//s1s->SignalType = 2;
 				s1s->hasSignal = false;
 				return;
 			}
