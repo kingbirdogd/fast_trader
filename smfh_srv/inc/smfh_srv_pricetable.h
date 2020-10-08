@@ -49,17 +49,20 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				return;
 			}
 		}else{
-			if(updatelvl <= 3){
+			//if(updatelvl <= 3){
+			if(updatelvl <= 1){
 
 				//OrderItem m_Bid[3];
 				//OrderItem m_Ask[3];
 
-				std::memcpy(m_Bid, rOrderBook.m_BidOrder, 3 * sizeof(OrderItem));
-				std::memcpy(m_Ask, rOrderBook.m_AskOrder, 3 * sizeof(OrderItem));
+				//std::memcpy(m_Bid, rOrderBook.m_BidOrder, 3 * sizeof(OrderItem));
+				//std::memcpy(m_Ask, rOrderBook.m_AskOrder, 3 * sizeof(OrderItem));
+				std::memcpy(m_Bid, rOrderBook.m_BidOrder, 1 * sizeof(OrderItem));
+				std::memcpy(m_Ask, rOrderBook.m_AskOrder, 1 * sizeof(OrderItem));
 
 				//std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, 3 * sizeof(OrderItem));
 				//std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, 3 * sizeof(OrderItem));
-
+/*
 				auto best_bid_price1 = static_cast<unsigned long long>(m_Bid[0].m_iPrice);
 				auto best_ask_price1 = static_cast<unsigned long long>(m_Ask[0].m_iPrice);
 				auto best_bid_price2 = static_cast<unsigned long long>(m_Bid[1].m_iPrice);
@@ -85,6 +88,7 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				pd->BestAskQty1 = best_ask_qty1;
 				pd->BestAskQty2 = best_ask_qty2;
 				pd->BestAskQty3 = best_ask_qty3;
+*/
 
 			}else{
 				return;
