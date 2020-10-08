@@ -96,7 +96,7 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 		}
 		if(wbid < pwbid && fprice < pfprice){
 			if(pwbid > 0){
-
+				/*
 				unsigned long long spread = pDefaultSpread;
 
 				unsigned long long pplus1 = wbid + spread;
@@ -125,6 +125,10 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 
 					return true;
 				}
+				*/
+				pDnBidMark[pwbid] = pfprice;
+				bidkey = pwbid;
+				bidprice = pfprice;
 			}
 		}
 	}
@@ -156,7 +160,7 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 		}
 		if(wbid < pwbid && fprice > pfprice){
 			if(pwbid > 0){
-
+				/*
 				unsigned long long spread = pDefaultSpread;
 				unsigned long long pplus1 = wbid + spread;
 
@@ -182,7 +186,12 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 					bidprice = pfprice;
 
 					return true;
-				}
+				}*/
+				pDnBidMark[pwbid] = pfprice;
+				bidkey = pwbid;
+				bidprice = pfprice;
+
+				return true;
 			}
 		}
 	}
@@ -193,6 +202,7 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 	if(pwtype == BULL ){
 		if(wask > pwask && fprice > pfprice){
 			if(pwask > 0){
+				/*
 				unsigned long long spread = pDefaultSpread;
 				unsigned long long pplus1 = pwask + spread;
 
@@ -223,7 +233,12 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 
 						return true;
 					}
-				}
+				}*/
+				pUpAskMark[pwask] = pfprice;
+				askkey = pwask;
+				askprice = pfprice;
+
+				return true;
 			}
 		}
 		if(wask < pwask && fprice < pfprice){
@@ -255,6 +270,7 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 	if(pwtype == BEAR ){
 		if(wask > pwask && fprice < pfprice){
 			if(pwask > 0){
+				/*
 				unsigned long long spread = pDefaultSpread;
 				unsigned long long pplus1 = pwask + spread;
 
@@ -283,7 +299,12 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 
 						return true;
 					}
-				}
+				}*/
+				pUpAskMark[pwask] = pfprice;
+				askkey = pwask;
+				askprice = pfprice;
+
+				return true;
 			}
 		}
 		if(wask < pwask && fprice > pfprice){
