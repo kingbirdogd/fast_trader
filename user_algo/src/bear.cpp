@@ -233,7 +233,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 							p->on_bull_trade(tradable);
 						}
 					}else{
-						if(p->getBuyIn() == trade_price)
+						if(p->getBuyIn() == trade_price && p->status() == STATUS_READY && p->action_status() == STAGE_START)
 						{
 							p->on_bear_trade(tradable);
 						}
@@ -279,7 +279,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 				{
 
 					if(p->getWtype() == BULL){
-						if(p->getBuyIn() == trade_price)
+						if(p->getBuyIn() == trade_price  && p->status() == STATUS_READY && p->action_status() == STAGE_START)
 						{
 							p->on_bull_trade(tradable);
 						}
@@ -400,7 +400,7 @@ void bear::on_tcp_trade(const Tradable& tradable)
 				{
 
 					if(p->getWtype() == BULL){
-						if(p->getBuyIn() == trade_price)
+						if(p->getBuyIn() == trade_price && p->status() == STATUS_READY && p->action_status() == STAGE_START)
 						{
 							p->on_bull_trade(tradable);
 						}
