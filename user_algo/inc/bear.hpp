@@ -394,7 +394,7 @@ private:
 				if(_Status == STATUS_READY && _Action_Status == STAGE_START){
 
 
-					Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " _INOUT=" + std::to_string(_OBSetting->BuyIn) +   " _SELLOUT=" + std::to_string(_OBSetting->SellOut) );
+					//Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " _INOUT=" + std::to_string(_OBSetting->BuyIn) +   " _SELLOUT=" + std::to_string(_OBSetting->SellOut) );
 
 					if(_OBSetting->SellOut != 99999999 && _OBSetting->BuyIn != 0){
 						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " _INOUT=" + std::to_string(_INOUT) +  " _LVLRANGE=" + std::to_string(_LVLRANGE) +  " _PTRANGE=" + std::to_string(_PTRANGE) );
