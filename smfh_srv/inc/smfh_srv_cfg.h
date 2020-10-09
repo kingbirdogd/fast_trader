@@ -308,17 +308,22 @@ inline static bool loadDefinition(json& _json)
 				const auto& underlying = it->second.get<unsigned int>();
 				unsigned int warrent = static_cast<unsigned int>(std::stoul(key));
 				warrantToUnderlying[warrent] = underlying;
-				underlyingToWarrant[underlying].insert(warrent);
 
 				if(underlying > 0){
-					stockWarrantomdcMap[warrent].m_Code = warrent;
+					underlyingToWarrant[underlying].insert(warrent);
+				}
+
+				stockWarrantomdcMap[warrent].m_Code = warrent;
+				if(underlying > 0){
 					stockWarrantomdcMap[underlying].m_Code = underlying;
 				}
 
 //New
 				ptomdcMap[warrent].m_Code = warrent;
+				if(underlying > 0){
 				ptomdcMap[underlying].m_Code = underlying;
 				s1omdcMap[underlying].m_Code = underlying;
+				}
 
 				pricedataMap[warrent] = new pricedata();
 				pricedataMap[warrent]->isWarrant = true;
@@ -339,25 +344,27 @@ inline static bool loadDefinition(json& _json)
 				pricedataMap[warrent]->BidSeq=1;
 				pricedataMap[warrent]->AskSeq=1;
 
-				auto itp = pricedataMap.find(underlying);
-				if(itp == pricedataMap.end()){
-					pricedataMap[underlying] = new pricedata();
-					pricedataMap[underlying]->isUnderlying = true;
-					pricedataMap[underlying]->isWarrant = false;
-					pricedataMap[underlying]->UCode = 0;
-					pricedataMap[underlying]->Bestbid=0ull;
-					pricedataMap[underlying]->Bestask=0ull;
-					pricedataMap[underlying]->BestBidQty=0ull;
-					pricedataMap[underlying]->BestAskQty=0ull;
-					pricedataMap[underlying]->PBestbid=0ull;
-					pricedataMap[underlying]->PBestask=0ull;
-					pricedataMap[underlying]->LBestbid=0ull;
-					pricedataMap[underlying]->LBestask=0ull;
-					pricedataMap[underlying]->BidIssuerSize=0ull;
-					pricedataMap[underlying]->AskIssuerSize=0ull;
-					pricedataMap[underlying]->BidSeq=1;
-					pricedataMap[underlying]->AskSeq=1;
+				if(underlying > 0){
+					auto itp = pricedataMap.find(underlying);
+					if(itp == pricedataMap.end()){
+						pricedataMap[underlying] = new pricedata();
+						pricedataMap[underlying]->isUnderlying = true;
+						pricedataMap[underlying]->isWarrant = false;
+						pricedataMap[underlying]->UCode = 0;
+						pricedataMap[underlying]->Bestbid=0ull;
+						pricedataMap[underlying]->Bestask=0ull;
+						pricedataMap[underlying]->BestBidQty=0ull;
+						pricedataMap[underlying]->BestAskQty=0ull;
+						pricedataMap[underlying]->PBestbid=0ull;
+						pricedataMap[underlying]->PBestask=0ull;
+						pricedataMap[underlying]->LBestbid=0ull;
+						pricedataMap[underlying]->LBestask=0ull;
+						pricedataMap[underlying]->BidIssuerSize=0ull;
+						pricedataMap[underlying]->AskIssuerSize=0ull;
+						pricedataMap[underlying]->BidSeq=1;
+						pricedataMap[underlying]->AskSeq=1;
 
+					}
 				}
 
 			}
@@ -854,10 +861,14 @@ inline static bool loadDefinition(json& _json)
 														auto underlying_code = OMD_GET_VALUE(pszBuffer, 464, unsigned int);
 														warrantToUnderlying[warrant_code] = underlying_code;
 														underlyingToWarrant[underlying_code].insert(warrant_code);
-														cache["warrent_map"][std::to_string(warrant_code)] = underlying_code;
 
 														if(underlying_code > 0){
-															stockWarrantomdcMap[warrant_code].m_Code = warrant_code;
+															cache["warrent_map"][std::to_string(warrant_code)] = underlying_code;
+														}
+
+														stockWarrantomdcMap[warrant_code].m_Code = warrant_code;
+														if(underlying_code > 0){
+
 															stockWarrantomdcMap[underlying_code].m_Code = underlying_code;
 														}
 
@@ -875,11 +886,14 @@ inline static bool loadDefinition(json& _json)
 
 														pricemarkMap[uSecurityCode] = new PriceMark(uSecurityCode, wtype);
 														ptomdcMap[uSecurityCode].m_Code = uSecurityCode;
+														if(underlying_code > 0){
 														ptomdcMap[underlying_code].m_Code = underlying_code;
+														}
 
+														if(underlying_code > 0){
+															s1omdcMap[underlying_code].m_Code = underlying_code;
 
-														s1omdcMap[underlying_code].m_Code = underlying_code;
-
+														}
 														pricedataMap[uSecurityCode] = new pricedata();
 														pricedataMap[uSecurityCode]->isWarrant = true;
 														pricedataMap[uSecurityCode]->isUnderlying = false;
@@ -899,28 +913,30 @@ inline static bool loadDefinition(json& _json)
 														pricedataMap[uSecurityCode]->BidSeq=1;
 														pricedataMap[uSecurityCode]->AskSeq=1;
 
-														auto itp = pricedataMap.find(underlying_code);
-														if(itp == pricedataMap.end()){
-															pricedataMap[underlying_code] = new pricedata();
-															pricedataMap[underlying_code]->isUnderlying = true;
-															pricedataMap[underlying_code]->isWarrant = false;
-															pricedataMap[underlying_code]->UCode = 0;
-															pricedataMap[underlying_code]->Bestbid=0ull;
-															pricedataMap[underlying_code]->Bestask=0ull;
-															pricedataMap[underlying_code]->BestBidQty=0ull;
-															pricedataMap[underlying_code]->BestAskQty=0ull;
-															pricedataMap[underlying_code]->PBestbid=0ull;
-															pricedataMap[underlying_code]->PBestask=0ull;
-															pricedataMap[underlying_code]->LBestbid=0ull;
-															pricedataMap[underlying_code]->LBestask=0ull;
-															pricedataMap[underlying_code]->BidIssuerSize=0ull;
-															pricedataMap[underlying_code]->AskIssuerSize=0ull;
-															pricedataMap[underlying_code]->BidSeq=1;
-															pricedataMap[underlying_code]->AskSeq=1;
+														if(underlying_code > 0){
+															auto itp = pricedataMap.find(underlying_code);
+															if(itp == pricedataMap.end()){
+																pricedataMap[underlying_code] = new pricedata();
+																pricedataMap[underlying_code]->isUnderlying = true;
+																pricedataMap[underlying_code]->isWarrant = false;
+																pricedataMap[underlying_code]->UCode = 0;
+																pricedataMap[underlying_code]->Bestbid=0ull;
+																pricedataMap[underlying_code]->Bestask=0ull;
+																pricedataMap[underlying_code]->BestBidQty=0ull;
+																pricedataMap[underlying_code]->BestAskQty=0ull;
+																pricedataMap[underlying_code]->PBestbid=0ull;
+																pricedataMap[underlying_code]->PBestask=0ull;
+																pricedataMap[underlying_code]->LBestbid=0ull;
+																pricedataMap[underlying_code]->LBestask=0ull;
+																pricedataMap[underlying_code]->BidIssuerSize=0ull;
+																pricedataMap[underlying_code]->AskIssuerSize=0ull;
+																pricedataMap[underlying_code]->BidSeq=1;
+																pricedataMap[underlying_code]->AskSeq=1;
 
 
 
-															//s1omdcMap[underlying_code].m_Code = underlying_code;
+																//s1omdcMap[underlying_code].m_Code = underlying_code;
+															}
 														}
 
 													}
