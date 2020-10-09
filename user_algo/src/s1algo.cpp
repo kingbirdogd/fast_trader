@@ -1460,7 +1460,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 							delete w;
 							continue;
 						}
-
+/*
 						//unsigned long long t_check = dbp::tools::srv::current();
 						if(!checkPrice(wobsArray[i]->Code, bid_price, ask_price)){
 							Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " Not Pass Checkprice");
@@ -1468,6 +1468,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 							delete w;
 							continue;
 						}
+*/
 					}
 
 
