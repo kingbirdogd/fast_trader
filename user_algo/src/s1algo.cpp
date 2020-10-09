@@ -1477,15 +1477,11 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					unsigned long long lotsize =  warrantPriceMap[wobsArray[i]->Code]->Lotsize;
 					unsigned long long wspread = wbest_ask_price - wbest_bid_price;
 
-
+/*
 					PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
 					unsigned long long buyin = spm->buyIn(wbest_ask_price);
 					unsigned long long sellout = spm->sellOut(wbest_bid_price);
 					unsigned long long lvlbid = spm->sellOut(wbest_ask_price);
-
-
-
-
 
 					Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " Buy In  = " + to_string(buyin) + " Sellout = " + to_string(sellout) + " lvlbid = " + to_string(lvlbid));
 
@@ -1497,6 +1493,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					wobsArray[i]->SellOut = sellout;
 					wobsArray[i]->LvlBid = lvlbid;
 
+*/
 					wobsArray[i]->BuyQuantity = algoBet.fixQuantityBySpread(wbest_ask_price, lotsize, wspread)*100000000ull;
 
 
@@ -1730,8 +1727,30 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					}
 
 
+					//unsigned long long buyin = spm->buyIn(wbest_ask_price);
+					unsigned long long sellout = spm->sellOut(obsw->RefWBid);
+					unsigned long long lvlbid = spm->sellOut(obsw->RefWAsk);
+
+					//Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " Buy In  = " + to_string(buyin) + " Sellout = " + to_string(sellout) + " lvlbid = " + to_string(lvlbid));
+
+					if(sellout == 99999999){
+						spm->setSellout(obsw->RefWBid, obs->StopLostPrice);
+					}
+
+					//obsw->BuyIn = buyin;
+					//obsw->SellOut = sellout;
+					//obsw->LvlBid = lvlbid;
+
+
+
+
+
+
+
+
 					obsw->StopLostPrice = pcb;
 					obsw->RefWBid = wbest_bid_price;
+					obsw->LvlBid = lvlbid;
 
 					Log("Warrant Code = " + to_string(code) + " PCB@" + to_string(pcb) + " @WBid = " + to_string(wbest_bid_price) );
 					//}
