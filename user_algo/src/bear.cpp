@@ -162,8 +162,8 @@ void bear::on_tcp_book(const Tradable& tradable)
 
 
 		//auto best_ask_qty = tradable.m_Ask[0].m_uQuantity;
-		auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice)*10;
-		auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice)*10;
+		auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice)*100000;
+		auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice)*100000;
 
 		//Log(" Code = " + code + " Best Bid = " + to_string(best_bid_price) + " Best Ask = " + to_string(best_ask_price));
 
@@ -336,9 +336,9 @@ void bear::on_tcp_trade(const Tradable& tradable)
 		priceinfo* uprice = rprice_map[code];
 
 
-		auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice)*10;
-		auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice)*10;
-		auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice)*10;
+		auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice)*100000;
+		auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice)*100000;
+		auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice)*100000;
 
 
 		//auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
@@ -1146,11 +1146,11 @@ algo_msg_base* bear::json_to_msg(json& json)
 			p._PriceInfo->LastAskSeq=0;
 			p._PriceInfoU = new priceinfo();
 			if(p._Utype == HSI_SYMBOL){
-			p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, 100000);
+				p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, 100000);
 			}
 			if(p._Utype == NQ_SYMBOL){
-			//p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, 250000000);
-				p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, 25000);
+				p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, 250000000);
+				//p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, 25000);
 			}
 
 			Log("bear 4");
