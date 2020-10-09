@@ -1313,6 +1313,17 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								//Log("WCode = " + to_string(wobsArray[i]->Code) + " WBest Bid = " + to_string(wbest_bid_price));
 								//Log("WCode = " + to_string(wobsArray[i]->Code) + " WBest Bid = " + to_string(wbest_bid_price));
 
+
+								if("CS" == wobsArray[i]->Issuer){
+									if(expectSellOut != 99999999){
+										if(expectSellOut <  trade_price ){
+											continue;
+										}
+									}
+								}
+
+
+
 								if(wbest_bid_qty < issuerSize80(bidIssuerQty))
 									continue;
 
@@ -1460,6 +1471,25 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 							delete w;
 							continue;
 						}
+
+
+						priceinfo* pw = warrantPriceMap[wobsArray[i]->Code];
+
+						unsigned long long wbest_bid_price =pw->Bestbid;
+						unsigned long long wbest_ask_price = pw->Bestask;
+						unsigned long long wBidQty = pw->BidQty;
+						unsigned long long wAskQty = pw->AskQty;
+
+						PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
+
+						if(wbest_bid_price == 0 || wbest_ask_price == 0 ||wBidQty< issuerSize80(spm->getIssuerBidQty()) || wAskQty < issuerSize80(spm->getIssuerAskQty())){
+							Log("Code = " + to_string(code) + " Warrant Qty Not Pass  wBidQty = " + to_string(wBidQty) + ": wAskQty = " + to_string(wAskQty));
+							warrant* w = obs->removeWarrantOrCbbc(wobsArray[i]->Code);
+							delete w;
+							continue;
+						}
+
+
 /*
 						//unsigned long long t_check = dbp::tools::srv::current();
 						if(!checkPrice(wobsArray[i]->Code, bid_price, ask_price)){
