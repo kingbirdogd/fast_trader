@@ -1731,7 +1731,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					unsigned long long sellout = spm->sellOut(obsw->RefWBid);
 					unsigned long long lvlbid = spm->sellOut(obsw->RefWAsk);
 
-					//Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " Buy In  = " + to_string(buyin) + " Sellout = " + to_string(sellout) + " lvlbid = " + to_string(lvlbid));
+					Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " Sellout = " + to_string(sellout) + " lvlbid = " + to_string(lvlbid));
 
 					if(sellout == 99999999){
 						spm->setSellout(obsw->RefWBid, obs->StopLostPrice);
