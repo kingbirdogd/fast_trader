@@ -132,6 +132,12 @@
 			}
 		}
 	],
+	"TcpChannel":
+	{
+		"IP": "192.168.134.116",
+		"PORT": 5000,
+		"BIND": false
+	},
 	"Definition":
 	{
 		"CatchPath": "/tmp",
@@ -315,8 +321,8 @@
 	[
 		{"Channel":"SWOmdcChannel"},
 		{"Channel":"PriceTableChannel"},
-		{"Channel":"S1Channel"},
-		{"Channel":"OmddChannel"}
+		{"Channel":"S1Channel"},		
+		{"Channel":"TcpChannel"}
 	]
 }
 
