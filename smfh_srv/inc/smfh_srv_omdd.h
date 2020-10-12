@@ -34,7 +34,7 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 	rOrderBook.m_PkgTime = _uPkgTm;
 	rOrderBook.m_MsgTime = dbp::tools::srv::current();
 #endif
-#ifdef FULLTICK
+#ifdef DF
 	if (330 == _pMsg->m_uMsgType)
 	{
 		auto& book = omddFullTickBook[uSecurityCode];
@@ -190,7 +190,7 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		}
 		broadcastQueue.enqueue(rOrderBook);
 	}
-#endif //FULLTICK
+#endif //DF
 }
 
 #endif
