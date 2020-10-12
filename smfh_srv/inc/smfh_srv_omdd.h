@@ -42,6 +42,62 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		auto price = OMD_GET_VALUE(_pMsg, 16, int);
 		auto quantity = OMD_GET_VALUE(_pMsg, 20, unsigned int);
 		auto side = OMD_GET_VALUE(_pMsg, 24, FullTickBook::OrderSide);
+		if (FullTickBook::OrderSide::BID == side)
+		{
+			for (auto it = book.Asks.begin(); it != book.Asks.end(); ++it)
+			{
+				if (it->first <= price || FullTickBook::OrderType::Market == type)
+				{
+					auto matched_price = it->first;
+					auto book_quantity = it->second.quantity;
+					auto matched_quantity = rest < book_quantity ? rest : book_quantity;
+					rOrderBook.m_MsgType = MsgType::OMDD_TRADE;
+					rOrderBook.m_LastTradeQuantity = matched_quantity;
+					rOrderBook.m_LastTradePrice = matched_price;
+					rOrderBook.m_TradeType = 0;
+					rOrderBook.m_TradeSide = TradeSide::BUY_SIDE;
+					rOrderBook.m_AccumulateBuyQuantity += rOrderBook.m_LastTradeQuantity;
+					broadcastQueue.enqueue(rOrderBook);
+					rest -= matched_quantity;
+					if (0 == rest)
+					{
+						break;
+					}
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
+		else
+		{
+			for (auto it = book.Bids.begin(); it != book.Bids.end(); ++it)
+			{
+				if (it->first >= price || FullTickBook::OrderType::Market == type)
+				{
+					auto matched_price = it->first;
+					auto book_quantity = it->second.quantity;
+					auto matched_quantity = rest < book_quantity ? rest : book_quantity;
+					rOrderBook.m_MsgType = MsgType::OMDD_TRADE;
+					rOrderBook.m_LastTradeQuantity = matched_quantity;
+					rOrderBook.m_LastTradePrice = matched_price;
+					rOrderBook.m_TradeType = 0;
+					rOrderBook.m_TradeSide = TradeSide::SELL_SIDE;
+					rOrderBook.m_AccumulateBuyQuantity += rOrderBook.m_LastTradeQuantity;
+					broadcastQueue.enqueue(rOrderBook);
+					rest -= matched_quantity;
+					if (0 == rest)
+					{
+						break;
+					}
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
 		book.new_order(id, price, quantity, side);
 		rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 		if (FullTickBook::OrderSide::BID == side)
