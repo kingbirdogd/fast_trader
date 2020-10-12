@@ -2,6 +2,7 @@
 #define __SMFH_SRV_ORDERBOOK__
 #include <omd.h>
 #include "smfh_srv_cfg.h"
+#ifdef FULLTICK
 template <typename FullBook, typename Book>
 inline static void ConvertFullBookToBook(FullBook& fullBook, Book& rOrderBook)
 {
@@ -23,6 +24,7 @@ inline static void ConvertFullBookToBook(FullBook& fullBook, Book& rOrderBook)
 	rOrderBook.m_AccumulateBlankQuantity = 0;
 	broadcastQueue.enqueue(rOrderBook);
 }
+#endif //FULLTICK
 inline static void buildOmdcOrderBook(dbp::omd::COmdMsgHeader* _pMsg, COmdOrderbook& rOrderBook)
 {
 	unsigned char uNoEntries = OMD_GET_VALUE(_pMsg, 11, unsigned char);

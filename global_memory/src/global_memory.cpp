@@ -34,11 +34,14 @@ CPriceDataMap pricedataMap;
 AlgoParameter algoParam;
 SpreadTable spreadTable;
 TcpChannelConfig tcpConfig;
+
+#ifdef FULLTICK
 FullTickBooks omdcFullTickBook;
 FullTickBooks omddFullTickBook;
 CodeChannelMap omdcChannelMap;
 CodeChannelMap omddChannelMap;
 OmddChannelSet omddChannelSet;
+#endif //FULLTICK
 
 
 

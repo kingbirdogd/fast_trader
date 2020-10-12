@@ -285,7 +285,9 @@ inline static bool loadDefinition(json& _json)
 			{
 				const auto& code = omdc[i].get<unsigned int>();
 				omdcMap[code].m_Code = code;
+#ifdef FULLTICK
 				omdcFullTickBook[code];
+#endif //FULLTICK
 
 
 
@@ -299,7 +301,9 @@ inline static bool loadDefinition(json& _json)
 			{
 				const auto& code = omdd[i].get<unsigned int>();
 				omddMap[code].m_Code = code;
+#ifdef FULLTICK
 				omddFullTickBook[code];
+#endif //FULLTICK
 
 			}
 
@@ -816,7 +820,9 @@ inline static bool loadDefinition(json& _json)
 													omdcAdditionDefinition.ProductType = OMD_GET_VALUE(pszBuffer, 28, unsigned char);
 													omdcAdditionDefinition.LotSize = OMD_GET_VALUE(pszBuffer, 195, unsigned int);
 													omdcMap[uSecurityCode].m_Code = uSecurityCode;
+#ifdef FULLTICK
 													omdcFullTickBook[uSecurityCode];
+#endif //FULLTICK
 
 													if(ivLoader.exist(uSecurityCode)){
 														omdcSlimMap[uSecurityCode].m_Code = uSecurityCode;
@@ -1040,7 +1046,9 @@ inline static bool loadDefinition(json& _json)
 													}
 													cache["omdd_name"][std::to_string(orderbookid)] = symbol;
 													omddMap[orderbookid].m_Code = orderbookid;
+#ifdef FULLTICK
 													omddFullTickBook[orderbookid];
+#endif //FULLTICK
 													cache["omdd"].push_back(orderbookid);
 													codeToName[orderbookid] = symbol;
 													nameToCode[symbol] = orderbookid;

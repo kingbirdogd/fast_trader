@@ -19,6 +19,7 @@ typedef void (*PFuncOmdMsgHandler)(dbp::omd::COmdMsgHeader* _pMsg, unsigned long
 template <const PFuncOmdMsgHandler _Handler>
 class ChannelHandler
 {
+#ifdef FULLTICK
 private:
 	inline static void PreHandle(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long _uPkgTm, unsigned short int ChannelId)
 	{
@@ -56,6 +57,7 @@ private:
 			}
 		}
 	}
+#endif //FULLTICK
 public:
 	inline static bool handleChannel(const CStreamChannel& _channel)
 	{
@@ -247,7 +249,11 @@ public:
 
 																		for (unsigned int i =  uStartSeq - uOnRefreshStartIdx; i < Vec.size(); ++i)
 																		{
+#ifdef FULLTICK
 																			PreHandle(OMD_GET_POINTER(&Vec[i][0], 0, dbp::omd::COmdMsgHeader), 0, _channel.m_uChannelId);
+#else
+																			_Handler(OMD_GET_POINTER(&Vec[i][0], 0, dbp::omd::COmdMsgHeader), 0);
+#endif //FULLTICK
 																		}
 																		struct epoll_event objEvent;
 																		memset(&objEvent, 0, sizeof(struct epoll_event));
@@ -265,7 +271,11 @@ public:
 															{
 																//unsigned int ucode = OMD_GET_VALUE(pszBuffer, 4, unsigned int);
 																//flush_printf("tm:%llu, Handle Refresh 1 , ChannelId:%u , mType: %u Code:%u\n", dbp::tools::srv::current(), _channel.m_uChannelId, mType, ucode);
+#ifdef FULLTICK
 																PreHandle(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), 0, _channel.m_uChannelId);
+#else
+																_Handler(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), 0);
+#endif //FULLTICK
 															}
 															else
 															{
@@ -306,7 +316,11 @@ public:
 
 																		for (unsigned int i =  uStartSeq - uOnRefreshStartIdx; i < Vec.size(); ++i)
 																		{
+#ifdef FULLTICK
 																			PreHandle(OMD_GET_POINTER(&Vec[i][0], 0, dbp::omd::COmdMsgHeader), 0, _channel.m_uChannelId);
+#else
+																			_Handler(OMD_GET_POINTER(&Vec[i][0], 0, dbp::omd::COmdMsgHeader), 0);
+#endif //FULLTICK
 																		}
 																		struct epoll_event objEvent;
 																		memset(&objEvent, 0, sizeof(struct epoll_event));
@@ -323,7 +337,11 @@ public:
 																{
 																	//unsigned int ucode = OMD_GET_VALUE(pszBuffer, 4, unsigned int);
 																	//flush_printf("tm:%llu, Handle Refresh 2 , ChannelId:%u , mType: %u Code:%u\n", dbp::tools::srv::current(), _channel.m_uChannelId, mType, ucode);
+#ifdef FULLTICK
 																	PreHandle(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), 0, _channel.m_uChannelId);
+#else
+																	_Handler(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), 0);
+#endif //FULLTICK
 																}
 																pszBuffer += OMD_GET_VALUE(pszBuffer, 0, unsigned short int);
 															}
@@ -374,7 +392,11 @@ public:
 								pszBuffer += sizeof(dbp::omd::COmdPkgHeader);
 								for (unsigned char i = 0; i < pPkg->m_uMsgCnt; ++i)
 								{
+#ifdef FULLTICK
 									PreHandle(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), pPkg->m_uTimeStamp, _channel.m_uChannelId);
+#else
+									_Handler(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), pPkg->m_uTimeStamp);
+#endif //FULLTICK
 									pszBuffer += OMD_GET_VALUE(pszBuffer, 0, unsigned short int);
 									unsigned long long uTimeDiff = dbp::tools::srv::current() - uTimeStart;
 									uSum += uTimeDiff;
@@ -417,7 +439,11 @@ public:
 										unsigned char* retranBuffer = &buffer[0];
 										for (unsigned int i = 0; i < uCnt; ++i)
 										{
+#ifdef FULLTICK
 											PreHandle(OMD_GET_POINTER(retranBuffer, 0, dbp::omd::COmdMsgHeader), 0, _channel.m_uChannelId);
+#else
+											_Handler(OMD_GET_POINTER(retranBuffer, 0, dbp::omd::COmdMsgHeader), 0);
+#endif //FULLTICK
 											retranBuffer += OMD_GET_VALUE(retranBuffer, 0, unsigned short int);
 										}
 										uHotSeq = pPkg->m_uSeq;
@@ -434,7 +460,9 @@ public:
 										epoll_ctl(_channel.m_iEpoll, EPOLL_CTL_ADD, objEvent.data.fd, &objEvent);
 										uCnt = 0;
 										uSum = 0;
+#ifdef FULLTICK
 										ClearBook(_channel.m_uChannelId);
+#endif //FULLTICK
 										break;
 									}
 								}
@@ -462,14 +490,22 @@ public:
 										unsigned char* retranBuffer = &buffer[0];
 										for (unsigned int i = 0; i < uCnt; ++i)
 										{
+#ifdef FULLTICK
 											PreHandle(OMD_GET_POINTER(retranBuffer, 0, dbp::omd::COmdMsgHeader), 0, _channel.m_uChannelId);
+#else
+											_Handler(OMD_GET_POINTER(retranBuffer, 0, dbp::omd::COmdMsgHeader), 0);
+#endif //FULLTICK
 											retranBuffer += OMD_GET_VALUE(retranBuffer, 0, unsigned short int);
 										}
 										uHotSeq = pPkg->m_uSeq + pPkg->m_uMsgCnt - 1;
 										pszBuffer += sizeof(dbp::omd::COmdPkgHeader);
 										for (unsigned char i = 0; i < pPkg->m_uMsgCnt; ++i)
 										{
+#ifdef FULLTICK
 											PreHandle(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), pPkg->m_uTimeStamp, _channel.m_uChannelId);
+#else
+											_Handler(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), pPkg->m_uTimeStamp);
+#endif //FULLTICK
 											pszBuffer += OMD_GET_VALUE(pszBuffer, 0, unsigned short int);
 										}
 									}
@@ -485,7 +521,9 @@ public:
 										epoll_ctl(_channel.m_iEpoll, EPOLL_CTL_ADD, objEvent.data.fd, &objEvent);
 										uCnt = 0;
 										uSum = 0;
+#ifdef FULLTICK
 										ClearBook(_channel.m_uChannelId);
+#endif //FULLTICK
 										break;
 									}
 								}
@@ -495,7 +533,11 @@ public:
 									pszBuffer += sizeof(dbp::omd::COmdPkgHeader);
 									for (unsigned char i = 0; i < pPkg->m_uMsgCnt; ++i)
 									{
+#ifdef FULLTICK
 										PreHandle(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), pPkg->m_uTimeStamp, _channel.m_uChannelId);
+#else
+										_Handler(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), pPkg->m_uTimeStamp);
+#endif //FULLTICK
 										pszBuffer += OMD_GET_VALUE(pszBuffer, 0, unsigned short int);
 										unsigned long long uTimeDiff = dbp::tools::srv::current() - uTimeStart;
 										uSum += uTimeDiff;

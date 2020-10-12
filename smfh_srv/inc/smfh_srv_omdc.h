@@ -20,6 +20,7 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 	rOrderBook.m_PkgTime = _uPkgTm;
 	rOrderBook.m_MsgTime = dbp::tools::srv::current();
 #endif
+#ifdef FULLTICK
 	if (30 == _pMsg->m_uMsgType)
 	{
 		auto type = OMD_GET_VALUE(_pMsg, 26, FullTickBook::OrderType);
@@ -74,7 +75,8 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 			ConvertFullBookToBook(book.Asks, rOrderBook);
 		}
 	}
-	else if (53 == _pMsg->m_uMsgType)
+#else
+	if (53 == _pMsg->m_uMsgType)
 	{
 		rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 		buildOmdcOrderBook(_pMsg, rOrderBook);
@@ -108,6 +110,7 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		}
 		broadcastQueue.enqueue(rOrderBook);
 	}
+#endif //FULLTICK
 }
 #endif
 

@@ -23,6 +23,45 @@ struct TcpChannelConfig
 	};
 };
 
+class user;
+using CUserMap = std::unordered_map<unsigned long long, user*>;
+extern dbp::cpu::CpuInfo cpuInfo;
+extern COmdOrderMap omdcMap;
+extern COmdOrderMap stockWarrantomdcMap;
+extern COmdOrderMap omdcSlimMap;
+extern COmdOrderMap omddMap;
+extern CTcpOrderMap tcpMap;
+extern COmdOrderMap ptomdcMap;
+extern COmdOrderMap s1omdcMap;
+extern COmdcAdditionDefinitionsMap omdcAdditionDefinitionsMap;
+extern CWarrants warrantToUnderlying;
+extern CUnderlyingWarrants underlyingToWarrant;
+extern COmddCodeToNameMap codeToName;
+extern COmddNameToCodeMap nameToCode;
+extern COmddCodeToUnderlying codeTounderlying;
+extern CRetranVec retranVec;
+extern CStreamVec omdcStreams;
+extern CStreamVec omddStreams;
+extern CStreamVec pricetableStreams;
+extern CStreamVec s1Streams;
+extern CActivateChannel mActivateChannel;
+extern CBroadCastQueue broadcastQueue;
+extern COutputQueue ouputQueue;
+extern CUserMap userMap;
+extern FILE* input_stream;
+extern FILE* output_stream;
+extern OrderbookLoader orderbookLoader;
+extern IvLoader ivLoader;
+extern int SCHED_TYPE;
+extern int SCHED_PRIORITY;
+extern CS1SignalMap s1SignalMap;
+extern CPriceTableMap pricemarkMap;
+extern CPriceDataMap pricedataMap;
+extern AlgoParameter algoParam;
+extern SpreadTable spreadTable;
+extern TcpChannelConfig tcpConfig;
+
+#ifdef FULLTICK
 class FullTickBook
 {
 public:
@@ -214,51 +253,15 @@ public:
 	}
 };
 using FullTickBooks = std::unordered_map<unsigned int, FullTickBook>;
-
-class user;
-using CUserMap = std::unordered_map<unsigned long long, user*>;
 using CodeChannelMap = std::unordered_map<unsigned int, unsigned short int>;
 using OmddChannelSet = std::unordered_set<unsigned short int>;
-extern dbp::cpu::CpuInfo cpuInfo;
-extern COmdOrderMap omdcMap;
-extern COmdOrderMap stockWarrantomdcMap;
-extern COmdOrderMap omdcSlimMap;
-extern COmdOrderMap omddMap;
-extern CTcpOrderMap tcpMap;
-extern COmdOrderMap ptomdcMap;
-extern COmdOrderMap s1omdcMap;
-extern COmdcAdditionDefinitionsMap omdcAdditionDefinitionsMap;
-extern CWarrants warrantToUnderlying;
-extern CUnderlyingWarrants underlyingToWarrant;
-extern COmddCodeToNameMap codeToName;
-extern COmddNameToCodeMap nameToCode;
-extern COmddCodeToUnderlying codeTounderlying;
-extern CRetranVec retranVec;
-extern CStreamVec omdcStreams;
-extern CStreamVec omddStreams;
-extern CStreamVec pricetableStreams;
-extern CStreamVec s1Streams;
-extern CActivateChannel mActivateChannel;
-extern CBroadCastQueue broadcastQueue;
-extern COutputQueue ouputQueue;
-extern CUserMap userMap;
-extern FILE* input_stream;
-extern FILE* output_stream;
-extern OrderbookLoader orderbookLoader;
-extern IvLoader ivLoader;
-extern int SCHED_TYPE;
-extern int SCHED_PRIORITY;
-extern CS1SignalMap s1SignalMap;
-extern CPriceTableMap pricemarkMap;
-extern CPriceDataMap pricedataMap;
-extern AlgoParameter algoParam;
-extern SpreadTable spreadTable;
-extern TcpChannelConfig tcpConfig;
 extern FullTickBooks omdcFullTickBook;
 extern FullTickBooks omddFullTickBook;
 extern CodeChannelMap omdcChannelMap;
 extern CodeChannelMap omddChannelMap;
 extern OmddChannelSet omddChannelSet;
+
+#endif //FULLTICK
 
 
 
