@@ -34,7 +34,67 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 	rOrderBook.m_PkgTime = _uPkgTm;
 	rOrderBook.m_MsgTime = dbp::tools::srv::current();
 #endif
-	if (353 == _pMsg->m_uMsgType)
+	if (330 == _pMsg->m_uMsgType)
+	{
+		auto& book = omddFullTickBook[uSecurityCode];
+		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
+		auto price = OMD_GET_VALUE(_pMsg, 16, int);
+		auto quantity = OMD_GET_VALUE(_pMsg, 20, unsigned int);
+		auto side = OMD_GET_VALUE(_pMsg, 24, FullTickBook::OrderSide);
+		book.new_order(id, price, quantity, side);
+		rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
+		if (FullTickBook::OrderSide::BID == side)
+		{
+			ConvertFullBookToBook(book.Bids, rOrderBook);
+		}
+		else
+		{
+			ConvertFullBookToBook(book.Asks, rOrderBook);
+		}
+	}
+	else if (331 == _pMsg->m_uMsgType)
+	{
+		auto& book = omddFullTickBook[uSecurityCode];
+		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
+		auto price = OMD_GET_VALUE(_pMsg, 16, int);
+		auto quantity = OMD_GET_VALUE(_pMsg, 20, unsigned int);
+		auto side = book.modify_order(id, quantity, price);
+		rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
+		if (FullTickBook::OrderSide::BID == side)
+		{
+			ConvertFullBookToBook(book.Bids, rOrderBook);
+		}
+		else
+		{
+			ConvertFullBookToBook(book.Asks, rOrderBook);
+		}
+	}
+	else if (332 == _pMsg->m_uMsgType)
+	{
+		auto& book = omdcFullTickBook[uSecurityCode];
+		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
+		auto side = book.cancel_order(id);
+		rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
+		if (FullTickBook::OrderSide::BID == side)
+		{
+			ConvertFullBookToBook(book.Bids, rOrderBook);
+		}
+		else
+		{
+			ConvertFullBookToBook(book.Asks, rOrderBook);
+		}
+	}
+	else if (335 == _pMsg->m_uMsgType)
+	{
+		omdcFullTickBook[uSecurityCode].clear();
+		std::memset(rOrderBook.m_Bid, 0, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
+		std::memset(rOrderBook.m_Ask, 0, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
+		rOrderBook.m_AccumulateBuyQuantity = 0;
+		rOrderBook.m_AccumulateSellQuantity = 0;
+		rOrderBook.m_AccumulateBlankQuantity = 0;
+		broadcastQueue.enqueue(rOrderBook);
+	}
+	else if (353 == _pMsg->m_uMsgType)
 	{
 		rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 		buildOmddOrderBook(_pMsg, rOrderBook);

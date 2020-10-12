@@ -20,7 +20,61 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 	rOrderBook.m_PkgTime = _uPkgTm;
 	rOrderBook.m_MsgTime = dbp::tools::srv::current();
 #endif
-	if (53 == _pMsg->m_uMsgType)
+	if (30 == _pMsg->m_uMsgType)
+	{
+		auto type = OMD_GET_VALUE(_pMsg, 26, FullTickBook::OrderType);
+		if (FullTickBook::OrderType::Limit == type)
+		{
+			auto& book = omdcFullTickBook[uSecurityCode];
+			auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
+			auto price = OMD_GET_VALUE(_pMsg, 16, int);
+			auto quantity = OMD_GET_VALUE(_pMsg, 20, unsigned int);
+			auto side = OMD_GET_VALUE(_pMsg, 24, FullTickBook::OrderSide);
+			book.new_order(id, price, quantity, side);
+			rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
+			if (FullTickBook::OrderSide::BID == side)
+			{
+				ConvertFullBookToBook(book.Bids, rOrderBook);
+			}
+			else
+			{
+				ConvertFullBookToBook(book.Asks, rOrderBook);
+			}
+		}
+	}
+	else if (31 == _pMsg->m_uMsgType)
+	{
+		auto& book = omdcFullTickBook[uSecurityCode];
+		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
+		auto quantity = OMD_GET_VALUE(_pMsg, 16, unsigned int);
+		auto side = book.modify_order(id, quantity);
+		rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
+		if (FullTickBook::OrderSide::BID == side)
+		{
+			ConvertFullBookToBook(book.Bids, rOrderBook);
+		}
+		else
+		{
+			ConvertFullBookToBook(book.Asks, rOrderBook);
+		}
+
+	}
+	else if (32 == _pMsg->m_uMsgType)
+	{
+		auto& book = omdcFullTickBook[uSecurityCode];
+		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
+		auto side = book.cancel_order(id);
+		rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
+		if (FullTickBook::OrderSide::BID == side)
+		{
+			ConvertFullBookToBook(book.Bids, rOrderBook);
+		}
+		else
+		{
+			ConvertFullBookToBook(book.Asks, rOrderBook);
+		}
+	}
+	else if (53 == _pMsg->m_uMsgType)
 	{
 		rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 		buildOmdcOrderBook(_pMsg, rOrderBook);

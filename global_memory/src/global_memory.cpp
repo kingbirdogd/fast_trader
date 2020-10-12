@@ -34,6 +34,11 @@ CPriceDataMap pricedataMap;
 AlgoParameter algoParam;
 SpreadTable spreadTable;
 TcpChannelConfig tcpConfig;
+FullTickBooks omdcFullTickBook;
+FullTickBooks omddFullTickBook;
+CodeChannelMap omdcChannelMap;
+CodeChannelMap omddChannelMap;
+OmddChannelSet omddChannelSet;
 
 
 
