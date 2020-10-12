@@ -24,13 +24,13 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 	if (30 == _pMsg->m_uMsgType)
 	{
 		auto type = OMD_GET_VALUE(_pMsg, 26, FullTickBook::OrderType);
+		auto side = OMD_GET_VALUE(_pMsg, 24, FullTickBook::OrderSide);
 		if (FullTickBook::OrderType::Limit == type)
 		{
 			auto& book = omdcFullTickBook[uSecurityCode];
 			auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
 			auto price = OMD_GET_VALUE(_pMsg, 16, int);
 			auto quantity = OMD_GET_VALUE(_pMsg, 20, unsigned int);
-			auto side = OMD_GET_VALUE(_pMsg, 24, FullTickBook::OrderSide);
 			book.new_order(id, price, quantity, side);
 			rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 			if (FullTickBook::OrderSide::BID == side)
