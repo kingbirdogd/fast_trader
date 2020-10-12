@@ -85,10 +85,14 @@ ifeq ($(CONFIG),)
 	CONFIG:=release
 endif
 
+ifeq ($(ENABLE_MEASURE),true)
+LATENCY_FLAG=
+else
 ifeq ($(DISABLE_MEASURE),true)
 LATENCY_FLAG=-DNOT_MEASURE
 else
-LATENCY_FLAG=
+LATENCY_FLAG=-DNOT_MEASURE
+endif
 endif
 
 ifeq ($(ENABLE_FULLTICK),true)

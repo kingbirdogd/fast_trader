@@ -5,6 +5,10 @@
 ### Debug version:
 make CONFIG=debug
 
+### Enable latency Measure(default will disable measure):
+make ENABLE_MEASURE=true
+
+
 ### Support SP + DP
 make
 
