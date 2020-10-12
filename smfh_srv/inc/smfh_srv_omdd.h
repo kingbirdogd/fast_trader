@@ -42,11 +42,12 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		auto price = OMD_GET_VALUE(_pMsg, 16, int);
 		auto quantity = OMD_GET_VALUE(_pMsg, 20, unsigned int);
 		auto side = OMD_GET_VALUE(_pMsg, 24, FullTickBook::OrderSide);
+		auto rest = quantity;
 		if (FullTickBook::OrderSide::BID == side)
 		{
 			for (auto it = book.Asks.begin(); it != book.Asks.end(); ++it)
 			{
-				if (it->first <= price || FullTickBook::OrderType::Market == type)
+				if (it->first <= price)
 				{
 					auto matched_price = it->first;
 					auto book_quantity = it->second.quantity;
@@ -74,7 +75,7 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		{
 			for (auto it = book.Bids.begin(); it != book.Bids.end(); ++it)
 			{
-				if (it->first >= price || FullTickBook::OrderType::Market == type)
+				if (it->first >= price)
 				{
 					auto matched_price = it->first;
 					auto book_quantity = it->second.quantity;
