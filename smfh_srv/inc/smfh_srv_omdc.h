@@ -88,15 +88,18 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		if (FullTickBook::OrderType::Limit == type)
 		{
 			auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
-			book.new_order(id, price, quantity, side);
-			rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
-			if (FullTickBook::OrderSide::BID == side)
+			auto is_top = book.new_order(id, price, quantity, side);
+			if (is_top)
 			{
-				ConvertFullBookToBook(book.Bids, rOrderBook);
-			}
-			else
-			{
-				ConvertFullBookToBook(book.Asks, rOrderBook);
+				rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
+				if (FullTickBook::OrderSide::BID == side)
+				{
+					ConvertFullBookToBook(book.Bids, rOrderBook);
+				}
+				else if (FullTickBook::OrderSide::ASK == side)
+				{
+					ConvertFullBookToBook(book.Asks, rOrderBook);
+				}
 			}
 		}
 	}
@@ -105,31 +108,36 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		auto& book = omdcFullTickBook[uSecurityCode];
 		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
 		auto quantity = OMD_GET_VALUE(_pMsg, 16, unsigned int);
-		auto side = book.modify_order(id, quantity);
-		rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
-		if (FullTickBook::OrderSide::BID == side)
+		auto result = book.modify_order(id, quantity);
+		if (result.is_top)
 		{
-			ConvertFullBookToBook(book.Bids, rOrderBook);
+			rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
+			if (FullTickBook::OrderSide::BID == result.side)
+			{
+				ConvertFullBookToBook(book.Bids, rOrderBook);
+			}
+			else if (FullTickBook::OrderSide::ASK == result.side)
+			{
+				ConvertFullBookToBook(book.Asks, rOrderBook);
+			}
 		}
-		else
-		{
-			ConvertFullBookToBook(book.Asks, rOrderBook);
-		}
-
 	}
 	else if (32 == _pMsg->m_uMsgType)
 	{
 		auto& book = omdcFullTickBook[uSecurityCode];
 		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
-		auto side = book.cancel_order(id);
+		auto result = book.cancel_order(id);
 		rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
-		if (FullTickBook::OrderSide::BID == side)
+		if (result.is_top)
 		{
-			ConvertFullBookToBook(book.Bids, rOrderBook);
-		}
-		else
-		{
-			ConvertFullBookToBook(book.Asks, rOrderBook);
+			if (FullTickBook::OrderSide::BID == result.side)
+			{
+				ConvertFullBookToBook(book.Bids, rOrderBook);
+			}
+			else if (FullTickBook::OrderSide::ASK == result.side)
+			{
+				ConvertFullBookToBook(book.Asks, rOrderBook);
+			}
 		}
 	}
 #else

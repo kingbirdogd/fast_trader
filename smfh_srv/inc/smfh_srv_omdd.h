@@ -99,15 +99,18 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 				}
 			}
 		}
-		book.new_order(id, price, quantity, side);
-		rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
-		if (FullTickBook::OrderSide::BID == side)
+		auto is_top = book.new_order(id, price, quantity, side);
+		if (is_top)
 		{
-			ConvertFullBookToBook(book.Bids, rOrderBook);
-		}
-		else
-		{
-			ConvertFullBookToBook(book.Asks, rOrderBook);
+			rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
+			if (FullTickBook::OrderSide::BID == side)
+			{
+				ConvertFullBookToBook(book.Bids, rOrderBook);
+			}
+			else if (FullTickBook::OrderSide::ASK == side)
+			{
+				ConvertFullBookToBook(book.Asks, rOrderBook);
+			}
 		}
 	}
 	else if (331 == _pMsg->m_uMsgType)
@@ -116,30 +119,36 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
 		auto price = OMD_GET_VALUE(_pMsg, 16, int);
 		auto quantity = OMD_GET_VALUE(_pMsg, 20, unsigned int);
-		auto side = book.modify_order(id, quantity, price);
-		rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
-		if (FullTickBook::OrderSide::BID == side)
+		auto result = book.modify_order(id, quantity, price);
+		if (result.is_top)
 		{
-			ConvertFullBookToBook(book.Bids, rOrderBook);
-		}
-		else
-		{
-			ConvertFullBookToBook(book.Asks, rOrderBook);
+			rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
+			if (FullTickBook::OrderSide::BID == result.side)
+			{
+				ConvertFullBookToBook(book.Bids, rOrderBook);
+			}
+			else if (FullTickBook::OrderSide::ASK == result.side)
+			{
+				ConvertFullBookToBook(book.Asks, rOrderBook);
+			}
 		}
 	}
 	else if (332 == _pMsg->m_uMsgType)
 	{
 		auto& book = omdcFullTickBook[uSecurityCode];
 		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
-		auto side = book.cancel_order(id);
-		rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
-		if (FullTickBook::OrderSide::BID == side)
+		auto result = book.cancel_order(id);
+		if (result.is_top)
 		{
-			ConvertFullBookToBook(book.Bids, rOrderBook);
-		}
-		else
-		{
-			ConvertFullBookToBook(book.Asks, rOrderBook);
+			rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
+			if (FullTickBook::OrderSide::BID == result.side)
+			{
+				ConvertFullBookToBook(book.Bids, rOrderBook);
+			}
+			else if (FullTickBook::OrderSide::ASK == result.side)
+			{
+				ConvertFullBookToBook(book.Asks, rOrderBook);
+			}
 		}
 	}
 	else if (335 == _pMsg->m_uMsgType)

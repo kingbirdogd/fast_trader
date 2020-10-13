@@ -95,7 +95,7 @@ public:
 	BidMap Bids;
 	AskMap Asks;
 public:
-	void new_order(unsigned long long id, int price, unsigned int quantity, OrderSide side)
+	bool new_order(unsigned long long id, int price, unsigned int quantity, OrderSide side)
 	{
 		auto& odr = Ords[id];
 		odr.price = price;
@@ -103,54 +103,68 @@ public:
 		odr.side = side;
 		if (OrderSide::BID == side)
 		{
-			auto& item = Bids[price];
-			item.quantity += quantity;
-			++item.number_of_order;
+			auto it = Bids.emplace(price, PriceItem()).first;
+			it->second.quantity += quantity;
+			++it->second.number_of_order;
+			return (Bids.begin() == it);
 		}
 		else
 		{
-			auto& item = Asks[price];
-			item.quantity += quantity;
-			++item.number_of_order;
+			auto it = Asks.emplace(price, PriceItem()).first;
+			it->second.quantity += quantity;
+			++it->second.number_of_order;
+			return (Asks.begin() == it);
 		}
 	}
-	OrderSide modify_order(unsigned long long id, unsigned int quantity)
+	auto modify_order(unsigned long long id, unsigned int quantity)
 	{
+		struct result
+		{
+			OrderSide side;
+			bool is_top;
+		};
 		auto it = Ords.find(id);
 		if (Ords.end() != it)
 		{
 			if (OrderSide::BID == it->second.side)
 			{
-				auto& item = Bids[it->second.price];
+				auto it2 = Bids.find(it->second.price);
 				if (quantity > it->second.quantity)
 				{
-					item.quantity += (quantity - it->second.quantity);
+					it2->second.quantity += (quantity - it->second.quantity);
 				}
 				else
 				{
-					item.quantity -= (it->second.quantity - quantity);
+					it2->second.quantity -= (it->second.quantity - quantity);
 				}
+				it->second.quantity = quantity;
+				return result{it->second.side, (Bids.begin() == it2)};
 			}
 			else
 			{
-				auto& item = Asks[it->second.price];
+				auto it2 = Asks.find(it->second.price);
 				if (quantity > it->second.quantity)
 				{
-					item.quantity += (quantity - it->second.quantity);
+					it2->second.quantity += (quantity - it->second.quantity);
 				}
 				else
 				{
-					item.quantity -= (it->second.quantity - quantity);
+					it2->second.quantity -= (it->second.quantity - quantity);
 				}
+				it->second.quantity = quantity;
+				return result{it->second.side, (Asks.begin() == it2)};
 			}
-			it->second.quantity = quantity;
-			return it->second.side;
 		}
-		return OrderSide::NONE;
+		return result{OrderSide::NONE, false};
 	}
 
-	OrderSide modify_order(unsigned long long id, unsigned int quantity, int price)
+	auto modify_order(unsigned long long id, unsigned int quantity, int price)
 	{
+		struct result
+		{
+			OrderSide side;
+			bool is_top;
+		};
 		auto it = Ords.find(id);
 		if (Ords.end() != it)
 		{
@@ -158,92 +172,115 @@ public:
 			{
 				if (OrderSide::BID == it->second.side)
 				{
-					auto& item = Bids[it->second.price];
+					auto it2 = Bids.find(it->second.price);
 					if (quantity > it->second.quantity)
 					{
-						item.quantity += (quantity - it->second.quantity);
+						it2->second.quantity += (quantity - it->second.quantity);
 					}
 					else
 					{
-						item.quantity -= (it->second.quantity - quantity);
+						it2->second.quantity -= (it->second.quantity - quantity);
 					}
+					it->second.quantity = quantity;
+					return result{it->second.side, (Bids.begin() == it2)};
 				}
 				else
 				{
-					auto& item = Asks[it->second.price];
+					auto it2 = Asks.find(it->second.price);
 					if (quantity > it->second.quantity)
 					{
-						item.quantity += (quantity - it->second.quantity);
+						it2->second.quantity += (quantity - it->second.quantity);
 					}
 					else
 					{
-						item.quantity -= (it->second.quantity - quantity);
+						it2->second.quantity -= (it->second.quantity - quantity);
 					}
+					return result{it->second.side, (Asks.begin() == it2)};
 				}
-				it->second.quantity = quantity;
-				return it->second.side;
 			}
 			else
 			{
-
 				auto side = it->second.side;
+				bool isTop = false;
 				if (OrderSide::BID == it->second.side)
 				{
-					auto& item = Bids[it->second.price];
-					item.quantity -= it->second.quantity;
-					item.number_of_order -= 1;
-					if (0 == item.number_of_order)
+					auto it2 = Bids.find(it->second.price);
+					if (Bids.begin() == it2)
 					{
-						Bids.erase(it->second.price);
+						isTop = true;
+					}
+					it2->second.quantity -= it->second.quantity;
+					it2->second.number_of_order -= 1;
+					if (0 == it2->second.number_of_order)
+					{
+						Bids.erase(it2);
 					}
 				}
 				else
 				{
-					auto& item = Asks[it->second.price];
-					item.quantity -= it->second.quantity;
-					item.number_of_order -= 1;
-					if (0 == item.number_of_order)
+					auto it2 = Asks.find(it->second.price);
+					if (Asks.begin() == it2)
 					{
-						Asks.erase(it->second.price);
+						isTop = true;
+					}
+					it2->second.quantity -= it->second.quantity;
+					it2->second.number_of_order -= 1;
+					if (0 == it2->second.number_of_order)
+					{
+						Asks.erase(it2);
 					}
 				}
 				Ords.erase(it);
-				new_order(id, price, quantity, side);
-				return side;
+				auto new_top = new_order(id, price, quantity, side);
+				return result{side, new_top && isTop};
 			}
 		}
-		return OrderSide::NONE;
+		return result{OrderSide::NONE, false};
 	}
-	OrderSide cancel_order(unsigned long long id)
+	auto cancel_order(unsigned long long id)
 	{
+		struct result
+		{
+			OrderSide side;
+			bool is_top;
+		};
 		auto it = Ords.find(id);
 		if (Ords.end() != it)
 		{
 			auto side = it->second.side;
+			bool isTop = false;
 			if (OrderSide::BID == it->second.side)
 			{
-				auto& item = Bids[it->second.price];
-				item.quantity -= it->second.quantity;
-				item.number_of_order -= 1;
-				if (0 == item.number_of_order)
+				auto it2 = Bids.find(it->second.price);
+				if (Bids.begin() == it2)
 				{
-					Bids.erase(it->second.price);
+					isTop = true;
+				}
+				it2->second.quantity -= it->second.quantity;
+				it2->second.number_of_order -= 1;
+				if (0 == it2->second.number_of_order)
+				{
+					Bids.erase(it2);
 				}
 			}
 			else
 			{
-				auto& item = Asks[it->second.price];
-				item.quantity -= it->second.quantity;
-				item.number_of_order -= 1;
-				if (0 == item.number_of_order)
+				auto it2 = Asks.find(it->second.price);
+				if (Asks.begin() == it2)
 				{
-					Asks.erase(it->second.price);
+					isTop = true;
+				}
+				it2->second.quantity -= it->second.quantity;
+				it2->second.number_of_order -= 1;
+				if (0 == it2->second.number_of_order)
+				{
+					Asks.erase(it2);
 				}
 			}
 			Ords.erase(it);
-			return side;
+			return result{side, isTop};
 		}
-		return OrderSide::NONE;
+		return result{OrderSide::NONE, false};
 	}
 	void clear()
 	{
