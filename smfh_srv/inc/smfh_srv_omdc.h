@@ -88,9 +88,13 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		if (FullTickBook::OrderType::Limit == type)
 		{
 			auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
+#ifndef FULL_BOOK
 			auto is_top = book.new_order(id, price, quantity, side);
 			if (is_top)
 			{
+#else
+			book.new_order(id, price, quantity, side);
+#endif //ifndef FULL_BOOK
 				rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 				if (FullTickBook::OrderSide::BID == side)
 				{
@@ -100,7 +104,9 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 				{
 					ConvertFullBookToBook(book.Asks, rOrderBook);
 				}
+#ifndef FULL_BOOK
 			}
+#endif //ifndef FULL_BOOK
 		}
 	}
 	else if (31 == _pMsg->m_uMsgType)
@@ -109,8 +115,10 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
 		auto quantity = OMD_GET_VALUE(_pMsg, 16, unsigned int);
 		auto result = book.modify_order(id, quantity);
+#ifndef FULL_BOOK
 		if (result.is_top)
 		{
+#endif //ifndef FULL_BOOK
 			rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 			if (FullTickBook::OrderSide::BID == result.side)
 			{
@@ -120,7 +128,9 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 			{
 				ConvertFullBookToBook(book.Asks, rOrderBook);
 			}
+#ifndef FULL_BOOK
 		}
+#endif //ifndef FULL_BOOK
 	}
 	else if (32 == _pMsg->m_uMsgType)
 	{
@@ -128,8 +138,10 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
 		auto result = book.cancel_order(id);
 		rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
+#ifndef FULL_BOOK
 		if (result.is_top)
 		{
+#endif //ifndef FULL_BOOK
 			if (FullTickBook::OrderSide::BID == result.side)
 			{
 				ConvertFullBookToBook(book.Bids, rOrderBook);
@@ -138,7 +150,9 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 			{
 				ConvertFullBookToBook(book.Asks, rOrderBook);
 			}
+#ifndef FULL_BOOK
 		}
+#endif //ifndef FULL_BOOK
 	}
 #else
 	if (53 == _pMsg->m_uMsgType)

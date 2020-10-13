@@ -23,3 +23,8 @@ make ENABLE_SF=true
 ### Support SP + DF
 make ENABLE_DF=true
 
+
+### Enable Full OrderBook Fulltick Trigger(default will disable Full OrderBook Fulltick Trigger):
+make ENABLE_FULLTICK=true ENABLE_FULLBOOK=true
+make ENABLE_SF=true ENABLE_FULLBOOK=true
+make ENABLE_DF=true ENABLE_FULLBOOK=true
