@@ -1361,7 +1361,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 						}
 					}
 				}
-				/*
+
 				else{
 					if(obs->hasRelatedWarrant(STATUS_AVAILABLE)){
 						for(unsigned int i=0; i<wobsArray.size(); i++){
@@ -1383,26 +1383,14 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 							if(wbest_bid_price > wobsArray[i]->BuyPrice){
 								wobsArray[i]->Status = STATUS_SELLING;
 
-								unsigned long long t_btrade = dbp::tools::srv::current();
-
 								bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
 								//bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, RefWBid, wobsArray[i]->Quantity);
 								if(!result){
 									obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
 									continue;
 								}
+								Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
 
-								unsigned long long t_end = dbp::tools::srv::current();
-
-								unsigned long long t_tdiff = t_end - t_btrade;
-								//unsigned long long t_diff = t_end - t_start;
-
-								Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price)  + " Ttime = " + to_string(t_tdiff));
-#ifndef NOT_MEASURE
-								wobsArray[i]->pkg_tm = tradable.m_PkgTime;
-								wobsArray[i]->m_tm = tradable.m_MsgTime;
-								wobsArray[i]->t_tm = dbp::tools::srv::current();
-#endif
 							}
 						}
 						if(obs->hasRelatedWarrant(STATUS_SELLING)){
@@ -1411,7 +1399,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 							obs->SoldTime = DateUtil::getCurrentTime();
 						}
 					}
-				}*/
+				}
 
 
 			}
