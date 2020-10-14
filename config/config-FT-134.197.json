@@ -310,12 +310,8 @@
 	},
 	"ActivateChannel":
 	[
-	
 		{"Channel":"OmdcChannel"},	
-		{"Channel":"OmddChannel"},		
-		{"Channel":"PriceTableChannel"},
-		{"Channel":"S1Channel"},
-		{"Channel":"TcpChannel"}
+		{"Channel":"OmddChannel"}
 	]
 }
 
