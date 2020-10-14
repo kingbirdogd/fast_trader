@@ -166,6 +166,8 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 #ifndef FULL_BOOK
 		}
 #endif //ifndef FULL_BOOK
+	}
+#else
 	if (53 == _pMsg->m_uMsgType)
 	{
 		rOrderBook.m_MsgType = MsgType::OMDC_BOOK;

@@ -52,5 +52,9 @@
   	  
   
   
+  ENABLE_FULLTICK = true
+  
+  ENABLE_FULLBOOK = true
+  
   
   
