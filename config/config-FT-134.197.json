@@ -59,57 +59,6 @@
 					}
 				}
 			}
-		},
-		{
-			"ID":2,
-			"IP":"192.168.134.197",
-			"PORT":35101,
-			"USER":"P990098",
-			"PASS":"pass",
-			"BUY_POWER":500000,
-			"ALGOS":
-			{
-				"kenny_bear":
-				{
-					"lib": "bear",
-					"params":
-					{
-					}
-				},
-				"kenny_semi":
-				{
-					"lib": "semi",
-					"params":
-					{
-					}
-				},
-				"kenny_s1algo":
-				{
-					"lib": "s1algo",
-					"params":
-					{
-					}
-				}
-			}
-		},
-		{
-			"ID":3,
-			"IP":"192.168.134.197",
-			"PORT":35101,
-			"USER":"P990098",
-			"PASS":"pass",
-			"BUY_POWER":500000,
-			"DISABLE":true,
-			"ALGOS":
-			{
-				"wendy_semi":
-				{
-					"lib": "semi",
-					"params":
-					{
-					}
-				}
-			}
 		}
 	],
 	"Definition":
@@ -286,22 +235,6 @@
 				"InterfaceIp": "10.122.78.197",
 				"MulticastIp": "239.1.1.14",
 				"MulticastPort": 51007
-			},
-			"RetranProxyIndex": 0
-		},
-		{
-			"ChannelId": 38,
-			"Hot":
-			{
-				"InterfaceIp": "10.122.78.197",
-				"MulticastIp": "239.1.1.4",
-				"MulticastPort": 51008
-			},
-			"Refresh":
-			{
-				"InterfaceIp": "10.122.78.197",
-				"MulticastIp": "239.1.1.14",
-				"MulticastPort": 51008
 			},
 			"RetranProxyIndex": 0
 		}
