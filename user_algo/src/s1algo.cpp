@@ -1361,7 +1361,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 						}
 					}
 				}
-
+/*
 				else{
 					if(obs->hasRelatedWarrant(STATUS_AVAILABLE)){
 						for(unsigned int i=0; i<wobsArray.size(); i++){
@@ -1400,7 +1400,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 						}
 					}
 				}
-
+*/
 
 			}
 

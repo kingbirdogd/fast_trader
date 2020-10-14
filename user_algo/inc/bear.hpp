@@ -383,7 +383,7 @@ private:
 
 			auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice) * 100000;
 
-			//Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " on_trade" + " Status = " + std::to_string(_Status) + " Bestbid = " + std::to_string(_PriceInfo->Bestbid)  + " Bestask = " + std::to_string(_PriceInfo->Bestask) + " Trade Price = " + to_string(trade_price));
+			Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " on_trade" + " Status = " + std::to_string(_Status) + " Bestbid = " + std::to_string(_PriceInfo->Bestbid)  + " Bestask = " + std::to_string(_PriceInfo->Bestask) + " Trade Price = " + to_string(trade_price) + " STATUS = " + to_string(_Status));
 
 			if(SELL_ORDER == tradable.m_TradeSide ){
 
@@ -394,7 +394,7 @@ private:
 				if(_Status == STATUS_READY && _Action_Status == STAGE_START){
 
 
-					//Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " _INOUT=" + std::to_string(_OBSetting->BuyIn) +   " _SELLOUT=" + std::to_string(_OBSetting->SellOut) );
+					Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " _INOUT=" + std::to_string(_OBSetting->BuyIn) +   " _SELLOUT=" + std::to_string(_OBSetting->SellOut) );
 
 					if(_OBSetting->SellOut != 99999999 && _OBSetting->BuyIn != 0){
 						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " _INOUT=" + std::to_string(_INOUT) +  " _LVLRANGE=" + std::to_string(_LVLRANGE) +  " _PTRANGE=" + std::to_string(_PTRANGE) );

@@ -29,6 +29,143 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 	rOrderBook.m_PkgTime = _uPkgTm;
 	rOrderBook.m_MsgTime = dbp::tools::srv::current();
 #endif
+#ifdef SF
+	if (30 == _pMsg->m_uMsgType)
+	{
+		auto& book = omdcFullTickBook[uSecurityCode];
+		auto type = OMD_GET_VALUE(_pMsg, 26, FullTickBook::OrderType);
+		auto side = OMD_GET_VALUE(_pMsg, 24, FullTickBook::OrderSide);
+		auto price = OMD_GET_VALUE(_pMsg, 16, int);
+		auto quantity = OMD_GET_VALUE(_pMsg, 20, unsigned int);
+		auto rest = quantity;
+		if (FullTickBook::OrderSide::BID == side)
+		{
+			for (auto it = book.Asks.begin(); it != book.Asks.end(); ++it)
+			{
+				if (it->first <= price || FullTickBook::OrderType::Market == type)
+				{
+					auto matched_price = it->first;
+					auto book_quantity = it->second.quantity;
+					auto matched_quantity = rest < book_quantity ? rest : book_quantity;
+					rOrderBook.m_MsgType = MsgType::OMDC_TRADE;
+					rOrderBook.m_LastTradeQuantity = matched_quantity;
+					rOrderBook.m_LastTradePrice = matched_price;
+					rOrderBook.m_TradeType = 0;
+					rOrderBook.m_TradeSide = TradeSide::BUY_SIDE;
+					rOrderBook.m_AccumulateBuyQuantity += rOrderBook.m_LastTradeQuantity;
+					if(uSecurityCode<10000){
+					broadcastQueue.enqueue(rOrderBook);
+					}
+					rest -= matched_quantity;
+					if (0 == rest)
+					{
+						break;
+					}
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
+		else
+		{
+			for (auto it = book.Bids.begin(); it != book.Bids.end(); ++it)
+			{
+				if (it->first >= price || FullTickBook::OrderType::Market == type)
+				{
+					auto matched_price = it->first;
+					auto book_quantity = it->second.quantity;
+					auto matched_quantity = rest < book_quantity ? rest : book_quantity;
+					rOrderBook.m_MsgType = MsgType::OMDC_TRADE;
+					rOrderBook.m_LastTradeQuantity = matched_quantity;
+					rOrderBook.m_LastTradePrice = matched_price;
+					rOrderBook.m_TradeType = 0;
+					rOrderBook.m_TradeSide = TradeSide::SELL_SIDE;
+					rOrderBook.m_AccumulateBuyQuantity += rOrderBook.m_LastTradeQuantity;
+					if(uSecurityCode<10000){
+					broadcastQueue.enqueue(rOrderBook);
+					}
+					rest -= matched_quantity;
+					if (0 == rest)
+					{
+						break;
+					}
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
+		if (FullTickBook::OrderType::Limit == type)
+		{
+			auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
+#ifndef FULL_BOOK
+			auto is_top = book.new_order(id, price, quantity, side);
+			if (is_top)
+			{
+#else
+			book.new_order(id, price, quantity, side);
+#endif //ifndef FULL_BOOK
+				rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
+				if (FullTickBook::OrderSide::BID == side)
+				{
+					ConvertFullBookToBook(book.Bids, rOrderBook);
+				}
+				else if (FullTickBook::OrderSide::ASK == side)
+				{
+					ConvertFullBookToBook(book.Asks, rOrderBook);
+				}
+#ifndef FULL_BOOK
+			}
+#endif //ifndef FULL_BOOK
+		}
+	}
+	else if (31 == _pMsg->m_uMsgType)
+	{
+		auto& book = omdcFullTickBook[uSecurityCode];
+		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
+		auto quantity = OMD_GET_VALUE(_pMsg, 16, unsigned int);
+		auto result = book.modify_order(id, quantity);
+#ifndef FULL_BOOK
+		if (result.is_top)
+		{
+#endif //ifndef FULL_BOOK
+			rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
+			if (FullTickBook::OrderSide::BID == result.side)
+			{
+				ConvertFullBookToBook(book.Bids, rOrderBook);
+			}
+			else if (FullTickBook::OrderSide::ASK == result.side)
+			{
+				ConvertFullBookToBook(book.Asks, rOrderBook);
+			}
+#ifndef FULL_BOOK
+		}
+#endif //ifndef FULL_BOOK
+	}
+	else if (32 == _pMsg->m_uMsgType)
+	{
+		auto& book = omdcFullTickBook[uSecurityCode];
+		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
+		auto result = book.cancel_order(id);
+		rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
+#ifndef FULL_BOOK
+		if (result.is_top)
+		{
+#endif //ifndef FULL_BOOK
+			if (FullTickBook::OrderSide::BID == result.side)
+			{
+				ConvertFullBookToBook(book.Bids, rOrderBook);
+			}
+			else if (FullTickBook::OrderSide::ASK == result.side)
+			{
+				ConvertFullBookToBook(book.Asks, rOrderBook);
+			}
+#ifndef FULL_BOOK
+		}
+#endif //ifndef FULL_BOOK
 	if (53 == _pMsg->m_uMsgType)
 	{
 		rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
@@ -71,6 +208,7 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 			broadcastQueue.enqueue(rOrderBook);
 		}
 	}
+#endif //SF
 }
 #endif
 
