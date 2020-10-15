@@ -22,7 +22,6 @@ inline static void ConvertFullBookToBook(FullBook& fullBook, Book& rOrderBook)
 	rOrderBook.m_AccumulateBuyQuantity = 0;
 	rOrderBook.m_AccumulateSellQuantity = 0;
 	rOrderBook.m_AccumulateBlankQuantity = 0;
-	broadcastQueue.enqueue(rOrderBook);
 }
 #endif //FULLTICK
 inline static void buildOmdcOrderBook(dbp::omd::COmdMsgHeader* _pMsg, COmdOrderbook& rOrderBook)
