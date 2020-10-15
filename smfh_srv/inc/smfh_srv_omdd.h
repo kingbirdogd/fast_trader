@@ -109,13 +109,13 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 			rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 			if (FullTickBook::OrderSide::BID == side)
 			{
-				ConvertFullBookToBook(book.Bids, rOrderBook);
+				ConvertFullBookToBookBid(book.Bids, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
 			}
 			else if (FullTickBook::OrderSide::ASK == side)
 			{
-				ConvertFullBookToBook(book.Asks, rOrderBook);
+				ConvertFullBookToBookAsk(book.Asks, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
 			}
@@ -137,13 +137,13 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 			rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 			if (FullTickBook::OrderSide::BID == result.side)
 			{
-				ConvertFullBookToBook(book.Bids, rOrderBook);
+				ConvertFullBookToBookBid(book.Bids, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
 			}
 			else if (FullTickBook::OrderSide::ASK == result.side)
 			{
-				ConvertFullBookToBook(book.Asks, rOrderBook);
+				ConvertFullBookToBookAsk(book.Asks, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
 			}
@@ -163,13 +163,13 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 			rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 			if (FullTickBook::OrderSide::BID == result.side)
 			{
-				ConvertFullBookToBook(book.Bids, rOrderBook);
+				ConvertFullBookToBookBid(book.Bids, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
 			}
 			else if (FullTickBook::OrderSide::ASK == result.side)
 			{
-				ConvertFullBookToBook(book.Asks, rOrderBook);
+				ConvertFullBookToBookAsk(book.Asks, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
 			}

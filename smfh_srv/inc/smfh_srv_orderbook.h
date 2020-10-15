@@ -4,7 +4,7 @@
 #include "smfh_srv_cfg.h"
 #ifdef FULLTICK
 template <typename FullBook, typename Book>
-inline static void ConvertFullBookToBook(FullBook& fullBook, Book& rOrderBook)
+inline static void ConvertFullBookToBookBid(FullBook& fullBook, Book& rOrderBook)
 {
 	std::memset(rOrderBook.m_Bid, 0, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
 	unsigned long long i = 0;
