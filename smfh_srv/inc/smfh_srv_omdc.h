@@ -127,21 +127,27 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 				{
 					ConvertFullBookToBookBid(book.Bids, rOrderBook);
 					rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
-					broadcastQueue.enqueue(rOrderBook);
-					DEBUG("tm:%llu, OMDC Send Book Bid by Add Order, code: %u\n, id: %llu",
+					if (!book.isCross())
+					{
+						broadcastQueue.enqueue(rOrderBook);
+						DEBUG("tm:%llu, OMDC Send Book Bid by Add Order, code: %u\n, id: %llu",
 							dbp::tools::srv::current(),
 							uSecurityCode,
 							id);
+					}
 				}
 				else if (FullTickBook::OrderSide::ASK == side)
 				{
 					ConvertFullBookToBookAsk(book.Asks, rOrderBook);
 					rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
-					broadcastQueue.enqueue(rOrderBook);
-					DEBUG("tm:%llu, OMDC Send Book Ask by Add Order, code: %u\n, id: %llu",
+					if (!book.isCross())
+					{
+						broadcastQueue.enqueue(rOrderBook);
+						DEBUG("tm:%llu, OMDC Send Book Ask by Add Order, code: %u\n, id: %llu",
 							dbp::tools::srv::current(),
 							uSecurityCode,
 							id);
+					}
 				}
 #ifndef FULL_BOOK
 			}

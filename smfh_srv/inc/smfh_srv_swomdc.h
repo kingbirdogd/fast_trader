@@ -115,13 +115,19 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 				{
 					ConvertFullBookToBookBid(book.Bids, rOrderBook);
 					rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
-					broadcastQueue.enqueue(rOrderBook);
+					if (!book.isCross())
+					{
+						broadcastQueue.enqueue(rOrderBook);
+					}
 				}
 				else if (FullTickBook::OrderSide::ASK == side)
 				{
 					ConvertFullBookToBookAsk(book.Asks, rOrderBook);
 					rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
-					broadcastQueue.enqueue(rOrderBook);
+					if (!book.isCross())
+					{
+						broadcastQueue.enqueue(rOrderBook);
+					}
 				}
 #ifndef FULL_BOOK
 			}

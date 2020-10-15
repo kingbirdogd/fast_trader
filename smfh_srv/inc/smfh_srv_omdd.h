@@ -111,13 +111,20 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 			{
 				ConvertFullBookToBookBid(book.Bids, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
-				broadcastQueue.enqueue(rOrderBook);
+				if (!book.isCross())
+				{
+					broadcastQueue.enqueue(rOrderBook);
+				}
 			}
 			else if (FullTickBook::OrderSide::ASK == side)
 			{
 				ConvertFullBookToBookAsk(book.Asks, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
-				broadcastQueue.enqueue(rOrderBook);
+				if (!book.isCross())
+				{
+					broadcastQueue.enqueue(rOrderBook);
+				}
+
 			}
 #ifndef FULL_BOOK
 		}

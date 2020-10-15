@@ -282,6 +282,15 @@ public:
 		}
 		return result{OrderSide::NONE, false};
 	}
+	bool isCross()
+	{
+		if (Bids.empty() || Asks.empty())
+			return false;
+		if (Bids.begin()->first < Asks.begin()->first)
+			return false;
+		else
+			return true;
+	}
 	void clear()
 	{
 		Ords.clear();
