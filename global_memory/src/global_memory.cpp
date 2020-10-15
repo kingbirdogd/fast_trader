@@ -38,9 +38,6 @@ TcpChannelConfig tcpConfig;
 #ifdef FULLTICK
 FullTickBooks omdcFullTickBook;
 FullTickBooks omddFullTickBook;
-CodeChannelMap omdcChannelMap;
-CodeChannelMap omddChannelMap;
-OmddChannelSet omddChannelSet;
 #endif //FULLTICK
 
 
