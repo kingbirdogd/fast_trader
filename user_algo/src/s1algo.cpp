@@ -94,7 +94,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 	//auto best_ask_qty = tradable.m_Ask[0].m_uQuantity;
 	unsigned int code = tradable.m_Code;
 
-	Log("Data = " + to_string(code));
+	//Log("Data = " + to_string(code));
 
 	auto itw = warrantPriceMap.find(code);
 	if(itw != warrantPriceMap.end()){
