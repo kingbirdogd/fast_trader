@@ -337,8 +337,7 @@
 	[
 		{"Channel":"SWOmdcChannel"},
 		{"Channel":"PriceTableChannel"},
-		{"Channel":"S1Channel"},		
-		{"Channel":"TcpChannel"}
+		{"Channel":"S1Channel"}
 	]
 }
 
