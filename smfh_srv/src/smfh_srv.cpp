@@ -619,6 +619,7 @@ inline static bool initJson(const char* _pszJsonPath)
 		return false;
 	}
 	loadLog(j);
+	INIT_CAPTURE(j);
 	flush_printf("tm:%llu, initSOL_SOCKET \n", dbp::tools::srv::current());
 	if (!dbp::net::srv::initSOL_SOCKET(j))
 	{
@@ -740,6 +741,7 @@ inline static bool initJson(const char* _pszJsonPath)
 
 	startUsers();
 	startTopSend();
+	START_CAPTURE();
 	return true;
 }
 

@@ -1,6 +1,7 @@
 {
 	"IN_OUT_PROCESS": "node ${HOME}/fast_trader/gui/db_server_uat.js 9919",
 	"LOG_PATH": "${HOME}/log",
+	"CAPTURE_PATH": "${HOME}/capture",
 	"SCHED_PRIORITY": 0,
 	"SCHED_TYPE": "SCHED_OTHER",
 	"SOL_SOCKET":

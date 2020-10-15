@@ -1,6 +1,5 @@
 #ifndef __DBP_MARCO_SRV__
 #define __DBP_MARCO_SRV__
-#include <global_memory.hpp>
 #define macro_getString(_pszBuffer, _uOfferSet, _uSize) (std::string(_pszBuffer+_uOfferSet,_uSize))
 #define flush_printf(msg, ...) fprintf(log_stream, msg, __VA_ARGS__);fflush(log_stream);
 #define OMD_GET_VALUE(POINTER, OFFERSET, TYPE) (*((TYPE*)((void*)(((char*)((void*)POINTER)) + OFFERSET))))

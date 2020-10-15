@@ -41,6 +41,10 @@ FullTickBooks omdcFullTickBook;
 FullTickBooks omddFullTickBook;
 #endif //FULLTICK
 
+#ifdef CAPTURE
+capture cap;
+#endif //CAPTURE
+
 
 
 
