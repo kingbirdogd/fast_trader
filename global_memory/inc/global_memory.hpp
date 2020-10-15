@@ -215,6 +215,12 @@ public:
 					{
 						Bids.erase(it2);
 					}
+					it->second.quantity = quantity;
+					it->second.price = price;
+					auto new_price_it = Bids.emplace(price, PriceItem()).first;
+					new_price_it->second.quantity += quantity;
+					++new_price_it->second.number_of_order;
+					return result{side, ((Bids.begin() == new_price_it) || isTop)};
 				}
 				else
 				{
@@ -229,10 +235,13 @@ public:
 					{
 						Asks.erase(it2);
 					}
+					it->second.quantity = quantity;
+					it->second.price = price;
+					auto new_price_it = Asks.emplace(price, PriceItem()).first;
+					new_price_it->second.quantity += quantity;
+					++new_price_it->second.number_of_order;
+					return result{side, ((Asks.begin() == new_price_it) || isTop)};
 				}
-				Ords.erase(it);
-				auto new_top = new_order(id, price, quantity, side);
-				return result{side, new_top && isTop};
 			}
 		}
 		return result{OrderSide::NONE, false};
