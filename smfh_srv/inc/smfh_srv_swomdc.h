@@ -117,7 +117,7 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 				}
 				else if (FullTickBook::OrderSide::ASK == side)
 				{
-					ConvertFullBookToBook(book.Asks, rOrderBook);
+					ConvertFullBookToBookAsk(book.Asks, rOrderBook);
 					rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 					broadcastQueue.enqueue(rOrderBook);
 				}
@@ -145,7 +145,7 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 			}
 			else if (FullTickBook::OrderSide::ASK == result.side)
 			{
-				ConvertFullBookToBook(book.Asks, rOrderBook);
+				ConvertFullBookToBookAsk(book.Asks, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 					broadcastQueue.enqueue(rOrderBook);
 			}
@@ -171,7 +171,7 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 			}
 			else if (FullTickBook::OrderSide::ASK == result.side)
 			{
-				ConvertFullBookToBook(book.Asks, rOrderBook);
+				ConvertFullBookToBookAsk(book.Asks, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 					broadcastQueue.enqueue(rOrderBook);
 			}

@@ -23,6 +23,27 @@ inline static void ConvertFullBookToBook(FullBook& fullBook, Book& rOrderBook)
 	rOrderBook.m_AccumulateSellQuantity = 0;
 	rOrderBook.m_AccumulateBlankQuantity = 0;
 }
+
+inline static void ConvertFullBookToBookAsk(FullBook& fullBook, Book& rOrderBook)
+{
+	std::memset(rOrderBook.m_Ask, 0, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
+	unsigned long long i = 0;
+	for (auto it = fullBook.begin(); it != fullBook.end(); ++it)
+	{
+		rOrderBook.m_Ask[i].m_iPrice = it->first;
+		rOrderBook.m_Ask[i].m_uQuantity = it->second.quantity;
+		rOrderBook.m_Ask[i].m_uNumberOfOrder = it->second.number_of_order;
+		++i;
+		if (i == TRADABLE_BOOK_SIZE)
+		{
+			break;
+		}
+	}
+	rOrderBook.m_AccumulateBuyQuantity = 0;
+	rOrderBook.m_AccumulateSellQuantity = 0;
+	rOrderBook.m_AccumulateBlankQuantity = 0;
+}
+
 #endif //FULLTICK
 inline static void buildOmdcOrderBook(dbp::omd::COmdMsgHeader* _pMsg, COmdOrderbook& rOrderBook)
 {
