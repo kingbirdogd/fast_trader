@@ -97,19 +97,19 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 				}
 			}
 		}
+		DEBUG("tm:%llu, OMDC Add order, code: %u, type: %u, side: %u, price: %d, quantity: %u, id:%llu\n",
+				dbp::tools::srv::current(),
+				uSecurityCode,
+				static_cast<unsigned int>(type),
+				static_cast<unsigned int>(side),
+				price,
+				quantity,
+				id);
 		if (FullTickBook::OrderType::Limit == type)
 		{
 			auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
 #ifndef FULL_BOOK
 			auto is_top = book.new_order(id, price, quantity, side);
-			DEBUG("tm:%llu, OMDC Add order, code: %u, type: %u, side: %u, price: %d, quantity: %u, id:%llu\n",
-					dbp::tools::srv::current(),
-					uSecurityCode,
-					static_cast<unsigned int>(type),
-					static_cast<unsigned int>(side),
-					price,
-					quantity,
-					id);
 			if (is_top)
 			{
 #else
