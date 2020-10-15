@@ -545,8 +545,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			{
 				if(hasSignal){
 
-					Log("on_omdc_book code = " + to_string(tradable.m_Code) + " Detect Signal");
-					Log("on_omdc_book code = " + to_string(tradable.m_Code) + " Bid = " + to_string(best_bid_price) + "(" + to_string(best_bid_qty) + ")" + " Ask = " + to_string(best_ask_price) + "(" + to_string(best_ask_qty) + ")" + " Detected Ask = " + to_string(DetectAsk));
+					//Log("on_omdc_book code = " + to_string(tradable.m_Code) + " Detect Signal");
+					//Log("on_omdc_book code = " + to_string(tradable.m_Code) + " Bid = " + to_string(best_bid_price) + "(" + to_string(best_bid_qty) + ")" + " Ask = " + to_string(best_ask_price) + "(" + to_string(best_ask_qty) + ")" + " Detected Ask = " + to_string(DetectAsk));
 
 
 
