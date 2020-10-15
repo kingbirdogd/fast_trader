@@ -227,7 +227,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 	auto itob = obMap.find(code);
 	if(itob != obMap.end())
 	{
-		Log("on_omdc_book code = " + to_string(tradable.m_Code) + " OBSetting");
+		//Log("on_omdc_book code = " + to_string(tradable.m_Code) + " OBSetting");
 		OBSetting* obs = itob->second;
 
 		if(obs->hasPosition)
@@ -415,6 +415,10 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			s1signal* signal = it->second;
 			bool hasSignal = signal->hasSignal;
 			unsigned long long DetectAsk = signal->DetectAsk;
+
+			Log("on_omdc_book code = " + to_string(tradable.m_Code) + " Detect Signal");
+			Log("on_omdc_book code = " + to_string(tradable.m_Code) + " Bid = " + to_string(best_bid_price) + "(" + to_string(best_bid_qty) + ")" + " Ask = " + to_string(best_ask_price) + "(" + to_string(best_ask_qty) + ")");
+
 
 
 			if(obs->detected){
