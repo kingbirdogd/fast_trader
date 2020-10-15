@@ -5,6 +5,13 @@
 ### Debug version:
 make CONFIG=debug
 
+### Release version with debug log:
+make CONFIG=debug_log
+
+### Release version default:
+make
+make CONFIG=release
+
 ### Enable latency Measure(default will disable measure):
 make ENABLE_MEASURE=true
 
