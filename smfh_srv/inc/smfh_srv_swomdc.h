@@ -40,7 +40,8 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 		auto rest = quantity;
 		if (FullTickBook::OrderSide::BID == side)
 		{
-			for (auto it = book.Asks.begin(); it != book.Asks.end(); ++it)
+			//for (auto it = book.Asks.begin(); it != book.Asks.end(); ++it)
+			for (auto it = book.Bids.begin(); it != book.Bids.end(); ++it)
 			{
 				if (it->first <= price || FullTickBook::OrderType::Market == type)
 				{
@@ -70,7 +71,8 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 		}
 		else
 		{
-			for (auto it = book.Bids.begin(); it != book.Bids.end(); ++it)
+			//for (auto it = book.Bids.begin(); it != book.Bids.end(); ++it)
+			for (auto it = book.Asks.begin(); it != book.Asks.end(); ++it)
 			{
 				if (it->first >= price || FullTickBook::OrderType::Market == type)
 				{
