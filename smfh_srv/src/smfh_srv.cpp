@@ -22,11 +22,6 @@ using json = nlohmann::json;
 
 static std::thread* pDecode = nullptr;
 
-#ifdef FULLTICK
-bool ChannelHandler::_is_omdd = false;
-std::unordered_set<unsigned int> ChannelHandler::_codes;
-#endif //FULLTICK
-
 
 inline std::string input()
 {

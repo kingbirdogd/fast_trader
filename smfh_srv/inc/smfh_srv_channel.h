@@ -582,6 +582,16 @@ inline static bool startS1Channel()
 {
 	return ChannelHandler<handleS1Signal>::handleChannelVec(s1Streams);
 }
+
+#ifdef FULLTICK
+
+template <const PFuncOmdMsgHandler _Handler>
+bool ChannelHandler<_Handler>::_is_omdd = false;
+
+template <const PFuncOmdMsgHandler _Handler>
+std::unordered_set<unsigned int> ChannelHandler<_Handler>::_codes;
+#endif //FULLTICK
+
 #endif
 
 
