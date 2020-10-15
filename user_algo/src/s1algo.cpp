@@ -84,12 +84,17 @@ s1algo::s1algo(user& u, const std::string& name):
 void s1algo::on_omdc_book(const Tradable& tradable)
 {
 
+
+
+
 	auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
 	auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
 	auto best_bid_qty = tradable.m_Bid[0].m_uQuantity;
 	auto best_ask_qty = tradable.m_Ask[0].m_uQuantity;
 	//auto best_ask_qty = tradable.m_Ask[0].m_uQuantity;
 	unsigned int code = tradable.m_Code;
+
+	Log("Data = " + to_string(code));
 
 	auto itw = warrantPriceMap.find(code);
 	if(itw != warrantPriceMap.end()){
