@@ -24,6 +24,7 @@ inline static void ConvertFullBookToBook(FullBook& fullBook, Book& rOrderBook)
 	rOrderBook.m_AccumulateBlankQuantity = 0;
 }
 
+template <typename FullBook, typename Book>
 inline static void ConvertFullBookToBookAsk(FullBook& fullBook, Book& rOrderBook)
 {
 	std::memset(rOrderBook.m_Ask, 0, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
