@@ -74,7 +74,7 @@ public:
 			()
 			{
 #ifdef FULLTICK
-				if (_channel > 100)
+				if (_channel.m_uChannelId > 100)
 				{
 					_is_omdd = true;
 				}
