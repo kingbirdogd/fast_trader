@@ -26,6 +26,7 @@ OrderbookLoader orderbookLoader;
 IvLoader ivLoader;
 FILE* input_stream = stdin;
 FILE* output_stream = stdout;
+FILE* log_stream = stdout;
 int SCHED_TYPE = SCHED_FIFO;
 int SCHED_PRIORITY = 99;
 CS1SignalMap s1SignalMap;

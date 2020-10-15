@@ -50,6 +50,7 @@ extern COutputQueue ouputQueue;
 extern CUserMap userMap;
 extern FILE* input_stream;
 extern FILE* output_stream;
+extern FILE* log_stream;
 extern OrderbookLoader orderbookLoader;
 extern IvLoader ivLoader;
 extern int SCHED_TYPE;

@@ -618,6 +618,7 @@ inline static bool initJson(const char* _pszJsonPath)
 		std::cerr << "loadInOut fail" << std::endl;
 		return false;
 	}
+	loadLog(j);
 	flush_printf("tm:%llu, initSOL_SOCKET \n", dbp::tools::srv::current());
 	if (!dbp::net::srv::initSOL_SOCKET(j))
 	{
