@@ -71,10 +71,10 @@ public:
 		ASK = 1,
 		NONE = 2
 	};
-	enum OrderType : unsigned char
+	enum OrderType : char
 	{
-		Market = 1,
-		Limit = 2
+		Market = '1',
+		Limit = '2'
 	};
 	struct OrderItem
 	{
