@@ -584,12 +584,11 @@ inline static bool startS1Channel()
 }
 
 #ifdef FULLTICK
+template <const PFuncOmdMsgHandler _Handler>
+thread_local bool ChannelHandler<_Handler>::_is_omdd = false;
 
 template <const PFuncOmdMsgHandler _Handler>
-bool ChannelHandler<_Handler>::_is_omdd = false;
-
-template <const PFuncOmdMsgHandler _Handler>
-std::unordered_set<unsigned int> ChannelHandler<_Handler>::_codes;
+thread_local std::unordered_set<unsigned int> ChannelHandler<_Handler>::_codes;
 #endif //FULLTICK
 
 #endif
