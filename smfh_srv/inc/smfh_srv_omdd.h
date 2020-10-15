@@ -185,6 +185,7 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		rOrderBook.m_AccumulateBuyQuantity = 0;
 		rOrderBook.m_AccumulateSellQuantity = 0;
 		rOrderBook.m_AccumulateBlankQuantity = 0;
+		rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 		broadcastQueue.enqueue(rOrderBook);
 	}
 #else
