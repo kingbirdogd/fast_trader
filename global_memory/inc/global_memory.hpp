@@ -290,13 +290,8 @@ public:
 	}
 };
 using FullTickBooks = std::unordered_map<unsigned int, FullTickBook>;
-using CodeChannelMap = std::unordered_map<unsigned int, unsigned short int>;
-using OmddChannelSet = std::unordered_set<unsigned short int>;
 extern FullTickBooks omdcFullTickBook;
 extern FullTickBooks omddFullTickBook;
-extern CodeChannelMap omdcChannelMap;
-extern CodeChannelMap omddChannelMap;
-extern OmddChannelSet omddChannelSet;
 
 #endif //FULLTICK
 
