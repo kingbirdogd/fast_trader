@@ -676,7 +676,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 								lastReadyTime = DateUtil::getCurrentSystemTime();
 							}
 
-							Log("No of Detected Signal = " + to_string(signalCount));
+							Log(" No of Detected Signal = " + to_string(signalCount));
 							//signalCount = 1;
 
 						}else{
@@ -1317,7 +1317,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 								unsigned long long expectSellOut = spm->sellOut(wbest_bid_price);
 
-								Log("WCode = " + to_string(wobsArray[i]->Code) +
+								Log("1:WCode = " + to_string(wobsArray[i]->Code) +
 										" Expect Sell Out = " + to_string(expectSellOut) +
 										" WBestBid = " +  to_string(wbest_bid_price) +
 										" BidQty = " +  to_string(wbest_bid_qty) +
@@ -1375,7 +1375,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 						}
 					}
 				}
-/*
+
 				else{
 					if(obs->hasRelatedWarrant(STATUS_AVAILABLE)){
 						for(unsigned int i=0; i<wobsArray.size(); i++){
@@ -1389,10 +1389,50 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								continue;
 							}
 
+
+
 							unsigned long long wbest_bid_price = warrantPriceMap[wobsArray[i]->Code]->Bestbid;
+							unsigned long long wbest_bid_qty = warrantPriceMap[wobsArray[i]->Code]->BidQty;
 
 							if(wbest_bid_price == 0)
 								continue;
+
+
+							PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
+
+							unsigned long long bidIssuerQty = spm->getIssuerBidQty();
+							unsigned long long expectSellOut = spm->sellOut(wbest_bid_price);
+
+							Log("2:WCode = " + to_string(wobsArray[i]->Code) +
+									" Expect Sell Out = " + to_string(expectSellOut) +
+									" WBestBid = " +  to_string(wbest_bid_price) +
+									" BidQty = " +  to_string(wbest_bid_qty) +
+									" IssuerQty = " +  to_string(bidIssuerQty)
+							);
+
+							if(expectSellOut != 99999999 && expectSellOut >= trade_price && wbest_bid_price >= wobsArray[i]->BuyPrice){
+								if(wbest_bid_price == 0)
+									continue;
+
+								if(wbest_bid_price > wobsArray[i]->BuyPrice){
+									wobsArray[i]->Status = STATUS_SELLING;
+
+									bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
+									//bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, RefWBid, wobsArray[i]->Quantity);
+									if(!result){
+										obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
+										continue;
+									}
+									Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
+
+								}
+							}
+
+
+/*
+							if(wbest_bid_qty < issuerSize80(bidIssuerQty))
+								continue;
+
 
 							if(wbest_bid_price > wobsArray[i]->BuyPrice){
 								wobsArray[i]->Status = STATUS_SELLING;
@@ -1406,6 +1446,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
 
 							}
+*/
 						}
 						if(obs->hasRelatedWarrant(STATUS_SELLING)){
 							obs->hasPosition = true;
@@ -1414,7 +1455,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 						}
 					}
 				}
-*/
+
 
 			}
 
