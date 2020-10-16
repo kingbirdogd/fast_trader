@@ -1363,7 +1363,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 								unsigned long long t_tdiff = t_end - t_btrade;
 
-								Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price) + " Ttime = " + to_string(t_tdiff));
+								Log("1: Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price) + " Ttime = " + to_string(t_tdiff));
 
 
 							}
@@ -1410,7 +1410,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 									" IssuerQty = " +  to_string(bidIssuerQty)
 							);
 
-							if(expectSellOut != 99999999 && expectSellOut >= trade_price && wbest_bid_price >= wobsArray[i]->BuyPrice){
+							if(expectSellOut != 99999999 && wbest_bid_price >= wobsArray[i]->BuyPrice){
 								if(wbest_bid_price == 0)
 									continue;
 
@@ -1423,7 +1423,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 										obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
 										continue;
 									}
-									Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
+									Log("2: Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
 
 								}
 							}
