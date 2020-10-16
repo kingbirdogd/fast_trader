@@ -1392,6 +1392,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 
 							unsigned long long wbest_bid_price = warrantPriceMap[wobsArray[i]->Code]->Bestbid;
+							unsigned long long wbest_bid_qty = warrantPriceMap[wobsArray[i]->Code]->BidQty;
 
 							if(wbest_bid_price == 0)
 								continue;
