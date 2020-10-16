@@ -248,11 +248,11 @@ public:
 																		uCnt = 0;
 																		uSum = 0;
 																		bAgain = true;
+																		flush_printf("tm:%llu, Refresh Fail 2, Retry, ChannelId:%u\n", dbp::tools::srv::current(), _channel.m_uChannelId);
 																	}
 																	else
 																	{
 																		flush_printf("tm:%llu, Refresh Complete 1, ChannelId:%u, uStartSeq:%u, uOnRefreshStartIdx:%u, Vec.size:%lu\n", dbp::tools::srv::current(), _channel.m_uChannelId, uStartSeq, uOnRefreshStartIdx, Vec.size());
-
 																		for (unsigned int i =  uStartSeq - uOnRefreshStartIdx; i < Vec.size(); ++i)
 																		{
 																			HANDLE(OMD_GET_POINTER(&Vec[i][0], 0, dbp::omd::COmdMsgHeader), 0, _channel.m_uChannelId);
@@ -263,7 +263,6 @@ public:
 																		epoll_ctl(_channel.m_iEpoll, EPOLL_CTL_DEL, objEvent.data.fd, &objEvent);
 																		objEvent.data.fd = _channel.m_iRefresh;
 																		epoll_ctl(_channel.m_iEpoll, EPOLL_CTL_DEL, objEvent.data.fd, &objEvent);
-
 																		bComplete = true;
 																	}
 																	break;
@@ -307,11 +306,11 @@ public:
 																		uCnt = 0;
 																		uSum = 0;
 																		bAgain = true;
+																		flush_printf("tm:%llu, Refresh Fail 2, ChannelId:%u, uStartSeq:%u, uOnRefreshStartIdx:%u, Vec.size:%lu\n", dbp::tools::srv::current(), _channel.m_uChannelId, uStartSeq, uOnRefreshStartIdx, Vec.size());
 																	}
 																	else
 																	{
-																		//flush_printf("tm:%llu, Refresh Complete 2, ChannelId:%u, uStartSeq:%u, uOnRefreshStartIdx:%u, Vec.size:%lu\n", dbp::tools::srv::current(), _channel.m_uChannelId, uStartSeq, uOnRefreshStartIdx, Vec.size());
-
+																		flush_printf("tm:%llu, Refresh Complete 2, ChannelId:%u, uStartSeq:%u, uOnRefreshStartIdx:%u, Vec.size:%lu\n", dbp::tools::srv::current(), _channel.m_uChannelId, uStartSeq, uOnRefreshStartIdx, Vec.size());
 																		for (unsigned int i =  uStartSeq - uOnRefreshStartIdx; i < Vec.size(); ++i)
 																		{
 																			HANDLE(OMD_GET_POINTER(&Vec[i][0], 0, dbp::omd::COmdMsgHeader), 0, _channel.m_uChannelId);

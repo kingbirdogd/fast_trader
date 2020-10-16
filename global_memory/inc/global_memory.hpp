@@ -427,7 +427,6 @@ public:
 			log_file->write(static_cast<const char*>(static_cast<const void*>(&tm)), sizeof(tm));
 			log_file->write(static_cast<const char*>(static_cast<const void*>(&_uPkgTm)), sizeof(_uPkgTm));
 			log_file->write(static_cast<const char*>(static_cast<const void*>(_pMsg)), _pMsg->m_uMsgSize);
-			log_file->flush();
 		}
 	}
 	void startCapture()
@@ -447,9 +446,7 @@ public:
 						if(md.try_dequeue(msg))
 						{
 							_tradable_raw->write(static_cast<const char*>(static_cast<const void*>(&msg)), sizeof(msg));
-							_tradable_raw->flush();
 							(*_tradable_text) << msg.to_json() << std::endl;
-							_tradable_text->flush();
 						}
 					}
 				}
