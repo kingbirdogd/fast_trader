@@ -445,8 +445,11 @@ public:
 						Tradable msg;
 						if(md.try_dequeue(msg))
 						{
-							_tradable_raw->write(static_cast<const char*>(static_cast<const void*>(&msg)), sizeof(msg));
-							(*_tradable_text) << msg.to_json() << std::endl;
+							if (MsgType::None != msg.m_MsgType)
+							{
+								_tradable_raw->write(static_cast<const char*>(static_cast<const void*>(&msg)), sizeof(msg));
+								(*_tradable_text) << msg.to_json() << std::endl;
+							}
 						}
 					}
 				}
