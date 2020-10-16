@@ -9,6 +9,13 @@
 #include <IvLoader.h>
 #include <OrderbookLoader.h>
 #include <SpreadTable.h>
+#include <string>
+#include <fstream>
+#include <sys/stat.h>
+#include <tools.h>
+#include <omd.h>
+#include <thread>
+#include <pthread.h>
 
 struct TcpChannelConfig
 {
@@ -50,6 +57,7 @@ extern COutputQueue ouputQueue;
 extern CUserMap userMap;
 extern FILE* input_stream;
 extern FILE* output_stream;
+extern FILE* log_stream;
 extern OrderbookLoader orderbookLoader;
 extern IvLoader ivLoader;
 extern int SCHED_TYPE;
@@ -215,6 +223,12 @@ public:
 					{
 						Bids.erase(it2);
 					}
+					it->second.quantity = quantity;
+					it->second.price = price;
+					auto new_price_it = Bids.emplace(price, PriceItem()).first;
+					new_price_it->second.quantity += quantity;
+					++new_price_it->second.number_of_order;
+					return result{side, ((Bids.begin() == new_price_it) || isTop)};
 				}
 				else
 				{
@@ -229,10 +243,13 @@ public:
 					{
 						Asks.erase(it2);
 					}
+					it->second.quantity = quantity;
+					it->second.price = price;
+					auto new_price_it = Asks.emplace(price, PriceItem()).first;
+					new_price_it->second.quantity += quantity;
+					++new_price_it->second.number_of_order;
+					return result{side, ((Asks.begin() == new_price_it) || isTop)};
 				}
-				Ords.erase(it);
-				auto new_top = new_order(id, price, quantity, side);
-				return result{side, new_top && isTop};
 			}
 		}
 		return result{OrderSide::NONE, false};
@@ -304,6 +321,167 @@ extern FullTickBooks omddFullTickBook;
 
 #endif //FULLTICK
 
+#ifdef CAPTURE
+class capture
+{
+private:
+	std::string _path;
+	std::ofstream* _tradable_raw;
+	std::ofstream* _tradable_text;
+	std::unordered_map<unsigned short int, std::ofstream*> _channel_raw;
+public:
+	capture():
+		_path(""),
+		_tradable_raw(nullptr),
+		_tradable_text(nullptr),
+		_channel_raw()
+	{
+	}
+	capture(const capture&) = default;
+	capture(capture&&) = default;
+	capture& operator= (const capture&) = default;
+	capture& operator= (capture&&) = default;
+	~capture()
+	{
+		if (_tradable_raw)
+		{
+			_tradable_raw->close();
+		}
+		if (_tradable_text)
+		{
+			_tradable_text->close();
+		}
+		for (auto it = _channel_raw.begin(); it != _channel_raw.end(); ++it)
+		{
+			it->second->close();
+		}
+	}
+	void init(json& _json)
+	{
+		try
+		{
+			auto capture_path = _json["CAPTURE_PATH"].get<std::string>();
+			auto convert_capture_path = dbp::tools::srv::replace_env(capture_path);
+			dbp::tools::srv::get_YYYYMMDDHHMMSSsss();
+			convert_capture_path += "/";
+			convert_capture_path += std::to_string(dbp::tools::srv::get_YYYYMMDDHHMMSSsss() / 1000000000);
+			struct stat st;
+			if (0 != ::stat(convert_capture_path.c_str(), &st))
+			{
+				if (0 == ::mkdir(convert_capture_path.c_str(), 0777))
+				{
+					_path = convert_capture_path;
+				}
+			}
+			else if (S_ISDIR(st.st_mode))
+			{
+				_path = convert_capture_path;
+			}
+		}
+		catch(...)
+		{
+			std::cout << "do not have CAPTURE_PATH, no capture will do" << std::endl;
+		}
+		if (_path != "")
+		{
+			_tradable_raw = new std::ofstream(_path + "/tradable_raw.log", std::ios_base::out | std::ios_base::app | std::ios_base::binary);
+			if (!(*_tradable_raw))
+			{
+				_tradable_raw->close();
+				_tradable_raw = nullptr;
+			}
+			_tradable_text = new std::ofstream(_path + "/tradable_json.log", std::ios_base::out | std::ios_base::app);
+			if (!(*_tradable_text))
+			{
+				_tradable_text->close();
+				_tradable_text = nullptr;
+			}
+		}
+	}
+	void initChannel(unsigned short int channelId)
+	{
+		if (_path != "")
+		{
+			auto channelPath = _path + "/channel_";
+			channelPath += std::to_string(channelId);
+			channelPath += ".log";
+			auto log_file = new std::ofstream(channelPath, std::ios_base::out | std::ios_base::app | std::ios_base::binary);
+			if (!(*log_file))
+			{
+				log_file->close();
+				log_file = nullptr;
+			}
+			else
+			{
+				_channel_raw[channelId] = log_file;
+			}
+		}
+	}
+	void writeChannel(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long _uPkgTm, unsigned short int channelId)
+	{
+		auto it = _channel_raw.find(channelId);
+		if (_channel_raw.end() != it)
+		{
+			auto log_file = it->second;
+			auto tm = dbp::tools::srv::current();
+			log_file->write(static_cast<const char*>(static_cast<const void*>(&tm)), sizeof(tm));
+			log_file->write(static_cast<const char*>(static_cast<const void*>(&_uPkgTm)), sizeof(_uPkgTm));
+			log_file->write(static_cast<const char*>(static_cast<const void*>(_pMsg)), _pMsg->m_uMsgSize);
+			log_file->flush();
+		}
+	}
+	void startCapture()
+	{
+		if (_tradable_raw && _tradable_text)
+		{
+			std::thread* pThread = new std::thread
+			(
+				[&]
+				()
+				{
+					using comsumer = typename CBroadCastQueue::comsumer_st;
+					comsumer md(broadcastQueue);
+					while (true)
+					{
+						Tradable msg;
+						if(md.try_dequeue(msg))
+						{
+							_tradable_raw->write(static_cast<const char*>(static_cast<const void*>(&msg)), sizeof(msg));
+							_tradable_raw->flush();
+							(*_tradable_text) << msg.to_json() << std::endl;
+							_tradable_text->flush();
+						}
+					}
+				}
+			);
+			pthread_t iThread = pThread->native_handle();
+		#ifndef __APPLE__
+			cpu_set_t cpuset;
+			CPU_ZERO(&cpuset);
+			CPU_SET(cpuInfo.getCore(), &cpuset);
+			pthread_setaffinity_np(iThread, sizeof(cpu_set_t), &cpuset);
+		#endif
+			struct sched_param sch;
+			memset (&sch, 0, sizeof(struct sched_param));
+			int iPolicy = 0;
+			pthread_getschedparam(iThread, &iPolicy, &sch);
+			sch.sched_priority = SCHED_PRIORITY;
+			pthread_setschedparam(iThread, SCHED_TYPE, &sch);
+		}
+	}
+};
+
+extern capture cap;
+#define INIT_CAPTURE(JSON) cap.init(JSON)
+#define INIT_CAHNNEL(CHANNEL_ID) cap.initChannel(CHANNEL_ID)
+#define WRITE_CHANNEL_DATA(MSG, TM, CHANNEL_ID) cap.writeChannel(MSG, TM, CHANNEL_ID)
+#define START_CAPTURE() cap.startCapture()
+#else
+#define INIT_CAPTURE(JSON)
+#define INIT_CAHNNEL(CHANNEL_ID)
+#define WRITE_CHANNEL_DATA(MSG, TM, CHANNEL_ID)
+#define START_CAPTURE()
+#endif //CAPTURE
 
 
 

@@ -2,6 +2,8 @@
 #define __SMFH_SRV_CFG__
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <cstdio>
+#include <cstdlib>
 #include <epoll.h>
 #include <pthread.h>
 #include <string>
@@ -147,6 +149,30 @@ inline static bool loadInOut(json& _json)
 		return false;
 	}
 	return true;
+}
+
+inline static void loadLog(json& _json)
+{
+	try
+	{
+		auto log_path = _json["LOG_PATH"].get<std::string>();
+		auto convert_log_path = dbp::tools::srv::replace_env(log_path);
+		dbp::tools::srv::get_YYYYMMDDHHMMSSsss();
+		convert_log_path += "/smfh_";
+		convert_log_path += std::to_string(dbp::tools::srv::get_YYYYMMDDHHMMSSsss() / 1000000000);
+		convert_log_path += ".log";
+		FILE* file = nullptr;
+		file = std::fopen(convert_log_path.c_str(), "a");
+		if (nullptr != file)
+		{
+			log_stream = file;
+		}
+	}
+	catch(...)
+	{
+		std::cout << "do not have LOG_PATH, all log will send to stdout" << std::endl;
+	}
+	return;
 }
 
 inline static bool loadUsers(json& _json)

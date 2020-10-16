@@ -7,6 +7,7 @@
 #include <signal.h>
 #include <string>
 #include <macro.h>
+extern FILE* log_stream;
 namespace dbp
 {
 	namespace tools

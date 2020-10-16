@@ -37,3 +37,8 @@ make ENABLE_FULLTICK=true ENABLE_FULLBOOK=true
 make ENABLE_SF=true ENABLE_FULLBOOK=true
 
 make ENABLE_DF=true ENABLE_FULLBOOK=true
+
+### Enable Capture Data (Default will not capture any data)
+make ENABLE_CAPTURE=true
+
+need to set capture config: "CAPTURE_PATH": "${HOME}/capture"
