@@ -676,7 +676,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 								lastReadyTime = DateUtil::getCurrentSystemTime();
 							}
 
-							Log("No of Detected Signal = " + to_string(signalCount));
+							Log(" No of Detected Signal = " + to_string(signalCount));
 							//signalCount = 1;
 
 						}else{
