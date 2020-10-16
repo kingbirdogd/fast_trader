@@ -222,6 +222,8 @@ public:
 														uCnt = 0;
 														uSum = 0;
 														bAgain = true;
+														CLEAR();
+														flush_printf("tm:%llu, Refresh Fail 0, Retry, ChannelId:%u\n", dbp::tools::srv::current(), _channel.m_uChannelId);
 													}
 												}
 												else
@@ -248,6 +250,7 @@ public:
 																		uCnt = 0;
 																		uSum = 0;
 																		bAgain = true;
+																		CLEAR();
 																		flush_printf("tm:%llu, Refresh Fail 2, Retry, ChannelId:%u\n", dbp::tools::srv::current(), _channel.m_uChannelId);
 																	}
 																	else
@@ -289,6 +292,8 @@ public:
 															uCnt = 0;
 															uSum = 0;
 															bAgain = true;
+															CLEAR();
+															flush_printf("tm:%llu, Refresh Fail 20, ChannelId:%u, uRefreshSeq:%u, pPkg->m_uSeq:%u, uOnRefreshStartIdx:%u, Vec.size:%lu\n", dbp::tools::srv::current(), _channel.m_uChannelId, uRefreshSeq, pPkg->m_uSeq, uOnRefreshStartIdx, Vec.size());
 														}
 														else if (uRefreshSeq + 1 == pPkg->m_uSeq)
 														{
@@ -306,6 +311,7 @@ public:
 																		uCnt = 0;
 																		uSum = 0;
 																		bAgain = true;
+																		CLEAR();
 																		flush_printf("tm:%llu, Refresh Fail 2, ChannelId:%u, uStartSeq:%u, uOnRefreshStartIdx:%u, Vec.size:%lu\n", dbp::tools::srv::current(), _channel.m_uChannelId, uStartSeq, uOnRefreshStartIdx, Vec.size());
 																	}
 																	else
