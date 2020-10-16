@@ -439,7 +439,9 @@ public:
 				()
 				{
 					using comsumer = typename CBroadCastQueue::comsumer_st;
+					auto cfg = broadcastQueue.get_configure();
 					comsumer md(broadcastQueue);
+					cfg.x_depends_y(md, broadcastQueue);
 					while (true)
 					{
 						Tradable msg;
