@@ -120,11 +120,17 @@ void bear::on_omdd_book(const Tradable& tradable)
 
 
 		if(uit->second->FBestbid != best_bid_price){
+
+			Log("UCODE  = " + to_string(tradable.m_Code) + " Bid Change from  " + to_string(uit->second->FBestbid) + " To  " + to_string(best_bid_price));
 			uit->second->BidSeq++;
 			uit->second->PFBestbid = uit->second->FBestbid;
 			uit->second->FBestbid = best_bid_price;
+
 		}
 		if(uit->second->FBestask != best_ask_price ){
+
+
+			Log("UCODE  = " + to_string(tradable.m_Code) + " Ask Change from  " + to_string(uit->second->FBestask) + " To  " + to_string(best_ask_price));
 			uit->second->AskSeq++;
 			uit->second->PFBestask = uit->second->FBestask;
 			uit->second->FBestask = best_ask_price;
