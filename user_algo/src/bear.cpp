@@ -103,7 +103,7 @@ void bear::on_omdc_trade(const Tradable& )
 void bear::on_omdd_book(const Tradable& tradable)
 {
 
-	Log("Data = " + to_string(tradable.m_Code) + " Bid = " + to_string(tradable.m_Bid[0].m_iPrice) + " Ask = " + to_string(tradable.m_Ask[0].m_iPrice))
+	Log("Data = " + to_string(tradable.m_Code) + " Bid = " + to_string(tradable.m_Bid[0].m_iPrice) + " Ask = " + to_string(tradable.m_Ask[0].m_iPrice));
 
 	auto uit = uprice_map.find(tradable.m_Code);
 	if(uprice_map.end() != uit){
