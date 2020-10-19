@@ -1406,6 +1406,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 							Log("2:WCode = " + to_string(wobsArray[i]->Code) +
 									" Expect Sell Out = " + to_string(expectSellOut) +
+									" WBestAsk = " +  to_string(wbest_ask_price) +
 									" WBestBid = " +  to_string(wbest_bid_price) +
 									" BidQty = " +  to_string(wbest_bid_qty) +
 									"  IssuerQty = " +  to_string(bidIssuerQty)
