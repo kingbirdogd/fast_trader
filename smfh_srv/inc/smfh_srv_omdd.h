@@ -10,23 +10,45 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 #endif
 {
 	unsigned int uSecurityCode = OMD_GET_VALUE(_pMsg, 4, unsigned int);
+	DEBUG("tm:%llu, OMDD Msg, code: %u, MsgType: %u\n",
+			dbp::tools::srv::current(),
+			uSecurityCode,
+			_pMsg->m_uMsgType);
 	auto it_underlyging = codeTounderlying.find(uSecurityCode);
 	if (codeTounderlying.end() == it_underlyging)
 	{
+		DEBUG("tm:%llu, OMDD Msg Ignore, underlying not found, code: %u, MsgType: %u\n",
+				dbp::tools::srv::current(),
+				uSecurityCode,
+				_pMsg->m_uMsgType);
 		return;
 	}
 	const auto& underlying = it_underlyging->second;
 	if (4 != underlying.InstrumentGroup)
 	{
+		DEBUG("tm:%llu, OMDD Msg Ignore, InstrumentGroup not match, code: %u, MsgType: %u, InstrumentGroup:%u\n",
+				dbp::tools::srv::current(),
+				uSecurityCode,
+				_pMsg->m_uMsgType,
+				underlying.InstrumentGroup);
 		return;
 	}
 	if (4001 != underlying.CommodityCode && 4002 != underlying.CommodityCode)
 	{
+		DEBUG("tm:%llu, OMDD Msg Ignore, CommodityCode not match, code: %u, MsgType: %u, CommodityCode:%u\n",
+				dbp::tools::srv::current(),
+				uSecurityCode,
+				_pMsg->m_uMsgType,
+				underlying.CommodityCode);
 		return;
 	}
 	auto it = omddMap.find(uSecurityCode);
 	if (omddMap.end() == it)
 	{
+		DEBUG("tm:%llu, OMD Msg Ignore, not found in omddMap, code: %u, MsgType: %u\n",
+				dbp::tools::srv::current(),
+				uSecurityCode,
+				_pMsg->m_uMsgType);
 		return;
 	}
 	COmdOrderbook& rOrderBook = it->second;
@@ -41,9 +63,16 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
 		auto price = OMD_GET_VALUE(_pMsg, 16, int);
 		auto quantity = OMD_GET_VALUE(_pMsg, 20, unsigned int);
-		auto side = OMD_GET_VALUE(_pMsg, 24, FullTickBook::OrderSide);
+		auto side = OMD_GET_VALUE(_pMsg, 24, OmddFullTickBook::OrderSide);
 		auto rest = quantity;
-		if (FullTickBook::OrderSide::BID == side)
+		DEBUG("tm:%llu, OMDD Add order, code: %u, type: %c, side: %u, price: %d, quantity: %u\n",
+				dbp::tools::srv::current(),
+				uSecurityCode,
+				static_cast<char>(type),
+				static_cast<unsigned int>(side),
+				price,
+				quantity);
+		if (OmddFullTickBook::OrderSide::BID == side)
 		{
 			for (auto it = book.Asks.begin(); it != book.Asks.end(); ++it)
 			{
@@ -60,6 +89,12 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 					rOrderBook.m_AccumulateBuyQuantity += rOrderBook.m_LastTradeQuantity;
 					broadcastQueue.enqueue(rOrderBook);
 					rest -= matched_quantity;
+					DEBUG("tm:%llu, OMDD BUY_SIDE match, code: %u, type: %c, matched_price: %d, matched_quantity: %llu\n",
+							dbp::tools::srv::current(),
+							uSecurityCode,
+							static_cast<char>(type),
+							matched_price,
+							matched_quantity);
 					if (0 == rest)
 					{
 						break;
@@ -88,6 +123,12 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 					rOrderBook.m_AccumulateSellQuantity += rOrderBook.m_LastTradeQuantity;
 					broadcastQueue.enqueue(rOrderBook);
 					rest -= matched_quantity;
+					DEBUG("tm:%llu, OMDD SELL_SIDE match, code: %u, type: %c, matched_price: %d, matched_quantity: %llu\n",
+							dbp::tools::srv::current(),
+							uSecurityCode,
+							static_cast<char>(type),
+							matched_price,
+							matched_quantity);
 					if (0 == rest)
 					{
 						break;
@@ -101,28 +142,44 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		}
 #ifndef FULL_BOOK
 		auto is_top = book.new_order(id, price, quantity, side);
+		DEBUG("tm:%llu, OMDD Add Limit order, code: %u, type: %c, side: %u, price: %d, quantity: %u, id:%llu\n",
+				dbp::tools::srv::current(),
+				uSecurityCode,
+				static_cast<char>(type),
+				static_cast<unsigned int>(side),
+				price,
+				quantity,
+				id);
 		if (is_top)
 		{
 #else
 		book.new_order(id, price, quantity, side);
 #endif //ifndef FULL_BOOK
 			rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
-			if (FullTickBook::OrderSide::BID == side)
+			if (OmddFullTickBook::OrderSide::BID == side)
 			{
 				ConvertFullBookToBookBid(book.Bids, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 				if (!book.isCross())
 				{
 					broadcastQueue.enqueue(rOrderBook);
+					DEBUG("tm:%llu, OMDD Send Book Bid by Add Order, code: %u, id: %llu\n",
+						dbp::tools::srv::current(),
+						uSecurityCode,
+						id);
 				}
 			}
-			else if (FullTickBook::OrderSide::ASK == side)
+			else if (OmddFullTickBook::OrderSide::ASK == side)
 			{
 				ConvertFullBookToBookAsk(book.Asks, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 				if (!book.isCross())
 				{
 					broadcastQueue.enqueue(rOrderBook);
+					DEBUG("tm:%llu, OMDD Send Book Ask by Add Order, code: %u, id: %llu\n",
+						dbp::tools::srv::current(),
+						uSecurityCode,
+						id);
 				}
 
 			}
@@ -137,22 +194,37 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		auto price = OMD_GET_VALUE(_pMsg, 16, int);
 		auto quantity = OMD_GET_VALUE(_pMsg, 20, unsigned int);
 		auto result = book.modify_order(id, quantity, price);
+		DEBUG("tm:%llu, OMDD Modify Order, code: %u, id: %llu, quantity:%u\n",
+				dbp::tools::srv::current(),
+				uSecurityCode,
+				id,
+				quantity);
 #ifndef FULL_BOOK
 		if (result.is_top)
 		{
 #endif //ifndef FULL_BOOK
 			rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
-			if (FullTickBook::OrderSide::BID == result.side)
+			if (OmddFullTickBook::OrderSide::BID == result.side)
 			{
 				ConvertFullBookToBookBid(book.Bids, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
+				DEBUG("tm:%llu, OMDD Send Book Bid by Modify Order, code: %u, id: %llu, quantity:%u\n",
+						dbp::tools::srv::current(),
+						uSecurityCode,
+						id,
+						quantity);
 			}
-			else if (FullTickBook::OrderSide::ASK == result.side)
+			else if (OmddFullTickBook::OrderSide::ASK == result.side)
 			{
 				ConvertFullBookToBookAsk(book.Asks, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
+				DEBUG("tm:%llu, OMDD Send Book Ask by Modify Order, code: %u, id: %llu, quantity:%u\n",
+						dbp::tools::srv::current(),
+						uSecurityCode,
+						id,
+						quantity);
 			}
 #ifndef FULL_BOOK
 		}
@@ -160,25 +232,37 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 	}
 	else if (332 == _pMsg->m_uMsgType)
 	{
-		auto& book = omdcFullTickBook[uSecurityCode];
+		auto& book = omddFullTickBook[uSecurityCode];
 		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
 		auto result = book.cancel_order(id);
+		DEBUG("tm:%llu, OMDD Delete Order, code: %u, id: %llu\n",
+				dbp::tools::srv::current(),
+				uSecurityCode,
+				id);
 #ifndef FULL_BOOK
 		if (result.is_top)
 		{
 #endif //ifndef FULL_BOOK
 			rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
-			if (FullTickBook::OrderSide::BID == result.side)
+			if (OmddFullTickBook::OrderSide::BID == result.side)
 			{
 				ConvertFullBookToBookBid(book.Bids, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
+				DEBUG("tm:%llu, OMDD Send Book Bid by Delete Order, code: %u, id: %llu\n",
+						dbp::tools::srv::current(),
+						uSecurityCode,
+						id);
 			}
-			else if (FullTickBook::OrderSide::ASK == result.side)
+			else if (OmddFullTickBook::OrderSide::ASK == result.side)
 			{
 				ConvertFullBookToBookAsk(book.Asks, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
+				DEBUG("tm:%llu, OMDD Send Book Ask by Delete Order, code: %u, id: %llu\n",
+						dbp::tools::srv::current(),
+						uSecurityCode,
+						id);
 			}
 #ifndef FULL_BOOK
 		}
@@ -186,7 +270,7 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 	}
 	else if (335 == _pMsg->m_uMsgType)
 	{
-		omdcFullTickBook[uSecurityCode].clear();
+		omddFullTickBook[uSecurityCode].clear();
 		std::memset(rOrderBook.m_Bid, 0, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
 		std::memset(rOrderBook.m_Ask, 0, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
 		rOrderBook.m_AccumulateBuyQuantity = 0;
@@ -194,6 +278,10 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		rOrderBook.m_AccumulateBlankQuantity = 0;
 		rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 		broadcastQueue.enqueue(rOrderBook);
+		DEBUG("tm:%llu, OMDD Clean OrderBook, code: %u, id: %llu",
+				dbp::tools::srv::current(),
+				uSecurityCode,
+				id);
 	}
 #else
 	if (353 == _pMsg->m_uMsgType)

@@ -1087,6 +1087,10 @@ inline static bool loadDefinition(json& _json)
 													cache["omdd_underlying"][std::to_string(orderbookid)] = json::object();
 													cache["omdd_underlying"][std::to_string(orderbookid)]["InstrumentGroup"] = static_cast<unsigned short int>(underlying.InstrumentGroup);
 													cache["omdd_underlying"][std::to_string(orderbookid)]["CommodityCode"] = static_cast<unsigned short int>(underlying.CommodityCode);
+													DEBUG("tm:%llu, OMDD Underlying Set, code: %u, InstrumentGroup:%u,CommodityCode:%u\n",
+															dbp::tools::srv::current(),
+															underlying.InstrumentGroup,
+															underlying.CommodityCode);
 												}
 												break;
 											}

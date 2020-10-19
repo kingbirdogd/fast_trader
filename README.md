@@ -42,3 +42,13 @@ make ENABLE_DF=true ENABLE_FULLBOOK=true
 make ENABLE_CAPTURE=true
 
 need to set capture config: "CAPTURE_PATH": "${HOME}/capture"
+
+
+### How to Start
+../fast_trader_build/fast_trader/bin/smfh_srv ./config/confg???.json
+
+### Start by deamon
+../fast_trader_build/fast_trader/bin/smfh_srv fork ./config/confg???.json
+
+
+

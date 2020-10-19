@@ -24,8 +24,8 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 	if (30 == _pMsg->m_uMsgType)
 	{
 		auto& book = omdcFullTickBook[uSecurityCode];
-		auto type = OMD_GET_VALUE(_pMsg, 26, FullTickBook::OrderType);
-		auto side = OMD_GET_VALUE(_pMsg, 24, FullTickBook::OrderSide);
+		auto type = OMD_GET_VALUE(_pMsg, 26, OmdcFullTickBook::OrderType);
+		auto side = OMD_GET_VALUE(_pMsg, 24, OmdcFullTickBook::OrderSide);
 		auto price = OMD_GET_VALUE(_pMsg, 16, int);
 		auto quantity = OMD_GET_VALUE(_pMsg, 20, unsigned int);
 		auto rest = quantity;
@@ -36,11 +36,11 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 				static_cast<unsigned int>(side),
 				price,
 				quantity);
-		if (FullTickBook::OrderSide::BID == side)
+		if (OmdcFullTickBook::OrderSide::BID == side)
 		{
 			for (auto it = book.Asks.begin(); it != book.Asks.end(); ++it)
 			{
-				if (it->first <= price || FullTickBook::OrderType::Market == type)
+				if (it->first <= price || OmdcFullTickBook::OrderType::Market == type)
 				{
 					auto matched_price = it->first;
 					auto book_quantity = it->second.quantity;
@@ -74,7 +74,7 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		{
 			for (auto it = book.Bids.begin(); it != book.Bids.end(); ++it)
 			{
-				if (it->first >= price || FullTickBook::OrderType::Market == type)
+				if (it->first >= price || OmdcFullTickBook::OrderType::Market == type)
 				{
 					auto matched_price = it->first;
 					auto book_quantity = it->second.quantity;
@@ -104,7 +104,7 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 				}
 			}
 		}
-		if (FullTickBook::OrderType::Limit == type)
+		if (OmdcFullTickBook::OrderType::Limit == type)
 		{
 			auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
 #ifndef FULL_BOOK
@@ -123,27 +123,27 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 			book.new_order(id, price, quantity, side);
 #endif //ifndef FULL_BOOK
 				rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
-				if (FullTickBook::OrderSide::BID == side)
+				if (OmdcFullTickBook::OrderSide::BID == side)
 				{
 					ConvertFullBookToBookBid(book.Bids, rOrderBook);
 					rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 					if (!book.isCross())
 					{
 						broadcastQueue.enqueue(rOrderBook);
-						DEBUG("tm:%llu, OMDC Send Book Bid by Add Order, code: %u\n, id: %llu",
+						DEBUG("tm:%llu, OMDC Send Book Bid by Add Order, code: %u, id: %llu\n",
 							dbp::tools::srv::current(),
 							uSecurityCode,
 							id);
 					}
 				}
-				else if (FullTickBook::OrderSide::ASK == side)
+				else if (OmdcFullTickBook::OrderSide::ASK == side)
 				{
 					ConvertFullBookToBookAsk(book.Asks, rOrderBook);
 					rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 					if (!book.isCross())
 					{
 						broadcastQueue.enqueue(rOrderBook);
-						DEBUG("tm:%llu, OMDC Send Book Ask by Add Order, code: %u\n, id: %llu",
+						DEBUG("tm:%llu, OMDC Send Book Ask by Add Order, code: %u, id: %llu\n",
 							dbp::tools::srv::current(),
 							uSecurityCode,
 							id);
@@ -160,7 +160,7 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
 		auto quantity = OMD_GET_VALUE(_pMsg, 16, unsigned int);
 		auto result = book.modify_order(id, quantity);
-		DEBUG("tm:%llu, OMDC Modify Order, code: %u\n, id: %llu, quantity:%u",
+		DEBUG("tm:%llu, OMDC Modify Order, code: %u, id: %llu, quantity:%u\n",
 				dbp::tools::srv::current(),
 				uSecurityCode,
 				id,
@@ -170,23 +170,23 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		{
 #endif //ifndef FULL_BOOK
 			rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
-			if (FullTickBook::OrderSide::BID == result.side)
+			if (OmdcFullTickBook::OrderSide::BID == result.side)
 			{
 				ConvertFullBookToBookBid(book.Bids, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
-				DEBUG("tm:%llu, OMDC Send Book Bid by Modify Order, code: %u\n, id: %llu, quantity:%u",
+				DEBUG("tm:%llu, OMDC Send Book Bid by Modify Order, code: %u, id: %llu, quantity:%u\n",
 						dbp::tools::srv::current(),
 						uSecurityCode,
 						id,
 						quantity);
 			}
-			else if (FullTickBook::OrderSide::ASK == result.side)
+			else if (OmdcFullTickBook::OrderSide::ASK == result.side)
 			{
 				ConvertFullBookToBookAsk(book.Asks, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
-				DEBUG("tm:%llu, OMDC Send Book Ask by Modify Order, code: %u\n, id: %llu, quantity:%u",
+				DEBUG("tm:%llu, OMDC Send Book Ask by Modify Order, code: %u, id: %llu, quantity:%u\n",
 						dbp::tools::srv::current(),
 						uSecurityCode,
 						id,
@@ -202,7 +202,7 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
 		auto result = book.cancel_order(id);
 		rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
-		DEBUG("tm:%llu, OMDC Delete Order, code: %u\n, id: %llu",
+		DEBUG("tm:%llu, OMDC Delete Order, code: %u, id: %llu\n",
 				dbp::tools::srv::current(),
 				uSecurityCode,
 				id);
@@ -210,22 +210,22 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		if (result.is_top)
 		{
 #endif //ifndef FULL_BOOK
-			if (FullTickBook::OrderSide::BID == result.side)
+			if (OmdcFullTickBook::OrderSide::BID == result.side)
 			{
 				ConvertFullBookToBookBid(book.Bids, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
-				DEBUG("tm:%llu, OMDC Send Book Bid by Delete Order, code: %u\n, id: %llu",
+				DEBUG("tm:%llu, OMDC Send Book Bid by Delete Order, code: %u, id: %llu\n",
 						dbp::tools::srv::current(),
 						uSecurityCode,
 						id);
 			}
-			else if (FullTickBook::OrderSide::ASK == result.side)
+			else if (OmdcFullTickBook::OrderSide::ASK == result.side)
 			{
 				ConvertFullBookToBookAsk(book.Asks, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
-				DEBUG("tm:%llu, OMDC Send Book Ask by Delete Order, code: %u\n, id: %llu",
+				DEBUG("tm:%llu, OMDC Send Book Ask by Delete Order, code: %u, id: %llu\n",
 						dbp::tools::srv::current(),
 						uSecurityCode,
 						id);
