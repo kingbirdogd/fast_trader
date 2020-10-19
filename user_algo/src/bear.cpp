@@ -105,6 +105,7 @@ void bear::on_omdd_book(const Tradable& tradable)
 	auto uit = uprice_map.find(tradable.m_Code);
 	if(uprice_map.end() != uit){
 
+
 		//unsigned int code = tradable.m_Code;
 
 		//auto best_bid_qty = tradable.m_Bid[0].m_uQuantity;
