@@ -70,10 +70,11 @@ extern SpreadTable spreadTable;
 extern TcpChannelConfig tcpConfig;
 
 #ifdef FULLTICK
+template <typename SideType>
 class FullTickBook
 {
 public:
-	enum OrderSide : unsigned short int
+	enum OrderSide : SideType
 	{
 		BID = 0,
 		ASK = 1,
@@ -315,9 +316,12 @@ public:
 		Asks.clear();
 	}
 };
-using FullTickBooks = std::unordered_map<unsigned int, FullTickBook>;
-extern FullTickBooks omdcFullTickBook;
-extern FullTickBooks omddFullTickBook;
+template <typename SideType>
+using FullTickBooks = std::unordered_map<unsigned int, FullTickBook<SideType>>;
+using OmdcFullTickBook =  FullTickBook<unsigned short int>;
+using OmddFullTickBook =  FullTickBook<unsigned char>;
+extern FullTickBooks<unsigned short int> omdcFullTickBook;
+extern FullTickBooks<unsigned char> omddFullTickBook;
 
 #endif //FULLTICK
 

@@ -37,8 +37,8 @@ SpreadTable spreadTable;
 TcpChannelConfig tcpConfig;
 
 #ifdef FULLTICK
-FullTickBooks omdcFullTickBook;
-FullTickBooks omddFullTickBook;
+FullTickBooks<unsigned short int> omdcFullTickBook;
+FullTickBooks<unsigned char> omddFullTickBook;
 #endif //FULLTICK
 
 #ifdef CAPTURE
