@@ -10,23 +10,45 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 #endif
 {
 	unsigned int uSecurityCode = OMD_GET_VALUE(_pMsg, 4, unsigned int);
+	DEBUG("tm:%llu, OMDD Msg, code: %u, MsgType: %u\n",
+			dbp::tools::srv::current(),
+			uSecurityCode,
+			_pMsg->m_uMsgType);
 	auto it_underlyging = codeTounderlying.find(uSecurityCode);
 	if (codeTounderlying.end() == it_underlyging)
 	{
+		DEBUG("tm:%llu, OMDD Msg Ignore, underlying not found, code: %u, MsgType: %u\n",
+				dbp::tools::srv::current(),
+				uSecurityCode,
+				_pMsg->m_uMsgType);
 		return;
 	}
 	const auto& underlying = it_underlyging->second;
 	if (4 != underlying.InstrumentGroup)
 	{
+		DEBUG("tm:%llu, OMDD Msg Ignore, InstrumentGroup not match, code: %u, MsgType: %u, InstrumentGroup:%u\n",
+				dbp::tools::srv::current(),
+				uSecurityCode,
+				_pMsg->m_uMsgType,
+				underlying.InstrumentGroup);
 		return;
 	}
 	if (4001 != underlying.CommodityCode && 4002 != underlying.CommodityCode)
 	{
+		DEBUG("tm:%llu, OMDD Msg Ignore, CommodityCode not match, code: %u, MsgType: %u, CommodityCode:%u\n",
+				dbp::tools::srv::current(),
+				uSecurityCode,
+				_pMsg->m_uMsgType,
+				underlying.CommodityCode);
 		return;
 	}
 	auto it = omddMap.find(uSecurityCode);
 	if (omddMap.end() == it)
 	{
+		DEBUG("tm:%llu, OMD Msg Ignore, not found in omddMap, code: %u, MsgType: %u\n",
+				dbp::tools::srv::current(),
+				uSecurityCode,
+				_pMsg->m_uMsgType);
 		return;
 	}
 	COmdOrderbook& rOrderBook = it->second;
