@@ -842,7 +842,7 @@ inline static bool loadDefinition(json& _json)
 													auto& omdcAdditionDefinition = omdcAdditionDefinitionsMap[uSecurityCode];
 													omdcAdditionDefinition.SpreadTableCode = OMD_GET_STR(pszBuffer, 30, 2);
 													omdcAdditionDefinition.SecuritySortName = OMD_GET_STR(pszBuffer, 32, 40);
-													omdcAdditionDefinition.CallPutFlag = OMD_GET_STR(pszBuffer, 410, 1);
+													omdcAdditionDefinition.CallPutFlag = OMD_GET_STR(pszBuffer, 460, 1);
 													omdcAdditionDefinition.ProductType = OMD_GET_VALUE(pszBuffer, 28, unsigned char);
 													omdcAdditionDefinition.LotSize = OMD_GET_VALUE(pszBuffer, 195, unsigned int);
 													omdcMap[uSecurityCode].m_Code = uSecurityCode;
@@ -895,7 +895,9 @@ inline static bool loadDefinition(json& _json)
 													if (instrument_Type == "WRNT")
 													{
 														auto warrant_code = OMD_GET_VALUE(pszBuffer, 4, unsigned int);
-														auto underlying_code = OMD_GET_VALUE(pszBuffer, 464, unsigned int);
+														//auto underlying_code = OMD_GET_VALUE(pszBuffer, 464, unsigned int); OMD-C V1.3
+
+														auto underlying_code = OMD_GET_VALUE(pszBuffer, 544, unsigned int);
 														warrantToUnderlying[warrant_code] = underlying_code;
 														underlyingToWarrant[underlying_code].insert(warrant_code);
 
