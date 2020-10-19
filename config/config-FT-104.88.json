@@ -217,8 +217,7 @@
 				"MulticastPort": 51001
 			},
 			"RetranProxyIndex": 1
-		}
-		,
+		},
 		{
 			"ChannelId": 221,
 			"Hot":
