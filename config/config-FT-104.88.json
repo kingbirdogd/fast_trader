@@ -203,17 +203,17 @@
 	"OmddChannel":
 	[
 		{
-			"ChannelId": 231,
+			"ChannelId": 221,
 			"Hot":
 			{
 				"InterfaceIp": "10.123.132.88",
-				"MulticastIp": "239.1.1.131",
+				"MulticastIp": "239.1.1.130",
 				"MulticastPort": 51002
 			},
 			"Refresh":
 			{
 				"InterfaceIp": "10.123.132.88",
-				"MulticastIp": "239.1.1.156",
+				"MulticastIp": "239.1.1.155",
 				"MulticastPort": 51002
 			},
 			"RetranProxyIndex": 1
@@ -273,7 +273,9 @@
 	[
 		{"Channel":"SWOmdcChannel"},
 		{"Channel":"PriceTableChannel"},
-		{"Channel":"S1Channel"}
+		{"Channel":"S1Channel"},
+		{"Channel":"TcpChannel"},
+		{"Channel":"OmddChannel"}
 	]
 }
 

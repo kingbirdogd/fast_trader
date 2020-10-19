@@ -1392,6 +1392,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 
 							unsigned long long wbest_bid_price = warrantPriceMap[wobsArray[i]->Code]->Bestbid;
+							unsigned long long wbest_ask_price = warrantPriceMap[wobsArray[i]->Code]->Bestask;
 							unsigned long long wbest_bid_qty = warrantPriceMap[wobsArray[i]->Code]->BidQty;
 
 							if(wbest_bid_price == 0)
@@ -1427,6 +1428,14 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 								}
 							}
+
+
+
+/*
+							else if(expectSellOut != 99999999 && wobsArray[i]->BuyPrice < wbest_ask_price && wbest_bid_qty < issuerSize80(bidIssuerQty)){
+
+							}
+*/
 
 
 /*
