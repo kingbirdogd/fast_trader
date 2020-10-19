@@ -1408,7 +1408,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 									" Expect Sell Out = " + to_string(expectSellOut) +
 									" WBestBid = " +  to_string(wbest_bid_price) +
 									" BidQty = " +  to_string(wbest_bid_qty) +
-									" IssuerQty = " +  to_string(bidIssuerQty)
+									"  IssuerQty = " +  to_string(bidIssuerQty)
 							);
 
 							if(expectSellOut != 99999999 && wbest_bid_price >= wobsArray[i]->BuyPrice){
