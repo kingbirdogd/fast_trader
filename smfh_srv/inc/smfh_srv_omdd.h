@@ -85,7 +85,7 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 					rOrderBook.m_LastTradePrice = matched_price;
 					rOrderBook.m_TradeType = 0;
 					rOrderBook.m_TradeSide = TradeSide::SELL_SIDE;
-					rOrderBook.m_AccumulateBuyQuantity += rOrderBook.m_LastTradeQuantity;
+					rOrderBook.m_AccumulateSellQuantity += rOrderBook.m_LastTradeQuantity;
 					broadcastQueue.enqueue(rOrderBook);
 					rest -= matched_quantity;
 					if (0 == rest)

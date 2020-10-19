@@ -1363,7 +1363,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 								unsigned long long t_tdiff = t_end - t_btrade;
 
-								Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price) + " Ttime = " + to_string(t_tdiff));
+								Log("1: Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price) + " Ttime = " + to_string(t_tdiff));
 
 
 							}
@@ -1392,6 +1392,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 
 							unsigned long long wbest_bid_price = warrantPriceMap[wobsArray[i]->Code]->Bestbid;
+							unsigned long long wbest_ask_price = warrantPriceMap[wobsArray[i]->Code]->Bestask;
 							unsigned long long wbest_bid_qty = warrantPriceMap[wobsArray[i]->Code]->BidQty;
 
 							if(wbest_bid_price == 0)
@@ -1405,12 +1406,13 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 							Log("2:WCode = " + to_string(wobsArray[i]->Code) +
 									" Expect Sell Out = " + to_string(expectSellOut) +
+									" WBestAsk = " +  to_string(wbest_ask_price) +
 									" WBestBid = " +  to_string(wbest_bid_price) +
 									" BidQty = " +  to_string(wbest_bid_qty) +
-									" IssuerQty = " +  to_string(bidIssuerQty)
+									"  IssuerQty = " +  to_string(bidIssuerQty)
 							);
 
-							if(expectSellOut != 99999999 && expectSellOut >= trade_price && wbest_bid_price >= wobsArray[i]->BuyPrice){
+							if(expectSellOut != 99999999 && wbest_bid_price >= wobsArray[i]->BuyPrice){
 								if(wbest_bid_price == 0)
 									continue;
 
@@ -1423,10 +1425,18 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 										obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
 										continue;
 									}
-									Log("Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
+									Log("2: Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
 
 								}
 							}
+
+
+
+/*
+							else if(expectSellOut != 99999999 && wobsArray[i]->BuyPrice < wbest_ask_price && wbest_bid_qty < issuerSize80(bidIssuerQty)){
+
+							}
+*/
 
 
 /*
