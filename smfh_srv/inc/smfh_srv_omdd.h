@@ -274,10 +274,9 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 		rOrderBook.m_AccumulateBlankQuantity = 0;
 		rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 		broadcastQueue.enqueue(rOrderBook);
-		DEBUG("tm:%llu, OMDD Clean OrderBook, code: %u, id: %llu",
+		DEBUG("tm:%llu, OMDD Clean OrderBook, code: %u\n",
 				dbp::tools::srv::current(),
-				uSecurityCode,
-				id);
+				uSecurityCode);
 	}
 #else
 	if (353 == _pMsg->m_uMsgType)
