@@ -164,6 +164,13 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 						uSecurityCode,
 						id);
 				}
+				else
+				{
+					DEBUG("tm:%llu, OMDD Send Book Bid ignore cross by Add Order, code: %u, id: %llu\n",
+						dbp::tools::srv::current(),
+						uSecurityCode,
+						id);
+				}
 			}
 			else if (OmddFullTickBook::OrderSide::ASK == side)
 			{
@@ -177,9 +184,33 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 						uSecurityCode,
 						id);
 				}
+				else
+				{
+					DEBUG("tm:%llu, OMDD Send Book Ask ignore cross by Add Order, code: %u, id: %llu\n",
+						dbp::tools::srv::current(),
+						uSecurityCode,
+						id);
+				}
 
 			}
+			else
+			{
+				DEBUG("tm:%llu, OMDD Send Book ignore no side by Add Order, code: %u, id: %llu\n",
+					dbp::tools::srv::current(),
+					uSecurityCode,
+					id);
+			}
 #ifndef FULL_BOOK
+		}
+		else
+		{
+			DEBUG("tm:%llu, OMDD Send Book ignore not top Add Order, code: %u, side: %u, price: %d, quantity: %u, id:%llu\n",
+					dbp::tools::srv::current(),
+					uSecurityCode,
+					static_cast<unsigned int>(side),
+					price,
+					quantity,
+					id);
 		}
 #endif //ifndef FULL_BOOK
 	}
@@ -216,13 +247,29 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 				ConvertFullBookToBookAsk(book.Asks, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
-				DEBUG("tm:%llu, OMDD Send Book Ask by Modify Order, code: %u, id: %llu, quantity:%u\n",
+				DEBUG("tm:%llu, OMDD Send Book Ask Modify Order, code: %u, id: %llu, quantity:%u\n",
+						dbp::tools::srv::current(),
+						uSecurityCode,
+						id,
+						quantity);
+			}
+			else
+			{
+				DEBUG("tm:%llu, OMDD Send Book ignore not side by Modify Order, code: %u, id: %llu, quantity:%u\n",
 						dbp::tools::srv::current(),
 						uSecurityCode,
 						id,
 						quantity);
 			}
 #ifndef FULL_BOOK
+		}
+		else
+		{
+			DEBUG("tm:%llu, OMDD Send Book ignore not top Modify Order, code: %u, id: %llu, quantity:%u\n",
+					dbp::tools::srv::current(),
+					uSecurityCode,
+					id,
+					quantity);
 		}
 #endif //ifndef FULL_BOOK
 	}
@@ -260,7 +307,21 @@ inline static void handleOmdd(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 						uSecurityCode,
 						id);
 			}
+			else
+			{
+				DEBUG("tm:%llu, OMDD Send Book ignore not side Delete Order, code: %u, id: %llu\n",
+						dbp::tools::srv::current(),
+						uSecurityCode,
+						id);
+			}
 #ifndef FULL_BOOK
+		}
+		else
+		{
+			DEBUG("tm:%llu, OMDD Send Book ignore not top Delete Order, code: %u, id: %llu\n",
+					dbp::tools::srv::current(),
+					uSecurityCode,
+					id);
 		}
 #endif //ifndef FULL_BOOK
 	}
