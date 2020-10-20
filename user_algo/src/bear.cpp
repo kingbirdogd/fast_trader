@@ -117,7 +117,7 @@ void bear::on_omdd_book(const Tradable& tradable)
 		//auto best_ask_qty = tradable.m_Ask[0].m_uQuantity;
 		auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
 
-		Log("Data = " + to_string(tradable.m_Code) +to_string(best_bid_price) + ":" + to_string(best_ask_price));
+		Log("Data = " + to_string(tradable.m_Code) + " ----- " + to_string(best_bid_price) + ":" + to_string(best_ask_price));
 
 		if(uit->second->FBestbid != best_bid_price){
 
