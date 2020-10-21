@@ -212,7 +212,7 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 			unsigned char omdd_side = OMD_GET_VALUE(_pMsg, 32, unsigned char);
 			if (2 == omdd_side)
 			{
-				DEBUG("tm:%llu, OMDD Trade , code: %u, Price: %d, Side: SELL, Quantity : %ull  \n",
+				DEBUG("tm:%llu, OMDD Trade , code: %u, Price: %d, Side: SELL, Quantity : %llu  \n",
 							dbp::tools::srv::current(),
 							uSecurityCode,
 							m_LastTradePrice,
