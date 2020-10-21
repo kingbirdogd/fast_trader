@@ -37,8 +37,8 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 					rOrderBook.m_LastTradeQuantity = matched_quantity;
 					rOrderBook.m_LastTradePrice = matched_price;
 					rOrderBook.m_TradeType = 0;
-					rOrderBook.m_TradeSide = TradeSide::SELL_SIDE;
-					rOrderBook.m_AccumulateSellQuantity += rOrderBook.m_LastTradeQuantity;
+					rOrderBook.m_TradeSide = TradeSide::BUY_SIDE;
+					rOrderBook.m_AccumulateBuyQuantity += rOrderBook.m_LastTradeQuantity;
 					broadcastQueue.enqueue(rOrderBook);
 					rest -= matched_quantity;
 					if (0 == rest)
@@ -65,8 +65,8 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 					rOrderBook.m_LastTradeQuantity = matched_quantity;
 					rOrderBook.m_LastTradePrice = matched_price;
 					rOrderBook.m_TradeType = 0;
-					rOrderBook.m_TradeSide = TradeSide::BUY_SIDE;
-					rOrderBook.m_AccumulateBuyQuantity += rOrderBook.m_LastTradeQuantity;
+					rOrderBook.m_TradeSide = TradeSide::SELL_SIDE;
+					rOrderBook.m_AccumulateSellQuantity += rOrderBook.m_LastTradeQuantity;
 					broadcastQueue.enqueue(rOrderBook);
 					rest -= matched_quantity;
 					if (0 == rest)
