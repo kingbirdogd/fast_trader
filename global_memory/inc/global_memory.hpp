@@ -136,7 +136,6 @@ public:
 			odr.price = price;
 			odr.quantity = quantity;
 			odr.side = side;
-
 			auto it = Bids.emplace(price, PriceItem()).first;
 			it->second.quantity += quantity;
 			++it->second.number_of_order;

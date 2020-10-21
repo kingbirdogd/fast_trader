@@ -117,6 +117,21 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 					broadcastQueue.enqueue(rOrderBook);
 				}
 			}
+/*
+			DEBUG("tm:%llu, OMDD Add order, code: %u, side: %u, price: %d, quantity: %u, rank: %u\n",
+									dbp::tools::srv::current(),
+									uSecurityCode,
+									static_cast<unsigned int>(side),
+									price,
+									quantity,
+									rank);
+*/
+			DEBUG("tm:%llu, OMDD Add order, code: %u, BestBid: %d, BestAsk: %d\n",
+												dbp::tools::srv::current(),
+												uSecurityCode,
+												rOrderBook.m_Bid[0].m_iPrice,
+												rOrderBook.m_Ask[0].m_iPrice);
+
 		}
 	}
 	else if (331 == _pMsg->m_uMsgType)
