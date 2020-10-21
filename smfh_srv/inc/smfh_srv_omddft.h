@@ -83,7 +83,7 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 		auto is_top = book.new_order(id, price, quantity, side);
 		if (is_top)
 		{
-			book.new_order(id, price, quantity, side);
+			//book.new_order(id, price, quantity, side);
 			rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 			if (OmddFullTickBook::OrderSide::BID == side)
 			{
