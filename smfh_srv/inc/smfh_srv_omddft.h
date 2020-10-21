@@ -24,6 +24,12 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 		auto quantity = OMD_GET_VALUE(_pMsg, 20, unsigned int);
 		auto side = OMD_GET_VALUE(_pMsg, 24, OmddFullTickBook::OrderSide);
 		auto rest = quantity;
+		DEBUG("tm:%llu, OMDD Add order, code: %u, side: %u, price: %d, quantity: %u\n",
+						dbp::tools::srv::current(),
+						uSecurityCode,
+						static_cast<unsigned int>(side),
+						price,
+						quantity);
 		if (OmddFullTickBook::OrderSide::BID == side)
 		{
 			for (auto it = book.Asks.begin(); it != book.Asks.end(); ++it)
