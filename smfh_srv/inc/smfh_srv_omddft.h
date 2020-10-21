@@ -28,6 +28,7 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 		if(uSecurityCode != 201527202)
 			return;
 
+		/*
 		DEBUG("tm:%llu, OMDD Add order, code: %u, side: %u, price: %d, quantity: %u\n",
 						dbp::tools::srv::current(),
 						uSecurityCode,
@@ -89,7 +90,7 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 					break;
 				}
 			}
-		}
+		}*/
 		auto is_top = book.new_order(id, price, quantity, side);
 		if (is_top)
 		{
