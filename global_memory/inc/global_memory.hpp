@@ -139,6 +139,11 @@ public:
 			auto it = Bids.emplace(price, PriceItem()).first;
 			it->second.quantity += quantity;
 			++it->second.number_of_order;
+
+			DEBUG("tm:%llu, OMDD Add Bid, AddBestBid: %d, Iterator Price: %d, Begin Price: %d\n",
+							dbp::tools::srv::current(),
+							price, it->first, Bids.begin()->first);
+
 			return (Bids.begin() == it);
 		}
 		else
@@ -151,6 +156,11 @@ public:
 			auto it = Asks.emplace(price, PriceItem()).first;
 			it->second.quantity += quantity;
 			++it->second.number_of_order;
+
+			DEBUG("tm:%llu, OMDD Add Ask, AddBestBid: %d, Iterator Price: %d, Begin Price: %d\n",
+										dbp::tools::srv::current(),
+										price, it->first, Bids.begin()->first);
+
 			return (Asks.begin() == it);
 		}
 	}
