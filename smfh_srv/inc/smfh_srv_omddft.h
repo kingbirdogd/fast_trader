@@ -36,7 +36,8 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 						static_cast<unsigned int>(side),
 						price,
 						quantity,
-						rank)
+						rank);
+		/*
 		if (OmddFullTickBook::OrderSide::BID == side)
 		{
 			for (auto it = book.Asks.begin(); it != book.Asks.end(); ++it)
