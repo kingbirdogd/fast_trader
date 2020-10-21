@@ -522,6 +522,10 @@ public:
 						Bids.erase(it2);
 					}
 
+					DEBUG("tm:%llu, OMDD Delete Bid, Delete Price: %d, Delete Qty: %ull\n",
+							dbp::tools::srv::current(),
+							it->second.price, it->second.quantity);
+
 					OmddbidOrds.erase(it);
 				return result{side, isTop};
 			}
@@ -543,6 +547,10 @@ public:
 					{
 						Asks.erase(it2);
 					}
+
+					DEBUG("tm:%llu, OMDD Delete Ask, Delete Price: %d, Delete Qty: %ull\n",
+												dbp::tools::srv::current(),
+												it->second.price, it->second.quantity);
 
 					OmddaskOrds.erase(it);
 				return result{side, isTop};
