@@ -15,6 +15,10 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 	{
 		return;
 	}
+
+	if(uSecurityCode != 201527202)
+				return;
+
 	COmdOrderbook& rOrderBook = it->second;
 	if (330 == _pMsg->m_uMsgType)
 	{
@@ -26,8 +30,7 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 		auto rank = OMD_GET_VALUE(_pMsg, 28, unsigned int);
 		//auto rest = quantity;
 
-		if(uSecurityCode != 201527202)
-			return;
+
 
 
 		DEBUG("tm:%llu, OMDD Add order, code: %u, side: %u, price: %d, quantity: %u, rank: %u\n",
@@ -205,14 +208,14 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 	}
 	else if (350 == _pMsg->m_uMsgType)
 		{
-			rOrderBook.m_MsgType = MsgType::OMDD_TRADE;
+			//rOrderBook.m_MsgType = MsgType::OMDD_TRADE;
 			unsigned long long m_LastTradeQuantity = static_cast<unsigned long long>(OMD_GET_VALUE(_pMsg, 40, unsigned int));
 			int m_LastTradePrice = OMD_GET_VALUE(_pMsg, 16, int);
 			//unsigned short int m_TradeType = OMD_GET_VALUE(_pMsg, 33, unsigned short int);
 			unsigned char omdd_side = OMD_GET_VALUE(_pMsg, 32, unsigned char);
 			if (2 == omdd_side)
 			{
-				DEBUG("tm:%llu, OMDD Trade , code: %u, Price: %d, Side: SELL, Quantity : %llu  \n",
+				DEBUG("tm:%llu, OMDD Trade , code: %u, Price: %d, Side: BUY, Quantity : %llu  \n",
 							dbp::tools::srv::current(),
 							uSecurityCode,
 							m_LastTradePrice,
@@ -220,17 +223,13 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 			}
 			else if (3 == omdd_side)
 			{
-				DEBUG("tm:%llu, OMDD Trade , code: %u, Price: %d, Side: BUY, Quantity : %llu  \n",
+				DEBUG("tm:%llu, OMDD Trade , code: %u, Price: %d, Side: SELL, Quantity : %llu  \n",
 											dbp::tools::srv::current(),
 											uSecurityCode,
 											m_LastTradePrice,
 											m_LastTradeQuantity);
 			}
-			else
-			{
-				rOrderBook.m_TradeSide = TradeSide::NO_SIDE;
-				rOrderBook.m_AccumulateBlankQuantity += rOrderBook.m_LastTradeQuantity;
-			}
+
 		}
 
 }
