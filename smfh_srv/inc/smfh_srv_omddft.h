@@ -91,7 +91,7 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 				}
 			}
 		}*/
-		auto is_top = book.new_order(id, price, quantity, side);
+		auto is_top = book.omdd_new_order(id, price, quantity, side);
 		if (is_top)
 		{
 			//book.new_order(id, price, quantity, side);
@@ -122,7 +122,8 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
 		auto price = OMD_GET_VALUE(_pMsg, 16, int);
 		auto quantity = OMD_GET_VALUE(_pMsg, 20, unsigned int);
-		auto result = book.modify_order(id, quantity, price);
+		auto side = OMD_GET_VALUE(_pMsg, 24, OmddFullTickBook::OrderSide);
+		auto result = book.omdd_modify_order(id, quantity, price, side);
 		if (result.is_top)
 		{
 			rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
@@ -144,7 +145,8 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 	{
 		auto& book = omddFullTickBook[uSecurityCode];
 		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
-		auto result = book.cancel_order(id);
+		auto side = OMD_GET_VALUE(_pMsg, 24, OmddFullTickBook::OrderSide);
+		auto result = book.omdd_cancel_order(id, side);
 		if (result.is_top)
 		{
 			rOrderBook.m_MsgType = MsgType::OMDD_BOOK;

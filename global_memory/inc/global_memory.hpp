@@ -101,6 +101,8 @@ public:
 	using AskMap = std::map<int, PriceItem, std::less<int>>;
 public:
 	OrderMap Ords;
+	OrderMap OmddbidOrds;
+	OrderMap OmddaskOrds;
 	BidMap Bids;
 	AskMap Asks;
 public:
@@ -119,6 +121,34 @@ public:
 		}
 		else
 		{
+			auto it = Asks.emplace(price, PriceItem()).first;
+			it->second.quantity += quantity;
+			++it->second.number_of_order;
+			return (Asks.begin() == it);
+		}
+	}
+	bool omdd_new_order(unsigned long long id, int price, unsigned int quantity, OrderSide side)
+	{
+
+		if (OrderSide::BID == side)
+		{
+			auto& odr = OmddbidOrds[id];
+			odr.price = price;
+			odr.quantity = quantity;
+			odr.side = side;
+
+			auto it = Bids.emplace(price, PriceItem()).first;
+			it->second.quantity += quantity;
+			++it->second.number_of_order;
+			return (Bids.begin() == it);
+		}
+		else
+		{
+			auto& odr = OmddaskOrds[id];
+			odr.price = price;
+			odr.quantity = quantity;
+			odr.side = side;
+
 			auto it = Asks.emplace(price, PriceItem()).first;
 			it->second.quantity += quantity;
 			++it->second.number_of_order;
@@ -165,6 +195,56 @@ public:
 			}
 		}
 		return result{OrderSide::NONE, false};
+	}
+
+	auto omdd_modify_order(unsigned long long id, unsigned int quantity, OrderSide side)
+	{
+		struct result
+		{
+			OrderSide side;
+			bool is_top;
+		};
+
+		if (OrderSide::BID == side)
+		{
+			auto it = OmddbidOrds.find(id);
+			if (OmddbidOrds.end() != it)
+			{
+
+					auto it2 = Bids.find(it->second.price);
+					if (quantity > it->second.quantity)
+					{
+						it2->second.quantity += (quantity - it->second.quantity);
+					}
+					else
+					{
+						it2->second.quantity -= (it->second.quantity - quantity);
+					}
+					it->second.quantity = quantity;
+					return result{it->second.side, (Bids.begin() == it2)};
+
+			}
+		}else{
+			auto it = OmddaskOrds.find(id);
+			if (OmddaskOrds.end() != it)
+			{
+
+					auto it2 = Asks.find(it->second.price);
+					if (quantity > it->second.quantity)
+					{
+						it2->second.quantity += (quantity - it->second.quantity);
+					}
+					else
+					{
+						it2->second.quantity -= (it->second.quantity - quantity);
+					}
+					it->second.quantity = quantity;
+					return result{it->second.side, (Asks.begin() == it2)};
+
+			}
+		}
+		return result{OrderSide::NONE, false};
+
 	}
 
 	auto modify_order(unsigned long long id, unsigned int quantity, int price)
@@ -255,6 +335,109 @@ public:
 		}
 		return result{OrderSide::NONE, false};
 	}
+
+
+	auto omdd_modify_order(unsigned long long id, unsigned int quantity, int price, OrderSide side)
+	{
+		struct result
+		{
+			OrderSide side;
+			bool is_top;
+		};
+		if (OrderSide::BID == side)
+		{
+			auto it = OmddbidOrds.find(id);
+			if (OmddbidOrds.end() != it)
+			{
+				if (it->second.price == price)
+				{
+
+						auto it2 = Bids.find(it->second.price);
+						if (quantity > it->second.quantity)
+						{
+							it2->second.quantity += (quantity - it->second.quantity);
+						}
+						else
+						{
+							it2->second.quantity -= (it->second.quantity - quantity);
+						}
+						it->second.quantity = quantity;
+						return result{it->second.side, (Bids.begin() == it2)};
+
+				}
+				else
+				{
+					auto side = it->second.side;
+					bool isTop = false;
+
+						auto it2 = Bids.find(it->second.price);
+						if (Bids.begin() == it2)
+						{
+							isTop = true;
+						}
+						it2->second.quantity -= it->second.quantity;
+						it2->second.number_of_order -= 1;
+						if (0 == it2->second.number_of_order)
+						{
+							Bids.erase(it2);
+						}
+						it->second.quantity = quantity;
+						it->second.price = price;
+						auto new_price_it = Bids.emplace(price, PriceItem()).first;
+						new_price_it->second.quantity += quantity;
+						++new_price_it->second.number_of_order;
+						return result{side, ((Bids.begin() == new_price_it) || isTop)};
+
+				}
+			}
+		}else{
+			auto it = OmddaskOrds.find(id);
+			if (OmddaskOrds.end() != it)
+			{
+				if (it->second.price == price)
+				{
+
+						auto it2 = Asks.find(it->second.price);
+						if (quantity > it->second.quantity)
+						{
+							it2->second.quantity += (quantity - it->second.quantity);
+						}
+						else
+						{
+							it2->second.quantity -= (it->second.quantity - quantity);
+						}
+						return result{it->second.side, (Asks.begin() == it2)};
+
+				}
+				else
+				{
+					auto side = it->second.side;
+					bool isTop = false;
+
+						auto it2 = Asks.find(it->second.price);
+						if (Asks.begin() == it2)
+						{
+							isTop = true;
+						}
+						it2->second.quantity -= it->second.quantity;
+						it2->second.number_of_order -= 1;
+						if (0 == it2->second.number_of_order)
+						{
+							Asks.erase(it2);
+						}
+						it->second.quantity = quantity;
+						it->second.price = price;
+						auto new_price_it = Asks.emplace(price, PriceItem()).first;
+						new_price_it->second.quantity += quantity;
+						++new_price_it->second.number_of_order;
+						return result{side, ((Asks.begin() == new_price_it) || isTop)};
+
+				}
+			}
+		}
+		return result{OrderSide::NONE, false};
+	}
+
 	auto cancel_order(unsigned long long id)
 	{
 		struct result
@@ -300,6 +483,65 @@ public:
 		}
 		return result{OrderSide::NONE, false};
 	}
+
+	auto omdd_cancel_order(unsigned long long id, OrderSide side)
+	{
+		struct result
+		{
+			OrderSide side;
+			bool is_top;
+		};
+		if (OrderSide::BID == side)
+		{
+			auto it = OmddbidOrds.find(id);
+			if (OmddbidOrds.end() != it)
+			{
+				auto side = it->second.side;
+				bool isTop = false;
+
+					auto it2 = Bids.find(it->second.price);
+					if (Bids.begin() == it2)
+					{
+						isTop = true;
+					}
+					it2->second.quantity -= it->second.quantity;
+					it2->second.number_of_order -= 1;
+					if (0 == it2->second.number_of_order)
+					{
+						Bids.erase(it2);
+					}
+
+					OmddbidOrds.erase(it);
+				return result{side, isTop};
+			}
+		}else{
+			auto it = OmddaskOrds.find(id);
+			if (OmddaskOrds.end() != it)
+			{
+				auto side = it->second.side;
+				bool isTop = false;
+
+					auto it2 = Asks.find(it->second.price);
+					if (Asks.begin() == it2)
+					{
+						isTop = true;
+					}
+					it2->second.quantity -= it->second.quantity;
+					it2->second.number_of_order -= 1;
+					if (0 == it2->second.number_of_order)
+					{
+						Asks.erase(it2);
+					}
+
+					OmddaskOrds.erase(it);
+				return result{side, isTop};
+			}
+		}
+		return result{OrderSide::NONE, false};
+	}
+
+
+
 	bool isCross()
 	{
 		if (Bids.empty() || Asks.empty())
@@ -309,6 +551,10 @@ public:
 		else
 			return true;
 	}
+
+
+
+
 	void clear()
 	{
 		Ords.clear();
