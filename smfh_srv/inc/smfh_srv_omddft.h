@@ -127,13 +127,13 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 		if (result.is_top)
 		{
 			rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
-			if (OmddFullTickBook::OrderSide::BID == result.side)
+			if (OmddFullTickBook::OrderSide::BID == side)
 			{
 				ConvertFullBookToBookBid(book.Bids, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
 			}
-			else if (OmddFullTickBook::OrderSide::ASK == result.side)
+			else if (OmddFullTickBook::OrderSide::ASK == side)
 			{
 				ConvertFullBookToBookAsk(book.Asks, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
@@ -150,13 +150,13 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 		if (result.is_top)
 		{
 			rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
-			if (OmddFullTickBook::OrderSide::BID == result.side)
+			if (OmddFullTickBook::OrderSide::BID == side)
 			{
 				ConvertFullBookToBookBid(book.Bids, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
 			}
-			else if (OmddFullTickBook::OrderSide::ASK == result.side)
+			else if (OmddFullTickBook::OrderSide::ASK == side)
 			{
 				ConvertFullBookToBookAsk(book.Asks, rOrderBook);
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;

@@ -557,6 +557,8 @@ public:
 
 	void clear()
 	{
+		OmddbidOrds.clear();
+		OmddaskOrds.clear();
 		Ords.clear();
 		Bids.clear();
 		Asks.clear();
