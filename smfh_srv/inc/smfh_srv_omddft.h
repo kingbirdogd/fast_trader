@@ -29,14 +29,14 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 		if(uSecurityCode != 201527202)
 			return;
 
-
+/*
 		DEBUG("tm:%llu, OMDD Add order, code: %u, side: %u, price: %d, quantity: %u, rank: %u\n",
 						dbp::tools::srv::current(),
 						uSecurityCode,
 						static_cast<unsigned int>(side),
 						price,
 						quantity,
-						rank);
+						rank);*/
 		/*
 		if (OmddFullTickBook::OrderSide::BID == side)
 		{
@@ -157,6 +157,11 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
 			}
+			DEBUG("tm:%llu, OMDD Modify order, code: %u, BestBid: %d, BestAsk: %d\n",
+															dbp::tools::srv::current(),
+															uSecurityCode,
+															rOrderBook.m_Bid[0].m_iPrice,
+															rOrderBook.m_Ask[0].m_iPrice);
 		}
 	}
 	else if (332 == _pMsg->m_uMsgType)
@@ -180,6 +185,11 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
 			}
+			DEBUG("tm:%llu, OMDD Delete order, code: %u, BestBid: %d, BestAsk: %d\n",
+															dbp::tools::srv::current(),
+															uSecurityCode,
+															rOrderBook.m_Bid[0].m_iPrice,
+															rOrderBook.m_Ask[0].m_iPrice);
 		}
 	}
 	else if (335 == _pMsg->m_uMsgType)
