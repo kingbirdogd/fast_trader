@@ -274,8 +274,8 @@ public:
 															}
 															else if (bStartRefresh)
 															{
-																//unsigned int ucode = OMD_GET_VALUE(pszBuffer, 4, unsigned int);
-																//flush_printf("tm:%llu, Handle Refresh 1 , ChannelId:%u , mType: %u Code:%u\n", dbp::tools::srv::current(), _channel.m_uChannelId, mType, ucode);
+																unsigned int ucode = OMD_GET_VALUE(pszBuffer, 4, unsigned int);
+																flush_printf("tm:%llu, Handle Refresh 1 , ChannelId:%u , mType: %u Code:%u\n", dbp::tools::srv::current(), _channel.m_uChannelId, mType, ucode);
 																HANDLE(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), 0, _channel.m_uChannelId);
 															}
 															else
