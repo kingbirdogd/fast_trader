@@ -23,7 +23,7 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 		auto price = OMD_GET_VALUE(_pMsg, 16, int);
 		auto quantity = OMD_GET_VALUE(_pMsg, 20, unsigned int);
 		auto side = OMD_GET_VALUE(_pMsg, 24, OmddFullTickBook::OrderSide);
-		auto rank = OMD_GET_VALUE(_pMsg, 28, unsigned int);
+		//auto rank = OMD_GET_VALUE(_pMsg, 28, unsigned int);
 		//auto rest = quantity;
 
 		if(uSecurityCode != 201527202)
