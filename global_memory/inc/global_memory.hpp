@@ -348,8 +348,8 @@ public:
 			auto it = OmddbidOrds.find(id);
 			if (OmddbidOrds.end() != it)
 			{
-				if (it->second.price == price)
-				{
+				//if (it->second.price == price)
+				//{
 
 						auto it2 = Bids.find(it->second.price);
 						if (quantity > it->second.quantity)
@@ -363,7 +363,9 @@ public:
 						it->second.quantity = quantity;
 						return result{it->second.side, (Bids.begin() == it2)};
 
-				}
+				//}
+
+				/*
 				else
 				{
 					auto side = it->second.side;
@@ -387,14 +389,14 @@ public:
 						++new_price_it->second.number_of_order;
 						return result{side, ((Bids.begin() == new_price_it) || isTop)};
 
-				}
+				}*/
 			}
 		}else{
 			auto it = OmddaskOrds.find(id);
 			if (OmddaskOrds.end() != it)
 			{
-				if (it->second.price == price)
-				{
+				//if (it->second.price == price)
+				//{
 
 						auto it2 = Asks.find(it->second.price);
 						if (quantity > it->second.quantity)
@@ -406,7 +408,7 @@ public:
 							it2->second.quantity -= (it->second.quantity - quantity);
 						}
 						return result{it->second.side, (Asks.begin() == it2)};
-
+/*
 				}
 				else
 				{
@@ -431,7 +433,7 @@ public:
 						++new_price_it->second.number_of_order;
 						return result{side, ((Asks.begin() == new_price_it) || isTop)};
 
-				}
+				}*/
 			}
 		}
 		return result{OrderSide::NONE, false};
