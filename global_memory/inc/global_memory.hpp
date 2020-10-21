@@ -159,7 +159,7 @@ public:
 
 			DEBUG("tm:%llu, OMDD Add Ask, AddBestBid: %d, Iterator Price: %d, Begin Price: %d\n",
 										dbp::tools::srv::current(),
-										price, it->first, Bids.begin()->first);
+										price, it->first, Asks.begin()->first);
 
 			return (Asks.begin() == it);
 		}
