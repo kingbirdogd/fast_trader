@@ -11,6 +11,7 @@
 #include "smfh_srv_cfg.h"
 #include "smfh_srv_omdc.h"
 #include "smfh_srv_omdd.h"
+#include "smfh_srv_omddft.h"
 #include "smfh_srv_pricetable.h"
 #include "smfh_srv_s1signal.h"
 #include "smfh_srv_slimomdc.h"
@@ -581,6 +582,10 @@ inline static bool startOmdcChannel()
 inline static bool startOmddChannel()
 {
 	return ChannelHandler<handleOmdd>::handleChannelVec(omddStreams);
+}
+inline static bool startOmddftChannel()
+{
+	return ChannelHandler<handleOmddFt>::handleChannelVec(omddStreams);
 }
 inline static bool startPriceTableChannel()
 {

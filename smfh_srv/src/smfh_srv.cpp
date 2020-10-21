@@ -477,6 +477,15 @@ inline static bool start()
 			return false;
 		}
 	}
+	itActivate = mActivateChannel.find("OmddftChannel");
+	if(itActivate != mActivateChannel.end())
+	{
+		flush_printf("tm:%llu, Start OmddftChannel \n", dbp::tools::srv::current());
+		if (!startOmddftChannel())
+		{
+			return false;
+		}
+	}
 	itActivate = mActivateChannel.find("PriceTableChannel");
 	if(itActivate != mActivateChannel.end())
 	{
@@ -709,6 +718,16 @@ inline static bool initJson(const char* _pszJsonPath)
 		if (!loadChannel(j, "OmddChannel", omddStreams))
 		{
 			std::cerr << "loadChannel OmddChannel" << std::endl;
+			return false;
+		}
+	}
+	itActivate = mActivateChannel.find("OmddftChannel");
+	if(itActivate != mActivateChannel.end())
+	{
+		flush_printf("tm:%llu, loadChannel = OmddftChannel \n", dbp::tools::srv::current());
+		if (!loadChannel(j, "OmddChannel", omddStreams))
+		{
+			std::cerr << "loadChannel OmddftChannel" << std::endl;
 			return false;
 		}
 	}
