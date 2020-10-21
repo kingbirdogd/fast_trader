@@ -145,7 +145,7 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 	{
 		auto& book = omddFullTickBook[uSecurityCode];
 		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
-		auto side = OMD_GET_VALUE(_pMsg, 24, OmddFullTickBook::OrderSide);
+		auto side = OMD_GET_VALUE(_pMsg, 16, OmddFullTickBook::OrderSide);
 		auto result = book.omdd_cancel_order(id, side);
 		if (result.is_top)
 		{
