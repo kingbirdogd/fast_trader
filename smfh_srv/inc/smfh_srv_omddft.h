@@ -220,7 +220,7 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 			}
 			else if (3 == omdd_side)
 			{
-				DEBUG("tm:%llu, OMDD Trade , code: %u, Price: %d, Side: BUY, Quantity : %ull  \n",
+				DEBUG("tm:%llu, OMDD Trade , code: %u, Price: %d, Side: BUY, Quantity : %llu  \n",
 											dbp::tools::srv::current(),
 											uSecurityCode,
 											m_LastTradePrice,
