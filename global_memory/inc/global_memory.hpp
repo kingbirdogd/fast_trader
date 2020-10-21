@@ -351,7 +351,7 @@ public:
 				//if (it->second.price == price)
 				//{
 
-						auto it2 = Bids.find(it->second.price);
+						auto it2 = Bids.find(price);
 						if (quantity > it->second.quantity)
 						{
 							it2->second.quantity += (quantity - it->second.quantity);
@@ -398,7 +398,7 @@ public:
 				//if (it->second.price == price)
 				//{
 
-						auto it2 = Asks.find(it->second.price);
+						auto it2 = Asks.find(price);
 						if (quantity > it->second.quantity)
 						{
 							it2->second.quantity += (quantity - it->second.quantity);
