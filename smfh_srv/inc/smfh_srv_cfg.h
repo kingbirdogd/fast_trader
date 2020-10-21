@@ -1072,26 +1072,35 @@ inline static bool loadDefinition(json& _json)
 													{
 														symbol = symbol.substr(0, idx);
 													}
-													cache["omdd_name"][std::to_string(orderbookid)] = symbol;
-													omddMap[orderbookid].m_Code = orderbookid;
-#ifdef FULLTICK
-													omddFullTickBook[orderbookid];
-#endif //FULLTICK
-													cache["omdd"].push_back(orderbookid);
-													codeToName[orderbookid] = symbol;
-													nameToCode[symbol] = orderbookid;
-													COmddUnderlying underlying;
-													underlying.InstrumentGroup = OMD_GET_VALUE(pszBuffer, 42, unsigned char);
-													underlying.CommodityCode = OMD_GET_VALUE(pszBuffer, 44, unsigned short int);
-													codeTounderlying[orderbookid] = underlying;
-													cache["omdd_underlying"][std::to_string(orderbookid)] = json::object();
-													cache["omdd_underlying"][std::to_string(orderbookid)]["InstrumentGroup"] = static_cast<unsigned short int>(underlying.InstrumentGroup);
-													cache["omdd_underlying"][std::to_string(orderbookid)]["CommodityCode"] = static_cast<unsigned short int>(underlying.CommodityCode);
-													DEBUG("tm:%llu, OMDD Underlying Set, code: %lu, InstrumentGroup:%u,CommodityCode:%u\n",
-															dbp::tools::srv::current(),
-															orderbookid,
-															static_cast<unsigned int>(underlying.InstrumentGroup),
-															static_cast<unsigned int>(underlying.CommodityCode));
+
+													unsigned short int CommodityCode = OMD_GET_VALUE(pszBuffer, 44, unsigned short int);
+													unsigned char InstrumentGroup = OMD_GET_VALUE(pszBuffer, 42, unsigned char);
+
+													if(CommodityCode == 4001 || CommodityCode == 4002){
+														if(InstrumentGroup == 4){
+
+														cache["omdd_name"][std::to_string(orderbookid)] = symbol;
+														omddMap[orderbookid].m_Code = orderbookid;
+	#ifdef FULLTICK
+														omddFullTickBook[orderbookid];
+	#endif //FULLTICK
+														cache["omdd"].push_back(orderbookid);
+														codeToName[orderbookid] = symbol;
+														nameToCode[symbol] = orderbookid;
+														COmddUnderlying underlying;
+														underlying.InstrumentGroup = OMD_GET_VALUE(pszBuffer, 42, unsigned char);
+														underlying.CommodityCode = OMD_GET_VALUE(pszBuffer, 44, unsigned short int);
+														codeTounderlying[orderbookid] = underlying;
+														cache["omdd_underlying"][std::to_string(orderbookid)] = json::object();
+														cache["omdd_underlying"][std::to_string(orderbookid)]["InstrumentGroup"] = static_cast<unsigned short int>(underlying.InstrumentGroup);
+														cache["omdd_underlying"][std::to_string(orderbookid)]["CommodityCode"] = static_cast<unsigned short int>(underlying.CommodityCode);
+														DEBUG("tm:%llu, OMDD Underlying Set, code: %lu, InstrumentGroup:%u,CommodityCode:%u\n",
+																dbp::tools::srv::current(),
+																orderbookid,
+																static_cast<unsigned int>(underlying.InstrumentGroup),
+																static_cast<unsigned int>(underlying.CommodityCode));
+														}
+													}
 												}
 												break;
 											}
