@@ -24,6 +24,10 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 		auto quantity = OMD_GET_VALUE(_pMsg, 20, unsigned int);
 		auto side = OMD_GET_VALUE(_pMsg, 24, OmddFullTickBook::OrderSide);
 		auto rest = quantity;
+
+		if(uSecurityCode != 201527202)
+			return;
+
 		DEBUG("tm:%llu, OMDD Add order, code: %u, side: %u, price: %d, quantity: %u\n",
 						dbp::tools::srv::current(),
 						uSecurityCode,
