@@ -313,7 +313,7 @@ public:
 				it2->second.quantity -= quantity;
 
 				if(it2->second.quantity == 0){
-					A.erase(it2);
+					Asks.erase(it2);
 				}
 
 
