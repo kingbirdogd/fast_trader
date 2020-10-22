@@ -261,6 +261,69 @@ public:
 
 	}
 
+	auto omdd_deduct_order(unsigned long long id, unsigned int quantity, OrderSide side)
+	{
+		struct result
+		{
+			OrderSide side;
+			bool is_top;
+		};
+
+		if (OrderSide::BID == side)
+		{
+			auto it = OmddbidOrds.find(id);
+			if (OmddbidOrds.end() != it)
+			{
+
+				it->second.quantity -= quantity;
+
+				if(it->second.quantity == 0){
+					OmddaskOrds.erase(it);
+				}
+
+				auto it2 = Bids.find(it->second.price);
+
+				is_top = Bids.begin() == it2;
+
+				it2->second.quantity -= quantity;
+
+				if(it2->second.quantity == 0){
+					Bids.erase(it2);
+				}
+
+
+				return result{it->second.side, is_top};
+
+			}
+		}else{
+			auto it = OmddaskOrds.find(id);
+			if (OmddaskOrds.end() != it)
+			{
+				it->second.quantity = quantity;
+
+
+				if(it->second.quantity == 0){
+					OmddaskOrds.erase(it);
+				}
+
+				auto it2 = Asks.find(it->second.price);
+
+				is_top = Bids.begin() == it2;
+
+				it2->second.quantity -= quantity;
+
+				if(it2->second.quantity == 0){
+					A.erase(it2);
+				}
+
+
+				return result{it->second.side, is_top};
+
+			}
+		}
+		return result{OrderSide::NONE, false};
+	}
+
 	auto modify_order(unsigned long long id, unsigned int quantity, int price)
 	{
 		struct result
