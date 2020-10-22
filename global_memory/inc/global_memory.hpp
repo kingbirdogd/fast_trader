@@ -140,11 +140,11 @@ public:
 			it->second.quantity += quantity;
 			++it->second.number_of_order;
 
-
+/*
 			DEBUG("tm:%llu, OMDD Add Bid, AddBestBid: %d, Iterator Price: %d, Begin Bid Price: %d bidqty %llu, Begin Ask Price: %d askqty %llu\n",
 							dbp::tools::srv::current(),
 							price, it->first, Bids.begin()->first,Bids.begin()->second.quantity, Asks.begin()->first, Asks.begin()->second.quantity);
-
+*/
 			return (Bids.begin() == it);
 		}
 		else
@@ -157,11 +157,11 @@ public:
 			auto it = Asks.emplace(price, PriceItem()).first;
 			it->second.quantity += quantity;
 			++it->second.number_of_order;
-
+*/
 			DEBUG("tm:%llu, OMDD Add Ask, AddBestAsk: %d, Iterator Price: %d, Begin Bids Price: %d bidqty %llu, Begin Ask Price: %d askqty %llu\n",
 										dbp::tools::srv::current(),
 										price, it->first, Bids.begin()->first, Bids.begin()->second.quantity, Asks.begin()->first, Asks.begin()->second.quantity);
-
+*/
 			return (Asks.begin() == it);
 		}
 	}
@@ -610,11 +610,11 @@ public:
 					{
 						Bids.erase(it2);
 					}
-
+/*
 					DEBUG("tm:%llu, OMDD Delete Bid, delete Price: %d, Delete Qty: %u,  Begin Bid Price: %d bidqty %llu, Begin Ask Price: %d askqty %llu\n",
 						dbp::tools::srv::current(),
 						it->second.price,it->second.quantity, Bids.begin()->first,Bids.begin()->second.quantity, Asks.begin()->first, Asks.begin()->second.quantity);
-
+*/
 					OmddbidOrds.erase(it);
 				return result{side, isTop};
 			}
@@ -636,11 +636,11 @@ public:
 					{
 						Asks.erase(it2);
 					}
-
+/*
 					DEBUG("tm:%llu, OMDD Delete Ask, delete Price: %d, Delete Qty: %u,  Begin Bid Price: %d bidqty %llu, Begin Ask Price: %d askqty %llu\n",
 										dbp::tools::srv::current(),
 										it->second.price,it->second.quantity, Bids.begin()->first,Bids.begin()->second.quantity, Asks.begin()->first, Asks.begin()->second.quantity);
-
+*/
 
 					OmddaskOrds.erase(it);
 				return result{side, isTop};

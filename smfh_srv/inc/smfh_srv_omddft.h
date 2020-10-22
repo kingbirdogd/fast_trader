@@ -171,10 +171,10 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 		auto& book = omddFullTickBook[uSecurityCode];
 		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
 		auto side = OMD_GET_VALUE(_pMsg, 16, OmddFullTickBook::OrderSide);
-		book.omdd_cancel_order(id, side);
-		//auto result = book.omdd_cancel_order(id, side);
-		//if (result.is_top)
-		//{
+		//book.omdd_cancel_order(id, side);
+		auto result = book.omdd_cancel_order(id, side);
+		if (result.is_top)
+		{
 			rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 			if (OmddFullTickBook::OrderSide::BID == side)
 			{
@@ -193,7 +193,7 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 															uSecurityCode,
 															rOrderBook.m_Bid[0].m_iPrice,
 															rOrderBook.m_Ask[0].m_iPrice);
-		//}
+		}
 	}
 	else if (335 == _pMsg->m_uMsgType)
 	{
