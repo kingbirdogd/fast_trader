@@ -15,10 +15,11 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 	{
 		return;
 	}
-
+#ifdef DF
 	COmdOrderbook& rOrderBook = it->second;
 	if (330 == _pMsg->m_uMsgType)
 	{
+
 		auto& book = omddFullTickBook[uSecurityCode];
 		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
 		auto price = OMD_GET_VALUE(_pMsg, 16, int);
@@ -276,7 +277,7 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 			}
 
 		}
-
+#endif //DF
 }
 
 #endif
