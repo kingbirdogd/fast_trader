@@ -212,23 +212,25 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 			//rOrderBook.m_MsgType = MsgType::OMDD_TRADE;
 			unsigned long long m_LastTradeQuantity = static_cast<unsigned long long>(OMD_GET_VALUE(_pMsg, 40, unsigned int));
 			int m_LastTradePrice = OMD_GET_VALUE(_pMsg, 16, int);
-			//unsigned short int m_TradeType = OMD_GET_VALUE(_pMsg, 33, unsigned short int);
+			unsigned short int m_TradeType = OMD_GET_VALUE(_pMsg, 33, unsigned short int);
 			unsigned char omdd_side = OMD_GET_VALUE(_pMsg, 32, unsigned char);
 			if (2 == omdd_side)
 			{
-				DEBUG("tm:%llu, OMDD Trade , code: %u, Price: %d, Side: BUY, Quantity : %llu  \n",
+				DEBUG("tm:%llu, OMDD Trade , code: %u, Price: %d, Side: BUY, Quantity : %llu, Type : %d  \n",
 							dbp::tools::srv::current(),
 							uSecurityCode,
 							m_LastTradePrice,
-							m_LastTradeQuantity);
+							m_LastTradeQuantity,
+							m_TradeType);
 			}
 			else if (3 == omdd_side)
 			{
-				DEBUG("tm:%llu, OMDD Trade , code: %u, Price: %d, Side: SELL, Quantity : %llu  \n",
+				DEBUG("tm:%llu, OMDD Trade , code: %u, Price: %d, Side: SELL, Quantity : %llu, Type : %d  \n",
 							dbp::tools::srv::current(),
 							uSecurityCode,
 							m_LastTradePrice,
-							m_LastTradeQuantity);
+							m_LastTradeQuantity,
+							m_TradeType);
 			}
 
 		}
