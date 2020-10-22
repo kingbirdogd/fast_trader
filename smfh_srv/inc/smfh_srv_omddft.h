@@ -217,9 +217,9 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 			auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
 			int m_LastTradePrice = OMD_GET_VALUE(_pMsg, 16, int);
 			unsigned short int m_TradeType = OMD_GET_VALUE(_pMsg, 33, unsigned short int);
-			//unsigned char omdd_side = OMD_GET_VALUE(_pMsg, 32, unsigned char);
+			unsigned char omdd_side = OMD_GET_VALUE(_pMsg, 32, unsigned char);
 
-			auto side = OMD_GET_VALUE(_pMsg, 32, OmddFullTickBook::OrderSide);
+			//auto side = OMD_GET_VALUE(_pMsg, 32, OmddFullTickBook::OrderSide);
 
 			if(id > 0){
 
