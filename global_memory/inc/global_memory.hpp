@@ -140,7 +140,7 @@ public:
 			it->second.quantity += quantity;
 			++it->second.number_of_order;
 
-			DEBUG("tm:%llu, OMDD Add Bid, AddBestBid: %d, Iterator Price: %d, Begin Bid Price: %d bidqty %d, Begin Ask Price: %d askqty %d\n",
+			DEBUG("tm:%llu, OMDD Add Bid, AddBestBid: %d, Iterator Price: %d, Begin Bid Price: %d bidqty %ull, Begin Ask Price: %d askqty %ull\n",
 							dbp::tools::srv::current(),
 							price, it->first, Bids.begin()->first,Bids.begin()->second, Asks.begin()->first, Asks.begin()->second);
 
@@ -157,7 +157,7 @@ public:
 			it->second.quantity += quantity;
 			++it->second.number_of_order;
 
-			DEBUG("tm:%llu, OMDD Add Ask, AddBestAsk: %d, Iterator Price: %d, Begin Bids Price: %d bidqty %d, Begin Ask Price: %d askqty %d\n",
+			DEBUG("tm:%llu, OMDD Add Ask, AddBestAsk: %d, Iterator Price: %d, Begin Bids Price: %d bidqty %ull, Begin Ask Price: %d askqty %ull\n",
 										dbp::tools::srv::current(),
 										price, it->first, Bids.begin()->first, Bids.begin()->second, Asks.begin()->first, Asks.begin()->second);
 
