@@ -283,7 +283,7 @@ public:
 
 				auto it2 = Bids.find(it->second.price);
 
-				boolean is_top = Bids.begin() == it2;
+				bool is_top = Bids.begin() == it2;
 
 				it2->second.quantity -= quantity;
 
