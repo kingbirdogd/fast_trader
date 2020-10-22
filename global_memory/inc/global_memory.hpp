@@ -272,14 +272,15 @@ public:
 		if (OrderSide::BID == side)
 		{
 			auto it = OmddbidOrds.find(id);
+			bool needdelete = false;
 			if (OmddbidOrds.end() != it)
 			{
 
 				it->second.quantity -= quantity;
 
-				if(it->second.quantity == 0){
-					OmddaskOrds.erase(it);
-				}
+				needdelete = it->second.quantity == 0;
+
+
 
 				auto it2 = Bids.find(it->second.price);
 
@@ -295,6 +296,9 @@ public:
 				return result{it->second.side, is_top};
 
 			}
+			if(needdelete){
+				OmddaskOrds.erase(it);
+			}
 		}else{
 			auto it = OmddaskOrds.find(id);
 			if (OmddaskOrds.end() != it)
@@ -302,9 +306,9 @@ public:
 				it->second.quantity = quantity;
 
 
-				if(it->second.quantity == 0){
-					OmddaskOrds.erase(it);
-				}
+				needdelete = it->second.quantity == 0;
+
+
 
 				auto it2 = Asks.find(it->second.price);
 
@@ -320,6 +324,8 @@ public:
 				return result{it->second.side, is_top};
 
 			}
+			if(needdelete)
+				OmddaskOrds.erase(it);
 		}
 		return result{OrderSide::NONE, false};
 	}
