@@ -378,9 +378,9 @@ public:
 						it->second.quantity = quantity;
 
 
-						DEBUG("tm:%llu, OMDD Modify Bid, AddBestBid: %d, Iterator Price: %d, Begin Bid Price: %d bidqty %llu, Begin Ask Price: %d askqty %llu\n",
+						DEBUG("tm:%llu, OMDD Modify Bid, AddBestBid: %d, Begin Bid Price: %d bidqty %llu, Begin Ask Price: %d askqty %llu\n",
 																		dbp::tools::srv::current(),
-																		price, it->first, Bids.begin()->first,Bids.begin()->second.quantity, Asks.begin()->first, Asks.begin()->second.quantity);
+																		price, Bids.begin()->first,Bids.begin()->second.quantity, Asks.begin()->first, Asks.begin()->second.quantity);
 
 
 						return result{it->second.side, (Bids.begin() == it2)};
@@ -430,9 +430,9 @@ public:
 							it2->second.quantity -= (it->second.quantity - quantity);
 						}
 
-						DEBUG("tm:%llu, OMDD Modify Ask, AddBestAsk: %d, Iterator Price: %d, Begin Bids Price: %d bidqty %llu, Begin Ask Price: %d askqty %llu\n",
+						DEBUG("tm:%llu, OMDD Modify Ask, AddBestAsk: %d, Begin Bids Price: %d bidqty %llu, Begin Ask Price: %d askqty %llu\n",
 																				dbp::tools::srv::current(),
-																				price, it->first, Bids.begin()->first, Bids.begin()->second.quantity, Asks.begin()->first, Asks.begin()->second.quantity);
+																				price, Bids.begin()->first, Bids.begin()->second.quantity, Asks.begin()->first, Asks.begin()->second.quantity);
 
 
 						return result{it->second.side, (Asks.begin() == it2)};
