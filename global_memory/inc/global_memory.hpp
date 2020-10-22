@@ -300,6 +300,7 @@ public:
 				OmddaskOrds.erase(it);
 			}
 		}else{
+			bool needdelete = false;
 			auto it = OmddaskOrds.find(id);
 			if (OmddaskOrds.end() != it)
 			{
