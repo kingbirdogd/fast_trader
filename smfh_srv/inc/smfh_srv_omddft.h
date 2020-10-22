@@ -16,9 +16,6 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 		return;
 	}
 
-	if(uSecurityCode != 201527202)
-				return;
-
 	COmdOrderbook& rOrderBook = it->second;
 	if (330 == _pMsg->m_uMsgType)
 	{
