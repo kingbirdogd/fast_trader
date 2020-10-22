@@ -33,7 +33,7 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 
 
 
-		DEBUG("tm:%llu, OMDD Add order, code: %u, side: %u, price: %d, quantity: %u,
+		DEBUG("tm:%llu, OMDD Add order, code: %u, side: %u, price: %d, quantity: %u ",
 						dbp::tools::srv::current(),
 						uSecurityCode,
 						static_cast<unsigned int>(side),
