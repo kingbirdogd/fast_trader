@@ -129,7 +129,7 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 									quantity,
 									rank);
 */
-			DEBUG("tm:%llu, OMDD Add order, code: %u, BestBid: %d, BestAsk: %d\n",
+			DEBUG("tm:%llu, OMDD Add order Top, code: %u, BestBid: %d, BestAsk: %d\n",
 												dbp::tools::srv::current(),
 												uSecurityCode,
 												rOrderBook.m_Bid[0].m_iPrice,
@@ -160,7 +160,7 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
 			}
-			DEBUG("tm:%llu, OMDD Modify order, code: %u, BestBid: %d, BestAsk: %d\n",
+			DEBUG("tm:%llu, OMDD Modify order Top, code: %u, BestBid: %d, BestAsk: %d\n",
 															dbp::tools::srv::current(),
 															uSecurityCode,
 															rOrderBook.m_Bid[0].m_iPrice,
@@ -189,7 +189,7 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
 			}
-			DEBUG("tm:%llu, OMDD Delete order, code: %u, BestBid: %d, BestAsk: %d\n",
+			DEBUG("tm:%llu, OMDD Delete order Top, code: %u, BestBid: %d, BestAsk: %d\n",
 															dbp::tools::srv::current(),
 															uSecurityCode,
 															rOrderBook.m_Bid[0].m_iPrice,
@@ -225,10 +225,10 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 			else if (3 == omdd_side)
 			{
 				DEBUG("tm:%llu, OMDD Trade , code: %u, Price: %d, Side: SELL, Quantity : %llu  \n",
-											dbp::tools::srv::current(),
-											uSecurityCode,
-											m_LastTradePrice,
-											m_LastTradeQuantity);
+							dbp::tools::srv::current(),
+							uSecurityCode,
+							m_LastTradePrice,
+							m_LastTradeQuantity);
 			}
 
 		}
