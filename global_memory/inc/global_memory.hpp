@@ -142,7 +142,7 @@ public:
 
 			DEBUG("tm:%llu, OMDD Add Bid, AddBestBid: %d, Iterator Price: %d, Begin Bid Price: %d bidqty %ull, Begin Ask Price: %d askqty %ull\n",
 							dbp::tools::srv::current(),
-							price, it->first, Bids.begin()->first,Bids.begin()->second, Asks.begin()->first, Asks.begin()->second);
+							price, it->first, Bids.begin()->first,Bids.begin()->second.quantity, Asks.begin()->first, Asks.begin()->second.quantity);
 
 			return (Bids.begin() == it);
 		}
@@ -159,7 +159,7 @@ public:
 
 			DEBUG("tm:%llu, OMDD Add Ask, AddBestAsk: %d, Iterator Price: %d, Begin Bids Price: %d bidqty %ull, Begin Ask Price: %d askqty %ull\n",
 										dbp::tools::srv::current(),
-										price, it->first, Bids.begin()->first, Bids.begin()->second, Asks.begin()->first, Asks.begin()->second);
+										price, it->first, Bids.begin()->first, Bids.begin()->second.quantity, Asks.begin()->first, Asks.begin()->second.quantity);
 
 			return (Asks.begin() == it);
 		}
