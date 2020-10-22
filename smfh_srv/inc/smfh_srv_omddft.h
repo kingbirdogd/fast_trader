@@ -159,6 +159,7 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
 			}
+
 			DEBUG("tm:%llu, OMDD Modify order Top, code: %u, BestBid: %d, BestAsk: %d\n",
 															dbp::tools::srv::current(),
 															uSecurityCode,
