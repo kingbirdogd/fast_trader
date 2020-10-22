@@ -605,7 +605,7 @@ public:
 					}
 					it2->second.quantity -= it->second.quantity;
 					it2->second.number_of_order -= 1;
-					if (0 == it2->second.number_of_order)
+					if (0 == it2->second.number_of_order || 0 == it2->second.quantity )
 					{
 						Bids.erase(it2);
 					}
@@ -613,11 +613,6 @@ public:
 					DEBUG("tm:%llu, OMDD Delete Bid, delete Price: %d, Delete Qty: %u,  Begin Bid Price: %d bidqty %llu, Begin Ask Price: %d askqty %llu\n",
 						dbp::tools::srv::current(),
 						it->second.price,it->second.quantity, Bids.begin()->first,Bids.begin()->second.quantity, Asks.begin()->first, Asks.begin()->second.quantity);
-
-
-
-
-
 
 					OmddbidOrds.erase(it);
 				return result{side, isTop};
@@ -636,7 +631,7 @@ public:
 					}
 					it2->second.quantity -= it->second.quantity;
 					it2->second.number_of_order -= 1;
-					if (0 == it2->second.number_of_order)
+					if (0 == it2->second.number_of_order  || 0 == it2->second.quantity)
 					{
 						Asks.erase(it2);
 					}
