@@ -292,13 +292,9 @@ public:
 				if(it2->second.quantity == 0){
 					Bids.erase(it2);
 				}
-
-
-
-
 			}
 			if(needdelete){
-				OmddaskOrds.erase(it);
+				OmddbidOrds.erase(it);
 			}
 
 			return result{side, is_top};
