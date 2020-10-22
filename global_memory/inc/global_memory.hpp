@@ -540,7 +540,7 @@ public:
 						Bids.erase(it2);
 					}
 
-					DEBUG("tm:%llu, OMDD Delete Bid, delete Price: %d, Delete Qty: %ull,  Begin Bid Price: %d bidqty %llu, Begin Ask Price: %d askqty %llu\n",
+					DEBUG("tm:%llu, OMDD Delete Bid, delete Price: %d, Delete Qty: %u,  Begin Bid Price: %d bidqty %llu, Begin Ask Price: %d askqty %llu\n",
 						dbp::tools::srv::current(),
 						it->second.price,it->second.quantity, Bids.begin()->first,Bids.begin()->second.quantity, Asks.begin()->first, Asks.begin()->second.quantity);
 
@@ -571,7 +571,7 @@ public:
 						Asks.erase(it2);
 					}
 
-					DEBUG("tm:%llu, OMDD Delete Ask, delete Price: %d, Delete Qty: %ull,  Begin Bid Price: %d bidqty %llu, Begin Ask Price: %d askqty %llu\n",
+					DEBUG("tm:%llu, OMDD Delete Ask, delete Price: %d, Delete Qty: %u,  Begin Bid Price: %d bidqty %llu, Begin Ask Price: %d askqty %llu\n",
 										dbp::tools::srv::current(),
 										it->second.price,it->second.quantity, Bids.begin()->first,Bids.begin()->second.quantity, Asks.begin()->first, Asks.begin()->second.quantity);
 
