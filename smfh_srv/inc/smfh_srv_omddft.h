@@ -217,12 +217,16 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 			auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
 			int m_LastTradePrice = OMD_GET_VALUE(_pMsg, 16, int);
 			unsigned short int m_TradeType = OMD_GET_VALUE(_pMsg, 33, unsigned short int);
-			unsigned char omdd_side = OMD_GET_VALUE(_pMsg, 32, unsigned char);
+			//unsigned char omdd_side = OMD_GET_VALUE(_pMsg, 32, unsigned char);
+
+			auto side = OMD_GET_VALUE(_pMsg, 32, OmddFullTickBook::OrderSide);
+
 			if(id > 0){
-			auto result = book.omdd_deduct_order(id,m_LastTradeQuantity, omdd_side);
+
 
 			if (2 == omdd_side)
 			{
+				book.omdd_deduct_order(id,m_LastTradeQuantity, OmddFullTickBook::OrderSide::BID);
 
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 
@@ -242,6 +246,7 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 			else if (3 == omdd_side)
 			{
 
+				book.omdd_deduct_order(id,m_LastTradeQuantity, OmddFullTickBook::OrderSide::ASK);
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 
 				ConvertFullBookToBookAsk(book.Asks, rOrderBook);
