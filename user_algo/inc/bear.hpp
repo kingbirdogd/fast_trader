@@ -877,7 +877,7 @@ private:
 */
 
 
-
+/*
 				Log(std::string(" WCODE ") + std::to_string(code) +
 				std::string(" CODE ") + std::to_string(_warrant_code) +
 				std::string(" bid = ") + std::to_string(best_bid_price) +
@@ -891,7 +891,7 @@ private:
 				std::string(" FBestask = ") + std::to_string(_PriceInfoU->FBestask) +
 				std::string(" PFBestbid = ") + std::to_string(_PriceInfoU->PFBestbid) +
 				std::string(" PFBestask = ") + std::to_string(_PriceInfoU->PFBestask)
-								);
+								);*/
 
 
 				unsigned long buyin = _CbbcPriceMark->buyIn(best_ask_price);
