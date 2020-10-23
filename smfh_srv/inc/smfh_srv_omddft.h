@@ -255,7 +255,7 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 				else if (3 == omdd_side)
 				{
 
-					ConvertFullBookToBookAsk(book.Bids, rOrderBook);
+					ConvertFullBookToBookAsk(book.Asks, rOrderBook);
 					rOrderBook.m_MsgType = MsgType::OMDD_TRADE;
 					rOrderBook.m_LastTradeQuantity = m_LastTradeQuantity;
 					rOrderBook.m_LastTradePrice = m_LastTradePrice;
