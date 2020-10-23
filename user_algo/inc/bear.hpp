@@ -385,7 +385,7 @@ private:
 
 			Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " on_trade" + " Status = " + std::to_string(_Status) + " Bestbid = " + std::to_string(_PriceInfo->Bestbid)  + " Bestask = " + std::to_string(_PriceInfo->Bestask) + " Trade Price = " + to_string(trade_price) + " STATUS = " + to_string(_Status));
 
-			if(BUY_ORDER == tradable.m_TradeSide ){
+			if(SELL_ORDER == tradable.m_TradeSide ){
 
 				if(_Status == STATUS_DONE && (currentTime > (_OBSetting->TradeTime + 3))){
 					_Status = STATUS_READY;
@@ -515,7 +515,7 @@ private:
 				}
 			}
 
-			if(SELL_ORDER == tradable.m_TradeSide){
+			if(BUY_ORDER == tradable.m_TradeSide){
 				//if(_Status == STATUS_AVAILABLE && (_Action_Status == STAGE_START || _Win_Tick > 0) ){
 				if(_Status == STATUS_AVAILABLE && _Action_Status == STAGE_START  && trade_price == _OBSetting->SellOut){
 
