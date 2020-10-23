@@ -117,11 +117,11 @@ void bear::on_omdd_book(const Tradable& tradable)
 		//auto best_ask_qty = tradable.m_Ask[0].m_uQuantity;
 		auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
 
-		Log("Data = " + to_string(tradable.m_Code) + " ----- " + to_string(best_bid_price) + ":" + to_string(best_ask_price));
+		//Log("Data = " + to_string(tradable.m_Code) + " ----- " + to_string(best_bid_price) + ":" + to_string(best_ask_price));
 
 		if(uit->second->FBestbid != best_bid_price){
 
-			Log("UCODE  = " + to_string(tradable.m_Code) + " Bid Change from  " + to_string(uit->second->FBestbid) + " To  " + to_string(best_bid_price));
+			//Log("UCODE  = " + to_string(tradable.m_Code) + " Bid Change from  " + to_string(uit->second->FBestbid) + " To  " + to_string(best_bid_price));
 			uit->second->BidSeq++;
 			uit->second->PFBestbid = uit->second->FBestbid;
 			uit->second->FBestbid = best_bid_price;
@@ -130,7 +130,7 @@ void bear::on_omdd_book(const Tradable& tradable)
 		if(uit->second->FBestask != best_ask_price ){
 
 
-			Log("UCODE  = " + to_string(tradable.m_Code) + " Ask Change from  " + to_string(uit->second->FBestask) + " To  " + to_string(best_ask_price));
+			//Log("UCODE  = " + to_string(tradable.m_Code) + " Ask Change from  " + to_string(uit->second->FBestask) + " To  " + to_string(best_ask_price));
 			uit->second->AskSeq++;
 			uit->second->PFBestask = uit->second->FBestask;
 			uit->second->FBestask = best_ask_price;
@@ -218,14 +218,23 @@ void bear::on_omdd_trade(const Tradable& tradable)
 		auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
 		auto best_bid_price1 = static_cast<unsigned long long>(tradable.m_Bid[1].m_iPrice) * 100000;
 		auto best_ask_price1 = static_cast<unsigned long long>(tradable.m_Ask[1].m_iPrice) * 100000;
+		auto best_bid_qty = static_cast<unsigned long long>(tradable.m_Bid[0].m_uQuantity);
+		auto best_ask_qty = static_cast<unsigned long long>(tradable.m_Ask[0].m_uQuantity);
 
 		//auto trade_quantity = tradable.m_uAccumulatedQuantity;
 		auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice) * 100000;
 
+		Log(" Code = " + to_string(tradable.m_Code) + " Best Bid  = " + to_string(best_bid_price) + " Best Ask  = " + to_string(best_ask_price));
+		Log(" Code = " + to_string(tradable.m_Code) + " Best Bid1 = " + to_string(best_bid_price1) + " Best Ask1 = " + to_string(best_ask_price1));
+		Log(" Code = " + to_string(tradable.m_Code) + " Best Qty = " + to_string(best_bid_qty) + " Best Qty = " + to_string(best_ask_qty));
 
 
 		if(BUY_ORDER == tradable.m_TradeSide){
+
+
 			auto trade_quantity = static_cast<unsigned long long>(tradable.m_AccumulateSellQuantity);
+
+			Log(" Code = " + to_string(tradable.m_Code) + " Trade Price = " + to_string(trade_price) + " tradable.m_TradeSide = BUY " + " Qty = " + to_string(trade_quantity));
 
 			if(uprice->TBestbid != trade_price){
 				uprice->PTBestbid = uprice->TBestbid;
@@ -278,6 +287,9 @@ void bear::on_omdd_trade(const Tradable& tradable)
 
 		if(SELL_ORDER == tradable.m_TradeSide){
 			auto trade_quantity = static_cast<unsigned long long>(tradable.m_AccumulateBuyQuantity);
+
+			Log(" Code = " + to_string(tradable.m_Code) + " Trade Price = " + to_string(trade_price) + " tradable.m_TradeSide = SELL " + " Qty = " + to_string(trade_quantity));
+
 
 			if(uprice->TBestask != trade_price ){
 				uprice->PTBestask = uprice->TBestask;
