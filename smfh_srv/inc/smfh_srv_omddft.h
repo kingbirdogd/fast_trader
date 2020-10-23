@@ -126,13 +126,12 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 									quantity,
 									rank);
 */
-			DEBUG("tm:%llu, OMDD Add order Top, code: %u, BestBid: %d, BestAsk: %d\n",
-												dbp::tools::srv::current(),
-												uSecurityCode,
-												rOrderBook.m_Bid[0].m_iPrice,
-												rOrderBook.m_Ask[0].m_iPrice);
-
 		}
+		DEBUG("tm:%llu, OMDD Add order Top, code: %u, BestBid: %d, BestAsk: %d\n",
+			dbp::tools::srv::current(),
+			uSecurityCode,
+			rOrderBook.m_Bid[0].m_iPrice,
+			rOrderBook.m_Ask[0].m_iPrice);
 	}
 	else if (331 == _pMsg->m_uMsgType)
 	{
@@ -159,10 +158,10 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 			}
 
 			DEBUG("tm:%llu, OMDD Modify order Top, code: %u, BestBid: %d, BestAsk: %d\n",
-															dbp::tools::srv::current(),
-															uSecurityCode,
-															rOrderBook.m_Bid[0].m_iPrice,
-															rOrderBook.m_Ask[0].m_iPrice);
+							dbp::tools::srv::current(),
+							uSecurityCode,
+							rOrderBook.m_Bid[0].m_iPrice,
+							rOrderBook.m_Ask[0].m_iPrice);
 		}
 	}
 	else if (332 == _pMsg->m_uMsgType)
@@ -187,12 +186,12 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 				broadcastQueue.enqueue(rOrderBook);
 			}
-			DEBUG("tm:%llu, OMDD Delete order Top, code: %u, BestBid: %d, BestAsk: %d\n",
-															dbp::tools::srv::current(),
-															uSecurityCode,
-															rOrderBook.m_Bid[0].m_iPrice,
-															rOrderBook.m_Ask[0].m_iPrice);
 		}
+		DEBUG("tm:%llu, OMDD Delete order Top, code: %u, BestBid: %d, BestAsk: %d\n",
+			dbp::tools::srv::current(),
+			uSecurityCode,
+			rOrderBook.m_Bid[0].m_iPrice,
+			rOrderBook.m_Ask[0].m_iPrice);
 	}
 	else if (335 == _pMsg->m_uMsgType)
 	{
@@ -220,60 +219,65 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 			//auto side = OMD_GET_VALUE(_pMsg, 32, OmddFullTickBook::OrderSide);
 
 			if(id > 0){
+				if (2 == omdd_side)
+				{
 
+					rOrderBook.m_MsgType = MsgType::OMDD_TRADE;
+					rOrderBook.m_LastTradeQuantity = m_LastTradeQuantity;
+					rOrderBook.m_LastTradePrice = m_LastTradePrice;
+					rOrderBook.m_TradeType = m_TradeType;
+					rOrderBook.m_TradeSide = TradeSide::BUY_SIDE;
+					rOrderBook.m_AccumulateBuyQuantity += rOrderBook.m_LastTradeQuantity;
 
-			if (2 == omdd_side)
-			{
+					book.omdd_deduct_order(id,m_LastTradeQuantity, OmddFullTickBook::OrderSide::BID);
 
-				rOrderBook.m_MsgType = MsgType::OMDD_TRADE;
-				rOrderBook.m_LastTradeQuantity = m_LastTradeQuantity;
-				rOrderBook.m_LastTradePrice = m_LastTradePrice;
-				rOrderBook.m_TradeType = m_TradeType;
-				rOrderBook.m_TradeSide = TradeSide::BUY_SIDE;
-				rOrderBook.m_AccumulateBuyQuantity += rOrderBook.m_LastTradeQuantity;
+					//rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 
-				book.omdd_deduct_order(id,m_LastTradeQuantity, OmddFullTickBook::OrderSide::BID);
-
-				//rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
-
-				ConvertFullBookToBookBid(book.Bids, rOrderBook);
-				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
-				broadcastQueue.enqueue(rOrderBook);
+					ConvertFullBookToBookBid(book.Bids, rOrderBook);
+					rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
+					broadcastQueue.enqueue(rOrderBook);
 
 
 
-				DEBUG("tm:%llu, OMDD Trade , code: %u, Price: %d, Side: BUY, Quantity : %llu, Type : %d  \n",
+					DEBUG("tm:%llu, OMDD Trade , code: %u, Price: %d, Side: BUY, Quantity : %llu, Type : %d  \n",
+								dbp::tools::srv::current(),
+								uSecurityCode,
+								m_LastTradePrice,
+								m_LastTradeQuantity,
+								m_TradeType);
+				}
+				else if (3 == omdd_side)
+				{
+
+					rOrderBook.m_MsgType = MsgType::OMDD_TRADE;
+					rOrderBook.m_LastTradeQuantity = m_LastTradeQuantity;
+					rOrderBook.m_LastTradePrice = m_LastTradePrice;
+					rOrderBook.m_TradeType = m_TradeType;
+					rOrderBook.m_TradeSide = TradeSide::SELL_SIDE;
+					rOrderBook.m_AccumulateSellQuantity += rOrderBook.m_LastTradeQuantity;
+					broadcastQueue.enqueue(rOrderBook);
+
+					book.omdd_deduct_order(id,m_LastTradeQuantity, OmddFullTickBook::OrderSide::ASK);
+					//rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
+
+					ConvertFullBookToBookAsk(book.Asks, rOrderBook);
+					rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
+					broadcastQueue.enqueue(rOrderBook);
+
+					DEBUG("tm:%llu, OMDD Trade ID>0, code: %u, Price: %d, Side: SELL, Quantity : %llu, Type : %d  \n",
+								dbp::tools::srv::current(),
+								uSecurityCode,
+								m_LastTradePrice,
+								m_LastTradeQuantity,
+								m_TradeType);
+				}
+			}else{
+				DEBUG("tm:%llu, OMDD Trade ID=0, code: %u, Price: %d, Side: SELL, Quantity : %llu, Type : %d  \n",
 							dbp::tools::srv::current(),
 							uSecurityCode,
 							m_LastTradePrice,
 							m_LastTradeQuantity,
 							m_TradeType);
-			}
-			else if (3 == omdd_side)
-			{
-
-				rOrderBook.m_MsgType = MsgType::OMDD_TRADE;
-				rOrderBook.m_LastTradeQuantity = m_LastTradeQuantity;
-				rOrderBook.m_LastTradePrice = m_LastTradePrice;
-				rOrderBook.m_TradeType = m_TradeType;
-				rOrderBook.m_TradeSide = TradeSide::SELL_SIDE;
-				rOrderBook.m_AccumulateSellQuantity += rOrderBook.m_LastTradeQuantity;
-				broadcastQueue.enqueue(rOrderBook);
-
-				book.omdd_deduct_order(id,m_LastTradeQuantity, OmddFullTickBook::OrderSide::ASK);
-				//rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
-
-				ConvertFullBookToBookAsk(book.Asks, rOrderBook);
-				rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
-				broadcastQueue.enqueue(rOrderBook);
-
-				DEBUG("tm:%llu, OMDD Trade , code: %u, Price: %d, Side: SELL, Quantity : %llu, Type : %d  \n",
-							dbp::tools::srv::current(),
-							uSecurityCode,
-							m_LastTradePrice,
-							m_LastTradeQuantity,
-							m_TradeType);
-			}
 			}
 
 		}

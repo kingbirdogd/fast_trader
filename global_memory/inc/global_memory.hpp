@@ -281,8 +281,6 @@ public:
 
 				needdelete = it->second.quantity == 0;
 
-
-
 				auto it2 = Bids.find(it->second.price);
 
 				is_top = Bids.begin() == it2;
@@ -303,23 +301,17 @@ public:
 			auto it = OmddaskOrds.find(id);
 			if (OmddaskOrds.end() != it)
 			{
-				it->second.quantity = quantity;
-
+				it->second.quantity -= quantity;
 
 				needdelete = it->second.quantity == 0;
-
-
 
 				auto it2 = Asks.find(it->second.price);
 
 				is_top = Bids.begin() == it2;
 
-				it2->second.quantity -= quantity;
-
 				if(it2->second.quantity == 0){
 					Asks.erase(it2);
 				}
-
 
 				//return result{it->second.side, is_top};
 
