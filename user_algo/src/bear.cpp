@@ -238,7 +238,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 		if(SELL_ORDER == tradable.m_TradeSide){
 
 
-			auto trade_quantity = static_cast<unsigned long long>(tradable.m_AccumulateSellQuantity);
+			auto trade_quantity = static_cast<unsigned long long>(tradable.m_AccumulateBuyQuantity);
 
 			Log(" Code = " + to_string(tradable.m_Code) + " Trade Price = " + to_string(trade_price) + " tradable.m_TradeSide = BUY " + " Qty = " + to_string(trade_quantity));
 
@@ -292,7 +292,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 		}
 
 		if(BUY_ORDER == tradable.m_TradeSide){
-			auto trade_quantity = static_cast<unsigned long long>(tradable.m_AccumulateBuyQuantity);
+			auto trade_quantity = static_cast<unsigned long long>(tradable.m_AccumulateSellQuantity);
 
 			Log(" Code = " + to_string(tradable.m_Code) + " Trade Price = " + to_string(trade_price) + " tradable.m_TradeSide = SELL " + " Qty = " + to_string(trade_quantity));
 
