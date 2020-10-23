@@ -269,13 +269,13 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 					rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 					broadcastQueue.enqueue(rOrderBook);
 
-					DEBUG("tm:%llu, OMDD Trade ID>0, code: %u, Price: %d, Side: SELL, Quantity : %llu, Type : %d, BEST BID : %llu : BEST ASK : %llu  \n",
+					DEBUG("tm:%llu, OMDD Trade ID>0, code: %u, Price: %d, Side: SELL, Quantity : %llu, Type : %d, BEST BID : %d : BEST ASK : %d  \n",
 								dbp::tools::srv::current(),
 								uSecurityCode,
 								m_LastTradePrice,
 								m_LastTradeQuantity,
 								m_TradeType,
-								book.Bids.begin().first, book.Asks.begin().first);
+								book.Bids.begin()->first, book.Asks.begin()->first);
 				}
 			}else{
 				DEBUG("tm:%llu, OMDD Trade ID=0, code: %u, Price: %d, Side: SELL, Quantity : %llu, Type : %d  \n",
