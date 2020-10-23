@@ -249,7 +249,7 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 								m_LastTradePrice,
 								m_LastTradeQuantity,
 								m_TradeType,
-								book.Bids.begin().first, book.Asks.begin().first);
+								book.Bids.begin()->first, book.Asks.begin()->first);
 				}
 				else if (3 == omdd_side)
 				{
