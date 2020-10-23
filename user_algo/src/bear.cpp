@@ -228,6 +228,12 @@ void bear::on_omdd_trade(const Tradable& tradable)
 		Log(" Code = " + to_string(tradable.m_Code) + " Best Bid1 = " + to_string(best_bid_price1) + " Best Ask1 = " + to_string(best_ask_price1));
 		Log(" Code = " + to_string(tradable.m_Code) + " Best Qty = " + to_string(best_bid_qty) + " Best Qty = " + to_string(best_ask_qty));
 
+		if(tradable.m_TradeSide == BUY_ORDER){
+			Log(" Code = " + to_string(tradable.m_Code) + " BID SIDE TRADE");
+		}else{
+			Log(" Code = " + to_string(tradable.m_Code) + " ASK SIDE TRADE");
+		}
+
 
 		if(BUY_ORDER == tradable.m_TradeSide){
 

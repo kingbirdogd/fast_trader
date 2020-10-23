@@ -243,12 +243,13 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 
 
 
-					DEBUG("tm:%llu, OMDD Trade , code: %u, Price: %d, Side: BUY, Quantity : %llu, Type : %d  \n",
+					DEBUG("tm:%llu, OMDD Trade , code: %u, Price: %d, Side: BUY, Quantity : %llu, Type : %d, BEST BID : %llu : BEST ASK : %llu  \n",
 								dbp::tools::srv::current(),
 								uSecurityCode,
 								m_LastTradePrice,
 								m_LastTradeQuantity,
-								m_TradeType);
+								m_TradeType,
+								book.Bids.begin().first, book.Asks.begin().first);
 				}
 				else if (3 == omdd_side)
 				{
@@ -268,12 +269,13 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 					rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
 					broadcastQueue.enqueue(rOrderBook);
 
-					DEBUG("tm:%llu, OMDD Trade ID>0, code: %u, Price: %d, Side: SELL, Quantity : %llu, Type : %d  \n",
+					DEBUG("tm:%llu, OMDD Trade ID>0, code: %u, Price: %d, Side: SELL, Quantity : %llu, Type : %d, BEST BID : %llu : BEST ASK : %llu  \n",
 								dbp::tools::srv::current(),
 								uSecurityCode,
 								m_LastTradePrice,
 								m_LastTradeQuantity,
-								m_TradeType);
+								m_TradeType,
+								book.Bids.begin().first, book.Asks.begin().first);
 				}
 			}else{
 				DEBUG("tm:%llu, OMDD Trade ID=0, code: %u, Price: %d, Side: SELL, Quantity : %llu, Type : %d  \n",
