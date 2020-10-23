@@ -243,7 +243,7 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 
 
 
-					DEBUG("tm:%llu, OMDD Trade , code: %u, Price: %d, Side: BUY, Quantity : %llu, Type : %d, BEST BID : %llu : BEST ASK : %llu  \n",
+					DEBUG("tm:%llu, OMDD Trade , code: %u, Price: %d, Side: BUY, Quantity : %llu, Type : %d, BEST BID : %d : BEST ASK : %d  \n",
 								dbp::tools::srv::current(),
 								uSecurityCode,
 								m_LastTradePrice,
