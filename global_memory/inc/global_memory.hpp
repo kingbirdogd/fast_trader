@@ -309,6 +309,8 @@ public:
 
 				is_top = Bids.begin() == it2;
 
+				it2->second.quantity -= quantity;
+
 				if(it2->second.quantity == 0){
 					Asks.erase(it2);
 				}
