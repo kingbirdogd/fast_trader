@@ -55,7 +55,7 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 					rOrderBook.m_TradeSide = TradeSide::BUY_SIDE;
 					rOrderBook.m_AccumulateBuyQuantity += rOrderBook.m_LastTradeQuantity;
 					if(uSecurityCode<10000){
-					broadcastQueue.enqueue(rOrderBook);
+						broadcastQueue.enqueue(rOrderBook);
 					}
 					rest -= matched_quantity;
 					if (0 == rest)
@@ -113,19 +113,19 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 				rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 				if (OmdcFullTickBook::OrderSide::BID == side)
 				{
-					ConvertFullBookToBookBid(book.Bids, rOrderBook);
-					rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 					if (!book.isCross())
 					{
+						ConvertFullBookToBookBid(book.Bids, rOrderBook);
+						rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 						broadcastQueue.enqueue(rOrderBook);
 					}
 				}
 				else if (OmdcFullTickBook::OrderSide::ASK == side)
 				{
-					ConvertFullBookToBookAsk(book.Asks, rOrderBook);
-					rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 					if (!book.isCross())
 					{
+						ConvertFullBookToBookAsk(book.Asks, rOrderBook);
+						rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 						broadcastQueue.enqueue(rOrderBook);
 					}
 				}
