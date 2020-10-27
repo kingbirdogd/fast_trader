@@ -223,15 +223,15 @@ void bear::on_omdd_trade(const Tradable& tradable)
 
 		//auto trade_quantity = tradable.m_uAccumulatedQuantity;
 		auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice) * 100000;
-
+		Log(" Code = " + to_string(tradable.m_Code) + " START ");
 		Log(" Code = " + to_string(tradable.m_Code) + " Best Bid  = " + to_string(best_bid_price) + " Best Ask  = " + to_string(best_ask_price));
 		Log(" Code = " + to_string(tradable.m_Code) + " Best Bid1 = " + to_string(best_bid_price1) + " Best Ask1 = " + to_string(best_ask_price1));
 		Log(" Code = " + to_string(tradable.m_Code) + " Best Bid Qty = " + to_string(best_bid_qty) + " Best Ask Qty = " + to_string(best_ask_qty));
 
 		if(tradable.m_TradeSide == BUY_ORDER){
-			Log(" Code = " + to_string(tradable.m_Code) + " BID SIDE TRADE");
+			Log(" Code = " + to_string(tradable.m_Code) + " BID SIDE TRADE = 1");
 		}else{
-			Log(" Code = " + to_string(tradable.m_Code) + " ASK SIDE TRADE");
+			Log(" Code = " + to_string(tradable.m_Code) + " ASK SIDE TRADE = -1");
 		}
 
 
