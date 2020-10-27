@@ -309,7 +309,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 
 					if(p->getWtype() == BULL){
 
-						Log(" Code = " + to_string(tradable.m_Code) + " Trade Price = " + to_string(trade_price) + " sTATUS = " + to_string(p->status()));
+						Log(" Code = " + to_string(tradable.m_Code) + " Trade Price = " + to_string(trade_price) + " Buyin = " + to_string(p->getBuyIn()) + " sTATUS = " + to_string(p->status()));
 						if(p->getBuyIn() == trade_price  && p->status() == STATUS_READY && p->action_status() == STAGE_START)
 						{
 							p->on_bull_trade(tradable);
