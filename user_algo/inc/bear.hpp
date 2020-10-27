@@ -383,7 +383,7 @@ private:
 
 			auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice) * 100000;
 
-			Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " on_trade" + " Status = " + std::to_string(_Status) + " Bestbid = " + std::to_string(_PriceInfo->Bestbid)  + " Bestask = " + std::to_string(_PriceInfo->Bestask) + " Trade Price = " + to_string(trade_price) + " STATUS = " + to_string(_Status));
+			Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " on_trade" + " Status = " + std::to_string(_Status) + " Bestbid = " + std::to_string(_PriceInfo->Bestbid)  + " Bestask = " + std::to_string(_PriceInfo->Bestask) + " Trade Price = " + to_string(trade_price) + "Trade Side = " + to_string(tradable.m_TradeSide) + " STATUS = " + to_string(_Status));
 
 			if(SELL_ORDER == tradable.m_TradeSide ){
 
