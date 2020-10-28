@@ -40,7 +40,7 @@ bool SelectedWarrant::isSpreadAccept(int noofspread, unsigned long long price){
 		}
 	}
 	if(price < 25000000){
-		if(noofspread>0 && noofspread <= 4){
+		if(noofspread>0 && noofspread <= 3){
 			return true;
 		}
 	}

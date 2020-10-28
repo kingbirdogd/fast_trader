@@ -71,8 +71,8 @@ private:
 		int _Wtype = -1;
 		int _Utype = -1;
 		std::string _Ref;
-		int _Win_Tick = 0;
-		int _Stop_Lost = 0;
+		int _Win_Tick = -1;
+		int _Stop_Lost = -1;
 		int _Action_Status = -1;
 		int _Status = STATUS_READY;
 		int _INOUT = 0;
@@ -967,21 +967,22 @@ private:
 							doSell(warrant);
 						}
 					}else{
+						if(_Win_Tick > 0){
+							if(best_bid_price >= rwinPrice && bp > 0){
+								Log(std::string(" CODE = ") + std::to_string(code) + " on bull book SEll Win Tick > 0 " + to_string(best_bid_price)  + " Warrant Buy Price = " + to_string(warrant->BuyPrice)  );
+								warrant->SellPrice = best_bid_price;
+								warrant->SellQty = warrant->Quantity;
+								warrant->Status = STATUS_SELLING;
+								if(_OBSetting->SellOut == 99999999){
+									warrant->SellOut = _PriceInfoU->FBestbid;
+								}else{
+									warrant->SellOut = _OBSetting->SellOut;
+								}
+								_Status = STATUS_SELLING;
 
-						if(best_bid_price >= rwinPrice && bp > 0){
-							Log(std::string(" CODE = ") + std::to_string(code) + " on bull book SEll Win Tick > 0 " + to_string(best_bid_price)  + " Warrant Buy Price = " + to_string(warrant->BuyPrice)  );
-							warrant->SellPrice = best_bid_price;
-							warrant->SellQty = warrant->Quantity;
-							warrant->Status = STATUS_SELLING;
-							if(_OBSetting->SellOut == 99999999){
-								warrant->SellOut = _PriceInfoU->FBestbid;
-							}else{
-								warrant->SellOut = _OBSetting->SellOut;
+								doSell(warrant);
+
 							}
-							_Status = STATUS_SELLING;
-
-							doSell(warrant);
-
 						}
 					}
 				}
@@ -1307,23 +1308,24 @@ private:
 
 						}
 					}else{
+						if(_Win_Tick > 0){
+							if(best_bid_price >= rwinPrice && bp > 0){
 
-						if(best_bid_price >= rwinPrice && bp > 0){
+								Log(std::string(" CODE = ") + std::to_string(code) + " on bear book Sell Win Tick > 0 " + to_string(best_bid_price) + " Warrant Buy Price = " + to_string(warrant->BuyPrice)  );
 
-							Log(std::string(" CODE = ") + std::to_string(code) + " on bear book Sell Win Tick > 0 " + to_string(best_bid_price) + " Warrant Buy Price = " + to_string(warrant->BuyPrice)  );
+								warrant->SellPrice = best_bid_price;
+								warrant->SellQty = warrant->Quantity;
+								warrant->Status = STATUS_SELLING;
+								if(_OBSetting->SellOut == 99999999){
+									warrant->SellOut = _PriceInfoU->FBestbid;
+								}else{
+									warrant->SellOut = _OBSetting->SellOut;
+								}
+								_Status = STATUS_SELLING;
 
-							warrant->SellPrice = best_bid_price;
-							warrant->SellQty = warrant->Quantity;
-							warrant->Status = STATUS_SELLING;
-							if(_OBSetting->SellOut == 99999999){
-								warrant->SellOut = _PriceInfoU->FBestbid;
-							}else{
-								warrant->SellOut = _OBSetting->SellOut;
+								doSell(warrant);
+
 							}
-							_Status = STATUS_SELLING;
-
-							doSell(warrant);
-
 						}
 					}
 				}
