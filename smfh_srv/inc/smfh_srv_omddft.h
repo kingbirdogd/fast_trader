@@ -234,6 +234,9 @@ inline static void handleOmddFt(dbp::omd::COmdMsgHeader* _pMsg, unsigned long lo
 					rOrderBook.m_TradeSide = TradeSide::SELL_SIDE;
 					rOrderBook.m_AccumulateSellQuantity = rOrderBook.m_LastTradeQuantity;
 
+					broadcastQueue.enqueue(rOrderBook);
+
+
 					book.omdd_deduct_order(id,m_LastTradeQuantity, OmddFullTickBook::OrderSide::BID);
 
 					//rOrderBook.m_MsgType = MsgType::OMDD_BOOK;
