@@ -292,7 +292,8 @@
 		{"Channel":"SWOmdcChannel"},
 		{"Channel":"PriceTableChannel"},
 		{"Channel":"S1Channel"},
-		{"Channel":"OmddftChannel"}
+		{"Channel":"OmddftChannel"},
+		{"Channel":"TcpChannel"}
 	]
 }
 
