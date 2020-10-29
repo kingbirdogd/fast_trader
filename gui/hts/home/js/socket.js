@@ -224,13 +224,15 @@ function getWsMsg(type, id){
 		return '{"cmd": "order_list", "id": '+user_id+', "algo_name":"'+key+'", "ref": "allorders"}';
 	}else if(type=="getucode"){
 		//return '{"type":"get_warrant_underlying", "warrant": '+code+', "ref": "'+id+'"}';
-		return '{"cmd":"get_warrent_underlying", "code": '+code+', "ref": "'+id+'"}';
+		return '{"cmd":"get_warrent_underlying", "code": '+code+', "algo_name":"'+key+'", "ref": "'+id+'"}';
 	}else if(type=="get"){
 		return '{"cmd": "get", "id": '+user_id+', "algo_name":"'+key+'", "ref": "'+id+'"}';
 	}else if(type=="power"){
 		return '{"cmd": "get_buy_power", "id": '+user_id+', "algo_name":"'+key+'", "ref": "power"}';
 	}else if(type=="top_power"){
 		return '{"cmd": "get_top_buy_power", "id": '+user_id+', "algo_name":"'+key+'", "ref": "top_power"}';
+	}else if(type=="getprofit"){
+		return '{"cmd": "getprofit", "id": '+user_id+', "algo_name":"'+key+'", "ref": "getprofit"}';
 	}
 	
 	//return '{"type":"algo_command", "key":"'+key+'", "command": "'+msg+'", "refid": "'+id+'", "reftype": "'+reftype+'"}';
@@ -239,6 +241,9 @@ function getWsMsg(type, id){
 }
 
 function initWebsocket(){
+	var d = new Date();
+	var date = d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
+
 	if ("WebSocket" in window){
 		if(!ws){
 			ws = new WebSocket("ws://"+domain+"/uid="+localStorage.getItem('uid'));
@@ -249,14 +254,21 @@ function initWebsocket(){
 				initLogout();
 			}
 			console.log("已連接！");
+			$(".status span").removeClass("offline").addClass("online");
+			$(".status div strong").html("連接中");
 			retryCount = 0;
 			connectCount++;
+			time1 = new Date();
+			time2 = new Date();
+			checkHeartbeat();
 		}
 		ws.onmessage = function (evt){//console.log(evt);
 			var received_msg = evt.data;
+			
 			if(received_msg=="{}"){
 				initLogout();
 			}
+			
 			var today = new Date().toLocaleString();
 			var data = $.parseJSON(received_msg);
 			var receive_time = "";
@@ -1035,7 +1047,7 @@ function initWebsocket(){
 							$("#journal_table").append(content);
 							//journal_data += time+","+tradeStatus+","+order[i].header.order_id+","+order[i].code+","+type+","+formatValue(quantity)+","+price+","+formatValue(filled_quantity)+","+order[i].order_ref+"\n";
 							
-							if(order[i].status.indexOf("filled")>1){
+							/*if(order[i].status.indexOf("filled")>1){
 								if(map[order[i].code]!=1){
 									map[order[i].code]=1;
 									
@@ -1069,7 +1081,7 @@ function initWebsocket(){
 								$("#combination_table_profit_num").val($("#combination_table_profit_num").val()*1+profit);
 								$("#combination_table_sum").html(addcomma(($("#combination_table_sum_num").val()*1).toFixed(2)*1));
 								$("#combination_table_profit").html(formatProfit(($("#combination_table_profit_num").val()*1).toFixed(2)*1));
-							}
+							}*/
 						}
 						
 						/*for(var i=0; i<combination_array.length; i++){
@@ -1079,6 +1091,21 @@ function initWebsocket(){
 					//}else{
 						
 					//}
+					sendWsMsg(getWsMsg("getprofit", ""));
+				}else if(data.msg_type=="algo_getprofit_msg"){
+					//{"algo_name":"kenny_semi","id":2,"msg_type":"algo_getprofit_msg","portfolio":[{"averagebuy":300,"averagesell":285,"buyturnover":30000000000,"buyvolume":100000000,"code":15536,"profit":-1500000000,"sellturnover":28500000000,"sellvolume":100000000},{"averagebuy":221,"averagesell":218,"buyturnover":22100000000,"buyvolume":100000000,"code":16167,"profit":-300000000,"sellturnover":21800000000,"sellvolume":100000000},{"averagebuy":190,"averagesell":187,"buyturnover":19000000000,"buyvolume":100000000,"code":17310,"profit":-300000000,"sellturnover":18700000000,"sellvolume":100000000},{"averagebuy":275,"averagesell":290,"buyturnover":27500000000,"buyvolume":100000000,"code":18107,"profit":1500000000,"sellturnover":29000000000,"sellvolume":100000000}],"ref":"getprofit","tm":1595400920725}
+					var portfolio = data.portfolio;
+					var j=0;
+					var sum = 0;
+					var profit = 0;
+					for(var i=0; i<portfolio.length; i++){
+						$("#combination_table").append("<tr id='combination_tr_"+portfolio[i].code+"'><td class='code'>"+portfolio[i].code+"</td><td class='buy_avg_price'>"+(portfolio[i].averagebuy/1000)+"</td><td class='buy_total_price'>"+addcomma(portfolio[i].buyturnover/1000000)+"</td><td class='sell_avg_price'>"+(portfolio[i].averagesell/1000)+"</td><td class='sell_total_price'>"+addcomma(portfolio[i].sellturnover/1000000)+"</td><td class='total'>"+addcomma((portfolio[i].buyturnover*1+portfolio[i].sellturnover*1)/1000000)+"</td><td class='profit'>"+formatProfit(portfolio[i].profit/1000000)+"</td></tr>");
+						
+						sum += portfolio[i].buyturnover*1+portfolio[i].sellturnover*1;
+						profit += portfolio[i].profit;
+					}
+					$("#combination_table_sum").html(addcomma(sum/1000000));
+					$("#combination_table_profit").html(formatProfit(profit/1000000));
 				}else if(data.msg_type=="semi_algo_get"){
 					//{"algo_name":"leo_semi","id":1,"msg_type":"semi_algo_get","pair":{"auto_buy":false,"auto_buy_id":102,"auto_buy_quantity":4000000000000,"auto_sell":false,"auto_sell_id":106,"bottom_price":12500000,"buy_price":12800000,"buy_trriger":21200000000,"ceiling_price":12900000,"early_buy_qty":0,"early_sell_qty":0,"is_bull":true,"is_buying":false,"is_reset_position":false,"is_selling":false,"last_price":12500000,"last_trigger_price":21200000000,"position":0,"ratio_buy":0,"ratio_sell":0,"ref":"u008_1","sell_price":12800000,"sell_trriger":21200000000,"underlying_code":9988,"underlying_symbol":"","warrant_code":26901},"ref":"u008_1","result":"SUCCESS","tm":1593486569214}
 					
@@ -1292,16 +1319,43 @@ function initWebsocket(){
 				}else if(data.action=="connect_reject"){
 					//{"action":"connect_reject","error":"Duplicate Login Account.","stime":"13:17:19"}
 					if(data.error=="Duplicate Login Account."){
-						alert("已在其他地方登入");
+						alert("重覆登入");
+					}else if(data.error=="Authentication Token Failure."){
+						alert("安全認證錯誤");
+					}else if(data.error=="No Supported Algo."){
+						alert("沒有HTS權限");
 					}
 					initLogout();
+				}else if(data.action=="connect_alive"){
+					time2 = new Date(date+" "+data.stime);
+				}else if(data.msg_type=="semi_algo_err_msg"){
+					//{"action":"set","algo_name":"kenny_semi","error":"Warrant code 21680 Invalid Lotsize","id":2,"msg_type":"semi_algo_err_msg","ref":"u000_1","tm":1603953848851}
+					var id = data.ref;
+					var type = "";
+					var status = "reject";
+					if($("#"+id+"ismon").val()==2){
+						type = "sell";
+						stopSell(id);
+					}else{
+						type = "buy";
+						if($("#"+id+"as").hasClass("off")){
+							stopAutoBuy(id, "2");
+						}else{
+							stopBuy(id,"2");
+						}
+					}
+					getWsStatus(id, data.error, type, "bg_red", status);
 				}
 			}
 		}
 		ws.onclose = function(){
 			console.log("已關閉！");
+			$(".status span").removeClass("online").addClass("offline");
+			$(".status div strong").html("未連接");
+			clearInterval(heartbeatInterval);
 			retryCount++;
 			if(retryCount>10){
+				alert("已關閉");
 				initLogout();
 			}else{
 				setTimeout(function(){ 

@@ -37,6 +37,9 @@ var combination_map = {};
 var retryCount = 0;
 var connectCount = 0;
 var isAddPosstion = false;
+var time1 = null;
+var time2 = null;
+var heartbeatInterval = null;
 
 $(document).ready(function() {
 	if (typeof(Storage) !== "undefined") {
@@ -219,6 +222,7 @@ function initLogout(){
 	$("#page").removeClass("inside").addClass("home");
 	$("#content_area").hide();
 	$("#login_area").show();
+	clearInterval(heartbeatInterval);
 	if (ws) {
 		ws.close();
 	}
@@ -242,6 +246,18 @@ function logout(){
 			alert("登出失敗！");
 		}
 	}});
+}
+
+function checkHeartbeat(){
+	heartbeatInterval = setInterval(function(){ 
+		time1 = new Date();
+		if((time1.getTime()-time2.getTime())/1000>=30){
+			$(".status span").removeClass("online").addClass("offline");
+			$(".status div strong").html("未連接");
+			alert("已關閉!");
+			initLogout();
+		}
+	}, 5000);
 }
 
 function initTable(){
@@ -1094,7 +1110,7 @@ function getWsStatus(id, msg, type, bg, status){//console.log("getWsStatus:"+id+
 		result = "證量";
 	}else if(msg.indexOf("Invalid Order No.")>-1){
 		result = "證單";
-	}else if(msg.indexOf("Invalid Lot size")>-1 || msg.indexOf("Quantity is not a multiple of lot size")>-1){
+	}else if(msg.indexOf("Invalid Lot size")>-1 || msg.indexOf("Quantity is not a multiple of lot size")>-1 || msg.indexOf("Invalid Lotsize")>-1){
 		result = "手數";
 	}else if(msg.indexOf("Sent To EXCH")>-1){
 		result = "出盤";
@@ -1357,7 +1373,7 @@ function keyAction(id, checkBS=0){  //checkBS --> 1: spread+getbid/getask 	2: mo
 		
 		if ( event.key == "t" || event.key == "T"){
 			if(($("#"+id2+"as").hasClass("off") || !$("#"+id2+"as").hasClass("disable")) && $("#"+id2+"t_vol").val()==0){
-				//clickAS(id2);
+				clickAS(id2);
 			}
 		}
 	 //}
