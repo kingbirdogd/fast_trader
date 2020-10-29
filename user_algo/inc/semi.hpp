@@ -623,6 +623,7 @@ private:
 				}
 			}
 		}
+
 		void on_order(const dbp::top::enhance_order& odr)
 		{
 			auto status = odr.status;

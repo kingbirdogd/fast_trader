@@ -475,6 +475,22 @@ algo_msg_base* semi::json_to_msg(json& json)
 			p._bottom_price = json["bottom_price"].get<unsigned long long>();
 			p._ceiling_price = json["ceiling_price"].get<unsigned long long>();
 			p._auto_buy_quantity = json["auto_buy_quantity"].get<unsigned long long>();
+
+			auto itwdef = omdcAdditionDefinitionsMap.find(p._warrant_code);
+			if(omdcAdditionDefinitionsMap.end() != itwef){
+				COmdcAdditionDefinitions def = itwdef;
+				if((p._auto_buy_quantity % def.LotSize) > 0){
+					auto msg = algo_err_msg_pool.get_obj();
+						msg->al = this;
+						msg->algo_name = _name;
+						msg->id = _u.get_id();
+						msg->ref = ref;
+						msg->err = std::string("Warrant code ") + std::to_string(p._warrant_code) + " Invalid Lotsize";
+						pset->release();
+						return msg;
+				}
+			}
+
 			auto action = json["action"].get<std::string>();
 			if (action == "BUY")
 			{
