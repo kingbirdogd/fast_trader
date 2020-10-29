@@ -157,102 +157,22 @@
 				"MulticastPort": 51002
 			},
 			"RetranProxyIndex": 0
-		},
-		{
-			"ChannelId": 33,
-			"Hot":
-			{
-				"InterfaceIp": "10.122.78.197",
-				"MulticastIp": "239.1.1.4",
-				"MulticastPort": 51003
-			},
-			"Refresh":
-			{
-				"InterfaceIp": "10.122.78.197",
-				"MulticastIp": "239.1.1.14",
-				"MulticastPort": 51003
-			},
-			"RetranProxyIndex": 0
-		},
-		{
-			"ChannelId": 34,
-			"Hot":
-			{
-				"InterfaceIp": "10.122.78.197",
-				"MulticastIp": "239.1.1.4",
-				"MulticastPort": 51004
-			},
-			"Refresh":
-			{
-				"InterfaceIp": "10.122.78.197",
-				"MulticastIp": "239.1.1.14",
-				"MulticastPort": 51004
-			},
-			"RetranProxyIndex": 0
-		},
-		{
-			"ChannelId": 35,
-			"Hot":
-			{
-				"InterfaceIp": "10.122.78.197",
-				"MulticastIp": "239.1.1.4",
-				"MulticastPort": 51005
-			},
-			"Refresh":
-			{
-				"InterfaceIp": "10.122.78.197",
-				"MulticastIp": "239.1.1.14",
-				"MulticastPort": 51005
-			},
-			"RetranProxyIndex": 0
-		},
-		{
-			"ChannelId": 36,
-			"Hot":
-			{
-				"InterfaceIp": "10.122.78.197",
-				"MulticastIp": "239.1.1.4",
-				"MulticastPort": 51006
-			},
-			"Refresh":
-			{
-				"InterfaceIp": "10.122.78.197",
-				"MulticastIp": "239.1.1.14",
-				"MulticastPort": 51006
-			},
-			"RetranProxyIndex": 0
-		},
-		{
-			"ChannelId": 37,
-			"Hot":
-			{
-				"InterfaceIp": "10.122.78.197",
-				"MulticastIp": "239.1.1.4",
-				"MulticastPort": 51007
-			},
-			"Refresh":
-			{
-				"InterfaceIp": "10.122.78.197",
-				"MulticastIp": "239.1.1.14",
-				"MulticastPort": 51007
-			},
-			"RetranProxyIndex": 0
 		}
 	],
 	"OmddChannel":
 	[
 		{
-			"ChannelId": 231,
+			"ChannelId": 221,
 			"Hot":
 			{
 				"InterfaceIp": "10.123.132.197",
-				"MulticastIp": "239.1.1.131",
+				"MulticastIp": "239.1.1.130",
 				"MulticastPort": 51002
 			},
 			"Refresh":
 			{
 				"InterfaceIp": "10.123.132.197",
-				"MulticastIp": "239.1.1.156",
+				"MulticastIp": "239.1.1.155",
 				"MulticastPort": 51002
 			},
 			"RetranProxyIndex": 1
@@ -310,8 +230,8 @@
 	},
 	"ActivateChannel":
 	[
-		{"Channel":"OmdcChannel"},	
-		{"Channel":"OmddChannel"}
+		{"Channel":"SWOmdcChannel"},	
+		{"Channel":"OmddftChannel"}
 	]
 }
 
