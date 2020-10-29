@@ -11,6 +11,9 @@ semi::semi(user& u, const std::string& name):
 {
 	logger = new ThreadLogger("log/" + name + DateUtil::getToday() + ".log");
 	logger->start();
+
+
+	Log("Start Semi " + name);
 }
 
 void semi::on_omdc_book(const Tradable& tradable)
@@ -389,6 +392,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 				msg->id = _u.get_id();
 				msg->ref = ref;
 				msg->err = "set only support bull bear";
+				msg->action = "set";
 				pset->release();
 				return msg;
 			}
@@ -427,6 +431,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 					msg->id = _u.get_id();
 					msg->ref = ref;
 					msg->err = "fail command set underlying code omdd mapping not found";
+					msg->action = "set";
 					pset->release();
 					return msg;
 				}
@@ -441,6 +446,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 				msg->id = _u.get_id();
 				msg->ref = ref;
 				msg->err = std::string("Warrant code ") + std::to_string(p._warrant_code) + " not found";
+				msg->action = "set";
 				pset->release();
 				return msg;
 			}
@@ -453,8 +459,10 @@ algo_msg_base* semi::json_to_msg(json& json)
 					msg->algo_name = _name;
 					msg->id = _u.get_id();
 					msg->ref = ref;
-					if (p._is_omdd)
+					if (p._is_omdd){
 					msg->err = std::string("Underlying symbol ") + p._underlying_symbol + " not found";
+					msg->action = "set";
+					}
 					pset->release();
 					return msg;
 				}
@@ -468,8 +476,10 @@ algo_msg_base* semi::json_to_msg(json& json)
 					msg->algo_name = _name;
 					msg->id = _u.get_id();
 					msg->ref = ref;
-					if (p._is_omdd)
+					if (p._is_omdd){
 					msg->err = std::string("Underlying code ") + std::to_string(p._underlying_code) + " not found";
+					msg->action = "set";
+					}
 					pset->release();
 					return msg;
 				}
@@ -501,6 +511,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 						msg->id = _u.get_id();
 						msg->ref = ref;
 						msg->err = std::string("Warrant code ") + std::to_string(p._warrant_code) + " Invalid Lotsize";
+						msg->action = "set";
 						pset->release();
 						return msg;
 				}
@@ -541,6 +552,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 				msg->id = _u.get_id();
 				msg->ref = ref;
 				msg->err = std::string("fail command set, action:") + action = " is not support";
+				msg->action = "set";
 				pset->release();
 				return msg;
 			}
@@ -619,6 +631,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 			msg->id = _u.get_id();
 			msg->ref = ref;
 			msg->err = std::string("unkonw command " + cmd);
+			msg->action = "cmd";
 			return msg;
 		}
 	}
@@ -629,6 +642,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 		msg->algo_name = _name;
 		msg->id = _u.get_id();
 		msg->ref = "unknow";
+		msg->action = "exception";
 		msg->err = e.what();
 		if (pset)
 			pset->release();

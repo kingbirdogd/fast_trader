@@ -969,6 +969,7 @@ private:
 	struct algo_err_msg: public algo_msg_base
 	{
 		std::string err;
+		std::string action;
 		algo_err_msg():
 			algo_msg_base(),
 			err("")
@@ -978,6 +979,7 @@ private:
 		{
 			auto j = algo_msg_base::to_json();
 			j["msg_type"] = "semi_algo_err_msg";
+			j["action"] = action;
 			j["error"] = err;
 			return j;
 		}
