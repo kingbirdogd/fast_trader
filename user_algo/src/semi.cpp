@@ -478,7 +478,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 
 			auto itwdef = omdcAdditionDefinitionsMap.find(p._warrant_code);
 			if(omdcAdditionDefinitionsMap.end() != itwdef){
-				COmdcAdditionDefinitions def = itwdef;
+				COmdcAdditionDefinitions def = itwdef->second;
 				if((p._auto_buy_quantity % def.LotSize) > 0){
 					auto msg = algo_err_msg_pool.get_obj();
 						msg->al = this;
