@@ -6,7 +6,8 @@
 #include <global_memory.hpp>
 #include <ctime>
 #include <rapid_ring/ring_buffer_object_poll.hpp>
-
+#include <DateUtil.h>
+#include "ThreadLogger.h"
 
 class semi : public algo
 {
@@ -904,6 +905,7 @@ private:
 	using pair_map = std::unordered_map<std::string, pair>;
 private:
 	pair_map _p_map;
+	ThreadLogger* logger;
 private:
 	struct algo_odr_msg: public algo_msg_base
 	{
@@ -1304,6 +1306,7 @@ public:
 	virtual void handle_command(algo_msg_base&);
 	virtual algo_msg_base* json_to_msg(json& msg);
 	virtual std::string get_lib_name();
+	virtual void Log(std::string msg);
 public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_odr_msg, 8192> algo_odr_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_err_msg, 8192> algo_err_msg_pool;

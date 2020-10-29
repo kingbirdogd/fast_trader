@@ -9,6 +9,8 @@ semi::semi(user& u, const std::string& name):
 	_w_map(),
 	_p_map()
 {
+	logger = new ThreadLogger("log/" + name + DateUtil::getToday() + ".log");
+	logger->start();
 }
 
 void semi::on_omdc_book(const Tradable& tradable)
@@ -343,6 +345,10 @@ void semi::position(algo_odr_position& msg) const
 void semi::handle_command(algo_msg_base& msg)
 {
 	msg.on_command();
+}
+
+void semi::Log(string msg){
+	logger->Log(string(DateUtil::getCurrentTime()) + " " + msg);
 }
 
 algo_msg_base* semi::json_to_msg(json& json)
