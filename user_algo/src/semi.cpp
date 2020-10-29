@@ -488,9 +488,13 @@ algo_msg_base* semi::json_to_msg(json& json)
 			if(omdcAdditionDefinitionsMap.end() != itwdef){
 				COmdcAdditionDefinitions def = itwdef->second;
 
-				Log("Set Code = " + to_string(p._warrant_code) + " Def Lotsize = " + to_string(def.LotSize));
 
-				if((p._auto_buy_quantity % def.LotSize) > 0){
+
+				unsigned long long lotsize = static_cast<unsigned long long>(def.LotSize) * 100000;
+
+				Log("Set Code = " + to_string(p._warrant_code) + " Def Lotsize = " + to_string(lotsize));
+
+				if((p._auto_buy_quantity % lotsize) > 0){
 					auto msg = algo_err_msg_pool.get_obj();
 						msg->al = this;
 						msg->algo_name = _name;
