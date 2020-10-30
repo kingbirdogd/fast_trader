@@ -652,6 +652,18 @@ private:
 					_algo->portfolioMap[odr.code]->profit = 0;
 				}
 
+				unsigned long long filledprice =  odr.match_price;
+				if(filledprice == 0){
+					for(unsigned int i=0; i<odr.match_records.size(); i++){
+						dbp::top::match_record mr = odr.match_records[i];
+						Log(">>> Match Price = " + to_string(mr.match_price) + " Match Qty = " + to_string(mr.match_quantity));
+						if(mr.match_price > 0){
+							filledprice = mr.match_price;
+							break;
+						}
+					}
+				}
+
 				if (dbp::top::order_side::buy == side)
 				{
 
@@ -667,8 +679,12 @@ private:
 						//long long newaveragebuyprice = (pf->buyturnover + odr.filled_quantity * odr.match_price )/(odr.filled_quantity + pf->buyvolume);
 
 						pf->buyvolume += odr.filled_quantity/100000ull;
-						pf->buyturnover += odr.filled_quantity/100000ull * odr.match_price/100000ull;
-						pf->profit -= odr.filled_quantity/100000ull * odr.match_price/100000ull;
+						pf->buyturnover += odr.filled_quantity/100000ull * filledprice/100000ull;
+						pf->profit -= odr.filled_quantity/100000ull * filledprice/100000ull;
+
+						//pf->buyturnover += odr.filled_quantity/100000ull * odr.match_price/100000ull;
+						//pf->profit -= odr.filled_quantity/100000ull * odr.match_price/100000ull;
+
 						pf->averagebuy = static_cast<long long>(pf->buyturnover / pf->buyvolume) ;
 
 
@@ -700,9 +716,11 @@ private:
 								_auto_sell = false;
 							}
 							_last_trigger_price = _sell_trriger;
-							_last_price = odr.match_price;
+							//_last_price = odr.match_price;
+							_last_price = filledprice;
 
-							_algo->_Profit += odr.filled_quantity * odr.match_price;
+							//_algo->_Profit += odr.filled_quantity * odr.match_price;
+							_algo->_Profit += odr.filled_quantity * filledprice;
 
 							portfolio* pf = _algo->portfolioMap[odr.code];
 
@@ -710,8 +728,12 @@ private:
 							//long long newaveragesellprice = (pf->sellturnover + odr.filled_quantity * odr.match_price )/(odr.filled_quantity + pf->sellvolume);
 
 							pf->sellvolume += odr.filled_quantity/100000ull;
-							pf->sellturnover += odr.filled_quantity/100000ull * odr.match_price/100000ull;
-							pf->profit += odr.filled_quantity/100000ull * odr.match_price/100000ull;
+							//pf->sellturnover += odr.filled_quantity/100000ull * odr.match_price/100000ull;
+							//pf->profit += odr.filled_quantity/100000ull * odr.match_price/100000ull;
+
+							pf->sellturnover += odr.filled_quantity/100000ull * filledprice/100000ull;
+							pf->profit += odr.filled_quantity/100000ull * filledprice/100000ull;
+
 							pf->averagesell = static_cast<long long>(pf->sellturnover / pf->sellvolume);
 
 						}
