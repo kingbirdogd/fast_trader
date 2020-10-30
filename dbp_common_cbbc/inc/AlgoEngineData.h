@@ -49,6 +49,11 @@ inline static unsigned long long calWeightedPrice(unsigned long long bid1, unsig
 
 using namespace std;
 
+
+bool myfunction (warrant* i,warrant* j) {
+	return i->Egearing > j->Egearing;
+}
+
 struct priceinfo{
 
 	unsigned int Code;
