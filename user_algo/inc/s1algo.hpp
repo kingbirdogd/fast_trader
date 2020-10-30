@@ -35,7 +35,7 @@ inline static unsigned long long calWeightedPrice(unsigned long long bid1, unsig
 	return result;
 }*/
 
-bool s1algo::myfunction (warrant* i,warrant* j) {
+bool myfunction (warrant* i,warrant* j) {
 	return i->Egearing > j->Egearing;
 }
 

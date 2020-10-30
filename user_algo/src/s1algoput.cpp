@@ -3,6 +3,7 @@
 
 //std::unordered_map<unsigned int, priceinfo*> bear::uprice_map;
 
+
 s1algoput::s1algoput(user& u, const std::string& name):
 	algo(u, name)
 {
