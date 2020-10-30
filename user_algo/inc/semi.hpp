@@ -425,7 +425,7 @@ private:
 
 					if (_auto_buy)
 					{
-						Log("Code = " + to_string(_warrant_code) + " Action=BUY Price=" + to_string(_buy_price) + " Quantity=" + to_string(_auto_buy_quantity));
+						_algo->Log("Code = " + to_string(_warrant_code) + " Action=BUY Price=" + to_string(_buy_price) + " Quantity=" + to_string(_auto_buy_quantity));
 						if(buy(_buy_price) == buy_result::SUCCESS){
 #ifndef NOT_MEASURE
 							auto msg = algo_latency_pool.get_obj();
@@ -466,7 +466,7 @@ private:
 					{
 						if (_auto_sell)
 						{
-							Log("Code = " + to_string(_warrant_code) + " Action=SELL Price=" + to_string(_sell_price) + " Position=" + to_string(_position));
+							_algo->Log("Code = " + to_string(_warrant_code) + " Action=SELL Price=" + to_string(_sell_price) + " Position=" + to_string(_position));
 							if(sell(_sell_price) == sell_result::SUCCESS){
 #ifndef NOT_MEASURE
 
@@ -637,7 +637,7 @@ private:
 			if (dbp::top::order_status::rejected == status || dbp::top::order_status::canceled == status || dbp::top::order_status::deleted == status || dbp::top::order_status::filled == status)
 			{
 
-				fprintf(stderr, "info Code: %u : matched price : %llu  matched quantity : %llu filled quantity : %llu Order Status : %u Side : %u \n",_warrant_code, odr.match_price, odr.match_quantity, odr.filled_quantity, static_cast<unsigned int>(status), static_cast<unsigned char>(side));
+				//fprintf(stderr, "info Code: %u : matched price : %llu  matched quantity : %llu filled quantity : %llu Order Status : %u Side : %u \n",_warrant_code, odr.match_price, odr.match_quantity, odr.filled_quantity, static_cast<unsigned int>(status), static_cast<unsigned char>(side));
 
 				auto itPf = _algo->portfolioMap.find(odr.code);
 				if(itPf == _algo->portfolioMap.end()){
