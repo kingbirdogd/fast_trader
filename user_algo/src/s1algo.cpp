@@ -1058,7 +1058,7 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 	if(selectedWarrant.size() > (unsigned int)MaxBuyNoWarrant){
 
 		Log("Accepted Size = " + to_string(ssize));
-		std::sort (selectedWarrant.begin(), selectedWarrant.end(), myfunction);
+		std::sort (selectedWarrant.begin(), selectedWarrant.end(), s1algo::myfunction);
 		for(unsigned int i=MaxBuyNoWarrant; i<ssize; i++){
 			delete selectedWarrant[i];
 		}
