@@ -639,6 +639,8 @@ private:
 
 				//fprintf(stderr, "info Code: %u : matched price : %llu  matched quantity : %llu filled quantity : %llu Order Status : %u Side : %u \n",_warrant_code, odr.match_price, odr.match_quantity, odr.filled_quantity, static_cast<unsigned int>(status), static_cast<unsigned char>(side));
 
+
+
 				auto itPf = _algo->portfolioMap.find(odr.code);
 				if(itPf == _algo->portfolioMap.end()){
 					_algo->portfolioMap[odr.code] = new portfolio();
@@ -663,6 +665,9 @@ private:
 						}
 					}
 				}
+
+
+				Log("Trade Code = " + to_string(_warrant_code) + " Match Price = " + to_string(filledprice) + " Match Quantity = " + to_string(odr.match_quantity) + "Status = " + to_string(static_cast<unsigned int>(status)) + " Side = " +  to_string(static_cast<unsigned char>(side)));
 
 				if (dbp::top::order_side::buy == side)
 				{
