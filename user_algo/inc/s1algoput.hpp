@@ -25,6 +25,10 @@
 #define BUY 1
 #define SELL 2
 
+bool s1algo::myfunction (warrant* i,warrant* j) {
+	return i->Egearing > j->Egearing;
+}
+
 class s1algoput : public algo
 {
 public:
@@ -703,7 +707,7 @@ public:
 	virtual void Log(std::string msg);
 	virtual unsigned long long issuerSize80(unsigned long long size);
 	virtual string setBetsize(std::string betsize);
-	virtual bool myfunction (warrant* i,warrant* j);
+	//virtual bool myfunction (warrant* i,warrant* j);
 
 	virtual bool setWinSell(std::string action, unsigned int ucode, unsigned int code);
 	virtual bool setWinLvlSell(std::string action, unsigned int ucode, unsigned int code);

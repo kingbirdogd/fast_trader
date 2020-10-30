@@ -694,9 +694,10 @@ void s1algoput::on_omdc_book(const Tradable& tradable)
 	}
 }
 
+/*
 bool s1algo::myfunction (warrant* i,warrant* j) {
 	return i->Egearing > j->Egearing;
-}
+}*/
 
 unsigned long long s1algoput::issuerSize80(unsigned long long size){
 	return static_cast<unsigned long long>(size*0.8);
