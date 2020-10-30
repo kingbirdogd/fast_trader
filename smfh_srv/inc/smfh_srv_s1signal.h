@@ -40,10 +40,13 @@ inline static void handleS1Signal(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 
 		auto best_ask_price1 = static_cast<unsigned long long>(m_Ask[0].m_iPrice) * 100000;
 		auto best_ask_qty1 = static_cast<unsigned long long>(m_Ask[0].m_uQuantity);
-		//auto best_ask_price2 = static_cast<unsigned long long>(rOrderBook.m_Ask[1].m_iPrice) * 100000;
 		auto best_ask_qty2 = static_cast<unsigned long long>(m_Ask[1].m_uQuantity);
-		//auto best_ask_price3 = static_cast<unsigned long long>(rOrderBook.m_Ask[2].m_iPrice) * 100000;
 		auto best_ask_qty3 = static_cast<unsigned long long>(m_Ask[2].m_uQuantity);
+
+		auto best_bid_price1 = static_cast<unsigned long long>(m_Bid[0].m_iPrice) * 100000;
+		auto best_bid_qty1 = static_cast<unsigned long long>(m_Bid[0].m_uQuantity);
+		auto best_bid_qty2 = static_cast<unsigned long long>(m_Bid[1].m_uQuantity);
+		auto best_bid_qty3 = static_cast<unsigned long long>(m_Bid[2].m_uQuantity);
 
 		s1signal* s1s = s1SignalMap[uSecurityCode];
 
@@ -66,21 +69,42 @@ inline static void handleS1Signal(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 			}
 		}else{
 			if(best_ask_price1 != s1s->DetectAsk){
-				//s1s->m_SignalTime = dbp::tools::srv::current();
-				//s1s->SignalType = 1;
 				s1s->hasSignal = false;
-				//flush_printf("tm:%llu, s1signal = False \n", dbp::tools::srv::current());
-
-				return;
 			}
-
 			bool isThin1 = best_ask_qty2 < s1s->Thin;
 			bool isThin2 = best_ask_qty3 < s1s->Thin;
 			if(!isThin1 || !isThin2){
-				//s1s->m_SignalTime = dbp::tools::srv::current();
-				//s1s->SignalType = 2;
 				s1s->hasSignal = false;
-				return;
+			}
+		}
+
+		s1signal* s1sp = s1SignalPutMap[uSecurityCode];
+
+		if(!s1sp->hasSignal){
+			bool isThick = best_bid_qty1 > s1sp->Thick;
+			bool isThin1 = best_bid_qty2 < s1sp->Thin;
+			bool isThin2 = best_bid_qty3 < s1sp->Thin;
+
+			if(isThick&&isThin1&&isThin2){
+
+				//flush_printf("Code = %u A1 = %llu A2 = %llu A3 = %llu \n", uSecurityCode, best_ask_qty1, best_ask_qty2, best_ask_qty3);
+
+
+				s1sp->DetectAsk = best_ask_price1;
+				//s1s->m_SignalTime = dbp::tools::srv::current();
+				//s1s->SignalType = 0;
+				s1sp->hasSignal = true;
+
+				//flush_printf("tm:%llu, s1signal = True \n", dbp::tools::srv::current());
+			}
+		}else{
+			if(best_bid_price1 != s1sp->DetectBid){
+				s1sp->hasSignal = false;
+			}
+			bool isThin1 = best_bid_qty2 < s1s->Thin;
+			bool isThin2 = best_bid_qty3 < s1s->Thin;
+			if(!isThin1 || !isThin2){
+				s1sp->hasSignal = false;
 			}
 		}
 

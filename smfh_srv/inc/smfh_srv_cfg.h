@@ -72,6 +72,25 @@ inline static void loadIvFile(json& _json)
 	}
 }
 
+inline static void loadIvFilePut(json& _json)
+{
+	try
+	{
+		auto it = _json.find("IVFilePut");
+		if (_json.end() != it)
+		{
+			std::string path = it.value().get<std::string>();
+			flush_printf("tm:%llu, loadIvFilePut %s \n", dbp::tools::srv::current(), path.c_str());
+			ivLoaderPut.load(path.c_str());
+		}
+	}
+	catch(...)
+	{
+		std::cerr << "IVFilePut fail" << std::endl;
+
+	}
+}
+
 inline static void loadOrderbookFile(json& _json)
 {
 	try
@@ -320,7 +339,9 @@ inline static bool loadDefinition(json& _json)
 				if(ivLoader.exist(code)){
 					omdcSlimMap[code].m_Code = code;
 				}
-
+				if(ivLoaderPut.exist(code)){
+					omdcSlimMap[code].m_Code = code;
+				}
 
 			}
 			for (std::size_t i = 0; i < omdd.size(); ++i)
@@ -355,8 +376,8 @@ inline static bool loadDefinition(json& _json)
 //New
 				ptomdcMap[warrent].m_Code = warrent;
 				if(underlying > 0){
-				ptomdcMap[underlying].m_Code = underlying;
-				s1omdcMap[underlying].m_Code = underlying;
+					ptomdcMap[underlying].m_Code = underlying;
+					s1omdcMap[underlying].m_Code = underlying;
 				}
 
 				pricedataMap[warrent] = new pricedata();
@@ -435,6 +456,7 @@ inline static bool loadDefinition(json& _json)
 				NormalDistribution* nd = orderbookLoader.getNormDistribution(code);
 				if(nd != nullptr){
 					s1SignalMap[code] = new s1signal();
+					s1SignalPutMap[code] = new s1signal();
 
 					unsigned int nooflot_RaiseStopLost = (unsigned int)(std::pow(10, nd->inverseCumulativeProbability(algoParam.RaiseStopLost))/defs.LotSize) + 1;
 					unsigned int nooflot_ReadyBidBuy = (unsigned int)(std::pow(10, nd->inverseCumulativeProbability(algoParam.ReadyBidBuy))/defs.LotSize) + 1;
@@ -450,8 +472,15 @@ inline static bool loadDefinition(json& _json)
 					s1SignalMap[code]->Thick = nooflot_Thick*defs.LotSize;
 					s1SignalMap[code]->Thin = nooflot_Thin*defs.LotSize;
 
+					s1SignalPutMap[code]->RaiseStopLost = nooflot_RaiseStopLost*defs.LotSize;
+					s1SignalPutMap[code]->ReadyBidBuy = nooflot_ReadyBidBuy*defs.LotSize;
+					s1SignalPutMap[code]->AskTriggerBuy = nooflot_AskTriggerBuy*defs.LotSize;
+					s1SignalPutMap[code]->BidTriggerSell = nooflot_BidTriggerSell*defs.LotSize;
+					s1SignalPutMap[code]->Thick = nooflot_Thick*defs.LotSize;
+					s1SignalPutMap[code]->Thin = nooflot_Thin*defs.LotSize;
 
-					flush_printf("tm:%llu, fm cache s1SignalMap = %u  THICK = %llu \n\n", dbp::tools::srv::current(), code, s1SignalMap[code]->Thick);
+
+					//flush_printf("tm:%llu, fm cache s1SignalMap = %u  THICK = %llu \n\n", dbp::tools::srv::current(), code, s1SignalMap[code]->Thick);
 				}
 
 
@@ -932,6 +961,10 @@ inline static bool loadDefinition(json& _json)
 														omdcSlimMap[uSecurityCode].m_Code = uSecurityCode;
 													}
 
+													if(ivLoaderPut.exist(uSecurityCode)){
+														omdcSlimMap[uSecurityCode].m_Code = uSecurityCode;
+													}
+
 
 
 													cache["omdc"].push_back(uSecurityCode);
@@ -962,8 +995,17 @@ inline static bool loadDefinition(json& _json)
 														s1SignalMap[uSecurityCode]->Thick = nooflot_Thick*omdcAdditionDefinition.LotSize;
 														s1SignalMap[uSecurityCode]->Thin = nooflot_Thin*omdcAdditionDefinition.LotSize;
 
+														s1SignalPutMap[uSecurityCode] = new s1signal();
 
-														flush_printf("tm:%llu, s1SignalMap = %u  THICK = %llu \n\n", dbp::tools::srv::current(), uSecurityCode, s1SignalMap[uSecurityCode]->Thick);
+														s1SignalPutMap[uSecurityCode]->RaiseStopLost = nooflot_RaiseStopLost*omdcAdditionDefinition.LotSize;
+														s1SignalPutMap[uSecurityCode]->ReadyBidBuy = nooflot_ReadyBidBuy*omdcAdditionDefinition.LotSize;
+														s1SignalPutMap[uSecurityCode]->AskTriggerBuy = nooflot_AskTriggerBuy*omdcAdditionDefinition.LotSize;
+														s1SignalPutMap[uSecurityCode]->BidTriggerSell = nooflot_BidTriggerSell*omdcAdditionDefinition.LotSize;
+														s1SignalPutMap[uSecurityCode]->Thick = nooflot_Thick*omdcAdditionDefinition.LotSize;
+														s1SignalPutMap[uSecurityCode]->Thin = nooflot_Thin*omdcAdditionDefinition.LotSize;
+
+
+														//flush_printf("tm:%llu, s1SignalMap = %u  THICK = %llu \n\n", dbp::tools::srv::current(), uSecurityCode, s1SignalMap[uSecurityCode]->Thick);
 
 													}
 

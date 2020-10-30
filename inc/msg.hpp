@@ -96,6 +96,7 @@ struct s1signal{
 
 	bool hasSignal;
 	unsigned long long DetectAsk;
+	unsigned long long DetectBid;
 	unsigned long long RaiseStopLost;
 	unsigned long long ReadyBidBuy;
 	unsigned long long AskTriggerBuy;
