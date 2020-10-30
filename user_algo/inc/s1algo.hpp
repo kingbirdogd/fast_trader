@@ -502,7 +502,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<csalgo*>(al);
+			auto* self = dynamic_cast<s1algo*>(al);
 
 			result = self->setSelectedWarrant(action, code);
 
