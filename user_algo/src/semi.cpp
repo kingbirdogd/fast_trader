@@ -190,14 +190,17 @@ std::string semi::set_pair(pair&& p, bool no_change)
 		p.set_auto_buy_id(it->second.auto_buy_id());
 		p.set_auto_sell_id(it->second.auto_sell_id());
 
-		//if(it->second.is_buying() || it->second.is_selling()){
+
+		if((it->second.is_buying() || it->second.is_selling()) && !no_change){
+			return "can't change action while Buying / Selling";
+		}
+
+
 		p.set_is_buying(it->second.is_buying());
 		p.set_is_selling(it->second.is_selling());
-		//}
-		//p.set_is_buying(it->second.is_buying());
-		//p.set_is_selling(it->second.is_selling());
 		p.set_last_trigger_price(it->second.last_trigger_price());
 		p.set_last_price(it->second.last_price());
+
 		if (no_change)
 		{
 			p.set_auto_buy(it->second.auto_buy());
@@ -497,7 +500,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 			p._ceiling_price = json["ceiling_price"].get<unsigned long long>();
 			p._auto_buy_quantity = json["auto_buy_quantity"].get<unsigned long long>();
 
-			Log("Set Code = " + to_string(p._warrant_code) + " Buy Quantity = " + to_string(p._auto_buy_quantity));
+			//Log("Set Code = " + to_string(p._warrant_code) + " Buy Quantity = " + to_string(p._auto_buy_quantity));
 
 			auto itwdef = omdcAdditionDefinitionsMap.find(p._warrant_code);
 			if(omdcAdditionDefinitionsMap.end() != itwdef){
@@ -507,7 +510,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 
 				unsigned long long lotsize = static_cast<unsigned long long>(def.LotSize) * 100000;
 
-				Log("Set Code = " + to_string(p._warrant_code) + " Def Lotsize = " + to_string(lotsize));
+				//Log("Set Code = " + to_string(p._warrant_code) + " Def Lotsize = " + to_string(lotsize));
 
 				if((p._auto_buy_quantity % lotsize) > 0){
 					auto msg = algo_err_msg_pool.get_obj();
