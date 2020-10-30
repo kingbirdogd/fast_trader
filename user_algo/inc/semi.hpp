@@ -425,7 +425,7 @@ private:
 
 					if (_auto_buy)
 					{
-						Log("Code = " + to_string(_warrant_code) + " Action=BUY Price=" + to_string(_buy_price) + " Quantity=" + to_string(_auto_buy_qunatity));
+						Log("Code = " + to_string(_warrant_code) + " Action=BUY Price=" + to_string(_buy_price) + " Quantity=" + to_string(_auto_buy_quantity));
 						if(buy(_buy_price) == buy_result::SUCCESS){
 #ifndef NOT_MEASURE
 							auto msg = algo_latency_pool.get_obj();
