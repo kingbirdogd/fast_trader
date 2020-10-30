@@ -2,6 +2,7 @@
 #include <semi.hpp>
 #include <bear.hpp>
 #include <s1algo.hpp>
+#include <s1algoput.hpp>
 #include <csalgo.hpp>
 
 algo::algo(user& u, const std::string& name):
@@ -29,6 +30,10 @@ algo* algo::get_algo(user& u, const std::string& name, const std::string& lib, j
 	else if (lib == "s1algo")
 	{
 		return new s1algo(u, name);
+	}
+	else if (lib == "s1algoput")
+	{
+		return new s1algoput(u, name);
 	}
 	else if (lib == "csalgo")
 	{
