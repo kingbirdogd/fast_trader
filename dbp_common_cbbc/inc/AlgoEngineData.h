@@ -167,8 +167,6 @@ struct product{
 	int status;
 };
 
-bool myfunction (warrant* i,warrant* j) {
-	return i->Egearing > j->Egearing;
-}
+
 
 #endif /* ALGOENGINE_H_ */
