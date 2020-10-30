@@ -35,9 +35,7 @@ inline static unsigned long long calWeightedPrice(unsigned long long bid1, unsig
 	return result;
 }*/
 
-bool myfunction (warrant* i,warrant* j) {
-	return i->Egearing > j->Egearing;
-}
+
 
 
 class s1algo : public algo
@@ -697,6 +695,10 @@ public:
 	s1algo(algo&&) = delete;
 	s1algo& operator= (const algo&) = delete;
 	s1algo& operator= (algo&&) = delete;
+
+	bool myfunction (warrant* i,warrant* j) {
+		return i->Egearing > j->Egearing;
+	}
 
 	virtual vector<warrant*> getSelectedWarrantFromMarketByIssuer(std::string issuercode, unsigned int underlying, unsigned long long ubid, unsigned long long uask);
 	virtual vector<warrant*> getWinpriceWarrantFromMarketByIssuer(std::string issuercode, unsigned int underlying, unsigned long long ubid, unsigned long long uask);

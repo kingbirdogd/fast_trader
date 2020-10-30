@@ -25,9 +25,7 @@
 #define BUY 1
 #define SELL 2
 
-bool myfunction (warrant* i,warrant* j) {
-	return i->Egearing > j->Egearing;
-}
+
 
 class s1algoput : public algo
 {
@@ -686,6 +684,10 @@ public:
 	s1algoput(algo&&) = delete;
 	s1algoput& operator= (const algo&) = delete;
 	s1algoput& operator= (algo&&) = delete;
+
+	bool myfunction (warrant* i,warrant* j) {
+		return i->Egearing > j->Egearing;
+	}
 
 	virtual vector<warrant*> getSelectedWarrantFromMarketByIssuer(std::string issuercode, unsigned int underlying, unsigned long long ubid, unsigned long long uask);
 	virtual vector<warrant*> getWinpriceWarrantFromMarketByIssuer(std::string issuercode, unsigned int underlying, unsigned long long ubid, unsigned long long uask);
