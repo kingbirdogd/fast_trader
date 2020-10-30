@@ -580,6 +580,9 @@ algo_msg_base* semi::json_to_msg(json& json)
 					p._position = 0;
 				}
 			}
+
+			Log(json.dump().c_str());
+
 			return pset;
 		}
 		else if (cmd == "delete")
