@@ -1121,7 +1121,7 @@ private:
 		{
 			auto j = algo_msg_base::to_json();
 			j["msg_type"] = "semi_algo_set";
-			//j["pair"] = p.to_json();
+			j["pair"] = p.to_json();
 			j["result"] = result;
 			j["no_change"] = no_change;
 			return j;
