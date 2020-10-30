@@ -43,6 +43,7 @@ public:
 	unordered_set<std::string> selectedIssuer;
 	unordered_set<unsigned int> unselectedUCode;
 	unordered_set<unsigned int> availableUCode;
+	unordered_set<unsigned int> unSelectedWarrant;
 	SelectedWarrant CSelectedWarrant;
 	int MarketStatus;
 	AlgoBetX algoBet;
@@ -474,6 +475,46 @@ private:
 		}
 		virtual ~algo_underlyingaction_msg() = default;
 	};
+
+	struct algo_warrantaction_msg: public algo_msg_base
+	{
+		unsigned int code;
+		std::string action;
+		bool result;
+
+		algo_warrantaction_msg():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["action"] = "selectwarrant";
+			j["selectaction"] = action;
+			j["code"] = code;
+			if(result){
+				j["result"] = "SUCCESS";
+			}else{
+				j["result"] = "FAIL";
+				j["reason"] = "Invalid Status";
+			}
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<csalgo*>(al);
+
+			result = self->setSelectedWarrant(action, code);
+
+			ouputQueue.enqueue(this);
+
+		}
+		virtual void release()
+		{
+			algo_warrantaction_msg_pool.release_obj(this);
+		}
+		virtual ~algo_warrantaction_msg() = default;
+	};
 	struct algo_force_sell: public algo_msg_base
 	{
 		unsigned int code;
@@ -681,6 +722,7 @@ public:
 	virtual void forcesold();
 	virtual bool checkPrice(unsigned int code, unsigned long long ubid, unsigned long long uask);
 	virtual bool force_sell(unsigned int ucode, unsigned int code, unsigned long long price);
+	virtual bool setSelectedWarrant(std::string action, unsigned int code);
 
 public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_err_msg, 8192> algo_err_msg_pool;
@@ -688,6 +730,7 @@ public:
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_setbet_msg, 8192> algo_setbet_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_issueraction_msg, 8192> algo_issueraction_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_underlyingaction_msg, 8192> algo_underlyingaction_msg_pool;
+	static rapid_ring::spsc_ring_buffer_object_pool<algo_warrantaction_msg, 8192> algo_warrantaction_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_order_msg, 8192> algo_order_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_portfolio_msg, 8192> algo_portfolio_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_signal_msg, 8192> algo_signal_msg_pool;

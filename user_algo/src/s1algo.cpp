@@ -824,6 +824,27 @@ bool s1algo::setSelectedUnderlying(std::string action, unsigned int ucode){
 	return false;
 }
 
+bool s1algo::setSelectedWarrant(std::string action, unsigned int code){
+
+	if(action == "remove"){
+		auto it = unSelectedWarrant.find(code);
+		if(it != unSelectedWarrant.end()){
+			unSelectedWarrant.erase(code);
+			Log("Selected Warrant = " + to_string(code));
+			return true;
+		}
+	}
+	if(action == "select"){
+		auto it = unSelectedWarrant.find(code);
+		if(it == unSelectedWarrant.end()){
+			unSelectedWarrant.insert(code);
+			Log("Unselected Warrant = " + to_string(code));
+			return true;
+		}
+	}
+	return false;
+}
+
 bool s1algo::checkPrice(unsigned int code, unsigned long long ubid, unsigned long long uask)
 {
 	COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
@@ -2151,6 +2172,7 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 	algo_setbet_msg* pSetBet_msg = nullptr;
 	algo_issueraction_msg* pIssuerAction_msg = nullptr;
 	algo_underlyingaction_msg* pUnderlyingAction_msg = nullptr;
+	algo_warrantaction_msg* pWarrantAction_msg = nullptr;
 	algo_force_sell* pforce_sell = nullptr;
 	algo_issuerlist_msg* pissuerlist = nullptr;
 	algo_underlyinglist_msg* punderlyinglist = nullptr;
@@ -2197,6 +2219,17 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			pUnderlyingAction_msg->ucode = json["ucode"].get<unsigned int>();
 			pUnderlyingAction_msg->action = json["action"].get<std::string>();
 			return pUnderlyingAction_msg;
+		}
+		else if (cmd == "selectwarrant"){
+			pWarrantAction_msg = algo_warrantaction_msg_pool.get_obj();
+			pWarrantAction_msg->al = this;
+			pWarrantAction_msg->algo_name = _name;
+			pWarrantAction_msg->id = _u.get_id();
+			pWarrantAction_msg->ref = ref;
+			//pWarrantAction_msg->ucode = json["ucode"].get<unsigned int>();
+			pWarrantAction_msg->code = json["code"].get<unsigned int>();
+			pWarrantAction_msg->action = json["action"].get<std::string>();
+			return pWarrantAction_msg;
 		}
 		else if (cmd == "issuerlist"){
 			pissuerlist = algo_issuerlist_msg_pool.get_obj();
@@ -2292,6 +2325,8 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			pwinsell->release();
 		if(pwinlvlsell)
 			pwinlvlsell->release();
+		if(pWarrantAction_msg)
+			pWarrantAction_msg->release();
 		return msg;
 	}
 }
@@ -2314,6 +2349,7 @@ rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_marketstatus_msg, 8192> s1
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_setbet_msg, 8192> s1algo::algo_setbet_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_issueraction_msg, 8192> s1algo::algo_issueraction_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_underlyingaction_msg, 8192> s1algo::algo_underlyingaction_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_warrantaction_msg, 8192> s1algo::algo_warrantaction_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_order_msg, 8192> s1algo::algo_order_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_portfolio_msg, 8192> s1algo::algo_portfolio_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_signal_msg, 8192> s1algo::algo_signal_msg_pool;

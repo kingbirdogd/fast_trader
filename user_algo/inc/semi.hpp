@@ -425,6 +425,7 @@ private:
 
 					if (_auto_buy)
 					{
+						Log("Code = " + to_string(_warrant_code) + " Action=BUY Price=" + to_string(_buy_price) + " Quantity=" + to_string(_auto_buy_qunatity));
 						if(buy(_buy_price) == buy_result::SUCCESS){
 #ifndef NOT_MEASURE
 							auto msg = algo_latency_pool.get_obj();
@@ -465,6 +466,7 @@ private:
 					{
 						if (_auto_sell)
 						{
+							Log("Code = " + to_string(_warrant_code) + " Action=SELL Price=" + to_string(_sell_price) + " Position=" + to_string(_position));
 							if(sell(_sell_price) == sell_result::SUCCESS){
 #ifndef NOT_MEASURE
 
@@ -1119,7 +1121,7 @@ private:
 		{
 			auto j = algo_msg_base::to_json();
 			j["msg_type"] = "semi_algo_set";
-			j["pair"] = p.to_json();
+			//j["pair"] = p.to_json();
 			j["result"] = result;
 			j["no_change"] = no_change;
 			return j;
