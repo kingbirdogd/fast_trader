@@ -3,6 +3,9 @@
 
 //std::unordered_map<unsigned int, priceinfo*> bear::uprice_map;
 
+bool myfunction2 (warrant* i,warrant* j) {
+	return i->Egearing > j->Egearing;
+}
 
 s1algoput::s1algoput(user& u, const std::string& name):
 	algo(u, name)
@@ -1060,7 +1063,7 @@ vector<warrant*> s1algoput::getSelectedWarrantFromMarketByIssuer(std::string iss
 	if(selectedWarrant.size() > (unsigned int)MaxBuyNoWarrant){
 
 		Log("Accepted Size = " + to_string(ssize));
-		std::sort (selectedWarrant.begin(), selectedWarrant.end(), myfunction);
+		std::sort (selectedWarrant.begin(), selectedWarrant.end(), myfunction2);
 		for(unsigned int i=MaxBuyNoWarrant; i<ssize; i++){
 			delete selectedWarrant[i];
 		}
@@ -1170,7 +1173,7 @@ vector<warrant*> s1algoput::getWinpriceWarrantFromMarketByIssuer(std::string iss
 	if(selectedWarrant.size() > (unsigned int)MaxBuyNoWarrant){
 
 		Log("Accepted Size = " + to_string(ssize));
-		std::sort (selectedWarrant.begin(), selectedWarrant.end(), myfunction);
+		std::sort (selectedWarrant.begin(), selectedWarrant.end(), myfunction2);
 		for(unsigned int i=MaxBuyNoWarrant; i<ssize; i++){
 			delete selectedWarrant[i];
 		}
