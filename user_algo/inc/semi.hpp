@@ -658,7 +658,7 @@ private:
 				if(filledprice == 0){
 					for(unsigned int i=0; i<odr.match_records.size(); i++){
 						dbp::top::match_record mr = odr.match_records[i];
-						Log(">>> Match Price = " + to_string(mr.match_price) + " Match Qty = " + to_string(mr.match_quantity));
+						_algo->Log(">>> Match Price = " + to_string(mr.match_price) + " Match Qty = " + to_string(mr.match_quantity));
 						if(mr.match_price > 0){
 							filledprice = mr.match_price;
 							break;
@@ -667,7 +667,7 @@ private:
 				}
 
 
-				Log("Trade Code = " + to_string(_warrant_code) + " Match Price = " + to_string(filledprice) + " Match Quantity = " + to_string(odr.match_quantity) + "Status = " + to_string(static_cast<unsigned int>(status)) + " Side = " +  to_string(static_cast<unsigned char>(side)));
+				_algo->Log("Trade Code = " + to_string(_warrant_code) + " Match Price = " + to_string(filledprice) + " Match Quantity = " + to_string(odr.match_quantity) + "Status = " + to_string(static_cast<unsigned int>(status)) + " Side = " +  to_string(static_cast<unsigned char>(side)));
 
 				if (dbp::top::order_side::buy == side)
 				{
