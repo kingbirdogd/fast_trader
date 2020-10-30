@@ -37,6 +37,16 @@
 #define HSI_SYMBOL 1
 #define NQ_SYMBOL 2
 
+inline static unsigned long long calWeightedPrice(unsigned long long bid1, unsigned long long bid2, unsigned long long bid3,
+		unsigned long long bidqty1, unsigned long long bidqty2, unsigned long long bidqty3,
+		unsigned long long ask1, unsigned long long ask2, unsigned long long ask3,
+		unsigned long long askqty1, unsigned long long askqty2, unsigned long long askqty3){
+	unsigned long long result = (bid1*askqty1 + bid2*askqty2 + bid3*askqty3 + ask1*bidqty1 + ask2*bidqty2 + ask3*bidqty3 + 1)/
+			(bidqty1+bidqty2+bidqty3+askqty1+askqty2+askqty3+1);
+	return result;
+}
+
+
 using namespace std;
 
 struct priceinfo{
