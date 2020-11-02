@@ -2239,6 +2239,7 @@ algo_msg_base* s1algoput::json_to_msg(json& json)
 	algo_underlyinglist_msg* punderlyinglist = nullptr;
 	algo_winsell_msg* pwinsell = nullptr;
 	algo_winlvlsell_msg* pwinlvlsell = nullptr;
+	algo_wselecttype_msg* pwselecttype = nullptr;
 	try
 	{
 		auto cmd = json["cmd"].get<std::string>();
