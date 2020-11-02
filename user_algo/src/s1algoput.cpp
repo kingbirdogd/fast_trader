@@ -1332,7 +1332,7 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
 
-				if(trade_price <= highestStopLost){
+				if(trade_price >= lowestStopLost){
 					if(obs->hasRelatedWarrant(STATUS_AVAILABLE)){
 						for(unsigned int i=0; i<wobsArray.size(); i++){
 							//unsigned long long t_start = dbp::tools::srv::current();
