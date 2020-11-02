@@ -160,7 +160,7 @@ private:
 	struct algo_signal_msg: public algo_msg_base
 	{
 		unsigned int code;
-		unsigned long long detect_ask;
+		unsigned long long detect_bid;
 		bool selected;
 		unordered_set<std::string> detectedlist;
 
@@ -173,7 +173,7 @@ private:
 			auto j = algo_msg_base::to_json();
 			j["action"] = "signal";
 			j["code"] = code;
-			j["detected_ask"] = detect_ask;
+			j["detect_bid"] = detect_bid;
 			if(selected){
 				j["detected"] = true;
 			}else{
