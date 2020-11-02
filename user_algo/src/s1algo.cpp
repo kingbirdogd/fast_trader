@@ -1597,7 +1597,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					int type = getSelectionType(wobsArray[i]->Issuer);
 
 					//if("CS" == wobsArray[i]->Issuer){
-					if(SELECT_WINPRICE == type)
+					if(SELECT_WINPRICE == type){
 						if(wobsArray[i]->UBid != bid_price){
 							Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " UBid != Bestbid");
 							continue;
