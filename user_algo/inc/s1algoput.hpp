@@ -379,7 +379,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1algo*>(al);
+			auto* self = dynamic_cast<s1algoput*>(al);
 
 			prevtype = self->getSelectionType(issuer);
 
