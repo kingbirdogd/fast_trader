@@ -119,6 +119,7 @@ inline static void loadOrderbookFile(json& _json)
 			algoParam.AskTriggerBuy = stod(str_buy.c_str());
 			algoParam.RaiseStopLost = stod(str_lost.c_str());
 			algoParam.ReadyBidBuy = stod(str_bidbuy.c_str());
+			algoParam.ReadyAskBuy = stod(str_bidbuy.c_str());
 			algoParam.TickRange = stod(str_range.c_str());
 		}
 	}
@@ -473,7 +474,7 @@ inline static bool loadDefinition(json& _json)
 					s1SignalMap[code]->Thin = nooflot_Thin*defs.LotSize;
 
 					s1SignalPutMap[code]->RaiseStopLost = nooflot_RaiseStopLost*defs.LotSize;
-					s1SignalPutMap[code]->ReadyBidBuy = nooflot_ReadyBidBuy*defs.LotSize;
+					s1SignalPutMap[code]->ReadyAskBuy = nooflot_ReadyBidBuy*defs.LotSize;
 					s1SignalPutMap[code]->AskTriggerBuy = nooflot_AskTriggerBuy*defs.LotSize;
 					s1SignalPutMap[code]->BidTriggerSell = nooflot_BidTriggerSell*defs.LotSize;
 					s1SignalPutMap[code]->Thick = nooflot_Thick*defs.LotSize;
@@ -998,7 +999,7 @@ inline static bool loadDefinition(json& _json)
 														s1SignalPutMap[uSecurityCode] = new s1signal();
 
 														s1SignalPutMap[uSecurityCode]->RaiseStopLost = nooflot_RaiseStopLost*omdcAdditionDefinition.LotSize;
-														s1SignalPutMap[uSecurityCode]->ReadyBidBuy = nooflot_ReadyBidBuy*omdcAdditionDefinition.LotSize;
+														s1SignalPutMap[uSecurityCode]->ReadyAskBuy = nooflot_ReadyBidBuy*omdcAdditionDefinition.LotSize;
 														s1SignalPutMap[uSecurityCode]->AskTriggerBuy = nooflot_AskTriggerBuy*omdcAdditionDefinition.LotSize;
 														s1SignalPutMap[uSecurityCode]->BidTriggerSell = nooflot_BidTriggerSell*omdcAdditionDefinition.LotSize;
 														s1SignalPutMap[uSecurityCode]->Thick = nooflot_Thick*omdcAdditionDefinition.LotSize;

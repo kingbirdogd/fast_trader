@@ -92,3 +92,27 @@ selectaction=[select,remove]
 ucode=[1,5,788 ..... ]
 success=[SUCCESS,FAIL]
 reason=
+
+
+
+9) select Warrant
+cmd=selectwarrant";
+			
+code= warrant code;
+action = [select / remove]
+
+response
+result = [SUCCESS / FAIL]
+
+10) Warrant selection Type
+cmd=wselecttype
+
+issuer=[MB,SQ, ..... ]
+type=[ 1, 2 ]   1=NORMAL   2=WINPRICE
+  
+response
+action = wselecttype
+issuer = issuer
+prevtype = prevtype
+currtype = currtype;
+recovery = true;

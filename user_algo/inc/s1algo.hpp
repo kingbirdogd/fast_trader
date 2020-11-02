@@ -65,7 +65,6 @@ public:
 
 	time_t lastReadyTime;
 	int signalCount = 0;
-	int selectionType;
 
 private:
 	struct algo_order_msg: public algo_msg_base
@@ -382,6 +381,7 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
+			j["action"] = "wselecttype";
 			j["issuer"] = issuer;
 			j["prevtype"] = prevtype;
 			j["currtype"] = currtype;
@@ -547,7 +547,6 @@ private:
 				j["result"] = "SUCCESS";
 			}else{
 				j["result"] = "FAIL";
-				j["reason"] = "Invalid Status";
 			}
 			return j;
 		}
@@ -798,7 +797,6 @@ public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_warrantprice_msg, 8192> algo_warrantprice_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_issuerlist_msg, 8192> algo_issuerlist_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_underlyinglist_msg, 8192> algo_underlyinglist_msg_pool;
-
 };
 
 

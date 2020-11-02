@@ -99,6 +99,7 @@ struct s1signal{
 	unsigned long long DetectBid;
 	unsigned long long RaiseStopLost;
 	unsigned long long ReadyBidBuy;
+	unsigned long long ReadyAskBuy;
 	unsigned long long AskTriggerBuy;
 	unsigned long long BidTriggerSell;
 	unsigned long long Thick;
@@ -110,6 +111,7 @@ struct s1signal{
 struct AlgoParameter{
 	double RaiseStopLost;
 	double ReadyBidBuy;
+	double ReadyAskBuy;
 	double AskTriggerBuy;
 	double BidTriggerSell;
 	double Thick;

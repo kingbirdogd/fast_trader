@@ -103,7 +103,7 @@ s1algo::s1algo(user& u, const std::string& name):
 	Log("undetectedTime = " + to_string(undetectedTime) + " @" + today + " 153600");
 	Log("soldendTime = " + to_string(soldendTime) + " @" + today + " 155959");
 
-	Log("Warrant Selection Type = " + to_string(selectionType));
+	//Log("Warrant Selection Type = " + to_string(selectionType));
 
 	for(auto f : selectedIssuer) {
 		string issuer = f;
@@ -2405,6 +2405,8 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			pwinlvlsell->release();
 		if(pWarrantAction_msg)
 			pWarrantAction_msg->release();
+		if(pwselecttype)
+			pwselecttype->release();
 		return msg;
 	}
 }

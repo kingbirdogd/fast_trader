@@ -41,6 +41,7 @@ public:
 	string SoldTime;
 	unsigned long long StopLostPrice;
 	unsigned long long HighestStopLost;
+	unsigned long long LowestStopLost;
 	int StopLostTick;
 	string DetectTime;
 	string SpreadTableCode;
@@ -66,6 +67,7 @@ public:
 	unsigned long long RefWAsk = -1;
 
 	unsigned long long ReadyBidBuy = 0;
+	unsigned long long ReadyAskBuy = 0;
 
 	unsigned long AccumTrade = 0;
 	unsigned long ACount = 0;

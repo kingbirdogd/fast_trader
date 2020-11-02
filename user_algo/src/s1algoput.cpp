@@ -13,6 +13,25 @@ s1algoput::s1algoput(user& u, const std::string& name):
 	MaxBuyNoWarrant = 2;
 
 	selectedIssuer.insert("MB");
+
+
+	selectionTypeMap["BI"] = SELECT_NORMAL;
+	selectionTypeMap["BP"] = SELECT_NORMAL;
+	selectionTypeMap["CS"] = SELECT_NORMAL;
+	selectionTypeMap["CT"] = SELECT_NORMAL;
+	selectionTypeMap["EA"] = SELECT_NORMAL;
+	selectionTypeMap["GJ"] = SELECT_NORMAL;
+	selectionTypeMap["GS"] = SELECT_NORMAL;
+	selectionTypeMap["HS"] = SELECT_NORMAL;
+	selectionTypeMap["HT"] = SELECT_NORMAL;
+	selectionTypeMap["JP"] = SELECT_NORMAL;
+	selectionTypeMap["MB"] = SELECT_NORMAL;
+	selectionTypeMap["MS"] = SELECT_NORMAL;
+	selectionTypeMap["SG"] = SELECT_NORMAL;
+	selectionTypeMap["UB"] = SELECT_NORMAL;
+	selectionTypeMap["VT"] = SELECT_NORMAL;
+
+
 	//selectedIssuer.insert("GS");
 	//selectedIssuer.insert("MS");
 	//selectedIssuer.insert("CS");
@@ -328,9 +347,9 @@ void s1algoput::on_omdc_book(const Tradable& tradable)
 				Log("No of Detected Signal = " + to_string(signalCount));
 			}*/
 
-			unsigned long long spread = spreadTable.getSpread(obs->SpreadTableCode, best_bid_price-1);
-			unsigned long long diffu = best_bid_price - obs->StopLostPrice;
-			unsigned long long diffw = best_bid_price - obs->getHighestStopLostPrice();
+			unsigned long long spread = spreadTable.getSpread(obs->SpreadTableCode, best_ask_price+1);
+			unsigned long long diffu = obs->StopLostPrice - best_bid_price;
+			unsigned long long diffw = obs->getLowestStopLostPrice() - best_bid_price;
 
 			if(spread == 0)
 				return;
@@ -338,20 +357,20 @@ void s1algoput::on_omdc_book(const Tradable& tradable)
 			int countspreadu = static_cast<int>(diffu/spread);
 			int countspreadw = static_cast<int>(diffw/spread);
 
-			s1signal* s1 = s1SignalMap[code];
-			if( ((countspreadw > 0) || (countspreadu > 0) || (best_bid_price > obs->StopLostPrice && best_bid_qty > s1->RaiseStopLost)) && ((obs->Status == STATUS_AVAILABLE))){
+			s1signal* s1 = s1SignalPutMap[code];
+			if( ((countspreadw > 0) || (countspreadu > 0) || (obs->StopLostPrice > best_ask_price && best_ask_qty > s1->RaiseStopLost)) && ((obs->Status == STATUS_AVAILABLE))){
 				unsigned long long oldstoplost = obs->StopLostPrice;
 				if(countspreadu > 0){
 					//if(best_bid_qty > s1->RaiseStopLost && wp>mid){
-					if(best_bid_qty > s1->RaiseStopLost){
-						obs->StopLostPrice = best_bid_price;
+					if(best_ask_qty > s1->RaiseStopLost){
+						obs->StopLostPrice = best_ask_price;
 					}
 				}
 
-				if(obs->StopLostPrice > oldstoplost){
+				if(obs->StopLostPrice < oldstoplost){
 					//Log("bid->Quantity0 = " + to_string(best_bid_qty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost) + " WP = " + to_string(wp) + " mid = " + to_string(mid));
-					Log("bid->Quantity0 = " + to_string(best_bid_qty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost));
-					Log("Security Code = " + to_string(code) + " Rise Stop Lost Price from " + to_string(oldstoplost) + " To " + to_string(obs->StopLostPrice));
+					Log("ask->Quantity0 = " + to_string(best_ask_qty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost));
+					Log("Security Code = " + to_string(code) + " Reduce Stop Lost Price from " + to_string(oldstoplost) + " To " + to_string(obs->StopLostPrice));
 				}
 
 				if(countspreadw > 0){
@@ -374,7 +393,7 @@ void s1algoput::on_omdc_book(const Tradable& tradable)
 						}
 
 						unsigned long long fpcb = spm->sellOut(wbest_bid_price);
-						if(fpcb > obsw[i]->StopLostPrice  && fpcb <= obs->StopLostPrice && fpcb <= best_bid_price && wbest_bid_price>obsw[i]->RefWBid){
+						if(fpcb < obsw[i]->StopLostPrice  && fpcb >= obs->StopLostPrice && fpcb >= best_ask_price && wbest_bid_price>obsw[i]->RefWBid){
 							obsw[i]->StopLostPrice = fpcb;
 							obsw[i]->RefWBid = wbest_bid_price;
 
@@ -575,7 +594,7 @@ void s1algoput::on_omdc_book(const Tradable& tradable)
 					if(best_bid_price == DetectBid){
 						obs->DetectedBid = best_bid_price;
 						obs->StopLostPrice = best_ask_price;
-						obs->ReadyBidBuy = signal->ReadyBidBuy;
+						obs->ReadyAskBuy = signal->ReadyAskBuy;
 
 
 
@@ -610,9 +629,14 @@ void s1algoput::on_omdc_book(const Tradable& tradable)
 							//vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer(issuer,code, best_bid_price, best_ask_price);
 							vector<warrant*> selectedWarrant;
 
-							if( "CS" == issuer){
+
+							int type = getSelectionType(issuer);
+
+
+							if( SELECT_WINPRICE == type){
 								selectedWarrant = getWinpriceWarrantFromMarketByIssuer(issuer,code, best_bid_price, best_ask_price);
-							}else{
+							}
+							if(SELECT_NORMAL == type){
 								selectedWarrant = getSelectedWarrantFromMarketByIssuer(issuer,code, best_bid_price, best_ask_price);
 							}
 
@@ -805,7 +829,31 @@ bool s1algoput::setSelectedIssuer(std::string action, std::string issuer){
 	return false;
 }
 
-bool s1algoput::setSelectedUnderlying(std::string action, unsigned int ucode){
+int s1algo::getSelectionType(std::string issuer){
+	auto its = selectionTypeMap.find(issuer);
+	if(its != selectionTypeMap.end()){
+		return its->second;
+	}
+
+	return SELECT_NORMAL;
+}
+
+int s1algo::setSelectionType(string issuer, int type){
+
+	if(type == SELECT_NORMAL){
+		selectionTypeMap[issuer] = SELECT_NORMAL;
+		return SELECT_NORMAL;
+	}
+	if(type == SELECT_WINPRICE){
+		selectionTypeMap[issuer] = SELECT_WINPRICE;
+		return SELECT_WINPRICE;
+	}
+
+	selectionType = SELECT_NORMAL;
+	return SELECT_NORMAL;
+}
+
+bool s1algo::setSelectedUnderlying(std::string action, unsigned int ucode){
 
 	//if(MarketStatus == MARKET_START)
 	//	return false;
@@ -939,7 +987,7 @@ vector<warrant*> s1algoput::getSelectedWarrantFromMarketByIssuer(std::string iss
 
 
 	vector<warrant*> selectedWarrant;
-	unordered_set<unsigned int> warrantVector = ivLoader.getWarrantByIssuer(issuer,underlying);
+	unordered_set<unsigned int> warrantVector = ivLoaderPut.getWarrantByIssuer(issuer,underlying);
 	if(warrantVector.size() == 0){
 		return selectedWarrant;
 	}
@@ -988,7 +1036,7 @@ vector<warrant*> s1algoput::getSelectedWarrantFromMarketByIssuer(std::string iss
 
 			unsigned long long wspread = wbest_ask_price - wbest_bid_price;
 
-			WarrantIv wiv = ivLoader.getWarrantIv(n);
+			WarrantIv wiv = ivLoaderPut.getWarrantIv(n);
 
 			if(wspread <= 0){
 				continue;
@@ -1080,7 +1128,7 @@ vector<warrant*> s1algoput::getWinpriceWarrantFromMarketByIssuer(std::string iss
 	//unsigned long long uspread =  uask - ubid;
 
 	vector<warrant*> selectedWarrant;
-	unordered_set<unsigned int> warrantVector = ivLoader.getWarrantByIssuer(issuer,underlying);
+	unordered_set<unsigned int> warrantVector = ivLoaderPut.getWarrantByIssuer(issuer,underlying);
 	if(warrantVector.size() == 0){
 		return selectedWarrant;
 	}
@@ -1134,7 +1182,7 @@ vector<warrant*> s1algoput::getWinpriceWarrantFromMarketByIssuer(std::string iss
 
 			unsigned long long wspread = wbest_ask_price - wbest_bid_price;
 
-			WarrantIv wiv = ivLoader.getWarrantIv(n);
+			WarrantIv wiv = ivLoaderPut.getWarrantIv(n);
 
 			if(wspread <= 0){
 				continue;
@@ -1273,12 +1321,12 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 			wp = wp * 100000;
 */
 
-			if(TradeSide::SELL_SIDE == side && trade_sell_quantity >= best_bid_vol){
+			if(TradeSide::BUY_SIDE == side && trade_buy_quantity >= best_ask_vol){
 
 				//unsigned long long highestLvlBid = obs->getHighestLevelPrice();
 
-				unsigned long long highestStopLost = obs->getHighestStopLostPrice();
-				Log("UCode = " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price) + " Best Ask = " + to_string(ask_price));
+				unsigned long long lowestStopLost = obs->getLowestStopLostPrice();
+				Log("UCode = " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Lowest StopLost = " + to_string(lowestStopLost) + " Best Bid = " + to_string(bid_price) + " Best Ask = " + to_string(ask_price));
 				//Log("UCode = " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price) + " Best Ask = " + to_string(ask_price)  + " WP = " + to_string(wp));
 				//Log("UCode = " + to_string(code) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price));
 
@@ -1316,7 +1364,7 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 								continue;
 							}
 
-							if(wobsArray[i]->StopLostPrice < trade_price){
+							if(wobsArray[i]->StopLostPrice > trade_price){
 								continue;
 							}
 
@@ -1354,7 +1402,11 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 								//Log("WCode = " + to_string(wobsArray[i]->Code) + " WBest Bid = " + to_string(wbest_bid_price));
 
 
-								if("CS" == wobsArray[i]->Issuer){
+								int type = getSelectionType(wobsArray[i]->Issuer);
+
+
+								//if("CS" == wobsArray[i]->Issuer){
+								if(SELECT_WINPRICE == type){
 									if(expectSellOut != 99999999){
 										if(expectSellOut <  trade_price ){
 											continue;
@@ -1498,7 +1550,7 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 			return;
 		}
 
-		if(obs->detected && TradeSide::BUY_SIDE == side)
+		if(obs->detected && TradeSide::SELL_SIDE == side)
 		{
 
 			//s1signal* s1s = s1SignalMap[code];
@@ -1517,10 +1569,10 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 
 			//Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + " Ask Price = " + to_string(ask_price)) ;
 
-			if(TradeSide::BUY_SIDE == side && obs->DetectedAsk == trade_price && trade_buy_quantity >= best_ask_vol && best_bid_vol>=obs->ReadyBidBuy && obs->Status == STATUS_READY){
+			if(TradeSide::SELL_SIDE == side && obs->DetectedBid == trade_price && trade_sell_quantity >= best_bid_vol && best_ask_vol>=obs->ReadyAskBuy && obs->Status == STATUS_READY){
 
 				//Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + "(" + to_string(mid) + ")" + " Ask Price = " + to_string(ask_price) + " WP = " + to_string(wp)) ;
-				Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + " - " + " Ask Price = " + to_string(ask_price)) ;
+				Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_sell_quantity) + " BestBid = " + to_string(bid_price) + " - " + " Ask Price = " + to_string(ask_price)) ;
 
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
 
@@ -1536,13 +1588,17 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 						continue;
 					}
 
+					int type = getSelectionType(wobsArray[i]->Issuer);
 
-					if("CS" == wobsArray[i]->Issuer){
+					//if("CS" == wobsArray[i]->Issuer){
+					if(SELECT_WINPRICE == type){
 						if(wobsArray[i]->UBid != bid_price){
 							Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " UBid != Bestbid");
 							continue;
 						}
-					}else{
+					}
+
+					if(SELECT_NORMAL == type){
 
 						if(!spread1){
 							Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " UPrice Not 1 Spread Width");
@@ -1647,9 +1703,9 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 						Log("Ready Buy Enter :obs->hasRelatedWarrant(STATUS_PENDING)");
 						obs->Status = STATUS_PENDING;
 						obs->hasPosition = false;
-						obs->BuyPrice = ask_price;
-						obs->StopLostPrice = bid_price;
-						obs->HighestStopLost = bid_price;
+						obs->BuyPrice = bid_price;
+						obs->StopLostPrice = ask_price;
+						obs->LowestStopLost = ask_price;
 						obs->BuyTime = DateUtil::getCurrentTime();
 						obs->TradeTime = DateUtil::getCurrentSystemTime();
 
@@ -2236,6 +2292,16 @@ algo_msg_base* s1algoput::json_to_msg(json& json)
 			pWarrantAction_msg->action = json["action"].get<std::string>();
 			return pWarrantAction_msg;
 		}
+		else if (cmd == "wselecttype"){
+			pwselecttype = algo_wselecttype_msg_pool.get_obj();
+			pwselecttype->al = this;
+			pwselecttype->algo_name = _name;
+			pwselecttype->id = _u.get_id();
+			pwselecttype->ref = ref;
+			pwselecttype->selectType = json["type"].get<unsigned int>();
+			pwselecttype->issuer = json["issuer"].get<std::string>();
+			return pwselecttype;
+		}
 		else if (cmd == "issuerlist"){
 			pissuerlist = algo_issuerlist_msg_pool.get_obj();
 			pissuerlist->al = this;
@@ -2332,6 +2398,8 @@ algo_msg_base* s1algoput::json_to_msg(json& json)
 			pwinlvlsell->release();
 		if(pWarrantAction_msg)
 			pWarrantAction_msg->release();
+		if(pwselecttype)
+			pwselecttype->release();
 		return msg;
 	}
 }
@@ -2349,19 +2417,20 @@ void s1algoput::on_tcp_trade(const Tradable&)
 {
 }
 
-rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_err_msg, 8192> s1algoput::algo_err_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<s1algoput::algo_marketstatus_msg, 8192> s1algoput::algo_marketstatus_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<s1algoput::algo_setbet_msg, 8192> s1algoput::algo_setbet_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<s1algoput::algo_issueraction_msg, 8192> s1algoput::algo_issueraction_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<s1algoput::algo_underlyingaction_msg, 8192> s1algoput::algo_underlyingaction_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<s1algoput::algo_warrantaction_msg, 8192> s1algoput::algo_warrantaction_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_order_msg, 8192> s1algoput::algo_order_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_portfolio_msg, 8192> s1algoput::algo_portfolio_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_signal_msg, 8192> s1algoput::algo_signal_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_stoplost_msg, 8192> s1algoput::algo_stoplost_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_winsell_msg, 8192> s1algoput::algo_winsell_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_winlvlsell_msg, 8192> s1algoput::algo_winlvlsell_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<s1algoput::algo_force_sell, 8192> s1algoput::algo_force_sell_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_warrantprice_msg, 8192> s1algoput::algo_warrantprice_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_issuerlist_msg, 8192> s1algoput::algo_issuerlist_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_underlyinglist_msg, 8192> s1algoput::algo_underlyinglist_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_err_msg, 8192> s1algo::algo_err_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_marketstatus_msg, 8192> s1algo::algo_marketstatus_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_wselecttype_msg, 8192> s1algo::algo_wselecttype_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_setbet_msg, 8192> s1algo::algo_setbet_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_issueraction_msg, 8192> s1algo::algo_issueraction_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_underlyingaction_msg, 8192> s1algo::algo_underlyingaction_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_warrantaction_msg, 8192> s1algo::algo_warrantaction_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_order_msg, 8192> s1algo::algo_order_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_portfolio_msg, 8192> s1algo::algo_portfolio_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_signal_msg, 8192> s1algo::algo_signal_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_stoplost_msg, 8192> s1algo::algo_stoplost_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_winsell_msg, 8192> s1algo::algo_winsell_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_winlvlsell_msg, 8192> s1algo::algo_winlvlsell_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_force_sell, 8192> s1algo::algo_force_sell_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_warrantprice_msg, 8192> s1algo::algo_warrantprice_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_issuerlist_msg, 8192> s1algo::algo_issuerlist_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_underlyinglist_msg, 8192> s1algo::algo_underlyinglist_msg_pool;
