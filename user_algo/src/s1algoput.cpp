@@ -829,7 +829,7 @@ bool s1algoput::setSelectedIssuer(std::string action, std::string issuer){
 	return false;
 }
 
-int s1algo::getSelectionType(std::string issuer){
+int s1algoput::getSelectionType(std::string issuer){
 	auto its = selectionTypeMap.find(issuer);
 	if(its != selectionTypeMap.end()){
 		return its->second;
@@ -838,7 +838,7 @@ int s1algo::getSelectionType(std::string issuer){
 	return SELECT_NORMAL;
 }
 
-int s1algo::setSelectionType(string issuer, int type){
+int s1algoput::setSelectionType(string issuer, int type){
 
 	if(type == SELECT_NORMAL){
 		selectionTypeMap[issuer] = SELECT_NORMAL;
@@ -853,7 +853,7 @@ int s1algo::setSelectionType(string issuer, int type){
 	return SELECT_NORMAL;
 }
 
-bool s1algo::setSelectedUnderlying(std::string action, unsigned int ucode){
+bool s1algoput::setSelectedUnderlying(std::string action, unsigned int ucode){
 
 	//if(MarketStatus == MARKET_START)
 	//	return false;
