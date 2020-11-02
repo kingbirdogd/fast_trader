@@ -13,6 +13,25 @@ s1algo::s1algo(user& u, const std::string& name):
 	MaxBuyNoWarrant = 2;
 
 	selectedIssuer.insert("MB");
+
+
+	selectionTypeMap["BI"] = SELECT_NORMAL;
+	selectionTypeMap["BP"] = SELECT_NORMAL;
+	selectionTypeMap["CS"] = SELECT_NORMAL;
+	selectionTypeMap["CT"] = SELECT_NORMAL;
+	selectionTypeMap["EA"] = SELECT_NORMAL;
+	selectionTypeMap["GJ"] = SELECT_NORMAL;
+	selectionTypeMap["GS"] = SELECT_NORMAL;
+	selectionTypeMap["HS"] = SELECT_NORMAL;
+	selectionTypeMap["HT"] = SELECT_NORMAL;
+	selectionTypeMap["JP"] = SELECT_NORMAL;
+	selectionTypeMap["MB"] = SELECT_NORMAL;
+	selectionTypeMap["MS"] = SELECT_NORMAL;
+	selectionTypeMap["SG"] = SELECT_NORMAL;
+	selectionTypeMap["UB"] = SELECT_NORMAL;
+	selectionTypeMap["VT"] = SELECT_NORMAL;
+
+
 	//selectedIssuer.insert("GS");
 	//selectedIssuer.insert("MS");
 	//selectedIssuer.insert("CS");
@@ -53,8 +72,13 @@ s1algo::s1algo(user& u, const std::string& name):
 	//algoBet.selectBet("Bet100");
 	algoBet.selectBet("BetSmall");
 
+
+
+
 	logger = new ThreadLogger("log/" + name + DateUtil::getToday() + ".log");
 	logger->start();
+
+	//selectionType = SELECT_NORMAL;
 
 
 	//unordered_set<unsigned int> allucode = ivLoader.allUnderlying();
@@ -78,6 +102,8 @@ s1algo::s1algo(user& u, const std::string& name):
 	Log("forceSoldTime = " + to_string(forceSoldTime) + " @" + today + " 154659");
 	Log("undetectedTime = " + to_string(undetectedTime) + " @" + today + " 153600");
 	Log("soldendTime = " + to_string(soldendTime) + " @" + today + " 155959");
+
+	Log("Warrant Selection Type = " + to_string(selectionType));
 
 	for(auto f : selectedIssuer) {
 		string issuer = f;
@@ -610,9 +636,14 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							//vector<warrant*> selectedWarrant = getSelectedWarrantFromMarketByIssuer(issuer,code, best_bid_price, best_ask_price);
 							vector<warrant*> selectedWarrant;
 
-							if( "CS" == issuer){
+
+							int type = getSelectionType(issuer);
+
+
+							if( SELECT_WINPRICE == type){
 								selectedWarrant = getWinpriceWarrantFromMarketByIssuer(issuer,code, best_bid_price, best_ask_price);
-							}else{
+							}
+							if(SELECT_NORMAL == type){
 								selectedWarrant = getSelectedWarrantFromMarketByIssuer(issuer,code, best_bid_price, best_ask_price);
 							}
 
@@ -802,6 +833,30 @@ bool s1algo::setSelectedIssuer(std::string action, std::string issuer){
 		}
 	}
 	return false;
+}
+
+int s1algo::getSelectionType(std::string issuer){
+	auto its = selectionTypeMap.find(issuer);
+	if(its != selectionTypeMap.end()){
+		return its->second;
+	}
+
+	return SELECT_NORMAL;
+}
+
+int s1algo::setSelectionType(string issuer, int type){
+
+	if(type == SELECT_NORMAL){
+		selectionTypeMap[issuer] = SELECT_NORMAL;
+		return SELECT_NORMAL;
+	}
+	if(type == SELECT_WINPRICE){
+		selectionTypeMap[issuer] = SELECT_WINPRICE;
+		return SELECT_WINPRICE;
+	}
+
+	selectionType = SELECT_NORMAL;
+	return SELECT_NORMAL;
 }
 
 bool s1algo::setSelectedUnderlying(std::string action, unsigned int ucode){
@@ -1353,7 +1408,11 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								//Log("WCode = " + to_string(wobsArray[i]->Code) + " WBest Bid = " + to_string(wbest_bid_price));
 
 
-								if("CS" == wobsArray[i]->Issuer){
+								int type = getSelectionType(wobsArray[i]->Issuer);
+
+
+								//if("CS" == wobsArray[i]->Issuer){
+								if(SELECT_WINPRICE == type)
 									if(expectSellOut != 99999999){
 										if(expectSellOut <  trade_price ){
 											continue;
@@ -1535,13 +1594,17 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 						continue;
 					}
 
+					int type = getSelectionType(wobsArray[i]->Issuer);
 
-					if("CS" == wobsArray[i]->Issuer){
+					//if("CS" == wobsArray[i]->Issuer){
+					if(SELECT_WINPRICE == type)
 						if(wobsArray[i]->UBid != bid_price){
 							Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " UBid != Bestbid");
 							continue;
 						}
-					}else{
+					}
+
+					if(SELECT_NORMAL == type){
 
 						if(!spread1){
 							Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " UPrice Not 1 Spread Width");
@@ -2182,6 +2245,7 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 	algo_underlyinglist_msg* punderlyinglist = nullptr;
 	algo_winsell_msg* pwinsell = nullptr;
 	algo_winlvlsell_msg* pwinlvlsell = nullptr;
+	algo_wselecttype_msg* pwselecttype = nullptr;
 	try
 	{
 		auto cmd = json["cmd"].get<std::string>();
@@ -2234,6 +2298,16 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			pWarrantAction_msg->code = json["code"].get<unsigned int>();
 			pWarrantAction_msg->action = json["action"].get<std::string>();
 			return pWarrantAction_msg;
+		}
+		else if (cmd == "wselecttype"){
+			pwselecttype = algo_wselecttype_msg_pool.get_obj();
+			pwselecttype->al = this;
+			pwselecttype->algo_name = _name;
+			pwselecttype->id = _u.get_id();
+			pwselecttype->ref = ref;
+			pwselecttype->selectType = json["type"].get<unsigned int>();
+			pwselecttype->issuer = json["issuer"].get<std::string>();
+			return pwselecttype;
 		}
 		else if (cmd == "issuerlist"){
 			pissuerlist = algo_issuerlist_msg_pool.get_obj();
@@ -2350,6 +2424,7 @@ void s1algo::on_tcp_trade(const Tradable&)
 
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_err_msg, 8192> s1algo::algo_err_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_marketstatus_msg, 8192> s1algo::algo_marketstatus_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_wselecttype_msg, 8192> s1algo::algo_wselecttype_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_setbet_msg, 8192> s1algo::algo_setbet_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_issueraction_msg, 8192> s1algo::algo_issueraction_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_underlyingaction_msg, 8192> s1algo::algo_underlyingaction_msg_pool;

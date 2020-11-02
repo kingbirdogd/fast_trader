@@ -22,6 +22,9 @@
 #define MARKET_START 1
 #define MARKET_PAUSE 2
 
+#define SELECT_NORMAL 1
+#define SELECT_WINPRICE 2
+
 #define BUY 1
 #define SELL 2
 
@@ -47,6 +50,9 @@ public:
 	unordered_set<unsigned int> unselectedUCode;
 	unordered_set<unsigned int> availableUCode;
 	unordered_set<unsigned int> unSelectedWarrant;
+
+	unordered_map<std::string, int> selectionTypeMap;
+
 	SelectedWarrant CSelectedWarrant;
 	int MarketStatus;
 	AlgoBetX algoBet;
@@ -59,6 +65,7 @@ public:
 
 	time_t lastReadyTime;
 	int signalCount = 0;
+	int selectionType;
 
 private:
 	struct algo_order_msg: public algo_msg_base
@@ -360,6 +367,47 @@ private:
 		}
 		virtual ~algo_marketstatus_msg() = default;
 	};
+	struct algo_wselecttype_msg: public algo_msg_base
+	{
+		int prevtype;
+		int currtype;
+		int selectType;
+		std::string issuer;
+
+		algo_wselecttype_msg():
+			algo_msg_base()
+		{
+		}
+
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["issuer"] = issuer;
+			j["prevtype"] = prevtype;
+			j["currtype"] = currtype;
+			j["recovery"] = true;
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<s1algo*>(al);
+
+			prevtype = self->getSelectionType(issuer);
+
+			int newType = self->setSelectionType(issuer, selectType);
+
+			currtype = newType;
+
+			ouputQueue.enqueue(this);
+
+		}
+		virtual void release()
+		{
+			algo_wselecttype_msg_pool.release_obj(this);
+		}
+		virtual ~algo_wselecttype_msg() = default;
+	};
+
 	struct algo_setbet_msg: public algo_msg_base
 	{
 		std::string betsize;
@@ -718,6 +766,8 @@ public:
 	virtual void Log(std::string msg);
 	virtual unsigned long long issuerSize80(unsigned long long size);
 	virtual string setBetsize(std::string betsize);
+	virtual int getSelectionType(std::string issuer);
+	virtual int setSelectionType(int type);
 	//virtual bool myfunction (warrant* i,warrant* j);
 
 	virtual bool setWinSell(std::string action, unsigned int ucode, unsigned int code);
@@ -733,6 +783,7 @@ public:
 public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_err_msg, 8192> algo_err_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_marketstatus_msg, 8192> algo_marketstatus_msg_pool;
+	static rapid_ring::spsc_ring_buffer_object_pool<algo_wselecttype_msg, 8192> algo_wselecttype_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_setbet_msg, 8192> algo_setbet_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_issueraction_msg, 8192> algo_issueraction_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_underlyingaction_msg, 8192> algo_underlyingaction_msg_pool;
@@ -747,6 +798,7 @@ public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_warrantprice_msg, 8192> algo_warrantprice_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_issuerlist_msg, 8192> algo_issuerlist_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_underlyinglist_msg, 8192> algo_underlyinglist_msg_pool;
+
 };
 
 

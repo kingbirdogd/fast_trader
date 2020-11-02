@@ -413,19 +413,19 @@ void s1algoput::on_omdc_book(const Tradable& tradable)
 			return;
 		}
 
-		auto it = s1SignalMap.find(code);
-		if(it != s1SignalMap.end()){
+		auto it = s1SignalPutMap.find(code);
+		if(it != s1SignalPutMap.end()){
 
 			s1signal* signal = it->second;
 			bool hasSignal = signal->hasSignal;
-			unsigned long long DetectAsk = signal->DetectAsk;
+			unsigned long long DetectBid = signal->DetectBid;
 
 
 
 
 			if(obs->detected){
 
-				if(best_ask_price != obs->DetectedAsk && obs->Status == STATUS_READY){
+				if(best_bid_price != obs->DetectedBid && obs->Status == STATUS_READY){
 					//obs->Status = STATUS_NEW;
 					auto pmsg = algo_signal_msg_pool.get_obj();
 					pmsg->al = this;
@@ -433,7 +433,7 @@ void s1algoput::on_omdc_book(const Tradable& tradable)
 					pmsg->id = this->_u.get_id();
 					pmsg->ref = to_string(code);
 					pmsg->code = code;
-					pmsg->detect_ask = 0;
+					pmsg->detect_bid = 0;
 					pmsg->selected = false;
 					ouputQueue.enqueue(pmsg);
 
@@ -465,7 +465,7 @@ void s1algoput::on_omdc_book(const Tradable& tradable)
 					pmsg->id = this->_u.get_id();
 					pmsg->ref = to_string(code);
 					pmsg->code = code;
-					pmsg->detect_ask = 0;
+					pmsg->detect_bid = 0;
 					pmsg->selected = false;
 					ouputQueue.enqueue(pmsg);
 
@@ -497,7 +497,7 @@ void s1algoput::on_omdc_book(const Tradable& tradable)
 					pmsg->id = this->_u.get_id();
 					pmsg->ref = to_string(code);
 					pmsg->code = code;
-					pmsg->detect_ask = 0;
+					pmsg->detect_bid = 0;
 					pmsg->selected = false;
 					ouputQueue.enqueue(pmsg);
 
@@ -525,7 +525,7 @@ void s1algoput::on_omdc_book(const Tradable& tradable)
 					pmsg->id = this->_u.get_id();
 					pmsg->ref = to_string(code);
 					pmsg->code = code;
-					pmsg->detect_ask = 0;
+					pmsg->detect_bid = 0;
 					pmsg->selected = false;
 					ouputQueue.enqueue(pmsg);
 
@@ -572,9 +572,9 @@ void s1algoput::on_omdc_book(const Tradable& tradable)
 						return;
 					}
 
-					if(best_ask_price == DetectAsk){
-						obs->DetectedAsk = best_ask_price;
-						obs->StopLostPrice = best_bid_price;
+					if(best_bid_price == DetectBid){
+						obs->DetectedBid = best_bid_price;
+						obs->StopLostPrice = best_ask_price;
 						obs->ReadyBidBuy = signal->ReadyBidBuy;
 
 
