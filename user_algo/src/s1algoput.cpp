@@ -849,7 +849,7 @@ int s1algo::setSelectionType(string issuer, int type){
 		return SELECT_WINPRICE;
 	}
 
-	selectionType = SELECT_NORMAL;
+	selectionTypeMap[issuer] = SELECT_NORMAL;
 	return SELECT_NORMAL;
 }
 
