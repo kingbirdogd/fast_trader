@@ -767,7 +767,7 @@ public:
 	virtual unsigned long long issuerSize80(unsigned long long size);
 	virtual string setBetsize(std::string betsize);
 	virtual int getSelectionType(std::string issuer);
-	virtual int setSelectionType(int type);
+	virtual int setSelectionType(std::string issuer, int type);
 	//virtual bool myfunction (warrant* i,warrant* j);
 
 	virtual bool setWinSell(std::string action, unsigned int ucode, unsigned int code);
