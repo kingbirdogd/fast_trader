@@ -1412,7 +1412,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 
 								//if("CS" == wobsArray[i]->Issuer){
-								if(SELECT_WINPRICE == type)
+								if(SELECT_WINPRICE == type){
 									if(expectSellOut != 99999999){
 										if(expectSellOut <  trade_price ){
 											continue;
