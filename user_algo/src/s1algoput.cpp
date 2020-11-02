@@ -1668,7 +1668,7 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 					pmsg->id = this->_u.get_id();
 					pmsg->ref = to_string(obs->Code);
 					pmsg->code = obs->Code;
-					pmsg->detect_ask = 0;
+					pmsg->detect_bid = 0;
 					pmsg->selected = false;
 					ouputQueue.enqueue(pmsg);
 
@@ -1948,7 +1948,7 @@ void s1algoput::handler_order(const dbp::top::enhance_order& odr)
 						pmsg->id = this->_u.get_id();
 						pmsg->ref = to_string(ucode);
 						pmsg->code = ucode;
-						pmsg->detect_ask = 0;
+						pmsg->detect_bid = 0;
 						pmsg->selected = false;
 						ouputQueue.enqueue(pmsg);
 
@@ -2095,7 +2095,7 @@ void s1algoput::handler_order(const dbp::top::enhance_order& odr)
 						pmsg->id = this->_u.get_id();
 						pmsg->ref = to_string(ucode);
 						pmsg->code = ucode;
-						pmsg->detect_ask = 0;
+						pmsg->detect_bid = 0;
 						pmsg->selected = false;
 						ouputQueue.enqueue(pmsg);
 
