@@ -115,12 +115,14 @@
 			"Hot":
 			{
 				"InterfaceIp": "10.122.78.88",
+				"InterfaceName": "enp2s0f1",
 				"MulticastIp": "239.1.1.4",
 				"MulticastPort": 51000
 			},
 			"Refresh":
 			{
 				"InterfaceIp": "10.122.78.88",
+				"InterfaceName": "enp2s0f1",
 				"MulticastIp": "239.1.1.14",
 				"MulticastPort": 51000
 			},
@@ -131,12 +133,14 @@
 			"Hot":
 			{
 				"InterfaceIp": "10.122.78.88",
+				"InterfaceName": "enp2s0f1",
 				"MulticastIp": "239.1.1.4",
 				"MulticastPort": 51001
 			},
 			"Refresh":
 			{
 				"InterfaceIp": "10.122.78.88",
+				"InterfaceName": "enp2s0f1",
 				"MulticastIp": "239.1.1.14",
 				"MulticastPort": 51001
 			},
@@ -147,12 +151,14 @@
 			"Hot":
 			{
 				"InterfaceIp": "10.122.78.88",
+				"InterfaceName": "enp2s0f1",
 				"MulticastIp": "239.1.1.4",
 				"MulticastPort": 51002
 			},
 			"Refresh":
 			{
 				"InterfaceIp": "10.122.78.88",
+				"InterfaceName": "enp2s0f1",
 				"MulticastIp": "239.1.1.14",
 				"MulticastPort": 51002
 			},
@@ -162,17 +168,19 @@
 	"OmddChannel":
 	[
 		{
-			"ChannelId": 231,
+			"ChannelId": 221,
 			"Hot":
 			{
 				"InterfaceIp": "10.123.132.196",
-				"MulticastIp": "239.1.1.131",
+				"InterfaceName": "enp2s0f0",				
+				"MulticastIp": "239.1.1.130",
 				"MulticastPort": 51002
 			},
 			"Refresh":
 			{
 				"InterfaceIp": "10.123.132.196",
-				"MulticastIp": "239.1.1.156",
+				"InterfaceName": "enp2s0f0",
+				"MulticastIp": "239.1.1.155",
 				"MulticastPort": 51002
 			},
 			"RetranProxyIndex": 1
@@ -180,7 +188,8 @@
 	],
 	"ActivateChannel":
 	[
-		{"Channel":"SWOmdcChannel"}
+		{"Channel":"SWOmdcChannel"},
+		{"Channel":"OmddftChannel"}
 	]
 }
 
