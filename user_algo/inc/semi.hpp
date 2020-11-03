@@ -197,6 +197,14 @@ private:
 			j["last_price"] = _last_price;
 			return j;
 		}
+		json to_minor_json() const
+		{
+			json j;
+			j["auto_buy"] = _auto_buy;
+			j["auto_sell"] = _auto_sell;
+			return j;
+		}
+
 		~pair() = default;
 		pair(const pair&) = default;
 		pair(pair&&) = default;
@@ -1148,7 +1156,7 @@ private:
 		{
 			auto j = algo_msg_base::to_json();
 			j["msg_type"] = "semi_algo_set";
-			j["pair"] = p.to_json();
+			j["pair"] = p.to_minor_json();
 			j["result"] = result;
 			j["no_change"] = no_change;
 			return j;
@@ -1181,7 +1189,7 @@ private:
 			auto j = algo_msg_base::to_json();
 			j["msg_type"] = "semi_algo_del";
 			if (p)
-				j["pair"] = p->to_json();
+				j["pair"] = p->to_minor_json();
 			else
 				j["pair"] = nullptr;
 			j["result"] = result;
@@ -1251,7 +1259,7 @@ private:
 			auto j = algo_msg_base::to_json();
 			j["msg_type"] = "semi_algo_force_buy";
 			if (p)
-				j["pair"] = p->to_json();
+				j["pair"] = p->to_minor_json();
 			else
 				j["pair"] = nullptr;
 			j["price"] = price;
@@ -1293,7 +1301,7 @@ private:
 			auto j = algo_msg_base::to_json();
 			j["msg_type"] = "semi_algo_force_sell";
 			if (p)
-				j["pair"] = p->to_json();
+				j["pair"] = p->to_minor_json();
 			else
 				j["pair"] = nullptr;
 			j["price"] = price;
