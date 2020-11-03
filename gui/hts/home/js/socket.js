@@ -397,6 +397,8 @@ function initWebsocket(){
 					
 					//nochange: {"algo_name":"leo_semi","id":1,"msg_type":"semi_algo_set","no_change":true,"pair":{"auto_buy":false,"auto_buy_id":0,"auto_buy_quantity":1000000000000,"auto_sell":false,"auto_sell_id":0,"bottom_price":9800000,"buy_price":10100000,"buy_trriger":41140000000,"ceiling_price":10200000,"early_buy_qty":0,"early_sell_qty":0,"is_bull":false,"is_buying":false,"is_selling":false,"position":0,"ratio_buy":0,"ratio_sell":0,"ref":"u022_1","sell_price":10100000,"sell_trriger":41180000000,"underlying_code":700,"underlying_symbol":"","warrant_code":26399},"ref":"u022_1","result":"SUCCESS","tm":1590721663132}
 					
+					//{"algo_name":"kenny_semi","id":2,"msg_type":"semi_algo_set","no_change":false,"pair":{"auto_buy":false,"auto_sell":false},"ref":"u000_1","result":"SUCCESS","tm":1604393833079}
+					
 					printLog(today,receive_time,received_msg);
 					
 					var id = data.ref;
@@ -421,7 +423,7 @@ function initWebsocket(){
 						
 					if(data.result == "SUCCESS"){
 						var idArr = id.split("_");
-						var ucode = "";
+						/*var ucode = "";
 						if(data.pair.underlying_symbol != ""){
 							ucode = data.pair.underlying_symbol;
 						}else{
@@ -454,7 +456,7 @@ function initWebsocket(){
 						
 						if(data.pair.ceiling_price*1>0){
 							$("#"+id+"ceiling").val(data.pair.ceiling_price/factor_stock);
-						}
+						}*/
 						
 						$("#"+id+"buy_status").removeClass("bg_red");
 						$("#"+id+"buy_status").html("");
@@ -469,7 +471,7 @@ function initWebsocket(){
 							}
 							
 							if(type=="buy" || type=="auto"){
-								if(data.pair.auto_buy_quantity*1>0){
+								/*if(data.pair.auto_buy_quantity*1>0){
 									$("#"+id+"vol").val(formatValue(data.pair.auto_buy_quantity/factor_stock));
 								}
 								if(data.pair.early_buy_qty*1>0){
@@ -477,7 +479,7 @@ function initWebsocket(){
 								}
 								if(data.pair.early_sell_qty*1>0){
 									$("#"+id+"sell_vol").val(formatValue(data.pair.early_sell_qty));
-								}
+								}*/
 								
 								if($("#"+id+"force_buy").hasClass("off")){
 									sendWsMsg(getWsMsg("forcebuy", id));
@@ -496,10 +498,10 @@ function initWebsocket(){
 								$("#"+id+"buy_status").html("");
 								$("#"+id+"ismon").val(1);
 							}else if(type=="sell"){
-								if(data.pair.auto_buy_quantity*1>0){
+								/*if(data.pair.auto_buy_quantity*1>0){
 									$("#"+id+"t_vol_i").val(formatValue(data.pair.auto_buy_quantity/factor_stock));
 									$("#"+id+"t_vol").val(data.pair.auto_buy_quantity/factor_stock);
-								}
+								}*/
 								
 								if($("#"+id+"force_sell").hasClass("off")){
 									sendWsMsg(getWsMsg("forcesell", id));
@@ -517,13 +519,13 @@ function initWebsocket(){
 								$("#"+id+"ismon").val(2);
 							}else if(type=="stop"){
 								if(stop_sell || $("#"+id+"ismon").val()==2 || $("#"+id+"t_vol").val()*1>0){
-									$("#"+id+"t_vol_i").val(formatValue(data.pair.position/factor_stock));
-									$("#"+id+"t_vol").val(data.pair.position/factor_stock);
+									//$("#"+id+"t_vol_i").val(formatValue(data.pair.position/factor_stock));
+									//$("#"+id+"t_vol").val(data.pair.position/factor_stock);
 									$("#"+id+"monsell").removeClass("disable off");
 									$("#"+id+"force_sell").removeClass("disable off");
 									$("#"+id+"sell_status").removeClass("bg_green").addClass("bg_orange");
 								}else{
-									$("#"+id+"vol").val(formatValue(data.pair.auto_buy_quantity/factor_stock));
+									//$("#"+id+"vol").val(formatValue(data.pair.auto_buy_quantity/factor_stock));
 									$("#"+id+"monbuy").removeClass("disable off");
 									$("#"+id+"force_buy").removeClass("disable off");
 									$("#"+id+"buy_status").removeClass("bg_green");
@@ -539,7 +541,7 @@ function initWebsocket(){
 								$("#"+idArr[0]+"ucode").attr('readonly','readonly');
 								$("#"+id+"code").attr('readonly','readonly');
 							}
-							$("#"+id+"remove_btn").hide();
+							//$("#"+id+"remove_btn").hide();
 						}
 					}else{
 						if(type=="buy" || type=="auto"){
