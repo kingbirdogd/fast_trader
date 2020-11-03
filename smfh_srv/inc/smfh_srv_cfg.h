@@ -1313,13 +1313,14 @@ inline static bool loadChannel(json& _json, const char* pszName, CStreamVec& vec
 			channel.m_uChannelId = ChannelNode["ChannelId"].get<unsigned short int>();
 			auto& Hot = ChannelNode["Hot"];
 			std::string InterfaceIp = Hot["InterfaceIp"].get<std::string>();
-			std::string InterfaceName = Hot["InterfaceName"].get<std::string>();
+
 			std::string MulticastIp = Hot["MulticastIp"].get<std::string>();
 			unsigned short int MulticastPort = Hot["MulticastPort"].get<unsigned short int>();
 
 
 
 #ifdef TCPDIRECT
+			std::string InterfaceName = Hot["InterfaceName"].get<std::string>();
 			flush_printf("tm:%llu, loadChannel Config  TCPDIRECT 1\n", dbp::tools::srv::current());
 			if (zf_attr_alloc(&channel.m_zfAttr))
 			{
@@ -1375,7 +1376,7 @@ inline static bool loadChannel(json& _json, const char* pszName, CStreamVec& vec
 #endif
 			auto& Refresh = ChannelNode["Refresh"];
 			InterfaceIp = Refresh["InterfaceIp"].get<std::string>();
-			InterfaceName = Refresh["InterfaceName"].get<std::string>();
+
 			MulticastIp = Refresh["MulticastIp"].get<std::string>();
 			MulticastPort = Refresh["MulticastPort"].get<unsigned short int>();
 #ifndef TCPDIRECT
@@ -1389,6 +1390,7 @@ inline static bool loadChannel(json& _json, const char* pszName, CStreamVec& vec
 				return false;
 			}
 #else
+			InterfaceName = Refresh["InterfaceName"].get<std::string>();
 			flush_printf("tm:%llu, loadChannel Config  TCPDIRECT 5\n", dbp::tools::srv::current());
 			struct zfur *zfRefresh;
 			{
