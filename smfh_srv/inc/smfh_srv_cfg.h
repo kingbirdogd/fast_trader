@@ -1316,6 +1316,10 @@ inline static bool loadChannel(json& _json, const char* pszName, CStreamVec& vec
 			std::string InterfaceName = Hot["InterfaceName"].get<std::string>();
 			std::string MulticastIp = Hot["MulticastIp"].get<std::string>();
 			unsigned short int MulticastPort = Hot["MulticastPort"].get<unsigned short int>();
+
+
+			flush_printf("tm:%llu, loadChannel Config  TCPDIRECT 1 : %s\n", dbp::tools::srv::current(), InterfaceName.c_str());
+
 #ifdef TCPDIRECT
 			flush_printf("tm:%llu, loadChannel Config  TCPDIRECT 1\n", dbp::tools::srv::current());
 			if (zf_attr_alloc(&channel.m_zfAttr))
