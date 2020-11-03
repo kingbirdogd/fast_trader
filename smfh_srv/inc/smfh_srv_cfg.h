@@ -1318,29 +1318,23 @@ inline static bool loadChannel(json& _json, const char* pszName, CStreamVec& vec
 			unsigned short int MulticastPort = Hot["MulticastPort"].get<unsigned short int>();
 
 
-			flush_printf("tm:%llu, loadChannel Config  TCPDIRECT 1 : %s\n", dbp::tools::srv::current(), InterfaceName.c_str());
 
 #ifdef TCPDIRECT
-			flush_printf("tm:%llu, loadChannel Config  TCPDIRECT 1\n", dbp::tools::srv::current());
 			if (zf_attr_alloc(&channel.m_zfAttr))
 			{
 				return false;
 			}
-			flush_printf("tm:%llu, loadChannel Config  TCPDIRECT 11\n", dbp::tools::srv::current());
 			struct zf_attr* attr =  channel.m_zfAttr;
 			if (zf_attr_set_str(attr, "interface", InterfaceName.c_str()))
 			{
 				return false;
 			}
-			flush_printf("tm:%llu, loadChannel Config  TCPDIRECT 111\n", dbp::tools::srv::current());
 			if (zf_stack_alloc(attr, &channel.m_zfStack))
 			{
 				zf_attr_free(attr);
 				return false;
 			}
-			flush_printf("tm:%llu, loadChannel Config  TCPDIRECT 1111\n", dbp::tools::srv::current());
 			struct zf_stack* stack = channel.m_zfStack;
-			flush_printf("tm:%llu, loadChannel Config  TCPDIRECT 2\n", dbp::tools::srv::current());
 #endif
 #ifndef TCPDIRECT
 			int iHot = dbp::net::srv::getNoBlockReuseUdpListener(MulticastPort, MulticastIp, InterfaceIp);
