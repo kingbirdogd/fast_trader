@@ -270,6 +270,7 @@ struct COmdOrderbook: public Tradable
 	}
 	~COmdOrderbook() = default;
 };
+#ifndef TCPDIRECT
 class CStreamChannel
 {
 public:
@@ -293,6 +294,37 @@ public:
 	{
 	}
 };
+#else
+struct zf_stack;
+struct zf_muxer_set;
+struct zfur;
+class CStreamChannel
+{
+public:
+	struct zfur*m_zfHot;
+	struct zfur*m_zfRefresh;
+	struct zf_attr* m_zfAttr;
+	struct zf_stack* m_zfStack;
+	struct zf_muxer_set* m_zfMuxer;
+	unsigned long long m_uChannelIdx;
+	std::size_t m_uRetranProxyIdx;
+	unsigned short int m_uChannelId;
+public:
+	CStreamChannel():
+		m_zfHot(0),
+		m_zfRefresh(0),
+		m_zfStack(0),
+		m_zfMuxer(0),
+		m_uChannelIdx(0),
+		m_uRetranProxyIdx(0),
+		m_uChannelId(0)
+	{
+	}
+	~CStreamChannel()
+	{
+	}
+};
+#endif
 class CDefChannel
 {
 public:

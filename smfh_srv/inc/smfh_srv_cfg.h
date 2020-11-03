@@ -5,6 +5,10 @@
 #include <cstdio>
 #include <cstdlib>
 #include <epoll.h>
+#ifdef TCPDIRECT
+#include "zf_utils.h"
+#include <zf/zf.h>
+#endif
 #include <pthread.h>
 #include <string>
 #include <vector>
@@ -1309,17 +1313,65 @@ inline static bool loadChannel(json& _json, const char* pszName, CStreamVec& vec
 			channel.m_uChannelId = ChannelNode["ChannelId"].get<unsigned short int>();
 			auto& Hot = ChannelNode["Hot"];
 			std::string InterfaceIp = Hot["InterfaceIp"].get<std::string>();
+			std::string InterfaceName = Hot["InterfaceName"].get<std::string>();
 			std::string MulticastIp = Hot["MulticastIp"].get<std::string>();
 			unsigned short int MulticastPort = Hot["MulticastPort"].get<unsigned short int>();
-			int iHot = dbp::net::srv::getNoBlockReuseUdpListener(MulticastPort, MulticastIp, InterfaceIp);
-			if (-1 == iHot)
+#ifdef TCPDIRECT
+			if (zf_attr_alloc(&channel.m_zfAttr))
 			{
 				return false;
 			}
+			struct zf_attr* attr =  channel.m_zfAttr;
+			if (zf_attr_set_str(attr, "interface", InterfaceName.c_str()))
+			{
+				return false;
+			}
+			if (zf_stack_alloc(attr, &channel.m_zfStack))
+			{
+				zf_attr_free(attr);
+				return false;
+			}
+			struct zf_stack* stack = channel.m_zfStack;
+#endif
+#ifndef TCPDIRECT
+			int iHot = dbp::net::srv::getNoBlockReuseUdpListener(MulticastPort, MulticastIp, InterfaceIp);
+			if (-1 == iHot)
+			{
+				std::cerr << "load loadChannel: " << pszName
+						<< " getNoBlockReuseUdpListener fail, Channel_ID:"
+						<< channel.m_uChannelId  << std::endl;
+				return false;
+			}
+#else
+			struct zfur *zfHot;
+			{
+				struct addrinfo *ai_local = nullptr;
+				char buf[1024];
+				snprintf(buf, sizeof(buf), "%s:%u", MulticastIp .c_str(), MulticastPort );
+				if (getaddrinfo_hostport(buf, NULL, &ai_local) != 0) {
+					zf_stack_free(stack);
+					zf_attr_free(attr);
+					return false;
+				}
+				if (zfur_alloc(&zfHot, stack, attr)) {
+					zf_stack_free(stack);
+					zf_attr_free(attr);
+					return false;
+				}
+				if (zfur_addr_bind(zfHot, ai_local->ai_addr, ai_local->ai_addrlen, NULL, 0, 0)) {
+					zfur_free(zfHot);
+					zf_stack_free(stack);
+					zf_attr_free(attr);
+				return false;
+			}
+			}
+#endif
 			auto& Refresh = ChannelNode["Refresh"];
 			InterfaceIp = Refresh["InterfaceIp"].get<std::string>();
+			InterfaceName = Refresh["InterfaceName"].get<std::string>();
 			MulticastIp = Refresh["MulticastIp"].get<std::string>();
 			MulticastPort = Refresh["MulticastPort"].get<unsigned short int>();
+#ifndef TCPDIRECT
 			int iRefresh = dbp::net::srv::getNoBlockReuseUdpListener(MulticastPort, MulticastIp, InterfaceIp);
 			if (-1 == iRefresh)
 			{
@@ -1329,18 +1381,58 @@ inline static bool loadChannel(json& _json, const char* pszName, CStreamVec& vec
 				close(iHot);
 				return false;
 			}
+#else
+			struct zfur *zfRefresh;
+			{
+				struct addrinfo *ai_local = nullptr;
+				char buf[1024];
+				snprintf(buf, sizeof(buf), "%s:%u", MulticastIp.c_str(), MulticastPort);
+				if (getaddrinfo_hostport(buf, NULL, &ai_local) != 0) {
+					zfur_free(zfHot);
+					zf_stack_free(stack);
+					zf_attr_free(attr);
+					return false;
+				}
+				if (zfur_alloc(&zfRefresh, stack, attr)) {
+					zfur_free(zfHot);
+					zf_stack_free(stack);
+					zf_attr_free(attr);
+					return false;
+				}
+				if (zfur_addr_bind(zfRefresh, ai_local->ai_addr, ai_local->ai_addrlen, NULL, 0, 0)) {
+					zfur_free(zfRefresh);
+					zfur_free(zfHot);
+					zf_stack_free(stack);
+					zf_attr_free(attr);
+					return false;
+				}
+			}
+#endif
 			channel.m_uRetranProxyIdx = ChannelNode["RetranProxyIndex"].get<std::size_t>();
+#ifndef TCPDIRECT
 			channel.m_iHot = iHot;
 			channel.m_iRefresh = iRefresh;
+#else
+			channel.m_zfHot = zfHot;
+			channel.m_zfRefresh = zfRefresh;
+#endif
 			if (channel.m_uRetranProxyIdx >= retranVec.size())
 			{
 				std::cerr << "load loadChannel: " << pszName
 						<< " retran proxy setting fail, Channel_ID:"
 						<< channel.m_uChannelId  << std::endl;
+#ifndef TCPDIRECT
 				close(iHot);
 				close(iRefresh);
+#else
+				zfur_free(zfRefresh);
+				zfur_free(zfHot);
+				zf_stack_free(stack);
+				zf_attr_free(attr);
+#endif
 				return false;
 			}
+#ifndef TCPDIRECT
 			channel.m_iEpoll = epoll_create(2);
 			if (channel.m_iEpoll <= 0)
 			{
@@ -1351,6 +1443,16 @@ inline static bool loadChannel(json& _json, const char* pszName, CStreamVec& vec
 				close(iRefresh);
 				return false;
 			}
+#else
+			if (zf_muxer_alloc(stack, &channel.m_zfMuxer))
+			{
+				zfur_free(zfRefresh);
+				zfur_free(zfHot);
+				zf_stack_free(stack);
+				zf_attr_free(attr);
+				return false;
+			}
+#endif
 			std::cerr << "load loadChannel: " << pszName
 					<< " success, Channel_ID:"
 					<< channel.m_uChannelId  << std::endl;

@@ -59,6 +59,7 @@ public:
 	{
 		std::cout << "handleChannel Channel:" << _channel.m_uChannelId << std::endl;
 		INIT_CAHNNEL(_channel.m_uChannelId);
+#ifndef TCPDIRECT
 		struct epoll_event objEvent;
 		memset(&objEvent, 0, sizeof(struct epoll_event));
 		objEvent.events = EPOLLIN | EPOLLET;
@@ -72,6 +73,18 @@ public:
 		{
 			return false;
 		}
+#else
+		struct epoll_event event = { .events = EPOLLIN, .data = { .ptr = _channel.m_zfHot} };
+		if (zf_muxer_add(_channel.m_zfMuxer, zfur_to_waitable(_channel.m_zfHot), &event))
+		{
+			return false;
+		}
+		event = { .events = EPOLLIN, .data = { .ptr = _channel.m_zfRefresh } };
+		if (zf_muxer_add(_channel.m_zfMuxer, zfur_to_waitable(_channel.m_zfRefresh), &event))
+		{
+			return false;
+		}
+#endif
 		std::thread* pThread = new std::thread
 		(
 			[&]
@@ -94,35 +107,73 @@ public:
 				while (true)
 				{
 					std::vector<std::vector<char>> Vec;
+#ifndef TCPDIRECT
 					char szBuffer[2048];
 					epoll_event events[8192];
+#else
+					struct epoll_event evs[8];
+					const int max_evs = sizeof(evs) / sizeof(evs[0]);
+#endif
 					unsigned int uHotSeq = 0;
 					unsigned int uRefreshSeq = 0;
 					unsigned int uOnRefreshStartIdx = 0;
 					bool bStartRefresh = false;
 					bool bAgain = false;
 					bool bComplete = false;
+#ifndef TCPDIRECT
 					memset(&events, 0, sizeof(epoll_event) * 8192);
 					memset(szBuffer, 0, 2048);
+#endif
 					while (true)
 					{
+#ifndef TCPDIRECT
 						int iCnt = epoll_wait(_channel.m_iEpoll, events, 8192, -1);
+#else
+						int iCnt = zf_muxer_wait(_channel.m_zfMuxer, evs, max_evs, 1000000);
+#endif
 						if (iCnt > 0)
 						{
 							for (int i = 0; i < iCnt; ++i)
 							{
+#ifndef TCPDIRECT
 								if (events[i].events & EPOLLIN)
 								{
+#endif
+#ifndef TCPDIRECT
 									if (events[i].data.fd == _channel.m_iHot)
+#else
+									auto ur = reinterpret_cast<struct zfur*>(evs[i].data.ptr);
+									if (ur == _channel.m_zfHot)
+#endif
 									{
 										while (true)
 										{
+#ifndef TCPDIRECT
 											if (recvfrom(events[i].data.fd, szBuffer, sizeof(szBuffer), 0, 0, 0) <= 0)
 											{
 												break;
 											}
+#else
+											struct {
+												struct zfur_msg msg;
+												struct iovec iov[1];
+											} rd;
+											rd.msg.iovcnt = sizeof(rd.iov) / sizeof(rd.iov[0]);
+											zfur_zc_recv(ur, &rd.msg, 0);
+											auto szBuffer = reinterpret_cast<char*>(rd.msg.iov[0].iov_base);
+											if (false)
+											{
+											}
+#endif
 											else if (bAgain)
 											{
+#ifdef TCPDIRECT
+												if (rd.msg.iovcnt == 0)
+													break;
+												zfur_zc_recv_done(ur, &rd.msg);
+												if (rd.msg.dgrams_left == 0)
+													break;
+#endif
 												continue;
 											}
 											else
@@ -197,6 +248,13 @@ public:
 														}
 													}
 												}
+#ifdef TCPDIRECT
+												if (rd.msg.iovcnt == 0)
+													break;
+												zfur_zc_recv_done(ur, &rd.msg);
+												if (rd.msg.dgrams_left == 0)
+													break;
+#endif
 											}
 										}
 									}
@@ -204,12 +262,32 @@ public:
 									{
 										while (true)
 										{
+#ifndef TCPDIRECT
 											if (recvfrom(events[i].data.fd, szBuffer, sizeof(szBuffer), 0, 0, 0) <= 0)
 											{
 												break;
 											}
+#else
+											struct {
+												struct zfur_msg msg;
+												struct iovec iov[1];
+											} rd;
+											rd.msg.iovcnt = sizeof(rd.iov) / sizeof(rd.iov[0]);
+											zfur_zc_recv(ur, &rd.msg, 0);
+											auto szBuffer = reinterpret_cast<char*>(rd.msg.iov[0].iov_base);
+											if (false)
+											{
+											}
+#endif
 											else if (bAgain)
 											{
+#ifdef TCPDIRECT
+												if (rd.msg.iovcnt == 0)
+													break;
+												zfur_zc_recv_done(ur, &rd.msg);
+												if (rd.msg.dgrams_left == 0)
+													break;
+#endif
 												continue;
 											}
 											else
@@ -261,12 +339,17 @@ public:
 																		{
 																			HANDLE(OMD_GET_POINTER(&Vec[i][0], 0, dbp::omd::COmdMsgHeader), 0, _channel.m_uChannelId);
 																		}
+#ifndef TCPDIRECT
 																		struct epoll_event objEvent;
 																		memset(&objEvent, 0, sizeof(struct epoll_event));
 																		objEvent.data.fd = _channel.m_iHot;
 																		epoll_ctl(_channel.m_iEpoll, EPOLL_CTL_DEL, objEvent.data.fd, &objEvent);
 																		objEvent.data.fd = _channel.m_iRefresh;
 																		epoll_ctl(_channel.m_iEpoll, EPOLL_CTL_DEL, objEvent.data.fd, &objEvent);
+#else
+																		zf_muxer_del(zfur_to_waitable(_channel.m_zfHot));
+																		zf_muxer_del(zfur_to_waitable(_channel.m_zfRefresh));
+#endif
 																		bComplete = true;
 																	}
 																	break;
@@ -322,13 +405,17 @@ public:
 																		{
 																			HANDLE(OMD_GET_POINTER(&Vec[i][0], 0, dbp::omd::COmdMsgHeader), 0, _channel.m_uChannelId);
 																		}
+#ifndef TCPDIRECT
 																		struct epoll_event objEvent;
 																		memset(&objEvent, 0, sizeof(struct epoll_event));
 																		objEvent.data.fd = _channel.m_iHot;
 																		epoll_ctl(_channel.m_iEpoll, EPOLL_CTL_DEL, objEvent.data.fd, &objEvent);
 																		objEvent.data.fd = _channel.m_iRefresh;
 																		epoll_ctl(_channel.m_iEpoll, EPOLL_CTL_DEL, objEvent.data.fd, &objEvent);
-
+#else
+																		zf_muxer_del(zfur_to_waitable(_channel.m_zfHot));
+																		zf_muxer_del(zfur_to_waitable(_channel.m_zfRefresh));
+#endif
 																		bComplete = true;
 																	}
 																	break;
@@ -344,6 +431,13 @@ public:
 														}
 													}
 												}
+#ifdef TCPDIRECT
+												if (rd.msg.iovcnt == 0)
+													break;
+												zfur_zc_recv_done(ur, &rd.msg);
+												if (rd.msg.dgrams_left == 0)
+													break;
+#endif
 											}
 											if (bComplete)
 											{
@@ -351,7 +445,9 @@ public:
 											}
 										}
 									}
+#ifndef TCPDIRECT
 								}
+#endif
 								if (bComplete)
 								{
 									break;
@@ -369,10 +465,26 @@ public:
 					}
 					while (true)
 					{
+#ifndef TCPDIRECT
 						if (recvfrom(_channel.m_iHot, szBuffer, sizeof(szBuffer), 0, 0, 0) <= 0)
 						{
 							continue;
 						}
+#else
+						if (zf_reactor_perform(_channel.m_zfStack) == 0)
+						{
+							continue;
+						}
+						while(true)
+						{
+						struct {
+							struct zfur_msg msg;
+							struct iovec iov[1];
+						} rd;
+						rd.msg.iovcnt = sizeof(rd.iov) / sizeof(rd.iov[0]);
+						zfur_zc_recv(_channel.m_zfHot, &rd.msg, 0);
+						auto szBuffer = reinterpret_cast<char*>(rd.msg.iov[0].iov_base);
+#endif
 						unsigned long long uTimeStart = dbp::tools::srv::current();
 						char* pszBuffer = &szBuffer[0];
 						dbp::omd::COmdPkgHeader* pPkg = OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdPkgHeader);
@@ -439,6 +551,7 @@ public:
 									else
 									{
 										flush_printf("tm:%llu, Retran Fail, Heart Beat Hot, ChannelId:%u, Start:%u, End:%u\n", dbp::tools::srv::current(), _channel.m_uChannelId, uHotSeq + 1, pPkg->m_uSeq);
+#ifndef TCPDIRECT
 										struct epoll_event objEvent;
 										memset(&objEvent, 0, sizeof(struct epoll_event));
 										objEvent.events = EPOLLIN | EPOLLET;
@@ -446,6 +559,12 @@ public:
 										epoll_ctl(_channel.m_iEpoll, EPOLL_CTL_ADD, objEvent.data.fd, &objEvent);
 										objEvent.data.fd = _channel.m_iRefresh;
 										epoll_ctl(_channel.m_iEpoll, EPOLL_CTL_ADD, objEvent.data.fd, &objEvent);
+#else
+										struct epoll_event event = { .events = EPOLLIN, .data = { .ptr = _channel.m_zfHot} };
+										zf_muxer_add(_channel.m_zfMuxer, zfur_to_waitable(_channel.m_zfHot), &event);
+										event = { .events = EPOLLIN, .data = { .ptr = _channel.m_zfRefresh } };
+										zf_muxer_add(_channel.m_zfMuxer, zfur_to_waitable(_channel.m_zfRefresh), &event);
+#endif
 										uCnt = 0;
 										uSum = 0;
 										CLEAR();
@@ -490,6 +609,7 @@ public:
 									else
 									{
 										flush_printf("tm:%llu, Retran Fail, ChannelId:%u, Start:%u, End:%u\n", dbp::tools::srv::current(), _channel.m_uChannelId, uHotSeq + 1, pPkg->m_uSeq - 1);
+#ifndef TCPDIRECT
 										struct epoll_event objEvent;
 										memset(&objEvent, 0, sizeof(struct epoll_event));
 										objEvent.events = EPOLLIN | EPOLLET;
@@ -497,6 +617,12 @@ public:
 										epoll_ctl(_channel.m_iEpoll, EPOLL_CTL_ADD, objEvent.data.fd, &objEvent);
 										objEvent.data.fd = _channel.m_iRefresh;
 										epoll_ctl(_channel.m_iEpoll, EPOLL_CTL_ADD, objEvent.data.fd, &objEvent);
+#else
+										struct epoll_event event = { .events = EPOLLIN, .data = { .ptr = _channel.m_zfHot} };
+										zf_muxer_add(_channel.m_zfMuxer, zfur_to_waitable(_channel.m_zfHot), &event);
+										event = { .events = EPOLLIN, .data = { .ptr = _channel.m_zfRefresh } };
+										zf_muxer_add(_channel.m_zfMuxer, zfur_to_waitable(_channel.m_zfRefresh), &event);
+#endif
 										uCnt = 0;
 										uSum = 0;
 										CLEAR();
@@ -529,6 +655,31 @@ public:
 								}
 							}
 						}
+#ifdef TCPDIRECT
+						if (rd.msg.iovcnt == 0)
+							break;
+						zfur_zc_recv_done(_channel.m_zfHot, &rd.msg);
+						if (rd.msg.dgrams_left == 0)
+							break;
+						}
+
+						while(true)
+						{
+							struct {
+								struct zfur_msg msg;
+								struct iovec iov[1];
+							} rd;
+							rd.msg.iovcnt = sizeof(rd.iov) / sizeof(rd.iov[0]);
+							zfur_zc_recv(_channel.m_zfRefresh, &rd.msg, 0);
+							//auto szBuffer = reinterpret_cast<char*>(rd.msg.iov[0].iov_base);
+
+							if (rd.msg.iovcnt == 0)
+								break;
+							zfur_zc_recv_done(_channel.m_zfRefresh, &rd.msg);
+							if (rd.msg.dgrams_left == 0)
+								break;
+						}
+#endif
 					}
 				}
 			}

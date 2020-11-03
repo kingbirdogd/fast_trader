@@ -514,6 +514,7 @@ inline static bool start()
 }
 inline static void closeAll()
 {
+#ifndef TCPDIRECT
 	for (size_t i = 0; i < omdcStreams.size(); ++i)
 	{
 		if (0 != omdcStreams[i].m_iHot)
@@ -586,6 +587,120 @@ inline static void closeAll()
 			s1Streams[i].m_iEpoll = 0;
 		}
 	}
+#else
+	for (size_t i = 0; i < omdcStreams.size(); ++i)
+	{
+		if (nullptr != omdcStreams[i].m_zfMuxer)
+		{
+			zf_muxer_free(omdcStreams[i].m_zfMuxer);
+			omdcStreams[i].m_zfMuxer = nullptr;
+		}
+		if (nullptr != omdcStreams[i].m_zfHot)
+		{
+			zfur_free(omdcStreams[i].m_zfHot);
+			omdcStreams[i].m_zfHot = nullptr;
+		}
+		if (nullptr != omdcStreams[i].m_zfRefresh)
+		{
+			zfur_free(omdcStreams[i].m_zfRefresh);
+			omdcStreams[i].m_zfRefresh = nullptr;
+		}
+		if (nullptr != omdcStreams[i].m_zfStack)
+		{
+			zf_stack_free(omdcStreams[i].m_zfStack);
+			omdcStreams[i].m_zfStack = nullptr;
+		}
+		if (nullptr != omdcStreams[i].m_zfAttr)
+		{
+			zf_attr_free(omdcStreams[i].m_zfAttr);
+			omdcStreams[i].m_zfAttr = nullptr;
+		}
+	}
+	for (size_t i = 0; i < omddStreams.size(); ++i)
+	{
+		if (nullptr != omddStreams[i].m_zfMuxer)
+		{
+			zf_muxer_free(omddStreams[i].m_zfMuxer);
+			omddStreams[i].m_zfMuxer = nullptr;
+		}
+		if (nullptr != omddStreams[i].m_zfHot)
+		{
+			zfur_free(omddStreams[i].m_zfHot);
+			omddStreams[i].m_zfHot = nullptr;
+		}
+		if (nullptr != omddStreams[i].m_zfRefresh)
+		{
+			zfur_free(omddStreams[i].m_zfRefresh);
+			omddStreams[i].m_zfRefresh = nullptr;
+		}
+		if (nullptr != omddStreams[i].m_zfStack)
+		{
+			zf_stack_free(omddStreams[i].m_zfStack);
+			omddStreams[i].m_zfStack = nullptr;
+		}
+		if (nullptr != omddStreams[i].m_zfAttr)
+		{
+			zf_attr_free(omddStreams[i].m_zfAttr);
+			omddStreams[i].m_zfAttr = nullptr;
+		}
+	}
+	for (size_t i = 0; i < pricetableStreams.size(); ++i)
+	{
+		if (nullptr != pricetableStreams[i].m_zfMuxer)
+		{
+			zf_muxer_free(pricetableStreams[i].m_zfMuxer);
+			pricetableStreams[i].m_zfMuxer = nullptr;
+		}
+		if (nullptr != pricetableStreams[i].m_zfHot)
+		{
+			zfur_free(pricetableStreams[i].m_zfHot);
+			pricetableStreams[i].m_zfHot = nullptr;
+		}
+		if (nullptr != pricetableStreams[i].m_zfRefresh)
+		{
+			zfur_free(pricetableStreams[i].m_zfRefresh);
+			pricetableStreams[i].m_zfRefresh = nullptr;
+		}
+		if (nullptr != pricetableStreams[i].m_zfStack)
+		{
+			zf_stack_free(pricetableStreams[i].m_zfStack);
+			pricetableStreams[i].m_zfStack = nullptr;
+		}
+		if (nullptr != pricetableStreams[i].m_zfAttr)
+		{
+			zf_attr_free(pricetableStreams[i].m_zfAttr);
+			pricetableStreams[i].m_zfAttr = nullptr;
+		}
+	}
+	for (size_t i = 0; i < s1Streams.size(); ++i)
+	{
+		if (nullptr != s1Streams[i].m_zfMuxer)
+		{
+			zf_muxer_free(s1Streams[i].m_zfMuxer);
+			s1Streams[i].m_zfMuxer = nullptr;
+		}
+		if (nullptr != s1Streams[i].m_zfHot)
+		{
+			zfur_free(s1Streams[i].m_zfHot);
+			s1Streams[i].m_zfHot = nullptr;
+		}
+		if (nullptr != s1Streams[i].m_zfRefresh)
+		{
+			zfur_free(s1Streams[i].m_zfRefresh);
+			s1Streams[i].m_zfRefresh = nullptr;
+		}
+		if (nullptr != s1Streams[i].m_zfStack)
+		{
+			zf_stack_free(s1Streams[i].m_zfStack);
+			s1Streams[i].m_zfStack = nullptr;
+		}
+		if (nullptr != s1Streams[i].m_zfAttr)
+		{
+			zf_attr_free(s1Streams[i].m_zfAttr);
+			s1Streams[i].m_zfAttr = nullptr;
+		}
+	}
+#endif
 }
 
 inline static bool initJson(const char* _pszJsonPath)
@@ -681,6 +796,14 @@ inline static bool initJson(const char* _pszJsonPath)
 		std::cerr << "loadDefinition fail" << std::endl;
 		return false;
 	}
+
+#ifdef TCPDIRECT
+	if (zf_init())
+	{
+		return false;
+	}
+#endif
+
 	auto itActivate = mActivateChannel.find("OmdcChannel");
 	if(itActivate != mActivateChannel.end())
 	{
