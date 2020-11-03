@@ -161,15 +161,13 @@ public:
 											rd.msg.iovcnt = sizeof(rd.iov) / sizeof(rd.iov[0]);
 											zfur_zc_recv(ur, &rd.msg, 0);
 											auto szBuffer = reinterpret_cast<char*>(rd.msg.iov[0].iov_base);
-											if (false)
+											if (rd.msg.iovcnt == 0)
 											{
 											}
 #endif
 											else if (bAgain)
 											{
 #ifdef TCPDIRECT
-												if (rd.msg.iovcnt == 0)
-													break;
 												zfur_zc_recv_done(ur, &rd.msg);
 												if (rd.msg.dgrams_left == 0)
 													break;
@@ -249,8 +247,6 @@ public:
 													}
 												}
 #ifdef TCPDIRECT
-												if (rd.msg.iovcnt == 0)
-													break;
 												zfur_zc_recv_done(ur, &rd.msg);
 												if (rd.msg.dgrams_left == 0)
 													break;
@@ -275,15 +271,13 @@ public:
 											rd.msg.iovcnt = sizeof(rd.iov) / sizeof(rd.iov[0]);
 											zfur_zc_recv(ur, &rd.msg, 0);
 											auto szBuffer = reinterpret_cast<char*>(rd.msg.iov[0].iov_base);
-											if (false)
+											if (rd.msg.iovcnt == 0)
 											{
 											}
 #endif
 											else if (bAgain)
 											{
 #ifdef TCPDIRECT
-												if (rd.msg.iovcnt == 0)
-													break;
 												zfur_zc_recv_done(ur, &rd.msg);
 												if (rd.msg.dgrams_left == 0)
 													break;
@@ -432,8 +426,6 @@ public:
 													}
 												}
 #ifdef TCPDIRECT
-												if (rd.msg.iovcnt == 0)
-													break;
 												zfur_zc_recv_done(ur, &rd.msg);
 												if (rd.msg.dgrams_left == 0)
 													break;
@@ -475,6 +467,7 @@ public:
 						{
 							continue;
 						}
+
 						while(true)
 						{
 						struct {
@@ -483,6 +476,8 @@ public:
 						} rd;
 						rd.msg.iovcnt = sizeof(rd.iov) / sizeof(rd.iov[0]);
 						zfur_zc_recv(_channel.m_zfHot, &rd.msg, 0);
+						if (rd.msg.iovcnt == 0)
+							break;
 						auto szBuffer = reinterpret_cast<char*>(rd.msg.iov[0].iov_base);
 #endif
 						unsigned long long uTimeStart = dbp::tools::srv::current();
@@ -656,8 +651,6 @@ public:
 							}
 						}
 #ifdef TCPDIRECT
-						if (rd.msg.iovcnt == 0)
-							break;
 						zfur_zc_recv_done(_channel.m_zfHot, &rd.msg);
 						if (rd.msg.dgrams_left == 0)
 							break;
@@ -671,10 +664,10 @@ public:
 							} rd;
 							rd.msg.iovcnt = sizeof(rd.iov) / sizeof(rd.iov[0]);
 							zfur_zc_recv(_channel.m_zfRefresh, &rd.msg, 0);
-							//auto szBuffer = reinterpret_cast<char*>(rd.msg.iov[0].iov_base);
-
 							if (rd.msg.iovcnt == 0)
 								break;
+							//auto szBuffer = reinterpret_cast<char*>(rd.msg.iov[0].iov_base);
+
 							zfur_zc_recv_done(_channel.m_zfRefresh, &rd.msg);
 							if (rd.msg.dgrams_left == 0)
 								break;
