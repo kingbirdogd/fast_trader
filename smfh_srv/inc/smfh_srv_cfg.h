@@ -1320,6 +1320,7 @@ inline static bool loadChannel(json& _json, const char* pszName, CStreamVec& vec
 
 
 #ifdef TCPDIRECT
+			flush_printf("tm:%llu, loadChannel Config  TCPDIRECT 1\n", dbp::tools::srv::current());
 			if (zf_attr_alloc(&channel.m_zfAttr))
 			{
 				return false;
@@ -1335,6 +1336,7 @@ inline static bool loadChannel(json& _json, const char* pszName, CStreamVec& vec
 				return false;
 			}
 			struct zf_stack* stack = channel.m_zfStack;
+			flush_printf("tm:%llu, loadChannel Config  TCPDIRECT 2\n", dbp::tools::srv::current());
 #endif
 #ifndef TCPDIRECT
 			int iHot = dbp::net::srv::getNoBlockReuseUdpListener(MulticastPort, MulticastIp, InterfaceIp);
