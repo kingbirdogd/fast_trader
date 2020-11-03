@@ -254,6 +254,7 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 		}
 		if(wbid < pwbid && fprice > pfprice){
 			if(wbid > 0 && pfprice>0){
+				/*
 				auto itp = pDnBidMark.find(pwbid);
 				if(itp != pDnBidMark.end()){
 					if(itp->second != pfprice){
@@ -265,7 +266,7 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 						return false;
 					}
 				}
-
+			*/
 
 
 				pDnBidMark[pwbid] = pfprice;
@@ -364,6 +365,7 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 	if(pwtype == BEAR ){
 		if(wask > pwask && fprice < pfprice){
 			if(pwask > 0 && fprice>0){
+				/*
 				auto itp = pUpAskMark.find(pwask);
 				if(itp != pUpAskMark.end()){
 					if(itp->second != pfprice){
@@ -375,7 +377,7 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 					}else{
 						return false;
 					}
-				}
+				}*/
 				pUpAskMark[pwask] = pfprice;
 				askkey = pwask;
 				askprice = pfprice;
