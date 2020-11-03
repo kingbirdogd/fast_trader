@@ -1317,6 +1317,7 @@ inline static bool loadChannel(json& _json, const char* pszName, CStreamVec& vec
 			std::string MulticastIp = Hot["MulticastIp"].get<std::string>();
 			unsigned short int MulticastPort = Hot["MulticastPort"].get<unsigned short int>();
 #ifdef TCPDIRECT
+			flush_printf("tm:%llu, loadChannel Config  TCPDIRECT 1\n", dbp::tools::srv::current());
 			if (zf_attr_alloc(&channel.m_zfAttr))
 			{
 				return false;
@@ -1332,6 +1333,7 @@ inline static bool loadChannel(json& _json, const char* pszName, CStreamVec& vec
 				return false;
 			}
 			struct zf_stack* stack = channel.m_zfStack;
+			flush_printf("tm:%llu, loadChannel Config  TCPDIRECT 2\n", dbp::tools::srv::current());
 #endif
 #ifndef TCPDIRECT
 			int iHot = dbp::net::srv::getNoBlockReuseUdpListener(MulticastPort, MulticastIp, InterfaceIp);
@@ -1343,6 +1345,7 @@ inline static bool loadChannel(json& _json, const char* pszName, CStreamVec& vec
 				return false;
 			}
 #else
+			flush_printf("tm:%llu, loadChannel Config  TCPDIRECT 3\n", dbp::tools::srv::current());
 			struct zfur *zfHot;
 			{
 				struct addrinfo *ai_local = nullptr;
@@ -1363,8 +1366,9 @@ inline static bool loadChannel(json& _json, const char* pszName, CStreamVec& vec
 					zf_stack_free(stack);
 					zf_attr_free(attr);
 				return false;
+				}
 			}
-			}
+			flush_printf("tm:%llu, loadChannel Config  TCPDIRECT 4\n", dbp::tools::srv::current());
 #endif
 			auto& Refresh = ChannelNode["Refresh"];
 			InterfaceIp = Refresh["InterfaceIp"].get<std::string>();
@@ -1382,6 +1386,7 @@ inline static bool loadChannel(json& _json, const char* pszName, CStreamVec& vec
 				return false;
 			}
 #else
+			flush_printf("tm:%llu, loadChannel Config  TCPDIRECT 5\n", dbp::tools::srv::current());
 			struct zfur *zfRefresh;
 			{
 				struct addrinfo *ai_local = nullptr;
@@ -1407,6 +1412,7 @@ inline static bool loadChannel(json& _json, const char* pszName, CStreamVec& vec
 					return false;
 				}
 			}
+			flush_printf("tm:%llu, loadChannel Config  TCPDIRECT 6\n", dbp::tools::srv::current());
 #endif
 			channel.m_uRetranProxyIdx = ChannelNode["RetranProxyIndex"].get<std::size_t>();
 #ifndef TCPDIRECT
@@ -1444,6 +1450,7 @@ inline static bool loadChannel(json& _json, const char* pszName, CStreamVec& vec
 				return false;
 			}
 #else
+			flush_printf("tm:%llu, loadChannel Config  TCPDIRECT 7\n", dbp::tools::srv::current());
 			if (zf_muxer_alloc(stack, &channel.m_zfMuxer))
 			{
 				zfur_free(zfRefresh);
@@ -1452,6 +1459,7 @@ inline static bool loadChannel(json& _json, const char* pszName, CStreamVec& vec
 				zf_attr_free(attr);
 				return false;
 			}
+			flush_printf("tm:%llu, loadChannel Config  TCPDIRECT 8\n", dbp::tools::srv::current());
 #endif
 			std::cerr << "load loadChannel: " << pszName
 					<< " success, Channel_ID:"
