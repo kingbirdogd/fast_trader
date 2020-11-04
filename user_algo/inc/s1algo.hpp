@@ -140,6 +140,7 @@ private:
 		unsigned long long orderid;
 		unsigned int warrant_code;
 		unsigned int ucode;
+		std::string issuer;
 		unsigned long long buy_price;
 		unsigned long long sell_price;
 		unsigned long long quantity;
@@ -156,6 +157,7 @@ private:
 			j["action"] = "portfolio";
 			j["warrant_code"] = warrant_code;
 			j["ucode"] = ucode;
+			j["issuer"] = issuer;
 			j["buy_price"] = buy_price;
 			j["buytime"] = buytime;
 			j["sell_price"] = sell_price;

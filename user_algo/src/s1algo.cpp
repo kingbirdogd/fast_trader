@@ -2096,7 +2096,8 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						pmsg->id = this->_u.get_id();
 						pmsg->ref = to_string(code);
 						pmsg->warrant_code = code;
-						msg->ucode = ucode;
+						pmsg->ucode = ucode;
+						pmsg->issuer = obsw->Issuer;
 						pmsg->buy_price = obsw->BuyPrice;
 						pmsg->sell_price = obsw->SellPrice;
 						pmsg->quantity = obsw->Quantity;
