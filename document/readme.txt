@@ -57,4 +57,7 @@
   ENABLE_FULLBOOK = true
   
   
+  ENABLE_TCPDIRECT
+  
+  
   
