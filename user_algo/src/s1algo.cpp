@@ -1579,7 +1579,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 			if(TradeSide::BUY_SIDE == side && obs->DetectedAsk == trade_price && trade_buy_quantity >= best_ask_vol && best_bid_vol>=obs->ReadyBidBuy && obs->Status == STATUS_READY){
 
 				//Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + "(" + to_string(mid) + ")" + " Ask Price = " + to_string(ask_price) + " WP = " + to_string(wp)) ;
-				Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Trade Qty = " + to_string(trade_qty) + " Acc Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + " - " + " Ask Price = " + to_string(ask_price)) ;
+				Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Trade Qty = " + to_string(trade_qty) + " Acc Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + " BidQty=" + to_string(best_bid_vol) + " - " + " Ask Price = " + to_string(ask_price) + " AskQty=" + to_string(best_ask_vol)) ;
 
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
 
