@@ -1263,8 +1263,21 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		auto code = tradable.m_Code;
 		auto type = tradable.m_TradeType;
 
-		if (0 != type && 100 != type)
+
+
+		if (0 != type && 100 != type){
+			if(type == 999){
+				auto bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
+				auto ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
+				auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice) * 100000;
+				auto trade_qty = static_cast<unsigned long long>(tradable.m_LastTradeQuantity);
+				auto best_bid_vol = static_cast<unsigned long long>(tradable.m_Bid[0].m_uQuantity);
+				auto best_ask_vol = static_cast<unsigned long long>(tradable.m_Ask[0].m_uQuantity);
+
+				Log("UCode = " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Acc Trade Qty = " + to_string(trade_qty) + " Best Bid = " + to_string(bid_price) + " Bid Qty = " + to_string(best_bid_vol) + " Best Ask = " + to_string(ask_price) + " Ask Qty = " + to_string(best_ask_vol));
+			}
 			return;
+		}
 
 		auto side = tradable.m_TradeSide;
 		auto bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;

@@ -199,17 +199,17 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 		if (rOrderBook.m_LastTradePrice <= rOrderBook.m_Bid[0].m_iPrice)
 		{
 			rOrderBook.m_TradeSide = TradeSide::SELL_SIDE;
-			rOrderBook.m_AccumulateSellQuantity += rOrderBook.m_LastTradeQuantity;
+			//rOrderBook.m_AccumulateSellQuantity += rOrderBook.m_LastTradeQuantity;
 		}
 		else if (rOrderBook.m_LastTradePrice >= rOrderBook.m_Ask[0].m_iPrice)
 		{
 			rOrderBook.m_TradeSide = TradeSide::BUY_SIDE;
-			rOrderBook.m_AccumulateBuyQuantity += rOrderBook.m_LastTradeQuantity;
+			//rOrderBook.m_AccumulateBuyQuantity += rOrderBook.m_LastTradeQuantity;
 		}
 		else
 		{
 			rOrderBook.m_TradeSide = TradeSide::NO_SIDE;
-			rOrderBook.m_AccumulateBlankQuantity += rOrderBook.m_LastTradeQuantity;
+			//rOrderBook.m_AccumulateBlankQuantity += rOrderBook.m_LastTradeQuantity;
 		}
 		if(uSecurityCode<10000){
 			broadcastQueue.enqueue(rOrderBook);
