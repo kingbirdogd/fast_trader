@@ -1497,9 +1497,25 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 									"  IssuerQty = " +  to_string(bidIssuerQty)
 							);
 
+
+
+
+
 							if(expectSellOut != 99999999 && wbest_bid_price >= wobsArray[i]->BuyPrice){
 								if(wbest_bid_price == 0)
 									continue;
+
+								if(wbest_bid_price == wobsArray[i]->BuyPrice && expectSellOut == trade_price){
+									wobsArray[i]->Status = STATUS_SELLING;
+
+									bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
+									//bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, RefWBid, wobsArray[i]->Quantity);
+									if(!result){
+										obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
+										continue;
+									}
+									Log("2 1: Do Sell Level Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
+								}
 
 								if(wbest_bid_price > wobsArray[i]->BuyPrice){
 									wobsArray[i]->Status = STATUS_SELLING;
@@ -1510,9 +1526,10 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 										obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
 										continue;
 									}
-									Log("2: Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
-
+									Log("2 2: Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
 								}
+
+
 							}
 
 
