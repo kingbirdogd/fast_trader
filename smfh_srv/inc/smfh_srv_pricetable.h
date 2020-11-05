@@ -230,6 +230,13 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				unsigned short int Item = OMD_GET_VALUE(_pMsg, count+1, unsigned short int);
 				std::string Type = OMD_GET_STR(_pMsg, count+3, 1);
 
+				DEBUG("tm:%llu, Price Table Bid IssuerQty : %u, Item: %d\n",
+								dbp::tools::srv::current(),
+								uSecurityCode,
+								Item
+								);
+
+
 				if(Type == "B")
 				{
 					if(Item > 9499 && Item < 9800){
@@ -271,6 +278,12 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				std::string BQMoreFlag = OMD_GET_STR(_pMsg, count, 1);
 				unsigned short int Item = OMD_GET_VALUE(_pMsg, count+1, unsigned short int);
 				std::string Type = OMD_GET_STR(_pMsg, count+3, 1);
+
+				DEBUG("tm:%llu, Price Table Ask IssuerQty : %u, Item: %d\n",
+												dbp::tools::srv::current(),
+												uSecurityCode,
+												Item
+												);
 
 				if(Type == "B")
 				{
