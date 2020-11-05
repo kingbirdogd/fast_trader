@@ -19,6 +19,10 @@ inline static void handleS1Signal(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 	{
 		return;
 	}
+
+	if(uSecurityCode > 10000)
+		return;
+
 	COmdOrderbook& rOrderBook = it->second;
 #ifndef NOT_MEASURE
 	rOrderBook.m_PkgTime = _uPkgTm;
@@ -93,7 +97,7 @@ inline static void handleS1Signal(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 					//flush_printf("Code = %u A1 = %llu A2 = %llu A3 = %llu \n", uSecurityCode, best_ask_qty1, best_ask_qty2, best_ask_qty3);
 
 
-					s1sp->DetectAsk = best_ask_price1;
+					s1sp->DetectBid = best_bid_price1;
 					//s1s->m_SignalTime = dbp::tools::srv::current();
 					//s1s->SignalType = 0;
 					s1sp->hasSignal = true;
