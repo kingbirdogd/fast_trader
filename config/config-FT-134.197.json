@@ -226,14 +226,14 @@
 			"Hot":
 			{
 				"InterfaceIp": "10.122.78.197",
-				"MulticastIp": "239.1.127.2",
+				"MulticastIp": "239.1.1.2",
 				"InterfaceName": "ens3f0",
 				"MulticastPort": 51000
 			},
 			"Refresh":
 			{
 				"InterfaceIp": "10.122.78.197",
-				"MulticastIp": "239.1.127.12",
+				"MulticastIp": "239.1.1.12",
 				"InterfaceName": "ens3f0",
 				"MulticastPort": 51000
 			},
