@@ -171,14 +171,14 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 			pd->BidSeq ++;
 			pd->PBestbid = pd->Bestbid;
 			pd->Bestbid = best_bid_price;
-			pd->BestBidQty = best_bid_qty;
 		}
+		pd->BestBidQty = best_bid_qty;
 		if(pd->Bestask != best_ask_price ){
 			pd->AskSeq ++;
 			pd->PBestask = pd->Bestask;
 			pd->Bestask = best_ask_price;
-			pd->BestAskQty = best_ask_qty;
 		}
+		pd->BestAskQty = best_ask_qty;
 /*
 		if(pd->isUnderlying){
 			auto best_bid_price1 = static_cast<unsigned long long>(rOrderBook.m_Bid[0].m_iPrice);
@@ -250,6 +250,12 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 					pd->BidIssuerSize = pd->BestBidQty;
 				}
 				//System.out.println(pe.BidIssuerSize);
+
+				DEBUG("tm:%llu, Price Table Bid IssuerQty : %u, IssuerQty: %llu\n",
+				dbp::tools::srv::current(),
+				uSecurityCode,
+				pd->BidIssuerSize
+				);
 			}
 		}
 		else if(2 == Side) // SELL
@@ -286,6 +292,11 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				if(pd->AskIssuerSize != pd->BestAskQty || pd->AskIssuerSize == 0){
 					pd->AskIssuerSize = pd->BestAskQty;
 				}
+				DEBUG("tm:%llu, Price Table Ask IssuerQty : %u, IssuerQty: %llu\n",
+								dbp::tools::srv::current(),
+								uSecurityCode,
+								pd->AskIssuerSize
+								);
 			}
 		}
 	}

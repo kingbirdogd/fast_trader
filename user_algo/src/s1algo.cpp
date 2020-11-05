@@ -1266,6 +1266,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 
 		if (0 != type && 100 != type){
+			/*
 			if(type == 999){
 				auto bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
 				auto ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
@@ -1275,7 +1276,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 				auto best_ask_vol = static_cast<unsigned long long>(tradable.m_Ask[0].m_uQuantity);
 
 				Log("TEST TRADE UCode = " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Acc Trade Qty = " + to_string(trade_qty) + " Best Bid = " + to_string(bid_price) + " Bid Qty = " + to_string(best_bid_vol) + " Best Ask = " + to_string(ask_price) + " Ask Qty = " + to_string(best_ask_vol));
-			}
+			}*/
 			return;
 		}
 
