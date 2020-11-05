@@ -232,7 +232,7 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 
 				if(Type == "B")
 				{
-					if(Item > 9499 && 9499 < 9800){
+					if(Item > 9499 && Item < 9800){
 						bidbrokerno = Item;
 						break;
 					}
@@ -267,7 +267,7 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 
 				if(Type == "B")
 				{
-					if(Item > 9499 && 9499 < 9800){
+					if(Item > 9499 && Item < 9800){
 						askbrokerno = Item;
 						break;
 					}
