@@ -28,8 +28,8 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 
 		pricedata* pd = pricedataMap[uSecurityCode];
 
-		OrderItem m_Bid[3];
-		OrderItem m_Ask[3];
+		//OrderItem m_Bid[3];
+		//OrderItem m_Ask[3];
 
 /*
 		if(updatelvl <= 1){
@@ -43,8 +43,8 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 
 		if(pd->isWarrant){
 			if(updatelvl <= 1){
-				std::memcpy(m_Bid, rOrderBook.m_BidOrder, 1 * sizeof(OrderItem));
-				std::memcpy(m_Ask, rOrderBook.m_AskOrder, 1 * sizeof(OrderItem));
+				std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, 1 * sizeof(OrderItem));
+				std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, 1 * sizeof(OrderItem));
 			}else{
 				return;
 			}
@@ -57,8 +57,8 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 
 				//std::memcpy(m_Bid, rOrderBook.m_BidOrder, 3 * sizeof(OrderItem));
 				//std::memcpy(m_Ask, rOrderBook.m_AskOrder, 3 * sizeof(OrderItem));
-				std::memcpy(m_Bid, rOrderBook.m_BidOrder, 1 * sizeof(OrderItem));
-				std::memcpy(m_Ask, rOrderBook.m_AskOrder, 1 * sizeof(OrderItem));
+				std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, 1 * sizeof(OrderItem));
+				std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, 1 * sizeof(OrderItem));
 
 				//std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, 3 * sizeof(OrderItem));
 				//std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, 3 * sizeof(OrderItem));
@@ -102,11 +102,11 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 		//std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
 		//std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, TRADABLE_BOOK_SIZE * sizeof(OrderItem));
 
-		auto best_bid_price = static_cast<unsigned long long>(m_Bid[0].m_iPrice) * 100000;
-		auto best_bid_qty = static_cast<unsigned long long>(m_Bid[0].m_uQuantity);
+		auto best_bid_price = static_cast<unsigned long long>(rOrderBook.m_Bid[0].m_iPrice) * 100000;
+		auto best_bid_qty = static_cast<unsigned long long>(rOrderBook.m_Bid[0].m_uQuantity);
 
-		auto best_ask_price = static_cast<unsigned long long>(m_Ask[0].m_iPrice) * 100000;
-		auto best_ask_qty = static_cast<unsigned long long>(m_Ask[0].m_uQuantity);
+		auto best_ask_price = static_cast<unsigned long long>(rOrderBook.m_Ask[0].m_iPrice) * 100000;
+		auto best_ask_qty = static_cast<unsigned long long>(rOrderBook.m_Ask[0].m_uQuantity);
 
 
 
