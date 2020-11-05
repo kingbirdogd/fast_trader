@@ -11,13 +11,13 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 {
 	unsigned int uSecurityCode = OMD_GET_VALUE(_pMsg, 4, unsigned int);
 
-
+/*
 	DEBUG("tm:%llu, Refresh : %u Type = %d\n",
 											dbp::tools::srv::current(),
 											uSecurityCode,
 											_pMsg->m_uMsgType
 											);
-
+*/
 
 	auto it = ptomdcMap.find(uSecurityCode);
 	if (ptomdcMap.end() == it)
@@ -216,11 +216,6 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				unsigned short int Item = OMD_GET_VALUE(_pMsg, count+1, unsigned short int);
 				std::string Type = OMD_GET_STR(_pMsg, count+3, 1);
 
-				DEBUG("tm:%llu, Price Table Bid IssuerQty : %u, Item: %d\n",
-								dbp::tools::srv::current(),
-								uSecurityCode,
-								Item
-								);
 
 
 				if(Type == "B")
@@ -244,11 +239,6 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				}
 				//System.out.println(pe.BidIssuerSize);
 
-				DEBUG("tm:%llu, Price Table Bid IssuerQty : %u, IssuerQty: %llu\n",
-				dbp::tools::srv::current(),
-				uSecurityCode,
-				pd->BidIssuerSize
-				);
 			}
 		}
 		else if(2 == Side) // SELL
@@ -265,11 +255,6 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				unsigned short int Item = OMD_GET_VALUE(_pMsg, count+1, unsigned short int);
 				std::string Type = OMD_GET_STR(_pMsg, count+3, 1);
 
-				DEBUG("tm:%llu, Price Table Ask IssuerQty : %u, Item: %d\n",
-												dbp::tools::srv::current(),
-												uSecurityCode,
-												Item
-												);
 
 				if(Type == "B")
 				{
@@ -291,11 +276,6 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				if(pd->AskIssuerSize != pd->BestAskQty || pd->AskIssuerSize == 0){
 					pd->AskIssuerSize = pd->BestAskQty;
 				}
-				DEBUG("tm:%llu, Price Table Ask IssuerQty : %u, IssuerQty: %llu\n",
-								dbp::tools::srv::current(),
-								uSecurityCode,
-								pd->AskIssuerSize
-								);
 			}
 		}
 	}
