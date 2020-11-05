@@ -541,10 +541,14 @@ inline static bool loadDefinition(json& _json)
 			std::cerr << "create epoll fail" << std::endl;
 			return false;
 		}
+
+		bool omdcdefloaded = false;
+
 		CDefMap omdcStatus;
 		auto itActivate = mActivateChannel.find("OmdcChannel");
 		if(itActivate != mActivateChannel.end())
 		{
+			omdcdefloaded = true;
 			try
 			{
 				flush_printf("tm:%llu, Load Omdc Definition Config \n", dbp::tools::srv::current());
@@ -605,6 +609,7 @@ inline static bool loadDefinition(json& _json)
 		itActivate = mActivateChannel.find("SlimOmdcChannel");
 		if(itActivate != mActivateChannel.end())
 		{
+			omdcdefloaded = true;
 			try
 			{
 				flush_printf("tm:%llu, Load Omdc Definition Config \n", dbp::tools::srv::current());
@@ -664,6 +669,7 @@ inline static bool loadDefinition(json& _json)
 		itActivate = mActivateChannel.find("SWOmdcChannel");
 		if(itActivate != mActivateChannel.end())
 		{
+			omdcdefloaded = true;
 			try
 			{
 				flush_printf("tm:%llu, Load Omdc Definition Config \n", dbp::tools::srv::current());
@@ -720,6 +726,70 @@ inline static bool loadDefinition(json& _json)
 				return false;
 			}
 		}
+
+		if(!omdcdefloaded){
+			itActivate = mActivateChannel.find("PriceTableChannel");
+			if(itActivate != mActivateChannel.end())
+			{
+				omdcdefloaded = true;
+				try
+				{
+					flush_printf("tm:%llu, Load Omdc Definition Config \n", dbp::tools::srv::current());
+					auto& Omdc = Definition["OMDC"];
+					if (0 == Omdc.size())
+					{
+						std::cerr << "OMDC node size is 0" << std::endl;
+						::close(iDefEopll);
+						return false;
+					}
+					for (std::size_t i = 0; i < Omdc.size(); ++i)
+					{
+						auto& UdpNode = Omdc[i];
+						std::string strInterfaceIp = UdpNode["InterfaceIp"].get<std::string>();
+						std::string strMulticastIp = UdpNode["MulticastIp"].get<std::string>();
+						unsigned short int uMulticastPort = UdpNode["MulticastPort"].get<unsigned short int>();
+						int iUdpHandler = dbp::net::srv::getNoBlockReuseUdpListener(uMulticastPort, strMulticastIp, strInterfaceIp);
+						if (iUdpHandler <= 0)
+						{
+							std::cerr << "OMDC node[" << i << "] Create Socket Error, MulticastIp:" << strMulticastIp <<
+							", MulticastPort:" << uMulticastPort <<
+								", InterfaceIp:" << strInterfaceIp << std::endl;
+							::close(iDefEopll);
+							for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
+							{
+								::close(it->first);
+							}
+							return false;
+						}
+						struct epoll_event objEvent;
+						std::memset(&objEvent, 0, sizeof(struct epoll_event));
+						objEvent.events = EPOLLIN | EPOLLET;
+						objEvent.data.fd = iUdpHandler;
+						if (0 != epoll_ctl(iDefEopll, EPOLL_CTL_ADD, objEvent.data.fd, &objEvent))
+						{
+							std::cerr << "OMDC node[" << i << "] Add to Epoll Error, MulticastIp:" << strMulticastIp <<
+								", MulticastPort:" << uMulticastPort <<
+								", InterfaceIp:" << strInterfaceIp << std::endl;
+							::close(iDefEopll);
+							for (CDefMap::iterator it = omdcStatus.begin(); it != omdcStatus.end(); ++it)
+							{
+								::close(it->first);
+							}
+							return false;
+						}
+						omdcStatus[iUdpHandler].m_Status = CDefChannel::NO_READY;
+						omdcStatus[iUdpHandler].m_uSeq = 0;
+					}
+				}
+				catch(...)
+				{
+					std::cerr << "OMDC load Json fail" << std::endl;
+					::close(iDefEopll);
+					return false;
+				}
+			}
+		}
+
 		CDefMap omddStatus;
 		itActivate = mActivateChannel.find("OmddChannel");
 		if(itActivate != mActivateChannel.end())
