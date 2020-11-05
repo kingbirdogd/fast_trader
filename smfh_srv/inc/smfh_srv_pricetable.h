@@ -32,8 +32,8 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 	if (53 == _pMsg->m_uMsgType)
 	{
 		rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
-		buildOmdcOrderBook(_pMsg, rOrderBook);
-		//unsigned char updatelvl = buildSlimOmdcOrderBook(_pMsg, rOrderBook);
+		//buildOmdcOrderBook(_pMsg, rOrderBook);
+		unsigned char updatelvl = buildSlimOmdcOrderBook(_pMsg, rOrderBook);
 
 		//pricedata* pd = pricedataMap[uSecurityCode];
 
@@ -41,12 +41,12 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 		//OrderItem m_Ask[3];
 
 
-		//if(updatelvl <= 1){
+		if(updatelvl <= 1){
 			std::memcpy(rOrderBook.m_Bid, rOrderBook.m_BidOrder, 1 * sizeof(OrderItem));
 			std::memcpy(rOrderBook.m_Ask, rOrderBook.m_AskOrder, 1 * sizeof(OrderItem));
-		//}else{
-		//	return;
-		//}
+		}else{
+			return;
+		}
 
 
 /*
@@ -191,7 +191,7 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 		}
 */
 	}
-	else if( 60 == _pMsg->m_uMsgType)
+	else if( 54 == _pMsg->m_uMsgType)
 	{
 
 
