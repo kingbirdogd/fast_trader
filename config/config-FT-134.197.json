@@ -254,7 +254,6 @@
 	},
 	"ActivateChannel":
 	[
-		{"Channel":"SWOmdcChannel"},
 		{"Channel":"PriceTableChannel"}
 	]
 }
