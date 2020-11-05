@@ -10,6 +10,15 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 #endif
 {
 	unsigned int uSecurityCode = OMD_GET_VALUE(_pMsg, 4, unsigned int);
+
+
+	DEBUG("tm:%llu, Refresh : %u Type = %d\n",
+											dbp::tools::srv::current(),
+											uSecurityCode,
+											_pMsg->m_uMsgType
+											);
+
+
 	auto it = ptomdcMap.find(uSecurityCode);
 	if (ptomdcMap.end() == it)
 	{
@@ -184,6 +193,9 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 	}
 	else if( 60 == _pMsg->m_uMsgType)
 	{
+
+
+
 		pricedata* pd = pricedataMap[uSecurityCode];
 		if(pd->isUnderlying)
 			return;
