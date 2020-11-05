@@ -51,9 +51,9 @@
 			"BUY_POWER":500000,
 			"ALGOS":
 			{
-				"leo_csalgo":
+				"leo_s1algo":
 				{
-					"lib": "csalgo",
+					"lib": "s1algo",
 					"params":
 					{
 					}
