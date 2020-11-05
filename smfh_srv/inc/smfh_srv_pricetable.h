@@ -26,7 +26,7 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 		//buildOmdcOrderBook(_pMsg, rOrderBook);
 		unsigned char updatelvl = buildSlimOmdcOrderBook(_pMsg, rOrderBook);
 
-		pricedata* pd = pricedataMap[uSecurityCode];
+		//pricedata* pd = pricedataMap[uSecurityCode];
 
 		//OrderItem m_Bid[3];
 		//OrderItem m_Ask[3];
@@ -84,7 +84,7 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 
 
 
-		//pricedata* pd = pricedataMap[uSecurityCode];
+		pricedata* pd = pricedataMap[uSecurityCode];
 
 		if(pd->isWarrant){
 
