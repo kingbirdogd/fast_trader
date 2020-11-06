@@ -3,6 +3,14 @@
 #include <tools.h>
 #include <global_memory.hpp>
 #include "smfh_srv_orderbook.h"
+
+
+
+inline static unsigned long long issuerSize80(unsigned long long size){
+	return static_cast<unsigned long long>(size*0.8);
+}
+
+
 #ifndef NOT_MEASURE
 inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long _uPkgTm)
 #else
@@ -106,7 +114,7 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 
 			if(_PriceMark->getWType() == 1){
 				if(pd->Bestbid != best_bid_price && best_bid_price > 0){
-					if(best_bid_qty >= pd->BidIssuerSize && pd->BidIssuerSize > 0){
+					if(best_bid_qty >= issuerSize80(pd->BidIssuerSize) && pd->BidIssuerSize > 0){
 						if(pd->LastBidSeq != pdu->BidSeq){
 							pd->LastBidSeq = pdu->BidSeq;
 							_PriceMark->updateBid(best_bid_price, pd->Bestbid, pdu->Bestbid, pdu->PBestbid);
@@ -116,7 +124,7 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				}
 				if(pd->Bestask != best_ask_price && best_ask_price > 0){
 					//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark ASK");
-					if(best_ask_qty >= pd->AskIssuerSize && pd->AskIssuerSize > 0){
+					if(best_ask_qty >= issuerSize80(pd->AskIssuerSize) && pd->AskIssuerSize > 0){
 						if(pd->LastAskSeq != pdu->AskSeq){
 							pd->LastAskSeq = pdu->AskSeq;
 							_PriceMark->updateAsk(best_ask_price, pd->Bestask, pdu->Bestask, pdu->PBestask);
@@ -127,7 +135,7 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 			}else{
 				if(pd->Bestbid != best_bid_price && best_bid_price > 0){
 					//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark BID");
-					if(best_bid_qty >= pd->BidIssuerSize && pd->BidIssuerSize > 0){
+					if(best_bid_qty >= issuerSize80(pd->BidIssuerSize) && pd->BidIssuerSize > 0){
 						if(pd->LastAskSeq != pdu->AskSeq){
 							pd->LastAskSeq = pdu->AskSeq;
 							_PriceMark->updateBid(best_bid_price, pd->Bestbid, pdu->Bestask, pdu->PBestask);
@@ -137,7 +145,7 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				}
 				if(pd->Bestask != best_ask_price && best_ask_price > 0){
 					//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark ASK");
-					if(best_ask_qty >= pd->AskIssuerSize && pd->AskIssuerSize > 0){
+					if(best_ask_qty >= issuerSize80(pd->AskIssuerSize) && pd->AskIssuerSize > 0){
 						if(pd->LastBidSeq != pdu->BidSeq){
 							pd->LastBidSeq = pdu->BidSeq;
 							_PriceMark->updateAsk(best_ask_price, pd->Bestask, pdu->Bestbid, pdu->PBestbid);
