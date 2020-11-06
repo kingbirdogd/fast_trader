@@ -70,13 +70,13 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 						const auto& login_response = *static_cast<const dbp::top::login_response*>(static_cast<const void*>(p));
 						if (dbp::top::logon_response::success == login_response.response)
 						{
-							std::fprintf(stderr, "Logon Success");
+							std::fprintf(stderr, "Logon Success\n");
 							std::memcpy(_session_id, login_response.session_id, sizeof(login_response.session_id));
 							_ready = true;
 						}
 						else
 						{
-							std::fprintf(stderr, "Logon Fail");
+							std::fprintf(stderr, "Logon Fail\n");
 							clean();
 						}
 						if (_on_login)
