@@ -241,6 +241,7 @@
 		}
 	],
 	"IVFile":"/home/fast_trader/ivfile/ivall.txt",
+	"IVFilePut":"/home/fast_trader/ivfile/ivallput.txt",
 	"OrderbookFile":
 	{	
 		"OrderbookPath":"/home/fast_trader/orderbookfile/orderbook10dlog.txt",
@@ -254,7 +255,9 @@
 	},
 	"ActivateChannel":
 	[
-		{"Channel":"PriceTableChannel"}
+		{"Channel":"SWOmdcChannel"},
+		{"Channel":"PriceTableChannel"},
+		{"Channel":"S1Channel"}
 	]
 }
 
