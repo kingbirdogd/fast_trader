@@ -141,12 +141,14 @@
 			"Hot":
 			{
 				"InterfaceIp": "10.122.78.196",
+				"InterfaceName": "enp101s0f1",
 				"MulticastIp": "239.1.1.4",
 				"MulticastPort": 51004
 			},
 			"Refresh":
 			{
 				"InterfaceIp": "10.122.78.196",
+				"InterfaceName": "enp101s0f1",
 				"MulticastIp": "239.1.1.14",
 				"MulticastPort": 51004
 			},
@@ -157,12 +159,14 @@
 			"Hot":
 			{
 				"InterfaceIp": "10.122.78.196",
+				"InterfaceName": "enp101s0f1",
 				"MulticastIp": "239.1.1.4",
 				"MulticastPort": 51000
 			},
 			"Refresh":
 			{
 				"InterfaceIp": "10.122.78.196",
+				"InterfaceName": "enp101s0f1",
 				"MulticastIp": "239.1.1.14",
 				"MulticastPort": 51000
 			},
@@ -173,12 +177,14 @@
 			"Hot":
 			{
 				"InterfaceIp": "10.122.78.196",
+				"InterfaceName": "enp101s0f1",
 				"MulticastIp": "239.1.1.4",
 				"MulticastPort": 51001
 			},
 			"Refresh":
 			{
 				"InterfaceIp": "10.122.78.196",
+				"InterfaceName": "enp101s0f1",
 				"MulticastIp": "239.1.1.14",
 				"MulticastPort": 51001
 			},
@@ -189,12 +195,14 @@
 			"Hot":
 			{
 				"InterfaceIp": "10.122.78.196",
+				"InterfaceName": "enp101s0f1",
 				"MulticastIp": "239.1.1.4",
 				"MulticastPort": 51002
 			},
 			"Refresh":
 			{
 				"InterfaceIp": "10.122.78.196",
+				"InterfaceName": "enp101s0f1",
 				"MulticastIp": "239.1.1.14",
 				"MulticastPort": 51002
 			},
@@ -227,12 +235,14 @@
 			"Hot":
 			{
 				"InterfaceIp": "10.122.78.196",
+				"InterfaceName": "enp101s0f1",
 				"MulticastIp": "239.1.1.2",
 				"MulticastPort": 51000
 			},
 			"Refresh":
 			{
 				"InterfaceIp": "10.122.78.196",
+				"InterfaceName": "enp101s0f1",
 				"MulticastIp": "239.1.1.12",
 				"MulticastPort": 51000
 			},
@@ -246,12 +256,14 @@
 			"Hot":
 			{
 				"InterfaceIp": "10.122.78.196",
+				"InterfaceName": "enp101s0f1",
 				"MulticastIp": "239.1.127.2",
 				"MulticastPort": 51000
 			},
 			"Refresh":
 			{
 				"InterfaceIp": "10.122.78.196",
+				"InterfaceName": "enp101s0f1",
 				"MulticastIp": "239.1.127.12",
 				"MulticastPort": 51000
 			},
