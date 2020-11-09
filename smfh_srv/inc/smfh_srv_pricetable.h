@@ -167,7 +167,7 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 			pd->Type = PRICE_CHANGE;
 		}else{
 			pd->Type = VOL_CHANGE;
-			pd->BidVolSeq pd->BSeq;
+			pd->BidVolSeq = pd->BSeq;
 		}
 		pd->BestBidQty = best_bid_qty;
 
