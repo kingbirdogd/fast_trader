@@ -72,6 +72,8 @@ struct pricedata{
 	long LastBidSeq;
 	long LastAskSeq;
 
+	int Type;
+
 
 	unsigned long long Bestbid1;
 	unsigned long long Bestask1;

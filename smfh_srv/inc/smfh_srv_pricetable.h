@@ -158,18 +158,24 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 
 		}
 
+		pd->BestBidQty = best_bid_qty;
+		pd->Type = VOL_CHANGE;
 		if(pd->Bestbid != best_bid_price){
 			pd->BidSeq ++;
 			pd->PBestbid = pd->Bestbid;
 			pd->Bestbid = best_bid_price;
+			pd->Type = PRICE_CHANGE;
 		}
-		pd->BestBidQty = best_bid_qty;
+
+		pd->BestAskQty = best_ask_qty;
+		pd->Type = VOL_CHANGE;
 		if(pd->Bestask != best_ask_price ){
 			pd->AskSeq ++;
 			pd->PBestask = pd->Bestask;
 			pd->Bestask = best_ask_price;
+			pd->Type = PRICE_CHANGE;
 		}
-		pd->BestAskQty = best_ask_qty;
+
 /*
 		if(pd->isUnderlying){
 			auto best_bid_price1 = static_cast<unsigned long long>(rOrderBook.m_Bid[0].m_iPrice);
