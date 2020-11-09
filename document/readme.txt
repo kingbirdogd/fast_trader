@@ -58,6 +58,48 @@
   
   
   ENABLE_TCPDIRECT
+
+
+
+
+#192.168.134.196 (i9)
+
+account: ft_server    /  123a
+source folder: fast_trader
+execute script: nohup_start_fast_trader.sh
+debug script: nohup_start_fast_trader_debug.sh
+
+
+compile:
+make
+	>cd fast_trader
+	>make clean
+	>make
+
+make debug
+	>cd fast_trader
+	>make clean
+	>make CONFIG=debug
+
+enable full tick
+	>cd fast_trader
+	>make clean
+	>make ENABLE_FULLTICK=true
+
+
   
-  
+Enable ENABLE_TCPDIRECT
+
+ENABLE_TCPDIRECT=true
+
+
+#TCP CHANNEL
+"TcpChannel":
+{
+	"IP": "192.168.104.116",
+	"PORT": 5000,
+	"BIND": false
+},
+	
+{"Channel":"TcpChannel"}
   
