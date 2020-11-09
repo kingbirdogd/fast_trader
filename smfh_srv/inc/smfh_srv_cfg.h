@@ -374,8 +374,10 @@ inline static bool loadDefinition(json& _json)
 				}
 
 				stockWarrantomdcMap[warrent].m_Code = warrent;
+				flush_printf("tm:%llu, stockWarrantomdcMap Wcode = %d \n", dbp::tools::srv::current(), warrent);
 				if(underlying > 0){
 					stockWarrantomdcMap[underlying].m_Code = underlying;
+					flush_printf("tm:%llu, stockWarrantomdcMap UCode = %d \n", dbp::tools::srv::current(), underlying);
 				}
 
 //New
@@ -1101,9 +1103,11 @@ inline static bool loadDefinition(json& _json)
 														}
 
 														stockWarrantomdcMap[warrant_code].m_Code = warrant_code;
+														flush_printf("tm:%llu, stockWarrantomdcMap Wcode = %d \n", dbp::tools::srv::current(), warrant_code);
 														if(underlying_code > 0){
 
 															stockWarrantomdcMap[underlying_code].m_Code = underlying_code;
+															flush_printf("tm:%llu, stockWarrantomdcMap Ucode = %d \n", dbp::tools::srv::current(), underlying_code);
 														}
 
 														int wtype = 0;
