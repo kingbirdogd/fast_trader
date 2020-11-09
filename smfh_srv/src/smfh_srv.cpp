@@ -889,6 +889,9 @@ inline static bool initJson(const char* _pszJsonPath)
 	flush_printf("tm:%llu, Enable TCP DIRECT DATA \n", dbp::tools::srv::current());
 #endif
 
+DEBUG("tm:%llu, Enable Debug Mode\n",
+					dbp::tools::srv::current());
+
 
 	startUsers();
 	startTopSend();
