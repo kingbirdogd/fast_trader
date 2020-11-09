@@ -69,17 +69,17 @@ struct pricedata{
 	unsigned long long BidIssuerSize;
 	unsigned long long AskIssuerSize;
 
-	long BSeq;
-	long ASeq;
+	unsigned long long BSeq;
+	unsigned long long ASeq;
 
-	long BidSeq;
-	long AskSeq;
-	long LastBidSeq;
-	long LastAskSeq;
+	unsigned long long BidSeq;
+	unsigned long long AskSeq;
+	unsigned long long LastBidSeq;
+	unsigned long long LastAskSeq;
 
 
-	long BidVolSeq;
-	long AskVolSeq;
+	unsigned long long BidVolSeq;
+	unsigned long long AskVolSeq;
 
 	int Type;
 

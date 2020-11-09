@@ -405,6 +405,10 @@ inline static bool loadDefinition(json& _json)
 				pricedataMap[warrent]->LastAskSeq=0;
 				pricedataMap[warrent]->BidSeq=1;
 				pricedataMap[warrent]->AskSeq=1;
+				pricedataMap[warrent]->BSeq=1;
+				pricedataMap[warrent]->ASeq=1;
+				pricedataMap[warrent]->BidVolSeq=1;
+				pricedataMap[warrent]->AskVolSeq=1;
 
 				if(underlying > 0){
 					auto itp = pricedataMap.find(underlying);
@@ -425,6 +429,10 @@ inline static bool loadDefinition(json& _json)
 						pricedataMap[underlying]->AskIssuerSize=0ull;
 						pricedataMap[underlying]->BidSeq=1;
 						pricedataMap[underlying]->AskSeq=1;
+						pricedataMap[underlying]->BSeq=1;
+						pricedataMap[underlying]->ASeq=1;
+						pricedataMap[underlying]->BidVolSeq=1;
+						pricedataMap[underlying]->AskVolSeq=1;
 
 					}
 				}
@@ -1150,6 +1158,10 @@ inline static bool loadDefinition(json& _json)
 														pricedataMap[uSecurityCode]->LastAskSeq=0;
 														pricedataMap[uSecurityCode]->BidSeq=1;
 														pricedataMap[uSecurityCode]->AskSeq=1;
+														pricedataMap[uSecurityCode]->BSeq=1;
+														pricedataMap[uSecurityCode]->ASeq=1;
+														pricedataMap[uSecurityCode]->BidVolSeq=1;
+														pricedataMap[uSecurityCode]->AskVolSeq=1;
 
 														if(underlying_code > 0){
 															auto itp = pricedataMap.find(underlying_code);
@@ -1170,6 +1182,10 @@ inline static bool loadDefinition(json& _json)
 																pricedataMap[underlying_code]->AskIssuerSize=0ull;
 																pricedataMap[underlying_code]->BidSeq=1;
 																pricedataMap[underlying_code]->AskSeq=1;
+																pricedataMap[underlying_code]->BSeq=1;
+																pricedataMap[underlying_code]->ASeq=1;
+																pricedataMap[underlying_code]->BidVolSeq=1;
+																pricedataMap[underlying_code]->AskVolSeq=1;
 
 
 
