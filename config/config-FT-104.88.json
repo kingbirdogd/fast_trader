@@ -280,10 +280,11 @@
 	},
 	"ActivateChannel":
 	[
+		{"Channel":"OmddftChannel"},
 		{"Channel":"SWOmdcChannel"},
 		{"Channel":"PriceTableChannel"},
-		{"Channel":"S1Channel"},
-		{"Channel":"OmddftChannel"}
+		{"Channel":"S1Channel"}
+		
 	]
 }
 
