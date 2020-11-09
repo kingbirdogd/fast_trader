@@ -153,14 +153,14 @@
 			{
 				"InterfaceIp": "10.122.78.176",
 				"InterfaceName": "enp10s0f1",
-				"MulticastIp": "239.1.1.4",
+				"MulticastIp": "239.1.127.4",
 				"MulticastPort": 51000
 			},
 			"Refresh":
 			{
 				"InterfaceIp": "10.122.78.176",
 				"InterfaceName": "enp10s0f1",
-				"MulticastIp": "239.1.1.14",
+				"MulticastIp": "239.1.127.14",
 				"MulticastPort": 51000
 			},
 			"RetranProxyIndex": 0
@@ -171,14 +171,14 @@
 			{
 				"InterfaceIp": "10.122.78.176",
 				"InterfaceName": "enp10s0f1",
-				"MulticastIp": "239.1.1.4",
+				"MulticastIp": "239.1.127.4",
 				"MulticastPort": 51001
 			},
 			"Refresh":
 			{
 				"InterfaceIp": "10.122.78.176",
 				"InterfaceName": "enp10s0f1",
-				"MulticastIp": "239.1.1.14",
+				"MulticastIp": "239.1.127.14",
 				"MulticastPort": 51001
 			},
 			"RetranProxyIndex": 0
@@ -189,14 +189,14 @@
 			{
 				"InterfaceIp": "10.122.78.176",
 				"InterfaceName": "enp10s0f1",
-				"MulticastIp": "239.1.1.4",
+				"MulticastIp": "239.1.127.4",
 				"MulticastPort": 51002
 			},
 			"Refresh":
 			{
 				"InterfaceIp": "10.122.78.176",
 				"InterfaceName": "enp10s0f1",
-				"MulticastIp": "239.1.1.14",
+				"MulticastIp": "239.1.127.14",
 				"MulticastPort": 51002
 			},
 			"RetranProxyIndex": 0
