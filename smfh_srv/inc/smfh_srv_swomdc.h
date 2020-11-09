@@ -24,10 +24,6 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 		return;
 	}
 
-	DEBUG("tm:%llu, OMDC Data, code: %u  Type %d\n",
-					dbp::tools::srv::current(),
-					uSecurityCode,
-					_pMsg->m_uMsgType);
 
 
 	COmdOrderbook& rOrderBook = it->second;
