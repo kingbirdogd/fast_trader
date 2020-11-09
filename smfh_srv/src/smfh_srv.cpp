@@ -881,6 +881,15 @@ inline static bool initJson(const char* _pszJsonPath)
 		return false;
 	}
 
+
+#ifdef FULLTICK
+	flush_printf("tm:%llu, Enable FULLTICK DATA \n", dbp::tools::srv::current());
+#endif
+#ifdef TCPDIRECT
+	flush_printf("tm:%llu, Enable TCP DIRECT DATA \n", dbp::tools::srv::current());
+#endif
+
+
 	startUsers();
 	startTopSend();
 	START_CAPTURE();
