@@ -37,8 +37,7 @@
 #define HSI_SYMBOL 1
 #define NQ_SYMBOL 2
 
-#define PRICE_CHANGE 1
-#define VOL_CHANGE 2
+
 
 inline static unsigned long long calWeightedPrice(unsigned long long bid1, unsigned long long bid2, unsigned long long bid3,
 		unsigned long long bidqty1, unsigned long long bidqty2, unsigned long long bidqty3,

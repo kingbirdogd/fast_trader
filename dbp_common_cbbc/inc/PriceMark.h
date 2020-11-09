@@ -29,6 +29,8 @@ using namespace std;
 #define BULL 1
 #define BEAR 2
 
+#define PRICE_CHANGE 1
+#define VOL_CHANGE 2
 
 
 class PriceMark {
