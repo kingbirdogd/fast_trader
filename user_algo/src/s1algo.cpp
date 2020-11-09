@@ -1016,6 +1016,13 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 			COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[n];
 			string SpreadTableCode = omdcdef.SpreadTableCode;
 
+
+			unsigned int Lotsize = omdcdef.LotSize;
+			if(Lotsize > 10000){
+				continue;
+			}
+
+
 			if(wbest_bid_price < 4000000){
 				continue;
 			}
@@ -1148,6 +1155,11 @@ vector<warrant*> s1algo::getWinpriceWarrantFromMarketByIssuer(std::string issuer
 
 			COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[n];
 			string SpreadTableCode = omdcdef.SpreadTableCode;
+
+
+			if(Lotsize > 10000){
+				continue;
+			}
 
 			if(wbest_bid_price < 4000000){
 				continue;
