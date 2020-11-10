@@ -102,9 +102,9 @@ public:
 #endif //FULLTICK
 				std::cout << "Start Channel Thread:" << _channel.m_uChannelId << std::endl;
 				dbp::tools::srv::blockSigPipe();
-#ifndef NOT_MEASURE
+
 				unsigned int uCnt = 0;
-#endif
+
 				unsigned long long uSum = 0;
 				while (true)
 				{
