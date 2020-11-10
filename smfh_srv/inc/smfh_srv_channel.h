@@ -480,7 +480,10 @@ public:
 							break;
 						auto szBuffer = reinterpret_cast<char*>(rd.msg.iov[0].iov_base);
 #endif
+
+#ifndef NOT_MEASURE
 						unsigned long long uTimeStart = dbp::tools::srv::current();
+#endif
 						char* pszBuffer = &szBuffer[0];
 						dbp::omd::COmdPkgHeader* pPkg = OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdPkgHeader);
 						if (0 == uHotSeq)
