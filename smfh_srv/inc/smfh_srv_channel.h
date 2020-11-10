@@ -104,8 +104,8 @@ public:
 				dbp::tools::srv::blockSigPipe();
 #ifndef NOT_MEASURE
 				unsigned int uCnt = 0;
-#endif
 				unsigned long long uSum = 0;
+#endif
 				while (true)
 				{
 					std::vector<std::vector<char>> Vec;
@@ -296,8 +296,8 @@ public:
 													{
 #ifndef NOT_MEASURE
 														uCnt = 0;
-#endif
 														uSum = 0;
+#endif
 														bAgain = true;
 														CLEAR();
 														flush_printf("tm:%llu, Refresh Fail 0, Retry, ChannelId:%u\n", dbp::tools::srv::current(), _channel.m_uChannelId);
@@ -326,8 +326,8 @@ public:
 																	{
 #ifndef NOT_MEASURE
 																		uCnt = 0;
-#endif
 																		uSum = 0;
+#endif
 																		bAgain = true;
 																		CLEAR();
 																		flush_printf("tm:%llu, Refresh Fail 2, Retry, ChannelId:%u\n", dbp::tools::srv::current(), _channel.m_uChannelId);
@@ -375,8 +375,8 @@ public:
 														{
 #ifndef NOT_MEASURE
 															uCnt = 0;
-#endif
 															uSum = 0;
+#endif
 															bAgain = true;
 															CLEAR();
 															flush_printf("tm:%llu, Refresh Fail 20, ChannelId:%u, uRefreshSeq:%u, pPkg->m_uSeq:%u, uOnRefreshStartIdx:%u, Vec.size:%lu\n", dbp::tools::srv::current(), _channel.m_uChannelId, uRefreshSeq, pPkg->m_uSeq, uOnRefreshStartIdx, Vec.size());
@@ -396,8 +396,9 @@ public:
 																	{
 #ifndef NOT_MEASURE
 																		uCnt = 0;
-#endif
 																		uSum = 0;
+#endif
+
 																		bAgain = true;
 																		CLEAR();
 																		flush_printf("tm:%llu, Refresh Fail 2, ChannelId:%u, uStartSeq:%u, uOnRefreshStartIdx:%u, Vec.size:%lu\n", dbp::tools::srv::current(), _channel.m_uChannelId, uStartSeq, uOnRefreshStartIdx, Vec.size());
@@ -578,8 +579,9 @@ public:
 #endif
 #ifndef NOT_MEASURE
 										uCnt = 0;
-#endif
 										uSum = 0;
+#endif
+
 										CLEAR();
 										break;
 									}
@@ -638,8 +640,9 @@ public:
 #endif
 #ifndef NOT_MEASURE
 										uCnt = 0;
-#endif
 										uSum = 0;
+#endif
+
 										CLEAR();
 										break;
 									}
