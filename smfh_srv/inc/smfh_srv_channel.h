@@ -497,6 +497,8 @@ public:
 								{
 									HANDLE(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), pPkg->m_uTimeStamp, _channel.m_uChannelId);
 									pszBuffer += OMD_GET_VALUE(pszBuffer, 0, unsigned short int);
+									#ifndef NOT_MEASURE
+
 									unsigned long long uTimeDiff = dbp::tools::srv::current() - uTimeStart;
 									uSum += uTimeDiff;
 									if (uTimeDiff > 100000)
@@ -510,6 +512,7 @@ public:
 										uSum = 0;
 										uCnt = 0;
 									}
+									#endif
 								}
 							}
 						}
@@ -632,6 +635,9 @@ public:
 									{
 										HANDLE(OMD_GET_POINTER(pszBuffer, 0, dbp::omd::COmdMsgHeader), pPkg->m_uTimeStamp, _channel.m_uChannelId);
 										pszBuffer += OMD_GET_VALUE(pszBuffer, 0, unsigned short int);
+
+										#ifndef NOT_MEASURE
+
 										unsigned long long uTimeDiff = dbp::tools::srv::current() - uTimeStart;
 										uSum += uTimeDiff;
 										if (uTimeDiff > 100000)
@@ -646,6 +652,8 @@ public:
 											uSum = 0;
 											uCnt = 0;
 										}
+
+										#endif
 									}
 								}
 							}
