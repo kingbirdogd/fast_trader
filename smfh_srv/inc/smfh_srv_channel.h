@@ -576,7 +576,9 @@ public:
 										event = { .events = EPOLLIN, .data = { .ptr = _channel.m_zfRefresh } };
 										zf_muxer_add(_channel.m_zfMuxer, zfur_to_waitable(_channel.m_zfRefresh), &event);
 #endif
+#ifndef NOT_MEASURE
 										uCnt = 0;
+#endif
 										uSum = 0;
 										CLEAR();
 										break;
