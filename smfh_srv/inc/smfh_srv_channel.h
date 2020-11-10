@@ -102,9 +102,9 @@ public:
 #endif //FULLTICK
 				std::cout << "Start Channel Thread:" << _channel.m_uChannelId << std::endl;
 				dbp::tools::srv::blockSigPipe();
-
+#ifndef NOT_MEASURE
 				unsigned int uCnt = 0;
-
+#endif
 				unsigned long long uSum = 0;
 				while (true)
 				{
@@ -294,7 +294,9 @@ public:
 												{
 													if (bStartRefresh && uRefreshSeq != pPkg->m_uSeq)
 													{
+#ifndef NOT_MEASURE
 														uCnt = 0;
+#endif
 														uSum = 0;
 														bAgain = true;
 														CLEAR();
@@ -322,7 +324,9 @@ public:
 																	unsigned int uStartSeq = OMD_GET_VALUE(pszBuffer, 4, unsigned int) + 1;
 																	if (uStartSeq < uOnRefreshStartIdx)
 																	{
+#ifndef NOT_MEASURE
 																		uCnt = 0;
+#endif
 																		uSum = 0;
 																		bAgain = true;
 																		CLEAR();
@@ -369,7 +373,9 @@ public:
 													{
 														if (uRefreshSeq + 1 < pPkg->m_uSeq)
 														{
+#ifndef NOT_MEASURE
 															uCnt = 0;
+#endif
 															uSum = 0;
 															bAgain = true;
 															CLEAR();
@@ -388,7 +394,9 @@ public:
 																	unsigned int uStartSeq = OMD_GET_VALUE(pszBuffer, 4, unsigned int) + 1;
 																	if (uStartSeq < uOnRefreshStartIdx)
 																	{
+#ifndef NOT_MEASURE
 																		uCnt = 0;
+#endif
 																		uSum = 0;
 																		bAgain = true;
 																		CLEAR();
