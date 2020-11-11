@@ -1541,6 +1541,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 										continue;
 									}
 									Log("2 1: Do Sell Level Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
+									continue;
 								}
 
 								if(wbest_bid_price > wobsArray[i]->BuyPrice){
@@ -1553,6 +1554,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 										continue;
 									}
 									Log("2 2: Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
+									continue;
 								}
 
 
