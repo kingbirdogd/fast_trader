@@ -1161,6 +1161,11 @@ vector<warrant*> s1algo::getWinpriceWarrantFromMarketByIssuer(std::string issuer
 			COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[n];
 			string SpreadTableCode = omdcdef.SpreadTableCode;
 
+			auto unswit = unSelectedWarrant.find(n);
+			if(unswit != unSelectedWarrant.end()){
+				continue;
+			}
+
 			unsigned int Lotsize = omdcdef.LotSize;
 			if(Lotsize > 10000){
 				continue;
