@@ -102,4 +102,53 @@ ENABLE_TCPDIRECT=true
 },
 	
 {"Channel":"TcpChannel"}
+
+
+ZF_ATTR="rx_ring_max=4096" 
+
+
+
+
+
+
+
+192.168.134.196
+login: devuser
+pass: 123456
+
+project home: fast_trader
+
+
+compile:
+make clean
+make 
+
+debug:
+make clean
+make CONFIG=debug
+
+FullTick
+make clean
+make ENABLE_FULLTICK=true
+
+
+Startup Normal
+>>./nohup_start_fast_trader.sh
+
+
+Startup Debug
+>>./nohup_start_fast_trader_debug.sh
+
+
+add algo user
+>>cd fast_trader/gui
+>>node set_user.js user_name=leo password=leo
+
+
+edit config
+>>cd fast_trader/config
+>>vi config-FT-134.196.json
+
+
+
   

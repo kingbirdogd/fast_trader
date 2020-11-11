@@ -885,17 +885,17 @@ bool s1algo::setSelectedUnderlying(std::string action, unsigned int ucode){
 
 bool s1algo::setSelectedWarrant(std::string action, unsigned int code){
 
-	if(action == "remove"){
+	if(action == "select"){
 		auto it = unSelectedWarrant.find(code);
-		if(it != unSelectedWarrant.end()){
+		if(it == unSelectedWarrant.end()){
 			unSelectedWarrant.erase(code);
 			Log("Selected Warrant = " + to_string(code));
 			return true;
 		}
 	}
-	if(action == "select"){
+	if(action == "remove"){
 		auto it = unSelectedWarrant.find(code);
-		if(it == unSelectedWarrant.end()){
+		if(it != unSelectedWarrant.end()){
 			unSelectedWarrant.insert(code);
 			Log("Unselected Warrant = " + to_string(code));
 			return true;
@@ -1016,6 +1016,11 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 			COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[n];
 			string SpreadTableCode = omdcdef.SpreadTableCode;
 
+
+			auto unswit = unSelectedWarrant.find(n);
+			if(unswit != unSelectedWarrant.end()){
+				continue;
+			}
 
 			unsigned int Lotsize = omdcdef.LotSize;
 			if(Lotsize > 10000){
