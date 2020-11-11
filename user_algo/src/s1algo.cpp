@@ -885,19 +885,19 @@ bool s1algo::setSelectedUnderlying(std::string action, unsigned int ucode){
 
 bool s1algo::setSelectedWarrant(std::string action, unsigned int code){
 
-	if(action == "select"){
+	if(action == "remove"){
 		auto it = unSelectedWarrant.find(code);
 		if(it == unSelectedWarrant.end()){
 			unSelectedWarrant.erase(code);
-			Log("Selected Warrant = " + to_string(code));
+			Log("UnSelected Warrant = " + to_string(code));
 			return true;
 		}
 	}
-	if(action == "remove"){
+	if(action == "select"){
 		auto it = unSelectedWarrant.find(code);
 		if(it != unSelectedWarrant.end()){
 			unSelectedWarrant.insert(code);
-			Log("Unselected Warrant = " + to_string(code));
+			Log("selected Warrant = " + to_string(code));
 			return true;
 		}
 	}
