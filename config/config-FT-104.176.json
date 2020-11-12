@@ -89,6 +89,22 @@
 					}
 				}
 			}
+		},
+		{
+			"ID":4,
+			"USER":"P300432",
+			"PASS":"Aa246246",
+			"BUY_POWER":5000000,
+			"ALGOS":
+			{
+				"jarvis_semi":
+				{
+					"lib": "semi",
+					"params":
+					{
+					}
+				}
+			}
 		}
 	],
 	"Definition":
