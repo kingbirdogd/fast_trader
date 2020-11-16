@@ -709,7 +709,7 @@ private:
 	};
 	struct algo_unselectwarrantlist_msg: public algo_msg_base
 	{
-		std::string ucodes;
+		std::string codes;
 		algo_unselectwarrantlist_msg():
 			algo_msg_base()
 		{
