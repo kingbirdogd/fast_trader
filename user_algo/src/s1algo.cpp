@@ -894,7 +894,7 @@ bool s1algo::setSelectedWarrant(std::string action, unsigned int code){
 		}
 	}
 	if(action == "select"){
-		auto it = unSelectedWarrant.find(code);SSS
+		auto it = unSelectedWarrant.find(code);
 		if(it != unSelectedWarrant.end()){
 			unSelectedWarrant.erase(code);
 			Log("selected Warrant = " + to_string(code));
