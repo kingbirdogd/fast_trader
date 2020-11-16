@@ -1032,6 +1032,10 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 				continue;
 			}
 
+			if(wbest_ask_price >= 25000000 ){
+				continue;
+			}
+
 			PriceMark* spm = pricemarkMap[n];
 
 			if(wbest_bid_price == 0 || wbest_ask_price == 0 || wBidQty<spm->getIssuerBidQty() || wAskQty<spm->getIssuerAskQty()){
