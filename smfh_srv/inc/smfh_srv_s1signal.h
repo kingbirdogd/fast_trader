@@ -3,6 +3,7 @@
 #include <tools.h>
 #include <global_memory.hpp>
 #include "smfh_srv_orderbook.h"
+#include "AlgoEngineData.h"
 #ifndef NOT_MEASURE
 inline static void handleS1Signal(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long _uPkgTm)
 #else
