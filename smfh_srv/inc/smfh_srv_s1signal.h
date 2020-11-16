@@ -45,17 +45,33 @@ inline static void handleS1Signal(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 			//auto best_bid_price = static_cast<unsigned long long>(rOrderBook.m_Bid[0].m_iPrice) * 100000;
 			//auto best_bid_qty = static_cast<unsigned long long>(rOrderBook.m_Bid[0].m_uQuantity);
 
-			auto best_ask_price1 = static_cast<unsigned long long>(m_Ask[0].m_iPrice) * 100000;
+			auto best_ask_price_1 = static_cast<unsigned long long>(m_Ask[0].m_iPrice);
+			auto best_ask_price_2 = static_cast<unsigned long long>(m_Ask[1].m_iPrice);
+			auto best_ask_price_3 = static_cast<unsigned long long>(m_Ask[2].m_iPrice);
 			auto best_ask_qty1 = static_cast<unsigned long long>(m_Ask[0].m_uQuantity);
 			auto best_ask_qty2 = static_cast<unsigned long long>(m_Ask[1].m_uQuantity);
 			auto best_ask_qty3 = static_cast<unsigned long long>(m_Ask[2].m_uQuantity);
 
-			auto best_bid_price1 = static_cast<unsigned long long>(m_Bid[0].m_iPrice) * 100000;
+			auto best_bid_price_1 = static_cast<unsigned long long>(m_Bid[0].m_iPrice);
+			auto best_bid_price_2 = static_cast<unsigned long long>(m_Bid[1].m_iPrice);
+			auto best_bid_price_3 = static_cast<unsigned long long>(m_Bid[2].m_iPrice);
 			auto best_bid_qty1 = static_cast<unsigned long long>(m_Bid[0].m_uQuantity);
 			auto best_bid_qty2 = static_cast<unsigned long long>(m_Bid[1].m_uQuantity);
 			auto best_bid_qty3 = static_cast<unsigned long long>(m_Bid[2].m_uQuantity);
 
 			s1signal* s1s = s1SignalMap[uSecurityCode];
+
+			unsigned long long mid = static_cast<unsigned long long>((best_ask_price_1 + best_bid_price_1)/2)*100000;
+			unsigned long long wp = calWeightedPrice(
+					best_bid_price_1,best_bid_price_2,best_bid_price_3,
+					best_bid_qty1, best_bid_qty2, best_bid_qty3,
+					best_ask_price_1,best_ask_price_2,best_ask_price_3,
+					best_ask_qty1, best_ask_qty2, best_ask_qty3
+					);
+			wp = wp * 100000;
+
+			auto best_ask_price1 = static_cast<unsigned long long>(m_Ask[0].m_iPrice) * 100000;
+			auto best_bid_price1 = static_cast<unsigned long long>(m_Bid[0].m_iPrice) * 100000;
 
 			if(!s1s->hasSignal){
 				bool isThick = best_ask_qty1 > s1s->Thick;
@@ -84,6 +100,9 @@ inline static void handleS1Signal(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 					s1s->hasSignal = false;
 				}
 			}
+			s1s->MidPrice = mid;
+			s1s->WeightedPrice = wp;
+
 
 			s1signal* s1sp = s1SignalPutMap[uSecurityCode];
 
@@ -114,7 +133,8 @@ inline static void handleS1Signal(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 					s1sp->hasSignal = false;
 				}
 			}
-
+			s1sp->MidPrice = mid;
+			s1sp->WeightedPrice = wp;
 		}
 
 	}

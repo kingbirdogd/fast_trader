@@ -669,7 +669,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							ouputQueue.enqueue(pmsg);
 							obs->Status = STATUS_READY;
 							obs->detected = true;
-							Log("Code = " + to_string(code) + " Has Signal @ " + to_string(best_ask_price));
+							Log("Code = " + to_string(code) + " Has Signal @ " + to_string(best_ask_price) + " Mid = " + to_string(signal->Mid) + " WeightedPrice = " + to_string(signal->WeightedPrice));
 
 							signalCount++;
 

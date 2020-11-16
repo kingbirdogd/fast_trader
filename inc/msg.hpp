@@ -117,6 +117,8 @@ struct s1signal{
 	unsigned long long Thin;
 	unsigned long long m_SignalTime;
 	int SignalType;
+	unsigned long long WeightedPrice;
+	unsigned long long MidPrice;
 };
 
 struct AlgoParameter{
