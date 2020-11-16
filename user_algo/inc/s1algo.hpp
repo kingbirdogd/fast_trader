@@ -728,9 +728,9 @@ private:
 			for(auto f : self->unSelectedWarrant) {
 				unsigned int iss = f;
 				if(i>0){
-					ccodes += "," + to_string(iss);
+					codes += "," + to_string(iss);
 				}else{
-					ccodes = to_string(iss);
+					codes = to_string(iss);
 				}
 				i++;
 			}
