@@ -28,6 +28,8 @@ class FullAuto extends React.Component {
     this.state.underlyingList = null
     this.state.wntPrice = {}
     this.state.wntList = {}
+    this.state.wntList2 = {}
+    this.state.wntType = {}
     this.state.stockPrice = {}
     
     var cells = []
@@ -435,7 +437,8 @@ class FullAuto extends React.Component {
       quantity: formatLong(data.quantity),
       buyPrice: formatLong(data.buy_price), buyTime: formatDate(data.buytime),
       sellPrice: formatLong(data.sell_price), soldTime: formatDate(data.sellime),
-      profitLoss: (formatLong(data.sell_price)-formatLong(data.buy_price))*formatLong(data.quantity)
+      profitLoss: (formatLong(data.sell_price)-formatLong(data.buy_price))*formatLong(data.quantity),
+      issuer: data.issuer
     }
     if(!(id in state.portfolios))
       state.portfolios[id] = []
@@ -791,6 +794,7 @@ class FullAuto extends React.Component {
   }
   
   setSelectUWarrant(state, data) {
+    // csalgo
     if (state.wntList.wntCode) {
       if ('selectaction' in data)
         state.wntList.curState = data.selectaction
@@ -806,8 +810,28 @@ class FullAuto extends React.Component {
         else if (data.selectaction=='remove')
           state.wntList.codes[data.code] = 'u'
       }
+      return {wntList: state.wntList}
     }
-    return {wntList: state.wntList}
+    // a1
+    else if (Object.keys(state.wntList2).length) {
+      if ('selectaction' in data && 'code' in data) {
+        var code = parseInt(data.code)
+        state.wntList2[code].curState = data.selectaction
+        if('result' in data && data.result.toLowerCase()=='fail') {
+          state.wntList2[code].feedback = 'fail'
+          state.wntList2[code].responseResult = null
+        }
+        else if ('result' in data && data.result.toLowerCase()=='success') {
+          state.wntList2[code].feedback = null
+          state.wntList2[code].responseResult = 'success'
+        }
+        else {
+          state.wntList2[code].feedback = null
+          state.wntList2[code].responseResult = null
+        }
+      }
+      return {wntList2: state.wntList2}
+    }
   }
   
   sendUWarrantlist(data) {
@@ -980,6 +1004,7 @@ class FullAuto extends React.Component {
             key="portfolio"
             data={this.state.portfolios}
             data2={this.state.codeMapping}
+            data3={this.state.wntList2}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}
@@ -994,7 +1019,7 @@ class FullAuto extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.22
+          Copyright © {curYear} Fast Trader v1.0.23
         </div>
       </React.Fragment>
       /*

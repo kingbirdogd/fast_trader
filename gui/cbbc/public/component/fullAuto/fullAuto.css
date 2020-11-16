@@ -116,8 +116,14 @@
   height: 212px;
 }
 
-#fullAuto .table-position .btn-sm {
+#fullAuto .table-position .btn-sm,
+#fullAuto .table-portfolio .btn-sm {
   line-height: 1.15;
+  padding: 4px;
+}
+
+#fullAuto .table-portfolio .btn-sm {
+  min-width: 55px;
 }
 
 #fullAuto .is-invalid {
