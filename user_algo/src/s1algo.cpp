@@ -1758,7 +1758,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					//unsigned long long t_diff = t_end - t_start;
 
 					//Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wobsArray[i]->RefWAsk) + " time = " + to_string(t_diff) + " TCheck = " + to_string(t_docheck) + " TOrder = " + to_string(t_doorder));
-					Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wobsArray[i]->RefWAsk) + "Wbid = " + to_string(wbest_ask_price) + " TTrade = " + to_string(t_doorder));
+					Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wobsArray[i]->RefWAsk) + " Wbid = " + to_string(wbest_ask_price)  + " Wask = " + to_string(wbest_ask_price) + " TTrade = " + to_string(t_doorder));
 				}
 
 				if(obs->hasWarrants()){

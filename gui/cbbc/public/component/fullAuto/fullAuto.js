@@ -29,7 +29,6 @@ class FullAuto extends React.Component {
     this.state.wntPrice = {}
     this.state.wntList = {}
     this.state.wntList2 = {}
-    this.state.wntType = {}
     this.state.stockPrice = {}
     
     var cells = []
@@ -81,6 +80,28 @@ class FullAuto extends React.Component {
     this.state.codeId = []
     this.state.signal = {}
     this.msg = []
+    
+    this.state.issuerList = {
+      BI: {sc: '中銀', tc: '中银', en: '中银'},
+      BP: {sc: '法巴', tc: '法巴', en: '法巴'},
+      CS: {sc: '瑞信', tc: '瑞信', en: '瑞信'},
+      CT: {sc: '花旗', tc: '花旗', en: '花旗'},
+      EA: {sc: '東亞', tc: '東亞', en: '東亞'},
+      GJ: {sc: '国君', tc: '國君', en: '国君'},
+      GS: {sc: '高盛', tc: '高盛', en: '高盛'},
+      HS: {sc: '汇丰', tc: '匯豐', en: '汇丰'},
+      HT: {sc: '海通', tc: '海通', en: '海通'},
+      JP: {sc: '摩通', tc: '摩通', en: '摩通'},
+      MB: {sc: '麦银', tc: '麥銀', en: '麦银'},
+      MS: {sc: '摩利', tc: '摩利', en: '摩利'},
+      SC: {sc: '渣打', tc: '渣打', en: '渣打'},
+      SG: {sc: '法兴', tc: '法興', en: '法兴'},
+      UB: {sc: '瑞银', tc: '瑞銀', en: '瑞银'},
+      VT: {sc: '瑞通', tc: '瑞通', en: '瑞通'}
+    }
+    this.state.wntType = {}
+    for (var [k, v] of Object.entries(this.state.issuerList))
+      this.state.wntType[k] = {normal: true, winPrice: null}
     
     this.sendUWarrantlist = this.sendUWarrantlist.bind(this)
   }
@@ -138,6 +159,8 @@ class FullAuto extends React.Component {
         else if (data.action=='winlvlsell' || data.action== 'winsell') {this.setPositionAction(obj, data)}
         else if (data.action=='uwarrantlist') {obj = this.setUWarrantList(obj, data)}
         else if (data.action=='selectwarrant') {obj = this.setSelectUWarrant(obj, data)}
+        else if (data.action=='wselecttype') {obj = this.setWntSelectType(obj, data)}
+        else if (data.action=='unselectwarrantlist') {obj = this.setUnSelectWarrantList(obj, data)}
       }
       // 接口v2
       else if ('msg_type' in data) {
@@ -374,6 +397,10 @@ class FullAuto extends React.Component {
     //
     var command3 = {cmd: 'underlyinglist', algo_name: algoName, id: userId, ref: 'uid_'+userId.toString()}
     sendWebsocket(JSON.stringify(command3))
+    
+    //
+    var command4 = {cmd: 'unselectwarrantlist', algo_name: algoName, id: userId, ref: 'uid_'+userId.toString()}
+    sendWebsocket(JSON.stringify(command4))
     
     //
     _this.testData(_this.render2)
@@ -849,6 +876,28 @@ class FullAuto extends React.Component {
     }
   }
   
+  setWntSelectType(state, data) {
+    if ('currtype' in data && 'recovery' in data && 'issuer' in data) {
+      if (data.recovery && data.currtype==1) {
+        state.wntType[data.issuer].normal = true
+        state.wntType[data.issuer].winPrice = false
+      }
+      else if (data.recovery && data.currtype==2) {
+        state.wntType[data.issuer].normal = false
+        state.wntType[data.issuer].winPrice = true
+      }
+    }
+    return {wntType: state.wntType}
+  }
+  
+  setUnSelectWarrantList(state, data) {
+    if ('codes' in data) {
+      for (var code of data.codes.split(','))
+        state.wntList2[code] = {curState: 'remove', feedback: null, responseResult: 'success'}
+    }
+    return {wntList2: state.wntList2}
+  }
+  
   // 测试集
   testData(render) {
     function test(data) {
@@ -944,6 +993,8 @@ class FullAuto extends React.Component {
             key="issuerSelector"
             data={this.state.issuer}
             data2={this.state.marketStatus}
+            data3={this.state.wntType}
+            data4={this.state.issuerList}
             func={this.sendUWarrantlist}
             lang={this.props.lang}
             setStates={this.setStates}
@@ -1005,6 +1056,8 @@ class FullAuto extends React.Component {
             data={this.state.portfolios}
             data2={this.state.codeMapping}
             data3={this.state.wntList2}
+            data4={this.state.underlying}
+            data5={this.state.underlyingDefault}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}
@@ -1019,7 +1072,7 @@ class FullAuto extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.23
+          Copyright © {curYear} Fast Trader v1.0.24
         </div>
       </React.Fragment>
       /*

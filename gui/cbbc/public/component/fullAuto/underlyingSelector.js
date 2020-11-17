@@ -128,12 +128,14 @@ class UnderlyingSelector extends React.Component {
 
     return(
       <div className='row'>
-      <div className="col-12 col-sm-6 col-md-3 mb-3">
+      <div className="col-12 col-sm-6 col-md-6 mb-3">
       
-      <div className="form-group">
+      <div className="form-row">
+      <div className="form-group col-12 col-sm-6 col-md-6">
         <select className="form-control" id="underlyingSelector" onChange={this.handleChange} value={selectedValue}>
           {optionHTML}
         </select>
+      </div>
       </div>
       
       <button

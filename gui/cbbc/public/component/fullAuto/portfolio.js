@@ -3,6 +3,8 @@ class Portfolio extends React.Component {
     data: PropTypes.array,
     data2: PropTypes.object,
     data3: PropTypes.object,
+    data4: PropTypes.object,
+    data5: PropTypes.string,
     lang: PropTypes.string,
     setStates: PropTypes.func,
     getStates: PropTypes.func
@@ -13,6 +15,7 @@ class Portfolio extends React.Component {
     this.state = {}
     this.state.portfolio = {}
     this.handleAction = this.handleAction.bind(this)
+    this.handleAction2 = this.handleAction2.bind(this)
   }
   
   static getDerivedStateFromProps(props, state) {
@@ -105,6 +108,18 @@ class Portfolio extends React.Component {
     sendWebsocket(JSON.stringify(command))
   }
   
+  handleAction2() {
+    var action = event.target.getAttribute('data-action')
+    var ucode = parseInt(event.target.name)
+    
+    var states = this.props.getStates()
+    var userId = parseInt(states.userId)
+    var algoName = (states.modules.call) ? states.modules.call : states.modules.put
+    
+    var command = {cmd: 'selectunderlying', algo_name: algoName, id: userId, ref: 'uid_'+userId.toString(), ucode: ucode, action: action}
+    sendWebsocket(JSON.stringify(command))
+  }
+  
   getText(lang) {
     var text = {
       en: {
@@ -127,6 +142,8 @@ class Portfolio extends React.Component {
     var len = Object.keys(this.state.portfolio).length
     var totalProfitLoss1 = 0
     for (const [code, d] of Object.entries(this.state.portfolio)) {
+      d.ucode = formatCode(d.ucode,5)
+      
       var style = (d.totalProfitLoss==0) ? '' : (d.totalProfitLoss>0) ? 'font-up' : 'font-down'
       var uname = getUnderlyingName2(d.ucode)
       totalProfitLoss1 += d.totalProfitLoss
@@ -143,6 +160,25 @@ class Portfolio extends React.Component {
       else if (code in this.props.data3 && this.props.data3[code].feedback)
         var btn1Stype = 'btn-warning', btn1Text = text.error
       
+      // 按鈕2
+      var {removed, selected} = this.props.data4
+      // 預設
+      if (!(removed.includes(d.ucode)) && !(selected.includes(d.ucode))) {
+        // remove
+        if (this.props.data5=='remove')
+          var btn2Stype = null, btn2Text = text.remove, btn2Action = 'remove'
+        // select
+        else if (this.props.data5=='select')
+          var btn2Stype = null, btn2Text = text.select, btn2Action = 'select'
+      }
+      else if (removed.includes(d.ucode)) {
+        var btn2Stype = 'btn-danger', btn2Text = text.remove, btn2Action = 'select'
+      }
+      else if (selected.includes(d.ucode)) {
+        var btn2Stype = 'btn-success', btn2Text = text.select, btn2Action = 'remove'
+      }
+      
+      
       // 顯示隱藏按鈕1
       var isShowWarrantSelector = {display: 'none'}, modules = this.props.getStates().modules
       if (('call' in modules) && modules.call && modules.call.includes('s1') || 
@@ -154,7 +190,6 @@ class Portfolio extends React.Component {
         <tr key={'portfolio_'+no}>
           <td>{len-no}</td>
           <td>{code}</td>
-          <td> {d.ucode} {uname}</td>
           <td style={isShowWarrantSelector}>
             <button
               name={code}
@@ -162,6 +197,17 @@ class Portfolio extends React.Component {
               className={classNames("btn btn-sm btn-secondary", btn1Stype)}
               onClick={this.handleAction}>
                 {btn1Text}
+            </button>
+          </td>
+          <td> {d.ucode} {uname}</td>
+          <td>
+            <button
+              name={d.ucode}
+              data-action={btn2Action}
+              type="button"
+              className={classNames("btn btn-sm btn-secondary", btn2Stype)}
+              onClick={this.handleAction2}>
+                {btn2Text}
             </button>
           </td>
           <td> {d.issuer} </td>
@@ -189,7 +235,8 @@ class Portfolio extends React.Component {
           <table className="table table-sm table-striped table-light table-portfolio">
             <colgroup>
               <col span="1" width="50px" />
-              <col span="1" width="100px" />
+              <col span="1" width="80px" />
+              <col span="1" width="80px" />
               <col span="1" width="200px" />
               <col span="1" width="80px" />
               <col span="1" width="50px" />
@@ -207,6 +254,7 @@ class Portfolio extends React.Component {
               <tr>
                 <th>{text.id}</th>
                 <th>{text.code}</th>
+                <th style={isShowWarrantSelector} > </th>
                 <th>{text.ucode}</th>
                 <th style={isShowWarrantSelector} > </th>
                 <th>{text.issuer}</th>

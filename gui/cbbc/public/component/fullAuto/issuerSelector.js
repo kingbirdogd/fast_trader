@@ -2,6 +2,8 @@ class IssuerSelector extends React.Component {
   static propTypes = {
     data: PropTypes.object,
     data2: PropTypes.number,
+    data3: PropTypes.object,
+    data4: PropTypes.object,
     func: PropTypes.func,
     lang: PropTypes.string,
     setStates: PropTypes.func,
@@ -69,27 +71,9 @@ class IssuerSelector extends React.Component {
       hint = <div className="text-success"> {responseResult} : {curState} </div>
     
     // 
-    var issuerList = {
-      BI: {sc: '中銀', tc: '中银', en: '中银'},
-      BP: {sc: '法巴', tc: '法巴', en: '法巴'},
-      CS: {sc: '瑞信', tc: '瑞信', en: '瑞信'},
-      CT: {sc: '花旗', tc: '花旗', en: '花旗'},
-      EA: {sc: '東亞', tc: '東亞', en: '東亞'},
-      GJ: {sc: '国君', tc: '國君', en: '国君'},
-      GS: {sc: '高盛', tc: '高盛', en: '高盛'},
-      HS: {sc: '汇丰', tc: '匯豐', en: '汇丰'},
-      HT: {sc: '海通', tc: '海通', en: '海通'},
-      JP: {sc: '摩通', tc: '摩通', en: '摩通'},
-      MB: {sc: '麦银', tc: '麥銀', en: '麦银'},
-      MS: {sc: '摩利', tc: '摩利', en: '摩利'},
-      SC: {sc: '渣打', tc: '渣打', en: '渣打'},
-      SG: {sc: '法兴', tc: '法興', en: '法兴'},
-      UB: {sc: '瑞银', tc: '瑞銀', en: '瑞银'},
-      VT: {sc: '瑞通', tc: '瑞通', en: '瑞通'}
-    }
     var optionHTML = []
     optionHTML.push(<option value="default" key='issuer_default' disabled> {text.optionDefault} </option>)
-    for (const [k, v] of Object.entries(issuerList)) {
+    for (const [k, v] of Object.entries(this.props.data4)) {
       var isSelect = '', style = ''
       if (selected && selected.includes(k))
         isSelect = text.selected, style = 'text-success'
@@ -115,12 +99,25 @@ class IssuerSelector extends React.Component {
       
     return(
       <div className='row'>
-      <div className="col-12 col-sm-6 col-md-3 mb-3">
+      <div className="col-12 col-sm-6 col-md-6 mb-3">
       
-      <div className="form-group">
+      <div className="form-row">
+      <div className="form-group col-8 col-sm-6 col-md-6">
         <select className="form-control" id="issuerSelector" onChange={this.handleChange} value={selectedValue}>
           {optionHTML}
         </select>
+      </div>
+      
+      <div className="form-group col-4 col-sm-6 col-md-6">
+        <WarrantTypeSelector
+          key="warrantTypeSelector"
+          data={this.props.data}
+          data2={this.props.data3}
+          lang={this.props.lang}
+          setStates={this.props.setStates}
+          getStates={this.props.getStates}
+        />
+      </div>
       </div>
       
       <button
