@@ -45,7 +45,7 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 			if (OmdcFullTickBook::OrderSide::BID == side)
 			{
 
-				auto it = book.Bids.begin();
+				auto it = book.Ask.begin();
 				if(it->first <= price || OmdcFullTickBook::OrderType::Market == type)
 				{
 					auto matched_price = it->first;
@@ -92,7 +92,7 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 			}
 			else
 			{
-				auto it = book.Asks.begin();
+				auto it = book.Bids.begin();
 				if (it->first >= price || OmdcFullTickBook::OrderType::Market == type)
 				{
 					auto matched_price = it->first;
