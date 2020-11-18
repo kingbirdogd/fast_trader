@@ -44,6 +44,23 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 
 			if (OmdcFullTickBook::OrderSide::BID == side)
 			{
+
+				auto it = book.Bids.begin();
+				if(it->first <= price || OmdcFullTickBook::OrderType::Market == type)
+				{
+					auto matched_price = it->first;
+					auto book_quantity = it->second.quantity;
+					auto matched_quantity = rest < book_quantity ? rest : book_quantity;
+					rOrderBook.m_MsgType = MsgType::OMDC_TRADE;
+					rOrderBook.m_LastTradeQuantity = matched_quantity;
+					rOrderBook.m_LastTradePrice = matched_price;
+					rOrderBook.m_TradeType = 0;
+					rOrderBook.m_TradeSide = TradeSide::BUY_SIDE;
+					rOrderBook.m_AccumulateBuyQuantity += rOrderBook.m_LastTradeQuantity;
+					broadcastQueue.enqueue(rOrderBook);
+				}
+
+				/*
 				for (auto it = book.Asks.begin(); it != book.Asks.end(); ++it)
 				//for (auto it = book.Bids.begin(); it != book.Bids.end(); ++it)
 				{
@@ -71,10 +88,26 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 					{
 						break;
 					}
-				}
+				}*/
 			}
 			else
 			{
+				auto it = book.Asks.begin();
+				if (it->first >= price || OmdcFullTickBook::OrderType::Market == type)
+				{
+					auto matched_price = it->first;
+					auto book_quantity = it->second.quantity;
+					auto matched_quantity = rest < book_quantity ? rest : book_quantity;
+					rOrderBook.m_MsgType = MsgType::OMDC_TRADE;
+					rOrderBook.m_LastTradeQuantity = matched_quantity;
+					rOrderBook.m_LastTradePrice = matched_price;
+					rOrderBook.m_TradeType = 0;
+					rOrderBook.m_TradeSide = TradeSide::SELL_SIDE;
+					rOrderBook.m_AccumulateSellQuantity += rOrderBook.m_LastTradeQuantity;
+					//if(uSecurityCode<10000){
+					broadcastQueue.enqueue(rOrderBook);
+				}
+				/*
 				for (auto it = book.Bids.begin(); it != book.Bids.end(); ++it)
 				//for (auto it = book.Asks.begin(); it != book.Asks.end(); ++it)
 				{
@@ -102,7 +135,7 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 					{
 						break;
 					}
-				}
+				}*/
 			}
 		}
 		if (OmdcFullTickBook::OrderType::Limit == type)
