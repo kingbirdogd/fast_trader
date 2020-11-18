@@ -585,6 +585,29 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 					auto itucode = unselectedUCode.find(code);
 					if(itucode != unselectedUCode.end()){
+
+						auto pmsg = algo_signal_msg_pool.get_obj();
+						pmsg->al = this;
+						pmsg->algo_name = this->_name;
+						pmsg->id = this->_u.get_id();
+						pmsg->ref = to_string(code);
+						pmsg->code = code;
+						pmsg->detect_ask = 0;
+						pmsg->selected = false;
+						ouputQueue.enqueue(pmsg);
+
+						obs->removeAllWarrants();
+						obs->detected = false;
+
+						signalCount--;
+
+						if(signalCount <= 0){
+							lastReadyTime = 0;
+							Log("No Detected Signal");
+						}
+
+						Log("Code = " + to_string(code) + " Reset Signal 4");
+
 						return;
 					}
 
@@ -848,10 +871,16 @@ int s1algo::setSelectionType(string issuer, int type){
 
 	if(type == SELECT_NORMAL){
 		selectionTypeMap[issuer] = SELECT_NORMAL;
+
+		Log(issuer + " : Select Warrant = SELECT_NORMAL");
+
 		return SELECT_NORMAL;
 	}
 	if(type == SELECT_WINPRICE){
 		selectionTypeMap[issuer] = SELECT_WINPRICE;
+
+		Log(issuer + " : Select Warrant = SELECT_WINPRICE");
+
 		return SELECT_WINPRICE;
 	}
 
