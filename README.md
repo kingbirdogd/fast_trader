@@ -51,4 +51,8 @@ need to set capture config: "CAPTURE_PATH": "${HOME}/capture"
 ../fast_trader_build/fast_trader/bin/smfh_srv fork ./config/confg???.json
 
 
+## Relogin Top Command:
+{"cmd": "relogin", "ref":"relogin_ref1"}
+
+
 
