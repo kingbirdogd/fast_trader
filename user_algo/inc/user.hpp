@@ -11,6 +11,7 @@
 #include <vector>
 #include <unordered_map>
 #include <rapid_ring/ring_buffer_object_poll.hpp>
+#include <functional>
 
 class algo;
 class user
@@ -121,15 +122,38 @@ public:
 		}
 		virtual ~user_buy_power() = default;
 	};
+	struct user_reset_top: public algo_msg_base
+	{
+		user_reset_top()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["cmd"] = "user_reset_top";
+			return j;
+		}
+		virtual void on_command()
+		{
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			user_reset_top_pool.release_obj(this);
+		}
+		virtual ~user_reset_top() = default;
+	};
 private:
 	using json = nlohmann::json;
 	using comsumer = typename CBroadCastQueue::comsumer_st;
+	using top_creator = std::function<top_client*()>;
 private:
 	unsigned long long _id;
 	top_client* _client;
 	comsumer _md;
 	std::unordered_map<std::string, algo*> _algos;
 	std::unordered_map<unsigned long long, algo*> _odr_map;
+	top_creator _creator;
 public:
 	user() = delete;
 	template <typename TCfg>
@@ -145,7 +169,11 @@ public:
 	_client(new top_shared_client(user, pass, buy_power)),
 	_md(broadcastQueue),
 	_algos(),
-	_odr_map()
+	_odr_map(),
+	_creator([user, pass, buy_power]()
+			{
+				return new top_shared_client(user, pass, buy_power);
+			})
 	{
 		_client->set_on_order([&](const dbp::top::enhance_order& odr){handler_order(odr);});
 		_client->set_on_top_buy_power([&](const std::string& ref, const std::string& algo_name, long long buy_power){handler_buy_power(ref, algo_name, buy_power);});
@@ -166,7 +194,11 @@ public:
 	_client(new top_tcp_client(host, port, user, pass, buy_power)),
 	_md(broadcastQueue),
 	_algos(),
-	_odr_map()
+	_odr_map(),
+	_creator([host, port, user, pass, buy_power]()
+			{
+				return new top_tcp_client(host, port, user, pass, buy_power);
+			})
 	{
 		_client->set_on_order([&](const dbp::top::enhance_order& odr){handler_order(odr);});
 		_client->set_on_top_buy_power([&](const std::string& ref, const std::string& algo_name, long long buy_power){handler_buy_power(ref, algo_name, buy_power);});
@@ -177,6 +209,7 @@ public:
 	user& operator= (const user&) = delete;
 	user& operator= (user&&) = delete;
 	~user();
+	void restart_top();
 	dbp::top::enhance_order new_order
 	(
 			algo* algo,
@@ -205,6 +238,7 @@ private:
 public:
 	static rapid_ring::spsc_ring_buffer_object_pool<user_order_list, 8192> user_order_list_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<user_buy_power, 8192> user_buy_power_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<user_reset_top, 8192> user_reset_top_pool;
 };
 
 

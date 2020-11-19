@@ -234,6 +234,18 @@ inline void decode()
 				t.m_AlgoBase = msg;
 				broadcastQueue.enqueue(t);
 			}
+			else if (cmd == "relogin")
+			{
+				auto relogin_msg = user::user_reset_top_pool.get_obj();
+				algo_msg_base* msg = relogin_msg;
+				msg->id = id;
+				msg->al = nullptr;
+				msg->ref = j["ref"].get<std::string>();
+				Tradable t;
+				t.m_MsgType = MsgType::RELOGIN;
+				t.m_AlgoBase = msg;
+				broadcastQueue.enqueue(t);
+			}
 			else if (cmd == "get_algo_names")
 			{
 				auto algos = u.get_algos();

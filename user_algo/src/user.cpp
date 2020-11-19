@@ -5,6 +5,13 @@ user::~user()
 {
 	for (auto& item : _algos)
 		delete item.second;
+	delete _client;
+}
+
+void user::restart_top()
+{
+	delete _client;
+	_client = _creator();
 }
 
 dbp::top::enhance_order user::new_order
@@ -124,6 +131,17 @@ void user::run()
 				}
 			}
 			break;
+		case MsgType::RELOGIN:
+			{
+				auto base = msg.m_AlgoBase;
+				auto ptr = dynamic_cast<user::user_order_list*>(base);
+				if (ptr->id == _id)
+				{
+					restart_top();
+					base->on_command();
+				}
+			}
+			break;
 		default:
 			break;
 		}
@@ -193,6 +211,7 @@ void user::handler_buy_power(const std::string& ref, const std::string& algo_nam
 
 rapid_ring::spsc_ring_buffer_object_pool<user::user_order_list, 8192> user::user_order_list_pool;
 rapid_ring::spmc_ring_buffer_object_pool<user::user_buy_power, 8192> user::user_buy_power_pool;
+rapid_ring::spmc_ring_buffer_object_pool<user::user_reset_top, 8192> user::user_reset_top_pool;
 
 
 
