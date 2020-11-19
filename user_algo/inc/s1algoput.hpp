@@ -712,7 +712,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1algo*>(al);
+			auto* self = dynamic_cast<s1algoput*>(al);
 			int i=0;
 			for(auto f : self->unSelectedWarrant) {
 				unsigned int iss = f;
