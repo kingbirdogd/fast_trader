@@ -585,7 +585,7 @@ void s1algoput::on_omdc_book(const Tradable& tradable)
 						pmsg->id = this->_u.get_id();
 						pmsg->ref = to_string(code);
 						pmsg->code = code;
-						pmsg->detect_ask = 0;
+						pmsg->detect_bid = 0;
 						pmsg->selected = false;
 						ouputQueue.enqueue(pmsg);
 
