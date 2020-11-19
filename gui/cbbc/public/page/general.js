@@ -8,14 +8,20 @@ $(document).ready(function() {
     'a1-uname': Cookies.get('a1-uname'),
     'csalgo-lang': Cookies.get('csalgo-lang'),
     'csalgo-uname': Cookies.get('csalgo-uname'),
+    's1algoput-lang': Cookies.get('s1algoput-lang'),
+    's1algoput-uname': Cookies.get('s1algoput-uname'),
   }
   global.ui = {
     'navbar-a1': $("#navbar-nav-a1"),
     'navbar-cbbc': $("#navbar-nav-cbbc"),
     'navbar-csalgo': $("#navbar-nav-csalgo"),
+    'navbar-s1algoput': $("#navbar-nav-s1algoput"),
+    
     'btn-logout-a1': $("#btn-logout-a1"),
     'btn-logout-cbbc': $("#btn-logout-cbbc"),
     'btn-logout-csalgo': $("#btn-logout-csalgo"),
+    'btn-logout-s1algoput': $("#btn-logout-s1algoput"),
+    
     'navber-personal-info': $('.nav-personal-info'),
   };
   global.func = {};
@@ -27,6 +33,8 @@ $(document).ready(function() {
       global.ui['btn-logout-a1'].submit();
     else if (href.includes('csalgo'))
       global.ui['btn-logout-csalgo'].submit();
+    else if (href.includes('s1algoput'))
+      global.ui['btn-logout-s1algoput'].submit();
   }
   
   initNavbar();
@@ -57,6 +65,9 @@ function initNavbar() {
     
     global.ui['btn-logout-csalgo'].hide();
     global.ui['navbar-csalgo'].hide();
+    
+    global.ui['btn-logout-s1algoput'].hide();
+    global.ui['navbar-s1algoput'].hide();
   }
   else if (href.includes('a1')) {
     // 标题
@@ -72,6 +83,9 @@ function initNavbar() {
     
     global.ui['btn-logout-csalgo'].hide();
     global.ui['navbar-csalgo'].hide();
+    
+    global.ui['btn-logout-s1algoput'].hide();
+    global.ui['navbar-s1algoput'].hide();
   }
   else if (href.includes('csalgo')) {
     // 标题
@@ -82,6 +96,27 @@ function initNavbar() {
     global.ui['btn-logout-csalgo'].show();
     global.ui['navbar-csalgo'].show();
     // 隱藏
+    global.ui['btn-logout-a1'].hide();
+    global.ui['navbar-a1'].hide();
+    
+    global.ui['btn-logout-cbbc'].hide();
+    global.ui['navbar-cbbc'].hide();
+    
+    global.ui['btn-logout-s1algoput'].hide();
+    global.ui['navbar-s1algoput'].hide();
+  }
+  else if (href.includes('s1algoput')) {
+    // 标题
+    document.title += ' (s1algoput)'
+    // 用戶名
+    global.ui['navber-personal-info'].html(global.cookies['s1algoput-uname']);
+    // 顯示
+    global.ui['btn-logout-s1algoput'].show();
+    global.ui['navbar-s1algoput'].show();
+    // 隱藏
+    global.ui['btn-logout-csalgo'].hide();
+    global.ui['navbar-csalgo'].hide();
+
     global.ui['btn-logout-a1'].hide();
     global.ui['navbar-a1'].hide();
     
@@ -103,6 +138,8 @@ function initDataInCookies(res) {
       Cookies.set('a1-userId', data.user_id);
     else if (href.includes('csalgo'))
       Cookies.set('csalgo-userId', data.user_id);
+    else if (href.includes('s1algoput'))
+      Cookies.set('s1algoput-userId', data.user_id);
   }
 }
 
@@ -119,6 +156,8 @@ function changeLanguage() {
       Cookies.set('a1-lang', lang);
     else if (href.includes('csalgo'))
       Cookies.set('csalgo-lang', lang);
+    else if (href.includes('s1algoput'))
+      Cookies.set('s1algoput-lang', lang);
     else
       Cookies.set('lang', lang);
     
