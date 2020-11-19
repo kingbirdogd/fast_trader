@@ -120,6 +120,8 @@ struct s1signal{
 	int SignalType;
 	unsigned long long WeightedPrice;
 	unsigned long long MidPrice;
+	bool Bidcon;
+	bool Askcon;
 };
 
 struct AlgoParameter{

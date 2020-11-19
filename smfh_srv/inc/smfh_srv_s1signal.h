@@ -60,6 +60,12 @@ inline static void handleS1Signal(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 			auto best_bid_qty2 = static_cast<unsigned long long>(m_Bid[1].m_uQuantity);
 			auto best_bid_qty3 = static_cast<unsigned long long>(m_Bid[2].m_uQuantity);
 
+
+
+			bool bidcon = ((best_bid_price_1-best_bid_price_2) - (best_bid_price_2-best_bid_price_3)) == 0;
+			bool askcon = ((best_ask_price_3-best_ask_price_2) - (best_ask_price_2-best_ask_price_1)) == 0;
+
+
 			s1signal* s1s = s1SignalMap[uSecurityCode];
 
 			unsigned long long mid = static_cast<unsigned long long>((best_ask_price_1 + best_bid_price_1)/2)*100000;
@@ -103,6 +109,8 @@ inline static void handleS1Signal(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 			}
 			s1s->MidPrice = mid;
 			s1s->WeightedPrice = wp;
+			s1s->Bidcon = bidcon;
+			s1s->Askcon = askcon;
 
 
 			s1signal* s1sp = s1SignalPutMap[uSecurityCode];
@@ -136,6 +144,8 @@ inline static void handleS1Signal(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 			}
 			s1sp->MidPrice = mid;
 			s1sp->WeightedPrice = wp;
+			s1sp->Bidcon = bidcon;
+			s1sp->Askcon = askcon;
 		}
 
 	}
