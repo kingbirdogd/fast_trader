@@ -1862,6 +1862,7 @@ void s1algoput::handler_order(const dbp::top::enhance_order& odr)
 
 						}
 					}
+					obsw->BuyPrice = filledprice;
 					obsw->BuyTime = std::string(odr.transaction_tm);
 					obsw->Quantity += odr.filled_quantity;
 					obsw->OrderId = odr.order_id;
