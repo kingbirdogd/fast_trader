@@ -1420,10 +1420,14 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								continue;
 
 							if(wobsArray[i]->Status != STATUS_AVAILABLE){
+
+								Log("Do Sell Warrant Code  =  " + to_string(wobsArray[i]->Code) + " Status = " + to_string(wobsArray[i]->Status));
+
 								continue;
 							}
 
 							if(wobsArray[i]->BuyPrice <= 0){
+								Log("Do Sell Warrant Code  =  " + to_string(wobsArray[i]->Code) + "Buy Price = 0 ");
 								continue;
 							}
 
@@ -1441,6 +1445,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 							}
 
 							if(wobsArray[i]->StopLostPrice < trade_price){
+								Log("Do Sell Warrant Code @ =  " + to_string(wobsArray[i]->Code) + " Stop Lost = " + to_string(wobsArray[i]->StopLostPrice));
 								continue;
 							}
 
@@ -1957,6 +1962,8 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 
 						}
 					}
+
+					obsw->BuyPrice = filledprice;
 					obsw->BuyTime = std::string(odr.transaction_tm);
 					obsw->Quantity += odr.filled_quantity;
 					obsw->OrderId = odr.order_id;
@@ -2147,10 +2154,6 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					if(obsw->Quantity == odr.filled_quantity)
 					{
 						Log(" Sell Security Code = " + to_string(code));
-
-
-
-
 
 						auto msg = algo_order_msg_pool.get_obj();
 						msg->al = this;

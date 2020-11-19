@@ -1887,7 +1887,7 @@ void s1algoput::handler_order(const dbp::top::enhance_order& odr)
 					if(pcb == 99999999){
 						pcb = obs->StopLostPrice;
 					}else{
-						if(pcb > obs->StopLostPrice){
+						if(pcb < obs->StopLostPrice){
 							pcb = obs->StopLostPrice;
 						}
 					}
