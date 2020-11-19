@@ -2506,21 +2506,21 @@ void s1algoput::on_tcp_trade(const Tradable&)
 {
 }
 
-rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_err_msg, 8192> s1algo::algo_err_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_marketstatus_msg, 8192> s1algo::algo_marketstatus_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_wselecttype_msg, 8192> s1algo::algo_wselecttype_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_setbet_msg, 8192> s1algo::algo_setbet_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_issueraction_msg, 8192> s1algo::algo_issueraction_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_underlyingaction_msg, 8192> s1algo::algo_underlyingaction_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_warrantaction_msg, 8192> s1algo::algo_warrantaction_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_order_msg, 8192> s1algo::algo_order_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_portfolio_msg, 8192> s1algo::algo_portfolio_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_signal_msg, 8192> s1algo::algo_signal_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_stoplost_msg, 8192> s1algo::algo_stoplost_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_winsell_msg, 8192> s1algo::algo_winsell_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_winlvlsell_msg, 8192> s1algo::algo_winlvlsell_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_force_sell, 8192> s1algo::algo_force_sell_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_warrantprice_msg, 8192> s1algo::algo_warrantprice_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_issuerlist_msg, 8192> s1algo::algo_issuerlist_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_underlyinglist_msg, 8192> s1algo::algo_underlyinglist_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_unselectwarrantlist_msg, 8192> s1algo::algo_unselectwarrantlist_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_err_msg, 8192> s1algoput::algo_err_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algoput::algo_marketstatus_msg, 8192> s1algoput::algo_marketstatus_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algoput::algo_wselecttype_msg, 8192> s1algoput::algo_wselecttype_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algoput::algo_setbet_msg, 8192> s1algoput::algo_setbet_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algoput::algo_issueraction_msg, 8192> s1algoput::algo_issueraction_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algoput::algo_underlyingaction_msg, 8192> s1algoput::algo_underlyingaction_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algoput::algo_warrantaction_msg, 8192> s1algoput::algo_warrantaction_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_order_msg, 8192> s1algoput::algo_order_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_portfolio_msg, 8192> s1algoput::algo_portfolio_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_signal_msg, 8192> s1algoput::algo_signal_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_stoplost_msg, 8192> s1algoput::algo_stoplost_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_winsell_msg, 8192> s1algoput::algo_winsell_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_winlvlsell_msg, 8192> s1algoput::algo_winlvlsell_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algoput::algo_force_sell, 8192> s1algoput::algo_force_sell_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_warrantprice_msg, 8192> s1algoput::algo_warrantprice_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_issuerlist_msg, 8192> s1algoput::algo_issuerlist_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_underlyinglist_msg, 8192> s1algoput::algo_underlyinglist_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_unselectwarrantlist_msg, 8192> s1algoput::algo_unselectwarrantlist_msg_pool;
