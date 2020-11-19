@@ -62,6 +62,13 @@
 					"params":
 					{
 					}
+				},
+				"leo_s1algoput":
+				{
+					"lib": "s1algoput",
+					"params":
+					{
+					}
 				}
 			}
 		},
