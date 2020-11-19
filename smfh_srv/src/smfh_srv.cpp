@@ -738,6 +738,7 @@ inline static bool initJson(const char* _pszJsonPath)
 
 	flush_printf("tm:%llu, loadIvFile \n", dbp::tools::srv::current());
 	loadIvFile(j);
+	flush_printf("tm:%llu, loadIvFile Put \n", dbp::tools::srv::current());
 	loadIvFilePut(j);
 	flush_printf("tm:%llu, loadOrderbookFile \n", dbp::tools::srv::current());
 	loadOrderbookFile(j);
