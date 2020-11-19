@@ -44,7 +44,8 @@ enum MsgType : unsigned char
 	COMMAND = 0x05,
 	ORDER_LIST = 0x06,
 	TCP_BOOK = 0x07,
-	TCP_TRADE = 0x08
+	TCP_TRADE = 0x08,
+	RELOGIN = 0x09
 };
 
 enum TradeSide : char
