@@ -129,6 +129,7 @@ private:
 		unsigned long long orderid;
 		unsigned int warrant_code;
 		unsigned int ucode;
+		std::string issuer;
 		unsigned long long buy_price;
 		unsigned long long sell_price;
 		unsigned long long quantity;
@@ -145,6 +146,7 @@ private:
 			j["action"] = "portfolio";
 			j["warrant_code"] = warrant_code;
 			j["ucode"] = ucode;
+			j["issuer"] = issuer;
 			j["buy_price"] = buy_price;
 			j["buytime"] = buytime;
 			j["sell_price"] = sell_price;
@@ -694,6 +696,41 @@ private:
 		}
 		virtual ~algo_underlyinglist_msg() = default;
 	};
+	struct algo_unselectwarrantlist_msg: public algo_msg_base
+	{
+		std::string codes;
+		algo_unselectwarrantlist_msg():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["action"] = "unselectwarrantlist";
+			j["codes"] = codes;
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<s1algoput*>(al);
+			int i=0;
+			for(auto f : self->unSelectedWarrant) {
+				unsigned int iss = f;
+				if(i>0){
+					codes += "," + to_string(iss);
+				}else{
+					codes = to_string(iss);
+				}
+				i++;
+			}
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_unselectwarrantlist_msg_pool.release_obj(this);
+		}
+		virtual ~algo_unselectwarrantlist_msg() = default;
+	};
 	struct algo_err_msg: public algo_msg_base
 	{
 		std::string action;
@@ -786,6 +823,7 @@ public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_warrantprice_msg, 8192> algo_warrantprice_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_issuerlist_msg, 8192> algo_issuerlist_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_underlyinglist_msg, 8192> algo_underlyinglist_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_unselectwarrantlist_msg, 8192> algo_unselectwarrantlist_msg_pool;
 };
 
 
