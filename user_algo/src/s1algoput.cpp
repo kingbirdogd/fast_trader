@@ -1381,7 +1381,7 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 				//unsigned long long highestLvlBid = obs->getHighestLevelPrice();
 
 				unsigned long long lowestStopLost = obs->getLowestStopLostPrice();
-				Log("UCode = " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Acc Trade Qty = " + to_string(trade_qty) + " Lowest StopLost = " + to_string(lowestStopLost) + " Best Bid = " + to_string(bid_price) + " Bid Qty = " + to_string(best_bid_vol) + " Best Ask = " + to_string(ask_price) + " Ask Qty = " + to_string(best_ask_vol));
+				Log("PUT UCode = " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Acc Trade Qty = " + to_string(trade_qty) + " Lowest StopLost = " + to_string(lowestStopLost) + " Best Bid = " + to_string(bid_price) + " Bid Qty = " + to_string(best_bid_vol) + " Best Ask = " + to_string(ask_price) + " Ask Qty = " + to_string(best_ask_vol));
 				//Log("UCode = " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price) + " Best Ask = " + to_string(ask_price)  + " WP = " + to_string(wp));
 				//Log("UCode = " + to_string(code) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price));
 
