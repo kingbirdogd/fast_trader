@@ -1310,7 +1310,7 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 		//Log("on_omdc_trade code = " + to_string(tradable.m_Code) + " OBSetting");
 		OBSetting* obs = it->second;
 
-		if(obs->hasPosition && TradeSide::SELL_SIDE == side)
+		if(obs->hasPosition && TradeSide::BUY_SIDE == side)
 		{
 /*
 			unsigned long long wp = calWeightedPrice(bid_price1,bid_price2,bid_price3,
