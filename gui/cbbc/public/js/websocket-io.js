@@ -2,12 +2,12 @@ var domain = location.host;       // 选择连接的服务器
 var href = window.location.href;
 if (href.includes('cbbc'))
   domain += '/origin=cbbc'
+else if (href.includes('s1algoput'))
+  domain += '/origin=s1algoput'
 else if (href.includes('a1'))
   domain += '/origin=a1'
 else if (href.includes('csalgo'))
   domain += '/origin=csalgo'
-else if (href.includes('s1algoput'))
-  domain += '/origin=s1algoput'
 else
   domain += '/origin=unknown'
 var ws = null;

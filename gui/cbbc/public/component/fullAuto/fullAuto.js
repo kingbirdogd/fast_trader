@@ -337,18 +337,25 @@ class FullAuto extends React.Component {
   
   // Algo v2
   setAlgoV2(_this, state, data) {
-    for (var algo in data.algos)
-      if (algo.includes('bear'))
+    var href = window.location.pathname
+    for (var algo in data.algos) {
+      if (algo.includes('bear') && href.includes('bear')) {
         state.modules.bull = algo, state.modules.bear = algo
-      else if (algo.includes('s1'))
+        break
+      }
+      else if (algo.includes('csalgo') && href.includes('csalgo')) {
         state.modules.call = algo, state.modules.put = algo
-      else if (algo.includes('csalgo'))
+        break
+      }
+      else if (algo.includes('s1algoput') && href.includes('s1algoput')) {
         state.modules.call = algo, state.modules.put = algo
-      else
-        state.modules.bull = algo, state.modules.bear = algo, state.modules.call = algo, state.modules.put = algo
-    // 沒有cbbc algo
-    if ( (state.modules.bull != null && state.modules.bull.includes('bear')) && (state.modules.bear != null && state.modules.bear.includes('bear')) )
-      console.log({log: 'algo exist'})
+        break
+      }
+      else if (algo.includes('s1') && href.includes('a1')) {
+        state.modules.call = algo, state.modules.put = algo
+        break
+      }
+    }
     // 报价表
     async function loadPrice(state) {
       for (var i in state.config.value) {

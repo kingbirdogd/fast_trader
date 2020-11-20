@@ -9,6 +9,7 @@ class SignalTable extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
+    this.handleReset = this.handleReset.bind(this)
   }
   
   static getDerivedStateFromProps(props, state) {
@@ -25,8 +26,18 @@ class SignalTable extends React.Component {
   }
   
   handleReset() {
-    var code = parseInt(event.target.name)
-    console.log('handleReset', code)
+    var ucode = parseInt(event.target.name)
+    var states = this.props.getStates()
+    var userId = parseInt(states.userId)
+    var algoName = (states.modules.call) ? states.modules.call : states.modules.put
+    
+    var command = {cmd: 'selectunderlying', algo_name: algoName, id: userId, ref: 'uid_'+userId.toString(), ucode: ucode, action: 'remove'}
+    sendWebsocket(JSON.stringify(command))
+    
+    //
+    var obj = $.extend(true, {}, states.signal)
+    delete obj[ucode]
+    this.props.setStates({signal: obj})
   }
   
   render() {
