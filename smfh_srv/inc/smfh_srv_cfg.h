@@ -1291,7 +1291,7 @@ inline static bool loadDefinition(json& _json)
 													unsigned short int CommodityCode = OMD_GET_VALUE(pszBuffer, 44, unsigned short int);
 													unsigned char InstrumentGroup = OMD_GET_VALUE(pszBuffer, 42, unsigned char);
 
-													if(CommodityCode == 4001 || CommodityCode == 4002){
+													if(CommodityCode == 4001 || CommodityCode == 4002 || CommodityCode == 4038){
 														if(InstrumentGroup == 4){
 
 														cache["omdd_name"][std::to_string(orderbookid)] = symbol;
