@@ -76,7 +76,7 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 			if(pwbid > 0){
 
 				unsigned long long spread = pDefaultSpread;
-				unsigned long long pplus1 = wbid + spread;
+				unsigned long long pplus1 = pwbid + spread;
 
 				bool eq1 = (fprice - pfprice) == pUSpread;
 				if(pplus1 == wbid && eq1){
@@ -260,7 +260,7 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 
 						pUpAskMark[wask] = fprice;
 						askkey = wask;
-						askprice = pfprice;
+						askprice = fprice;
 
 						return true;
 					}
@@ -324,7 +324,7 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 							return false;
 						}
 
-						pUpAskMark[wask] = fprice;
+						pUpAskMark[pwask] = fprice;
 						askkey = pwask;
 						askprice = fprice;
 
