@@ -105,6 +105,22 @@
 					}
 				}
 			}
+		},
+		{
+			"ID":5,
+			"USER":"P311831",
+			"PASS":"Shun2328",
+			"BUY_POWER":5000000,
+			"ALGOS":
+			{
+				"s1put_s1algoput":
+				{
+					"lib": "s1algoput",
+					"params":
+					{
+					}
+				}
+			}
 		}
 	],
 	"Definition":
