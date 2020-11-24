@@ -1088,7 +1088,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 
 
 			p._Symbol = "";
-			if(str_underlying.rfind("HSI", 0) == 0){
+			if(str_underlying.rfind("HSI", 0) == 0 || str_underlying.rfind("HTI", 0) == 0 || str_underlying.rfind("HHI", 0) == 0){
 				p._Symbol = str_underlying;
 
 				auto it_omdd = nameToCode.find(str_underlying);
