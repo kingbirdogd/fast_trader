@@ -583,8 +583,9 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 //					/Log("Code = " + to_string(code) + " Has Signal 1");
 
+					/*
 					auto itucode = unselectedUCode.find(code);
-					if(itucode != unselectedUCode.end()){
+					if(itucode != unselectedUCode.end() ){
 
 						auto pmsg = algo_signal_msg_pool.get_obj();
 						pmsg->al = this;
@@ -609,7 +610,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						Log("Code = " + to_string(code) + " Reset Signal 4");
 
 						return;
-					}
+					}*/
 
 					if(MarketStatus == MARKET_PAUSE)
 						return;

@@ -576,6 +576,8 @@ void s1algoput::on_omdc_book(const Tradable& tradable)
 
 //					/Log("Code = " + to_string(code) + " Has Signal 1");
 
+
+					/*
 					auto itucode = unselectedUCode.find(code);
 					if(itucode != unselectedUCode.end()){
 
@@ -602,7 +604,7 @@ void s1algoput::on_omdc_book(const Tradable& tradable)
 						Log("Code = " + to_string(code) + " Reset Signal 4");
 
 						return;
-					}
+					}*/
 
 					if(MarketStatus == MARKET_PAUSE)
 						return;
