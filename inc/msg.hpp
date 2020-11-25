@@ -167,6 +167,7 @@ struct Tradable
 		char m_TcpCode[16];
 	};
 	unsigned long long m_AccumulateBlankQuantity;
+	unsigned long long m_UnTradedQuantity;
 	unsigned int m_Code;
 	int m_LastTradePrice;
 	unsigned short int m_TradeType;
@@ -183,6 +184,7 @@ struct Tradable
 		m_AccumulateBuyQuantity(0),
 		m_AccumulateSellQuantity(0),
 		m_AccumulateBlankQuantity(0),
+		m_UnTradedQuantity(0),
 		m_Code(0),
 		m_LastTradePrice(0),
 		m_TradeType(0),
@@ -204,6 +206,7 @@ struct Tradable
 		j["m_AccumulateBuyQuantity"] = m_AccumulateBuyQuantity;
 		j["m_AccumulateSellQuantity"] = m_AccumulateSellQuantity;
 		j["m_AccumulateBlankQuantity"] = m_AccumulateBlankQuantity;
+		j["m_UnTradedQuantity"] = m_UnTradedQuantity;
 		if (MsgType::TCP_BOOK == m_MsgType || MsgType::TCP_TRADE == m_MsgType)
 		{
 			j["m_Code"] = m_TcpCode;

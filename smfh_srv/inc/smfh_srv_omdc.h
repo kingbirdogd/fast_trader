@@ -51,8 +51,9 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 					rOrderBook.m_TradeType = 0;
 					rOrderBook.m_TradeSide = TradeSide::BUY_SIDE;
 					rOrderBook.m_AccumulateBuyQuantity += rOrderBook.m_LastTradeQuantity;
-					broadcastQueue.enqueue(rOrderBook);
 					rest -= matched_quantity;
+					rOrderBook.m_UnTradedQuantity = rest;
+					broadcastQueue.enqueue(rOrderBook);
 					DEBUG("tm:%llu, OMDC BUY_SIDE match, code: %u, type: %c, matched_price: %d, matched_quantity: %llu\n",
 							dbp::tools::srv::current(),
 							uSecurityCode,
@@ -85,8 +86,9 @@ inline static void handleOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsigned long long
 					rOrderBook.m_TradeType = 0;
 					rOrderBook.m_TradeSide = TradeSide::SELL_SIDE;
 					rOrderBook.m_AccumulateBuyQuantity += rOrderBook.m_LastTradeQuantity;
-					broadcastQueue.enqueue(rOrderBook);
 					rest -= matched_quantity;
+					rOrderBook.m_UnTradedQuantity = rest;
+					broadcastQueue.enqueue(rOrderBook);
 					DEBUG("tm:%llu, OMDC SELL_SIDE match, code: %u, type: %c, matched_price: %d, matched_quantity: %llu\n",
 							dbp::tools::srv::current(),
 							uSecurityCode,
