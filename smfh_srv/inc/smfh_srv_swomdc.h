@@ -57,6 +57,10 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 					rOrderBook.m_TradeType = 0;
 					rOrderBook.m_TradeSide = TradeSide::BUY_SIDE;
 					rOrderBook.m_AccumulateBuyQuantity += rOrderBook.m_LastTradeQuantity;
+
+					rest -= matched_quantity;
+					rOrderBook.m_UnTradedQuantity = rest;
+
 					broadcastQueue.enqueue(rOrderBook);
 				}
 
@@ -104,6 +108,9 @@ inline static void handleStockWarrantOmdc(dbp::omd::COmdMsgHeader* _pMsg, unsign
 					rOrderBook.m_TradeType = 0;
 					rOrderBook.m_TradeSide = TradeSide::SELL_SIDE;
 					rOrderBook.m_AccumulateSellQuantity += rOrderBook.m_LastTradeQuantity;
+
+					rest -= matched_quantity;
+					rOrderBook.m_UnTradedQuantity = rest;
 					//if(uSecurityCode<10000){
 					broadcastQueue.enqueue(rOrderBook);
 				}

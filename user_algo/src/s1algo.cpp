@@ -1345,6 +1345,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		auto best_ask_vol = static_cast<unsigned long long>(tradable.m_Ask[0].m_uQuantity);
 		auto trade_sell_quantity = static_cast<unsigned long long>(tradable.m_AccumulateSellQuantity);
 		auto trade_buy_quantity = static_cast<unsigned long long>(tradable.m_AccumulateBuyQuantity);
+		auto untradeqty = static_cast<unsigned long long>(tradable.m_UnTradedQuantity);
 
 
 /*
@@ -1403,7 +1404,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 				//unsigned long long highestLvlBid = obs->getHighestLevelPrice();
 
 				unsigned long long highestStopLost = obs->getHighestStopLostPrice();
-				Log("UCode = " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Acc Trade Qty = " + to_string(trade_qty) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price) + " Bid Qty = " + to_string(best_bid_vol) + " Best Ask = " + to_string(ask_price) + " Ask Qty = " + to_string(best_ask_vol));
+				Log("UCode = " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Acc Trade Qty = " + to_string(trade_qty) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price) + " Bid Qty = " + to_string(best_bid_vol) + " Best Ask = " + to_string(ask_price) + " Ask Qty = " + to_string(best_ask_vol) + " Un Trade = " + to_string(untradeqty));
 				//Log("UCode = " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price) + " Best Ask = " + to_string(ask_price)  + " WP = " + to_string(wp));
 				//Log("UCode = " + to_string(code) + " Highest StopLost = " + to_string(highestStopLost) + " Best Bid = " + to_string(bid_price));
 
@@ -1673,7 +1674,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 			if(TradeSide::BUY_SIDE == side && obs->DetectedAsk == trade_price && trade_buy_quantity >= best_ask_vol && best_bid_vol>=obs->ReadyBidBuy && obs->Status == STATUS_READY){
 
 				//Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + "(" + to_string(mid) + ")" + " Ask Price = " + to_string(ask_price) + " WP = " + to_string(wp)) ;
-				Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Trade Qty = " + to_string(trade_qty) + " Acc Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + " BidQty=" + to_string(best_bid_vol) + " - " + " Ask Price = " + to_string(ask_price) + " AskQty=" + to_string(best_ask_vol)) ;
+				Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Trade Qty = " + to_string(trade_qty) + " Acc Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + " BidQty=" + to_string(best_bid_vol) + " - " + " Ask Price = " + to_string(ask_price) + " AskQty=" + to_string(best_ask_vol)  + " Un Trade = " + to_string(untradeqty)) ;
 
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
 
