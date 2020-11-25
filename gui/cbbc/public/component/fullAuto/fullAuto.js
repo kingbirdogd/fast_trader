@@ -120,7 +120,10 @@ class FullAuto extends React.Component {
       // 接口v3
       if (!res.includes('connect_alive'))
         this.msg.push(data)
-      if ('action' in data) {
+      if ('user_id' in data && (!obj.userId)) {
+        obj = {userId: data.user_id}
+      }
+      else if ('action' in data) {
         // 接口v1
         if (data.action=='pricetable') {obj = this.setPriceTable(obj, data)}
         else if(data.action=='wprice') {obj = this.setWprice(obj, data)}
@@ -1079,7 +1082,7 @@ class FullAuto extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.24
+          Copyright © {curYear} Fast Trader v1.0.25
         </div>
       </React.Fragment>
       /*

@@ -2,7 +2,7 @@ var ui = new Array();
 var config = ['bull', 'bull', 'bear', 'bear'];    // 预设布局
 var lang = 's1algoput-lang'
 var userId = 's1algoput-userId'
-var underlyingDefault = 'select'
+var underlyingDefault = 'remove'
 
 $(document).ready(function() {
   initUI();
