@@ -584,10 +584,11 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 //					/Log("Code = " + to_string(code) + " Has Signal 1");
 
-					/*
+
 					auto itucode = unselectedUCode.find(code);
 					if(itucode != unselectedUCode.end() ){
 
+						/*
 						auto pmsg = algo_signal_msg_pool.get_obj();
 						pmsg->al = this;
 						pmsg->algo_name = this->_name;
@@ -609,9 +610,9 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						}
 
 						Log("Code = " + to_string(code) + " Reset Signal 4");
-
+						 */
 						return;
-					}*/
+					}
 
 					if(MarketStatus == MARKET_PAUSE)
 						return;
@@ -908,6 +909,37 @@ bool s1algo::setSelectedUnderlying(std::string action, unsigned int ucode){
 		if(it == unselectedUCode.end()){
 			unselectedUCode.insert(ucode);
 			Log("Unselected Underlying = " + to_string(ucode));
+/*
+			auto itob  = obMap.find(ucode);
+			if(itob != obMap.end()){
+				OBSetting* obs = itob->second;
+				if(obs->Status == STATUS_READY){
+
+
+					auto pmsg = algo_signal_msg_pool.get_obj();
+					pmsg->al = this;
+					pmsg->algo_name = this->_name;
+					pmsg->id = this->_u.get_id();
+					pmsg->ref = to_string(code);
+					pmsg->code = code;
+					pmsg->detect_ask = 0;
+					pmsg->selected = false;
+					ouputQueue.enqueue(pmsg);
+
+					obs->removeAllWarrants();
+					obs->detected = false;
+
+					signalCount--;
+
+					if(signalCount <= 0){
+						lastReadyTime = 0;
+						Log("No Detected Signal");
+					}
+
+					Log("Code = " + to_string(code) + " Reset Signal 3X");
+				}
+			}
+*/
 			return true;
 		}
 	}
