@@ -14,6 +14,8 @@
   
   node set_user.js user_name=s1algo password=12345678
   
+  node set_user.js user_name=s1put password=12345678
+  
   
     node set_user.js user_name=jarvis password=p300432
   
