@@ -510,28 +510,30 @@ void s1algoput::on_omdc_book(const Tradable& tradable)
 				auto itucode = unselectedUCode.find(code);
 				if(itucode != unselectedUCode.end()){
 
-					auto pmsg = algo_signal_msg_pool.get_obj();
-					pmsg->al = this;
-					pmsg->algo_name = this->_name;
-					pmsg->id = this->_u.get_id();
-					pmsg->ref = to_string(code);
-					pmsg->code = code;
-					pmsg->detect_bid = 0;
-					pmsg->selected = false;
-					ouputQueue.enqueue(pmsg);
+					if(obs->Status == STATUS_READY){
+						auto pmsg = algo_signal_msg_pool.get_obj();
+						pmsg->al = this;
+						pmsg->algo_name = this->_name;
+						pmsg->id = this->_u.get_id();
+						pmsg->ref = to_string(code);
+						pmsg->code = code;
+						pmsg->detect_bid = 0;
+						pmsg->selected = false;
+						ouputQueue.enqueue(pmsg);
 
-					obs->removeAllWarrants();
-					obs->detected = false;
+						obs->removeAllWarrants();
+						obs->detected = false;
 
-					signalCount--;
+						signalCount--;
 
-					if(signalCount <= 0){
-						lastReadyTime = 0;
-						Log("No Detected Signal");
+						if(signalCount <= 0){
+							lastReadyTime = 0;
+							Log("No Detected Signal");
+						}
+
+						Log("Code = " + to_string(code) + " Reset Signal 3");
+						//Log("Pass2");
 					}
-
-					Log("Code = " + to_string(code) + " Reset Signal 3");
-					//Log("Pass2");
 				}
 
 
