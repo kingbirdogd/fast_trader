@@ -761,6 +761,39 @@ string s1algoput::setBetsize(std::string betsize){
 	return algoBet.selectBet(betsize);
 }
 
+bool s1algoput::setPause(std::string action, unsigned int ucode, unsigned int code){
+	if(action == "set"){
+		auto it = obMap.find(ucode);
+		if(it != obMap.end()){
+			OBSetting* obs = it->second;
+			if(obs->hasPosition){
+				if(obs->isExist(code)){
+					warrant* w = obs->getRelatedWarrant(code);
+					if(w != nullptr){
+						w->isPause = true;
+						return true;
+					}
+				}
+			}
+		}
+	}
+	if(action == "unset"){
+		auto it = obMap.find(ucode);
+		if(it != obMap.end()){
+			OBSetting* obs = it->second;
+			if(obs->hasPosition){
+				if(obs->isExist(code)){
+					warrant* w = obs->getRelatedWarrant(code);
+					if(w != nullptr){
+						w->isPause = false;
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
 
 bool s1algoput::setWinSell(std::string action, unsigned int ucode, unsigned int code){
 	if(action == "set"){
@@ -1150,6 +1183,7 @@ vector<warrant*> s1algoput::getSelectedWarrantFromMarketByIssuer(std::string iss
 				newWarrant->BuyIn = 0;
 				newWarrant->SellOut = 0;
 				newWarrant->LvlBid = 0;
+				newWarrant->isPause = false;
 
 
 				selectedWarrant.push_back(newWarrant);
@@ -1270,6 +1304,7 @@ vector<warrant*> s1algoput::getWinpriceWarrantFromMarketByIssuer(std::string iss
 			newWarrant->BuyIn = 0;
 			newWarrant->SellOut = 0;
 			newWarrant->LvlBid = 0;
+			newWarrant->isPause = false;
 
 
 			selectedWarrant.push_back(newWarrant);
@@ -1411,6 +1446,11 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 								continue;
 							}
 
+							if(wobsArray[i]->isPause){
+								Log("Do Sell Warrant Code  =  " + to_string(wobsArray[i]->Code) + " PAUSE");
+								continue;
+							}
+
 							if(wobsArray[i]->BuyPrice <= 0){
 								Log("Do Sell Warrant Code  =  " + to_string(wobsArray[i]->Code) + "Buy Price = 0 ");
 								continue;
@@ -1526,6 +1566,11 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 							//unsigned long long t_start = dbp::tools::srv::current();
 
 							if(wobsArray[i]->Status != STATUS_AVAILABLE){
+								continue;
+							}
+
+							if(wobsArray[i]->isPause){
+								Log("Do Sell Warrant Code  =  " + to_string(wobsArray[i]->Code) + " PAUSE");
 								continue;
 							}
 
@@ -2320,6 +2365,7 @@ algo_msg_base* s1algoput::json_to_msg(json& json)
 	algo_force_sell* pforce_sell = nullptr;
 	algo_issuerlist_msg* pissuerlist = nullptr;
 	algo_underlyinglist_msg* punderlyinglist = nullptr;
+	algo_pause_msg* ppause = nullptr;
 	algo_winsell_msg* pwinsell = nullptr;
 	algo_winlvlsell_msg* pwinlvlsell = nullptr;
 	algo_wselecttype_msg* pwselecttype = nullptr;
@@ -2423,6 +2469,18 @@ algo_msg_base* s1algoput::json_to_msg(json& json)
 			pforce_sell->price = json["price"].get<unsigned long long>();
 			return pforce_sell;
 		}
+		else if(cmd == "pause")
+		{
+			ppause = algo_pause_msg_pool.get_obj();
+			ppause->al = this;
+			ppause->algo_name = _name;
+			ppause->id = _u.get_id();
+			ppause->ref = ref;
+			ppause->ucode = json["ucode"].get<unsigned int>();
+			ppause->wcode = json["code"].get<unsigned int>();
+			ppause->action = json["action"].get<std::string>();
+			return ppause;
+		}
 		else if(cmd == "winsell")
 		{
 			pwinsell = algo_winsell_msg_pool.get_obj();
@@ -2485,6 +2543,8 @@ algo_msg_base* s1algoput::json_to_msg(json& json)
 			punderlyinglist->release();
 		if(pUnderlyingAction_msg)
 			pUnderlyingAction_msg->release();
+		if(ppause)
+			ppause->release();
 		if(pwinsell)
 			pwinsell->release();
 		if(pwinlvlsell)
@@ -2523,6 +2583,7 @@ rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_order_msg, 8192> s1algo
 rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_portfolio_msg, 8192> s1algoput::algo_portfolio_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_signal_msg, 8192> s1algoput::algo_signal_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_stoplost_msg, 8192> s1algoput::algo_stoplost_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_pause_msg, 8192> s1algoput::algo_pause_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_winsell_msg, 8192> s1algoput::algo_winsell_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algoput::algo_winlvlsell_msg, 8192> s1algoput::algo_winlvlsell_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<s1algoput::algo_force_sell, 8192> s1algoput::algo_force_sell_pool;
