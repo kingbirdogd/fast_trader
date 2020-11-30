@@ -767,6 +767,39 @@ string s1algo::setBetsize(std::string betsize){
 	return algoBet.selectBet(betsize);
 }
 
+bool s1algo::setPause(std::string action, unsigned int ucode, unsigned int code){
+	if(action == "set"){
+		auto it = obMap.find(ucode);
+		if(it != obMap.end()){
+			OBSetting* obs = it->second;
+			if(obs->hasPosition){
+				if(obs->isExist(code)){
+					warrant* w = obs->getRelatedWarrant(code);
+					if(w != nullptr){
+						w->isPause = true;
+						return true;
+					}
+				}
+			}
+		}
+	}
+	if(action == "unset"){
+		auto it = obMap.find(ucode);
+		if(it != obMap.end()){
+			OBSetting* obs = it->second;
+			if(obs->hasPosition){
+				if(obs->isExist(code)){
+					warrant* w = obs->getRelatedWarrant(code);
+					if(w != nullptr){
+						w->isPause = false;
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
 
 bool s1algo::setWinSell(std::string action, unsigned int ucode, unsigned int code){
 	if(action == "set"){
@@ -1185,6 +1218,7 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 				newWarrant->BuyIn = 0;
 				newWarrant->SellOut = 0;
 				newWarrant->LvlBid = 0;
+				newWarrant->isPause = false;
 
 
 				selectedWarrant.push_back(newWarrant);
@@ -1305,6 +1339,7 @@ vector<warrant*> s1algo::getWinpriceWarrantFromMarketByIssuer(std::string issuer
 			newWarrant->BuyIn = 0;
 			newWarrant->SellOut = 0;
 			newWarrant->LvlBid = 0;
+			newWarrant->isPause = false;
 
 
 			selectedWarrant.push_back(newWarrant);
@@ -1461,6 +1496,12 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								continue;
 							}
 
+							if(wobsArray[i]->isPause){
+								Log("Do Sell Warrant Code  =  " + to_string(wobsArray[i]->Code) + "PAUSE ");
+
+								continue;
+							}
+
 							if(wobsArray[i]->BuyPrice <= 0){
 								Log("Do Sell Warrant Code  =  " + to_string(wobsArray[i]->Code) + "Buy Price = 0 ");
 								continue;
@@ -1576,6 +1617,11 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 							//unsigned long long t_start = dbp::tools::srv::current();
 
 							if(wobsArray[i]->Status != STATUS_AVAILABLE){
+								continue;
+							}
+
+							if(wobsArray[i]->isPause){
+								Log("Do Sell Warrant Code  =  " + to_string(wobsArray[i]->Code) + "PAUSE ");
 								continue;
 							}
 

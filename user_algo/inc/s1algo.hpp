@@ -806,6 +806,7 @@ public:
 	virtual int setSelectionType(std::string issuer, int type);
 	//virtual bool myfunction (warrant* i,warrant* j);
 
+	virtual bool setPause(std::string action, unsigned int ucode, unsigned int code);
 	virtual bool setWinSell(std::string action, unsigned int ucode, unsigned int code);
 	virtual bool setWinLvlSell(std::string action, unsigned int ucode, unsigned int code);
 	virtual bool setSelectedIssuer(std::string action, std::string issuer);

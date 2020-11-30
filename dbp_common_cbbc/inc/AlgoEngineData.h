@@ -156,6 +156,7 @@ struct warrant{
 
 	bool isWinSell;
 	bool isWinOrLvlSell;
+	bool isPause;
 
 	int NoOfTrade;
 };
