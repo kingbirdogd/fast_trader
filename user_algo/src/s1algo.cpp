@@ -2417,6 +2417,7 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 	algo_force_sell* pforce_sell = nullptr;
 	algo_issuerlist_msg* pissuerlist = nullptr;
 	algo_underlyinglist_msg* punderlyinglist = nullptr;
+	algo_pause_msg* ppause = nullptr;
 	algo_winsell_msg* pwinsell = nullptr;
 	algo_winlvlsell_msg* pwinlvlsell = nullptr;
 	algo_wselecttype_msg* pwselecttype = nullptr;
@@ -2520,6 +2521,18 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			pforce_sell->price = json["price"].get<unsigned long long>();
 			return pforce_sell;
 		}
+		else if(cmd == "pause")
+		{
+			ppause = algo_pause_msg_pool.get_obj();
+			ppause->al = this;
+			ppause->algo_name = _name;
+			ppause->id = _u.get_id();
+			ppause->ref = ref;
+			ppause->ucode = json["ucode"].get<unsigned int>();
+			ppause->wcode = json["code"].get<unsigned int>();
+			ppause->action = json["action"].get<std::string>();
+			return ppause;
+		}
 		else if(cmd == "winsell")
 		{
 			pwinsell = algo_winsell_msg_pool.get_obj();
@@ -2582,6 +2595,8 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			punderlyinglist->release();
 		if(pUnderlyingAction_msg)
 			pUnderlyingAction_msg->release();
+		if(ppause)
+			ppause->release();
 		if(pwinsell)
 			pwinsell->release();
 		if(pwinlvlsell)
@@ -2620,6 +2635,7 @@ rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_order_msg, 8192> s1algo::a
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_portfolio_msg, 8192> s1algo::algo_portfolio_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_signal_msg, 8192> s1algo::algo_signal_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_stoplost_msg, 8192> s1algo::algo_stoplost_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_pause_msg, 8192> s1algo::algo_pause_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_winsell_msg, 8192> s1algo::algo_winsell_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_winlvlsell_msg, 8192> s1algo::algo_winlvlsell_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_force_sell, 8192> s1algo::algo_force_sell_pool;
