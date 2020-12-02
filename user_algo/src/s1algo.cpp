@@ -2523,6 +2523,8 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 		}
 		else if(cmd == "pause")
 		{
+			Log(json.dump());
+
 			ppause = algo_pause_msg_pool.get_obj();
 			ppause->al = this;
 			ppause->algo_name = _name;
