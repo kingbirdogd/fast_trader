@@ -21,6 +21,7 @@
 #define MARKET_NOTREADY 0
 #define MARKET_START 1
 #define MARKET_PAUSE 2
+#define MARKET_NODETECT 3
 
 #define SELECT_NORMAL 1
 #define SELECT_WINPRICE 2
@@ -392,6 +393,9 @@ private:
 			}
 			if(action == "pause"){
 				self->MarketStatus = MARKET_PAUSE;
+			}
+			if(action == "nodetect"){
+				self->MarketStatus = MARKET_NODETECT;
 			}
 
 			currmarketstatus = self->MarketStatus;
