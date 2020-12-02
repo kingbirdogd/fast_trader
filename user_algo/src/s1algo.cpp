@@ -2559,6 +2559,8 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 		}
 		else
 		{
+
+			Log(json.to_string());
 			auto msg = algo_err_msg_pool.get_obj();
 			msg->al = this;
 			msg->algo_name = _name;
