@@ -534,7 +534,7 @@ class Cbbc extends React.Component {
   getStates() {return this.state}
   
   render() {
-    let cells = []
+    let cells = [], wprices = []
     for (let no in this.state.config.value) {
       cells.push(
         <Cell
@@ -547,6 +547,7 @@ class Cbbc extends React.Component {
           getStates={this.getStates}
         />
       )
+      wprices.push(this.state.cells[no].wPrice)
     }
     var style = (this.state.recovery.isRecoveryEnd) ? 'is_finish' : 'is_loading'
     var curYear = new Date().getFullYear()
@@ -567,6 +568,7 @@ class Cbbc extends React.Component {
           <Position
             key="position"
             data={this.state.positions}
+            data2={wprices}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}
@@ -587,7 +589,7 @@ class Cbbc extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.11
+          Copyright © {curYear} Fast Trader v1.0.12
         </div>
       </React.Fragment>
       /*<Selector

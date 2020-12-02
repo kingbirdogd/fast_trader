@@ -17,6 +17,7 @@ class Position extends React.Component {
     this.handleForceSell = this.handleForceSell.bind(this)
     this.handleWs = this.handleWs.bind(this)
     this.handleWls = this.handleWls.bind(this)
+    this.handlePause = this.handlePause.bind(this)
   }
   
   static getDerivedStateFromProps(props, state) {
@@ -145,14 +146,20 @@ class Position extends React.Component {
       return null
   }
   
-  handleWs() {
+  getParams(that, event) {
     var code = parseInt(event.target.name)
-    var ucode = parseInt(this.state.position[code].ucode)
-    var actions = this.props.data5
+    var ucode = parseInt(that.state.position[code].ucode)
+    var actions = that.props.data5
     
-    var states = this.props.getStates()
+    var states = that.props.getStates()
     var userId = parseInt(states.userId)
     var algoName = (states.modules.call) ? states.modules.call : states.modules.put
+    
+    return {code: code, ucode: ucode, actions: actions, userId: userId, algoName: algoName}
+  }
+  
+  handleWs() {
+    var {code, ucode, actions, userId, algoName} = this.getParams(this, event)
     
     var action = 'set'
     if ((code in actions) && 'winsell' in actions[code])
@@ -163,19 +170,24 @@ class Position extends React.Component {
   }
   
   handleWls() {
-    var code = parseInt(event.target.name)
-    var ucode = parseInt(this.state.position[code].ucode)
-    var actions = this.props.data5
-    
-    var states = this.props.getStates()
-    var userId = parseInt(states.userId)
-    var algoName = (states.modules.call) ? states.modules.call : states.modules.put
+    var {code, ucode, actions, userId, algoName} = this.getParams(this, event)
     
     var action = 'set'
     if ((code in actions) && 'winlvlsell' in actions[code])
       action = this.switchAction(actions[code].winlvlsell.setaction)
     
     var command = {cmd: 'winlvlsell', algo_name: algoName, id: userId, ref: 'uid_'+userId.toString(), code: code, ucode: ucode, action: action}
+    sendWebsocket(JSON.stringify(command))
+  }
+  
+  handlePause() {
+    var {code, ucode, actions, userId, algoName} = this.getParams(this, event)
+    
+    var action = 'set'
+    if ((code in actions) && 'pause' in actions[code])
+      action = this.switchAction(actions[code].pause.setaction)
+    
+    var command = {cmd: 'pause', algo_name: algoName, id: userId, ref: 'uid_'+userId.toString(), code: code, ucode: ucode, action: action}
     sendWebsocket(JSON.stringify(command))
   }
   
@@ -199,11 +211,11 @@ class Position extends React.Component {
   getText(lang) {
     var text = {
       en: {position: 'Position', ucode: 'Underlying', buyPrice: 'Buy Price', buyQuantity: 'Buy Quantity', sellPrice: 'Sell Price', 
-            sellQuantity: 'Sell Quantity', id: 'ID', code: 'Code', transactionTm: 'Last Update Time', warrantPrice: 'Wnt Price', stopLost: 'Stop Lost', pnl: 'Gain', forceSell: 'Sell', ws: 'WS', wls: 'WLS'},
+            sellQuantity: 'Sell Quantity', id: 'ID', code: 'Code', transactionTm: 'Last Update Time', warrantPrice: 'Wnt Price', stopLost: 'Stop Lost', pnl: 'Gain', forceSell: 'Sell', ws: 'WS', wls: 'WLS', pause: 'Pause'},
       sc: {position: '持仓', ucode: '相关资产', buyPrice: '买入价', buyQuantity: '买入单位', sellPrice: '卖出价', 
-            sellQuantity: '卖出单位', id: 'ID', code: '牛熊证', transactionTm: '交易时间', warrantPrice: '轮证现价', stopLost: '止损价', pnl: '盈亏', forceSell: '卖出', ws: '赚/卖', wls: '赚/平/卖'},
+            sellQuantity: '卖出单位', id: 'ID', code: '牛熊证', transactionTm: '交易时间', warrantPrice: '轮证现价', stopLost: '止损价', pnl: '盈亏', forceSell: '卖出', ws: '赚/卖', wls: '赚/平/卖', pause: '暂停'},
       tc: {position: '持倉', ucode: '相關資產', buyPrice: '買入價', buyQuantity: '買入單位', sellPrice: '賣出價', 
-            sellQuantity: '賣出單位', id: 'ID', code: '牛熊證', transactionTm: '交易時間', warrantPrice: '輪證現價', stopLost: '止蝕價', pnl: '盈虧', forceSell: '賣出', ws: '賺/賣', wls: '賺/平/賣'}
+            sellQuantity: '賣出單位', id: 'ID', code: '牛熊證', transactionTm: '交易時間', warrantPrice: '輪證現價', stopLost: '止蝕價', pnl: '盈虧', forceSell: '賣出', ws: '賺/賣', wls: '賺/平/賣', pause: '暫停'}
     }
     return text[lang]
   }
@@ -228,6 +240,7 @@ class Position extends React.Component {
       // 按钮
       var btn1Stype = '', btn1IsDisable = false
       var btn2Stype = '', btn2IsDisable = false
+      var btn3Stype = '', btn3IsDisable = false
       if (code in this.props.data5) {
         for (const [k, v] of Object.entries(this.props.data5[code])) {
           if (k == 'winsell' && v.result == 'success' && v.setaction == 'set')
@@ -243,6 +256,13 @@ class Position extends React.Component {
             btn2Stype = 'btn-secondary'
           else if (k == 'winlvlsell' && v.result == 'fail')
             btn2Stype = 'btn-danger'
+          
+          else if (k == 'pause' && v.result == 'success' && v.setaction == 'set')
+            btn3Stype = 'btn-success'
+          else if (k == 'pause' && v.result == 'success' && v.setaction == 'unset')
+            btn3Stype = 'btn-secondary'
+          else if (k == 'pause' && v.result == 'fail')
+            btn3Stype = 'btn-danger'
         }
       }
       
@@ -285,6 +305,15 @@ class Position extends React.Component {
               disabled={btn2IsDisable}
               onClick={this.handleWls}>
                 {text.wls}
+            </button>
+            
+            <button
+              name={code}
+              type="button"
+              className={classNames("btn btn-sm btn-secondary", btn3Stype)}
+              disabled={btn3IsDisable}
+              onClick={this.handlePause}>
+                {text.pause}
             </button>
             
           </td>
