@@ -159,7 +159,7 @@ class FullAuto extends React.Component {
         else if (data.action=='selectunderlying') {this.setUnderlying(obj, data)}
         else if (data.action=='signal') {this.setSignal(obj, data)}
         else if (data.action=='stoplost') {this.setStoplost(obj, data)}
-        else if (data.action=='winlvlsell' || data.action== 'winsell') {this.setPositionAction(obj, data)}
+        else if (data.action=='winlvlsell' || data.action== 'winsell' ||  data.action=='pause') {this.setPositionAction(obj, data)}
         else if (data.action=='uwarrantlist') {obj = this.setUWarrantList(obj, data)}
         else if (data.action=='selectwarrant') {obj = this.setSelectUWarrant(obj, data)}
         else if (data.action=='wselecttype') {obj = this.setWntSelectType(obj, data)}
@@ -1082,7 +1082,7 @@ class FullAuto extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.25
+          Copyright © {curYear} Fast Trader v1.0.28
         </div>
       </React.Fragment>
       /*
