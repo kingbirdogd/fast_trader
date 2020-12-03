@@ -611,6 +611,9 @@ void s1algoput::on_omdc_book(const Tradable& tradable)
 					if(MarketStatus == MARKET_PAUSE)
 						return;
 
+					if(MarketStatus == MARKET_NODETECT)
+						return;
+
 					//Log("Code = " + to_string(code) + " Has Signal 1");
 
 					time_t currentTime = DateUtil::getCurrentSystemTime();
@@ -1703,6 +1706,9 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 
 				//Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + "(" + to_string(mid) + ")" + " Ask Price = " + to_string(ask_price) + " WP = " + to_string(wp)) ;
 				Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_sell_quantity) + " BestBid = " + to_string(bid_price) + " - " + " Ask Price = " + to_string(ask_price)) ;
+
+				if(MarketStatus == MARKET_NODETECT)
+					return;
 
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
 

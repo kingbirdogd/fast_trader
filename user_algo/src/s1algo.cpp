@@ -617,6 +617,9 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					if(MarketStatus == MARKET_PAUSE)
 						return;
 
+					if(MarketStatus == MARKET_NODETECT)
+						return;
+
 					//Log("Code = " + to_string(code) + " Has Signal 1");
 
 					time_t currentTime = DateUtil::getCurrentSystemTime();
@@ -1734,6 +1737,8 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		if(obs->detected && TradeSide::BUY_SIDE == side)
 		{
 
+
+
 			//s1signal* s1s = s1SignalMap[code];
 /*
 			unsigned long long wp = calWeightedPrice(bid_price1,bid_price2,bid_price3,
@@ -1751,6 +1756,9 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 			//Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + " Ask Price = " + to_string(ask_price)) ;
 
 			if(TradeSide::BUY_SIDE == side && obs->DetectedAsk == trade_price && trade_buy_quantity >= best_ask_vol && best_bid_vol>=obs->ReadyBidBuy && obs->Status == STATUS_READY){
+
+				if(MarketStatus == MARKET_NODETECT)
+					 return;
 
 				//Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + "(" + to_string(mid) + ")" + " Ask Price = " + to_string(ask_price) + " WP = " + to_string(wp)) ;
 				Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Trade Qty = " + to_string(trade_qty) + " Acc Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + " BidQty=" + to_string(best_bid_vol) + " - " + " Ask Price = " + to_string(ask_price) + " AskQty=" + to_string(best_ask_vol)  + " Un Trade = " + to_string(untradeqty)) ;
