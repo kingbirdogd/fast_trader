@@ -107,6 +107,22 @@
 					}
 				}
 			}
+		},
+		{
+			"ID":6,
+			"USER":"P315448",
+			"PASS":"Ww202012?><88",
+			"BUY_POWER":5000000,
+			"ALGOS":
+			{
+				"M315448_semi":
+				{
+					"lib": "semi",
+					"params":
+					{
+					}
+				}
+			}
 		}
 	],
 	"Definition":

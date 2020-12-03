@@ -75,15 +75,15 @@
 			}
 		},
 		{
-			"ID":3,
-			"USER":"P311831",
-			"PASS":"Shun2328",
+			"ID":6,
+			"USER":"M300317",
+			"PASS":"68317801",
 			"BUY_POWER":5000000,
 			"ALGOS":
 			{
-				"demo001_bear":
+				"M300317_semi":
 				{
-					"lib": "bear",
+					"lib": "semi",
 					"params":
 					{
 					}
@@ -116,6 +116,22 @@
 				"s1put_s1algoput":
 				{
 					"lib": "s1algoput",
+					"params":
+					{
+					}
+				}
+			}
+		},
+		{
+			"ID":7,
+			"USER":"P315448",
+			"PASS":"Ww202012?><88",
+			"BUY_POWER":5000000,
+			"ALGOS":
+			{
+				"M315448_semi":
+				{
+					"lib": "semi",
 					"params":
 					{
 					}
@@ -168,24 +184,6 @@
 	],
 	"OmdcChannel":
 	[
-		{
-			"ChannelId": 33,
-			"Hot":
-			{
-				"InterfaceIp": "10.122.78.196",
-				"InterfaceName": "enp101s0f1",
-				"MulticastIp": "239.1.1.4",
-				"MulticastPort": 51004
-			},
-			"Refresh":
-			{
-				"InterfaceIp": "10.122.78.196",
-				"InterfaceName": "enp101s0f1",
-				"MulticastIp": "239.1.1.14",
-				"MulticastPort": 51004
-			},
-			"RetranProxyIndex": 0
-		},
 		{
 			"ChannelId": 30,
 			"Hot":
@@ -321,8 +319,7 @@
 	[
 		{"Channel":"SWOmdcChannel"},
 		{"Channel":"PriceTableChannel"},
-		{"Channel":"S1Channel"},
-		{"Channel":"OmddftChannel"}
+		{"Channel":"S1Channel"}
 	]
 }
 

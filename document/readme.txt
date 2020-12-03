@@ -18,6 +18,12 @@
   
   
     node set_user.js user_name=jarvis password=p300432
+    
+    
+    
+    node set_user.js user_name=M300317 password=68317801
+    
+    node set_user.js user_name=M315448 password=Ww202012
   
   
   
