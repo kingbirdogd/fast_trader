@@ -1575,9 +1575,15 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								}
 
 
-
 								if(wbest_bid_qty < issuerSize80(bidIssuerQty))
 									continue;
+
+
+								if(expectSellOut == 99999999){
+									unsigned long long diff = wobsArray[i]->BuyPrice - wbest_bid_price;
+									if(diff > 500000)
+										continue;
+								}
 
 /*
 								if(expectSellOut != 99999999){
