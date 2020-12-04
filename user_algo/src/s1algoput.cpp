@@ -1786,6 +1786,7 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 
 					unsigned long long wbest_ask_price = warrantPriceMap[wobsArray[i]->Code]->Bestask;
 					unsigned long long wbest_bid_price = warrantPriceMap[wobsArray[i]->Code]->Bestbid;
+					unsigned long long wAskQty = warrantPriceMap[wobsArray[i]->Code]->AskQty;
 					unsigned long long lotsize =  warrantPriceMap[wobsArray[i]->Code]->Lotsize;
 					unsigned long long wspread = wbest_ask_price - wbest_bid_price;
 
