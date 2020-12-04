@@ -1581,7 +1581,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 								if(expectSellOut == 99999999){
 									unsigned long long diff = wobsArray[i]->BuyPrice - wbest_bid_price;
-									if(diff > SelectWarrant::maxlost(wobsArray[i]->BuyPrice))
+									if(diff > CSelectedWarrant.maxlost(wobsArray[i]->BuyPrice))
 										continue;
 								}
 
