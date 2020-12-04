@@ -192,7 +192,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 				msg->wprice = best_bid_price;
 				ouputQueue.enqueue(msg);
 
-				Log("UCODE = " + to_string(p->UCode) + " Warrant Code = " + to_string(code) + " WBid Change from " + to_string(p->PBestbid) + " To " + to_string(best_bid_price));
+				Log("UCODE = " + to_string(p->UCode) + " Warrant Code = " + to_string(code) + " WBid Change from " + to_string(p->PBestbid) + " To " + to_string(best_bid_price) + " WBidQty = " + to_string(best_bid_qty));
 				//}
 			}
 			p->Bestbid = best_bid_price;
