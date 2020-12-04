@@ -1525,7 +1525,7 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 
 
 
-								if(wbest_bid_qty < issuerSize80(bidIssuerQty))
+								if(wbest_bid_qty < issuerSize80(bidIssuerQty) || wbest_bid_qty > bidIssuerQty)
 									continue;
 
 
