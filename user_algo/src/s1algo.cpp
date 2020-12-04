@@ -1562,7 +1562,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								//Log("WCode = " + to_string(wobsArray[i]->Code) + " WBest Bid = " + to_string(wbest_bid_price));
 
 
-								int type = getSelectionType(wobsArray[i]->Issuer);
+								//int type = getSelectionType(wobsArray[i]->Issuer);
 
 
 								//if("CS" == wobsArray[i]->Issuer){
