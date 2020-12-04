@@ -47,6 +47,19 @@ bool SelectedWarrant::isSpreadAccept(int noofspread, unsigned long long price){
 	return false;
 }
 
+unsigned long long SelectedWarrant::maxLost(unsigned long long price){
+	if(price >= 50000000 && price < 1000000000){
+		return 1000000;
+	}
+	if(price >= 25000000 && price < 50000000){
+		return 1000000;
+	}
+	if(price < 25000000){
+		return 500000;
+	}
+	return false;
+}
+
 unsigned long long SelectedWarrant::estimateWarrantPrice(float uspread, float delta, float cratio){
 	float result = uspread * delta / cratio;
 	unsigned long long refprice = static_cast<unsigned long long>(result * 1000) * 100000;
