@@ -185,6 +185,24 @@
 	"OmdcChannel":
 	[
 		{
+			"ChannelId": 33,
+			"Hot":
+			{
+				"InterfaceIp": "10.122.78.196",
+				"InterfaceName": "enp101s0f1",
+				"MulticastIp": "239.1.1.4",
+				"MulticastPort": 51004
+			},
+			"Refresh":
+			{
+				"InterfaceIp": "10.122.78.196",
+				"InterfaceName": "enp101s0f1",
+				"MulticastIp": "239.1.1.14",
+				"MulticastPort": 51004
+			},
+			"RetranProxyIndex": 0
+		},
+		{
 			"ChannelId": 30,
 			"Hot":
 			{
