@@ -58,6 +58,8 @@ s1algo::s1algo(user& u, const std::string& name):
 		warrantPriceMap[allW[i].Code]->Bestask = 0;
 		warrantPriceMap[allW[i].Code]->PBestbid = 0;
 		warrantPriceMap[allW[i].Code]->PBestask = 0;
+		warrantPriceMap[allW[i].Code]->BidSeq = 1;
+		warrantPriceMap[allW[i].Code]->LastBidSeq = 0;
 		warrantPriceMap[allW[i].Code]->UCode = allW[i].UCode;
 
 		warrantPriceMap[allW[i].Code]->Lotsize = static_cast<unsigned long long>(omdcdef.LotSize);
@@ -196,7 +198,8 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 				//}
 			}
 			p->Bestbid = best_bid_price;
-
+			p->DiffBid = static_cast<long long>(best_bid_price) - static_cast<long long>(p->PBestbid);
+			p->BidSeq++;
 		}
 		p->BidQty = best_bid_qty;
 
@@ -1488,6 +1491,9 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 							unsigned long long wbest_bid_price = warrantPriceMap[wobsArray[i]->Code]->Bestbid;
 							unsigned long long wbest_bid_qty = warrantPriceMap[wobsArray[i]->Code]->BidQty;
+							long long wbest_bid_diff = warrantPriceMap[wobsArray[i]->Code]->DiffBid;
+							long long wbest_bid_seq = warrantPriceMap[wobsArray[i]->Code]->BidSeq;
+							long long wbest_bid_lseq = warrantPriceMap[wobsArray[i]->Code]->LastBidSeq;
 
 							if(wbest_bid_price == 0)
 								continue;
@@ -1555,7 +1561,10 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 										" Expect Sell Out = " + to_string(expectSellOut) +
 										" WBestBid = " +  to_string(wbest_bid_price) +
 										" BidQty = " +  to_string(wbest_bid_qty) +
-										" IssuerQty = " +  to_string(bidIssuerQty)
+										" IssuerQty = " +  to_string(bidIssuerQty) +
+										" DiffBid = " + to_string(wbest_bid_diff) +
+										" BidSeq = " + to_string(wbest_bid_seq) +
+										" LastBidSeq = " + to_string(wbest_bid_lseq)
 								);
 								//Log("WCode = " + to_string(wobsArray[i]->Code) + " WBest Bid = " + to_string(wbest_bid_price));
 								//Log("WCode = " + to_string(wobsArray[i]->Code) + " WBest Bid = " + to_string(wbest_bid_price));

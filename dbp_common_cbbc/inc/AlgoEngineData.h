@@ -86,6 +86,10 @@ struct priceinfo{
 	unsigned long long LBestbid;
 	unsigned long long LBestask;
 
+	long long DiffBid;
+	unsigned long long BidSeq;
+	unsigned long long LastBidSeq;
+
 	int BuyIn;
 	int SellOut;
 
