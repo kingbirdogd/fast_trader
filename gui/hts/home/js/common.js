@@ -622,7 +622,7 @@ function initTable(){
 		});
 		
 		$("#"+id2+"ceiling").focus(function(){
-			$(this).unbind("keyup");
+			/*$(this).unbind("keyup");
 			var val = $(this).val();
 			$(this).bind("keyup", function( event ) {
 				$(this).val(removeStringByVal($(this).val()));
@@ -638,11 +638,28 @@ function initTable(){
 					$(this).val(val);
 				}
 				//$(this).unbind("blur");
-			});
+			});*/
 			/*$(this).blur(function(){
 				$(this).unbind("blur");
 				$(this).unbind("keyup");
 			});*/
+			
+			$(this).unbind("blur");
+			var val = $(this).val();
+			$(this).blur(function(){
+				$(this).val(removeStringByVal($(this).val()));
+				var val2 = $(this).val();
+				if(val*1!=val2*1 && val2*1>0){
+					var id=$(this).closest("tr").attr("id");
+					if($("#"+id+"as").hasClass("off") || $("#"+id+"t_vol").val()==0){
+						setBuy(id);
+					}else{
+						setSell(id);
+					}
+				}else if(val*1>0 && isNaN(val2*1)){
+					$(this).val(val);
+				}
+			});
 		});
 		
 		/*$("#"+id2).keydown(function(objEvent) {
