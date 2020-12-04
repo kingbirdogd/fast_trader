@@ -1536,7 +1536,7 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 											continue;
 									}
 								}else{
-									return;
+									continue;
 								}
 /*
 								if(expectSellOut != 99999999){
