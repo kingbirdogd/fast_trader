@@ -1566,19 +1566,21 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 
 								//if("CS" == wobsArray[i]->Issuer){
-								if(SELECT_WINPRICE == type){
+								//if(SELECT_WINPRICE == type){
 									if(expectSellOut != 99999999){
 										if(expectSellOut <  trade_price ){
 											continue;
 										}
+									}else{
+										continue;
 									}
-								}
+								//}
 
 
 								if(wbest_bid_qty < issuerSize80(bidIssuerQty))
 									continue;
 
-
+/*
 								if(expectSellOut != 99999999){
 									if(wobsArray[i]->BuyPrice > wbest_bid_price ){
 										unsigned long long diff = wobsArray[i]->BuyPrice - wbest_bid_price;
@@ -1589,7 +1591,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 									continue;
 								}
 
-
+*/
 
 
 
