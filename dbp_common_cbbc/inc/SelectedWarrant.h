@@ -22,7 +22,7 @@ public:
 	virtual ~SelectedWarrant();
 	bool isAccept(float uspread, float delta, float cratio, float bidaskspread, float ticks);
 	bool isSpreadAccept(int noofspread, unsigned long long price);
-	unsigned long long SelectedWarrant::maxLost(unsigned long long price);
+	unsigned long long maxLost(unsigned long long price);
 	unsigned long long estimateWarrantPrice(float uspread, float delta, float cratio);
 };
 
