@@ -1878,9 +1878,9 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 */
 					wobsArray[i]->BuyQuantity = algoBet.fixQuantityBySpread(wbest_ask_price, lotsize, wspread)*100000000ull;
-					if(wobsArray[i]->BuyQuantity > wAskQty ){
-						wobsArray[i]->BuyQuantity = wAskQty;
-					}
+					//if(wobsArray[i]->BuyQuantity > wAskQty ){
+					//	wobsArray[i]->BuyQuantity = wAskQty;
+					//}
 
 
 					unsigned long long t_btrade = dbp::tools::srv::current();
