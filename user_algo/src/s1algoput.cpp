@@ -1803,7 +1803,7 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 
 					unsigned long long wbest_ask_price = warrantPriceMap[wobsArray[i]->Code]->Bestask;
 					unsigned long long wbest_bid_price = warrantPriceMap[wobsArray[i]->Code]->Bestbid;
-					//unsigned long long wAskQty = warrantPriceMap[wobsArray[i]->Code]->AskQty;
+					unsigned long long wAskQty = warrantPriceMap[wobsArray[i]->Code]->AskQty;
 					unsigned long long lotsize =  warrantPriceMap[wobsArray[i]->Code]->Lotsize;
 					unsigned long long wspread = wbest_ask_price - wbest_bid_price;
 
@@ -1825,9 +1825,9 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 
 */
 					wobsArray[i]->BuyQuantity = algoBet.fixQuantityBySpread(wbest_ask_price, lotsize, wspread)*100000000ull;
-					//if(wobsArray[i]->BuyQuantity > wAskQty ){
-					//	wobsArray[i]->BuyQuantity = wAskQty;
-					//}
+					if(wobsArray[i]->BuyQuantity > (wAskQty*100000000ull) ){
+						wobsArray[i]->BuyQuantity = (wAskQty*100000000ull);
+					}
 
 
 					unsigned long long t_btrade = dbp::tools::srv::current();
