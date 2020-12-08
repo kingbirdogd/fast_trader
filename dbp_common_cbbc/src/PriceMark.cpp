@@ -549,4 +549,30 @@ string PriceMark::printTable(unsigned long long ubid){
 	return data;
 }
 
+unsigned long long PriceMark::getMaxBidAskSpread(){
+
+	unsigned long long maxBidAskSpread = 0;
+
+	for (auto it = priceMarkTable.begin(); it != priceMarkTable.end(); ++it ){
+		string value = it->second;
+
+		vector<string> bidask = split(value, '-');
+		if(bidask[0].compare("#") != 0 && bidask[1].compare("#") != 0 ){
+			unsigned long long bidw = std::stoull(bidask[0].c_str());
+			unsigned long long askw = std::stoull(bidask[1].c_str());
+
+			if(askw > bidw){
+				unsigned long long diff = (askw - bidw);
+				if(diff > maxBidAskSpread)
+					maxBidAskSpread = diff;
+			}else{
+				unsigned long long diff = (bidw - askw);
+				if(diff > maxBidAskSpread)
+					maxBidAskSpread = diff;
+			}
+		}
+	}
+	return maxBidAskSpread;
+}
+
 
