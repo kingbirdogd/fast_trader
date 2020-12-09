@@ -1157,8 +1157,7 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 			//	spm->setSellout(wbest_bid_price, ubid);
 			//}
 
-
-
+			unsigned long long refwspread = spm->getMaxBidAskSpread();
 
 			unsigned long long wspread = wbest_ask_price - wbest_bid_price;
 
@@ -1185,7 +1184,13 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 			if(_wspread == 0)
 				continue;
 
+
+
 			int noofspread = static_cast<int>(wspread / _wspread);
+
+			if(refwspread>0){
+				noofspread = static_cast<int>(refwspread / _wspread);
+			}
 
 			bool acceptspread = CSelectedWarrant.isSpreadAccept(noofspread, wbest_bid_price);
 			if(!acceptspread){
