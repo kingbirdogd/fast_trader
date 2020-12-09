@@ -91,15 +91,15 @@
 			}
 		},
 		{
-			"ID":4,
-			"USER":"P300432",
-			"PASS":"Aa246246",
+			"ID":3,
+			"USER":"P311831",
+			"PASS":"Shun2328",
 			"BUY_POWER":5000000,
 			"ALGOS":
 			{
-				"jarvis_semi":
+				"demo001_bear":
 				{
-					"lib": "semi",
+					"lib": "bear",
 					"params":
 					{
 					}
