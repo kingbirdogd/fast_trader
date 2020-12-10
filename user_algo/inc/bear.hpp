@@ -1431,6 +1431,10 @@ private:
 				}
 
 				if(_PriceInfo->Bestbid != best_bid_price && best_bid_price > 0){
+
+					_PriceInfo->PBestbid = _PriceInfo->Bestbid;
+					_PriceInfo->Bestbid = best_bid_price;
+
 					auto msg = algo_warrantprice_msg_pool.get_obj();
 					msg->al = _algo;
 					msg->algo_name = _algo->_name;
@@ -1504,6 +1508,10 @@ private:
 				}
 
 				if(_PriceInfo->Bestask != best_ask_price && best_ask_price > 0){
+
+					_PriceInfo->PBestask = _PriceInfo->Bestask;
+					_PriceInfo->Bestask = best_ask_price;
+
 					auto msg = algo_warrantprice_msg_pool.get_obj();
 					msg->al = _algo;
 					msg->algo_name = _algo->_name;
