@@ -808,8 +808,8 @@ private:
 			auto best_ask_price1 = static_cast<unsigned long long>(tradable.m_Ask[1].m_iPrice) * 100000;
 
 
-			auto ibest_bid_price = 0;
-			auto ibest_ask_price = 0;
+			auto ibest_bid_price = 0ull;
+			auto ibest_ask_price = 0ull;
 
 			if(best_bid_qty >= _IssuerSize){
 				ibest_bid_price = best_bid_price;
@@ -1202,8 +1202,8 @@ private:
 			auto best_ask_price1 = static_cast<unsigned long long>(tradable.m_Ask[1].m_iPrice) * 100000;
 
 
-			auto ibest_bid_price = 0;
-			auto ibest_ask_price = 0;
+			auto ibest_bid_price = 0ull;
+			auto ibest_ask_price = 0ull;
 
 			if(best_bid_qty >= _IssuerSize){
 				ibest_bid_price = best_bid_price;
