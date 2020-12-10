@@ -2110,8 +2110,8 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					Log("Warrant Code = " + to_string(code) + " Price Table");
 					Log(tTable);
 
-					unsigned long long maxwspread = spm->getMaxBidAskSpread();
-					Log("Warrant Code = " + to_string(code) + " Max Spread = " + to_string(maxwspread));
+					//unsigned long long maxwspread = spm->getMaxBidAskSpread();
+					//Log("Warrant Code = " + to_string(code) + " Max Spread = " + to_string(maxwspread));
 
 					unsigned long long pcb = spm->sellOut(wbest_bid_price);
 					if(pcb == 99999999){
