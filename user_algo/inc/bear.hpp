@@ -1113,8 +1113,8 @@ private:
 
 						Log(std::string(" CODE = ") + std::to_string(code) + " Ask Change from " + to_string(_PriceInfo->Bestask) + " to " + to_string(best_ask_price));
 
-						_PriceInfo->PBestask = _PriceInfo->Bestask;
-						_PriceInfo->Bestask = best_ask_price;
+						_PriceInfo->PIBestask = _PriceInfo->IBestask;
+						_PriceInfo->IBestask = best_ask_price;
 
 
 					//}
