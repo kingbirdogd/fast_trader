@@ -33,21 +33,18 @@ class Position extends React.Component {
             datas[item.code].push(item)
           // 牛熊证，买入价，卖出价，买入单位, 卖出单位， 买入次数
           for (const [code, datas1] of Object.entries(datas)) {
-            var buyTotalQuantity=0, buyTotalPrice=0, buyCount=0, buyQuantity=0, buyPrice=[]
-            var sellTotalQuantity=0, sellTotalPrice=0, sellCount=0, sellQuantity=0, sellPrice=0
+            var buyTotalQuantity=0, buyQuantity=0, buyTurnover=[]
+            var sellTotalQuantity=0, sellQuantity=0, sellPrice=0
             var wbid = 0, pnl = 0
+            
             for (var item1 of datas1) {
               if (item1.side=='buy') {
-                buyTotalPrice += item1.matchPrice
                 buyTotalQuantity += item1.matchQuantity
-                buyCount += 1
-                buyPrice.push(item1.matchPrice)
+                buyTurnover.push(item1.matchPrice*item1.matchQuantity)
                 buyQuantity = item1.matchQuantity
               }
               else if (item1.side=='sell') {
-                sellTotalPrice += item1.matchPrice
                 sellTotalQuantity += item1.matchQuantity
-                sellCount += 1
                 sellPrice = item1.matchPrice
                 sellQuantity = item1.matchQuantity
               }
@@ -56,17 +53,16 @@ class Position extends React.Component {
                 var remainQuantity = buyTotalQuantity-sellTotalQuantity
                 // 如手中持有，新增一筆賣盤，以抵銷之前的倉位
                 if (remainQuantity>0) {
-                  sellTotalPrice += item1.matchPrice
                   sellTotalQuantity += remainQuantity
-                  sellCount += 1
                   sellPrice = item1.matchPrice
                   sellQuantity = item1.remainQuantity
                 }
               }
-              
+
               // 已平倉
               if (buyTotalQuantity-sellTotalQuantity<=0) {
-                buyQuantity=0, buyPrice=[], sellQuantity=0, sellPrice=0
+                buyTotalQuantity=0, buyQuantity=0, buyTurnover=[]
+                sellTotalQuantity=0, sellQuantity=0, sellPrice=0
                 delete state.position[code]
               }
               // 未平倉
@@ -76,8 +72,8 @@ class Position extends React.Component {
                 // 未扔貨
                 else if(buyQuantity>0 && sellQuantity<=0) {}
                 // 平均买入价
-                var bpSum = buyPrice.reduce((a, b) => a + b, 0)
-                var bpAvg = (bpSum / buyPrice.length) || 0
+                var bpSum = buyTurnover.reduce((a, b) => a + b, 0)
+                var bpAvg = (bpSum / buyTotalQuantity) || 0
                 
                 if (props.data2.length >= no && props.data2[no].bid > 0) {
                   // 輪 bid價
@@ -92,8 +88,6 @@ class Position extends React.Component {
                   sellPrice: sellPrice,
                   sellQuantity: sellQuantity,
                   transactionTm: item1.transactionTm,
-                  buyCount: buyCount,
-                  sellCount: sellCount,
                   pnl: pnl,
                   wbid: wbid
                 }
