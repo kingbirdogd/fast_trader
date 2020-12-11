@@ -1099,7 +1099,7 @@ private:
 						if(_PriceInfo->LastAskSeq != _PriceInfoU->AskSeq){
 
 							_PriceInfo->LastAskSeq = _PriceInfoU->AskSeq;
-							bool hasUpdate = _CbbcPriceMark->updateAsk(ibest_ask_price, _PriceInfo->Bestask, _PriceInfoU->FBestask, _PriceInfoU->PFBestask);
+							bool hasUpdate = _CbbcPriceMark->updateAsk(ibest_ask_price, _PriceInfo->IBestask, _PriceInfoU->FBestask, _PriceInfoU->PFBestask);
 							if(hasUpdate){
 								unsigned long long bkey = _CbbcPriceMark->getAskKey();
 								unsigned long long bprice = _CbbcPriceMark->getAskPrice();
