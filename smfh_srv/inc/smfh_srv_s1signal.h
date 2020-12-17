@@ -68,7 +68,7 @@ inline static void handleS1Signal(dbp::omd::COmdMsgHeader* _pMsg, unsigned long 
 
 			s1signal* s1s = s1SignalMap[uSecurityCode];
 
-			unsigned long long mid = static_cast<unsigned long long>((best_ask_price_1 + best_bid_price_1)/2)*100000;
+			unsigned long long mid = static_cast<unsigned long long>((best_ask_price_1 + best_bid_price_1 + 2)/2)*100000;
 			unsigned long long wp = calWeightedPrice(
 					best_bid_price_1,best_bid_price_2,best_bid_price_3,
 					best_bid_qty1, best_bid_qty2, best_bid_qty3,
