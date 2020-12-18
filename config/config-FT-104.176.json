@@ -91,22 +91,6 @@
 			}
 		},
 		{
-			"ID":3,
-			"USER":"P311831",
-			"PASS":"Shun2328",
-			"BUY_POWER":5000000,
-			"ALGOS":
-			{
-				"demo001_bear":
-				{
-					"lib": "bear",
-					"params":
-					{
-					}
-				}
-			}
-		},
-		{
 			"ID":5,
 			"USER":"P311831",
 			"PASS":"Shun2328",
@@ -132,6 +116,13 @@
 				"M315448_semi":
 				{
 					"lib": "semi",
+					"params":
+					{
+					}
+				},
+				"M315448_bear":
+				{
+					"lib": "bear",
 					"params":
 					{
 					}
