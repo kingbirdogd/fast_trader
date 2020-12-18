@@ -1002,7 +1002,7 @@ std::string bear::set_position(unsigned long long price, unsigned long long quan
 }
 
 void bear::Log(string msg){
-	logger->Log(string(DateUtil::getCurrentTime()) + " " + msg);
+	logger->Log(string(DateUtil::getCurrentTime()) + " tm: " + to_string(dbp::tools::srv::current()) + " " +  msg);
 }
 
 void bear::handle_command(algo_msg_base& msg)

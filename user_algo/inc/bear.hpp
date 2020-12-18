@@ -1657,7 +1657,7 @@ private:
 
 		void on_order(const dbp::top::enhance_order& odr)
 		{
-			//Log(std::string("on_order:") + odr.to_string());
+			Log(std::string("on_order:") + odr.to_string());
 			auto status = odr.status;
 			auto side = odr.side;
 			if (dbp::top::order_status::rejected == status || dbp::top::order_status::canceled == status || dbp::top::order_status::deleted == status || dbp::top::order_status::filled == status)
