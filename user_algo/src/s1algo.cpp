@@ -1143,6 +1143,9 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 			if(wbest_bid_price == 0 || wbest_ask_price == 0 || wBidQty<spm->getIssuerBidQty() || wAskQty<spm->getIssuerAskQty()){
 				continue;
 			}
+
+			if(wBidQty < 1000000 || wAskQty < 1000000)
+				continue;
 /*
 			unsigned long long buyin = spm->buyIn(wbest_ask_price);
 			unsigned long long sellout = spm->sellOut(wbest_bid_price);
@@ -1582,7 +1585,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 
 								//if("CS" == wobsArray[i]->Issuer){
-								//if(SELECT_WINPRICE == type){
+								if(SELECT_WINPRICE == type){
 									if(expectSellOut != 99999999){
 										if(expectSellOut <  trade_price ){
 											continue;
@@ -1590,11 +1593,19 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 									}else{
 										continue;
 									}
-								//}
+								}
 
 
 								if(wbest_bid_qty < issuerSize80(bidIssuerQty))
 									continue;
+
+								if(wbest_bid_diff < -500000 && wbest_bid_seq != wbest_bid_lseq){
+									wbest_bid_lseq = wbest_bid_seq;
+									continue;
+								}
+
+								wbest_bid_lseq = wbest_bid_seq;
+
 
 /*
 								if(expectSellOut != 99999999){
