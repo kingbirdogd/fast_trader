@@ -1596,16 +1596,19 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								}
 
 
-								if(wbest_bid_qty < issuerSize80(bidIssuerQty))
+								if(wbest_bid_qty < issuerSize80(bidIssuerQty) || wbest_bid_diff < -500000)
 									continue;
 
+
+
+/*
 								if(wbest_bid_diff < -500000 && wbest_bid_seq != wbest_bid_lseq){
 									wbest_bid_lseq = wbest_bid_seq;
 									continue;
 								}
 
 								wbest_bid_lseq = wbest_bid_seq;
-
+*/
 
 /*
 								if(expectSellOut != 99999999){
