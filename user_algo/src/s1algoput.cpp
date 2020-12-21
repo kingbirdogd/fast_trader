@@ -1528,7 +1528,7 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 
 
 								//if("CS" == wobsArray[i]->Issuer){
-								//if(SELECT_WINPRICE == type){
+								if(SELECT_WINPRICE == type){
 									if(expectSellOut != 99999999){
 										if(expectSellOut <  trade_price ){
 											continue;
@@ -1536,11 +1536,11 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 									}else{
 										continue;
 									}
-								//}
+								}
 
 
 
-								if(wbest_bid_qty < issuerSize80(bidIssuerQty))
+								if(wbest_bid_qty < issuerSize80(bidIssuerQty) || wbest_bid_diff < -500000)
 									continue;
 
 /*
