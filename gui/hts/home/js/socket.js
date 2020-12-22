@@ -871,6 +871,7 @@ function initWebsocket(){
 						var filled_quantity = order[i].filled_quantity/factor_stock;
 						var quantity = order[i].quantity/factor_stock;
 						var price = order[i].match_price/factor_stock;
+						var price2 = order[i].price/factor_stock;
 						var sum = price*filled_quantity;
 						var tradeStatus = "";
 						if(order[i].status.indexOf("filled")>1){
@@ -914,7 +915,7 @@ function initWebsocket(){
 						var time = order[i].transaction_tm.substr(8, 2)+":"+order[i].transaction_tm.substr(10, 2)+":"+order[i].transaction_tm.substr(12, 2);
 						var content = "<tr><td>"+time+"</td><td>"+tradeStatus+"</td><td>"+order[i].header.order_id+"</td><td>"+order[i].code+"</td><td>"+type+"</td><td>"+formatValue(quantity)+"</td><td>"+price+"</td><td>"+formatValue(filled_quantity)+"</td><td>"+order[i].order_ref+"</td></tr>";
 						
-						journal_data += time+","+tradeStatus+","+order[i].header.order_id+","+order[i].code+","+type+","+formatValue(quantity)+","+price+","+formatValue(filled_quantity)+","+order[i].order_ref+"\n";
+						journal_data += time+","+tradeStatus+","+order[i].header.order_id+","+order[i].code+","+type+","+formatValue(quantity)+","+price2+","+price+","+formatValue(filled_quantity)+","+order[i].order_ref+"\n";
 						
 						if(order[i].status.indexOf("filled")>1){
 							if(map[order[i].code]!=1){
@@ -973,7 +974,7 @@ function initWebsocket(){
 					}
 					combination_all_data += "摘要,,,,,"+((combination_all_table_sum_num*1).toFixed(2)*1)+","+((combination_all_table_profit_num*1).toFixed(2)*1)+"\n";
 					
-					$("#download_btn2").attr('href','data:application/csv;charset=utf8,%EF%BB%BF當日成交\n時間,訂單狀態,訂單號碼,證代碼,買/賣,買入量,成交價,成交量,對盤牌號\n' + encodeURIComponent(journal_data)+'\n\n組合\n證代碼,平均買入價,買入總金額,平均賣出價,賣出總金額,總金額,盈虧\n'+ encodeURIComponent(combination_all_data));
+					$("#download_btn2").attr('href','data:application/csv;charset=utf8,%EF%BB%BF當日成交\n時間,訂單狀態,訂單號碼,證代碼,買/賣,買入量,盤價,成交價,成交量,對盤牌號\n' + encodeURIComponent(journal_data)+'\n\n組合\n證代碼,平均買入價,買入總金額,平均賣出價,賣出總金額,總金額,盈虧\n'+ encodeURIComponent(combination_all_data));
 					$("#download_btn2").get(0).click();
 				}else if(data.ref=="orders" && data.orders != undefined){
 					
@@ -1001,6 +1002,7 @@ function initWebsocket(){
 							var filled_quantity = order[i].filled_quantity/factor_stock;
 							var quantity = order[i].quantity/factor_stock;
 							var price = order[i].match_price/factor_stock;
+							var price2 = order[i].price/factor_stock;
 							var sum = price*filled_quantity;
 							var tradeStatus = "";
 							if(order[i].status.indexOf("filled")>1){
@@ -1045,7 +1047,7 @@ function initWebsocket(){
 								time = order[i].transaction_tm.substr(8, 2)+":"+order[i].transaction_tm.substr(10, 2)+":"+order[i].transaction_tm.substr(12, 2);
 							}*/
 							var time = order[i].transaction_tm.substr(8, 2)+":"+order[i].transaction_tm.substr(10, 2)+":"+order[i].transaction_tm.substr(12, 2);
-							var content = "<tr><td>"+time+"</td><td>"+tradeStatus+"</td><td>"+order[i].header.order_id+"</td><td>"+order[i].code+"</td><td>"+type+"</td><td>"+formatValue(quantity)+"</td><td>"+price+"</td><td>"+formatValue(filled_quantity)+"</td><td>"+order[i].order_ref+"</td></tr>";
+							var content = "<tr><td>"+time+"</td><td>"+tradeStatus+"</td><td>"+order[i].header.order_id+"</td><td>"+order[i].code+"</td><td>"+type+"</td><td>"+formatValue(quantity)+"</td><td>"+price2+"</td><td>"+price+"</td><td>"+formatValue(filled_quantity)+"</td><td>"+order[i].order_ref+"</td></tr>";
 							$("#journal_table").append(content);
 							//journal_data += time+","+tradeStatus+","+order[i].header.order_id+","+order[i].code+","+type+","+formatValue(quantity)+","+price+","+formatValue(filled_quantity)+","+order[i].order_ref+"\n";
 							
