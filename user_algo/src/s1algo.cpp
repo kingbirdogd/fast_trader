@@ -1210,6 +1210,11 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 				//if(itdef != omdcAdditionDefinitionsMap.end()){
 				unsigned long long lotsize = static_cast<unsigned long long>(omdcdef.LotSize);
 
+				unsigned long long betsize = algoBet.fixQuantityBySpread(wbest_ask_price, lotsize, wspread)*100000000ull;
+
+				if(lotsize > betsize)
+					continue;
+
 				if(lotsize == 0)
 					continue;
 
@@ -1223,7 +1228,8 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 				newWarrant->RefWBid = wbest_bid_price;
 				newWarrant->RefWAsk = wbest_ask_price;
 				//newWarrant->BuyQuantity = algoBet.fixQuantity(wbest_ask_price, lotsize)*100000000ull;
-				newWarrant->BuyQuantity = algoBet.fixQuantityBySpread(wbest_ask_price, lotsize, wspread)*100000000ull;
+				//newWarrant->BuyQuantity = algoBet.fixQuantityBySpread(wbest_ask_price, lotsize, wspread)*100000000ull;
+				newWarrant->BuyQuantity = betsize;
 				newWarrant->Quantity = 0;
 				newWarrant->Issuer = wiv.Issuer;
 				newWarrant->Status = STATUS_READY;

@@ -1096,6 +1096,8 @@ vector<warrant*> s1algoput::getSelectedWarrantFromMarketByIssuer(std::string iss
 			}
 
 
+
+
 			if(wbest_bid_price < 4000000){
 				continue;
 			}
@@ -1172,6 +1174,11 @@ vector<warrant*> s1algoput::getSelectedWarrantFromMarketByIssuer(std::string iss
 				if(lotsize == 0)
 					continue;
 
+				unsigned long long betsize = algoBet.fixQuantityBySpread(wbest_ask_price, lotsize, wspread)*100000000ull;
+
+				if(lotsize > betsize)
+					continue;
+
 				warrant* newWarrant = new warrant;
 				newWarrant->Date = DateUtil::getToday();
 				newWarrant->Code = n;
@@ -1182,7 +1189,8 @@ vector<warrant*> s1algoput::getSelectedWarrantFromMarketByIssuer(std::string iss
 				newWarrant->RefWBid = wbest_bid_price;
 				newWarrant->RefWAsk = wbest_ask_price;
 				//newWarrant->BuyQuantity = algoBet.fixQuantity(wbest_ask_price, lotsize)*100000000ull;
-				newWarrant->BuyQuantity = algoBet.fixQuantityBySpread(wbest_ask_price, lotsize, wspread)*100000000ull;
+				//newWarrant->BuyQuantity = algoBet.fixQuantityBySpread(wbest_ask_price, lotsize, wspread)*100000000ull;
+				newWarrant->BuyQuantity = betsize;
 				newWarrant->Quantity = 0;
 				newWarrant->Issuer = wiv.Issuer;
 				newWarrant->Status = STATUS_READY;
