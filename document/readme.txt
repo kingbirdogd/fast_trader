@@ -82,6 +82,17 @@ debug script: nohup_start_fast_trader_debug.sh
 
 
 compile:
+
+ln -s /home/chief/ocg/libTopTraderFlash.so.1.0.1 libTopTraderFlash.so.1.0.1
+
+ln -s libTopTraderFlash.so.1.0.1 libTopTraderFlash.so.1
+
+ln -s libTopTraderFlash.so.1 libTopTraderFlash.so
+
+
+
+
+
 make
 	>cd fast_trader
 	>make clean
