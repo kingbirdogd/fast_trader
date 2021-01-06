@@ -44,6 +44,9 @@ make ENABLE_CAPTURE=true
 need to set capture config: "CAPTURE_PATH": "${HOME}/capture"
 
 
+### Disable Solarflare
+make SOLA=no
+
 ### How to Start
 ../fast_trader_build/fast_trader/bin/smfh_srv ./config/confg???.json
 

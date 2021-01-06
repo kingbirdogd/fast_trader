@@ -285,7 +285,7 @@ else
 TARGET_DEP_FOLDER:=$(TARGET_FOLDER)
 endif
 
-BASE_COMPILE_FLAG:= $(MACROS) -c -fPIC -Werror -Wfatal-errors -Wformat=2 -Winit-self -Wswitch-default -Wall -Wextra -g -std=$(STD)
+BASE_COMPILE_FLAG:= $(MACROS) -c -fPIC -Werror -Wfatal-errors -Wformat=2 -Winit-self -Wswitch-default -g -std=$(STD)
 C_FLAGS+=$(BASE_COMPILE_FLAG)
 CPP_FLAGS+=$(BASE_COMPILE_FLAG)
 EXE_FLAGS+=
