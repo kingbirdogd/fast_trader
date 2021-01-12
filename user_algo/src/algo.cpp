@@ -1,5 +1,6 @@
 #include <algo.hpp>
 #include <semi.hpp>
+#include <semipro.hpp>
 #include <bear.hpp>
 #include <s1algo.hpp>
 #include <s1algoput.hpp>
