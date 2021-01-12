@@ -23,6 +23,10 @@ algo* algo::get_algo(user& u, const std::string& name, const std::string& lib, j
 	{
 		return new semi(u, name);
 	}
+	else if (lib == "semipro")
+	{
+		return new semipro(u, name);
+	}
 	else if (lib == "bear")
 	{
 		return new bear(u, name);
