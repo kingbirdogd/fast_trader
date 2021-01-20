@@ -1,0 +1,145 @@
+{
+	"IN_OUT_PROCESS": "node ${HOME}/fast_trader/gui/db_server_uat_v4.0.7.js 9919",
+	"SCHED_PRIORITY": 0,
+	"SCHED_TYPE": "SCHED_OTHER",
+	"SOL_SOCKET":
+	{
+		"SO_KEEPALIVE": true,
+		"SO_RCVTIMEO": 2500000,
+		"SO_SNDTIMEO": 1000,
+		"SO_RCVBUF": 10485760,
+		"SO_SNDBUF": 10485760,
+		"SO_LINGER": 10
+	},
+	"SOL_TCP":
+	{
+		"TCP_NODELAY": true,
+		"TCP_CORK": true
+	},
+	"IPPROTO_TCP":
+	{
+		"TCP_QUICKACK": true,
+		"TCP_KEEPCNT": 5,
+		"TCP_KEEPIDLE": 30,
+		"TCP_KEEPINTVL": 120
+	},
+	"CPU":
+	[		
+		2,
+		3,
+		4,
+		5,
+		6,
+		7,
+		8,
+		9,
+		10,
+		11,
+		12,
+		13,
+		14,
+		15
+	],
+	"USERS":
+	[
+		{
+			"ID":1,
+			"IP":"192.168.134.197",
+			"PORT":35101,
+			"USER":"P990098",
+			"PASS":"pass",
+			"BUY_POWER":500000,
+			"ALGOS":
+			{
+				"devuser1_empty":
+				{
+					"lib": "empty",
+					"params":
+					{
+					}
+				}
+			}
+		}
+	],
+	"Definition":
+	{
+		"CatchPath": "/tmp",
+		"OMDC":
+		[
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.11",
+				"MulticastPort": 51000
+			}
+		]
+	},
+	"RetranProxy":
+	[
+		{
+			"Ip": "192.168.197.106",
+			"Port": 41000
+		}
+	],
+	"OmdcChannel":
+	[
+		{
+			"ChannelId": 30,
+			"Hot":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.4",
+				"InterfaceName": "ens3f0",
+				"MulticastPort": 51000
+			},
+			"Refresh":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.14",
+				"InterfaceName": "ens3f0",
+				"MulticastPort": 51000
+			},
+			"RetranProxyIndex": 0
+		},
+		{
+			"ChannelId": 31,
+			"Hot":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.4",
+				"InterfaceName": "ens3f0",
+				"MulticastPort": 51001
+			},
+			"Refresh":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.14",
+				"InterfaceName": "ens3f0",
+				"MulticastPort": 51001
+			},
+			"RetranProxyIndex": 0
+		},
+		{
+			"ChannelId": 32,
+			"Hot":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.4",
+				"InterfaceName": "ens3f0",
+				"MulticastPort": 51002
+			},
+			"Refresh":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.14",
+				"InterfaceName": "ens3f0",
+				"MulticastPort": 51002
+			},
+			"RetranProxyIndex": 0
+		}
+	],
+	"ActivateChannel":
+	[
+		{"Channel":"OmdcChannel"}
+	]
+}
+
