@@ -145,6 +145,16 @@ algo_msg_base* empty::json_to_msg(json& json)
 		auto ref = json["ref"].get<std::string>();
 		if (cmd == "aaa"){
 
+			Log(json.dump());
+			auto msg = algo_err_msg_pool.get_obj();
+			msg->al = this;
+			msg->algo_name = _name;
+			msg->id = _u.get_id();
+			msg->ref = ref;
+			msg->action = "json_to_msg";
+			msg->result = "FAIL";
+			msg->reason = std::string("invalid command");
+			return msg;
 		}
 		else
 		{
