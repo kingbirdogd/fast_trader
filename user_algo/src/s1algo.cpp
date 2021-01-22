@@ -1308,17 +1308,40 @@ vector<warrant*> s1algo::getWinpriceWarrantFromMarketByIssuer(std::string issuer
 				continue;
 			}
 
-			unsigned long long spread = spreadTable.getSpread("01", wbest_bid_price + 1llu);
-			unsigned long long refask = wbest_bid_price+spread;
 
-			unsigned long long buyin = spm->buyIn(refask);
-			unsigned long long sellout = spm->sellOut(refask);
+			unsigned long long buyin = spm->buyIn(wbest_ask_price);
+			unsigned long long sellout = spm->sellOut(wbest_bid_price);
+			unsigned long long lvlbid = spm->sellOut(wbest_ask_price);
 
-
-
-
-			if(buyin != sellout || refask != wbest_ask_price)
+			if(buyin == 0 || sellout == 99999999 || lvlbid == 99999999)
 				continue;
+
+			if(lvlbid < buyin || sellout > buyin || lvlbid < ubid)
+				continue;
+
+
+			unsigned long long uspread = spreadTable.getSpread("01", ubid + 1llu);
+
+
+			long diffu = static_cast<int>(lvlbid - ubid);
+
+			long noofspread = static_cast<int>(diffu / uspread);
+
+			if(noofspread > 2)
+				continue;
+
+
+			//unsigned long long spread = spreadTable.getSpread("01", wbest_bid_price + 1llu);
+			//unsigned long long refask = wbest_bid_price+spread;
+
+			//unsigned long long buyin = spm->buyIn(refask);
+			//unsigned long long sellout = spm->sellOut(refask);
+
+
+
+
+			//if(buyin != sellout || refask != wbest_ask_price)
+			//	continue;
 
 			//unsigned long long stoplostsellout = spm->sellOut(wbest_bid_price);
 			//if(stoplostsellout == 99999999){
