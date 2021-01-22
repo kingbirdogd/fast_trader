@@ -1304,9 +1304,9 @@ vector<warrant*> s1algo::getWinpriceWarrantFromMarketByIssuer(std::string issuer
 				continue;
 			}
 
-			if(wbest_ask_price >= 25000000 ){
-				continue;
-			}
+		//	if(wbest_ask_price >= 25000000 ){
+		//		continue;
+		//	}
 
 
 			unsigned long long buyin = spm->buyIn(wbest_ask_price);
@@ -1320,7 +1320,7 @@ vector<warrant*> s1algo::getWinpriceWarrantFromMarketByIssuer(std::string issuer
 				continue;
 
 
-			unsigned long long uspread = spreadTable.getSpread("01", ubid + 1llu);
+			unsigned long long uspread = spreadTable.getSpread("01", ubid - 1llu);
 
 
 			long diffu = static_cast<int>(lvlbid - ubid);
