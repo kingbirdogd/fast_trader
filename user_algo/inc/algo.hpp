@@ -10,6 +10,8 @@ class algo
 {
 public:
 	using json = nlohmann::json;
+public:
+	typedef algo*(*AlgoLoaderFp)(user& u, const std::string& name);
 protected:
 	user& _u;
 	std::string _name;

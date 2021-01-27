@@ -5,6 +5,7 @@
 #include <s1algoput.hpp>
 #include <semi.hpp>
 #include <semipro.hpp>
+#include <dlfcn.h>
 
 bool algo_loader::add_algo_to_user(user& u, const std::string& name, const std::string lib, json& cfg)
 {
@@ -48,8 +49,48 @@ algo* algo_loader::get_algo(user& u, const std::string& name, const std::string&
 	else
 	{
 		auto prefix = std::string(SLASH) + LIB_PREFIX;
-		if (prefix == "")
+		auto subfix = std::string(SHARE_SUBFFIX);
+		auto pStart = lib.rfind(prefix);
+		auto pEnd = lib.rfind(subfix);
+		if (std::string::npos == pStart)
+		{
 			al =  nullptr;
+		}
+		else if (std::string::npos == pEnd)
+		{
+			al =  nullptr;
+		}
+		else
+		{
+			pStart += prefix.length();
+			if (pEnd >= pStart)
+			{
+				al = nullptr;
+			}
+			else
+			{
+				auto algo_name = lib.substr(pStart, pEnd - pStart);
+				auto function_name = "getAlgo_" + algo_name;
+				auto handle = dlopen(lib.c_str(), RTLD_LAZY);
+				if (!handle)
+				{
+					al = nullptr;
+				}
+				else
+				{
+					auto fp = dlsym(handle, function_name.c_str());
+					if (!fp)
+					{
+						al = nullptr;
+					}
+					else
+					{
+						auto loaderFp = (algo::AlgoLoaderFp)(fp);
+						return loaderFp(u, name);
+					}
+				}
+			}
+		}
 	}
 	if (al)
 	{
