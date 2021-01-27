@@ -17,5 +17,9 @@ long long algo::getProfit()
 	return _Profit;
 }
 
+void algo::set_config(const json&)
+{
+}
+
 
 

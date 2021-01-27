@@ -18,36 +18,42 @@ bool algo_loader::add_algo_to_user(user& u, const std::string& name, const std::
 	return true;
 }
 
-algo* algo_loader::get_algo(user& u, const std::string& name, const std::string& lib, json&)
+algo* algo_loader::get_algo(user& u, const std::string& name, const std::string& lib, json& cfg)
 {
+	algo* al = nullptr;
 	if (lib == "semi")
 	{
-		return new semi(u, name);
+		al = new semi(u, name);
 	}
 	else if (lib == "semipro")
 	{
-		return new semipro(u, name);
+		al = new semipro(u, name);
 	}
 	else if (lib == "bear")
 	{
-		return new bear(u, name);
+		al = new bear(u, name);
 	}
 	else if (lib == "s1algo")
 	{
-		return new s1algo(u, name);
+		al = new s1algo(u, name);
 	}
 	else if (lib == "s1algoput")
 	{
-		return new s1algoput(u, name);
+		al = new s1algoput(u, name);
 	}
 	else if (lib == "csalgo")
 	{
-		return new csalgo(u, name);
+		al = new csalgo(u, name);
 	}
 	else
 	{
-		return nullptr;
+		al =  nullptr;
 	}
+	if (al)
+	{
+		al->set_config(cfg);
+	}
+	return al;
 }
 
 
