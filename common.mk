@@ -80,6 +80,8 @@ SRC_FOLDER:=$(CURR_DIR)/$(SRC_DIR)
 INC_FOLDER:=$(CURR_DIR)/$(INC_DIR)
 #platform value end
 
+SLASH="/"
+
 #can set in $(MAKE_NAME), otherwise using default start
 ifeq ($(CONFIG),)
 	CONFIG:=release
@@ -215,6 +217,8 @@ endif
 PROJECT_BIN=$(PROJECT_TARGET_PATH)/$(BIN_DIR)
 PROJECT_LIB=$(PROJECT_TARGET_PATH)/$(LIB_DIR)
 
+STR_MACRO=-DLIB_PREFIX='"$(LIB_PREFIX)"' -DSHARE_SUBFFIX='"$(SHARE_SUBFFIX)"' -DSLASH='$(SLASH)'
+
 #calc command
 TARGET_NAME:=$(notdir $(CURR_DIR))
 ifeq ($(CONFIG),debug)
@@ -285,7 +289,7 @@ else
 TARGET_DEP_FOLDER:=$(TARGET_FOLDER)
 endif
 
-BASE_COMPILE_FLAG:= $(MACROS) -c -fPIC -Werror -Wfatal-errors -Wformat=2 -Winit-self -Wswitch-default -g -std=$(STD)
+BASE_COMPILE_FLAG:= $(MACROS) $(STR_MACRO) -c -fPIC -Werror -Wfatal-errors -Wformat=2 -Winit-self -Wswitch-default -g -std=$(STD)
 C_FLAGS+=$(BASE_COMPILE_FLAG)
 CPP_FLAGS+=$(BASE_COMPILE_FLAG)
 EXE_FLAGS+=
