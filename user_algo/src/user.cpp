@@ -1,5 +1,6 @@
 #include <user.hpp>
 #include <algo.hpp>
+#include <algo_loader.hpp>
 
 user::~user()
 {
@@ -45,7 +46,7 @@ bool user::cancel_order(unsigned long long order_id)
 
 bool user::add_algo(const std::string& name, const std::string lib, json& cfg)
 {
-	auto al = algo::get_algo(*this, name, lib, cfg);
+	auto al = algo_loader::get_algo(*this, name, lib, cfg);
 	if (nullptr == al)
 		return false;
 	auto it = _algos.find(name);

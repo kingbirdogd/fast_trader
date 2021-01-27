@@ -1,12 +1,10 @@
-#ifndef USER_ALGO_INC_CSALGO_HPP_
-#define USER_ALGO_INC_CSALGO_HPP_
+#ifndef STATIC_ALGOS_INC_CSALGO_HPP_
+#define STATIC_ALGOS_INC_CSALGO_HPP_
 #include <msg.hpp>
-#include <user.hpp>
 #include <json.hpp>
 #include <string>
 #include <vector>
 #include <tools.h>
-#include <algo.hpp>
 #include <DateUtil.h>
 #include <unordered_map>
 #include <OBSetting.h>
@@ -14,6 +12,8 @@
 #include <AlgoEngineData.h>
 #include <SelectedWarrant.h>
 #include <AlgoBetX.h>
+#include <algo.hpp>
+#include <user.hpp>
 #include "ThreadLogger.h"
 
 //#define MaxBuyNoWarrant 2
@@ -789,4 +789,4 @@ public:
 
 
 
-#endif /* USER_ALGO_INC_CSALGO_HPP_ */
+#endif /* STATIC_ALGOS_INC_CSALGO_HPP_ */

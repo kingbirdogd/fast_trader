@@ -7,12 +7,12 @@
 #include <DateUtil.h>
 #include <time.h>
 #include <tools.h>
-#include <algo.hpp>
 #include <global_memory.hpp>
 #include <CbbcPriceMark.h>
 #include <OBSetting.h>
 #include <AlgoEngineData.h>
 #include <rapid_ring/ring_buffer_object_poll.hpp>
+#include <algo.hpp>
 #include "ThreadLogger.h"
 
 

@@ -1,5 +1,6 @@
-#include <vector>
 #include <bear.hpp>
+
+#include <vector>
 
 //std::unordered_map<unsigned int, priceinfo*> bear::uprice_map;
 
