@@ -39,6 +39,6 @@ public:
 	long long getProfit();
 };
 
-
+#define ALGO_LOADER extern "C" algo* getAlgo_ ## TARGET_NAME(user& u, const std::string& name) {return new TARGET_NAME(u, name);}
 
 #endif /* USER_ALGO_INC_ALGO_HPP_ */

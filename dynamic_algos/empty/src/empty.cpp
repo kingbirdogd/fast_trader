@@ -202,3 +202,5 @@ void empty::on_tcp_trade(const Tradable&)
 
 rapid_ring::spmc_ring_buffer_object_pool<empty::algo_err_msg, 8192> empty::algo_err_msg_pool;
 
+ALGO_LOADER
+
