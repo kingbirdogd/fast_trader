@@ -63,7 +63,7 @@ algo* algo_loader::get_algo(user& u, const std::string& name, const std::string&
 		else
 		{
 			pStart += prefix.length();
-			if (pEnd >= pStart)
+			if (pEnd <= pStart)
 			{
 				al = nullptr;
 			}
