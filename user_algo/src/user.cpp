@@ -43,18 +43,6 @@ bool user::cancel_order(unsigned long long order_id)
 	return _client->cancel_order(order_id);
 }
 
-bool user::add_algo(const std::string& name, const std::string lib, json& cfg)
-{
-	auto al = algo::get_algo(*this, name, lib, cfg);
-	if (nullptr == al)
-		return false;
-	auto it = _algos.find(name);
-	if (_algos.end() != it)
-		delete it->second;
-	_algos[name] = al;
-	return true;
-}
-
 void user::run()
 {
 	_client->run();

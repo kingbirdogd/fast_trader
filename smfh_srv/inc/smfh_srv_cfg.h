@@ -19,7 +19,7 @@
 #include <tools.h>
 #include <net.h>
 #include <global_memory.hpp>
-#include <user.hpp>
+#include <algo_loader.hpp>
 #include <limits>
 #include <dbp_tcp_md.hpp>
 
@@ -260,7 +260,7 @@ inline static bool loadUsers(json& _json)
 				}
 				auto lib = algo["lib"].get<std::string>();
 				auto& params = algo["params"];
-				if (!pUser->add_algo(name, lib, params))
+				if (!algo_loader::add_algo_to_user(*pUser, name, lib, params))
 				{
 					delete pUser;
 					return false;

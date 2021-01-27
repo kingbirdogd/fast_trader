@@ -1,15 +1,15 @@
-#ifndef ALGOS_INC_SEMIPRO_HPP_
-#define ALGOS_INC_SEMIPRO_HPP_
+#ifndef ALGOS_INC_SEMI_HPP_
+#define ALGOS_INC_SEMI_HPP_
 
 #include <tools.h>
-#include <algo.hpp>
 #include <global_memory.hpp>
 #include <ctime>
 #include <rapid_ring/ring_buffer_object_poll.hpp>
 #include <DateUtil.h>
+#include <algo.hpp>
 #include "ThreadLogger.h"
 
-class semipro : public algo
+class semi : public algo
 {
 private:
 	class pair;
@@ -25,7 +25,7 @@ private:
 	class pair
 	{
 	public:
-		semipro* _algo;
+		semi* _algo;
 		unsigned long long _buy_trriger;
 		unsigned long long _sell_trriger;
 		unsigned long long _buy_price;
@@ -111,7 +111,7 @@ private:
 		}
 		pair
 		(
-			semipro* algo,
+			semi* algo,
 			unsigned long long buy_trriger,
 			unsigned long long sell_trriger,
 			unsigned long long buy_price,
@@ -974,7 +974,7 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
-			j["msg_type"] = "semipro_algo_odr_msg";
+			j["msg_type"] = "semi_algo_odr_msg";
 			//j["odr"] = odr.to_json();
 			j["auto_buy"] = p._auto_buy;
 			j["auto_sell"] = p._auto_sell;
@@ -1015,7 +1015,7 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
-			j["msg_type"] = "semipro_algo_err_msg";
+			j["msg_type"] = "semi_algo_err_msg";
 			j["action"] = action;
 			j["error"] = err;
 			return j;
@@ -1041,7 +1041,7 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
-			j["msg_type"] = "semipro_algo_odr_position";
+			j["msg_type"] = "semi_algo_odr_position";
 			j["position"] = nlohmann::json();
 			for (const auto& it : position)
 			{
@@ -1051,7 +1051,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<semipro*>(al);
+			auto* self = dynamic_cast<semi*>(al);
 			self->position(*this);
 			ouputQueue.enqueue(this);
 		}
@@ -1083,7 +1083,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<semipro*>(al);
+			auto* self = dynamic_cast<semi*>(al);
 
 			for (auto& it: self->portfolioMap) {
 			    // Do stuff
@@ -1123,7 +1123,7 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
-			j["msg_type"] = "semipro_algo_latency";
+			j["msg_type"] = "semi_algo_latency";
 			j["hkex_to_order_latency"] = pkg_tm - m_tm;
 			j["tick_to_order_latency"] = o_tm - m_tm;
 
@@ -1155,7 +1155,7 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
-			j["msg_type"] = "semipro_algo_set";
+			j["msg_type"] = "semi_algo_set";
 			j["pair"] = p.to_minor_json();
 			j["result"] = result;
 			j["no_change"] = no_change;
@@ -1163,7 +1163,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<semipro*>(al);
+			auto* self = dynamic_cast<semi*>(al);
 			auto p2 = p;
 			result = self->set_pair(std::move(p2), no_change);
 			ouputQueue.enqueue(this);
@@ -1187,7 +1187,7 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
-			j["msg_type"] = "semipro_algo_del";
+			j["msg_type"] = "semi_algo_del";
 			if (p)
 				j["pair"] = p->to_minor_json();
 			else
@@ -1197,7 +1197,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<semipro*>(al);
+			auto* self = dynamic_cast<semi*>(al);
 			result = self->delete_pair(ref, p);
 			ouputQueue.enqueue(this);
 		}
@@ -1220,7 +1220,7 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
-			j["msg_type"] = "semipro_algo_get";
+			j["msg_type"] = "semi_algo_get";
 			if (p)
 				j["pair"] = p->to_json();
 			else
@@ -1230,7 +1230,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<semipro*>(al);
+			auto* self = dynamic_cast<semi*>(al);
 			result = self->get_pair(ref, p);
 			ouputQueue.enqueue(this);
 		}
@@ -1257,7 +1257,7 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
-			j["msg_type"] = "semipro_algo_force_buy";
+			j["msg_type"] = "semi_algo_force_buy";
 			if (p)
 				j["pair"] = p->to_minor_json();
 			else
@@ -1269,7 +1269,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<semipro*>(al);
+			auto* self = dynamic_cast<semi*>(al);
 			result = self->force_buy(price, quantity, p, ref);
 			if(result != "Exceed Buy Power" && result != "Not Ready"){
 				ouputQueue.enqueue(this);
@@ -1299,7 +1299,7 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
-			j["msg_type"] = "semipro_algo_force_sell";
+			j["msg_type"] = "semi_algo_force_sell";
 			if (p)
 				j["pair"] = p->to_minor_json();
 			else
@@ -1311,7 +1311,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<semipro*>(al);
+			auto* self = dynamic_cast<semi*>(al);
 			result = self->force_sell(price, quantity, p, ref);
 			ouputQueue.enqueue(this);
 		}
@@ -1322,19 +1322,19 @@ private:
 		virtual ~algo_force_sell() = default;
 	};
 public:
-	semipro() = delete;
-	semipro(user& u, const std::string& name);
-	semipro(const algo&) = delete;
-	semipro(algo&&) = delete;
-	semipro& operator= (const algo&) = delete;
-	semipro& operator= (algo&&) = delete;
+	semi() = delete;
+	semi(user& u, const std::string& name);
+	semi(const algo&) = delete;
+	semi(algo&&) = delete;
+	semi& operator= (const algo&) = delete;
+	semi& operator= (algo&&) = delete;
 	std::string set_pair(pair&& p, bool no_change);
 	std::string delete_pair(const std::string& ref, pair*& pref);
 	std::string get_pair(const std::string& ref, pair*& pref);
 	std::string force_buy(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref);
 	std::string force_sell(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref);
 	void position(algo_odr_position& msg) const;
-	virtual ~semipro() = default;
+	virtual ~semi() = default;
 	virtual void on_omdc_book(const Tradable&);
 	virtual void on_omdd_book(const Tradable&);
 	virtual void on_tcp_book(const Tradable&);
@@ -1363,4 +1363,4 @@ public:
 
 
 
-#endif /* ALGOS_INC_SEMIPRO_HPP_ */
+#endif /* ALGOS_INC_SEMI_HPP_ */

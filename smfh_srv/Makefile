@@ -1,5 +1,5 @@
 TYPE:=EXE
-DEPS:=dbp_tcp_md user_algo
+DEPS:=dbp_tcp_md algo_loader
 ifeq ($(SOLA),no)
 	LIBS:=
 else

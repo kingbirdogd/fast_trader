@@ -1,0 +1,239 @@
+{
+	"IN_OUT_PROCESS": "node ${HOME}/fast_trader/gui/db_server_uat.js 9919",
+	"LOG_PATH": "${HOME}/log",
+	"CAPTURE_PATH": "${HOME}/capture",
+	"SCHED_PRIORITY": 0,
+	"SCHED_TYPE": "SCHED_OTHER",
+	"SOL_SOCKET":
+	{
+		"SO_KEEPALIVE": true,
+		"SO_RCVTIMEO": 2500000,
+		"SO_SNDTIMEO": 1000,
+		"SO_RCVBUF": 10485760,
+		"SO_SNDBUF": 10485760,
+		"SO_LINGER": 10
+	},
+	"SOL_TCP":
+	{
+		"TCP_NODELAY": true,
+		"TCP_CORK": true
+	},
+	"IPPROTO_TCP":
+	{
+		"TCP_QUICKACK": true,
+		"TCP_KEEPCNT": 5,
+		"TCP_KEEPIDLE": 30,
+		"TCP_KEEPINTVL": 120
+	},
+	"CPU":
+	[		
+		2,
+		3,
+		4,
+		5,
+		6,
+		7,
+		8,
+		9,
+		10,
+		11,
+		12,
+		13,
+		14,
+		15
+	],
+	"USERS":
+	[
+		{
+			"ID":1,
+			"IP":"192.168.134.197",
+			"PORT":35101,
+			"USER":"P990098",
+			"PASS":"pass",
+			"BUY_POWER":500000,
+			"ALGOS":
+			{
+				"leo_csalgo":
+				{
+					"lib": "/home/test/fast_trader_build/fast_trader/lib64/libempty.so",
+					"params":
+					{
+					}
+				}
+			}
+		}
+	],
+	"Definition":
+	{
+		"CatchPath": "/tmp",
+		"OMDC":
+		[
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.11",
+				"MulticastPort": 51000
+			}
+		],
+		"OMDD":
+		[
+			{
+				"InterfaceIp": "10.123.132.197",
+				"MulticastIp": "239.1.1.153",
+				"MulticastPort": 51003
+			},
+			{
+				"InterfaceIp": "10.123.132.197",
+				"MulticastIp": "239.1.1.158",
+				"MulticastPort": 51003
+			}
+		]
+	},
+	"RetranProxy":
+	[
+		{
+			"Ip": "192.168.197.106",
+			"Port": 41000
+		},
+		{
+			"Ip": "192.168.197.131",
+			"Port": 31000
+		},
+		{
+			"Market": "omdcss",
+			"Ip": "192.168.197.113",
+			"Port": 44000
+		}
+	],
+	"TcpChannel":
+	{
+		"IP": "192.168.134.116",
+		"PORT": 5000,
+		"BIND": false
+	},
+	"OmdcChannel":
+	[
+		{
+			"ChannelId": 30,
+			"Hot":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.4",
+				"MulticastPort": 51000
+			},
+			"Refresh":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.14",
+				"MulticastPort": 51000
+			},
+			"RetranProxyIndex": 0
+		},
+		{
+			"ChannelId": 31,
+			"Hot":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.4",
+				"MulticastPort": 51001
+			},
+			"Refresh":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.14",
+				"MulticastPort": 51001
+			},
+			"RetranProxyIndex": 0
+		},
+		{
+			"ChannelId": 32,
+			"Hot":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.4",
+				"MulticastPort": 51002
+			},
+			"Refresh":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.14",
+				"MulticastPort": 51002
+			},
+			"RetranProxyIndex": 0
+		}
+	],
+	"OmddChannel":
+	[
+		{
+			"ChannelId": 221,
+			"Hot":
+			{
+				"InterfaceIp": "10.123.132.197",
+				"MulticastIp": "239.1.1.130",
+				"MulticastPort": 51002
+			},
+			"Refresh":
+			{
+				"InterfaceIp": "10.123.132.197",
+				"MulticastIp": "239.1.1.155",
+				"MulticastPort": 51002
+			},
+			"RetranProxyIndex": 1
+		}
+	],
+	"PriceTableChannel":
+	[
+		{
+			"ChannelId": 10,
+			"Hot":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.2",
+				"MulticastPort": 51000
+			},
+			"Refresh":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.1.12",
+				"MulticastPort": 51000
+			},
+			"RetranProxyIndex": 2
+		}
+	],
+	"S1Channel":
+	[
+		{
+			"ChannelId": 100,
+			"Hot":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.127.2",
+				"MulticastPort": 51000
+			},
+			"Refresh":
+			{
+				"InterfaceIp": "10.122.78.197",
+				"MulticastIp": "239.1.127.12",
+				"MulticastPort": 51000
+			},
+			"RetranProxyIndex": 2
+		}
+	],
+	"IVFile":"/home/fast_trader/ivfile/ivall.txt",
+	"OrderbookFile":
+	{	
+		"OrderbookPath":"/home/fast_trader/orderbookfile/orderbook10dlog.txt",
+		"algothick": "0.7",
+		"algothin" : "0.5",
+		"algobidtriggersell":"0.001",
+		"algoasktriggerbuy":"0.001",
+		"algoraisestoplost":"0.2",
+		"algoreadybidbuy":"0.3",
+		"algotickrange":"2"
+	},
+	"ActivateChannel":
+	[
+		{"Channel":"OmdcChannel"},	
+		{"Channel":"OmddChannel"}
+	]
+}
+

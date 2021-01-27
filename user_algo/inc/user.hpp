@@ -14,8 +14,11 @@
 #include <functional>
 
 class algo;
+class algo_loader;
 class user
 {
+public:
+	friend class algo_loader;
 public:
 	struct algo_order: public dbp::top::enhance_order
 	{
@@ -224,7 +227,6 @@ public:
 	);
 	bool modify_order(unsigned long long order_id, unsigned long long new_quantity, unsigned long long new_price);
 	bool cancel_order(unsigned long long order_id);
-	bool add_algo(const std::string& name, const std::string lib, json& cfg);
 	void run();
 	void set_buy_power(unsigned long long buy_power);
 	unsigned long long get_buy_power();

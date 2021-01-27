@@ -1,12 +1,10 @@
-#ifndef USER_ALGO_INC_S1ALGO_HPP_
-#define USER_ALGO_INC_S1ALGO_HPP_
+#ifndef STATIC_ALGOS_INC_S1ALGOPUT_HPP_
+#define STATIC_ALGOS_INC_S1ALGOPUT_HPP_
 #include <msg.hpp>
-#include <user.hpp>
 #include <json.hpp>
 #include <string>
 #include <vector>
 #include <tools.h>
-#include <algo.hpp>
 #include <DateUtil.h>
 #include <unordered_map>
 #include <OBSetting.h>
@@ -14,6 +12,8 @@
 #include <AlgoEngineData.h>
 #include <SelectedWarrant.h>
 #include <AlgoBetX.h>
+#include <algo.hpp>
+#include <user.hpp>
 #include "ThreadLogger.h"
 
 //#define MaxBuyNoWarrant 2
@@ -29,20 +29,9 @@
 #define BUY 1
 #define SELL 2
 
-/*
-inline static unsigned long long calWeightedPrice(unsigned long long bid1, unsigned long long bid2, unsigned long long bid3,
-		unsigned long long bidqty1, unsigned long long bidqty2, unsigned long long bidqty3,
-		unsigned long long ask1, unsigned long long ask2, unsigned long long ask3,
-		unsigned long long askqty1, unsigned long long askqty2, unsigned long long askqty3){
-	unsigned long long result = (bid1*askqty1 + bid2*askqty2 + bid3*askqty3 + ask1*bidqty1 + ask2*bidqty2 + ask3*bidqty3 + 1)/
-			(bidqty1+bidqty2+bidqty3+askqty1+askqty2+askqty3+1);
-	return result;
-}*/
 
 
-
-
-class s1algo : public algo
+class s1algoput : public algo
 {
 public:
 	std::unordered_map<unsigned long long, unsigned int> order_map;
@@ -180,7 +169,7 @@ private:
 	struct algo_signal_msg: public algo_msg_base
 	{
 		unsigned int code;
-		unsigned long long detect_ask;
+		unsigned long long detect_bid;
 		bool selected;
 		unordered_set<std::string> detectedlist;
 
@@ -193,7 +182,7 @@ private:
 			auto j = algo_msg_base::to_json();
 			j["action"] = "signal";
 			j["code"] = code;
-			j["detected_ask"] = detect_ask;
+			j["detect_bid"] = detect_bid;
 			if(selected){
 				j["detected"] = true;
 			}else{
@@ -276,7 +265,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1algo*>(al);
+			auto* self = dynamic_cast<s1algoput*>(al);
 			result = self->setPause(action,ucode, wcode);
 
 			ouputQueue.enqueue(this);
@@ -313,7 +302,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1algo*>(al);
+			auto* self = dynamic_cast<s1algoput*>(al);
 			result = self->setWinSell(action,ucode, wcode);
 
 			ouputQueue.enqueue(this);
@@ -350,7 +339,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1algo*>(al);
+			auto* self = dynamic_cast<s1algoput*>(al);
 			result = self->setWinLvlSell(action,ucode, wcode);
 
 			ouputQueue.enqueue(this);
@@ -385,7 +374,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1algo*>(al);
+			auto* self = dynamic_cast<s1algoput*>(al);
 
 			prevmarketstatus = self->MarketStatus;
 			if(action == "start"){
@@ -397,7 +386,6 @@ private:
 			if(action == "nodetect"){
 				self->MarketStatus = MARKET_NODETECT;
 			}
-
 			currmarketstatus = self->MarketStatus;
 
 			ouputQueue.enqueue(this);
@@ -433,7 +421,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1algo*>(al);
+			auto* self = dynamic_cast<s1algoput*>(al);
 
 			prevtype = self->getSelectionType(issuer);
 
@@ -477,7 +465,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1algo*>(al);
+			auto* self = dynamic_cast<s1algoput*>(al);
 
 			selectedbet = self->setBetsize(betsize);
 			ouputQueue.enqueue(this);
@@ -516,7 +504,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1algo*>(al);
+			auto* self = dynamic_cast<s1algoput*>(al);
 
 			result = self->setSelectedIssuer(action, issuer);
 
@@ -556,7 +544,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1algo*>(al);
+			auto* self = dynamic_cast<s1algoput*>(al);
 
 			result = self->setSelectedUnderlying(action, ucode);
 
@@ -595,7 +583,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1algo*>(al);
+			auto* self = dynamic_cast<s1algoput*>(al);
 
 			result = self->setSelectedWarrant(action, code);
 
@@ -635,7 +623,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1algo*>(al);
+			auto* self = dynamic_cast<s1algoput*>(al);
 			result = self->force_sell(ucode, code, price);
 			ouputQueue.enqueue(this);
 		}
@@ -694,7 +682,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1algo*>(al);
+			auto* self = dynamic_cast<s1algoput*>(al);
 			int i=0;
 			for(auto f : self->selectedIssuer) {
 				string iss = f;
@@ -729,7 +717,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1algo*>(al);
+			auto* self = dynamic_cast<s1algoput*>(al);
 			int i=0;
 			for(auto f : self->availableUCode) {
 				unsigned int iss = f;
@@ -764,7 +752,7 @@ private:
 		}
 		virtual void on_command()
 		{
-			auto* self = dynamic_cast<s1algo*>(al);
+			auto* self = dynamic_cast<s1algoput*>(al);
 			int i=0;
 			for(auto f : self->unSelectedWarrant) {
 				unsigned int iss = f;
@@ -814,12 +802,12 @@ private:
 		virtual ~algo_err_msg() = default;
 	};
 public:
-	s1algo() = delete;
-	s1algo(user& u, const std::string& name);
-	s1algo(const algo&) = delete;
-	s1algo(algo&&) = delete;
-	s1algo& operator= (const algo&) = delete;
-	s1algo& operator= (algo&&) = delete;
+	s1algoput() = delete;
+	s1algoput(user& u, const std::string& name);
+	s1algoput(const algo&) = delete;
+	s1algoput(algo&&) = delete;
+	s1algoput& operator= (const algo&) = delete;
+	s1algoput& operator= (algo&&) = delete;
 
 
 
@@ -884,4 +872,4 @@ public:
 
 
 
-#endif /* USER_ALGO_INC_S1ALGO_HPP_ */
+#endif /* STATIC_ALGOS_INC_S1ALGOPUT_HPP_ */

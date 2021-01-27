@@ -1,8 +1,9 @@
-#include <semi.hpp>
+#include <semipro.hpp>
+
 #include <global_memory.hpp>
 
 
-semi::semi(user& u, const std::string& name):
+semipro::semipro(user& u, const std::string& name):
 	algo(u, name),
 	_o_map(),
 	_u_map(),
@@ -13,10 +14,10 @@ semi::semi(user& u, const std::string& name):
 	logger->start();
 
 
-	Log("Start Semi " + name);
+	Log("Start semipro " + name);
 }
 
-void semi::on_omdc_book(const Tradable& tradable)
+void semipro::on_omdc_book(const Tradable& tradable)
 {
 	auto it = _w_map.find(tradable.m_Code);
 	if (_w_map.end() != it)
@@ -87,26 +88,11 @@ void semi::on_omdc_book(const Tradable& tradable)
 	}*/
 }
 
-void semi::on_omdd_book(const Tradable&)
+void semipro::on_omdd_book(const Tradable&)
 {
 }
 
-void semi::on_omdc_trade(const Tradable& tradable)
-{
-	auto it = _u_map.find(tradable.m_Code);
-	if (_u_map.end() != it)
-	{
-		for (const auto& p : it->second)
-		{
-			if (p->auto_buy() || p->auto_sell())
-			{
-				p->on_trade(tradable);
-			}
-		}
-	}
-}
-
-void semi::on_omdd_trade(const Tradable& tradable)
+void semipro::on_omdc_trade(const Tradable& tradable)
 {
 	auto it = _u_map.find(tradable.m_Code);
 	if (_u_map.end() != it)
@@ -121,7 +107,22 @@ void semi::on_omdd_trade(const Tradable& tradable)
 	}
 }
 
-void semi::handler_order(const dbp::top::enhance_order& odr)
+void semipro::on_omdd_trade(const Tradable& tradable)
+{
+	auto it = _u_map.find(tradable.m_Code);
+	if (_u_map.end() != it)
+	{
+		for (const auto& p : it->second)
+		{
+			if (p->auto_buy() || p->auto_sell())
+			{
+				p->on_trade(tradable);
+			}
+		}
+	}
+}
+
+void semipro::handler_order(const dbp::top::enhance_order& odr)
 {
 	auto it = _o_map.find(odr.order_id);
 	if(_o_map.end() != it)
@@ -131,7 +132,7 @@ void semi::handler_order(const dbp::top::enhance_order& odr)
 }
 
 
-std::string semi::set_pair(pair&& p, bool no_change)
+std::string semipro::set_pair(pair&& p, bool no_change)
 {
 	auto ref = p.ref();
 	auto it = _p_map.find(ref);
@@ -222,7 +223,7 @@ std::string semi::set_pair(pair&& p, bool no_change)
 }
 
 
-std::string semi::delete_pair(const std::string& ref, pair*& pref)
+std::string semipro::delete_pair(const std::string& ref, pair*& pref)
 {
 	pref = nullptr;
 	auto it = _p_map.find(ref);
@@ -262,7 +263,7 @@ std::string semi::delete_pair(const std::string& ref, pair*& pref)
 	return "SUCCESS";
 }
 
-std::string semi::get_pair(const std::string& ref, pair*& pref)
+std::string semipro::get_pair(const std::string& ref, pair*& pref)
 {
 	pref = nullptr;
 	auto it = _p_map.find(ref);
@@ -276,7 +277,7 @@ std::string semi::get_pair(const std::string& ref, pair*& pref)
 }
 
 
-std::string semi::force_buy(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref)
+std::string semipro::force_buy(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref)
 {
 	pref = nullptr;
 	auto it = _p_map.find(ref);
@@ -306,7 +307,7 @@ std::string semi::force_buy(unsigned long long price, unsigned long long quantit
 
 }
 
-std::string semi::force_sell(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref)
+std::string semipro::force_sell(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref)
 {
 	pref = nullptr;
 	auto it = _p_map.find(ref);
@@ -344,7 +345,7 @@ std::string semi::force_sell(unsigned long long price, unsigned long long quanti
 }
 
 
-void semi::position(algo_odr_position& msg) const
+void semipro::position(algo_odr_position& msg) const
 {
 	for (const auto& it : _p_map)
 	{
@@ -353,16 +354,16 @@ void semi::position(algo_odr_position& msg) const
 	}
 }
 
-void semi::handle_command(algo_msg_base& msg)
+void semipro::handle_command(algo_msg_base& msg)
 {
 	msg.on_command();
 }
 
-void semi::Log(string msg){
+void semipro::Log(string msg){
 	logger->Log(string(DateUtil::getCurrentTime()) + " " + msg);
 }
 
-algo_msg_base* semi::json_to_msg(json& json)
+algo_msg_base* semipro::json_to_msg(json& json)
 {
 	algo_set* pset = nullptr;
 	algo_force_buy* pforce_buy = nullptr;
@@ -370,7 +371,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 	try
 	{
 
-//		fprintf(stdout, "semi %s\n", json.dump().c_str());
+//		fprintf(stdout, "semipro %s\n", json.dump().c_str());
 
 		auto cmd = json["cmd"].get<std::string>();
 		auto ref = json["ref"].get<std::string>();
@@ -665,29 +666,29 @@ algo_msg_base* semi::json_to_msg(json& json)
 	}
 }
 
-std::string semi::get_lib_name()
+std::string semipro::get_lib_name()
 {
-	return "semi";
+	return "semipro";
 }
 
-void semi::on_tcp_book(const Tradable&)
-{
-}
-
-void semi::on_tcp_trade(const Tradable&)
+void semipro::on_tcp_book(const Tradable&)
 {
 }
 
-rapid_ring::spmc_ring_buffer_object_pool<semi::algo_odr_msg, 8192> semi::algo_odr_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<semi::algo_err_msg, 8192> semi::algo_err_msg_pool;
-rapid_ring::spsc_ring_buffer_object_pool<semi::algo_odr_position, 8192> semi::algo_odr_position_pool;
+void semipro::on_tcp_trade(const Tradable&)
+{
+}
+
+rapid_ring::spmc_ring_buffer_object_pool<semipro::algo_odr_msg, 8192> semipro::algo_odr_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<semipro::algo_err_msg, 8192> semipro::algo_err_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_odr_position, 8192> semipro::algo_odr_position_pool;
 #ifndef NOT_MEASURE
-rapid_ring::spmc_ring_buffer_object_pool<semi::algo_latency, 8192> semi::algo_latency_pool;
+rapid_ring::spmc_ring_buffer_object_pool<semipro::algo_latency, 8192> semipro::algo_latency_pool;
 #endif
-rapid_ring::spsc_ring_buffer_object_pool<semi::algo_set, 8192> semi::algo_set_pool;
-rapid_ring::spsc_ring_buffer_object_pool<semi::algo_del, 8192> semi::algo_del_pool;
-rapid_ring::spsc_ring_buffer_object_pool<semi::algo_get, 8192> semi::algo_get_pool;
-rapid_ring::spsc_ring_buffer_object_pool<semi::algo_force_buy, 8192> semi::algo_force_buy_pool;
-rapid_ring::spsc_ring_buffer_object_pool<semi::algo_force_sell, 8192> semi::algo_force_sell_pool;
-rapid_ring::spsc_ring_buffer_object_pool<semi::algo_getprofit_msg, 8192> semi::algo_getprofit_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_set, 8192> semipro::algo_set_pool;
+rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_del, 8192> semipro::algo_del_pool;
+rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_get, 8192> semipro::algo_get_pool;
+rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_force_buy, 8192> semipro::algo_force_buy_pool;
+rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_force_sell, 8192> semipro::algo_force_sell_pool;
+rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_getprofit_msg, 8192> semipro::algo_getprofit_msg_pool;
 
