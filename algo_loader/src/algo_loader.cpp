@@ -6,6 +6,18 @@
 #include <semi.hpp>
 #include <semipro.hpp>
 
+bool algo_loader::add_algo_to_user(user& u, const std::string& name, const std::string lib, json& cfg)
+{
+	auto al = algo_loader::get_algo(u, name, lib, cfg);
+	if (nullptr == al)
+		return false;
+	auto it = u._algos.find(name);
+	if (u._algos.end() != it)
+		delete it->second;
+	u._algos[name] = al;
+	return true;
+}
+
 algo* algo_loader::get_algo(user& u, const std::string& name, const std::string& lib, json&)
 {
 	if (lib == "semi")
