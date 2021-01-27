@@ -41,8 +41,9 @@ public:
 	long long getProfit();
 };
 
-#define FUNCTION_NAME_LINKER(PREFIX, NAME) PREFIX ## _ ## NAME
+#define LINK1(_X, _Y) _X ## _Y
+#define LINK2(X, Y) LINK2(X, Y)
 
-#define ALGO_LOADER extern "C" algo* TARGET_NAME (user& u, const std::string& name) {return new TARGET_NAME(u, name);}
+#define ALGO_LOADER extern "C" algo* LINK2(getAlgo_, TARGET_NAME) (user& u, const std::string& name) {return new TARGET_NAME(u, name);}
 
 #endif /* USER_ALGO_INC_ALGO_HPP_ */
