@@ -43,6 +43,6 @@ public:
 
 #define FUNCTION_NAME_LINKER(PREFIX, NAME) PREFIX ## _ ## NAME
 
-#define ALGO_LOADER extern "C" algo* FUNCTION_NAME_LINKER(getAlgo, TARGET_NAME) (user& u, const std::string& name) {return new TARGET_NAME(u, name);}
+#define ALGO_LOADER extern "C" algo* TARGET_NAME (user& u, const std::string& name) {return new TARGET_NAME(u, name);}
 
 #endif /* USER_ALGO_INC_ALGO_HPP_ */
