@@ -47,7 +47,9 @@ algo* algo_loader::get_algo(user& u, const std::string& name, const std::string&
 	}
 	else
 	{
-		al =  nullptr;
+		auto prefix = std::string(SLASH) + LIB_PREFIX;
+		if (prefix == "")
+			al =  nullptr;
 	}
 	if (al)
 	{
