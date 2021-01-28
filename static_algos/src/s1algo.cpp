@@ -1332,6 +1332,31 @@ vector<warrant*> s1algo::getWinpriceWarrantFromMarketByIssuer(std::string issuer
 				continue;
 
 
+
+
+
+			unsigned long long wspread = wbest_ask_price - wbest_bid_price;
+
+			if(wspread == 0)
+				continue;
+
+			unsigned long long refwspread = spm->getMaxBidAskSpread();
+			unsigned long long _wspread = spreadTable.getSpread(SpreadTableCode, wbest_bid_price);
+
+			if(_wspread == 0)
+				continue;
+
+			int noofspreadw = static_cast<int>(wspread / _wspread);
+
+			if(refwspread>0){
+				noofspreadw = static_cast<int>(refwspread / _wspread);
+			}
+
+			bool acceptspread = CSelectedWarrant.isSpreadAccept(noofspreadw, wbest_bid_price);
+			if(!acceptspread){
+				continue;
+			}
+
 			//unsigned long long spread = spreadTable.getSpread("01", wbest_bid_price + 1llu);
 			//unsigned long long refask = wbest_bid_price+spread;
 
@@ -1355,13 +1380,13 @@ vector<warrant*> s1algo::getWinpriceWarrantFromMarketByIssuer(std::string issuer
 			if(lotsize == 0)
 				continue;
 
-			unsigned long long wspread = wbest_ask_price - wbest_bid_price;
+			//unsigned long long wspread = wbest_ask_price - wbest_bid_price;
 
 			WarrantIv wiv = ivLoader.getWarrantIv(n);
 
-			if(wspread <= 0){
-				continue;
-			}
+			//if(wspread <= 0){
+			//	continue;
+			//}
 
 			warrant* newWarrant = new warrant;
 			newWarrant->Date = DateUtil::getToday();
