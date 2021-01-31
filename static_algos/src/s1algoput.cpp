@@ -1112,6 +1112,9 @@ vector<warrant*> s1algoput::getSelectedWarrantFromMarketByIssuer(std::string iss
 			if(wbest_bid_price == 0 || wbest_ask_price == 0 || wBidQty<spm->getIssuerBidQty() || wAskQty<spm->getIssuerAskQty()){
 				continue;
 			}
+
+			if(wBidQty < 1000000 || wAskQty < 1000000)
+				continue;
 /*
 			unsigned long long buyin = spm->buyIn(wbest_ask_price);
 			unsigned long long sellout = spm->sellOut(wbest_bid_price);
@@ -1266,21 +1269,73 @@ vector<warrant*> s1algoput::getWinpriceWarrantFromMarketByIssuer(std::string iss
 				continue;
 			}
 
-			if(wbest_ask_price >= 25000000 ){
+			//  if(wbest_ask_price >= 25000000 ){
+			//		continue;
+			//  }
+
+			//unsigned long long spread = spreadTable.getSpread("01", wbest_bid_price + 1llu);
+			//unsigned long long refask = wbest_bid_price+spread;
+
+			unsigned long long buyin = spm->buyIn(wbest_ask_price);
+			unsigned long long sellout = spm->sellOut(wbest_bid_price);
+			unsigned long long lvlbid = spm->sellOut(wbest_ask_price);
+
+			if(buyin == 0 || sellout == 99999999 || lvlbid == 99999999)
+				continue;
+
+			if(lvlbid > buyin || sellout < buyin || lvlbid > uask)
+				continue;
+
+			//unsigned long long buyin = spm->buyIn(refask);
+			//unsigned long long sellout = spm->sellOut(refask);
+
+			unsigned long long uspread = spreadTable.getSpread("01", uask + 1llu);
+
+
+			long diffu = static_cast<int>(uask - lvlbid);
+
+			long noofspread = static_cast<int>(diffu / uspread);
+
+			if(noofspread > 2)
+				continue;
+
+
+
+
+
+			unsigned long long wspread = wbest_ask_price - wbest_bid_price;
+
+			if(wspread == 0)
+				continue;
+
+			unsigned long long refwspread = spm->getMaxBidAskSpread();
+			unsigned long long _wspread = spreadTable.getSpread(SpreadTableCode, wbest_bid_price);
+
+			if(_wspread == 0)
+				continue;
+
+			int noofspreadw = static_cast<int>(wspread / _wspread);
+
+			if(refwspread>0){
+				noofspreadw = static_cast<int>(refwspread / _wspread);
+			}
+
+			bool acceptspread = CSelectedWarrant.isSpreadAccept(noofspreadw, wbest_bid_price);
+			if(!acceptspread){
 				continue;
 			}
 
-			unsigned long long spread = spreadTable.getSpread("01", wbest_bid_price + 1llu);
-			unsigned long long refask = wbest_bid_price+spread;
+			//unsigned long long spread = spreadTable.getSpread("01", wbest_bid_price + 1llu);
+			//unsigned long long refask = wbest_bid_price+spread;
 
-			unsigned long long buyin = spm->buyIn(refask);
-			unsigned long long sellout = spm->sellOut(refask);
-
-
+			//unsigned long long buyin = spm->buyIn(refask);
+			//unsigned long long sellout = spm->sellOut(refask);
 
 
-			if(buyin != sellout || refask != wbest_ask_price)
-				continue;
+
+
+			//if(buyin != sellout || refask != wbest_ask_price)
+			//	continue;
 
 			//unsigned long long stoplostsellout = spm->sellOut(wbest_bid_price);
 			//if(stoplostsellout == 99999999){
@@ -1293,13 +1348,13 @@ vector<warrant*> s1algoput::getWinpriceWarrantFromMarketByIssuer(std::string iss
 			if(lotsize == 0)
 				continue;
 
-			unsigned long long wspread = wbest_ask_price - wbest_bid_price;
+			//unsigned long long wspread = wbest_ask_price - wbest_bid_price;
 
 			WarrantIv wiv = ivLoaderPut.getWarrantIv(n);
 
-			if(wspread <= 0){
-				continue;
-			}
+			//if(wspread <= 0){
+			//	continue;
+			//}
 
 			warrant* newWarrant = new warrant;
 			newWarrant->Date = DateUtil::getToday();
@@ -1744,11 +1799,12 @@ void s1algoput::on_omdc_trade(const Tradable& tradable)
 			if(TradeSide::SELL_SIDE == side && obs->DetectedBid == trade_price && trade_sell_quantity >= best_bid_vol && best_ask_vol>=obs->ReadyAskBuy && obs->Status == STATUS_READY){
 
 				//Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_buy_quantity) + " BestBid = " + to_string(bid_price) + "(" + to_string(mid) + ")" + " Ask Price = " + to_string(ask_price) + " WP = " + to_string(wp)) ;
-				Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_sell_quantity) + " BestBid = " + to_string(bid_price) + " - " + " Ask Price = " + to_string(ask_price)) ;
-
+				
 				if(MarketStatus == MARKET_NODETECT)
 					return;
 
+				Log("UCode =  " + to_string(code) + " Trade Price = " + to_string(trade_price) + " Qty = " + to_string(trade_sell_quantity) + " BestBid = " + to_string(bid_price) + " - " + " Ask Price = " + to_string(ask_price)) ;
+				
 				vector<warrant*> wobsArray = obs->getRelatedWarrant();
 
 
