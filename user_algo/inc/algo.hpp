@@ -1,15 +1,17 @@
 #ifndef USER_ALGO_INC_ALGO_HPP_
 #define USER_ALGO_INC_ALGO_HPP_
 #include <msg.hpp>
-#include <user.hpp>
 #include <json.hpp>
 #include <string>
+#include <user.hpp>
 
 
 class algo
 {
 public:
 	using json = nlohmann::json;
+public:
+	typedef algo*(*AlgoLoaderFp)(user& u, const std::string& name);
 protected:
 	user& _u;
 	std::string _name;
@@ -33,11 +35,15 @@ public:
 	virtual void handle_command(algo_msg_base& cmd) = 0;
 	virtual algo_msg_base* json_to_msg(json& msg) = 0;
 	virtual std::string get_lib_name() = 0;
+	virtual void set_config(const json& cfg);
 	const std::string& get_name() const;
-	static algo* get_algo(user& u, const std::string& name, const std::string& lib, json& cfg);
+	//static algo* get_algo(user& u, const std::string& name, const std::string& lib, json& cfg);
 	long long getProfit();
 };
 
+#define LINK1(_X, _Y) _X ## _Y
+#define LINK2(X, Y) LINK1(X, Y)
 
+#define ALGO_LOADER extern "C" algo* LINK2(getAlgo_, TARGET_NAME) (user& u, const std::string& name) {return new TARGET_NAME(u, name);}
 
 #endif /* USER_ALGO_INC_ALGO_HPP_ */

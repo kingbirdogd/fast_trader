@@ -1,14 +1,14 @@
-#ifndef USER_ALGO_INC_EMPTY_HPP_
-#define USER_ALGO_INC_EMPTY_HPP_
+#ifndef STATIC_ALGOS_INC_EMPTY_HPP_
+#define STATIC_ALGOS_INC_EMPTY_HPP_
 #include <msg.hpp>
-#include <user.hpp>
 #include <json.hpp>
 #include <string>
 #include <vector>
 #include <tools.h>
-#include <algo.hpp>
 #include <DateUtil.h>
 #include <global_memory.hpp>
+#include <algo.hpp>
+#include <user.hpp>
 #include "ThreadLogger.h"
 
 
@@ -78,4 +78,4 @@ public:
 
 
 
-#endif /* USER_ALGO_INC_EMPTY_HPP_ */
+#endif /* STATIC_ALGOS_INC_EMPTY_HPP_ */

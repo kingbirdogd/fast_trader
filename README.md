@@ -57,5 +57,27 @@ make SOLA=no
 ## Relogin Top Command:
 {"cmd": "relogin", "ref":"relogin_ref1"}
 
+## Dynamic Algo config example:
+config_dynamic.json
+
+			"ALGOS":
+			{
+				"leo_csalgo":
+				{
+					"lib": "/home/test/fast_trader_build/fast_trader/lib64/libempty.so",
+					"params":
+					{
+					}
+				}
+			}
+## Create Client dynamic library algo develop Kits script
+pack_user_algo_development_kits.sh
+
+after run, there is a
+fast_trader_dev_kits.tar.gz in folder ../
+unzip the fast_trader_dev_kits
+Client can develop their algo in fast_trader_dev_kits/dynamic_algos
+
+
 
 

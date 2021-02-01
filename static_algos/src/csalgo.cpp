@@ -1,6 +1,7 @@
+#include <csalgo.hpp>
+
 #include <vector>
 
-#include <csalgo.hpp>
 
 //std::unordered_map<unsigned int, priceinfo*> bear::uprice_map;
 
