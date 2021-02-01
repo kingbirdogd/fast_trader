@@ -371,6 +371,25 @@ inline static bool loadDefinition(json& _json)
 
 				if(underlying > 0){
 					underlyingToWarrant[underlying].insert(warrent);
+				}else{
+					auto itdef = omdc_addition_definition.find(warrent);
+					if(itdef != omdc_addition_definition.end()){
+						std::string sname = it->second["SecuritySortName"].get<std::string>();
+
+						string::size_type pos=0;
+						pos = sname.find("HSI");
+						if(pos != snmae.npos){
+							underlyingToWarrant[100001].insert(warrent);
+						}
+						pos = sname.find("HSCEI");
+						if(pos != snmae.npos){
+							underlyingToWarrant[100002].insert(warrent);
+						}
+						pos = sname.find("HSTEC");
+						if(pos != snmae.npos){
+							underlyingToWarrant[100003].insert(warrent);
+						}
+					}
 				}
 
 				stockWarrantomdcMap[warrent].m_Code = warrent;
