@@ -1129,7 +1129,7 @@ inline static bool loadDefinition(json& _json)
 														underlyingToWarrant[underlying_code].insert(warrant_code);
 
 														if(underlying_code > 0){
-															cache["warrent_map"][std::to_string(warrant_code)] = underlying_code;
+
 
 
 															std::string sname = omdcAdditionDefinition.SecuritySortName;
@@ -1137,18 +1137,18 @@ inline static bool loadDefinition(json& _json)
 															string::size_type pos=0;
 															pos = sname.find("HSI");
 															if(pos != sname.npos){
-																underlyingToWarrant[100001].insert(warrent);
 																underlyingToWarrant[100001].insert(warrant_code);
+																cache["warrent_map"][std::to_string(warrant_code)] = 100001;
 															}
 															pos = sname.find("HSCEI");
 															if(pos != sname.npos){
-																underlyingToWarrant[100002].insert(warrent);
 																underlyingToWarrant[100002].insert(warrant_code);
+																cache["warrent_map"][std::to_string(warrant_code)] = 100002;
 															}
 															pos = sname.find("HSTEC");
 															if(pos != sname.npos){
-																underlyingToWarrant[100003].insert(warrent);
 																underlyingToWarrant[100003].insert(warrant_code);
+																cache["warrent_map"][std::to_string(warrant_code)] = 100003;
 															}
 
 
