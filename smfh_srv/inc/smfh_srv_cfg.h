@@ -372,7 +372,7 @@ inline static bool loadDefinition(json& _json)
 				if(underlying > 0){
 					underlyingToWarrant[underlying].insert(warrent);
 				}else{
-					auto itdef = omdc_addition_definition.find(warrent);
+					auto itdef = omdc_addition_definition.find(key);
 					if(itdef != omdc_addition_definition.end()){
 						std::string sname = itdef->second["SecuritySortName"].get<std::string>();
 
