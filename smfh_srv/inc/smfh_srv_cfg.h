@@ -378,16 +378,19 @@ inline static bool loadDefinition(json& _json)
 
 						string::size_type pos=0;
 						pos = sname.find("HSI");
-						if(pos != snmae.npos){
+						if(pos != sname.npos){
 							underlyingToWarrant[100001].insert(warrent);
+							warrantToUnderlying[warrent] = 100001;
 						}
 						pos = sname.find("HSCEI");
-						if(pos != snmae.npos){
+						if(pos != sname.npos){
 							underlyingToWarrant[100002].insert(warrent);
+							warrantToUnderlying[warrent] = 100002;
 						}
 						pos = sname.find("HSTEC");
-						if(pos != snmae.npos){
+						if(pos != sname.npos){
 							underlyingToWarrant[100003].insert(warrent);
+							warrantToUnderlying[warrent] = 100003;
 						}
 					}
 				}
@@ -1127,6 +1130,28 @@ inline static bool loadDefinition(json& _json)
 
 														if(underlying_code > 0){
 															cache["warrent_map"][std::to_string(warrant_code)] = underlying_code;
+
+
+															std::string sname = omdcAdditionDefinition.SecuritySortName;
+
+															string::size_type pos=0;
+															pos = sname.find("HSI");
+															if(pos != sname.npos){
+																underlyingToWarrant[100001].insert(warrent);
+																underlyingToWarrant[100001].insert(warrant_code);
+															}
+															pos = sname.find("HSCEI");
+															if(pos != sname.npos){
+																underlyingToWarrant[100002].insert(warrent);
+																underlyingToWarrant[100002].insert(warrant_code);
+															}
+															pos = sname.find("HSTEC");
+															if(pos != sname.npos){
+																underlyingToWarrant[100003].insert(warrent);
+																underlyingToWarrant[100003].insert(warrant_code);
+															}
+
+
 														}
 
 														stockWarrantomdcMap[warrant_code].m_Code = warrant_code;
