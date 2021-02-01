@@ -374,7 +374,7 @@ inline static bool loadDefinition(json& _json)
 				}else{
 					auto itdef = omdc_addition_definition.find(warrent);
 					if(itdef != omdc_addition_definition.end()){
-						std::string sname = it->second["SecuritySortName"].get<std::string>();
+						std::string sname = itdef->second["SecuritySortName"].get<std::string>();
 
 						string::size_type pos=0;
 						pos = sname.find("HSI");
