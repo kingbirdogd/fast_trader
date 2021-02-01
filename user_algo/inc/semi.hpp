@@ -1240,6 +1240,38 @@ private:
 		}
 		virtual ~algo_get() = default;
 	};
+	struct algo_getWntUDetail_msg: public algo_msg_base
+		{
+			unsigned int wcode;
+			std::string ucode;
+			std::string callputflag;
+			unsigned long long wbuy;
+			unsigned long long ubuy;
+
+			algo_getWntUDetail_msg():
+				algo_msg_base()
+			{
+			}
+
+			virtual nlohmann::json to_json() const
+			{
+				auto j = algo_msg_base::to_json();
+				j["action"] = "issuerlist";
+				j["issuers"] = issuers;
+				return j;
+			}
+			virtual void on_command()
+			{
+				auto* self = dynamic_cast<semi*>(al);
+
+				ouputQueue.enqueue(this);
+			}
+			virtual void release()
+			{
+				algo_getWntUDetail_msg_pool.release_obj(this);
+			}
+			virtual ~algo_getWntUDetail_msg() = default;
+		};
 	struct algo_force_buy: public algo_msg_base
 	{
 		pair* p;
@@ -1359,6 +1391,7 @@ public:
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_force_buy, 8192> algo_force_buy_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_force_sell, 8192> algo_force_sell_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_getprofit_msg, 8192> algo_getprofit_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_getWntUDetail_msg, 8192> algo_getWntUDetail_msg_pool;
 };
 
 
