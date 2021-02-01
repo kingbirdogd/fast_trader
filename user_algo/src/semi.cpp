@@ -690,4 +690,5 @@ rapid_ring::spsc_ring_buffer_object_pool<semi::algo_get, 8192> semi::algo_get_po
 rapid_ring::spsc_ring_buffer_object_pool<semi::algo_force_buy, 8192> semi::algo_force_buy_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semi::algo_force_sell, 8192> semi::algo_force_sell_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semi::algo_getprofit_msg, 8192> semi::algo_getprofit_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<semi::algo_getWntUDetail_msg, 8192> semi::algo_getWntUDetail_msg_pool;
 
