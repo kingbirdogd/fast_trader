@@ -95,6 +95,36 @@ inline void decode()
 				return;
 			}
 		}
+		else if (cmd == "get_warrant_detail")
+		{
+			auto code = j["code"].get<unsigned int>();
+			auto it = warrantToUnderlying.find(code);
+			if (warrantToUnderlying.end() == it)
+			{
+				j["error"] = std::string("underlying code not found for warrant:") + std::to_string(code);
+				output(j);
+				return;
+			}
+			else
+			{
+				unsigned int underlying = it->second;
+				if(underlying == 100001 || underlying == 100002 || underlying == 100003){
+
+				}else{
+					auto it2 = stockWarrantomdcMap.find(code);
+					if(it2 != stockWarrantomdcMap.end()){
+						j["warrant_price"] = it2->to_simple_json();
+					}
+					auto itu = stockWarrantomdcMap.find(underlying);
+					if(itu != stockWarrantomdcMap.end()){
+						j["underlying_price"] = itu->to_simple_json();
+					}
+				}
+				j["underlying"] = it->second;
+				output(j);
+				return;
+			}
+		}
 		else if (cmd == "get_omdd_tradable")
 		{
 			unsigned long long code = 0;

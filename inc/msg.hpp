@@ -274,6 +274,13 @@ struct Tradable
 		}
 		return j;
 	}
+	nlohmann::json to_simple_json()
+	{
+		nlohmann::json j;
+		j["m_Bid"] = m_Bid[0].to_json();
+		j["m_Ask"] = m_Ask[0].to_json();
+		return j;
+	}
 };
 
 

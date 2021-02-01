@@ -1,3 +1,39 @@
+#### MFH Install
+
+Please apply the config to new supermicro
+ 
+
+1.login as root
+
+2.add a group real time
+
+#groupadd realtime
+
+3.add security configure file:
+
+#vi /etc/security/limits.d/99-realtime.conf
+
+add this two line to the file
+
+@realtime   -  rtprio     99
+
+@realtime   -  memlock    unlimited
+
+4.add feed_srv to group realtime
+
+#usermod -a -G realtime feed_srv
+
+5.Stop the watch dog
+
+add this line to /etc/sysctl.conf
+
+kernel.nmi_watchdog = 0
+
+and reboot
+
+#### MFH Install
+
+
 #Create Node User
 
  node set_user.js user_name=leo password=leo
