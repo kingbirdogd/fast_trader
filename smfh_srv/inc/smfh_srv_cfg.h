@@ -485,7 +485,7 @@ inline static bool loadDefinition(json& _json)
 					hsceiVec.push_back(underlying.Symbol);
 				}
 				if(underlying.CommodityCode == 4038){
-					hstec.push_back(underlying.Symbol);
+					hstecVec.push_back(underlying.Symbol);
 				}
 
 			}
@@ -1374,7 +1374,7 @@ inline static bool loadDefinition(json& _json)
 															hsceiVec.push_back(symbol);
 														}
 														if(CommodityCode == 4038){
-															hstec.push_back(symbol);
+															hstecVec.push_back(symbol);
 														}
 
 
