@@ -1365,7 +1365,7 @@ inline static bool loadDefinition(json& _json)
 														cache["omdd_underlying"][std::to_string(orderbookid)] = json::object();
 														cache["omdd_underlying"][std::to_string(orderbookid)]["InstrumentGroup"] = static_cast<unsigned short int>(underlying.InstrumentGroup);
 														cache["omdd_underlying"][std::to_string(orderbookid)]["CommodityCode"] = static_cast<unsigned short int>(underlying.CommodityCode);
-														cache["omdd_underlying"][std::to_string(orderbookid)]["Symbol"] = static_cast<unsigned short int>(underlying.Symbol);
+														cache["omdd_underlying"][std::to_string(orderbookid)]["Symbol"] = static_cast<std::string>(underlying.Symbol);
 
 														if(CommodityCode == 4001){
 															hsiVec.push_back(symbol);
