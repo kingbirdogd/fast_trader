@@ -125,7 +125,7 @@ inline void decode()
 
 							j["symbols"] = nlohmann::json::array();
 							for (std::vector<std::string>::iterator itv = hsiVec.begin() ; itv != hsiVec.end(); ++itv){
-								j["symbols"].push_back(itv*);
+								j["symbols"].push_back(*itv);
 							}
 
 							auto itCode = nameToCode.find(str_code);
@@ -159,7 +159,7 @@ inline void decode()
 
 							j["symbols"] = nlohmann::json::array();
 							for (std::vector<std::string>::iterator itv = hsceiVec.begin() ; itv != hsceiVec.end(); ++itv){
-								j["symbols"].push_back(itv*);
+								j["symbols"].push_back(*itv);
 							}
 
 							auto itCode = nameToCode.find(str_code);
@@ -195,7 +195,7 @@ inline void decode()
 
 							j["symbols"] = nlohmann::json::array();
 							for (std::vector<std::string>::iterator itv = hstecVec.begin() ; itv != hstecVec.end(); ++itv){
-								j["symbols"].push_back(itv*);
+								j["symbols"].push_back(*itv);
 							}
 
 							auto itCode = nameToCode.find(str_code);
