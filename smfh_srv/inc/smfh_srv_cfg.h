@@ -474,8 +474,20 @@ inline static bool loadDefinition(json& _json)
 				const auto& key = it->first;
 				underlying.CommodityCode = it->second["CommodityCode"].get<unsigned short int>();
 				underlying.InstrumentGroup = it->second["InstrumentGroup"].get<unsigned char>();
+				underlying.Symbol = it->second["Symbol"].get<std::string>();
 				unsigned int code = static_cast<unsigned int>(std::stoul(key));
 				codeTounderlying[code] = underlying;
+
+				if(underlying.CommodityCode == 4001){
+					hsiVec.push_back(underlying.Symbol);
+				}
+				if(underlying.CommodityCode == 4002){
+					hsceiVec.push_back(underlying.Symbol);
+				}
+				if(underlying.CommodityCode == 4038){
+					hstec.push_back(underlying.Symbol);
+				}
+
 			}
 			for (auto it = omdc_addition_definition.begin(); it != omdc_addition_definition.end(); ++it)
 			{
@@ -1353,6 +1365,19 @@ inline static bool loadDefinition(json& _json)
 														cache["omdd_underlying"][std::to_string(orderbookid)] = json::object();
 														cache["omdd_underlying"][std::to_string(orderbookid)]["InstrumentGroup"] = static_cast<unsigned short int>(underlying.InstrumentGroup);
 														cache["omdd_underlying"][std::to_string(orderbookid)]["CommodityCode"] = static_cast<unsigned short int>(underlying.CommodityCode);
+														cache["omdd_underlying"][std::to_string(orderbookid)]["Symbol"] = static_cast<unsigned short int>(underlying.Symbol);
+
+														if(CommodityCode == 4001){
+															hsiVec.push_back(symbol);
+														}
+														if(CommodityCode == 4002){
+															hsceiVec.push_back(symbol);
+														}
+														if(CommodityCode == 4038){
+															hstec.push_back(symbol);
+														}
+
+
 														flush_printf("tm:%llu, OMDD Underlying Set, code: %lu, InstrumentGroup:%u,CommodityCode:%u\n",
 																dbp::tools::srv::current(),
 																orderbookid,

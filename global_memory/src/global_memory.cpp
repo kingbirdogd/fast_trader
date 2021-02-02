@@ -18,6 +18,10 @@ CStreamVec omdcStreams;
 CStreamVec omddStreams;
 CStreamVec s1Streams;
 CStreamVec pricetableStreams;
+COmddSymbolVec hsiVec;
+COmddSymbolVec hsceiVec;
+COmddSymbolVec hstecVec;
+
 CActivateChannel mActivateChannel;
 CBroadCastQueue broadcastQueue;
 COutputQueue ouputQueue;
@@ -37,6 +41,7 @@ CPriceDataMap pricedataMap;
 AlgoParameter algoParam;
 SpreadTable spreadTable;
 TcpChannelConfig tcpConfig;
+
 
 #ifdef FULLTICK
 FullTickBooks<unsigned short int> omdcFullTickBook;

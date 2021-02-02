@@ -422,9 +422,11 @@ struct COmddUnderlying
 {
 	unsigned short int CommodityCode;
 	unsigned char InstrumentGroup;
+	std::string Symbol;
 	COmddUnderlying():
 		CommodityCode(0),
-		InstrumentGroup(0)
+		InstrumentGroup(0),
+		Symbol("")
 	{
 	}
 
@@ -469,6 +471,7 @@ typedef std::unordered_map<unsigned int, COmddUnderlying> COmddCodeToUnderlying;
 typedef std::unordered_map<std::string, unsigned int> COmddNameToCodeMap;
 typedef std::unordered_map<int, CDefChannel> CDefMap;
 typedef std::vector<CStreamChannel> CStreamVec;
+typedef std::vector<std::string> COmddSymbolVec;
 using CBroadCastQueue = rapid_ring::mp_ring_buffer_disruptor<Tradable, 2048000>;
 using COutputQueue = container::sync_queue<algo_msg_base*>;
 

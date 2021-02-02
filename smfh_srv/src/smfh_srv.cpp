@@ -120,7 +120,7 @@ inline void decode()
 						j["underlying_price"] = itu->second.to_simple_json();
 					}
 				}
-				j["underlying"] = it->second;
+				j["underlying"] = underlying;
 				output(j);
 				return;
 			}
