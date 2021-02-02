@@ -414,6 +414,14 @@ struct algo_msg_base
 		j["ref"] = ref;
 		return j;
 	}
+	virtual nlohmann::json to_simple_json() const
+	{
+		nlohmann::json j;
+		j["id"] = id;
+		j["algo_name"] = algo_name;
+		j["ref"] = ref;
+		return j;
+	}
 	virtual void on_command() = 0;
 	virtual void release() = 0;
 };
