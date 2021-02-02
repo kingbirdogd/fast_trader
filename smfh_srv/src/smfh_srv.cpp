@@ -113,11 +113,11 @@ inline void decode()
 				}else{
 					auto it2 = stockWarrantomdcMap.find(code);
 					if(it2 != stockWarrantomdcMap.end()){
-						j["warrant_price"] = it2->to_simple_json();
+						j["warrant_price"] = it2->second.to_simple_json();
 					}
 					auto itu = stockWarrantomdcMap.find(underlying);
 					if(itu != stockWarrantomdcMap.end()){
-						j["underlying_price"] = itu->to_simple_json();
+						j["underlying_price"] = itu->second.to_simple_json();
 					}
 				}
 				j["underlying"] = it->second;
