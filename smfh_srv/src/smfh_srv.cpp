@@ -128,7 +128,7 @@ inline void decode()
 								j["symbols"].push_back(*itv);
 							}
 
-							auto itCode = nameToCode.find(str_code);
+							auto itCode = nameToCode.find(symbol);
 							if (nameToCode.end() == itCode)
 							{
 								j["error"] = "omdd code name not found";
@@ -162,7 +162,7 @@ inline void decode()
 								j["symbols"].push_back(*itv);
 							}
 
-							auto itCode = nameToCode.find(str_code);
+							auto itCode = nameToCode.find(symbol);
 							if (nameToCode.end() == itCode)
 							{
 								j["error"] = "omdd code name not found";
@@ -198,7 +198,7 @@ inline void decode()
 								j["symbols"].push_back(*itv);
 							}
 
-							auto itCode = nameToCode.find(str_code);
+							auto itCode = nameToCode.find(symbol);
 							if (nameToCode.end() == itCode)
 							{
 								j["error"] = "omdd code name not found";
