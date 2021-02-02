@@ -107,8 +107,124 @@ inline void decode()
 			}
 			else
 			{
+
+
+
 				unsigned int underlying = it->second;
 				if(underlying == 100001 || underlying == 100002 || underlying == 100003){
+
+					auto it2 = stockWarrantomdcMap.find(code);
+					if(it2 != stockWarrantomdcMap.end()){
+						j["warrant_price"] = it2->second.to_simple_json();
+					}
+
+					if(underlying == 100001){
+						if(hsiVec.size() > 0){
+							std::sort(hsiVec.begin(), hsiVec.end());
+							std::string symbol = hsiVec.front();
+
+							j["symbols"] = nlohmann::json::array();
+							for (std::vector<std::string>::iterator itv = hsiVec.begin() ; itv != hsiVec.end(); ++itv){
+								j["symbols"].push_back(itv*);
+							}
+
+							auto itCode = nameToCode.find(str_code);
+							if (nameToCode.end() == itCode)
+							{
+								j["error"] = "omdd code name not found";
+								output(j);
+								return;
+							}
+							auto code = itCode->second;
+							auto it = omddMap.find(code);
+							if (omddMap.end() == it)
+							{
+								j["error"] = "omdd code not found";
+								output(j);
+								return;
+							}
+							else
+							{
+								j["underlying"] = symbol;
+								j["underlying_price"] = it->second.to_simple_json();
+								output(j);
+								return;
+							}
+						}
+					}
+					if(underlying == 100002){
+						if(hsiVec.size() > 0){
+							std::sort(hsceiVec.begin(), hsceiVec.end());
+							std::string symbol = hsceiVec.front();
+
+							j["symbols"] = nlohmann::json::array();
+							for (std::vector<std::string>::iterator itv = hsceiVec.begin() ; itv != hsceiVec.end(); ++itv){
+								j["symbols"].push_back(itv*);
+							}
+
+							auto itCode = nameToCode.find(str_code);
+							if (nameToCode.end() == itCode)
+							{
+								j["error"] = "omdd code name not found";
+								output(j);
+								return;
+							}
+							auto code = itCode->second;
+							auto it = omddMap.find(code);
+							if (omddMap.end() == it)
+							{
+								j["error"] = "omdd code not found";
+								output(j);
+								return;
+							}
+							else
+							{
+								j["underlying"] = symbol;
+								j["underlying_price"] = it->second.to_simple_json();
+								output(j);
+								return;
+							}
+
+
+						}
+					}
+					if(underlying == 100003){
+						if(hsiVec.size() > 0){
+							std::sort(hstecVec.begin(), hstecVec.end());
+							std::string symbol = hstecVec.front();
+
+							j["symbols"] = nlohmann::json::array();
+							for (std::vector<std::string>::iterator itv = hstecVec.begin() ; itv != hstecVec.end(); ++itv){
+								j["symbols"].push_back(itv*);
+							}
+
+							auto itCode = nameToCode.find(str_code);
+							if (nameToCode.end() == itCode)
+							{
+								j["error"] = "omdd code name not found";
+								output(j);
+								return;
+							}
+							auto code = itCode->second;
+							auto it = omddMap.find(code);
+							if (omddMap.end() == it)
+							{
+								j["error"] = "omdd code not found";
+								output(j);
+								return;
+							}
+							else
+							{
+								j["underlying"] = symbol;
+								j["underlying_price"] = it->second.to_simple_json();
+								output(j);
+								return;
+							}
+
+
+						}
+					}
+
 
 				}else{
 					auto it2 = stockWarrantomdcMap.find(code);
