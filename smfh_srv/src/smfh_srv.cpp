@@ -107,8 +107,8 @@ inline void decode()
 			}
 			else
 			{
-				auto itdef = COmdcAdditionDefinitionsMap.find(code);
-				if(itdef == COmdcAdditionDefinitionsMap.end()){
+				auto itdef = omdcAdditionDefinitionsMap.find(code);
+				if(itdef == omdcAdditionDefinitionsMap.end()){
 					j["error"] = "warrant/Cbbc code not found";
 					output(j);
 					return;
