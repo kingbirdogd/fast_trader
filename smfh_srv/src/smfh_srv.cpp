@@ -107,8 +107,14 @@ inline void decode()
 			}
 			else
 			{
+				auto itdef = COmdcAdditionDefinitionsMap.find(code);
+				if(itdef == COmdcAdditionDefinitionsMap.end()){
+					j["error"] = "warrant/Cbbc code not found";
+					output(j);
+					return;
+				}
 
-
+				std::string cptype = itdef->second.CallPutFlag;
 
 				unsigned int underlying = it->second;
 				if(underlying == 100001 || underlying == 100002 || underlying == 100003){
@@ -237,6 +243,7 @@ inline void decode()
 					}
 				}
 				j["underlying"] = underlying;
+				j["CallPut"] = cptype;
 				output(j);
 				return;
 			}
