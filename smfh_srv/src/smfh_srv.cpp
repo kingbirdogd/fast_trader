@@ -153,6 +153,7 @@ inline void decode()
 							{
 								j["underlying"] = symbol;
 								j["underlying_price"] = it->second.to_simple_json();
+								j["CallPut"] = cptype;
 								output(j);
 								return;
 							}
@@ -187,6 +188,7 @@ inline void decode()
 							{
 								j["underlying"] = symbol;
 								j["underlying_price"] = it->second.to_simple_json();
+								j["CallPut"] = cptype;
 								output(j);
 								return;
 							}
@@ -223,6 +225,7 @@ inline void decode()
 							{
 								j["underlying"] = symbol;
 								j["underlying_price"] = it->second.to_simple_json();
+								j["CallPut"] = cptype;
 								output(j);
 								return;
 							}
