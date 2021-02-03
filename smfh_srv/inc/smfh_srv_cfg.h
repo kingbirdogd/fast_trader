@@ -1142,8 +1142,8 @@ inline static bool loadDefinition(json& _json)
 
 														if(underlying_code > 0){
 
-
-
+															cache["warrent_map"][std::to_string(warrant_code)] = underlying_code;
+														}else{
 															std::string sname = omdcAdditionDefinition.SecuritySortName;
 
 															string::size_type pos=0;
