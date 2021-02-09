@@ -91,12 +91,18 @@ const formatLong = (val) => {
 }
 
 const formatLongV2 = (val) => {
-  var unit = 100000000
-  return parseFloat(val)*unit
+  var val = parseFloat(val);
+  var unit = parseInt(100000000);
+  return parseFloat(parseFloat(val*unit).toFixed(0))
 }
 
 const formatPrice = (val) => {
   var unit = 100000
+  return parseFloat(val)/unit
+}
+
+const formatPrice2 = (val) => {
+  var unit = 1000
   return parseFloat(val)/unit
 }
 
@@ -140,6 +146,17 @@ const formatInput = (value) => {
   return temp
 }
 
+const formatInput2 = (value) => {
+  if (!value)
+    return value
+  var temp = value.replace(/\s/g, '').split('')
+  var temp2 = ''
+  var allows = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.', 'k', 'm', 'b']
+  for (var i in temp)
+    if (allows.includes(temp[i])) temp2 += temp[i]
+  return temp2
+}
+
 const formatInputUnit = (value, is_change_digital) => {
   var val = value.toString().toLowerCase(), temp = parseFloat(val)
 
@@ -164,4 +181,51 @@ const formatInputUnit = (value, is_change_digital) => {
       return (temp/1000)+'k'
     else
       return temp
+}
+
+function getSpread(val){
+  var spread = 0;
+  if(val*1>=0.01 && val*1<0.25){
+    spread = 0.001;
+  }else if(val*1>=0.25 && val*1<0.5){
+    spread = 0.005;
+  }else if(val*1>=0.5 && val*1<10){
+    spread = 0.01;
+  }else if(val*1>=10 && val*1<20){
+    spread = 0.02;
+  }else if(val*1>=20 && val*1<100){
+    spread = 0.05;
+  }else if(val*1>=100 && val*1<200){
+    spread = 0.1;
+  }else if(val*1>=200 && val*1<500){
+    spread = 0.2;
+  }else if(val*1>=500 && val*1<1000){
+    spread = 0.5;
+  }else if(val*1>=1000 && val*1<2000){
+    spread = 1;
+  }else if(val*1>=2000 && val*1<5000){
+    spread = 2;
+  }else if(val*1>=5000){
+    spread = 5;
+  }else{
+    spread = 0;
+  }
+  return spread;
+}
+  
+function capitalize(val) {
+  if (!val) return val;
+  return val.charAt(0).toUpperCase() + val.slice(1);
+}
+
+function getNo(val) {
+  return parseInt(val.replace('u', '').replace('_1', ''));
+}
+
+function setNo(val) {
+  return 'u'+val.toString().padStart(3, '0')+'_1'
+}
+
+function getTime() {
+  return moment().format("HH:mm:ss")
 }
