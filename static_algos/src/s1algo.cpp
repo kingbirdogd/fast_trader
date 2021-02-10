@@ -404,7 +404,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						}
 
 						unsigned long long fpcb = spm->sellOut(wbest_bid_price);
-						if(fpcb > obsw[i]->StopLostPrice  && fpcb <= obs->StopLostPrice && fpcb <= best_bid_price && wbest_bid_price>obsw[i]->RefWBid){
+						if(fpcb > obsw[i]->StopLostPrice  && fpcb <= obs->StopLostPrice && fpcb <= best_bid_price && wbest_bid_price>obsw[i]->RefWBid && wbest_bid_price>obsw[i]->BuyPrice){
 							obsw[i]->StopLostPrice = fpcb;
 							obsw[i]->RefWBid = wbest_bid_price;
 
@@ -1580,7 +1580,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								Log("Do Sell Warrant Code  =  " + to_string(wobsArray[i]->Code) + "Buy Price = 0 ");
 								continue;
 							}
-
+/*
 							if(wobsArray[i]->LvlBid == trade_price && wbest_bid_price >= wobsArray[i]->BuyPrice){
 
 								wobsArray[i]->Status = STATUS_SELLING;
@@ -1592,14 +1592,15 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 								Log("Do Sell Warrant Code @ LVL =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
 								continue;
-							}
+							}*/
 
 							if(wobsArray[i]->StopLostPrice < trade_price){
 								Log("Do Sell Warrant Code @ =  " + to_string(wobsArray[i]->Code) + " Stop Lost = " + to_string(wobsArray[i]->StopLostPrice));
 								continue;
 							}
 
-							if(wbest_bid_price >= wobsArray[i]->BuyPrice){
+							//if(wbest_bid_price >= wobsArray[i]->BuyPrice){
+							if(wbest_bid_price > wobsArray[i]->BuyPrice){
 
 								//unsigned long long t_btrade = dbp::tools::srv::current();
 
@@ -1765,7 +1766,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 							if(expectSellOut != 99999999 && wbest_bid_price >= wobsArray[i]->BuyPrice){
 								if(wbest_bid_price == 0)
 									continue;
-
+/*
 								if(wbest_bid_price == wobsArray[i]->BuyPrice && expectSellOut == trade_price){
 									wobsArray[i]->Status = STATUS_SELLING;
 
@@ -1777,7 +1778,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 									}
 									Log("2 1: Do Sell Level Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
 									continue;
-								}
+								}*/
 
 								if(wbest_bid_price > wobsArray[i]->BuyPrice){
 									wobsArray[i]->Status = STATUS_SELLING;
