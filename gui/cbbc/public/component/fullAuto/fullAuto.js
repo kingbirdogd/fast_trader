@@ -526,6 +526,9 @@ class FullAuto extends React.Component {
     // 删除旧的wprice
     if (data.warrant_code in state.wntPrice)
       delete state.wntPrice[data.warrant_code]
+    // 删除旧的stoplost
+    if (data.ucode in state.stockPrice)
+      delete state.stockPrice[data.ucode]
     return state
   }
   
@@ -1082,7 +1085,7 @@ class FullAuto extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.28
+          Copyright © {curYear} Fast Trader v1.0.32
         </div>
       </React.Fragment>
       /*
