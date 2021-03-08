@@ -73,7 +73,7 @@
 			}
 		},
 		{
-			"ID":3,
+			"ID":13,
 			"IP":"192.168.104.88",
 			"PORT":35101,
 			"USER":"P990098",
@@ -81,9 +81,9 @@
 			"BUY_POWER":5000000,	
 			"ALGOS":
 			{
-				"eric_csalgo":
+				"demo001_semipro":
 				{
-					"lib": "csalgo",
+					"lib": "semipro",
 					"params":
 					{
 					}
