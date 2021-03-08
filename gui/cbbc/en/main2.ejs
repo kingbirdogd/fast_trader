@@ -1,0 +1,38 @@
+<% include component/header.ejs %>
+<script src="/page/login.js" type="application/javascript"></script>
+<script>
+var alertMsg = "<%= alert %>";
+var origin = "<%= origin %>";
+$(document).ready(function() {
+  // sonething here...
+});
+</script>
+
+<div id="login" class="container">
+<div class="row">
+<div class="col-12 col-sm-12">
+
+<form id="form-login" action="javascript:void(0);" method="POST">
+  <div class="alert alert-danger" role="alert"></div>
+  <input type="text" placeholder="username" name="user_name" id="user_name" required>
+  <input type="password" placeholder="password" name="password" id="password" required>
+  
+  <select id="origin" class="form-control form-control-lg">
+    <option value="semipro">hts</option>
+    <option value="semi">classic hts</option>
+    <option value="cbbc">cbbc</option>
+    <option value="a1">a1</option>
+    <option value="csalgo">csalgo</option>
+    <option value="s1algoput">s1algoput</option>
+  </select>
+  
+  <button id="submit" type="submit" value="submit">Login</button>
+  
+  <div class="sub-info"><a href="/hts">switch to classic hts</a>
+</form>
+
+</div>
+</div>
+</div>
+
+<% include component/footer.ejs %>

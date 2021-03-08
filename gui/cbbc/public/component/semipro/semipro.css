@@ -1,0 +1,105 @@
+#ticket .container,
+#ticket .container .row {
+  max-width: 1550px;
+  font-size: 12px;
+}
+
+#ticket  .control-panel button {
+  font-size: 12px;
+}
+
+#ticket  .control-panel .glossary {
+  padding: 8px 2px 8px 2px;
+  width: 340px;
+}
+
+#ticket  .control-panel .glossary table {
+  font-size: 12px;
+}
+
+#ticket  .control-panel .glossary table td {
+  border-top: 1px solid #dee2e6;
+}
+
+#ticket  .control-panel .glossary table tr:nth-of-type(odd) {
+  background-color: rgba(0,0,0,.05);
+}
+
+#ticket  .control-panel .glossary table td span {
+  width: 30px;
+  height: 16px;
+  float: left;
+  text-align: center;
+}
+
+#ticket  .control-panel .glossary table td span {
+  color: #fff;
+}
+
+#ticket  .control-panel .glossary table td span.bg_green {
+  background: #0fc351;
+}
+
+#ticket  .control-panel .glossary table td span.bg_red {
+  background: #dc3545;
+}
+
+#ticket  .control-panel .glossary table td span.bg_orange {
+  background: #ffb400;
+}
+
+#ticket  .control-panel .glossary table td span.bg_none2 {
+  background: #313131;
+}
+
+#ticket  .control-panel .glossary table td span.bg_yellow {
+    background: #fbf508;
+}
+
+#ticket  .x-scroll {
+  overflow-x: auto;
+}
+
+#ticket  .table-trade,
+#ticket  .table-cash,
+#ticket  .table-position,
+#ticket  .table-order,
+#ticket  .table-setting {
+  font-size: 11px;
+}
+
+#ticket  .table-trade th,
+#ticket  .table-cash th,
+#ticket  .table-position th,
+#ticket  .table-order th,
+#ticket  .table-setting th {
+  padding: 4px 0px 0px 4px;
+}
+
+#ticket  .table-trade td,
+#ticket  .table-cash td,
+#ticket  .table-position td,
+#ticket  .table-order td,
+#ticket  .table-setting td {
+  padding: 4px 2px 4px 2px;
+}
+
+#ticket  .table-trade {
+  min-width: 1500px;
+}
+
+#ticket  .table-trade th:nth-child(8), #ticket  .table-trade th:nth-child(16), #ticket  .table-trade th:nth-child(19),
+#ticket  .table-trade td:nth-child(8), #ticket  .table-trade td:nth-child(16), #ticket  .table-trade td:nth-child(19) {
+  border-right: 1px solid #666;
+}
+
+#ticket  .table-trade button {
+  padding: 0px;
+  width: 45px;
+  font-size: 10px;
+}
+
+#ticket  .table-trade input,
+#ticket  .table-setting input {
+  width: 100%;
+}

@@ -1,0 +1,190 @@
+<html>
+<head>
+  <title>Admin</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/css/general.css">
+  <style>
+  .table th, .table td {
+    padding: .25rem .75rem;
+    font-size: 12px;
+  }
+  
+  .textarea-msg, .btn-sm {
+    font-size: 12px;
+  }
+  
+  </style>
+  <script>
+  var ui = {};      // 组件
+  var global = {};  // 公共
+  global.host = location.host;
+  
+  $(document).ready(function() {
+    initUI();
+    
+    ui.btnLogout.click(function() {
+      window.location.href = "/admin";
+    });
+  
+    // 1.0 data
+    $.ajax({
+      type: "POST",
+      crossDomain: true,
+      url: "http://"+global.host+"/status",
+      success: function(res) {
+        // 1.1 socket
+        if (('conns' in res) && Object.keys(res.conns).length>0) {
+          var html = '';
+          for (const [userId, origin] of Object.entries(res.conns)) {
+            for (const [k, v] of Object.entries(origin)) {
+              var taId = 'textarea-'+userId.toString()+'-'+k.toString();
+              html += '<tr>';
+              html += '<td>'+userId.toString()+'</td>';
+              html += '<td>'+k.toString()+'</td>';
+              html += '<td>'+v.toString()+'</td>';
+              html += '<td> <textarea class="form-control textarea-msg" id="'+taId+'" rows="2"></textarea> </td>';
+              html += '<td> <button data-user="'+userId.toString()+'" data-origin="'+k.toString()+'" data-msg="'+taId+'" class="btn btn-sm btn-primary btn-send">Send</button> </td>';
+              html += '</tr>';
+            }
+          }
+          ui.tbConns.children('tbody').html(html);
+        }
+        else if (!('conns' in res) || Object.keys(res.conns).length==0) {
+          var html = '<tr><td colspan="5">No Connection</td></tr>'
+          ui.tbConns.children('tbody').html(html);
+        }
+        
+        // 1.2 users
+        if (('users' in res) && Object.keys(res.users).length>0) {
+          var html = '';
+          for (const [name, val] of Object.entries(res.users)) {
+            html += '<tr>';
+            html += '<td>'+name.toString()+'</td>';
+            html += '<td>'+val.id.toString()+'</td>';
+            html += '<td>'+val.password.toString()+'</td>';
+            html += '<td></td>';
+            html += '</tr>';
+          }
+          ui.tbUsers.children('tbody').html(html);
+        }
+        else if (!('users' in res) || Object.keys(res.users).length==0) {
+          var html = '<tr><td colspan="5">No Users</td></tr>'
+          ui.tbUsers.children('tbody').html(html);
+        } 
+      },
+      // 1.4 post process
+      complete: function() {
+        initUI();
+        handleSend();
+      }
+    });
+    
+    // 1.1 handle socket
+    function handleSend() {
+      ui.btnSend.click(function() {
+        var userId = $(this).data('user'),
+            origin = $(this).data('origin'),
+            msgId =  $(this).data('msg');
+        var msg = $('#'+msgId).val();
+        if (!msg || msg.toString().length==0)
+          msg = JSON.stringify({"action":"block_trade"});
+        else
+          msg = JSON.stringify({"admin_message":msg});
+        var data = {id: userId, origin: origin, msg: msg};
+        
+        $.ajax({
+          type: "POST",
+          crossDomain: true,
+          url: "/admin-send-msg",
+          data: data,
+          success: function(res) {}
+        });
+        
+      });
+    }
+    
+    
+  });
+  
+  function initUI() {
+    ui.btnLogout = $('#btn-logout');
+    ui.tbConns = $('#tb-conns');
+    ui.tbUsers = $('#tb-users');
+    ui.btnSend = $('.btn-send');
+  }
+  </script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<div class="container">
+  <a class="navbar-brand" href="javascript:void(0);">Fast Trader Admin Panel</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarContent">
+    <ul class="navbar-nav">
+    <li class="nav-item" data-nav="home">
+      <a class="nav-link" href="javascript:void(0);">home</a>
+    </li>
+    </ul>
+
+    <ul class="navbar-nav ml-auto">
+    <li class="nav-item">
+      <form class="form-inline mb-0 mb-sm-0">
+        <button id="btn-logout" class="btn btn-sm btn-outline-success" type="button">Logout</button>
+      </form>
+    </li>
+    </ul>
+  </div>
+  
+</div>
+</nav>
+
+<div class="container">
+
+<div class="row mb-4 mb-sm-4">
+<div class="col-12 col-sm-12">
+  <h6> WS Socket </h6>
+  <table class="table table-striped" id="tb-conns">
+  <thead>
+    <tr>
+      <th scope="col">User Id</th>
+      <th scope="col">Origin</th>
+      <th scope="col">Owner</th>
+      <th scope="col">Message</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+  </table>
+</div>
+</div>
+
+
+<div class="row">
+<div class="col-12 col-sm-12">
+  <h6> Users </h6>
+  <table class="table table-striped" id="tb-users">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Id</th>
+      <th scope="col">Password</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+  </table>
+</div>
+</div>
+
+
+</div>
+</body>
+</html>

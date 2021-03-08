@@ -1,0 +1,100 @@
+#ticket.container {
+  max-width: 1580px;
+}
+
+#ticket input,
+#ticket .input-group-ticket {
+  width: 85px;
+}
+
+#ticket .cell button {
+  padding: 1px 2px;
+  font-size: 11px;
+}
+
+#ticket textarea {
+  width: 100%;
+  resize: none;
+  border: 1px solid #ccc !important;
+}
+
+#ticket .cell {
+  min-width: 365px;
+  border: 1px solid #cfcfcf;
+  padding: 4px;
+  font-size: 11px;
+  background-color: #f9f9f9;
+}
+
+#ticket .header {
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #dee2e6;
+}
+
+#ticket .price-table {
+  margin: 0px;
+}
+
+#ticket .price-table td,
+#ticket .price-table th {
+  width: 50%;
+  padding: 0px;
+}
+
+#ticket .price-table input.form-control {
+  height: 22px;
+  width: 100%;
+  font-size: 12px;
+  padding: 0px;
+  border-width:0px !important;
+  border:none !important;
+}
+
+#ticket .input-group-ticket input {
+  height: 22px;
+  width: 50px;
+  padding: 2px;
+  font-size: 11px;
+  line-height: inherit;
+}
+
+#ticket .input-group-ticket button {
+  width: 14.5px;
+  z-index: 0;
+}
+
+#ticket .bar {
+  position: relative;
+  top:-18px;
+}
+
+#ticket .control-container .btn-sm {
+  font-size: 11px;
+}
+
+#ticket .status .status-icon {
+  font-size: 11px;
+  color: #fff;
+}
+
+#ticket .status .status-icon.btn-success,
+#ticket .status .status-icon.btn-success.focus {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+#ticket .status .status-icon.btn-danger,
+#ticket .status .status-icon.btn-danger.focus {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+#ticket .status #status_detail {
+  font-size: 11px;
+}
+
+#ticket .status #status_detail .card-body {
+  padding: 4px;
+  border: 1px solid #cfcfcf;
+  background-color: #f9f9f9;
+}

@@ -1,0 +1,68 @@
+<html>
+<head>
+  <title>Admin</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"/>
+  <style>
+    form, #tvResult {padding: 10px; border: 1px solid #cfcfcf; background-color: #f9f9f9; font-size: 12px;}
+    form .form-group {margin-bottom: 10px;}
+    .col-form-label-sm, .form-control-sm, .btn-primary {font-size: 12px;}
+  </style>
+  <script>
+  var ui = {};      // 组件
+  var global = {};  // 公共
+  global.host = location.host;
+  
+  $(document).ready(function() {
+    initUI();
+    ui.tvErrorMsg.hide();
+    
+    ui.btnSubmit.click(function() {
+      if (ui.tvAc.val() == 'fast_trader' && ui.tvPw.val() == '123a') {
+        window.location.href = "/admin-panel";
+      }
+      else {
+        ui.tvErrorMsg.text("Wrong name or password!");
+        ui.tvErrorMsg.show();
+      }
+    });
+  });
+  
+  function initUI() {
+    ui.formLogin = $('#formLogin');
+    ui.tvAc = $('input[name="ac"]');
+    ui.tvPw = $('input[name="pw"]');
+    ui.btnSubmit = $('#btnSubmit');
+    ui.tvErrorMsg = $('#tvErrorMsg');
+  }
+  </script>
+</head>
+<body>
+<div class="container">
+
+<div class="row">
+<div class="col-12 mt-4">
+  <h6> Login </h6>
+  <form id="formLogin">
+    <div class="form-group row">
+      <label for="name" class="col-sm-2 col-form-label col-form-label-sm">Name</label>
+      <div class="col-sm-10">
+        <input type="text" name="ac" class="form-control form-control-sm" value="">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="pw" class="col-sm-2 col-form-label col-form-label-sm">Password</label>
+      <div class="col-sm-10">
+        <input type="text" name="pw" class="form-control form-control-sm" value="">
+      </div>
+    </div>
+    <button type="button" id="btnSubmit" class="btn btn-sm btn-primary">Submit</button>
+  </form>
+  <div id="tvErrorMsg" class="alert alert-danger" role="alert"></div>
+</div>
+</div>
+
+</div>
+</body>
+</html>
