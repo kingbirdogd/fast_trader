@@ -1,5 +1,5 @@
 {
-	"IN_OUT_PROCESS": "node ${HOME}/fast_trader/gui/db_server_uat_v4.0.7.js 9919",
+	"IN_OUT_PROCESS": "node ${HOME}/fast_trader/gui/db_server_uat_v4.0.8.js 9919",
 	"SCHED_PRIORITY": 0,
 	"SCHED_TYPE": "SCHED_OTHER",
 	"SOL_SOCKET":
@@ -75,22 +75,6 @@
 			}
 		},
 		{
-			"ID":6,
-			"USER":"M300317",
-			"PASS":"68317801",
-			"BUY_POWER":5000000,
-			"ALGOS":
-			{
-				"M300317_semi":
-				{
-					"lib": "semi",
-					"params":
-					{
-					}
-				}
-			}
-		},
-		{
 			"ID":5,
 			"USER":"P311831",
 			"PASS":"Shun2328",
@@ -100,29 +84,6 @@
 				"s1put_s1algoput":
 				{
 					"lib": "s1algoput",
-					"params":
-					{
-					}
-				}
-			}
-		},
-		{
-			"ID":7,
-			"USER":"P315448",
-			"PASS":"Ww202012?><88",
-			"BUY_POWER":5100000,
-			"ALGOS":
-			{
-				"M315448_semi":
-				{
-					"lib": "semi",
-					"params":
-					{
-					}
-				},
-				"M315448_bear":
-				{
-					"lib": "bear",
 					"params":
 					{
 					}
