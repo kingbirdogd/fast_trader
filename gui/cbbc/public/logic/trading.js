@@ -82,18 +82,22 @@ const formatCommand = (key, state, fields, original) => {
   return command
 }
 
-const formatLong = (val) => {
-  var unit = 100000000
-  if (typeof val !='undefined' && val>0)
-    return parseFloat(val)/unit
+const formatLong = (val, digit=3) => {
+  var val = parseFloat(val);
+  var unit = parseInt(100000000);
+  if (typeof val !='undefined' && val != null && val != '' && val>0)
+    return parseFloat(parseFloat(val/unit).toFixed(digit))
   else
     return 0.00
 }
 
-const formatLongV2 = (val) => {
+const formatLongV2 = (val, digit=0) => {
   var val = parseFloat(val);
   var unit = parseInt(100000000);
-  return parseFloat(parseFloat(val*unit).toFixed(0))
+  if (typeof val !='undefined' && val != null && val != '' && val>0)
+    return parseFloat(parseFloat(val*unit).toFixed(digit))
+  else
+    return 0.00
 }
 
 const formatPrice = (val) => {

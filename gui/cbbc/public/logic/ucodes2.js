@@ -3,67 +3,67 @@ var ucodesName2 =
   {
     "code": "1",
     "name": "CKH HOLDINGS",
-    "nmll": "長江和記實業 "
+    "nmll": "长江和记实业 "
   },
   {
     "code": "2",
     "name": "CLP HOLDINGS",
-    "nmll": "中電控股"
+    "nmll": "中电控股"
   },
   {
     "code": "3",
     "name": "HK & CHINA GAS",
-    "nmll": "香港中華煤氣"
+    "nmll": "香港中华煤气"
   },
   {
     "code": "4",
     "name": "WHARF HOLDINGS",
-    "nmll": "九龍倉集團"
+    "nmll": "九龙仓集团"
   },
   {
     "code": "5",
     "name": "HSBC HOLDINGS",
-    "nmll": "匯豐控股"
+    "nmll": "汇丰控股"
   },
   {
     "code": "6",
     "name": "POWER ASSETS",
-    "nmll": "電能實業"
+    "nmll": "电能实业"
   },
   {
     "code": "7",
     "name": "HK FINANCE INV",
-    "nmll": "香港金融集團"
+    "nmll": "香港金融集团"
   },
   {
     "code": "8",
     "name": "PCCW",
-    "nmll": "電訊盈科"
+    "nmll": "电讯盈科"
   },
   {
     "code": "9",
     "name": "KEYNE LTD",
-    "nmll": "金奧國際"
+    "nmll": "金奥国际"
   },
   {
     "code": "10",
     "name": "HANG LUNG GROUP",
-    "nmll": "恒隆集團"
+    "nmll": "恒隆集团"
   },
   {
     "code": "11",
     "name": "HANG SENG BANK",
-    "nmll": "恒生銀行"
+    "nmll": "恒生银行"
   },
   {
     "code": "12",
     "name": "HENDERSON LAND",
-    "nmll": "恒基地產"
+    "nmll": "恒基地产"
   },
   {
     "code": "14",
     "name": "HYSAN DEV",
-    "nmll": "希慎興業"
+    "nmll": "希慎兴业"
   },
   {
     "code": "15",
@@ -73,17 +73,17 @@ var ucodesName2 =
   {
     "code": "16",
     "name": "SHK PPT",
-    "nmll": "新鴻基地產"
+    "nmll": "新鸿基地产"
   },
   {
     "code": "17",
     "name": "NEW WORLD DEV",
-    "nmll": "新世界發展"
+    "nmll": "新世界发展"
   },
   {
     "code": "18",
     "name": "ORIENTAL PRESS",
-    "nmll": "東方報業集團"
+    "nmll": "东方报业集团"
   },
   {
     "code": "19",
@@ -93,7 +93,7 @@ var ucodesName2 =
   {
     "code": "21",
     "name": "GREAT CHI PPT",
-    "nmll": "大中華地產控股"
+    "nmll": "大中华地产控股"
   },
   {
     "code": "22",
@@ -103,27 +103,27 @@ var ucodesName2 =
   {
     "code": "23",
     "name": "BANK OF E ASIA",
-    "nmll": "東亞銀行"
+    "nmll": "东亚银行"
   },
   {
     "code": "24",
     "name": "BURWILL",
-    "nmll": "寶威控股"
+    "nmll": "宝威控股"
   },
   {
     "code": "25",
     "name": "CHEVALIER INT'L",
-    "nmll": "其士國際集團 "
+    "nmll": "其士国际集团 "
   },
   {
     "code": "26",
     "name": "CHINA MOTOR BUS",
-    "nmll": "中華汽車"
+    "nmll": "中华汽车"
   },
   {
     "code": "27",
     "name": "GALAXY ENT",
-    "nmll": "銀河娛樂"
+    "nmll": "银河娱乐"
   },
   {
     "code": "28",
@@ -133,12 +133,12 @@ var ucodesName2 =
   {
     "code": "29",
     "name": "DYNAMIC HOLD",
-    "nmll": "達力集團"
+    "nmll": "达力集团"
   },
   {
     "code": "30",
     "name": "BAN LOONG HOLD",
-    "nmll": "萬隆控股集團"
+    "nmll": "万隆控股集团"
   },
   {
     "code": "31",
@@ -158,52 +158,52 @@ var ucodesName2 =
   {
     "code": "34",
     "name": "KOWLOON DEV",
-    "nmll": "九龍建業"
+    "nmll": "九龙建业"
   },
   {
     "code": "35",
     "name": "FE CONSORT INTL",
-    "nmll": "遠東發展"
+    "nmll": "远东发展"
   },
   {
     "code": "36",
     "name": "FE HLDGS INTL",
-    "nmll": "遠東控股國際"
+    "nmll": "远东控股国际"
   },
   {
     "code": "37",
     "name": "FE HOTELS",
-    "nmll": "遠東酒店實業"
+    "nmll": "远东酒店实业"
   },
   {
     "code": "38",
     "name": "FIRST TRACTOR",
-    "nmll": "第一拖拉機股份"
+    "nmll": "第一拖拉机股份"
   },
   {
     "code": "39",
     "name": "CH BEIDAHUANG",
-    "nmll": "中國北大荒"
+    "nmll": "中国北大荒"
   },
   {
     "code": "40",
     "name": "GOLD PEAK",
-    "nmll": "金山工業"
+    "nmll": "金山工业"
   },
   {
     "code": "41",
     "name": "GREAT EAGLE H",
-    "nmll": "鷹君"
+    "nmll": "鹰君"
   },
   {
     "code": "42",
     "name": "NE ELECTRIC",
-    "nmll": "東北電氣"
+    "nmll": "东北电气"
   },
   {
     "code": "43",
     "name": "C.P. POKPHAND",
-    "nmll": "卜蜂國際"
+    "nmll": "卜蜂国际"
   },
   {
     "code": "45",
@@ -213,92 +213,92 @@ var ucodesName2 =
   {
     "code": "46",
     "name": "COMPUTER & TECH",
-    "nmll": "科聯系統"
+    "nmll": "科联系统"
   },
   {
     "code": "47",
     "name": "HOP HING GROUP",
-    "nmll": "合興集團"
+    "nmll": "合兴集团"
   },
   {
     "code": "48",
     "name": "C AUTO INT DECO",
-    "nmll": "中國汽車內飾"
+    "nmll": "中国汽车内饰"
   },
   {
     "code": "50",
     "name": "HK FERRY (HOLD)",
-    "nmll": "香港小輪（集團）"
+    "nmll": "香港小轮（集团）"
   },
   {
     "code": "51",
     "name": "HARBOUR CENTRE",
-    "nmll": "海港企業"
+    "nmll": "海港企业"
   },
   {
     "code": "52",
     "name": "FAIRWOOD HOLD",
-    "nmll": "大快活集團 "
+    "nmll": "大快活集团 "
   },
   {
     "code": "53",
     "name": "GUOCO GROUP",
-    "nmll": "國浩集團"
+    "nmll": "国浩集团"
   },
   {
     "code": "55",
     "name": "NEWAY GROUP",
-    "nmll": "中星集團控股"
+    "nmll": "中星集团控股"
   },
   {
     "code": "56",
     "name": "ALLIED PPT (HK)",
-    "nmll": "聯合地產（香港）"
+    "nmll": "联合地产（香港）"
   },
   {
     "code": "57",
     "name": "CHEN HSONG HOLD",
-    "nmll": "震雄集團"
+    "nmll": "震雄集团"
   },
   {
     "code": "58",
     "name": "SUNWAY INT'L",
-    "nmll": "新威國際"
+    "nmll": "新威国际"
   },
   {
     "code": "59",
     "name": "SKYFAME REALTY",
-    "nmll": "天譽置業"
+    "nmll": "天誉置业"
   },
   {
     "code": "60",
     "name": "HK FOOD INV",
-    "nmll": "香港食品投資"
+    "nmll": "香港食品投资"
   },
   {
     "code": "62",
     "name": "TRANSPORT INT'L",
-    "nmll": "載通"
+    "nmll": "载通"
   },
   {
     "code": "63",
     "name": "CHINA GRAPHENE",
-    "nmll": "中國烯谷集團"
+    "nmll": "中国烯谷集团"
   },
   {
     "code": "64",
     "name": "GET NICE",
-    "nmll": "結好控股"
+    "nmll": "结好控股"
   },
   {
     "code": "65",
     "name": "GRAND OCEAN AR",
-    "nmll": "弘海高新資源"
+    "nmll": "弘海高新资源"
   },
   {
     "code": "66",
     "name": "MTR CORPORATION",
-    "nmll": "港鐵公司"
+    "nmll": "港铁公司"
   },
   {
     "code": "67",
@@ -308,92 +308,92 @@ var ucodesName2 =
   {
     "code": "68",
     "name": "LEE HING",
-    "nmll": "利興發展"
+    "nmll": "利兴发展"
   },
   {
     "code": "69",
     "name": "SHANGRI-LA ASIA",
-    "nmll": "香格里拉（亞洲）"
+    "nmll": "香格里拉（亚洲）"
   },
   {
     "code": "70",
     "name": "RICH GOLDMAN",
-    "nmll": "金粵控股"
+    "nmll": "金粤控股"
   },
   {
     "code": "71",
     "name": "MIRAMAR HOTEL",
-    "nmll": "美麗華酒店"
+    "nmll": "美丽华酒店"
   },
   {
     "code": "72",
     "name": "MODERN MEDIA",
-    "nmll": "現代傳播"
+    "nmll": "现代传播"
   },
   {
     "code": "73",
     "name": "ASIAN CITRUS",
-    "nmll": "亞洲果業"
+    "nmll": "亚洲果业"
   },
   {
     "code": "75",
     "name": "Y.T. REALTY",
-    "nmll": "渝太地產"
+    "nmll": "渝太地产"
   },
   {
     "code": "76",
     "name": "ELATE HOLDINGS",
-    "nmll": "誼礫控股"
+    "nmll": "谊砾控股"
   },
   {
     "code": "77",
     "name": "AMS TRANSPORT",
-    "nmll": "進智公共交通"
+    "nmll": "进智公共交通"
   },
   {
     "code": "78",
     "name": "REGAL INT'L",
-    "nmll": "富豪酒店國際 "
+    "nmll": "富豪酒店国际 "
   },
   {
     "code": "79",
     "name": "CENTURY LEGEND",
-    "nmll": "世紀建業"
+    "nmll": "世纪建业"
   },
   {
     "code": "80",
     "name": "CNEWECON FUND",
-    "nmll": "中國新經濟投資"
+    "nmll": "中国新经济投资"
   },
   {
     "code": "81",
     "name": "CH OVS G OCEANS",
-    "nmll": "中國海外宏洋集團"
+    "nmll": "中国海外宏洋集团"
   },
   {
     "code": "82",
     "name": "V1 GROUP",
-    "nmll": "第一視頻"
+    "nmll": "第一视频"
   },
   {
     "code": "83",
     "name": "SINO LAND",
-    "nmll": "信和置業"
+    "nmll": "信和置业"
   },
   {
     "code": "84",
     "name": "STELUX HOLDINGS",
-    "nmll": "寶光實業"
+    "nmll": "宝光实业"
   },
   {
     "code": "85",
     "name": "CE HUADA TECH",
-    "nmll": "中電華大科技"
+    "nmll": "中电华大科技"
   },
   {
     "code": "86",
     "name": "SUN HUNG KAI CO",
-    "nmll": "新鴻基公司"
+    "nmll": "新鸿基公司"
   },
   {
     "code": "87",
@@ -403,12 +403,12 @@ var ucodesName2 =
   {
     "code": "88",
     "name": "TAI CHEUNG HOLD",
-    "nmll": "大昌集團 "
+    "nmll": "大昌集团 "
   },
   {
     "code": "89",
     "name": "TAI SANG LAND",
-    "nmll": "大生地產"
+    "nmll": "大生地产"
   },
   {
     "code": "90",
@@ -418,27 +418,27 @@ var ucodesName2 =
   {
     "code": "91",
     "name": "GOLDEN CEN INTL",
-    "nmll": "金禧國際控股"
+    "nmll": "金禧国际控股"
   },
   {
     "code": "92",
     "name": "CHAMPION TECH",
-    "nmll": "冠軍科技集團"
+    "nmll": "冠军科技集团"
   },
   {
     "code": "93",
     "name": "TERMBRAY IND",
-    "nmll": "添利工業國際 "
+    "nmll": "添利工业国际 "
   },
   {
     "code": "94",
     "name": "GREENHEART GP",
-    "nmll": "綠心集團"
+    "nmll": "绿心集团"
   },
   {
     "code": "95",
     "name": "LVGEM CHINA",
-    "nmll": "綠景中國地產"
+    "nmll": "绿景中国地产"
   },
   {
     "code": "96",
@@ -448,37 +448,37 @@ var ucodesName2 =
   {
     "code": "97",
     "name": "HENDERSON INV",
-    "nmll": "恒基發展"
+    "nmll": "恒基发展"
   },
   {
     "code": "98",
     "name": "XINGFA ALUM",
-    "nmll": "興發鋁業"
+    "nmll": "兴发铝业"
   },
   {
     "code": "99",
     "name": "WONG'S INT'L",
-    "nmll": "王氏國際"
+    "nmll": "王氏国际"
   },
   {
     "code": "100",
     "name": "CLEAR MEDIA",
-    "nmll": "白馬戶外媒體"
+    "nmll": "白马户外媒体"
   },
   {
     "code": "101",
     "name": "HANG LUNG PPT",
-    "nmll": "恒隆地產"
+    "nmll": "恒隆地产"
   },
   {
     "code": "102",
     "name": "SUMMIT ASCENT",
-    "nmll": "凱升控股"
+    "nmll": "凯升控股"
   },
   {
     "code": "103",
     "name": "SHOUGANG CENT",
-    "nmll": "首長寶佳"
+    "nmll": "首长宝佳"
   },
   {
     "code": "104",
@@ -488,12 +488,12 @@ var ucodesName2 =
   {
     "code": "105",
     "name": "ASSO INT HOTELS",
-    "nmll": "凱聯國際酒店"
+    "nmll": "凯联国际酒店"
   },
   {
     "code": "106",
     "name": "LANDSEA PPT",
-    "nmll": "朗詩地產"
+    "nmll": "朗诗地产"
   },
   {
     "code": "107",
@@ -503,42 +503,42 @@ var ucodesName2 =
   {
     "code": "108",
     "name": "GR PROPERTIES",
-    "nmll": "國銳地產"
+    "nmll": "国锐地产"
   },
   {
     "code": "109",
     "name": "GOODRESOURCES",
-    "nmll": "天成國際"
+    "nmll": "天成国际"
   },
   {
     "code": "110",
     "name": "CHINA FORTUNE",
-    "nmll": "中國長遠"
+    "nmll": "中国长远"
   },
   {
     "code": "111",
     "name": "CINDA INTL HLDG",
-    "nmll": "信達國際控股"
+    "nmll": "信达国际控股"
   },
   {
     "code": "112",
     "name": "LERTHAI GROUP",
-    "nmll": "勒泰集團"
+    "nmll": "勒泰集团"
   },
   {
     "code": "113",
     "name": "DICKSON CONCEPT",
-    "nmll": "迪生創建"
+    "nmll": "迪生创建"
   },
   {
     "code": "114",
     "name": "HERALD HOLD",
-    "nmll": "興利集團 "
+    "nmll": "兴利集团 "
   },
   {
     "code": "115",
     "name": "GRAND FIELD GP",
-    "nmll": "鈞濠集團"
+    "nmll": "钧濠集团"
   },
   {
     "code": "116",
@@ -548,17 +548,17 @@ var ucodesName2 =
   {
     "code": "117",
     "name": "TIANLI HOLDINGS",
-    "nmll": "天利控股集團"
+    "nmll": "天利控股集团"
   },
   {
     "code": "118",
     "name": "COSMOS MACH",
-    "nmll": "大同機械"
+    "nmll": "大同机械"
   },
   {
     "code": "119",
     "name": "POLY PROPERTY",
-    "nmll": "保利置業集團"
+    "nmll": "保利置业集团"
   },
   {
     "code": "120",
@@ -568,77 +568,77 @@ var ucodesName2 =
   {
     "code": "122",
     "name": "CROCODILE",
-    "nmll": "鱷魚恤"
+    "nmll": "鳄鱼恤"
   },
   {
     "code": "123",
     "name": "YUEXIU PROPERTY",
-    "nmll": "越秀地產"
+    "nmll": "越秀地产"
   },
   {
     "code": "124",
     "name": "GD LAND",
-    "nmll": "粵海置地"
+    "nmll": "粤海置地"
   },
   {
     "code": "125",
     "name": "SUN HING VISION",
-    "nmll": "新興光學"
+    "nmll": "新兴光学"
   },
   {
     "code": "126",
     "name": "CARRIANNA",
-    "nmll": "佳寧娜"
+    "nmll": "佳宁娜"
   },
   {
     "code": "127",
     "name": "CHINESE EST H",
-    "nmll": "華人置業"
+    "nmll": "华人置业"
   },
   {
     "code": "128",
     "name": "ENM HOLDINGS",
-    "nmll": "安寧控股"
+    "nmll": "安宁控股"
   },
   {
     "code": "129",
     "name": "ASIA STANDARD",
-    "nmll": "泛海集團"
+    "nmll": "泛海集团"
   },
   {
     "code": "130",
     "name": "MOISELLE INT'L",
-    "nmll": "慕詩國際"
+    "nmll": "慕诗国际"
   },
   {
     "code": "131",
     "name": "CHEUK NANG HOLD",
-    "nmll": "卓能（集團）"
+    "nmll": "卓能（集团）"
   },
   {
     "code": "132",
     "name": "CHINA INV HOLD",
-    "nmll": "中國興業控股"
+    "nmll": "中国兴业控股"
   },
   {
     "code": "133",
     "name": "CHINA MERCHANTS",
-    "nmll": "招商局中國基金"
+    "nmll": "招商局中国基金"
   },
   {
     "code": "135",
     "name": "KUNLUN ENERGY",
-    "nmll": "昆侖能源"
+    "nmll": "昆仑能源"
   },
   {
     "code": "136",
     "name": "HENGTEN NET",
-    "nmll": "恒騰網絡"
+    "nmll": "恒腾网络"
   },
   {
     "code": "137",
     "name": "JINHUI HOLDINGS",
-    "nmll": "金輝集團"
+    "nmll": "金辉集团"
   },
   {
     "code": "138",
@@ -648,7 +648,7 @@ var ucodesName2 =
   {
     "code": "139",
     "name": "CENTRALWEALTHGP",
-    "nmll": "中達集團控股"
+    "nmll": "中达集团控股"
   },
   {
     "code": "141",
@@ -663,7 +663,7 @@ var ucodesName2 =
   {
     "code": "143",
     "name": "GUOAN INTL",
-    "nmll": "國安國際"
+    "nmll": "国安国际"
   },
   {
     "code": "144",
@@ -673,27 +673,27 @@ var ucodesName2 =
   {
     "code": "145",
     "name": "HK BLDG & LOAN",
-    "nmll": "香港建屋貸款"
+    "nmll": "香港建屋贷款"
   },
   {
     "code": "146",
     "name": "TAI PING CARPET",
-    "nmll": "太平地氈國際 "
+    "nmll": "太平地毡国际 "
   },
   {
     "code": "147",
     "name": "IB SETTLEMENT",
-    "nmll": "國際商業結算"
+    "nmll": "国际商业结算"
   },
   {
     "code": "148",
     "name": "KINGBOARD HLDG",
-    "nmll": "建滔集團"
+    "nmll": "建滔集团"
   },
   {
     "code": "149",
     "name": "CH AGRI-PROD EX",
-    "nmll": "中國農產品交易"
+    "nmll": "中国农产品交易"
   },
   {
     "code": "150",
@@ -703,32 +703,32 @@ var ucodesName2 =
   {
     "code": "151",
     "name": "WANT WANT CHINA",
-    "nmll": "中國旺旺"
+    "nmll": "中国旺旺"
   },
   {
     "code": "152",
     "name": "SHENZHEN INT'L",
-    "nmll": "深圳國際"
+    "nmll": "深圳国际"
   },
   {
     "code": "153",
     "name": "CHINA SAITE",
-    "nmll": "中國賽特"
+    "nmll": "中国赛特"
   },
   {
     "code": "154",
     "name": "BE ENVIRONMENT",
-    "nmll": "北京控股環境集團"
+    "nmll": "北京控股环境集团"
   },
   {
     "code": "155",
     "name": "CHINA SOLAR",
-    "nmll": "中國源暢"
+    "nmll": "中国源畅"
   },
   {
     "code": "156",
     "name": "LIPPO CHINA RES",
-    "nmll": "力寶華潤"
+    "nmll": "力宝华润"
   },
   {
     "code": "157",
@@ -738,132 +738,132 @@ var ucodesName2 =
   {
     "code": "158",
     "name": "MELBOURNE ENT",
-    "nmll": "萬邦投資"
+    "nmll": "万邦投资"
   },
   {
     "code": "159",
     "name": "BROCKMAN MINING",
-    "nmll": "布萊克萬礦業"
+    "nmll": "布莱克万矿业"
   },
   {
     "code": "160",
     "name": "HON KWOK LAND",
-    "nmll": "漢國置業"
+    "nmll": "汉国置业"
   },
   {
     "code": "162",
     "name": "CENTURY GINWA",
-    "nmll": "世紀金花"
+    "nmll": "世纪金花"
   },
   {
     "code": "163",
     "name": "EMPEROR INT'L",
-    "nmll": "英皇國際"
+    "nmll": "英皇国际"
   },
   {
     "code": "164",
     "name": "CHINA BAOLI TEC",
-    "nmll": "中國寶力科技"
+    "nmll": "中国宝力科技"
   },
   {
     "code": "165",
     "name": "CHINA EB LTD",
-    "nmll": "中國光大控股"
+    "nmll": "中国光大控股"
   },
   {
     "code": "166",
     "name": "NEWTIMES ENERGY",
-    "nmll": "新時代能源"
+    "nmll": "新时代能源"
   },
   {
     "code": "167",
     "name": "IDT INT'L",
-    "nmll": "萬威國際 "
+    "nmll": "万威国际 "
   },
   {
     "code": "168",
     "name": "TSINGTAO BREW",
-    "nmll": "青島啤酒股份"
+    "nmll": "青岛啤酒股份"
   },
   {
     "code": "169",
     "name": "WANDA HOTEL DEV",
-    "nmll": "萬達酒店發展"
+    "nmll": "万达酒店发展"
   },
   {
     "code": "171",
     "name": "SILVER GRANT",
-    "nmll": "銀建國際控股 "
+    "nmll": "银建国际控股 "
   },
   {
     "code": "172",
     "name": "GOLDBOND GROUP",
-    "nmll": "金榜集團"
+    "nmll": "金榜集团"
   },
   {
     "code": "173",
     "name": "K. WAH INT'L",
-    "nmll": "嘉華國際"
+    "nmll": "嘉华国际"
   },
   {
     "code": "174",
     "name": "GEMINI INV",
-    "nmll": "盛洋投資"
+    "nmll": "盛洋投资"
   },
   {
     "code": "175",
     "name": "GEELY AUTO",
-    "nmll": "吉利汽車"
+    "nmll": "吉利汽车"
   },
   {
     "code": "176",
     "name": "SUPERACTIVE GP",
-    "nmll": "先機企業集團"
+    "nmll": "先机企业集团"
   },
   {
     "code": "177",
     "name": "JIANGSU EXPRESS",
-    "nmll": "江蘇寧滬高速公路"
+    "nmll": "江苏宁沪高速公路"
   },
   {
     "code": "178",
     "name": "SA SA INT'L",
-    "nmll": "莎莎國際"
+    "nmll": "莎莎国际"
   },
   {
     "code": "179",
     "name": "JOHNSON ELEC H",
-    "nmll": "德昌電機控股"
+    "nmll": "德昌电机控股"
   },
   {
     "code": "180",
     "name": "KADER HOLDINGS",
-    "nmll": "開達集團"
+    "nmll": "开达集团"
   },
   {
     "code": "181",
     "name": "FUJIAN HOLDINGS",
-    "nmll": "閩港控股"
+    "nmll": "闽港控股"
   },
   {
     "code": "182",
     "name": "CONCORD NE",
-    "nmll": "協合新能源"
+    "nmll": "协合新能源"
   },
   {
     "code": "183",
     "name": "WINFULL GP",
-    "nmll": "宏輝集團"
+    "nmll": "宏辉集团"
   },
   {
     "code": "184",
     "name": "KECK SENG INV",
-    "nmll": "激成投資"
+    "nmll": "激成投资"
   },
   {
     "code": "185",
     "name": "ZENSUN ENT",
-    "nmll": "正商實業"
+    "nmll": "正商实业"
   },
   {
     "code": "186",
@@ -873,47 +873,47 @@ var ucodesName2 =
   {
     "code": "187",
     "name": "JINGCHENG MAC",
-    "nmll": "京城機電股份"
+    "nmll": "京城机电股份"
   },
   {
     "code": "188",
     "name": "SUNWAH KINGSWAY",
-    "nmll": "新華匯富金融"
+    "nmll": "新华汇富金融"
   },
   {
     "code": "189",
     "name": "DONGYUE GROUP",
-    "nmll": "東岳集團"
+    "nmll": "东岳集团"
   },
   {
     "code": "190",
     "name": "HKC (HOLDINGS)",
-    "nmll": "香港建設（控股）"
+    "nmll": "香港建设（控股）"
   },
   {
     "code": "191",
     "name": "LAI SUN INT'L",
-    "nmll": "麗新國際"
+    "nmll": "丽新国际"
   },
   {
     "code": "193",
     "name": "CAPITAL ESTATE",
-    "nmll": "冠中地產"
+    "nmll": "冠中地产"
   },
   {
     "code": "194",
     "name": "LIU CHONG HING",
-    "nmll": "廖創興企業"
+    "nmll": "廖创兴企业"
   },
   {
     "code": "195",
     "name": "GREENTECH INTL",
-    "nmll": "綠科科技國際"
+    "nmll": "绿科科技国际"
   },
   {
     "code": "196",
     "name": "HONGHUA GROUP",
-    "nmll": "宏華集團"
+    "nmll": "宏华集团"
   },
   {
     "code": "197",
@@ -928,107 +928,107 @@ var ucodesName2 =
   {
     "code": "199",
     "name": "ITC PROPERTIES",
-    "nmll": "德祥地產"
+    "nmll": "德祥地产"
   },
   {
     "code": "200",
     "name": "MELCO INT'L DEV",
-    "nmll": "新濠國際發展"
+    "nmll": "新濠国际发展"
   },
   {
     "code": "201",
     "name": "MAGNIFICENT",
-    "nmll": "華大酒店投資 "
+    "nmll": "华大酒店投资 "
   },
   {
     "code": "202",
     "name": "EVERCHINA INT'L",
-    "nmll": "潤中國際控股"
+    "nmll": "润中国际控股"
   },
   {
     "code": "204",
     "name": "CHINA INV DEV",
-    "nmll": "中國投資開發"
+    "nmll": "中国投资开发"
   },
   {
     "code": "205",
     "name": "SEEC MEDIA",
-    "nmll": "財訊傳媒"
+    "nmll": "财讯传媒"
   },
   {
     "code": "206",
     "name": "CMIC OCEAN",
-    "nmll": "華商國際海洋控股"
+    "nmll": "华商国际海洋控股"
   },
   {
     "code": "207",
     "name": "JOY CITY PPT",
-    "nmll": "大悅城地產"
+    "nmll": "大悦城地产"
   },
   {
     "code": "208",
     "name": "POLYTEC ASSET",
-    "nmll": "保利達資產"
+    "nmll": "保利达资产"
   },
   {
     "code": "209",
     "name": "WINSHINE SCI",
-    "nmll": "瀛晟科學"
+    "nmll": "瀛晟科学"
   },
   {
     "code": "210",
     "name": "DAPHNE INT'L",
-    "nmll": "達芙妮國際"
+    "nmll": "达芙妮国际"
   },
   {
     "code": "211",
     "name": "STYLAND HOLD",
-    "nmll": "大凌集團 "
+    "nmll": "大凌集团 "
   },
   {
     "code": "212",
     "name": "NANYANG HOLD",
-    "nmll": "南洋集團有限公司 "
+    "nmll": "南洋集团有限公司 "
   },
   {
     "code": "213",
     "name": "NATIONAL ELEC H",
-    "nmll": "樂聲電子 "
+    "nmll": "乐声电子 "
   },
   {
     "code": "214",
     "name": "ASIA ORIENT",
-    "nmll": "匯漢控股"
+    "nmll": "汇汉控股"
   },
   {
     "code": "215",
     "name": "HUTCHTEL HK",
-    "nmll": "和記電訊香港"
+    "nmll": "和记电讯香港"
   },
   {
     "code": "216",
     "name": "CHINNEY INV",
-    "nmll": "建業實業"
+    "nmll": "建业实业"
   },
   {
     "code": "217",
     "name": "CHINA CHENGTONG",
-    "nmll": "中國誠通發展集團"
+    "nmll": "中国诚通发展集团"
   },
   {
     "code": "218",
     "name": "SWHYHK",
-    "nmll": "申萬宏源香港"
+    "nmll": "申万宏源香港"
   },
   {
     "code": "219",
     "name": "SHUNHO PROPERTY",
-    "nmll": "順豪物業"
+    "nmll": "顺豪物业"
   },
   {
     "code": "220",
     "name": "U-PRESID CHINA",
-    "nmll": "統一企業中國"
+    "nmll": "统一企业中国"
   },
   {
     "code": "221",
@@ -1038,7 +1038,7 @@ var ucodesName2 =
   {
     "code": "222",
     "name": "MIN XIN HOLD",
-    "nmll": "閩信集團"
+    "nmll": "闽信集团"
   },
   {
     "code": "223",
@@ -1048,17 +1048,17 @@ var ucodesName2 =
   {
     "code": "224",
     "name": "PIONEER GLOBAL",
-    "nmll": "建生國際"
+    "nmll": "建生国际"
   },
   {
     "code": "225",
     "name": "POKFULAM",
-    "nmll": "博富臨置業"
+    "nmll": "博富临置业"
   },
   {
     "code": "226",
     "name": "LIPPO",
-    "nmll": "力寶"
+    "nmll": "力宝"
   },
   {
     "code": "227",
@@ -1073,32 +1073,32 @@ var ucodesName2 =
   {
     "code": "229",
     "name": "RAYMOND IND",
-    "nmll": "利民實業"
+    "nmll": "利民实业"
   },
   {
     "code": "230",
     "name": "MINMETALS LAND",
-    "nmll": "五礦地產"
+    "nmll": "五矿地产"
   },
   {
     "code": "231",
     "name": "PING AN SEC GP",
-    "nmll": "平安證券集團控股"
+    "nmll": "平安证券集团控股"
   },
   {
     "code": "232",
     "name": "AVIC INT'L",
-    "nmll": "中國航空工業國際"
+    "nmll": "中国航空工业国际"
   },
   {
     "code": "234",
     "name": "NEW CENTURY GP",
-    "nmll": "新世紀集團"
+    "nmll": "新世纪集团"
   },
   {
     "code": "235",
     "name": "CHINA STRATEGIC",
-    "nmll": "中策集團"
+    "nmll": "中策集团"
   },
   {
     "code": "236",
@@ -1108,7 +1108,7 @@ var ucodesName2 =
   {
     "code": "238",
     "name": "EVERGREEN INT",
-    "nmll": "長興國際"
+    "nmll": "长兴国际"
   },
   {
     "code": "239",
@@ -1128,12 +1128,12 @@ var ucodesName2 =
   {
     "code": "242",
     "name": "SHUN TAK HOLD",
-    "nmll": "信德集團"
+    "nmll": "信德集团"
   },
   {
     "code": "243",
     "name": "QPL INT'L",
-    "nmll": "品質國際 "
+    "nmll": "品质国际 "
   },
   {
     "code": "244",
@@ -1148,17 +1148,17 @@ var ucodesName2 =
   {
     "code": "247",
     "name": "TST PROPERTIES",
-    "nmll": "尖沙咀置業集團 "
+    "nmll": "尖沙咀置业集团 "
   },
   {
     "code": "248",
     "name": "HKC INT'L HOLD",
-    "nmll": "香港通訊國際控股"
+    "nmll": "香港通讯国际控股"
   },
   {
     "code": "250",
     "name": "SINO-I TECH",
-    "nmll": "中國數碼信息"
+    "nmll": "中国数码信息"
   },
   {
     "code": "251",
@@ -1168,42 +1168,42 @@ var ucodesName2 =
   {
     "code": "252",
     "name": "SE ASIA PPT",
-    "nmll": "華信地產財務"
+    "nmll": "华信地产财务"
   },
   {
     "code": "253",
     "name": "SHUNHO HOLDINGS",
-    "nmll": "順豪控股"
+    "nmll": "顺豪控股"
   },
   {
     "code": "254",
     "name": "NUR HOLDINGS",
-    "nmll": "國家聯合資源"
+    "nmll": "国家联合资源"
   },
   {
     "code": "255",
     "name": "LUNG KEE",
-    "nmll": "龍記集團"
+    "nmll": "龙记集团"
   },
   {
     "code": "256",
     "name": "CITYCHAMP",
-    "nmll": "冠城鐘錶珠寶"
+    "nmll": "冠城钟表珠宝"
   },
   {
     "code": "257",
     "name": "CHINA EB INT'L",
-    "nmll": "中國光大國際"
+    "nmll": "中国光大国际"
   },
   {
     "code": "258",
     "name": "TOMSON GROUP",
-    "nmll": "湯臣集團"
+    "nmll": "汤臣集团"
   },
   {
     "code": "259",
     "name": "YEEBO (INT'L H)",
-    "nmll": "億都（國際控股）"
+    "nmll": "亿都（国际控股）"
   },
   {
     "code": "260",
@@ -1213,32 +1213,32 @@ var ucodesName2 =
   {
     "code": "261",
     "name": "GBA HOLDINGS",
-    "nmll": "ＧＢＡ集團"
+    "nmll": "ＧＢＡ集团"
   },
   {
     "code": "262",
     "name": "DESON DEV INT'L",
-    "nmll": "迪臣發展國際"
+    "nmll": "迪臣发展国际"
   },
   {
     "code": "263",
     "name": "GT GROUP HLDG",
-    "nmll": "高富集團控股"
+    "nmll": "高富集团控股"
   },
   {
     "code": "264",
     "name": "CN INT DEV CORP",
-    "nmll": "中聯發展控股"
+    "nmll": "中联发展控股"
   },
   {
     "code": "265",
     "name": "ORIENT VICTORY",
-    "nmll": "東勝旅遊"
+    "nmll": "东胜旅游"
   },
   {
     "code": "266",
     "name": "TIAN TECK LAND",
-    "nmll": "天德地產"
+    "nmll": "天德地产"
   },
   {
     "code": "267",
@@ -1248,42 +1248,42 @@ var ucodesName2 =
   {
     "code": "268",
     "name": "KINGDEE INT'L",
-    "nmll": "金蝶國際"
+    "nmll": "金蝶国际"
   },
   {
     "code": "269",
     "name": "CRTG",
-    "nmll": "中國資源交通"
+    "nmll": "中国资源交通"
   },
   {
     "code": "270",
     "name": "GUANGDONG INV",
-    "nmll": "粵海投資"
+    "nmll": "粤海投资"
   },
   {
     "code": "271",
     "name": "ASIASEC PPT",
-    "nmll": "亞證地產"
+    "nmll": "亚证地产"
   },
   {
     "code": "272",
     "name": "SHUI ON LAND",
-    "nmll": "瑞安房地產"
+    "nmll": "瑞安房地产"
   },
   {
     "code": "273",
     "name": "MASON GP HOLD",
-    "nmll": "茂宸集團"
+    "nmll": "茂宸集团"
   },
   {
     "code": "274",
     "name": "C BILLION RES",
-    "nmll": "中富資源"
+    "nmll": "中富资源"
   },
   {
     "code": "275",
     "name": "MASTER GLORY GP",
-    "nmll": "凱華集團"
+    "nmll": "凯华集团"
   },
   {
     "code": "276",
@@ -1293,67 +1293,67 @@ var ucodesName2 =
   {
     "code": "277",
     "name": "TERN PROPERTIES",
-    "nmll": "太興置業"
+    "nmll": "太兴置业"
   },
   {
     "code": "278",
     "name": "WAH HA REALTY",
-    "nmll": "華廈置業"
+    "nmll": "华厦置业"
   },
   {
     "code": "279",
     "name": "FREEMAN FINTECH",
-    "nmll": "民眾金融科技"
+    "nmll": "民众金融科技"
   },
   {
     "code": "280",
     "name": "KING FOOK HOLD",
-    "nmll": "景福集團"
+    "nmll": "景福集团"
   },
   {
     "code": "281",
     "name": "RIVERA (HOLD)",
-    "nmll": "川河集團"
+    "nmll": "川河集团"
   },
   {
     "code": "282",
     "name": "NEXT DIGITAL",
-    "nmll": "壹傳媒"
+    "nmll": "壹传媒"
   },
   {
     "code": "285",
     "name": "BYD ELECTRONIC",
-    "nmll": "比亞迪電子"
+    "nmll": "比亚迪电子"
   },
   {
     "code": "286",
     "name": "AIDIGONG",
-    "nmll": "愛帝宮"
+    "nmll": "爱帝宫"
   },
   {
     "code": "287",
     "name": "WINFAIR INV",
-    "nmll": "永發置業"
+    "nmll": "永发置业"
   },
   {
     "code": "288",
     "name": "WH GROUP",
-    "nmll": "萬洲國際"
+    "nmll": "万洲国际"
   },
   {
     "code": "289",
     "name": "WING ON CO",
-    "nmll": "永安國際有限公司 "
+    "nmll": "永安国际有限公司 "
   },
   {
     "code": "290",
     "name": "C FORTUNE FIN",
-    "nmll": "中國富強金融"
+    "nmll": "中国富强金融"
   },
   {
     "code": "291",
     "name": "CHINA RES BEER",
-    "nmll": "華潤啤酒"
+    "nmll": "华润啤酒"
   },
   {
     "code": "292",
@@ -1363,12 +1363,12 @@ var ucodesName2 =
   {
     "code": "293",
     "name": "CATHAY PAC AIR",
-    "nmll": "國泰航空"
+    "nmll": "国泰航空"
   },
   {
     "code": "294",
     "name": "YANGTZEKIANG",
-    "nmll": "長江製衣"
+    "nmll": "长江制衣"
   },
   {
     "code": "295",
@@ -1378,7 +1378,7 @@ var ucodesName2 =
   {
     "code": "296",
     "name": "EMPEROR E HOTEL",
-    "nmll": "英皇娛樂酒店"
+    "nmll": "英皇娱乐酒店"
   },
   {
     "code": "297",
@@ -1388,12 +1388,12 @@ var ucodesName2 =
   {
     "code": "298",
     "name": "CHUANG'S CHINA",
-    "nmll": "莊士中國"
+    "nmll": "庄士中国"
   },
   {
     "code": "299",
     "name": "GLORY SUN LAND",
-    "nmll": "寶新置地"
+    "nmll": "宝新置地"
   },
   {
     "code": "301",
@@ -1413,17 +1413,17 @@ var ucodesName2 =
   {
     "code": "305",
     "name": "WULING MOTORS",
-    "nmll": "五菱汽車"
+    "nmll": "五菱汽车"
   },
   {
     "code": "306",
     "name": "KWOON CHUNG BUS",
-    "nmll": "冠忠巴士集團"
+    "nmll": "冠忠巴士集团"
   },
   {
     "code": "307",
     "name": "UP ENERGY DEV",
-    "nmll": "優派能源發展"
+    "nmll": "优派能源发展"
   },
   {
     "code": "308",
@@ -1433,127 +1433,127 @@ var ucodesName2 =
   {
     "code": "309",
     "name": "XH NEWS MEDIA",
-    "nmll": "新華通訊頻媒"
+    "nmll": "新华通讯频媒"
   },
   {
     "code": "310",
     "name": "PROSP INV HOLD",
-    "nmll": "嘉進投資國際"
+    "nmll": "嘉进投资国际"
   },
   {
     "code": "311",
     "name": "LUEN THAI",
-    "nmll": "聯泰控股"
+    "nmll": "联泰控股"
   },
   {
     "code": "312",
     "name": "SHIRBLE STORE",
-    "nmll": "歲寶百貨"
+    "nmll": "岁宝百货"
   },
   {
     "code": "313",
     "name": "RICHLY FIELD",
-    "nmll": "裕田中國"
+    "nmll": "裕田中国"
   },
   {
     "code": "315",
     "name": "SMARTONE TELE",
-    "nmll": "數碼通電訊"
+    "nmll": "数码通电讯"
   },
   {
     "code": "316",
     "name": "OOIL",
-    "nmll": "東方海外國際"
+    "nmll": "东方海外国际"
   },
   {
     "code": "317",
     "name": "COMEC",
-    "nmll": "中船防務"
+    "nmll": "中船防务"
   },
   {
     "code": "318",
     "name": "VONGROUP",
-    "nmll": "黃河實業"
+    "nmll": "黄河实业"
   },
   {
     "code": "320",
     "name": "COMPUTIME",
-    "nmll": "金寶通"
+    "nmll": "金宝通"
   },
   {
     "code": "321",
     "name": "TEXWINCA HOLD",
-    "nmll": "德永佳集團"
+    "nmll": "德永佳集团"
   },
   {
     "code": "322",
     "name": "TINGYI",
-    "nmll": "康師傅控股"
+    "nmll": "康师傅控股"
   },
   {
     "code": "323",
     "name": "MAANSHAN IRON",
-    "nmll": "馬鞍山鋼鐵股份"
+    "nmll": "马鞍山钢铁股份"
   },
   {
     "code": "326",
     "name": "CHINA STAR ENT",
-    "nmll": "中國星集團"
+    "nmll": "中国星集团"
   },
   {
     "code": "327",
     "name": "PAX GLOBAL",
-    "nmll": "百富環球"
+    "nmll": "百富环球"
   },
   {
     "code": "328",
     "name": "ALCO HOLDINGS",
-    "nmll": "愛高集團有限公司 "
+    "nmll": "爱高集团有限公司 "
   },
   {
     "code": "329",
     "name": "OCI INTL",
-    "nmll": "東建國際"
+    "nmll": "东建国际"
   },
   {
     "code": "330",
     "name": "ESPRIT HOLDINGS",
-    "nmll": "思捷環球"
+    "nmll": "思捷环球"
   },
   {
     "code": "331",
     "name": "FSE SERVICES",
-    "nmll": "豐盛服務集團"
+    "nmll": "丰盛服务集团"
   },
   {
     "code": "332",
     "name": "YUANHENG GAS",
-    "nmll": "元亨燃氣"
+    "nmll": "元亨燃气"
   },
   {
     "code": "333",
     "name": "TOP FORM INT'L",
-    "nmll": "黛麗斯國際"
+    "nmll": "黛丽斯国际"
   },
   {
     "code": "334",
     "name": "CH DISPLAY OPT",
-    "nmll": "華顯光電"
+    "nmll": "华显光电"
   },
   {
     "code": "335",
     "name": "UPBEST GROUP",
-    "nmll": "美建集團"
+    "nmll": "美建集团"
   },
   {
     "code": "336",
     "name": "HUABAO INTL",
-    "nmll": "華寶國際"
+    "nmll": "华宝国际"
   },
   {
     "code": "337",
     "name": "GREENLAND HK",
-    "nmll": "綠地香港"
+    "nmll": "绿地香港"
   },
   {
     "code": "338",
@@ -1563,17 +1563,17 @@ var ucodesName2 =
   {
     "code": "339",
     "name": "CORE ECON INV",
-    "nmll": "核心經濟投資"
+    "nmll": "核心经济投资"
   },
   {
     "code": "340",
     "name": "TONGGUAN GOLD",
-    "nmll": "潼關黃金"
+    "nmll": "潼关黄金"
   },
   {
     "code": "341",
     "name": "CAFE DE CORAL H",
-    "nmll": "大家樂集團"
+    "nmll": "大家乐集团"
   },
   {
     "code": "342",
@@ -1583,67 +1583,67 @@ var ucodesName2 =
   {
     "code": "343",
     "name": "CULTURECOM HOLD",
-    "nmll": "文化傳信"
+    "nmll": "文化传信"
   },
   {
     "code": "345",
     "name": "VITASOY INT'L",
-    "nmll": "維他奶國際集團 "
+    "nmll": "维他奶国际集团 "
   },
   {
     "code": "346",
     "name": "YANCHANG PETRO",
-    "nmll": "延長石油國際"
+    "nmll": "延长石油国际"
   },
   {
     "code": "347",
     "name": "ANGANG STEEL",
-    "nmll": "鞍鋼股份"
+    "nmll": "鞍钢股份"
   },
   {
     "code": "348",
     "name": "CHINAHEALTHWISE",
-    "nmll": "中國智能健康"
+    "nmll": "中国智能健康"
   },
   {
     "code": "351",
     "name": "ASIA ENERGY LOG",
-    "nmll": "亞洲能源物流"
+    "nmll": "亚洲能源物流"
   },
   {
     "code": "352",
     "name": "FORTUNE SUN",
-    "nmll": "富陽"
+    "nmll": "富阳"
   },
   {
     "code": "353",
     "name": "ENERGY INTINV",
-    "nmll": "能源國際投資"
+    "nmll": "能源国际投资"
   },
   {
     "code": "354",
     "name": "CHINASOFT INT'L",
-    "nmll": "中國軟件國際"
+    "nmll": "中国软件国际"
   },
   {
     "code": "355",
     "name": "CENTURY C INT'L",
-    "nmll": "世紀城市國際"
+    "nmll": "世纪城市国际"
   },
   {
     "code": "356",
     "name": "DT CAPITAL",
-    "nmll": "鼎立資本"
+    "nmll": "鼎立资本"
   },
   {
     "code": "357",
     "name": "MEILAN AIRPORT",
-    "nmll": "美蘭空港"
+    "nmll": "美兰空港"
   },
   {
     "code": "358",
     "name": "JIANGXI COPPER",
-    "nmll": "江西銅業股份"
+    "nmll": "江西铜业股份"
   },
   {
     "code": "359",
@@ -1653,27 +1653,27 @@ var ucodesName2 =
   {
     "code": "360",
     "name": "NEW FOCUS AUTO",
-    "nmll": "新焦點"
+    "nmll": "新焦点"
   },
   {
     "code": "361",
     "name": "SINO GOLF HOLD",
-    "nmll": "順龍控股"
+    "nmll": "顺龙控股"
   },
   {
     "code": "362",
     "name": "XINYANG MAOJIAN",
-    "nmll": "信陽毛尖"
+    "nmll": "信阳毛尖"
   },
   {
     "code": "363",
     "name": "SHANGHAI IND H",
-    "nmll": "上海實業控股"
+    "nmll": "上海实业控股"
   },
   {
     "code": "364",
     "name": "BLOCKCHAIN GP",
-    "nmll": "區塊鏈集團"
+    "nmll": "区块链集团"
   },
   {
     "code": "365",
@@ -1683,112 +1683,112 @@ var ucodesName2 =
   {
     "code": "366",
     "name": "LUKS GROUP (VN)",
-    "nmll": "陸氏集團（越南）"
+    "nmll": "陆氏集团（越南）"
   },
   {
     "code": "367",
     "name": "CHUANG'S INT'L",
-    "nmll": "莊士機構國際"
+    "nmll": "庄士机构国际"
   },
   {
     "code": "368",
     "name": "SUPERLAND GROUP",
-    "nmll": "德合集團"
+    "nmll": "德合集团"
   },
   {
     "code": "369",
     "name": "WING TAI PPT",
-    "nmll": "永泰地產"
+    "nmll": "永泰地产"
   },
   {
     "code": "370",
     "name": "CHINA BEST",
-    "nmll": "國華"
+    "nmll": "国华"
   },
   {
     "code": "371",
     "name": "BJ ENT WATER",
-    "nmll": "北控水務集團"
+    "nmll": "北控水务集团"
   },
   {
     "code": "372",
     "name": "PT INTL DEV",
-    "nmll": "保德國際發展"
+    "nmll": "保德国际发展"
   },
   {
     "code": "373",
     "name": "ALLIED GROUP",
-    "nmll": "聯合集團"
+    "nmll": "联合集团"
   },
   {
     "code": "374",
     "name": "FOUR SEAS MER",
-    "nmll": "四洲集團"
+    "nmll": "四洲集团"
   },
   {
     "code": "375",
     "name": "YGM TRADING",
-    "nmll": "YGM 貿易 "
+    "nmll": "YGM 贸易 "
   },
   {
     "code": "376",
     "name": "YUNFENG FIN",
-    "nmll": "雲鋒金融"
+    "nmll": "云锋金融"
   },
   {
     "code": "377",
     "name": "HUAJUN INTL GP",
-    "nmll": "華君國際集團"
+    "nmll": "华君国际集团"
   },
   {
     "code": "378",
     "name": "FDG KINETIC",
-    "nmll": "五龍動力"
+    "nmll": "五龙动力"
   },
   {
     "code": "379",
     "name": "EG LEASING",
-    "nmll": "恒嘉融資租賃"
+    "nmll": "恒嘉融资租赁"
   },
   {
     "code": "380",
     "name": "SOFTPOWER INT",
-    "nmll": "冠力國際"
+    "nmll": "冠力国际"
   },
   {
     "code": "381",
     "name": "KIU HUNG INT'L",
-    "nmll": "僑雄國際"
+    "nmll": "侨雄国际"
   },
   {
     "code": "382",
     "name": "EDVANTAGE GROUP",
-    "nmll": "中匯集團 "
+    "nmll": "中汇集团 "
   },
   {
     "code": "383",
     "name": "CHINA MED&HCARE",
-    "nmll": "中國醫療網絡"
+    "nmll": "中国医疗网络"
   },
   {
     "code": "384",
     "name": "CHINA GAS HOLD",
-    "nmll": "中國燃氣"
+    "nmll": "中国燃气"
   },
   {
     "code": "385",
     "name": "CHINNEY ALLI",
-    "nmll": "建聯集團"
+    "nmll": "建联集团"
   },
   {
     "code": "386",
     "name": "SINOPEC CORP",
-    "nmll": "中國石油化工股份"
+    "nmll": "中国石油化工股份"
   },
   {
     "code": "387",
     "name": "LEEPORT(HOLD)",
-    "nmll": "力豐(集團) "
+    "nmll": "力丰(集团) "
   },
   {
     "code": "388",
@@ -1798,17 +1798,17 @@ var ucodesName2 =
   {
     "code": "389",
     "name": "TONTINE WINES",
-    "nmll": "通天酒業"
+    "nmll": "通天酒业"
   },
   {
     "code": "390",
     "name": "CHINA RAILWAY",
-    "nmll": "中國中鐵"
+    "nmll": "中国中铁"
   },
   {
     "code": "391",
     "name": "MEI AH ENTER",
-    "nmll": "美亞娛樂資訊"
+    "nmll": "美亚娱乐资讯"
   },
   {
     "code": "392",
@@ -1818,32 +1818,32 @@ var ucodesName2 =
   {
     "code": "393",
     "name": "GLORIOUS SUN",
-    "nmll": "旭日企業"
+    "nmll": "旭日企业"
   },
   {
     "code": "395",
     "name": "SMARTAC INTL",
-    "nmll": "環球智能控股"
+    "nmll": "环球智能控股"
   },
   {
     "code": "396",
     "name": "HING LEE (HK)",
-    "nmll": "興利（香港）控股"
+    "nmll": "兴利（香港）控股"
   },
   {
     "code": "397",
     "name": "POWER FINANCIAL",
-    "nmll": "權威金融集團 "
+    "nmll": "权威金融集团 "
   },
   {
     "code": "398",
     "name": "ORIENTAL WATCH",
-    "nmll": "東方表行集團"
+    "nmll": "东方表行集团"
   },
   {
     "code": "399",
     "name": "INNOVATIVE PHAR",
-    "nmll": "領航醫藥生物科技"
+    "nmll": "领航医药生物科技"
   },
   {
     "code": "400",
@@ -1853,37 +1853,37 @@ var ucodesName2 =
   {
     "code": "401",
     "name": "WANJIA GROUP",
-    "nmll": "萬嘉集團"
+    "nmll": "万嘉集团"
   },
   {
     "code": "403",
     "name": "STARLITE HOLD",
-    "nmll": "星光集團"
+    "nmll": "星光集团"
   },
   {
     "code": "405",
     "name": "YUEXIU REIT",
-    "nmll": "越秀房產信託基金"
+    "nmll": "越秀房产信托基金"
   },
   {
     "code": "406",
     "name": "YAU LEE HOLD",
-    "nmll": "有利集團"
+    "nmll": "有利集团"
   },
   {
     "code": "408",
     "name": "YIP'S CHEMICAL",
-    "nmll": "葉氏化工集團"
+    "nmll": "叶氏化工集团"
   },
   {
     "code": "410",
     "name": "SOHO CHINA",
-    "nmll": "ＳＯＨＯ中國"
+    "nmll": "ＳＯＨＯ中国"
   },
   {
     "code": "411",
     "name": "LAM SOON (HK)",
-    "nmll": "南順（香港）"
+    "nmll": "南顺（香港）"
   },
   {
     "code": "412",
@@ -1893,17 +1893,17 @@ var ucodesName2 =
   {
     "code": "413",
     "name": "SC HOLDINGS",
-    "nmll": "南華集團控股"
+    "nmll": "南华集团控股"
   },
   {
     "code": "416",
     "name": "BANKOFJINZHOU",
-    "nmll": "錦州銀行"
+    "nmll": "锦州银行"
   },
   {
     "code": "417",
     "name": "TSE SUI LUEN",
-    "nmll": "謝瑞麟"
+    "nmll": "谢瑞麟"
   },
   {
     "code": "418",
@@ -1913,72 +1913,72 @@ var ucodesName2 =
   {
     "code": "419",
     "name": "HUAYI TENCENT",
-    "nmll": "華誼騰訊娛樂"
+    "nmll": "华谊腾讯娱乐"
   },
   {
     "code": "420",
     "name": "FOUNTAIN SET",
-    "nmll": "福田實業"
+    "nmll": "福田实业"
   },
   {
     "code": "422",
     "name": "VMEP HOLDINGS",
-    "nmll": "越南製造加工出口"
+    "nmll": "越南制造加工出口"
   },
   {
     "code": "423",
     "name": "HKET HOLDINGS",
-    "nmll": "經濟日報集團"
+    "nmll": "经济日报集团"
   },
   {
     "code": "425",
     "name": "MINTH GROUP",
-    "nmll": "敏實集團"
+    "nmll": "敏实集团"
   },
   {
     "code": "426",
     "name": "ONE MEDIA GROUP",
-    "nmll": "萬華媒體"
+    "nmll": "万华媒体"
   },
   {
     "code": "428",
     "name": "COCOON HOLDINGS",
-    "nmll": "中國天弓控股"
+    "nmll": "中国天弓控股"
   },
   {
     "code": "430",
     "name": "ORIENTAL EXPL",
-    "nmll": "東方網庫"
+    "nmll": "东方网库"
   },
   {
     "code": "431",
     "name": "G CHINA FIN",
-    "nmll": "大中華金融"
+    "nmll": "大中华金融"
   },
   {
     "code": "432",
     "name": "PCPD",
-    "nmll": "盈大地產"
+    "nmll": "盈大地产"
   },
   {
     "code": "433",
     "name": "NORTH MINING",
-    "nmll": "北方礦業"
+    "nmll": "北方矿业"
   },
   {
     "code": "434",
     "name": "BOYAA",
-    "nmll": "博雅互動"
+    "nmll": "博雅互动"
   },
   {
     "code": "435",
     "name": "SUNLIGHT REIT",
-    "nmll": "陽光房地產基金"
+    "nmll": "阳光房地产基金"
   },
   {
     "code": "436",
     "name": "NU ENVIRO",
-    "nmll": "新宇環保"
+    "nmll": "新宇环保"
   },
   {
     "code": "438",
@@ -1988,7 +1988,7 @@ var ucodesName2 =
   {
     "code": "439",
     "name": "KUANGCHI",
-    "nmll": "光啟科學"
+    "nmll": "光启科学"
   },
   {
     "code": "440",
@@ -1998,7 +1998,7 @@ var ucodesName2 =
   {
     "code": "442",
     "name": "HIFOOD GROUP",
-    "nmll": "海福德集團"
+    "nmll": "海福德集团"
   },
   {
     "code": "444",
@@ -2008,7 +2008,7 @@ var ucodesName2 =
   {
     "code": "445",
     "name": "CIMC-TIANDA",
-    "nmll": "中集天達"
+    "nmll": "中集天达"
   },
   {
     "code": "449",
@@ -2018,37 +2018,37 @@ var ucodesName2 =
   {
     "code": "450",
     "name": "HUNG HING PRINT",
-    "nmll": "鴻興印刷集團"
+    "nmll": "鸿兴印刷集团"
   },
   {
     "code": "451",
     "name": "GCL NEWENERGY",
-    "nmll": "協鑫新能源"
+    "nmll": "协鑫新能源"
   },
   {
     "code": "455",
     "name": "TIANDA PHARMA",
-    "nmll": "天大藥業"
+    "nmll": "天大药业"
   },
   {
     "code": "456",
     "name": "NEW CITY DEV",
-    "nmll": "新城市建設發展"
+    "nmll": "新城市建设发展"
   },
   {
     "code": "458",
     "name": "TRISTATE HOLD",
-    "nmll": "聯亞集團"
+    "nmll": "联亚集团"
   },
   {
     "code": "459",
     "name": "MIDLAND IC&I",
-    "nmll": "美聯工商舖"
+    "nmll": "美联工商铺"
   },
   {
     "code": "460",
     "name": "SIHUAN PHARM",
-    "nmll": "四環醫藥"
+    "nmll": "四环医药"
   },
   {
     "code": "462",
@@ -2058,7 +2058,7 @@ var ucodesName2 =
   {
     "code": "464",
     "name": "C OVS NUOXIN",
-    "nmll": "中國海外諾信"
+    "nmll": "中国海外诺信"
   },
   {
     "code": "465",
@@ -2068,17 +2068,17 @@ var ucodesName2 =
   {
     "code": "467",
     "name": "UNITEDENERGY GP",
-    "nmll": "聯合能源集團"
+    "nmll": "联合能源集团"
   },
   {
     "code": "468",
     "name": "GAPACK",
-    "nmll": "紛美包裝"
+    "nmll": "纷美包装"
   },
   {
     "code": "469",
     "name": "CAPXON INT'L",
-    "nmll": "凱普松國際"
+    "nmll": "凯普松国际"
   },
   {
     "code": "471",
@@ -2088,82 +2088,82 @@ var ucodesName2 =
   {
     "code": "472",
     "name": "NEW SILKROAD",
-    "nmll": "新絲路文旅"
+    "nmll": "新丝路文旅"
   },
   {
     "code": "474",
     "name": "HAO TIAN DEV",
-    "nmll": "昊天發展集團"
+    "nmll": "昊天发展集团"
   },
   {
     "code": "475",
     "name": "CENTRAL DEV H",
-    "nmll": "中發展控股"
+    "nmll": "中发展控股"
   },
   {
     "code": "476",
     "name": "CH DYNAMICS",
-    "nmll": "中國動力控股"
+    "nmll": "中国动力控股"
   },
   {
     "code": "479",
     "name": "CIL HOLDINGS",
-    "nmll": "華建控股"
+    "nmll": "华建控股"
   },
   {
     "code": "480",
     "name": "HKR INT'L",
-    "nmll": "香港興業國際"
+    "nmll": "香港兴业国际"
   },
   {
     "code": "482",
     "name": "SANDMARTIN INTL",
-    "nmll": "聖馬丁國際"
+    "nmll": "圣马丁国际"
   },
   {
     "code": "483",
     "name": "BAUHAUS INT'L",
-    "nmll": "包浩斯國際"
+    "nmll": "包浩斯国际"
   },
   {
     "code": "484",
     "name": "FORGAME",
-    "nmll": "雲遊控股"
+    "nmll": "云游控股"
   },
   {
     "code": "485",
     "name": "CHINASINOSTAR",
-    "nmll": "中國華星"
+    "nmll": "中国华星"
   },
   {
     "code": "486",
     "name": "RUSAL",
-    "nmll": "俄鋁"
+    "nmll": "俄铝"
   },
   {
     "code": "487",
     "name": "SUCCESSUNIVERSE",
-    "nmll": "實德環球"
+    "nmll": "实德环球"
   },
   {
     "code": "488",
     "name": "LAI SUN DEV",
-    "nmll": "麗新發展"
+    "nmll": "丽新发展"
   },
   {
     "code": "489",
     "name": "DONGFENG GROUP",
-    "nmll": "東風集團股份"
+    "nmll": "东风集团股份"
   },
   {
     "code": "491",
     "name": "EMPEROR CULTURE",
-    "nmll": "英皇文化產業"
+    "nmll": "英皇文化产业"
   },
   {
     "code": "493",
     "name": "GOME RETAIL",
-    "nmll": "國美零售"
+    "nmll": "国美零售"
   },
   {
     "code": "495",
@@ -2173,97 +2173,97 @@ var ucodesName2 =
   {
     "code": "496",
     "name": "KASEN",
-    "nmll": "卡森國際"
+    "nmll": "卡森国际"
   },
   {
     "code": "497",
     "name": "CSI PROPERTIES",
-    "nmll": "資本策略地產"
+    "nmll": "资本策略地产"
   },
   {
     "code": "498",
     "name": "PYI CORP",
-    "nmll": "保華集團"
+    "nmll": "保华集团"
   },
   {
     "code": "499",
     "name": "QINGDAO HLDGS",
-    "nmll": "青島控股"
+    "nmll": "青岛控股"
   },
   {
     "code": "500",
     "name": "FRONTIER SER",
-    "nmll": "先豐服務集團"
+    "nmll": "先丰服务集团"
   },
   {
     "code": "503",
     "name": "LANSEN PHARMA",
-    "nmll": "朗生醫藥"
+    "nmll": "朗生医药"
   },
   {
     "code": "505",
     "name": "XINGYE ALLOY",
-    "nmll": "興業合金"
+    "nmll": "兴业合金"
   },
   {
     "code": "506",
     "name": "CHINA FOODS",
-    "nmll": "中國食品"
+    "nmll": "中国食品"
   },
   {
     "code": "508",
     "name": "DINGYI GP INV",
-    "nmll": "鼎億集團投資"
+    "nmll": "鼎亿集团投资"
   },
   {
     "code": "509",
     "name": "SUNSHINE",
-    "nmll": "世紀陽光"
+    "nmll": "世纪阳光"
   },
   {
     "code": "510",
     "name": "CASH FIN SER GP",
-    "nmll": "時富金融服務集團"
+    "nmll": "时富金融服务集团"
   },
   {
     "code": "511",
     "name": "TVB",
-    "nmll": "電視廣播"
+    "nmll": "电视广播"
   },
   {
     "code": "512",
     "name": "CHINAGRANDPHARM",
-    "nmll": "遠大醫藥"
+    "nmll": "远大医药"
   },
   {
     "code": "513",
     "name": "CONTINENTAL H",
-    "nmll": "恆和集團"
+    "nmll": "恒和集团"
   },
   {
     "code": "515",
     "name": "CHINASILVER TEC",
-    "nmll": "中華銀科技"
+    "nmll": "中华银科技"
   },
   {
     "code": "517",
     "name": "COSCO SHIP INTL",
-    "nmll": "中遠海運國際"
+    "nmll": "中远海运国际"
   },
   {
     "code": "518",
     "name": "TUNGTEX (HOLD)",
-    "nmll": "同得仕（集團）"
+    "nmll": "同得仕（集团）"
   },
   {
     "code": "519",
     "name": "APPLIED DEV",
-    "nmll": "實力建業"
+    "nmll": "实力建业"
   },
   {
     "code": "520",
     "name": "XIABUXIABU",
-    "nmll": "呷哺呷哺餐飲 "
+    "nmll": "呷哺呷哺餐饮 "
   },
   {
     "code": "521",
@@ -2278,42 +2278,42 @@ var ucodesName2 =
   {
     "code": "524",
     "name": "GREAT WALL B&R",
-    "nmll": "長城一帶一路"
+    "nmll": "长城一带一路"
   },
   {
     "code": "525",
     "name": "GUANGSHEN RAIL",
-    "nmll": "廣深鐵路股份"
+    "nmll": "广深铁路股份"
   },
   {
     "code": "526",
     "name": "CHINA AUTO NR",
-    "nmll": "中國汽車新零售"
+    "nmll": "中国汽车新零售"
   },
   {
     "code": "527",
     "name": "RUIFENG RENEW",
-    "nmll": "瑞風新能源"
+    "nmll": "瑞风新能源"
   },
   {
     "code": "528",
     "name": "KINGDOM HOLDING",
-    "nmll": "金達控股"
+    "nmll": "金达控股"
   },
   {
     "code": "529",
     "name": "SIS INT'L",
-    "nmll": "新龍國際集團 "
+    "nmll": "新龙国际集团 "
   },
   {
     "code": "530",
     "name": "GOLDIN FIN HOLD",
-    "nmll": "高銀金融"
+    "nmll": "高银金融"
   },
   {
     "code": "531",
     "name": "SAMSON HOLDING",
-    "nmll": "順誠"
+    "nmll": "顺诚"
   },
   {
     "code": "532",
@@ -2323,7 +2323,7 @@ var ucodesName2 =
   {
     "code": "533",
     "name": "GOLDLION HOLD",
-    "nmll": "金利來集團"
+    "nmll": "金利来集团"
   },
   {
     "code": "535",
@@ -2333,47 +2333,47 @@ var ucodesName2 =
   {
     "code": "536",
     "name": "TRADELINK",
-    "nmll": "貿易通"
+    "nmll": "贸易通"
   },
   {
     "code": "538",
     "name": "AJISEN (CHINA)",
-    "nmll": "味千（中國）"
+    "nmll": "味千（中国）"
   },
   {
     "code": "539",
     "name": "VICTORY CITY",
-    "nmll": "冠華國際控股"
+    "nmll": "冠华国际控股"
   },
   {
     "code": "540",
     "name": "SPEEDY GLOBAL",
-    "nmll": "迅捷環球控股"
+    "nmll": "迅捷环球控股"
   },
   {
     "code": "542",
     "name": "TFG INTL GP",
-    "nmll": "富元國際集團"
+    "nmll": "富元国际集团"
   },
   {
     "code": "543",
     "name": "PACIFIC ONLINE",
-    "nmll": "太平洋網絡"
+    "nmll": "太平洋网络"
   },
   {
     "code": "544",
     "name": "DAIDO GROUP",
-    "nmll": "大同集團"
+    "nmll": "大同集团"
   },
   {
     "code": "546",
     "name": "FUFENG GROUP",
-    "nmll": "阜豐集團"
+    "nmll": "阜丰集团"
   },
   {
     "code": "547",
     "name": "DIGITAL DOMAIN",
-    "nmll": "數字王國"
+    "nmll": "数字王国"
   },
   {
     "code": "548",
@@ -2388,22 +2388,22 @@ var ucodesName2 =
   {
     "code": "551",
     "name": "YUE YUEN IND",
-    "nmll": "裕元集團"
+    "nmll": "裕元集团"
   },
   {
     "code": "552",
     "name": "CHINACOMSERVICE",
-    "nmll": "中國通信服務"
+    "nmll": "中国通信服务"
   },
   {
     "code": "553",
     "name": "NANJING PANDA",
-    "nmll": "南京熊貓電子股份"
+    "nmll": "南京熊猫电子股份"
   },
   {
     "code": "554",
     "name": "HANS ENERGY",
-    "nmll": "漢思能源"
+    "nmll": "汉思能源"
   },
   {
     "code": "555",
@@ -2413,67 +2413,67 @@ var ucodesName2 =
   {
     "code": "556",
     "name": "PAN ASIA ENVIRO",
-    "nmll": "泛亞環保"
+    "nmll": "泛亚环保"
   },
   {
     "code": "557",
     "name": "TIANYUAN HEALTH",
-    "nmll": "天元醫療"
+    "nmll": "天元医疗"
   },
   {
     "code": "558",
     "name": "LK TECH",
-    "nmll": "力勁科技"
+    "nmll": "力劲科技"
   },
   {
     "code": "559",
     "name": "DETAI NEWENERGY",
-    "nmll": "德泰新能源集團"
+    "nmll": "德泰新能源集团"
   },
   {
     "code": "560",
     "name": "CHU KONG SHIP",
-    "nmll": "珠江船務"
+    "nmll": "珠江船务"
   },
   {
     "code": "563",
     "name": "SH IND URBAN",
-    "nmll": "上實城市開發"
+    "nmll": "上实城市开发"
   },
   {
     "code": "564",
     "name": "ZMJ",
-    "nmll": "鄭州煤礦機械  "
+    "nmll": "郑州煤矿机械  "
   },
   {
     "code": "565",
     "name": "ART GROUP HOLD",
-    "nmll": "錦藝集團控股"
+    "nmll": "锦艺集团控股"
   },
   {
     "code": "567",
     "name": "DAISHOMICROLINE",
-    "nmll": "大昌微線集團 "
+    "nmll": "大昌微线集团 "
   },
   {
     "code": "568",
     "name": "SHANDONG MOLONG",
-    "nmll": "山東墨龍"
+    "nmll": "山东墨龙"
   },
   {
     "code": "570",
     "name": "TRAD CHI MED",
-    "nmll": "中國中藥"
+    "nmll": "中国中药"
   },
   {
     "code": "571",
     "name": "ESUN HOLDINGS",
-    "nmll": "豐德麗控股"
+    "nmll": "丰德丽控股"
   },
   {
     "code": "572",
     "name": "FW HOLDINGS",
-    "nmll": "未來世界控股"
+    "nmll": "未来世界控股"
   },
   {
     "code": "573",
@@ -2483,112 +2483,112 @@ var ucodesName2 =
   {
     "code": "574",
     "name": "PASHUN INT'L",
-    "nmll": "百信國際"
+    "nmll": "百信国际"
   },
   {
     "code": "575",
     "name": "REGENT PACIFIC",
-    "nmll": "勵晶太平洋"
+    "nmll": "励晶太平洋"
   },
   {
     "code": "576",
     "name": "ZHEJIANGEXPRESS",
-    "nmll": "浙江滬杭甬"
+    "nmll": "浙江沪杭甬"
   },
   {
     "code": "577",
     "name": "SOUTH SHORE HLD",
-    "nmll": "南岸集團"
+    "nmll": "南岸集团"
   },
   {
     "code": "578",
     "name": "ROSAN RES",
-    "nmll": "融信資源"
+    "nmll": "融信资源"
   },
   {
     "code": "579",
     "name": "JNCEC",
-    "nmll": "京能清潔能源"
+    "nmll": "京能清洁能源"
   },
   {
     "code": "580",
     "name": "SUN.KING ELEC",
-    "nmll": "賽晶電力電子"
+    "nmll": "赛晶电力电子"
   },
   {
     "code": "581",
     "name": "CHINA ORIENTAL",
-    "nmll": "中國東方集團"
+    "nmll": "中国东方集团"
   },
   {
     "code": "582",
     "name": "LANDING INTL",
-    "nmll": "藍鼎國際"
+    "nmll": "蓝鼎国际"
   },
   {
     "code": "583",
     "name": "GWPA HOLDINGS",
-    "nmll": "長城環亞控股"
+    "nmll": "长城环亚控股"
   },
   {
     "code": "585",
     "name": "IMAGI INT'L",
-    "nmll": "意馬國際"
+    "nmll": "意马国际"
   },
   {
     "code": "586",
     "name": "CONCH VENTURE",
-    "nmll": "海螺創業"
+    "nmll": "海螺创业"
   },
   {
     "code": "587",
     "name": "HUA HAN HEALTH",
-    "nmll": "華瀚健康產業 "
+    "nmll": "华瀚健康产业 "
   },
   {
     "code": "588",
     "name": "BEIJING N STAR",
-    "nmll": "北京北辰實業股份"
+    "nmll": "北京北辰实业股份"
   },
   {
     "code": "589",
     "name": "JIANZHONG CONS",
-    "nmll": "建中建設"
+    "nmll": "建中建设"
   },
   {
     "code": "590",
     "name": "LUK FOOK HOLD",
-    "nmll": "六福集團"
+    "nmll": "六福集团"
   },
   {
     "code": "591",
     "name": "C HIGHPRECISION",
-    "nmll": "中國高精密"
+    "nmll": "中国高精密"
   },
   {
     "code": "592",
     "name": "BOSSINI INT'L",
-    "nmll": "堡獅龍國際 "
+    "nmll": "堡狮龙国际 "
   },
   {
     "code": "593",
     "name": "DREAMEAST",
-    "nmll": "夢東方集團 "
+    "nmll": "梦东方集团 "
   },
   {
     "code": "595",
     "name": "AV CONCEPT HOLD",
-    "nmll": "先思行集團有限公司 "
+    "nmll": "先思行集团有限公司 "
   },
   {
     "code": "596",
     "name": "INSPUR INT'L",
-    "nmll": "浪潮國際"
+    "nmll": "浪潮国际"
   },
   {
     "code": "598",
     "name": "SINOTRANS",
-    "nmll": "中國外運"
+    "nmll": "中国外运"
   },
   {
     "code": "599",
@@ -2598,22 +2598,22 @@ var ucodesName2 =
   {
     "code": "600",
     "name": "CHINA INFRA INV",
-    "nmll": "中國基建投資"
+    "nmll": "中国基建投资"
   },
   {
     "code": "601",
     "name": "REMT",
-    "nmll": "稀鎂科技"
+    "nmll": "稀镁科技"
   },
   {
     "code": "602",
     "name": "JIAHUA STORES H",
-    "nmll": "佳華百貨控股"
+    "nmll": "佳华百货控股"
   },
   {
     "code": "603",
     "name": "CHINA OIL & GAS",
-    "nmll": "中油燃氣"
+    "nmll": "中油燃气"
   },
   {
     "code": "604",
@@ -2623,17 +2623,17 @@ var ucodesName2 =
   {
     "code": "605",
     "name": "C FIN SERVICES",
-    "nmll": "中國金融投資管理"
+    "nmll": "中国金融投资管理"
   },
   {
     "code": "607",
     "name": "FULLSHARE",
-    "nmll": "豐盛控股"
+    "nmll": "丰盛控股"
   },
   {
     "code": "608",
     "name": "HIGH FASHION",
-    "nmll": "達利國際"
+    "nmll": "达利国际"
   },
   {
     "code": "609",
@@ -2643,27 +2643,27 @@ var ucodesName2 =
   {
     "code": "610",
     "name": "WAI KEE HOLD",
-    "nmll": "惠記集團 "
+    "nmll": "惠记集团 "
   },
   {
     "code": "611",
     "name": "CNE TECH CORP",
-    "nmll": "中國核能科技"
+    "nmll": "中国核能科技"
   },
   {
     "code": "612",
     "name": "CHINA DYF",
-    "nmll": "中國鼎益豐"
+    "nmll": "中国鼎益丰"
   },
   {
     "code": "613",
     "name": "PLANETREE INT'L",
-    "nmll": "梧桐國際"
+    "nmll": "梧桐国际"
   },
   {
     "code": "616",
     "name": "EMINENCE ENT",
-    "nmll": "高山企業"
+    "nmll": "高山企业"
   },
   {
     "code": "617",
@@ -2673,12 +2673,12 @@ var ucodesName2 =
   {
     "code": "618",
     "name": "PKU RESOURCES",
-    "nmll": "北大資源"
+    "nmll": "北大资源"
   },
   {
     "code": "619",
     "name": "SOUTH CHINA FIN",
-    "nmll": "南華金融"
+    "nmll": "南华金融"
   },
   {
     "code": "620",
@@ -2688,52 +2688,52 @@ var ucodesName2 =
   {
     "code": "621",
     "name": "TAUNG GOLD",
-    "nmll": "壇金礦業"
+    "nmll": "坛金矿业"
   },
   {
     "code": "622",
     "name": "OSHIDORI",
-    "nmll": "威華達控股"
+    "nmll": "威华达控股"
   },
   {
     "code": "623",
     "name": "SINOMEDIA",
-    "nmll": "中視金橋"
+    "nmll": "中视金桥"
   },
   {
     "code": "625",
     "name": "RREEF CCT REIT",
-    "nmll": "睿富房地產基金"
+    "nmll": "睿富房地产基金"
   },
   {
     "code": "626",
     "name": "PUBLIC FIN HOLD",
-    "nmll": "大眾金融控股"
+    "nmll": "大众金融控股"
   },
   {
     "code": "627",
     "name": "FULLSUN INT'L",
-    "nmll": "福晟國際"
+    "nmll": "福晟国际"
   },
   {
     "code": "628",
     "name": "GOME FIN TECH",
-    "nmll": "國美金融科技"
+    "nmll": "国美金融科技"
   },
   {
     "code": "629",
     "name": "YUE DA INTL",
-    "nmll": "悅達國際控股"
+    "nmll": "悦达国际控股"
   },
   {
     "code": "630",
     "name": "AMCO UNITED",
-    "nmll": "雋泰控股"
+    "nmll": "隽泰控股"
   },
   {
     "code": "631",
     "name": "SANY INT'L",
-    "nmll": "三一國際"
+    "nmll": "三一国际"
   },
   {
     "code": "632",
@@ -2743,67 +2743,67 @@ var ucodesName2 =
   {
     "code": "633",
     "name": "CH ALL ACCESS",
-    "nmll": "中國全通"
+    "nmll": "中国全通"
   },
   {
     "code": "635",
     "name": "PLAYMATES",
-    "nmll": "彩星集團"
+    "nmll": "彩星集团"
   },
   {
     "code": "636",
     "name": "KERRY LOG NET",
-    "nmll": "嘉里物流聯網 "
+    "nmll": "嘉里物流联网 "
   },
   {
     "code": "637",
     "name": "LEE KEE",
-    "nmll": "利記"
+    "nmll": "利记"
   },
   {
     "code": "638",
     "name": "KIN YAT HOLD",
-    "nmll": "建溢集團"
+    "nmll": "建溢集团"
   },
   {
     "code": "639",
     "name": "SHOUGANG RES",
-    "nmll": "首鋼資源"
+    "nmll": "首钢资源"
   },
   {
     "code": "640",
     "name": "INFINITY DEV",
-    "nmll": "星謙發展"
+    "nmll": "星谦发展"
   },
   {
     "code": "641",
     "name": "CHTC FONG'S INT",
-    "nmll": "中國恒天立信國際"
+    "nmll": "中国恒天立信国际"
   },
   {
     "code": "643",
     "name": "CARRY WEALTH",
-    "nmll": "恆富控股"
+    "nmll": "恒富控股"
   },
   {
     "code": "645",
     "name": "ARES ASIA",
-    "nmll": "安域亞洲"
+    "nmll": "安域亚洲"
   },
   {
     "code": "646",
     "name": "CHINA ENV TEC",
-    "nmll": "中國環保科技"
+    "nmll": "中国环保科技"
   },
   {
     "code": "648",
     "name": "WAH YAN",
-    "nmll": "中國華仁-新 "
+    "nmll": "中国华仁-新 "
   },
   {
     "code": "650",
     "name": "IDG ENERGY INV",
-    "nmll": "ＩＤＧ能源投資"
+    "nmll": "ＩＤＧ能源投资"
   },
   {
     "code": "651",
@@ -2813,47 +2813,47 @@ var ucodesName2 =
   {
     "code": "653",
     "name": "BONJOUR HOLD",
-    "nmll": "卓悅控股"
+    "nmll": "卓悦控股"
   },
   {
     "code": "655",
     "name": "HK CHINESE LTD",
-    "nmll": "香港華人有限公司"
+    "nmll": "香港华人有限公司"
   },
   {
     "code": "656",
     "name": "FOSUN INTL",
-    "nmll": "復星國際"
+    "nmll": "复星国际"
   },
   {
     "code": "657",
     "name": "G-VISION INT'L",
-    "nmll": "環科國際"
+    "nmll": "环科国际"
   },
   {
     "code": "658",
     "name": "C TRANSMISSION",
-    "nmll": "中國高速傳動"
+    "nmll": "中国高速传动"
   },
   {
     "code": "659",
     "name": "NWS HOLDINGS",
-    "nmll": "新創建集團"
+    "nmll": "新创建集团"
   },
   {
     "code": "660",
     "name": "WAI CHUN BIOTEC",
-    "nmll": "瑋俊生物科技"
+    "nmll": "玮俊生物科技"
   },
   {
     "code": "661",
     "name": "CDAYENONFER",
-    "nmll": "中國大冶有色金屬"
+    "nmll": "中国大冶有色金属"
   },
   {
     "code": "662",
     "name": "ASIA FINANCIAL",
-    "nmll": "亞洲金融"
+    "nmll": "亚洲金融"
   },
   {
     "code": "663",
@@ -2863,72 +2863,72 @@ var ucodesName2 =
   {
     "code": "665",
     "name": "HAITONG INT'L",
-    "nmll": "海通國際"
+    "nmll": "海通国际"
   },
   {
     "code": "666",
     "name": "SHK HK IND",
-    "nmll": "新工投資"
+    "nmll": "新工投资"
   },
   {
     "code": "667",
     "name": "CHINA EAST EDU",
-    "nmll": "中國東方教育"
+    "nmll": "中国东方教育"
   },
   {
     "code": "668",
     "name": "DOYEN INTL HOLD",
-    "nmll": "東銀國際控股"
+    "nmll": "东银国际控股"
   },
   {
     "code": "669",
     "name": "TECHTRONIC IND",
-    "nmll": "創科實業"
+    "nmll": "创科实业"
   },
   {
     "code": "670",
     "name": "CHINA EAST AIR",
-    "nmll": "中國東方航空股份"
+    "nmll": "中国东方航空股份"
   },
   {
     "code": "672",
     "name": "ZHONGAN GROUP",
-    "nmll": "眾安集團"
+    "nmll": "众安集团"
   },
   {
     "code": "673",
     "name": "CHINA HEALTH",
-    "nmll": "中國衛生集團"
+    "nmll": "中国卫生集团"
   },
   {
     "code": "674",
     "name": "CHINA TANGSHANG",
-    "nmll": "中國唐商"
+    "nmll": "中国唐商"
   },
   {
     "code": "675",
     "name": "K & P INT'L",
-    "nmll": "堅寶國際"
+    "nmll": "坚宝国际"
   },
   {
     "code": "676",
     "name": "PEGASUS INT'L",
-    "nmll": "創信國際"
+    "nmll": "创信国际"
   },
   {
     "code": "677",
     "name": "GOLDEN RES DEV",
-    "nmll": "金源米業"
+    "nmll": "金源米业"
   },
   {
     "code": "678",
     "name": "GENTING HK",
-    "nmll": "雲頂香港"
+    "nmll": "云顶香港"
   },
   {
     "code": "679",
     "name": "ASIA TELE-NET",
-    "nmll": "亞洲聯網科技"
+    "nmll": "亚洲联网科技"
   },
   {
     "code": "680",
@@ -2943,47 +2943,47 @@ var ucodesName2 =
   {
     "code": "682",
     "name": "CHAODA MODERN",
-    "nmll": "超大現代"
+    "nmll": "超大现代"
   },
   {
     "code": "683",
     "name": "KERRY PPT",
-    "nmll": "嘉里建設"
+    "nmll": "嘉里建设"
   },
   {
     "code": "684",
     "name": "ALLAN INT'L",
-    "nmll": "亞倫國際"
+    "nmll": "亚伦国际"
   },
   {
     "code": "685",
     "name": "MEDIA CHINESE",
-    "nmll": "世界華文媒體"
+    "nmll": "世界华文媒体"
   },
   {
     "code": "686",
     "name": "PANDA GREEN",
-    "nmll": "熊貓綠能"
+    "nmll": "熊猫绿能"
   },
   {
     "code": "687",
     "name": "TYSAN HOLDINGS",
-    "nmll": "泰昇集團"
+    "nmll": "泰升集团"
   },
   {
     "code": "688",
     "name": "CHINA OVERSEAS",
-    "nmll": "中國海外發展"
+    "nmll": "中国海外发展"
   },
   {
     "code": "689",
     "name": "EPI (HOLDINGS)",
-    "nmll": "長盈集團（控股）"
+    "nmll": "长盈集团（控股）"
   },
   {
     "code": "690",
     "name": "UNI-BIO GROUP",
-    "nmll": "聯康生物科技集團"
+    "nmll": "联康生物科技集团"
   },
   {
     "code": "691",
@@ -2993,22 +2993,22 @@ var ucodesName2 =
   {
     "code": "693",
     "name": "TAN CHONG INT'L",
-    "nmll": "陳唱國際"
+    "nmll": "陈唱国际"
   },
   {
     "code": "694",
     "name": "BEIJING AIRPORT",
-    "nmll": "北京首都機場股份"
+    "nmll": "北京首都机场股份"
   },
   {
     "code": "695",
     "name": "DONGWU CEMENT",
-    "nmll": "東吳水泥國際 "
+    "nmll": "东吴水泥国际 "
   },
   {
     "code": "696",
     "name": "TRAVELSKY TECH",
-    "nmll": "中國民航信息網絡"
+    "nmll": "中国民航信息网络"
   },
   {
     "code": "697",
@@ -3018,27 +3018,27 @@ var ucodesName2 =
   {
     "code": "698",
     "name": "TONGDA GROUP",
-    "nmll": "通達集團"
+    "nmll": "通达集团"
   },
   {
     "code": "699",
     "name": "CAR INC",
-    "nmll": "神州租車"
+    "nmll": "神州租车"
   },
   {
     "code": "700",
     "name": "TENCENT",
-    "nmll": "騰訊控股"
+    "nmll": "腾讯控股"
   },
   {
     "code": "701",
     "name": "CNT GROUP",
-    "nmll": "北海集團 "
+    "nmll": "北海集团 "
   },
   {
     "code": "702",
     "name": "SINO OIL & GAS",
-    "nmll": "中國油氣控股"
+    "nmll": "中国油气控股"
   },
   {
     "code": "703",
@@ -3053,12 +3053,12 @@ var ucodesName2 =
   {
     "code": "706",
     "name": "BEAUTI C HOLD",
-    "nmll": "美麗中國控股"
+    "nmll": "美丽中国控股"
   },
   {
     "code": "707",
     "name": "ATV HOLDINGS",
-    "nmll": "亞洲電視控股"
+    "nmll": "亚洲电视控股"
   },
   {
     "code": "708",
@@ -3068,27 +3068,27 @@ var ucodesName2 =
   {
     "code": "709",
     "name": "GIORDANO INT'L",
-    "nmll": "佐丹奴國際"
+    "nmll": "佐丹奴国际"
   },
   {
     "code": "710",
     "name": "BOE VARITRONIX",
-    "nmll": "京東方精電"
+    "nmll": "京东方精电"
   },
   {
     "code": "711",
     "name": "ASIA ALLIED INF",
-    "nmll": "亞洲聯合基建控股"
+    "nmll": "亚洲联合基建控股"
   },
   {
     "code": "712",
     "name": "COMTEC SOLAR",
-    "nmll": "卡姆丹克太陽能"
+    "nmll": "卡姆丹克太阳能"
   },
   {
     "code": "713",
     "name": "WORLD HOUSEWARE",
-    "nmll": "世界（集團）"
+    "nmll": "世界（集团）"
   },
   {
     "code": "715",
@@ -3098,12 +3098,12 @@ var ucodesName2 =
   {
     "code": "716",
     "name": "SINGAMAS CONT",
-    "nmll": "勝獅貨櫃"
+    "nmll": "胜狮货柜"
   },
   {
     "code": "717",
     "name": "EMPEROR CAPITAL",
-    "nmll": "英皇證券"
+    "nmll": "英皇证券"
   },
   {
     "code": "718",
@@ -3113,102 +3113,102 @@ var ucodesName2 =
   {
     "code": "719",
     "name": "SHANDONG XINHUA",
-    "nmll": "山東新華製藥股份"
+    "nmll": "山东新华制药股份"
   },
   {
     "code": "720",
     "name": "AUTO ITALIA",
-    "nmll": "意達利控股"
+    "nmll": "意达利控股"
   },
   {
     "code": "721",
     "name": "C FIN INT INV",
-    "nmll": "中國金融國際"
+    "nmll": "中国金融国际"
   },
   {
     "code": "722",
     "name": "UMP",
-    "nmll": "聯合醫務"
+    "nmll": "联合医务"
   },
   {
     "code": "723",
     "name": "RELIANCE GLO HL",
-    "nmll": "信保環球控股"
+    "nmll": "信保环球控股"
   },
   {
     "code": "724",
     "name": "RUIXIN INT'L",
-    "nmll": "瑞鑫國際集團"
+    "nmll": "瑞鑫国际集团"
   },
   {
     "code": "725",
     "name": "PERENNIAL INT'L",
-    "nmll": "恆都集團"
+    "nmll": "恒都集团"
   },
   {
     "code": "726",
     "name": "DIT GROUP",
-    "nmll": "築友智造科技"
+    "nmll": "筑友智造科技"
   },
   {
     "code": "727",
     "name": "CROWNICORP",
-    "nmll": "皇冠環球集團"
+    "nmll": "皇冠环球集团"
   },
   {
     "code": "728",
     "name": "CHINA TELECOM",
-    "nmll": "中國電信"
+    "nmll": "中国电信"
   },
   {
     "code": "729",
     "name": "FDG EVEHICLES",
-    "nmll": "五龍電動車"
+    "nmll": "五龙电动车"
   },
   {
     "code": "730",
     "name": "SHOUGANG GRAND",
-    "nmll": "首長四方(集團) "
+    "nmll": "首长四方(集团) "
   },
   {
     "code": "731",
     "name": "SAMSON PAPER",
-    "nmll": "森信紙業集團"
+    "nmll": "森信纸业集团"
   },
   {
     "code": "732",
     "name": "TRULY INT'L",
-    "nmll": "信利國際"
+    "nmll": "信利国际"
   },
   {
     "code": "733",
     "name": "HOPEFLUENT",
-    "nmll": "合富輝煌"
+    "nmll": "合富辉煌"
   },
   {
     "code": "736",
     "name": "CHINA PPT INV",
-    "nmll": "中國置業投資"
+    "nmll": "中国置业投资"
   },
   {
     "code": "737",
     "name": "BAY AREA DEV",
-    "nmll": "灣區發展"
+    "nmll": "湾区发展"
   },
   {
     "code": "738",
     "name": "LE SAUNDA",
-    "nmll": "萊爾斯丹"
+    "nmll": "莱尔斯丹"
   },
   {
     "code": "743",
     "name": "ASIA CEMENT CH",
-    "nmll": "亞洲水泥（中國）"
+    "nmll": "亚洲水泥（中国）"
   },
   {
     "code": "745",
     "name": "CN CULTURE GP",
-    "nmll": "中國國家文化產業"
+    "nmll": "中国国家文化产业"
   },
   {
     "code": "746",
@@ -3218,72 +3218,72 @@ var ucodesName2 =
   {
     "code": "747",
     "name": "SHENYANG PUBLIC",
-    "nmll": "瀋陽公用發展股份"
+    "nmll": "渖阳公用发展股份"
   },
   {
     "code": "750",
     "name": "SFSY ENERGY",
-    "nmll": "水發興業能源"
+    "nmll": "水发兴业能源"
   },
   {
     "code": "751",
     "name": "SKYWORTH GROUP",
-    "nmll": "創維集團"
+    "nmll": "创维集团"
   },
   {
     "code": "752",
     "name": "PICO FAR EAST",
-    "nmll": "筆克遠東集團 "
+    "nmll": "笔克远东集团 "
   },
   {
     "code": "753",
     "name": "AIR CHINA",
-    "nmll": "中國國航"
+    "nmll": "中国国航"
   },
   {
     "code": "754",
     "name": "HOPSON DEV HOLD",
-    "nmll": "合生創展集團"
+    "nmll": "合生创展集团"
   },
   {
     "code": "755",
     "name": "SHANGHAI ZENDAI",
-    "nmll": "上海証大"
+    "nmll": "上海证大"
   },
   {
     "code": "756",
     "name": "SUMMI",
-    "nmll": "森美（集團）控股 "
+    "nmll": "森美（集团）控股 "
   },
   {
     "code": "757",
     "name": "SOLARGIGA",
-    "nmll": "陽光能源"
+    "nmll": "阳光能源"
   },
   {
     "code": "758",
     "name": "MACROLINK CAP",
-    "nmll": "新華聯資本"
+    "nmll": "新华联资本"
   },
   {
     "code": "759",
     "name": "CEC INT'L HOLD",
-    "nmll": "CEC 國際控股 "
+    "nmll": "CEC 国际控股 "
   },
   {
     "code": "760",
     "name": "TALENT PPT GP",
-    "nmll": "新天地產集團"
+    "nmll": "新天地产集团"
   },
   {
     "code": "762",
     "name": "CHINA UNICOM",
-    "nmll": "中國聯通"
+    "nmll": "中国联通"
   },
   {
     "code": "763",
     "name": "ZTE",
-    "nmll": "中興通訊"
+    "nmll": "中兴通讯"
   },
   {
     "code": "764",
@@ -3293,92 +3293,92 @@ var ucodesName2 =
   {
     "code": "765",
     "name": "PERFECTECH INTL",
-    "nmll": "威發國際集團 "
+    "nmll": "威发国际集团 "
   },
   {
     "code": "766",
     "name": "SINO PROSPER GP",
-    "nmll": "中盈集團控股"
+    "nmll": "中盈集团控股"
   },
   {
     "code": "767",
     "name": "APSR INV",
-    "nmll": "亞太絲路投資"
+    "nmll": "亚太丝路投资"
   },
   {
     "code": "768",
     "name": "UBA INVESTMENTS",
-    "nmll": "開明投資"
+    "nmll": "开明投资"
   },
   {
     "code": "769",
     "name": "CHINA RAREEARTH",
-    "nmll": "中國稀土"
+    "nmll": "中国稀土"
   },
   {
     "code": "770",
     "name": "SHANGHAI GROWTH",
-    "nmll": "滬光國際上海發展投資 "
+    "nmll": "沪光国际上海发展投资 "
   },
   {
     "code": "771",
     "name": "AUTOMATED SYS",
-    "nmll": "自動系統"
+    "nmll": "自动系统"
   },
   {
     "code": "772",
     "name": "CHINA LIT",
-    "nmll": "閱文集團"
+    "nmll": "阅文集团"
   },
   {
     "code": "775",
     "name": "CKLIFE SCIENCES",
-    "nmll": "長江生命科技"
+    "nmll": "长江生命科技"
   },
   {
     "code": "776",
     "name": "IMPERIUM GP",
-    "nmll": "帝國集團環球控股"
+    "nmll": "帝国集团环球控股"
   },
   {
     "code": "777",
     "name": "NETDRAGON",
-    "nmll": "網龍"
+    "nmll": "网龙"
   },
   {
     "code": "778",
     "name": "FORTUNE REIT",
-    "nmll": "置富產業信託"
+    "nmll": "置富产业信托"
   },
   {
     "code": "780",
     "name": "TONGCHENG-ELONG",
-    "nmll": "同程藝龍"
+    "nmll": "同程艺龙"
   },
   {
     "code": "784",
     "name": "LING YUI",
-    "nmll": "凌銳控股"
+    "nmll": "凌锐控股"
   },
   {
     "code": "787",
     "name": "GLOBAL BRANDS",
-    "nmll": "利標品牌"
+    "nmll": "利标品牌"
   },
   {
     "code": "788",
     "name": "CHINA TOWER",
-    "nmll": "中國鐵塔"
+    "nmll": "中国铁塔"
   },
   {
     "code": "789",
     "name": "ARTINI HLDG",
-    "nmll": "雅天妮集團"
+    "nmll": "雅天妮集团"
   },
   {
     "code": "794",
     "name": "COME SURE GROUP",
-    "nmll": "錦勝集團（控股）"
+    "nmll": "锦胜集团（控股）"
   },
   {
     "code": "797",
@@ -3388,7 +3388,7 @@ var ucodesName2 =
   {
     "code": "798",
     "name": "CEOVU",
-    "nmll": "中電光谷"
+    "nmll": "中电光谷"
   },
   {
     "code": "799",
@@ -3398,42 +3398,42 @@ var ucodesName2 =
   {
     "code": "800",
     "name": "A8 NEW MEDIA",
-    "nmll": "Ａ８新媒體"
+    "nmll": "Ａ８新媒体"
   },
   {
     "code": "801",
     "name": "GOLDEN MEDITECH",
-    "nmll": "金衛醫療"
+    "nmll": "金卫医疗"
   },
   {
     "code": "802",
     "name": "CHINA E-WALLET",
-    "nmll": "中國錢包"
+    "nmll": "中国钱包"
   },
   {
     "code": "803",
     "name": "PROSPERITY INTL",
-    "nmll": "昌興國際"
+    "nmll": "昌兴国际"
   },
   {
     "code": "804",
     "name": "PINESTONE",
-    "nmll": "鼎石資本"
+    "nmll": "鼎石资本"
   },
   {
     "code": "806",
     "name": "VALUE PARTNERS",
-    "nmll": "惠理集團"
+    "nmll": "惠理集团"
   },
   {
     "code": "807",
     "name": "SIICENVIRONMENT",
-    "nmll": "上海實業環境"
+    "nmll": "上海实业环境"
   },
   {
     "code": "808",
     "name": "PROSPERITY REIT",
-    "nmll": "泓富產業信託"
+    "nmll": "泓富产业信托"
   },
   {
     "code": "809",
@@ -3443,22 +3443,22 @@ var ucodesName2 =
   {
     "code": "810",
     "name": "CH INTERNET INV",
-    "nmll": "中國互聯網投資"
+    "nmll": "中国互联网投资"
   },
   {
     "code": "811",
     "name": "XINHUA WINSHARE",
-    "nmll": "新華文軒"
+    "nmll": "新华文轩"
   },
   {
     "code": "812",
     "name": "SWSI",
-    "nmll": "西證國際證券"
+    "nmll": "西证国际证券"
   },
   {
     "code": "813",
     "name": "SHIMAO GROUP",
-    "nmll": "世茂集團"
+    "nmll": "世茂集团"
   },
   {
     "code": "814",
@@ -3468,67 +3468,67 @@ var ucodesName2 =
   {
     "code": "815",
     "name": "CHI SILVER GP",
-    "nmll": "中國白銀集團"
+    "nmll": "中国白银集团"
   },
   {
     "code": "816",
     "name": "HUADIAN FUXIN",
-    "nmll": "華電福新能源  "
+    "nmll": "华电福新能源  "
   },
   {
     "code": "817",
     "name": "CHINA JINMAO",
-    "nmll": "中國金茂控股 "
+    "nmll": "中国金茂控股 "
   },
   {
     "code": "818",
     "name": "HI SUN TECH",
-    "nmll": "高陽科技"
+    "nmll": "高阳科技"
   },
   {
     "code": "819",
     "name": "TIANNENG POWER",
-    "nmll": "天能動力"
+    "nmll": "天能动力"
   },
   {
     "code": "820",
     "name": "HSBCDRAGON FUND",
-    "nmll": "匯豐中國翔龍基金"
+    "nmll": "汇丰中国翔龙基金"
   },
   {
     "code": "821",
     "name": "VC HOLDINGS",
-    "nmll": "匯盈控股"
+    "nmll": "汇盈控股"
   },
   {
     "code": "822",
     "name": "KA SHUI INT'L",
-    "nmll": "嘉瑞國際"
+    "nmll": "嘉瑞国际"
   },
   {
     "code": "823",
     "name": "LINK REIT",
-    "nmll": "領展房產基金"
+    "nmll": "领展房产基金"
   },
   {
     "code": "825",
     "name": "NWDS CHINA",
-    "nmll": "新世界百貨中國"
+    "nmll": "新世界百货中国"
   },
   {
     "code": "826",
     "name": "TIANGONG INT'L",
-    "nmll": "天工國際"
+    "nmll": "天工国际"
   },
   {
     "code": "827",
     "name": "KO YO GROUP",
-    "nmll": "玖源集團"
+    "nmll": "玖源集团"
   },
   {
     "code": "828",
     "name": "DYNASTY WINES",
-    "nmll": "王朝酒業"
+    "nmll": "王朝酒业"
   },
   {
     "code": "829",
@@ -3538,22 +3538,22 @@ var ucodesName2 =
   {
     "code": "830",
     "name": "CSC DEVELOPMENT",
-    "nmll": "中國建築興業"
+    "nmll": "中国建筑兴业"
   },
   {
     "code": "831",
     "name": "CR ASIA",
-    "nmll": "利亞零售"
+    "nmll": "利亚零售"
   },
   {
     "code": "832",
     "name": "CENTRAL CHINA",
-    "nmll": "建業地產"
+    "nmll": "建业地产"
   },
   {
     "code": "833",
     "name": "ALLTRONICS",
-    "nmll": "華訊"
+    "nmll": "华讯"
   },
   {
     "code": "834",
@@ -3563,17 +3563,17 @@ var ucodesName2 =
   {
     "code": "836",
     "name": "CHINA RES POWER",
-    "nmll": "華潤電力"
+    "nmll": "华润电力"
   },
   {
     "code": "837",
     "name": "CARPENTER TAN",
-    "nmll": "譚木匠"
+    "nmll": "谭木匠"
   },
   {
     "code": "838",
     "name": "EVA HOLDINGS",
-    "nmll": "億和控股"
+    "nmll": "亿和控股"
   },
   {
     "code": "839",
@@ -3583,42 +3583,42 @@ var ucodesName2 =
   {
     "code": "840",
     "name": "TIANYE WATER",
-    "nmll": "天業節水"
+    "nmll": "天业节水"
   },
   {
     "code": "841",
     "name": "CASSAVA RES",
-    "nmll": "木薯資源"
+    "nmll": "木薯资源"
   },
   {
     "code": "842",
     "name": "LEOCH INT'L",
-    "nmll": "理士國際"
+    "nmll": "理士国际"
   },
   {
     "code": "844",
     "name": "GREATIME INTL",
-    "nmll": "廣泰國際控股"
+    "nmll": "广泰国际控股"
   },
   {
     "code": "845",
     "name": "GLORIOUS PPT H",
-    "nmll": "恒盛地產"
+    "nmll": "恒盛地产"
   },
   {
     "code": "846",
     "name": "MINGFA GROUP",
-    "nmll": "明發集團"
+    "nmll": "明发集团"
   },
   {
     "code": "848",
     "name": "MAOYE INT'L",
-    "nmll": "茂業國際"
+    "nmll": "茂业国际"
   },
   {
     "code": "850",
     "name": "LONG WELL INTL",
-    "nmll": "久康國際"
+    "nmll": "久康国际"
   },
   {
     "code": "851",
@@ -3628,12 +3628,12 @@ var ucodesName2 =
   {
     "code": "852",
     "name": "STRONG PETRO",
-    "nmll": "海峽石油化工"
+    "nmll": "海峡石油化工"
   },
   {
     "code": "853",
     "name": "MICROPORT",
-    "nmll": "微創醫療科學 "
+    "nmll": "微创医疗科学 "
   },
   {
     "code": "854",
@@ -3643,32 +3643,32 @@ var ucodesName2 =
   {
     "code": "855",
     "name": "CHINA WATER",
-    "nmll": "中國水務"
+    "nmll": "中国水务"
   },
   {
     "code": "856",
     "name": "VSTECS",
-    "nmll": "偉仕佳杰"
+    "nmll": "伟仕佳杰"
   },
   {
     "code": "857",
     "name": "PETROCHINA",
-    "nmll": "中國石油股份"
+    "nmll": "中国石油股份"
   },
   {
     "code": "858",
     "name": "EXTRAWELL PHAR",
-    "nmll": "精優藥業"
+    "nmll": "精优药业"
   },
   {
     "code": "859",
     "name": "ZHONGCHANG INTL",
-    "nmll": "中昌國際控股"
+    "nmll": "中昌国际控股"
   },
   {
     "code": "860",
     "name": "APOLLO FMG",
-    "nmll": "力世紀"
+    "nmll": "力世纪"
   },
   {
     "code": "861",
@@ -3678,37 +3678,37 @@ var ucodesName2 =
   {
     "code": "862",
     "name": "VISION VALUES",
-    "nmll": "遠見控股"
+    "nmll": "远见控股"
   },
   {
     "code": "863",
     "name": "BC TECH GROUP",
-    "nmll": "ＢＣ科技集團"
+    "nmll": "ＢＣ科技集团"
   },
   {
     "code": "864",
     "name": "WING LEE PPT",
-    "nmll": "永利地產發展"
+    "nmll": "永利地产发展"
   },
   {
     "code": "865",
     "name": "JIANDE INT'L",
-    "nmll": "建德國際控股"
+    "nmll": "建德国际控股"
   },
   {
     "code": "866",
     "name": "CHINA QINFA",
-    "nmll": "中國秦發"
+    "nmll": "中国秦发"
   },
   {
     "code": "867",
     "name": "CMS",
-    "nmll": "康哲藥業"
+    "nmll": "康哲药业"
   },
   {
     "code": "868",
     "name": "XINYI GLASS",
-    "nmll": "信義玻璃"
+    "nmll": "信义玻璃"
   },
   {
     "code": "869",
@@ -3718,37 +3718,37 @@ var ucodesName2 =
   {
     "code": "871",
     "name": "CH DREDG ENV",
-    "nmll": "中國疏浚環保"
+    "nmll": "中国疏浚环保"
   },
   {
     "code": "872",
     "name": "TUS INTL",
-    "nmll": "啟迪國際"
+    "nmll": "启迪国际"
   },
   {
     "code": "874",
     "name": "BAIYUNSHAN PH",
-    "nmll": "白雲山"
+    "nmll": "白云山"
   },
   {
     "code": "875",
     "name": "CHINA FIN INV",
-    "nmll": "中國金控"
+    "nmll": "中国金控"
   },
   {
     "code": "876",
     "name": "KAISA HEALTH",
-    "nmll": "佳兆業健康"
+    "nmll": "佳兆业健康"
   },
   {
     "code": "877",
     "name": "O-NET TECH GP",
-    "nmll": "昂納科技集團"
+    "nmll": "昂纳科技集团"
   },
   {
     "code": "878",
     "name": "SOUNDWILL HOLD",
-    "nmll": "金朝陽集團"
+    "nmll": "金朝阳集团"
   },
   {
     "code": "880",
@@ -3763,17 +3763,17 @@ var ucodesName2 =
   {
     "code": "882",
     "name": "TIANJIN DEV",
-    "nmll": "天津發展"
+    "nmll": "天津发展"
   },
   {
     "code": "883",
     "name": "CNOOC",
-    "nmll": "中國海洋石油"
+    "nmll": "中国海洋石油"
   },
   {
     "code": "884",
     "name": "CIFI HOLD GP",
-    "nmll": "旭輝控股集團"
+    "nmll": "旭辉控股集团"
   },
   {
     "code": "885",
@@ -3783,22 +3783,22 @@ var ucodesName2 =
   {
     "code": "886",
     "name": "SILVER BASE",
-    "nmll": "銀基集團"
+    "nmll": "银基集团"
   },
   {
     "code": "887",
     "name": "EMPEROR WATCH&J",
-    "nmll": "英皇鐘錶珠寶"
+    "nmll": "英皇钟表珠宝"
   },
   {
     "code": "888",
     "name": "BISON FINANCE",
-    "nmll": "貝森金融"
+    "nmll": "贝森金融"
   },
   {
     "code": "889",
     "name": "DATRONIX HOLD",
-    "nmll": "連達科技控股"
+    "nmll": "连达科技控股"
   },
   {
     "code": "890",
@@ -3813,22 +3813,22 @@ var ucodesName2 =
   {
     "code": "893",
     "name": "CHINAVTM MINING",
-    "nmll": "中國鐵鈦"
+    "nmll": "中国铁钛"
   },
   {
     "code": "894",
     "name": "MAN YUE TECH",
-    "nmll": "萬裕科技"
+    "nmll": "万裕科技"
   },
   {
     "code": "895",
     "name": "DONGJIANG ENV",
-    "nmll": "東江環保"
+    "nmll": "东江环保"
   },
   {
     "code": "896",
     "name": "HANISON",
-    "nmll": "興勝創建"
+    "nmll": "兴胜创建"
   },
   {
     "code": "897",
@@ -3838,57 +3838,57 @@ var ucodesName2 =
   {
     "code": "898",
     "name": "MULTIFIELD INTL",
-    "nmll": "萬事昌國際"
+    "nmll": "万事昌国际"
   },
   {
     "code": "899",
     "name": "ASIA RESOURCES",
-    "nmll": "亞洲資源"
+    "nmll": "亚洲资源"
   },
   {
     "code": "900",
     "name": "AEON CREDIT",
-    "nmll": "Aeon信貸財務 "
+    "nmll": "Aeon信贷财务 "
   },
   {
     "code": "901",
     "name": "EAGLERIDE INV",
-    "nmll": "鷹力投資"
+    "nmll": "鹰力投资"
   },
   {
     "code": "902",
     "name": "HUANENG POWER",
-    "nmll": "華能國際電力股份"
+    "nmll": "华能国际电力股份"
   },
   {
     "code": "904",
     "name": "CHINA GREEN",
-    "nmll": "中綠"
+    "nmll": "中绿"
   },
   {
     "code": "905",
     "name": "GLOBAL M CAP",
-    "nmll": "環球大通投資"
+    "nmll": "环球大通投资"
   },
   {
     "code": "906",
     "name": "COFCO PACKAGING",
-    "nmll": "中糧包裝"
+    "nmll": "中粮包装"
   },
   {
     "code": "907",
     "name": "ELEGANCEOPTICAL",
-    "nmll": "高雅光學"
+    "nmll": "高雅光学"
   },
   {
     "code": "908",
     "name": "ZHUHAI H INV",
-    "nmll": "珠海控股投資"
+    "nmll": "珠海控股投资"
   },
   {
     "code": "910",
     "name": "CHINA SANDI",
-    "nmll": "中國三迪"
+    "nmll": "中国三迪"
   },
   {
     "code": "911",
@@ -3898,12 +3898,12 @@ var ucodesName2 =
   {
     "code": "912",
     "name": "SUGA INT'L",
-    "nmll": "信佳國際"
+    "nmll": "信佳国际"
   },
   {
     "code": "913",
     "name": "UNITY INV HOLD",
-    "nmll": "合一投資"
+    "nmll": "合一投资"
   },
   {
     "code": "914",
@@ -3913,47 +3913,47 @@ var ucodesName2 =
   {
     "code": "915",
     "name": "DAOHE GLOBAL",
-    "nmll": "道和環球"
+    "nmll": "道和环球"
   },
   {
     "code": "916",
     "name": "CHINA LONGYUAN",
-    "nmll": "龍源電力"
+    "nmll": "龙源电力"
   },
   {
     "code": "918",
     "name": "STATE EN ASSETS",
-    "nmll": "國能國際資產"
+    "nmll": "国能国际资产"
   },
   {
     "code": "919",
     "name": "MODERNHEALTHTEC",
-    "nmll": "現代健康科技"
+    "nmll": "现代健康科技"
   },
   {
     "code": "921",
     "name": "HISENSE HA",
-    "nmll": "海信家電集團  "
+    "nmll": "海信家电集团  "
   },
   {
     "code": "922",
     "name": "ANXIANYUAN CH",
-    "nmll": "安賢園中國"
+    "nmll": "安贤园中国"
   },
   {
     "code": "923",
     "name": "IWS",
-    "nmll": "綜合環保集團"
+    "nmll": "综合环保集团"
   },
   {
     "code": "924",
     "name": "KHOON GROUP",
-    "nmll": "坤集團"
+    "nmll": "坤集团"
   },
   {
     "code": "925",
     "name": "BJ PROPERTIES",
-    "nmll": "北京建設"
+    "nmll": "北京建设"
   },
   {
     "code": "926",
@@ -3963,32 +3963,32 @@ var ucodesName2 =
   {
     "code": "927",
     "name": "FUJIKON IND",
-    "nmll": "富士高實業"
+    "nmll": "富士高实业"
   },
   {
     "code": "928",
     "name": "LIFE HEALTHCARE",
-    "nmll": "蓮和醫療"
+    "nmll": "莲和医疗"
   },
   {
     "code": "929",
     "name": "IPE GROUP",
-    "nmll": "國際精密"
+    "nmll": "国际精密"
   },
   {
     "code": "931",
     "name": "CHINA LNG",
-    "nmll": "中國天然氣"
+    "nmll": "中国天然气"
   },
   {
     "code": "932",
     "name": "SHUNTEN INTL",
-    "nmll": "順騰國際控股"
+    "nmll": "顺腾国际控股"
   },
   {
     "code": "933",
     "name": "BRIGHTOIL",
-    "nmll": "光匯石油"
+    "nmll": "光汇石油"
   },
   {
     "code": "934",
@@ -3998,27 +3998,27 @@ var ucodesName2 =
   {
     "code": "935",
     "name": "DRAGON CROWN",
-    "nmll": "龍翔集團"
+    "nmll": "龙翔集团"
   },
   {
     "code": "936",
     "name": "EAGLE LEGEND",
-    "nmll": "鵬程亞洲"
+    "nmll": "鹏程亚洲"
   },
   {
     "code": "938",
     "name": "MAN SANG INT'L",
-    "nmll": "民生國際"
+    "nmll": "民生国际"
   },
   {
     "code": "939",
     "name": "CCB",
-    "nmll": "建設銀行"
+    "nmll": "建设银行"
   },
   {
     "code": "941",
     "name": "CHINA MOBILE",
-    "nmll": "中國移動"
+    "nmll": "中国移动"
   },
   {
     "code": "943",
@@ -4033,27 +4033,27 @@ var ucodesName2 =
   {
     "code": "947",
     "name": "MOBI DEV",
-    "nmll": "摩比發展"
+    "nmll": "摩比发展"
   },
   {
     "code": "948",
     "name": "ALPHA PRO HLDGS",
-    "nmll": "阿爾法企業"
+    "nmll": "阿尔法企业"
   },
   {
     "code": "950",
     "name": "LEE'S PHARM",
-    "nmll": "李氏大藥廠"
+    "nmll": "李氏大药厂"
   },
   {
     "code": "951",
     "name": "CHAOWEI POWER",
-    "nmll": "超威動力"
+    "nmll": "超威动力"
   },
   {
     "code": "952",
     "name": "TONGHAI FIN",
-    "nmll": "中國通海金融"
+    "nmll": "中国通海金融"
   },
   {
     "code": "953",
@@ -4063,47 +4063,47 @@ var ucodesName2 =
   {
     "code": "954",
     "name": "CHANGMAO BIO",
-    "nmll": "常茂生物化學工程  "
+    "nmll": "常茂生物化学工程  "
   },
   {
     "code": "956",
     "name": "CHINA SUNTIEN",
-    "nmll": "新天綠色能源"
+    "nmll": "新天绿色能源"
   },
   {
     "code": "959",
     "name": "CENTURY ENT INT",
-    "nmll": "世紀娛樂國際"
+    "nmll": "世纪娱乐国际"
   },
   {
     "code": "960",
     "name": "LONGFOR GROUP",
-    "nmll": "龍湖集團"
+    "nmll": "龙湖集团"
   },
   {
     "code": "966",
     "name": "CHINA TAIPING",
-    "nmll": "中國太平"
+    "nmll": "中国太平"
   },
   {
     "code": "967",
     "name": "SOUND GLOBAL",
-    "nmll": "桑德國際"
+    "nmll": "桑德国际"
   },
   {
     "code": "968",
     "name": "XINYI SOLAR",
-    "nmll": "信義光能"
+    "nmll": "信义光能"
   },
   {
     "code": "969",
     "name": "HUA LIEN INT'L",
-    "nmll": "華聯國際"
+    "nmll": "华联国际"
   },
   {
     "code": "970",
     "name": "SPARKLE ROLL",
-    "nmll": "耀萊集團"
+    "nmll": "耀莱集团"
   },
   {
     "code": "973",
@@ -4113,7 +4113,7 @@ var ucodesName2 =
   {
     "code": "974",
     "name": "SKL",
-    "nmll": "中國順客隆"
+    "nmll": "中国顺客隆"
   },
   {
     "code": "975",
@@ -4123,7 +4123,7 @@ var ucodesName2 =
   {
     "code": "976",
     "name": "CHIHO ENV",
-    "nmll": "齊合環保"
+    "nmll": "齐合环保"
   },
   {
     "code": "978",
@@ -4133,27 +4133,27 @@ var ucodesName2 =
   {
     "code": "979",
     "name": "GREEN ENERGY GP",
-    "nmll": "綠色能源科技集團"
+    "nmll": "绿色能源科技集团"
   },
   {
     "code": "980",
     "name": "LIANHUA",
-    "nmll": "聯華超市"
+    "nmll": "联华超市"
   },
   {
     "code": "981",
     "name": "SMIC",
-    "nmll": "中芯國際"
+    "nmll": "中芯国际"
   },
   {
     "code": "982",
     "name": "HJ CAPITAL INTL",
-    "nmll": "華金國際資本"
+    "nmll": "华金国际资本"
   },
   {
     "code": "983",
     "name": "SOCAM DEV",
-    "nmll": "瑞安建業"
+    "nmll": "瑞安建业"
   },
   {
     "code": "984",
@@ -4163,47 +4163,47 @@ var ucodesName2 =
   {
     "code": "985",
     "name": "CST GROUP",
-    "nmll": "中譽集團"
+    "nmll": "中誉集团"
   },
   {
     "code": "986",
     "name": "CH ENV ENERGY",
-    "nmll": "中國環保能源"
+    "nmll": "中国环保能源"
   },
   {
     "code": "987",
     "name": "CH RENEW EN INV",
-    "nmll": "中國再生能源投資"
+    "nmll": "中国再生能源投资"
   },
   {
     "code": "988",
     "name": "SILKROAD LOG",
-    "nmll": "絲路物流控股"
+    "nmll": "丝路物流控股"
   },
   {
     "code": "989",
     "name": "GROUND INTL DEV",
-    "nmll": "廣澤國際發展"
+    "nmll": "广泽国际发展"
   },
   {
     "code": "990",
     "name": "THEME INT'L",
-    "nmll": "榮暉國際"
+    "nmll": "荣晖国际"
   },
   {
     "code": "991",
     "name": "DATANG POWER",
-    "nmll": "大唐發電"
+    "nmll": "大唐发电"
   },
   {
     "code": "992",
     "name": "LENOVO GROUP",
-    "nmll": "聯想集團"
+    "nmll": "联想集团"
   },
   {
     "code": "993",
     "name": "HUARONG INT FIN",
-    "nmll": "華融金控"
+    "nmll": "华融金控"
   },
   {
     "code": "994",
@@ -4218,17 +4218,17 @@ var ucodesName2 =
   {
     "code": "996",
     "name": "CARNIVAL GROUP",
-    "nmll": "嘉年華國際"
+    "nmll": "嘉年华国际"
   },
   {
     "code": "997",
     "name": "CHINLINK INTL",
-    "nmll": "普匯中金國際"
+    "nmll": "普汇中金国际"
   },
   {
     "code": "998",
     "name": "CITIC BANK",
-    "nmll": "中信銀行"
+    "nmll": "中信银行"
   },
   {
     "code": "999",
@@ -4238,62 +4238,62 @@ var ucodesName2 =
   {
     "code": "1000",
     "name": "BEIJING MEDIA",
-    "nmll": "北青傳媒"
+    "nmll": "北青传媒"
   },
   {
     "code": "1001",
     "name": "HK SH ALLIANCE",
-    "nmll": "滬港聯合"
+    "nmll": "沪港联合"
   },
   {
     "code": "1002",
     "name": "V.S. INT'L",
-    "nmll": "威鋮國際"
+    "nmll": "威铖国际"
   },
   {
     "code": "1003",
     "name": "HUANXI MEDIA",
-    "nmll": "歡喜傳媒"
+    "nmll": "欢喜传媒"
   },
   {
     "code": "1004",
     "name": "C SMARTERENERGY",
-    "nmll": "中國智慧能源"
+    "nmll": "中国智慧能源"
   },
   {
     "code": "1005",
     "name": "MATRIX HOLDINGS",
-    "nmll": "美力時集團 "
+    "nmll": "美力时集团 "
   },
   {
     "code": "1006",
     "name": "CHANGSHOUHUA",
-    "nmll": "長壽花食品"
+    "nmll": "长寿花食品"
   },
   {
     "code": "1007",
     "name": "LONGHUI INTL",
-    "nmll": "龍輝國際控股"
+    "nmll": "龙辉国际控股"
   },
   {
     "code": "1008",
     "name": "BRILLIANT CIR",
-    "nmll": "貴聯控股"
+    "nmll": "贵联控股"
   },
   {
     "code": "1009",
     "name": "INT'L ENT",
-    "nmll": "國際娛樂"
+    "nmll": "国际娱乐"
   },
   {
     "code": "1010",
     "name": "PACRAY INT'L",
-    "nmll": "太睿國際控股"
+    "nmll": "太睿国际控股"
   },
   {
     "code": "1011",
     "name": "NT PHARMA",
-    "nmll": "泰凌醫藥"
+    "nmll": "泰凌医药"
   },
   {
     "code": "1012",
@@ -4303,42 +4303,47 @@ var ucodesName2 =
   {
     "code": "1013",
     "name": "WAI CHUN GROUP",
-    "nmll": "偉俊集團控股"
+    "nmll": "伟俊集团控股"
   },
   {
     "code": "1019",
     "name": "CONVOY",
-    "nmll": "康宏環球"
+    "nmll": "康宏环球"
   },
   {
     "code": "1020",
     "name": "CYBERNAUT INT'L",
-    "nmll": "賽伯樂國際控股"
+    "nmll": "赛伯乐国际控股"
   },
   {
     "code": "1022",
     "name": "FEIYU",
-    "nmll": "飛魚科技國際 "
+    "nmll": "飞鱼科技国际 "
   },
   {
     "code": "1023",
     "name": "SITOY GROUP",
-    "nmll": "時代集團控股"
+    "nmll": "时代集团控股"
+  },
+  {
+    "code": "1024",
+    "name": "Kuaishou",
+    "nmll": "快手科技"
   },
   {
     "code": "1025",
     "name": "KNT HOLDINGS",
-    "nmll": "嘉藝控股"
+    "nmll": "嘉艺控股"
   },
   {
     "code": "1026",
     "name": "UNIVERSAL TECH",
-    "nmll": "環球實業科技"
+    "nmll": "环球实业科技"
   },
   {
     "code": "1027",
     "name": "CHINA JICHENG",
-    "nmll": "中國集成控股"
+    "nmll": "中国集成控股"
   },
   {
     "code": "1028",
@@ -4348,17 +4353,17 @@ var ucodesName2 =
   {
     "code": "1029",
     "name": "IRC",
-    "nmll": "鐵江現貨 "
+    "nmll": "铁江现货 "
   },
   {
     "code": "1030",
     "name": "SEAZEN",
-    "nmll": "新城發展控股 "
+    "nmll": "新城发展控股 "
   },
   {
     "code": "1031",
     "name": "KINGSTON FIN",
-    "nmll": "金利豐金融"
+    "nmll": "金利丰金融"
   },
   {
     "code": "1033",
@@ -4368,72 +4373,72 @@ var ucodesName2 =
   {
     "code": "1034",
     "name": "FULLWEALTH",
-    "nmll": "富匯建築控股"
+    "nmll": "富汇建筑控股"
   },
   {
     "code": "1036",
     "name": "VANKE OVERSEAS",
-    "nmll": "萬科海外"
+    "nmll": "万科海外"
   },
   {
     "code": "1037",
     "name": "MAXNERVA TECH",
-    "nmll": "雲智匯科技"
+    "nmll": "云智汇科技"
   },
   {
     "code": "1038",
     "name": "CKI HOLDINGS",
-    "nmll": "長江基建集團"
+    "nmll": "长江基建集团"
   },
   {
     "code": "1039",
     "name": "CHANGYOU ALLI",
-    "nmll": "暢由聯盟"
+    "nmll": "畅由联盟"
   },
   {
     "code": "1041",
     "name": "LAMTEX HLDGS",
-    "nmll": "林達控股"
+    "nmll": "林达控股"
   },
   {
     "code": "1043",
     "name": "COSLIGHT TECH",
-    "nmll": "光宇國際集團科技"
+    "nmll": "光宇国际集团科技"
   },
   {
     "code": "1044",
     "name": "HENGAN INT'L",
-    "nmll": "恒安國際"
+    "nmll": "恒安国际"
   },
   {
     "code": "1045",
     "name": "APT SATELLITE",
-    "nmll": "亞太衛星"
+    "nmll": "亚太卫星"
   },
   {
     "code": "1046",
     "name": "UNIVERSE ENT",
-    "nmll": "寰宇娛樂文化"
+    "nmll": "寰宇娱乐文化"
   },
   {
     "code": "1047",
     "name": "NGAI HING HONG",
-    "nmll": "毅興行"
+    "nmll": "毅兴行"
   },
   {
     "code": "1049",
     "name": "CELESTIAL ASIA",
-    "nmll": "時富投資"
+    "nmll": "时富投资"
   },
   {
     "code": "1050",
     "name": "KARRIE INT'L",
-    "nmll": "嘉利國際"
+    "nmll": "嘉利国际"
   },
   {
     "code": "1051",
     "name": "G-RESOURCES",
-    "nmll": "國際資源"
+    "nmll": "国际资源"
   },
   {
     "code": "1052",
@@ -4443,57 +4448,57 @@ var ucodesName2 =
   {
     "code": "1053",
     "name": "CHONGQING IRON",
-    "nmll": "重慶鋼鐵股份"
+    "nmll": "重庆钢铁股份"
   },
   {
     "code": "1055",
     "name": "CHINA SOUTH AIR",
-    "nmll": "中國南方航空股份"
+    "nmll": "中国南方航空股份"
   },
   {
     "code": "1057",
     "name": "ZHEJIANG SHIBAO",
-    "nmll": "浙江世寶"
+    "nmll": "浙江世宝"
   },
   {
     "code": "1058",
     "name": "GUANGDONG TANN",
-    "nmll": "粵海制革"
+    "nmll": "粤海制革"
   },
   {
     "code": "1059",
     "name": "KANTONE HOLDING",
-    "nmll": "看通集團"
+    "nmll": "看通集团"
   },
   {
     "code": "1060",
     "name": "ALI PICTURES",
-    "nmll": "阿里巴巴影業 "
+    "nmll": "阿里巴巴影业 "
   },
   {
     "code": "1061",
     "name": "ESSEX BIO-TECH",
-    "nmll": "億勝生物科技"
+    "nmll": "亿胜生物科技"
   },
   {
     "code": "1062",
     "name": "CDB INT'L INV",
-    "nmll": "國開國際投資"
+    "nmll": "国开国际投资"
   },
   {
     "code": "1063",
     "name": "SUNCORP TECH",
-    "nmll": "新確科技"
+    "nmll": "新确科技"
   },
   {
     "code": "1064",
     "name": "ZHONG HUA INT'L",
-    "nmll": "中華國際"
+    "nmll": "中华国际"
   },
   {
     "code": "1065",
     "name": "TIANJIN CAPITAL",
-    "nmll": "天津創業環保股份"
+    "nmll": "天津创业环保股份"
   },
   {
     "code": "1066",
@@ -4503,27 +4508,27 @@ var ucodesName2 =
   {
     "code": "1068",
     "name": "YURUN FOOD",
-    "nmll": "雨潤食品"
+    "nmll": "雨润食品"
   },
   {
     "code": "1069",
     "name": "BOZZA DEVELOP",
-    "nmll": "寶沙發展"
+    "nmll": "宝沙发展"
   },
   {
     "code": "1070",
     "name": "TCL ELECTRONICS",
-    "nmll": "ＴＣＬ電子"
+    "nmll": "ＴＣＬ电子"
   },
   {
     "code": "1071",
     "name": "HUADIAN POWER",
-    "nmll": "華電國際電力股份"
+    "nmll": "华电国际电力股份"
   },
   {
     "code": "1072",
     "name": "DONGFANG ELEC",
-    "nmll": "東方電氣"
+    "nmll": "东方电气"
   },
   {
     "code": "1073",
@@ -4538,7 +4543,7 @@ var ucodesName2 =
   {
     "code": "1076",
     "name": "IMPERIAL PAC",
-    "nmll": "博華太平洋"
+    "nmll": "博华太平洋"
   },
   {
     "code": "1079",
@@ -4548,22 +4553,22 @@ var ucodesName2 =
   {
     "code": "1080",
     "name": "SHENGLI PIPE",
-    "nmll": "勝利管道"
+    "nmll": "胜利管道"
   },
   {
     "code": "1082",
     "name": "HK EDU INTL",
-    "nmll": "香港教育國際"
+    "nmll": "香港教育国际"
   },
   {
     "code": "1083",
     "name": "TOWNGAS CHINA",
-    "nmll": "港華燃氣"
+    "nmll": "港华燃气"
   },
   {
     "code": "1084",
     "name": "GF HYDROCOLLOID",
-    "nmll": "綠新親水膠體"
+    "nmll": "绿新亲水胶体"
   },
   {
     "code": "1085",
@@ -4573,177 +4578,177 @@ var ucodesName2 =
   {
     "code": "1086",
     "name": "GOODBABY INTL",
-    "nmll": "好孩子國際"
+    "nmll": "好孩子国际"
   },
   {
     "code": "1087",
     "name": "INVESTECH HLDGS",
-    "nmll": "威訊控股"
+    "nmll": "威讯控股"
   },
   {
     "code": "1088",
     "name": "CHINA SHENHUA",
-    "nmll": "中國神華"
+    "nmll": "中国神华"
   },
   {
     "code": "1089",
     "name": "LEYOU TECH H",
-    "nmll": "樂遊科技控股"
+    "nmll": "乐游科技控股"
   },
   {
     "code": "1090",
     "name": "DA MING INT'L",
-    "nmll": "大明國際"
+    "nmll": "大明国际"
   },
   {
     "code": "1091",
     "name": "CITIC DAMENG",
-    "nmll": "中信大錳"
+    "nmll": "中信大锰"
   },
   {
     "code": "1093",
     "name": "CSPC PHARMA",
-    "nmll": "石藥集團"
+    "nmll": "石药集团"
   },
   {
     "code": "1094",
     "name": "C P PROCUREMENT",
-    "nmll": "中國公共採購"
+    "nmll": "中国公共采购"
   },
   {
     "code": "1096",
     "name": "SINO ENERGY INT",
-    "nmll": "中能國際控股"
+    "nmll": "中能国际控股"
   },
   {
     "code": "1097",
     "name": "I-CABLE COMM",
-    "nmll": "有線寬頻"
+    "nmll": "有线宽频"
   },
   {
     "code": "1098",
     "name": "ROAD KING INFRA",
-    "nmll": "路勁基建 "
+    "nmll": "路劲基建 "
   },
   {
     "code": "1099",
     "name": "SINOPHARM",
-    "nmll": "國藥控股"
+    "nmll": "国药控股"
   },
   {
     "code": "1100",
     "name": "MAINLAND HOLD",
-    "nmll": "飛達控股"
+    "nmll": "飞达控股"
   },
   {
     "code": "1101",
     "name": "HUARONG ENERGY",
-    "nmll": "華榮能源"
+    "nmll": "华荣能源"
   },
   {
     "code": "1102",
     "name": "ENVIRO ENERGY",
-    "nmll": "環能國際"
+    "nmll": "环能国际"
   },
   {
     "code": "1103",
     "name": "DASHENG AGR FIN",
-    "nmll": "大生農業金融"
+    "nmll": "大生农业金融"
   },
   {
     "code": "1104",
     "name": "APAC RESOURCES",
-    "nmll": "亞太資源"
+    "nmll": "亚太资源"
   },
   {
     "code": "1105",
     "name": "SING TAO",
-    "nmll": "星島"
+    "nmll": "星岛"
   },
   {
     "code": "1106",
     "name": "MING LAM HLDGS",
-    "nmll": "銘霖控股"
+    "nmll": "铭霖控股"
   },
   {
     "code": "1107",
     "name": "MODERN LAND",
-    "nmll": "當代置業"
+    "nmll": "当代置业"
   },
   {
     "code": "1108",
     "name": "LUOYANG GLASS",
-    "nmll": "洛陽玻璃股份"
+    "nmll": "洛阳玻璃股份"
   },
   {
     "code": "1109",
     "name": "CHINA RES LAND",
-    "nmll": "華潤置地"
+    "nmll": "华润置地"
   },
   {
     "code": "1110",
     "name": "KINGWORLD",
-    "nmll": "金活醫藥集團"
+    "nmll": "金活医药集团"
   },
   {
     "code": "1111",
     "name": "CHONG HING BANK",
-    "nmll": "創興銀行"
+    "nmll": "创兴银行"
   },
   {
     "code": "1112",
     "name": "H&H INTL HLDG",
-    "nmll": "H&H國際控股"
+    "nmll": "H&H国际控股"
   },
   {
     "code": "1113",
     "name": "CK ASSET",
-    "nmll": "長實集團"
+    "nmll": "长实集团"
   },
   {
     "code": "1114",
     "name": "BRILLIANCE CHI",
-    "nmll": "華晨中國汽車 "
+    "nmll": "华晨中国汽车 "
   },
   {
     "code": "1115",
     "name": "TIBET WATER",
-    "nmll": "西藏水資源"
+    "nmll": "西藏水资源"
   },
   {
     "code": "1116",
     "name": "MAYER HOLDINGS",
-    "nmll": "美亞控股 "
+    "nmll": "美亚控股 "
   },
   {
     "code": "1117",
     "name": "CH MODERN D",
-    "nmll": "現代牧業"
+    "nmll": "现代牧业"
   },
   {
     "code": "1118",
     "name": "GOLIK HOLDINGS",
-    "nmll": "高力集團"
+    "nmll": "高力集团"
   },
   {
     "code": "1119",
     "name": "IDREAMSKY",
-    "nmll": "創夢天地"
+    "nmll": "创梦天地"
   },
   {
     "code": "1120",
     "name": "ARTS OPTICAL",
-    "nmll": "雅視光學"
+    "nmll": "雅视光学"
   },
   {
     "code": "1121",
     "name": "BAOFENGMODERN",
-    "nmll": "寶峰時尚"
+    "nmll": "宝峰时尚"
   },
   {
     "code": "1122",
     "name": "QINGLING MOTORS",
-    "nmll": "慶鈴汽車股份"
+    "nmll": "庆铃汽车股份"
   },
   {
     "code": "1123",
@@ -4753,42 +4758,42 @@ var ucodesName2 =
   {
     "code": "1124",
     "name": "COASTAL GL",
-    "nmll": "沿海家園"
+    "nmll": "沿海家园"
   },
   {
     "code": "1125",
     "name": "LAI FUNG HOLD",
-    "nmll": "麗豐控股"
+    "nmll": "丽丰控股"
   },
   {
     "code": "1126",
     "name": "DREAM INT'L",
-    "nmll": "德林國際"
+    "nmll": "德林国际"
   },
   {
     "code": "1127",
     "name": "LION ROCK GROUP",
-    "nmll": "獅子山集團"
+    "nmll": "狮子山集团"
   },
   {
     "code": "1128",
     "name": "WYNN MACAU",
-    "nmll": "永利澳門"
+    "nmll": "永利澳门"
   },
   {
     "code": "1129",
     "name": "WATER INDUSTRY",
-    "nmll": "中國水業集團"
+    "nmll": "中国水业集团"
   },
   {
     "code": "1130",
     "name": "CHINA ENV RES",
-    "nmll": "中國環境資源"
+    "nmll": "中国环境资源"
   },
   {
     "code": "1131",
     "name": "AGRITRADE RES",
-    "nmll": "鴻寶資源"
+    "nmll": "鸿宝资源"
   },
   {
     "code": "1132",
@@ -4798,77 +4803,77 @@ var ucodesName2 =
   {
     "code": "1133",
     "name": "HARBIN ELECTRIC",
-    "nmll": "哈爾濱電氣"
+    "nmll": "哈尔滨电气"
   },
   {
     "code": "1134",
     "name": "KELFRED",
-    "nmll": "恒發光學控股 "
+    "nmll": "恒发光学控股 "
   },
   {
     "code": "1137",
     "name": "HKTV",
-    "nmll": "香港電視"
+    "nmll": "香港电视"
   },
   {
     "code": "1138",
     "name": "COSCO SHIP ENGY",
-    "nmll": "中遠海能"
+    "nmll": "中远海能"
   },
   {
     "code": "1139",
     "name": "VICTORY GROUP",
-    "nmll": "華多利集團"
+    "nmll": "华多利集团"
   },
   {
     "code": "1140",
     "name": "OP FINANCIAL",
-    "nmll": "東英金融"
+    "nmll": "东英金融"
   },
   {
     "code": "1141",
     "name": "CMBC CAPITAL",
-    "nmll": "民銀資本"
+    "nmll": "民银资本"
   },
   {
     "code": "1142",
     "name": "SIBERIAN MINING",
-    "nmll": "西伯利亞礦業"
+    "nmll": "西伯利亚矿业"
   },
   {
     "code": "1143",
     "name": "LINK-ASIA INTL",
-    "nmll": "環亞國際實業"
+    "nmll": "环亚国际实业"
   },
   {
     "code": "1145",
     "name": "COURAGE INV",
-    "nmll": "勇利投資"
+    "nmll": "勇利投资"
   },
   {
     "code": "1146",
     "name": "CH OUTFITTERS",
-    "nmll": "中國服飾控股"
+    "nmll": "中国服饰控股"
   },
   {
     "code": "1147",
     "name": "EDENSOFT",
-    "nmll": "伊登軟件"
+    "nmll": "伊登软件"
   },
   {
     "code": "1148",
     "name": "POWER XINCHEN",
-    "nmll": "新晨動力"
+    "nmll": "新晨动力"
   },
   {
     "code": "1150",
     "name": "MILAN STATION",
-    "nmll": "米蘭站"
+    "nmll": "米兰站"
   },
   {
     "code": "1151",
     "name": "ELEC & ELTEK",
-    "nmll": "依利安達"
+    "nmll": "依利安达"
   },
   {
     "code": "1152",
@@ -4888,12 +4893,12 @@ var ucodesName2 =
   {
     "code": "1157",
     "name": "ZOOMLION",
-    "nmll": "中聯重科"
+    "nmll": "中联重科"
   },
   {
     "code": "1158",
     "name": "NC HOTEL",
-    "nmll": "開元酒店"
+    "nmll": "开元酒店"
   },
   {
     "code": "1159",
@@ -4903,72 +4908,72 @@ var ucodesName2 =
   {
     "code": "1160",
     "name": "YOUTH CHAMP",
-    "nmll": "優創金融"
+    "nmll": "优创金融"
   },
   {
     "code": "1161",
     "name": "WATER OASIS GP",
-    "nmll": "奧思集團"
+    "nmll": "奥思集团"
   },
   {
     "code": "1162",
     "name": "LUMINA GROUP",
-    "nmll": "瑩嵐集團"
+    "nmll": "莹岚集团"
   },
   {
     "code": "1163",
     "name": "ADTIGER CORP",
-    "nmll": "虎視傳媒"
+    "nmll": "虎视传媒"
   },
   {
     "code": "1164",
     "name": "CGN MINING",
-    "nmll": "中廣核礦業"
+    "nmll": "中广核矿业"
   },
   {
     "code": "1165",
     "name": "SFCE",
-    "nmll": "順風清潔能源"
+    "nmll": "顺风清洁能源"
   },
   {
     "code": "1166",
     "name": "SOLARTECH INT'L",
-    "nmll": "星凱控股"
+    "nmll": "星凯控股"
   },
   {
     "code": "1168",
     "name": "SINOLINK HOLD",
-    "nmll": "百仕達控股"
+    "nmll": "百仕达控股"
   },
   {
     "code": "1169",
     "name": "HAIER ELEC",
-    "nmll": "海爾電器"
+    "nmll": "海尔电器"
   },
   {
     "code": "1170",
     "name": "KINGMAKER",
-    "nmll": "信星集團"
+    "nmll": "信星集团"
   },
   {
     "code": "1171",
     "name": "YANZHOU COAL",
-    "nmll": "兗州煤業股份"
+    "nmll": "兖州煤业股份"
   },
   {
     "code": "1172",
     "name": "MAGNUSCONCORDIA",
-    "nmll": "融太集團"
+    "nmll": "融太集团"
   },
   {
     "code": "1173",
     "name": "VEEKO INT'L",
-    "nmll": "威高國際"
+    "nmll": "威高国际"
   },
   {
     "code": "1175",
     "name": "FRESH EXP",
-    "nmll": "鮮馳達控股"
+    "nmll": "鲜驰达控股"
   },
   {
     "code": "1176",
@@ -4978,32 +4983,32 @@ var ucodesName2 =
   {
     "code": "1177",
     "name": "SINO BIOPHARM",
-    "nmll": "中國生物製藥"
+    "nmll": "中国生物制药"
   },
   {
     "code": "1178",
     "name": "HUIYIN HLDGS GP",
-    "nmll": "匯銀控股集團"
+    "nmll": "汇银控股集团"
   },
   {
     "code": "1180",
     "name": "PARADISE ENT",
-    "nmll": "匯彩控股"
+    "nmll": "汇彩控股"
   },
   {
     "code": "1181",
     "name": "TANG PALACE",
-    "nmll": "唐宮中國"
+    "nmll": "唐宫中国"
   },
   {
     "code": "1182",
     "name": "SUCCESS DRAGON",
-    "nmll": "勝龍國際"
+    "nmll": "胜龙国际"
   },
   {
     "code": "1183",
     "name": "MECOM POWER",
-    "nmll": "澳能建設"
+    "nmll": "澳能建设"
   },
   {
     "code": "1184",
@@ -5013,32 +5018,32 @@ var ucodesName2 =
   {
     "code": "1185",
     "name": "CHINA ENERGINE",
-    "nmll": "中國航天萬源"
+    "nmll": "中国航天万源"
   },
   {
     "code": "1186",
     "name": "CHINA RAIL CONS",
-    "nmll": "中國鐵建"
+    "nmll": "中国铁建"
   },
   {
     "code": "1188",
     "name": "HYBRID KINETIC",
-    "nmll": "正道集團"
+    "nmll": "正道集团"
   },
   {
     "code": "1189",
     "name": "GBA DYNAMIC",
-    "nmll": "大灣區聚變力量"
+    "nmll": "大湾区聚变力量"
   },
   {
     "code": "1190",
     "name": "BOLINA",
-    "nmll": "航標控股"
+    "nmll": "航标控股"
   },
   {
     "code": "1191",
     "name": "CHINA GEM HLDGS",
-    "nmll": "中國中石控股"
+    "nmll": "中国中石控股"
   },
   {
     "code": "1192",
@@ -5048,32 +5053,32 @@ var ucodesName2 =
   {
     "code": "1193",
     "name": "CHINA RES GAS",
-    "nmll": "華潤燃氣"
+    "nmll": "华润燃气"
   },
   {
     "code": "1195",
     "name": "KINGWELL GROUP",
-    "nmll": "京維集團"
+    "nmll": "京维集团"
   },
   {
     "code": "1196",
     "name": "REALORD GROUP",
-    "nmll": "偉祿集團"
+    "nmll": "伟禄集团"
   },
   {
     "code": "1198",
     "name": "ROYALE FURN",
-    "nmll": "皇朝傢俬"
+    "nmll": "皇朝家俬"
   },
   {
     "code": "1199",
     "name": "COSCO SHIP PORT",
-    "nmll": "中遠海運港口"
+    "nmll": "中远海运港口"
   },
   {
     "code": "1200",
     "name": "MIDLAND HOLDING",
-    "nmll": "美聯集團"
+    "nmll": "美联集团"
   },
   {
     "code": "1201",
@@ -5083,17 +5088,17 @@ var ucodesName2 =
   {
     "code": "1202",
     "name": "CHENGDU PUTIAN",
-    "nmll": "成都普天電纜股份"
+    "nmll": "成都普天电缆股份"
   },
   {
     "code": "1203",
     "name": "GUANGNAN (HOLD)",
-    "nmll": "廣南（集團）"
+    "nmll": "广南（集团）"
   },
   {
     "code": "1205",
     "name": "CITIC RESOURCES",
-    "nmll": "中信資源"
+    "nmll": "中信资源"
   },
   {
     "code": "1206",
@@ -5103,67 +5108,67 @@ var ucodesName2 =
   {
     "code": "1207",
     "name": "SRE GROUP",
-    "nmll": "上置集團"
+    "nmll": "上置集团"
   },
   {
     "code": "1208",
     "name": "MMG",
-    "nmll": "五礦資源"
+    "nmll": "五矿资源"
   },
   {
     "code": "1210",
     "name": "CHRISTINE",
-    "nmll": "克莉絲汀國際 "
+    "nmll": "克莉丝汀国际 "
   },
   {
     "code": "1211",
     "name": "BYD COMPANY",
-    "nmll": "比亞迪股份"
+    "nmll": "比亚迪股份"
   },
   {
     "code": "1212",
     "name": "LIFESTYLE INT'L",
-    "nmll": "利福國際"
+    "nmll": "利福国际"
   },
   {
     "code": "1213",
     "name": "MOBICON GROUP",
-    "nmll": "萬保剛集團"
+    "nmll": "万保刚集团"
   },
   {
     "code": "1215",
     "name": "KAI YUAN HLDGS",
-    "nmll": "開源控股"
+    "nmll": "开源控股"
   },
   {
     "code": "1216",
     "name": "ZYBANK",
-    "nmll": "中原銀行"
+    "nmll": "中原银行"
   },
   {
     "code": "1217",
     "name": "CH INNOVATION",
-    "nmll": "中國創新投資"
+    "nmll": "中国创新投资"
   },
   {
     "code": "1218",
     "name": "EASYKNIT INT'L",
-    "nmll": "永義國際"
+    "nmll": "永义国际"
   },
   {
     "code": "1219",
     "name": "TENWOW INT'L",
-    "nmll": "天喔國際"
+    "nmll": "天喔国际"
   },
   {
     "code": "1220",
     "name": "ZHIDAO INT'L",
-    "nmll": "志道國際"
+    "nmll": "志道国际"
   },
   {
     "code": "1221",
     "name": "SINO HOTELS",
-    "nmll": "信和酒店（集團） "
+    "nmll": "信和酒店（集团） "
   },
   {
     "code": "1222",
@@ -5173,7 +5178,7 @@ var ucodesName2 =
   {
     "code": "1223",
     "name": "SYMPHONY HOLD",
-    "nmll": "新灃集團"
+    "nmll": "新沣集团"
   },
   {
     "code": "1224",
@@ -5188,47 +5193,47 @@ var ucodesName2 =
   {
     "code": "1226",
     "name": "CH INV FIN",
-    "nmll": "中國投融資（新）"
+    "nmll": "中国投融资（新）"
   },
   {
     "code": "1227",
     "name": "NATIONAL INV",
-    "nmll": "國盛投資"
+    "nmll": "国盛投资"
   },
   {
     "code": "1229",
     "name": "NAN NAN RES",
-    "nmll": "南南資源實業 "
+    "nmll": "南南资源实业 "
   },
   {
     "code": "1230",
     "name": "YASHILI INT'L",
-    "nmll": "雅士利國際"
+    "nmll": "雅士利国际"
   },
   {
     "code": "1231",
     "name": "NEWTON RES",
-    "nmll": "新礦資源"
+    "nmll": "新矿资源"
   },
   {
     "code": "1232",
     "name": "GW TIANDI",
-    "nmll": "金輪天地控股"
+    "nmll": "金轮天地控股"
   },
   {
     "code": "1233",
     "name": "TIMES CHINA",
-    "nmll": "時代中國控股"
+    "nmll": "时代中国控股"
   },
   {
     "code": "1234",
     "name": "CHINA LILANG",
-    "nmll": "中國利郎"
+    "nmll": "中国利郎"
   },
   {
     "code": "1235",
     "name": "TRAVEL EXPERT",
-    "nmll": "專業旅運(亞洲) "
+    "nmll": "专业旅运(亚洲) "
   },
   {
     "code": "1237",
@@ -5238,7 +5243,7 @@ var ucodesName2 =
   {
     "code": "1238",
     "name": "POWERLONG",
-    "nmll": "寶龍地產"
+    "nmll": "宝龙地产"
   },
   {
     "code": "1239",
@@ -5248,17 +5253,17 @@ var ucodesName2 =
   {
     "code": "1240",
     "name": "CNQC INT'L",
-    "nmll": "青建國際"
+    "nmll": "青建国际"
   },
   {
     "code": "1241",
     "name": "SHUANGHUA H",
-    "nmll": "雙樺控股"
+    "nmll": "双桦控股"
   },
   {
     "code": "1243",
     "name": "WANG ON PPT",
-    "nmll": "宏安地產"
+    "nmll": "宏安地产"
   },
   {
     "code": "1245",
@@ -5273,32 +5278,32 @@ var ucodesName2 =
   {
     "code": "1247",
     "name": "MIKO INTL",
-    "nmll": "米格國際控股"
+    "nmll": "米格国际控股"
   },
   {
     "code": "1249",
     "name": "TONLY ELEC",
-    "nmll": "通力電子"
+    "nmll": "通力电子"
   },
   {
     "code": "1250",
     "name": "BE CLEAN ENERGY",
-    "nmll": "北控清潔能源集團"
+    "nmll": "北控清洁能源集团"
   },
   {
     "code": "1251",
     "name": "SPT ENERGY",
-    "nmll": "華油能源集團 "
+    "nmll": "华油能源集团 "
   },
   {
     "code": "1252",
     "name": "CHINA TIANRUI",
-    "nmll": "中國天瑞水泥"
+    "nmll": "中国天瑞水泥"
   },
   {
     "code": "1253",
     "name": "GREENLAND BROAD",
-    "nmll": "中國綠地博大綠澤"
+    "nmll": "中国绿地博大绿泽"
   },
   {
     "code": "1255",
@@ -5308,32 +5313,32 @@ var ucodesName2 =
   {
     "code": "1257",
     "name": "CEB GREENTECH",
-    "nmll": "中國光大綠色環保"
+    "nmll": "中国光大绿色环保"
   },
   {
     "code": "1258",
     "name": "CHINFMINING",
-    "nmll": "中國有色礦業"
+    "nmll": "中国有色矿业"
   },
   {
     "code": "1259",
     "name": "PROSPER FUTURE",
-    "nmll": "未來發展控股"
+    "nmll": "未来发展控股"
   },
   {
     "code": "1260",
     "name": "WONDERFUL SKY",
-    "nmll": "皓天財經集團"
+    "nmll": "皓天财经集团"
   },
   {
     "code": "1262",
     "name": "LABIXIAOXIN",
-    "nmll": "蠟筆小新食品"
+    "nmll": "蜡笔小新食品"
   },
   {
     "code": "1263",
     "name": "PC PARTNER",
-    "nmll": "柏能集團 "
+    "nmll": "柏能集团 "
   },
   {
     "code": "1265",
@@ -5343,17 +5348,17 @@ var ucodesName2 =
   {
     "code": "1266",
     "name": "XIWANG STEEL",
-    "nmll": "西王特鋼"
+    "nmll": "西王特钢"
   },
   {
     "code": "1268",
     "name": "MEIDONG AUTO",
-    "nmll": "美東汽車"
+    "nmll": "美东汽车"
   },
   {
     "code": "1269",
     "name": "FIRST CAP GP",
-    "nmll": "首控集團"
+    "nmll": "首控集团"
   },
   {
     "code": "1270",
@@ -5363,37 +5368,37 @@ var ucodesName2 =
   {
     "code": "1271",
     "name": "GRAND MING",
-    "nmll": "佳明集團控股"
+    "nmll": "佳明集团控股"
   },
   {
     "code": "1272",
     "name": "DATANG ENVIRO",
-    "nmll": "大唐環境"
+    "nmll": "大唐环境"
   },
   {
     "code": "1273",
     "name": "HK FINANCE GP",
-    "nmll": "香港信貸集團 "
+    "nmll": "香港信贷集团 "
   },
   {
     "code": "1275",
     "name": "NEW CENT REIT",
-    "nmll": "開元產業信託"
+    "nmll": "开元产业信托"
   },
   {
     "code": "1277",
     "name": "KINETIC M&E",
-    "nmll": "力量礦業能源 "
+    "nmll": "力量矿业能源 "
   },
   {
     "code": "1278",
     "name": "CHINANEWTOWN",
-    "nmll": "中國新城鎮"
+    "nmll": "中国新城镇"
   },
   {
     "code": "1280",
     "name": "QIDIAN INTL",
-    "nmll": "奇點國際"
+    "nmll": "奇点国际"
   },
   {
     "code": "1281",
@@ -5403,72 +5408,72 @@ var ucodesName2 =
   {
     "code": "1282",
     "name": "GLORY SUN FIN",
-    "nmll": "寶新金融"
+    "nmll": "宝新金融"
   },
   {
     "code": "1283",
     "name": "ACCEL GROUP",
-    "nmll": "高陞集團控股"
+    "nmll": "高升集团控股"
   },
   {
     "code": "1285",
     "name": "JIASHILI GP",
-    "nmll": "嘉士利集團"
+    "nmll": "嘉士利集团"
   },
   {
     "code": "1286",
     "name": "IMPRO PRECISION",
-    "nmll": "鷹普精密"
+    "nmll": "鹰普精密"
   },
   {
     "code": "1288",
     "name": "ABC",
-    "nmll": "農業銀行"
+    "nmll": "农业银行"
   },
   {
     "code": "1289",
     "name": "SUNLIT SCI",
-    "nmll": "無錫盛力達科技  "
+    "nmll": "无锡盛力达科技  "
   },
   {
     "code": "1290",
     "name": "CHINA HUIRONG",
-    "nmll": "中國匯融金融 "
+    "nmll": "中国汇融金融 "
   },
   {
     "code": "1292",
     "name": "CMA LOGISTICS",
-    "nmll": "長安民生物流"
+    "nmll": "长安民生物流"
   },
   {
     "code": "1293",
     "name": "GRAND BAOXIN",
-    "nmll": "廣匯寶信"
+    "nmll": "广汇宝信"
   },
   {
     "code": "1296",
     "name": "GUODIAN TECH",
-    "nmll": "國電科技環保  "
+    "nmll": "国电科技环保  "
   },
   {
     "code": "1297",
     "name": "SINOSOFT TECH",
-    "nmll": "中國擎天軟件"
+    "nmll": "中国擎天软件"
   },
   {
     "code": "1298",
     "name": "YUNNAN ENERGY",
-    "nmll": "雲能國際"
+    "nmll": "云能国际"
   },
   {
     "code": "1299",
     "name": "AIA",
-    "nmll": "友邦保險"
+    "nmll": "友邦保险"
   },
   {
     "code": "1300",
     "name": "TRIGIANT",
-    "nmll": "俊知集團"
+    "nmll": "俊知集团"
   },
   {
     "code": "1301",
@@ -5483,22 +5488,22 @@ var ucodesName2 =
   {
     "code": "1303",
     "name": "HUILI RES",
-    "nmll": "匯力資源(集團) "
+    "nmll": "汇力资源(集团) "
   },
   {
     "code": "1305",
     "name": "WAI CHI HOLD",
-    "nmll": "偉志控股"
+    "nmll": "伟志控股"
   },
   {
     "code": "1308",
     "name": "SITC",
-    "nmll": "海豐國際"
+    "nmll": "海丰国际"
   },
   {
     "code": "1310",
     "name": "HKBN",
-    "nmll": "香港寬頻"
+    "nmll": "香港宽频"
   },
   {
     "code": "1312",
@@ -5508,17 +5513,17 @@ var ucodesName2 =
   {
     "code": "1313",
     "name": "CHINARES CEMENT",
-    "nmll": "華潤水泥控股"
+    "nmll": "华润水泥控股"
   },
   {
     "code": "1314",
     "name": "TSUI WAH HLDG",
-    "nmll": "翠華控股"
+    "nmll": "翠华控股"
   },
   {
     "code": "1315",
     "name": "VISION FAME",
-    "nmll": "允升國際"
+    "nmll": "允升国际"
   },
   {
     "code": "1316",
@@ -5528,72 +5533,72 @@ var ucodesName2 =
   {
     "code": "1317",
     "name": "MAPLELEAF EDU",
-    "nmll": "楓葉教育"
+    "nmll": "枫叶教育"
   },
   {
     "code": "1319",
     "name": "OIWAHPAWN",
-    "nmll": "靄華押業信貸"
+    "nmll": "霭华押业信贷"
   },
   {
     "code": "1321",
     "name": "CHINA NEWCITY",
-    "nmll": "中國新城市商業 "
+    "nmll": "中国新城市商业 "
   },
   {
     "code": "1322",
     "name": "CW GROUP HOLD",
-    "nmll": "創達科技控股"
+    "nmll": "创达科技控股"
   },
   {
     "code": "1323",
     "name": "HUASHENG INTL",
-    "nmll": "華盛國際控股"
+    "nmll": "华盛国际控股"
   },
   {
     "code": "1326",
     "name": "TRANSMIT ENT",
-    "nmll": "傳遞娛樂"
+    "nmll": "传递娱乐"
   },
   {
     "code": "1327",
     "name": "LUXXU GROUP",
-    "nmll": "勵時集團"
+    "nmll": "励时集团"
   },
   {
     "code": "1328",
     "name": "GOLDSTREAM INV",
-    "nmll": "金涌投資"
+    "nmll": "金涌投资"
   },
   {
     "code": "1329",
     "name": "CAPITAL GRAND",
-    "nmll": "首創鉅大"
+    "nmll": "首创巨大"
   },
   {
     "code": "1330",
     "name": "DYNAGREEN ENV",
-    "nmll": "綠色動力環保"
+    "nmll": "绿色动力环保"
   },
   {
     "code": "1332",
     "name": "CHINA TOUYUN",
-    "nmll": "中國透雲科技 "
+    "nmll": "中国透云科技 "
   },
   {
     "code": "1333",
     "name": "CHINA ZHONGWANG",
-    "nmll": "中國忠旺"
+    "nmll": "中国忠旺"
   },
   {
     "code": "1335",
     "name": "SHEEN TAI",
-    "nmll": "順泰控股"
+    "nmll": "顺泰控股"
   },
   {
     "code": "1336",
     "name": "NCI",
-    "nmll": "新華人壽保險  "
+    "nmll": "新华人寿保险  "
   },
   {
     "code": "1337",
@@ -5603,82 +5608,82 @@ var ucodesName2 =
   {
     "code": "1338",
     "name": "BAWANG GROUP",
-    "nmll": "霸王集團"
+    "nmll": "霸王集团"
   },
   {
     "code": "1339",
     "name": "PICC GROUP",
-    "nmll": "中國人民保險集團"
+    "nmll": "中国人民保险集团"
   },
   {
     "code": "1340",
     "name": "HUISHENG INTL",
-    "nmll": "惠生國際"
+    "nmll": "惠生国际"
   },
   {
     "code": "1341",
     "name": "HAO TIAN INTL",
-    "nmll": "昊天國際建投"
+    "nmll": "昊天国际建投"
   },
   {
     "code": "1343",
     "name": "WEI YUAN HLDG",
-    "nmll": "偉源控股"
+    "nmll": "伟源控股"
   },
   {
     "code": "1345",
     "name": "PIONEER PHARM",
-    "nmll": "中國先鋒醫藥"
+    "nmll": "中国先锋医药"
   },
   {
     "code": "1346",
     "name": "LEVER STYLE",
-    "nmll": "利華控股集團"
+    "nmll": "利华控股集团"
   },
   {
     "code": "1347",
     "name": "HUA HONG SEMI",
-    "nmll": "華虹半導體"
+    "nmll": "华虹半导体"
   },
   {
     "code": "1348",
     "name": "QUALI-SMART",
-    "nmll": "滉達富控股"
+    "nmll": "滉达富控股"
   },
   {
     "code": "1349",
     "name": "FUDANZHANGJIANG",
-    "nmll": "復旦張江"
+    "nmll": "复旦张江"
   },
   {
     "code": "1353",
     "name": "NUOQI",
-    "nmll": "福建諾奇  "
+    "nmll": "福建诺奇  "
   },
   {
     "code": "1355",
     "name": "LEGEND STRAT",
-    "nmll": "朸濬國際"
+    "nmll": "朸浚国际"
   },
   {
     "code": "1357",
     "name": "MEITU",
-    "nmll": "美圖公司"
+    "nmll": "美图公司"
   },
   {
     "code": "1358",
     "name": "PW MEDTECH",
-    "nmll": "普華和順"
+    "nmll": "普华和顺"
   },
   {
     "code": "1359",
     "name": "CHINA CINDA",
-    "nmll": "中國信達資產管理  "
+    "nmll": "中国信达资产管理  "
   },
   {
     "code": "1360",
     "name": "NOVA GROUP",
-    "nmll": "諾發集團"
+    "nmll": "诺发集团"
   },
   {
     "code": "1361",
@@ -5688,47 +5693,47 @@ var ucodesName2 =
   {
     "code": "1362",
     "name": "SIS MOBILE",
-    "nmll": "新龍移動"
+    "nmll": "新龙移动"
   },
   {
     "code": "1363",
     "name": "CTEG",
-    "nmll": "中滔環保"
+    "nmll": "中滔环保"
   },
   {
     "code": "1365",
     "name": "RUNDONG AUTO",
-    "nmll": "潤東汽車"
+    "nmll": "润东汽车"
   },
   {
     "code": "1366",
     "name": "JIANGNAN GP",
-    "nmll": "江南集團"
+    "nmll": "江南集团"
   },
   {
     "code": "1367",
     "name": "SFUND INTL HLDG",
-    "nmll": "廣州基金國際控股"
+    "nmll": "广州基金国际控股"
   },
   {
     "code": "1368",
     "name": "XTEP INT'L",
-    "nmll": "特步國際"
+    "nmll": "特步国际"
   },
   {
     "code": "1369",
     "name": "WUZHOU INT'L",
-    "nmll": "五洲國際"
+    "nmll": "五洲国际"
   },
   {
     "code": "1370",
     "name": "AOWEI HOLDING",
-    "nmll": "奧威控股"
+    "nmll": "奥威控股"
   },
   {
     "code": "1371",
     "name": "CHINA LOTSYN",
-    "nmll": "華彩控股"
+    "nmll": "华彩控股"
   },
   {
     "code": "1372",
@@ -5738,12 +5743,12 @@ var ucodesName2 =
   {
     "code": "1373",
     "name": "IH RETAIL",
-    "nmll": "國際家居零售"
+    "nmll": "国际家居零售"
   },
   {
     "code": "1375",
     "name": "CC SECURITIES",
-    "nmll": "中州證券"
+    "nmll": "中州证券"
   },
   {
     "code": "1376",
@@ -5753,42 +5758,42 @@ var ucodesName2 =
   {
     "code": "1378",
     "name": "CHINAHONGQIAO",
-    "nmll": "中國宏橋集團 "
+    "nmll": "中国宏桥集团 "
   },
   {
     "code": "1380",
     "name": "CHI KINGSTONE",
-    "nmll": "中國金石"
+    "nmll": "中国金石"
   },
   {
     "code": "1381",
     "name": "CANVEST ENV",
-    "nmll": "粵豐環保電力 "
+    "nmll": "粤丰环保电力 "
   },
   {
     "code": "1382",
     "name": "PACIFICTEXTILES",
-    "nmll": "互太紡織"
+    "nmll": "互太纺织"
   },
   {
     "code": "1383",
     "name": "SUNCITY GROUP",
-    "nmll": "太陽城集團"
+    "nmll": "太阳城集团"
   },
   {
     "code": "1385",
     "name": "SHANGHAI FUDAN",
-    "nmll": "上海復旦"
+    "nmll": "上海复旦"
   },
   {
     "code": "1386",
     "name": "VESTATE GROUP",
-    "nmll": "國投集團控股"
+    "nmll": "国投集团控股"
   },
   {
     "code": "1387",
     "name": "CHINA DILI",
-    "nmll": "中國地利"
+    "nmll": "中国地利"
   },
   {
     "code": "1388",
@@ -5798,42 +5803,42 @@ var ucodesName2 =
   {
     "code": "1389",
     "name": "MAJOR HLDGS",
-    "nmll": "美捷匯控股 "
+    "nmll": "美捷汇控股 "
   },
   {
     "code": "1393",
     "name": "HIDILI INDUSTRY",
-    "nmll": "恒鼎實業"
+    "nmll": "恒鼎实业"
   },
   {
     "code": "1395",
     "name": "ELL ENV",
-    "nmll": "強泰環保"
+    "nmll": "强泰环保"
   },
   {
     "code": "1396",
     "name": "HYDOO INTL",
-    "nmll": "毅德國際控股 "
+    "nmll": "毅德国际控股 "
   },
   {
     "code": "1397",
     "name": "BAGUIO GREEN",
-    "nmll": "碧瑤綠色集團"
+    "nmll": "碧瑶绿色集团"
   },
   {
     "code": "1398",
     "name": "ICBC",
-    "nmll": "工商銀行"
+    "nmll": "工商银行"
   },
   {
     "code": "1399",
     "name": "SCUD GROUP",
-    "nmll": "飛毛腿"
+    "nmll": "飞毛腿"
   },
   {
     "code": "1400",
     "name": "MOODY TECH HLDG",
-    "nmll": "滿地科技股份"
+    "nmll": "满地科技股份"
   },
   {
     "code": "1401",
@@ -5848,17 +5853,17 @@ var ucodesName2 =
   {
     "code": "1410",
     "name": "EDVANCE INTL",
-    "nmll": "安領國際控股 "
+    "nmll": "安领国际控股 "
   },
   {
     "code": "1412",
     "name": "Q P GROUP",
-    "nmll": "雋思集團"
+    "nmll": "隽思集团"
   },
   {
     "code": "1415",
     "name": "COWELL",
-    "nmll": "高偉電子"
+    "nmll": "高伟电子"
   },
   {
     "code": "1416",
@@ -5868,17 +5873,17 @@ var ucodesName2 =
   {
     "code": "1417",
     "name": "RIVERINE CHINA",
-    "nmll": "浦江中國"
+    "nmll": "浦江中国"
   },
   {
     "code": "1418",
     "name": "SINOMAX GROUP",
-    "nmll": "盛諾集團"
+    "nmll": "盛诺集团"
   },
   {
     "code": "1419",
     "name": "HUMAN HEALTH",
-    "nmll": "盈健醫療"
+    "nmll": "盈健医疗"
   },
   {
     "code": "1420",
@@ -5888,7 +5893,7 @@ var ucodesName2 =
   {
     "code": "1421",
     "name": "KINGBO STRIKE",
-    "nmll": "工蓋有限公司"
+    "nmll": "工盖有限公司"
   },
   {
     "code": "1425",
@@ -5898,37 +5903,37 @@ var ucodesName2 =
   {
     "code": "1426",
     "name": "SPRING REIT",
-    "nmll": "春泉產業信託"
+    "nmll": "春泉产业信托"
   },
   {
     "code": "1427",
     "name": "CH TIANBAO GP",
-    "nmll": "中國天保集團"
+    "nmll": "中国天保集团"
   },
   {
     "code": "1428",
     "name": "BRIGHT SMART",
-    "nmll": "耀才證券金融"
+    "nmll": "耀才证券金融"
   },
   {
     "code": "1430",
     "name": "SUCHUANG GAS",
-    "nmll": "蘇創燃氣股份 "
+    "nmll": "苏创燃气股份 "
   },
   {
     "code": "1431",
     "name": "YST DAIRY",
-    "nmll": "原生態牧業"
+    "nmll": "原生态牧业"
   },
   {
     "code": "1432",
     "name": "CHINA SHENGMU",
-    "nmll": "中國聖牧奶業 "
+    "nmll": "中国圣牧奶业 "
   },
   {
     "code": "1433",
     "name": "CIRTEK HLDGS",
-    "nmll": "常達控股"
+    "nmll": "常达控股"
   },
   {
     "code": "1435",
@@ -5938,7 +5943,7 @@ var ucodesName2 =
   {
     "code": "1439",
     "name": "MOBILE INTERNET",
-    "nmll": "移動互聯（中國）"
+    "nmll": "移动互联（中国）"
   },
   {
     "code": "1442",
@@ -5948,12 +5953,12 @@ var ucodesName2 =
   {
     "code": "1443",
     "name": "FULUM GP HLDG",
-    "nmll": "富臨集團控股"
+    "nmll": "富临集团控股"
   },
   {
     "code": "1446",
     "name": "HUNGFOOKTONG",
-    "nmll": "鴻福堂集團 "
+    "nmll": "鸿福堂集团 "
   },
   {
     "code": "1447",
@@ -5963,7 +5968,7 @@ var ucodesName2 =
   {
     "code": "1448",
     "name": "FU SHOU YUAN",
-    "nmll": "福壽園國際 "
+    "nmll": "福寿园国际 "
   },
   {
     "code": "1449",
@@ -5973,47 +5978,47 @@ var ucodesName2 =
   {
     "code": "1450",
     "name": "CENTURY SAGE",
-    "nmll": "世紀睿科"
+    "nmll": "世纪睿科"
   },
   {
     "code": "1451",
     "name": "MS GROUP HLDGS",
-    "nmll": "萬成集團股份"
+    "nmll": "万成集团股份"
   },
   {
     "code": "1452",
     "name": "DENOX ENV",
-    "nmll": "迪諾斯環保"
+    "nmll": "迪诺斯环保"
   },
   {
     "code": "1456",
     "name": "GUOLIAN SEC",
-    "nmll": "國聯證券"
+    "nmll": "国联证券"
   },
   {
     "code": "1458",
     "name": "ZHOU HEI YA",
-    "nmll": "周黑鴨國際 "
+    "nmll": "周黑鸭国际 "
   },
   {
     "code": "1459",
     "name": "JUJIANG CONS",
-    "nmll": "巨匠建設"
+    "nmll": "巨匠建设"
   },
   {
     "code": "1460",
     "name": "ICO GROUP",
-    "nmll": "揚科集團"
+    "nmll": "扬科集团"
   },
   {
     "code": "1461",
     "name": "LUZHENG FUTURES",
-    "nmll": "魯証期貨"
+    "nmll": "鲁证期货"
   },
   {
     "code": "1462",
     "name": "GOLD-FIN HLDG",
-    "nmll": "金誠控股"
+    "nmll": "金诚控股"
   },
   {
     "code": "1463",
@@ -6023,27 +6028,27 @@ var ucodesName2 =
   {
     "code": "1466",
     "name": "AFFLUENTPARTNER",
-    "nmll": "錢唐控股"
+    "nmll": "钱唐控股"
   },
   {
     "code": "1468",
     "name": "KINGKEY FIN INT",
-    "nmll": "京基金融國際"
+    "nmll": "京基金融国际"
   },
   {
     "code": "1469",
     "name": "GET NICE FIN",
-    "nmll": "結好金融"
+    "nmll": "结好金融"
   },
   {
     "code": "1470",
     "name": "PROSPER ONE",
-    "nmll": "富一國際控股"
+    "nmll": "富一国际控股"
   },
   {
     "code": "1472",
     "name": "SANG HING HLDGS",
-    "nmll": "生興控股"
+    "nmll": "生兴控股"
   },
   {
     "code": "1475",
@@ -6053,27 +6058,27 @@ var ucodesName2 =
   {
     "code": "1476",
     "name": "HENGTOU SEC",
-    "nmll": "恒投證券"
+    "nmll": "恒投证券"
   },
   {
     "code": "1477",
     "name": "OCUMENSION-B",
-    "nmll": "歐康維視生物－Ｂ"
+    "nmll": "欧康维视生物－Ｂ"
   },
   {
     "code": "1478",
     "name": "Q TECH",
-    "nmll": "丘鈦科技"
+    "nmll": "丘钛科技"
   },
   {
     "code": "1480",
     "name": "YAN TAT GROUP",
-    "nmll": "恩達集團控股"
+    "nmll": "恩达集团控股"
   },
   {
     "code": "1483",
     "name": "U BANQUET GP",
-    "nmll": "譽宴集團控股 "
+    "nmll": "誉宴集团控股 "
   },
   {
     "code": "1485",
@@ -6093,7 +6098,7 @@ var ucodesName2 =
   {
     "code": "1492",
     "name": "ZHONGDI DAIRY",
-    "nmll": "中地乳業"
+    "nmll": "中地乳业"
   },
   {
     "code": "1495",
@@ -6103,7 +6108,7 @@ var ucodesName2 =
   {
     "code": "1496",
     "name": "AP RENTALS",
-    "nmll": "亞積邦租賃"
+    "nmll": "亚积邦租赁"
   },
   {
     "code": "1498",
@@ -6113,62 +6118,62 @@ var ucodesName2 =
   {
     "code": "1499",
     "name": "OKG TECH",
-    "nmll": "歐科雲鏈"
+    "nmll": "欧科云链"
   },
   {
     "code": "1500",
     "name": "INCON",
-    "nmll": "現恆建築"
+    "nmll": "现恒建筑"
   },
   {
     "code": "1501",
     "name": "KDL MEDICAL",
-    "nmll": "康德萊醫械"
+    "nmll": "康德莱医械"
   },
   {
     "code": "1502",
     "name": "FIN STREET PPT",
-    "nmll": "金融街物業"
+    "nmll": "金融街物业"
   },
   {
     "code": "1503",
     "name": "CMC REIT",
-    "nmll": "招商局商業房託"
+    "nmll": "招商局商业房托"
   },
   {
     "code": "1508",
     "name": "CHINA RE",
-    "nmll": "中國再保險"
+    "nmll": "中国再保险"
   },
   {
     "code": "1509",
     "name": "HARMONICARE",
-    "nmll": "和美醫療"
+    "nmll": "和美医疗"
   },
   {
     "code": "1513",
     "name": "LIVZON PHARMA",
-    "nmll": "麗珠醫藥集團  "
+    "nmll": "丽珠医药集团  "
   },
   {
     "code": "1515",
     "name": "CR MEDICAL",
-    "nmll": "華潤醫療"
+    "nmll": "华润医疗"
   },
   {
     "code": "1518",
     "name": "NC HEALTHCARE",
-    "nmll": "新世紀醫療"
+    "nmll": "新世纪医疗"
   },
   {
     "code": "1520",
     "name": "CEFC FIN INV",
-    "nmll": "華信金融投資"
+    "nmll": "华信金融投资"
   },
   {
     "code": "1521",
     "name": "FRONTAGE",
-    "nmll": "方達控股"
+    "nmll": "方达控股"
   },
   {
     "code": "1522",
@@ -6178,87 +6183,87 @@ var ucodesName2 =
   {
     "code": "1523",
     "name": "PLOVER BAY TECH",
-    "nmll": "珩灣科技"
+    "nmll": "珩湾科技"
   },
   {
     "code": "1525",
     "name": "GENCH EDU",
-    "nmll": "建橋教育"
+    "nmll": "建桥教育"
   },
   {
     "code": "1526",
     "name": "RICI HEALTH",
-    "nmll": "瑞慈醫療"
+    "nmll": "瑞慈医疗"
   },
   {
     "code": "1527",
     "name": "TENGY ENV",
-    "nmll": "天潔環境"
+    "nmll": "天洁环境"
   },
   {
     "code": "1528",
     "name": "RS MACALLINE",
-    "nmll": "紅星美凱龍"
+    "nmll": "红星美凯龙"
   },
   {
     "code": "1529",
     "name": "GOAL RISE",
-    "nmll": "健升物流中國"
+    "nmll": "健升物流中国"
   },
   {
     "code": "1530",
     "name": "3SBIO",
-    "nmll": "三生製藥"
+    "nmll": "三生制药"
   },
   {
     "code": "1532",
     "name": "CHINA PARTYTIME",
-    "nmll": "中國派對文化"
+    "nmll": "中国派对文化"
   },
   {
     "code": "1533",
     "name": "ZHUANGYUAN PA",
-    "nmll": "莊園牧場"
+    "nmll": "庄园牧场"
   },
   {
     "code": "1536",
     "name": "YUK WING GP",
-    "nmll": "煜榮集團"
+    "nmll": "煜荣集团"
   },
   {
     "code": "1538",
     "name": "ZHONG AO HOME",
-    "nmll": "中奧到家"
+    "nmll": "中奥到家"
   },
   {
     "code": "1539",
     "name": "SYNERGY GROUP",
-    "nmll": "匯能集團 "
+    "nmll": "汇能集团 "
   },
   {
     "code": "1540",
     "name": "LEFTFIELD PRINT",
-    "nmll": "澳獅環球"
+    "nmll": "澳狮环球"
   },
   {
     "code": "1542",
     "name": "TAIZHOU WATER",
-    "nmll": "台州水務"
+    "nmll": "台州水务"
   },
   {
     "code": "1543",
     "name": "JOIN-SHARE",
-    "nmll": "中盈盛達融資擔保"
+    "nmll": "中盈盛达融资担保"
   },
   {
     "code": "1545",
     "name": "DESIGN CAPITAL",
-    "nmll": "設計都會"
+    "nmll": "设计都会"
   },
   {
     "code": "1546",
     "name": "THELLOY DEV",
-    "nmll": "德萊建業"
+    "nmll": "德莱建业"
   },
   {
     "code": "1547",
@@ -6273,12 +6278,12 @@ var ucodesName2 =
   {
     "code": "1549",
     "name": "EVER HARVEST GP",
-    "nmll": "永豐集團控股"
+    "nmll": "永丰集团控股"
   },
   {
     "code": "1551",
     "name": "GRCB",
-    "nmll": "廣州農商銀行"
+    "nmll": "广州农商银行"
   },
   {
     "code": "1552",
@@ -6288,7 +6293,7 @@ var ucodesName2 =
   {
     "code": "1553",
     "name": "MAIKE TUBE",
-    "nmll": "邁科管業"
+    "nmll": "迈科管业"
   },
   {
     "code": "1555",
@@ -6298,17 +6303,17 @@ var ucodesName2 =
   {
     "code": "1556",
     "name": "CHINNEY KW",
-    "nmll": "建業建榮"
+    "nmll": "建业建荣"
   },
   {
     "code": "1557",
     "name": "K.H. GP HLDGS",
-    "nmll": "劍虹集團控股"
+    "nmll": "剑虹集团控股"
   },
   {
     "code": "1558",
     "name": "HEC PHARM",
-    "nmll": "東陽光藥"
+    "nmll": "东阳光药"
   },
   {
     "code": "1559",
@@ -6318,32 +6323,32 @@ var ucodesName2 =
   {
     "code": "1560",
     "name": "STAR PROPERTIES",
-    "nmll": "星星地產"
+    "nmll": "星星地产"
   },
   {
     "code": "1561",
     "name": "PAN ASIA DATA H",
-    "nmll": "聯洋智能控股"
+    "nmll": "联洋智能控股"
   },
   {
     "code": "1563",
     "name": "IA FIN LEASING",
-    "nmll": "友聯租賃"
+    "nmll": "友联租赁"
   },
   {
     "code": "1565",
     "name": "VIRSCEND EDU",
-    "nmll": "成實外教育"
+    "nmll": "成实外教育"
   },
   {
     "code": "1566",
     "name": "CA CULTURAL",
-    "nmll": "華夏文化科技"
+    "nmll": "华夏文化科技"
   },
   {
     "code": "1568",
     "name": "SUNDART HLDGS",
-    "nmll": "承達集團"
+    "nmll": "承达集团"
   },
   {
     "code": "1569",
@@ -6353,7 +6358,7 @@ var ucodesName2 =
   {
     "code": "1570",
     "name": "WEIYE HOLDINGS",
-    "nmll": "偉業控股"
+    "nmll": "伟业控股"
   },
   {
     "code": "1571",
@@ -6363,7 +6368,7 @@ var ucodesName2 =
   {
     "code": "1572",
     "name": "CHINA ART FIN",
-    "nmll": "中國藝術金融"
+    "nmll": "中国艺术金融"
   },
   {
     "code": "1573",
@@ -6378,22 +6383,22 @@ var ucodesName2 =
   {
     "code": "1576",
     "name": "QILU EXPRESSWAY",
-    "nmll": "齊魯高速"
+    "nmll": "齐鲁高速"
   },
   {
     "code": "1577",
     "name": "HUIXIN CREDIT",
-    "nmll": "匯鑫小貸"
+    "nmll": "汇鑫小贷"
   },
   {
     "code": "1578",
     "name": "BANK OF TIANJIN",
-    "nmll": "天津銀行"
+    "nmll": "天津银行"
   },
   {
     "code": "1579",
     "name": "YIHAI INTL",
-    "nmll": "頤海國際"
+    "nmll": "颐海国际"
   },
   {
     "code": "1580",
@@ -6403,47 +6408,47 @@ var ucodesName2 =
   {
     "code": "1581",
     "name": "PROGRESSIVE P",
-    "nmll": "進昇集團控股"
+    "nmll": "进升集团控股"
   },
   {
     "code": "1582",
     "name": "CR CONSTRUCTION",
-    "nmll": "華營建築"
+    "nmll": "华营建筑"
   },
   {
     "code": "1583",
     "name": "QINQIN FOODS",
-    "nmll": "親親食品"
+    "nmll": "亲亲食品"
   },
   {
     "code": "1585",
     "name": "YADEA",
-    "nmll": "雅迪集團控股 "
+    "nmll": "雅迪集团控股 "
   },
   {
     "code": "1586",
     "name": "CHINA LEON",
-    "nmll": "中國力鴻"
+    "nmll": "中国力鸿"
   },
   {
     "code": "1587",
     "name": "SHINEROAD INTL",
-    "nmll": "欣融國際"
+    "nmll": "欣融国际"
   },
   {
     "code": "1588",
     "name": "CHANJET",
-    "nmll": "暢捷通信息技術  "
+    "nmll": "畅捷通信息技术  "
   },
   {
     "code": "1589",
     "name": "CNLP",
-    "nmll": "中國物流資產"
+    "nmll": "中国物流资产"
   },
   {
     "code": "1591",
     "name": "SHUN WO GROUP",
-    "nmll": "汛和集團"
+    "nmll": "汛和集团"
   },
   {
     "code": "1592",
@@ -6458,72 +6463,72 @@ var ucodesName2 =
   {
     "code": "1596",
     "name": "YICHEN IND",
-    "nmll": "河北翼辰實業  "
+    "nmll": "河北翼辰实业  "
   },
   {
     "code": "1598",
     "name": "21CENTURY EDU",
-    "nmll": "21世紀教育 "
+    "nmll": "21世纪教育 "
   },
   {
     "code": "1599",
     "name": "UCD",
-    "nmll": "城建設計"
+    "nmll": "城建设计"
   },
   {
     "code": "1600",
     "name": "TIAN LUN GAS",
-    "nmll": "天倫燃氣"
+    "nmll": "天伦燃气"
   },
   {
     "code": "1601",
     "name": "ZGC TEC LEASING",
-    "nmll": "中關村科技租賃"
+    "nmll": "中关村科技租赁"
   },
   {
     "code": "1606",
     "name": "CDB LEASING",
-    "nmll": "國銀租賃"
+    "nmll": "国银租赁"
   },
   {
     "code": "1608",
     "name": "VPOWER GROUP",
-    "nmll": "偉能集團國際 "
+    "nmll": "伟能集团国际 "
   },
   {
     "code": "1609",
     "name": "CHONG KIN GP",
-    "nmll": "創建集團控股"
+    "nmll": "创建集团控股"
   },
   {
     "code": "1610",
     "name": "COFCO MEAT",
-    "nmll": "中糧肉食"
+    "nmll": "中粮肉食"
   },
   {
     "code": "1611",
     "name": "HUOBI TECH",
-    "nmll": "火幣科技"
+    "nmll": "火币科技"
   },
   {
     "code": "1612",
     "name": "VINCENT MED",
-    "nmll": "永勝醫療"
+    "nmll": "永胜医疗"
   },
   {
     "code": "1613",
     "name": "SYNERTONE",
-    "nmll": "協同通信"
+    "nmll": "协同通信"
   },
   {
     "code": "1615",
     "name": "AB BUILDERS",
-    "nmll": "奧邦建築"
+    "nmll": "奥邦建筑"
   },
   {
     "code": "1616",
     "name": "STARRISE MEDIA",
-    "nmll": "星宏傳媒"
+    "nmll": "星宏传媒"
   },
   {
     "code": "1617",
@@ -6533,22 +6538,22 @@ var ucodesName2 =
   {
     "code": "1618",
     "name": "MCC",
-    "nmll": "中國中冶"
+    "nmll": "中国中冶"
   },
   {
     "code": "1620",
     "name": "CTEH",
-    "nmll": "加達控股"
+    "nmll": "加达控股"
   },
   {
     "code": "1621",
     "name": "VICO INTL HLDGS",
-    "nmll": "域高國際控股"
+    "nmll": "域高国际控股"
   },
   {
     "code": "1622",
     "name": "REDCO GROUP",
-    "nmll": "力高集團"
+    "nmll": "力高集团"
   },
   {
     "code": "1623",
@@ -6568,12 +6573,12 @@ var ucodesName2 =
   {
     "code": "1628",
     "name": "YUZHOU GROUP",
-    "nmll": "禹洲集團"
+    "nmll": "禹洲集团"
   },
   {
     "code": "1629",
     "name": "CHAMP ALLI INTL",
-    "nmll": "冠均國際控股"
+    "nmll": "冠均国际控股"
   },
   {
     "code": "1630",
@@ -6588,57 +6593,57 @@ var ucodesName2 =
   {
     "code": "1632",
     "name": "MSCTECH",
-    "nmll": "民商創科"
+    "nmll": "民商创科"
   },
   {
     "code": "1633",
     "name": "SHEUNG YUE GP",
-    "nmll": "上諭集團"
+    "nmll": "上谕集团"
   },
   {
     "code": "1635",
     "name": "DZUG",
-    "nmll": "大眾公用"
+    "nmll": "大众公用"
   },
   {
     "code": "1636",
     "name": "CMRU",
-    "nmll": "中國金屬利用"
+    "nmll": "中国金属利用"
   },
   {
     "code": "1637",
     "name": "SH GROUP HLDG",
-    "nmll": "順興集團控股"
+    "nmll": "顺兴集团控股"
   },
   {
     "code": "1638",
     "name": "KAISA GROUP",
-    "nmll": "佳兆業集團"
+    "nmll": "佳兆业集团"
   },
   {
     "code": "1639",
     "name": "AKM INDUSTRIAL",
-    "nmll": "安捷利實業"
+    "nmll": "安捷利实业"
   },
   {
     "code": "1640",
     "name": "RUICHENG CHINA",
-    "nmll": "瑞誠中國傳媒"
+    "nmll": "瑞诚中国传媒"
   },
   {
     "code": "1645",
     "name": "HAINA INTEL",
-    "nmll": "海納智能"
+    "nmll": "海纳智能"
   },
   {
     "code": "1647",
     "name": "GRANDSHORES",
-    "nmll": "雄岸科技集團 "
+    "nmll": "雄岸科技集团 "
   },
   {
     "code": "1649",
     "name": "IMEEI",
-    "nmll": "內蒙古能建"
+    "nmll": "内蒙古能建"
   },
   {
     "code": "1650",
@@ -6648,12 +6653,12 @@ var ucodesName2 =
   {
     "code": "1651",
     "name": "TSUGAMI CHINA",
-    "nmll": "津上機床中國"
+    "nmll": "津上机床中国"
   },
   {
     "code": "1652",
     "name": "FUSEN PHARM",
-    "nmll": "福森藥業"
+    "nmll": "福森药业"
   },
   {
     "code": "1653",
@@ -6668,47 +6673,47 @@ var ucodesName2 =
   {
     "code": "1656",
     "name": "ISDN HOLDINGS",
-    "nmll": "億仕登控股"
+    "nmll": "亿仕登控股"
   },
   {
     "code": "1657",
     "name": "SG GROUP HLDGS",
-    "nmll": "樺欣控股"
+    "nmll": "桦欣控股"
   },
   {
     "code": "1658",
     "name": "PSBC",
-    "nmll": "郵儲銀行"
+    "nmll": "邮储银行"
   },
   {
     "code": "1659",
     "name": "HAITIAN ENERGY",
-    "nmll": "海天能源國際 "
+    "nmll": "海天能源国际 "
   },
   {
     "code": "1660",
     "name": "ZHAOBANGJI PPT",
-    "nmll": "兆邦基地產"
+    "nmll": "兆邦基地产"
   },
   {
     "code": "1661",
     "name": "WISDOM SPORTS",
-    "nmll": "智美體育"
+    "nmll": "智美体育"
   },
   {
     "code": "1662",
     "name": "YEE HOP HLDGS",
-    "nmll": "義合控股"
+    "nmll": "义合控股"
   },
   {
     "code": "1663",
     "name": "S HARBOURHOLD",
-    "nmll": "漢港控股"
+    "nmll": "汉港控股"
   },
   {
     "code": "1665",
     "name": "PENTAMASTER",
-    "nmll": "檳傑科達"
+    "nmll": "槟杰科达"
   },
   {
     "code": "1666",
@@ -6718,17 +6723,17 @@ var ucodesName2 =
   {
     "code": "1667",
     "name": "MILESTONE BUILD",
-    "nmll": "進階發展"
+    "nmll": "进阶发展"
   },
   {
     "code": "1668",
     "name": "CHINASOUTHCITY",
-    "nmll": "華南城"
+    "nmll": "华南城"
   },
   {
     "code": "1669",
     "name": "GIC GROUP",
-    "nmll": "環球信貸集團"
+    "nmll": "环球信贷集团"
   },
   {
     "code": "1671",
@@ -6738,42 +6743,42 @@ var ucodesName2 =
   {
     "code": "1672",
     "name": "ASCLETIS-B",
-    "nmll": "歌禮製藥－Ｂ"
+    "nmll": "歌礼制药－Ｂ"
   },
   {
     "code": "1673",
     "name": "HUAZHANG TECH",
-    "nmll": "華章科技"
+    "nmll": "华章科技"
   },
   {
     "code": "1675",
     "name": "ASIAINFO TECH",
-    "nmll": "亞信科技"
+    "nmll": "亚信科技"
   },
   {
     "code": "1676",
     "name": "SHENGHAI GROUP",
-    "nmll": "中國升海集團"
+    "nmll": "中国升海集团"
   },
   {
     "code": "1678",
     "name": "CREATIVE GLOBAL",
-    "nmll": "中創環球"
+    "nmll": "中创环球"
   },
   {
     "code": "1679",
     "name": "RISECOMM GP",
-    "nmll": "瑞斯康集團"
+    "nmll": "瑞斯康集团"
   },
   {
     "code": "1680",
     "name": "MACAU LEGEND",
-    "nmll": "澳門勵駿"
+    "nmll": "澳门励骏"
   },
   {
     "code": "1681",
     "name": "CONSUN PHARMA",
-    "nmll": "康臣葯業集團 "
+    "nmll": "康臣药业集团 "
   },
   {
     "code": "1682",
@@ -6783,17 +6788,17 @@ var ucodesName2 =
   {
     "code": "1683",
     "name": "HOPE LIFE INT",
-    "nmll": "曠逸國際"
+    "nmll": "旷逸国际"
   },
   {
     "code": "1685",
     "name": "BOER POWER",
-    "nmll": "博耳電力"
+    "nmll": "博耳电力"
   },
   {
     "code": "1686",
     "name": "SUNEVISION",
-    "nmll": "新意網集團"
+    "nmll": "新意网集团"
   },
   {
     "code": "1687",
@@ -6803,7 +6808,7 @@ var ucodesName2 =
   {
     "code": "1689",
     "name": "HUAXIHOLDINGS",
-    "nmll": "華禧控股"
+    "nmll": "华禧控股"
   },
   {
     "code": "1690",
@@ -6813,37 +6818,37 @@ var ucodesName2 =
   {
     "code": "1691",
     "name": "JS GLOBAL LIFE",
-    "nmll": "ＪＳ環球生活"
+    "nmll": "ＪＳ环球生活"
   },
   {
     "code": "1692",
     "name": "TOWNRAY HLDGS",
-    "nmll": "登輝控股"
+    "nmll": "登辉控股"
   },
   {
     "code": "1693",
     "name": "BGMC",
-    "nmll": "璋利國際"
+    "nmll": "璋利国际"
   },
   {
     "code": "1695",
     "name": "S&P INTL HLDG",
-    "nmll": "椰豐集團"
+    "nmll": "椰丰集团"
   },
   {
     "code": "1696",
     "name": "SISRAM MED",
-    "nmll": "復銳醫療科技"
+    "nmll": "复锐医疗科技"
   },
   {
     "code": "1697",
     "name": "SDITC",
-    "nmll": "山東國信"
+    "nmll": "山东国信"
   },
   {
     "code": "1698",
     "name": "BOSHIWA INT'L",
-    "nmll": "博士蛙國際"
+    "nmll": "博士蛙国际"
   },
   {
     "code": "1699",
@@ -6858,32 +6863,32 @@ var ucodesName2 =
   {
     "code": "1702",
     "name": "DONGGUANG CHEM",
-    "nmll": "東光化工"
+    "nmll": "东光化工"
   },
   {
     "code": "1703",
     "name": "PALACE BANQUET",
-    "nmll": "首灃控股"
+    "nmll": "首沣控股"
   },
   {
     "code": "1705",
     "name": "B & S INTL HLDG",
-    "nmll": "賓仕國際控股 "
+    "nmll": "宾仕国际控股 "
   },
   {
     "code": "1706",
     "name": "SHUANG YUN HLDG",
-    "nmll": "雙運控股"
+    "nmll": "双运控股"
   },
   {
     "code": "1707",
     "name": "GEOTECH HLDGS",
-    "nmll": "致浩達控股"
+    "nmll": "致浩达控股"
   },
   {
     "code": "1708",
     "name": "SAMPLE TECH",
-    "nmll": "南京三寶科技  "
+    "nmll": "南京三宝科技  "
   },
   {
     "code": "1709",
@@ -6893,52 +6898,52 @@ var ucodesName2 =
   {
     "code": "1710",
     "name": "TRIO IND ELEC",
-    "nmll": "致豐工業電子"
+    "nmll": "致丰工业电子"
   },
   {
     "code": "1711",
     "name": "ULFERTS",
-    "nmll": "歐化"
+    "nmll": "欧化"
   },
   {
     "code": "1712",
     "name": "DRAGON MINING",
-    "nmll": "龍資源"
+    "nmll": "龙资源"
   },
   {
     "code": "1713",
     "name": "SICHUAN EN INV",
-    "nmll": "四川能投發展"
+    "nmll": "四川能投发展"
   },
   {
     "code": "1715",
     "name": "MIJI INTL HLDGS",
-    "nmll": "米技國際控股"
+    "nmll": "米技国际控股"
   },
   {
     "code": "1716",
     "name": "MOST KWAI CHUNG",
-    "nmll": "毛記葵涌"
+    "nmll": "毛记葵涌"
   },
   {
     "code": "1717",
     "name": "AUSNUTRIA",
-    "nmll": "澳優乳業 "
+    "nmll": "澳优乳业 "
   },
   {
     "code": "1718",
     "name": "WAN KEI GROUP",
-    "nmll": "宏基集團控股"
+    "nmll": "宏基集团控股"
   },
   {
     "code": "1719",
     "name": "CIL GROUP",
-    "nmll": "中國通商集團"
+    "nmll": "中国通商集团"
   },
   {
     "code": "1720",
     "name": "PUTIAN COMM",
-    "nmll": "普天通信集團"
+    "nmll": "普天通信集团"
   },
   {
     "code": "1721",
@@ -6948,17 +6953,17 @@ var ucodesName2 =
   {
     "code": "1722",
     "name": "KIN PANG HLDGS",
-    "nmll": "建鵬控股"
+    "nmll": "建鹏控股"
   },
   {
     "code": "1723",
     "name": "HK ASIA HLDGS",
-    "nmll": "港亞控股"
+    "nmll": "港亚控股"
   },
   {
     "code": "1725",
     "name": "ETERNITY TECH",
-    "nmll": "恒達科技控股"
+    "nmll": "恒达科技控股"
   },
   {
     "code": "1726",
@@ -6968,17 +6973,17 @@ var ucodesName2 =
   {
     "code": "1727",
     "name": "HEBEI CONS",
-    "nmll": "河北建設"
+    "nmll": "河北建设"
   },
   {
     "code": "1728",
     "name": "ZHENGTONGAUTO",
-    "nmll": "正通汽車"
+    "nmll": "正通汽车"
   },
   {
     "code": "1729",
     "name": "TIME INTERCON",
-    "nmll": "匯聚科技"
+    "nmll": "汇聚科技"
   },
   {
     "code": "1730",
@@ -6988,12 +6993,12 @@ var ucodesName2 =
   {
     "code": "1731",
     "name": "PROSPEROUS IND",
-    "nmll": "其利工業集團"
+    "nmll": "其利工业集团"
   },
   {
     "code": "1732",
     "name": "XIANGXING INT",
-    "nmll": "象興國際"
+    "nmll": "象兴国际"
   },
   {
     "code": "1733",
@@ -7003,27 +7008,27 @@ var ucodesName2 =
   {
     "code": "1735",
     "name": "CENTRALHOLD",
-    "nmll": "中環控股（新）"
+    "nmll": "中环控股（新）"
   },
   {
     "code": "1736",
     "name": "PARENTING NET",
-    "nmll": "中國育兒網絡"
+    "nmll": "中国育儿网络"
   },
   {
     "code": "1737",
     "name": "A & S GROUP",
-    "nmll": "亞洲實業集團"
+    "nmll": "亚洲实业集团"
   },
   {
     "code": "1738",
     "name": "FS ANTHRACITE",
-    "nmll": "飛尚無煙煤"
+    "nmll": "飞尚无烟煤"
   },
   {
     "code": "1739",
     "name": "QEEKA HOME",
-    "nmll": "齊屹科技"
+    "nmll": "齐屹科技"
   },
   {
     "code": "1740",
@@ -7033,7 +7038,7 @@ var ucodesName2 =
   {
     "code": "1741",
     "name": "RI YING HLDGS",
-    "nmll": "日贏控股"
+    "nmll": "日赢控股"
   },
   {
     "code": "1742",
@@ -7043,17 +7048,17 @@ var ucodesName2 =
   {
     "code": "1743",
     "name": "CANGNAN INST",
-    "nmll": "蒼南儀錶"
+    "nmll": "苍南仪表"
   },
   {
     "code": "1745",
     "name": "LVJI TECH",
-    "nmll": "驢跡科技 "
+    "nmll": "驴迹科技 "
   },
   {
     "code": "1746",
     "name": "MAN SHUN GP",
-    "nmll": "萬順集團控股"
+    "nmll": "万顺集团控股"
   },
   {
     "code": "1747",
@@ -7063,7 +7068,7 @@ var ucodesName2 =
   {
     "code": "1748",
     "name": "XIN YUAN ENT",
-    "nmll": "信源企業集團"
+    "nmll": "信源企业集团"
   },
   {
     "code": "1749",
@@ -7073,12 +7078,12 @@ var ucodesName2 =
   {
     "code": "1750",
     "name": "REM GROUP HLDGS",
-    "nmll": "全達電器集團控股"
+    "nmll": "全达电器集团控股"
   },
   {
     "code": "1751",
     "name": "KINGLAND GROUP",
-    "nmll": "景聯集團"
+    "nmll": "景联集团"
   },
   {
     "code": "1752",
@@ -7088,32 +7093,32 @@ var ucodesName2 =
   {
     "code": "1753",
     "name": "DUIBA",
-    "nmll": "兌吧"
+    "nmll": "兑吧"
   },
   {
     "code": "1755",
     "name": "S-ENJOY SERVICE",
-    "nmll": "新城悅服務"
+    "nmll": "新城悦服务"
   },
   {
     "code": "1756",
     "name": "HUALI UNIV GP",
-    "nmll": "華立大學集團"
+    "nmll": "华立大学集团"
   },
   {
     "code": "1757",
     "name": "AFFLUENT FDN",
-    "nmll": "俊裕地基集團 "
+    "nmll": "俊裕地基集团 "
   },
   {
     "code": "1758",
     "name": "BOJUN EDU",
-    "nmll": "博駿教育"
+    "nmll": "博骏教育"
   },
   {
     "code": "1759",
     "name": "SINO GAS HLDGS",
-    "nmll": "中油潔能控股"
+    "nmll": "中油洁能控股"
   },
   {
     "code": "1760",
@@ -7123,27 +7128,27 @@ var ucodesName2 =
   {
     "code": "1761",
     "name": "BABYTREE GROUP",
-    "nmll": "寶寶樹集團"
+    "nmll": "宝宝树集团"
   },
   {
     "code": "1762",
     "name": "WANKA ONLINE",
-    "nmll": "萬咖壹聯"
+    "nmll": "万咖壹联"
   },
   {
     "code": "1763",
     "name": "CIRC",
-    "nmll": "中國同輻"
+    "nmll": "中国同辐"
   },
   {
     "code": "1765",
     "name": "HOPE EDU",
-    "nmll": "希望教育集團 "
+    "nmll": "希望教育集团 "
   },
   {
     "code": "1766",
     "name": "CRRC",
-    "nmll": "中國中車"
+    "nmll": "中国中车"
   },
   {
     "code": "1767",
@@ -7153,17 +7158,17 @@ var ucodesName2 =
   {
     "code": "1769",
     "name": "SCHOLAR EDU",
-    "nmll": "思考樂教育"
+    "nmll": "思考乐教育"
   },
   {
     "code": "1771",
     "name": "SUNFONDA GP",
-    "nmll": "新豐泰集團"
+    "nmll": "新丰泰集团"
   },
   {
     "code": "1772",
     "name": "GANFENGLITHIUM",
-    "nmll": "贛鋒鋰業"
+    "nmll": "赣锋锂业"
   },
   {
     "code": "1773",
@@ -7173,22 +7178,22 @@ var ucodesName2 =
   {
     "code": "1775",
     "name": "BEXCELLENT GP",
-    "nmll": "精英匯集團"
+    "nmll": "精英汇集团"
   },
   {
     "code": "1776",
     "name": "GF SEC",
-    "nmll": "廣發証券"
+    "nmll": "广发证券"
   },
   {
     "code": "1777",
     "name": "FANTASIA",
-    "nmll": "花樣年控股"
+    "nmll": "花样年控股"
   },
   {
     "code": "1778",
     "name": "COLOUR LIFE",
-    "nmll": "彩生活服務 "
+    "nmll": "彩生活服务 "
   },
   {
     "code": "1780",
@@ -7198,17 +7203,17 @@ var ucodesName2 =
   {
     "code": "1781",
     "name": "SC CREATIVE DEV",
-    "nmll": "新昌創展控股"
+    "nmll": "新昌创展控股"
   },
   {
     "code": "1782",
     "name": "VIXTEL TECH",
-    "nmll": "飛思達科技"
+    "nmll": "飞思达科技"
   },
   {
     "code": "1783",
     "name": "GOLDEN PONDER",
-    "nmll": "金侖控股有限公司"
+    "nmll": "金仑控股有限公司"
   },
   {
     "code": "1785",
@@ -7218,27 +7223,27 @@ var ucodesName2 =
   {
     "code": "1786",
     "name": "CRCCE",
-    "nmll": "鐵建裝備"
+    "nmll": "铁建装备"
   },
   {
     "code": "1787",
     "name": "SD GOLD",
-    "nmll": "山東黃金"
+    "nmll": "山东黄金"
   },
   {
     "code": "1788",
     "name": "GUOTAI JUNAN I",
-    "nmll": "國泰君安國際"
+    "nmll": "国泰君安国际"
   },
   {
     "code": "1789",
     "name": "AK MEDICAL",
-    "nmll": "愛康醫療"
+    "nmll": "爱康医疗"
   },
   {
     "code": "1790",
     "name": "TIL ENVIRO",
-    "nmll": "達力環保"
+    "nmll": "达力环保"
   },
   {
     "code": "1792",
@@ -7248,7 +7253,7 @@ var ucodesName2 =
   {
     "code": "1793",
     "name": "WECON HOLDINGS",
-    "nmll": "偉工控股"
+    "nmll": "伟工控股"
   },
   {
     "code": "1796",
@@ -7258,7 +7263,7 @@ var ucodesName2 =
   {
     "code": "1797",
     "name": "KOOLEARN",
-    "nmll": "新東方在線 "
+    "nmll": "新东方在线 "
   },
   {
     "code": "1798",
@@ -7273,32 +7278,32 @@ var ucodesName2 =
   {
     "code": "1800",
     "name": "CHINA COMM CONS",
-    "nmll": "中國交通建設"
+    "nmll": "中国交通建设"
   },
   {
     "code": "1801",
     "name": "INNOVENT BIO",
-    "nmll": "信達生物"
+    "nmll": "信达生物"
   },
   {
     "code": "1802",
     "name": "WENYE GROUP",
-    "nmll": "文業集團"
+    "nmll": "文业集团"
   },
   {
     "code": "1803",
     "name": "BJ SPORTS & ENT",
-    "nmll": "北京體育文化"
+    "nmll": "北京体育文化"
   },
   {
     "code": "1806",
     "name": "HUIFU PAYMENT",
-    "nmll": "匯付天下"
+    "nmll": "汇付天下"
   },
   {
     "code": "1807",
     "name": "GOLDENCEN W2010",
-    "nmll": "金禧國際二零一零"
+    "nmll": "金禧国际二零一零"
   },
   {
     "code": "1808",
@@ -7313,47 +7318,47 @@ var ucodesName2 =
   {
     "code": "1810",
     "name": "XIAOMI-W",
-    "nmll": "小米集團－Ｗ"
+    "nmll": "小米集团－Ｗ"
   },
   {
     "code": "1811",
     "name": "CGN NEW ENERGY",
-    "nmll": "中廣核新能源"
+    "nmll": "中广核新能源"
   },
   {
     "code": "1812",
     "name": "CHENMING PAPER",
-    "nmll": "晨鳴紙業"
+    "nmll": "晨鸣纸业"
   },
   {
     "code": "1813",
     "name": "KWG GROUP",
-    "nmll": "合景泰富集團"
+    "nmll": "合景泰富集团"
   },
   {
     "code": "1815",
     "name": "CSMALL",
-    "nmll": "金貓銀貓"
+    "nmll": "金猫银猫"
   },
   {
     "code": "1816",
     "name": "CGN POWER",
-    "nmll": "中國廣核電力股份  "
+    "nmll": "中国广核电力股份  "
   },
   {
     "code": "1817",
     "name": "MULSANNE GROUP",
-    "nmll": "慕尚集團控股"
+    "nmll": "慕尚集团控股"
   },
   {
     "code": "1818",
     "name": "ZHAOJIN MINING",
-    "nmll": "招金礦業"
+    "nmll": "招金矿业"
   },
   {
     "code": "1820",
     "name": "PM PACKAGING",
-    "nmll": "濟豐包裝"
+    "nmll": "济丰包装"
   },
   {
     "code": "1821",
@@ -7363,17 +7368,17 @@ var ucodesName2 =
   {
     "code": "1822",
     "name": "HONGDA FIN",
-    "nmll": "弘達金融控股"
+    "nmll": "弘达金融控股"
   },
   {
     "code": "1823",
     "name": "HUAYUEXPRESSWAY",
-    "nmll": "華昱高速"
+    "nmll": "华昱高速"
   },
   {
     "code": "1825",
     "name": "STERLING GP",
-    "nmll": "美臻集團 "
+    "nmll": "美臻集团 "
   },
   {
     "code": "1826",
@@ -7388,7 +7393,7 @@ var ucodesName2 =
   {
     "code": "1829",
     "name": "CMEC",
-    "nmll": "中國機械工程"
+    "nmll": "中国机械工程"
   },
   {
     "code": "1830",
@@ -7403,22 +7408,22 @@ var ucodesName2 =
   {
     "code": "1832",
     "name": "SAI LEISURE",
-    "nmll": "海天地悅旅"
+    "nmll": "海天地悦旅"
   },
   {
     "code": "1833",
     "name": "PA GOODDOCTOR",
-    "nmll": "平安好醫生"
+    "nmll": "平安好医生"
   },
   {
     "code": "1835",
     "name": "REALWAY CAPITAL",
-    "nmll": "瑞威資管"
+    "nmll": "瑞威资管"
   },
   {
     "code": "1836",
     "name": "STELLA HOLDINGS",
-    "nmll": "九興控股"
+    "nmll": "九兴控股"
   },
   {
     "code": "1837",
@@ -7433,62 +7438,62 @@ var ucodesName2 =
   {
     "code": "1839",
     "name": "CIMC VEHICLES",
-    "nmll": "中集車輛"
+    "nmll": "中集车辆"
   },
   {
     "code": "1841",
     "name": "A.PLUS GROUP",
-    "nmll": "優越集團控股"
+    "nmll": "优越集团控股"
   },
   {
     "code": "1842",
     "name": "GROWN UP GROUP",
-    "nmll": "植華集團"
+    "nmll": "植华集团"
   },
   {
     "code": "1843",
     "name": "SNACK EMPIRE",
-    "nmll": "快餐帝國"
+    "nmll": "快餐帝国"
   },
   {
     "code": "1845",
     "name": "WG ENV TECH",
-    "nmll": "維港環保科技"
+    "nmll": "维港环保科技"
   },
   {
     "code": "1846",
     "name": "EUROEYES",
-    "nmll": "德視佳"
+    "nmll": "德视佳"
   },
   {
     "code": "1847",
     "name": "GHPC",
-    "nmll": "雲南建投混凝土"
+    "nmll": "云南建投混凝土"
   },
   {
     "code": "1848",
     "name": "CALC",
-    "nmll": "中國飛機租賃"
+    "nmll": "中国飞机租赁"
   },
   {
     "code": "1849",
     "name": "AM GROUP",
-    "nmll": "秀商時代控股"
+    "nmll": "秀商时代控股"
   },
   {
     "code": "1850",
     "name": "WINDMILL GP",
-    "nmll": "海鑫集團"
+    "nmll": "海鑫集团"
   },
   {
     "code": "1851",
     "name": "GINGKO EDU",
-    "nmll": "銀杏教育"
+    "nmll": "银杏教育"
   },
   {
     "code": "1853",
     "name": "CHUNCHENG HEAT",
-    "nmll": "吉林省春城熱力  "
+    "nmll": "吉林省春城热力  "
   },
   {
     "code": "1854",
@@ -7503,12 +7508,12 @@ var ucodesName2 =
   {
     "code": "1857",
     "name": "CEB WATER",
-    "nmll": "中國光大水務"
+    "nmll": "中国光大水务"
   },
   {
     "code": "1858",
     "name": "CHUNLI MEDICAL",
-    "nmll": "春立醫療器械  "
+    "nmll": "春立医疗器械  "
   },
   {
     "code": "1859",
@@ -7518,12 +7523,12 @@ var ucodesName2 =
   {
     "code": "1860",
     "name": "MOBVISTA",
-    "nmll": "匯量科技"
+    "nmll": "汇量科技"
   },
   {
     "code": "1861",
     "name": "PRECIOUS DRAGON",
-    "nmll": "保寶龍科技"
+    "nmll": "保宝龙科技"
   },
   {
     "code": "1862",
@@ -7533,7 +7538,7 @@ var ucodesName2 =
   {
     "code": "1863",
     "name": "CHI LONGEVITY",
-    "nmll": "中國龍天集團"
+    "nmll": "中国龙天集团"
   },
   {
     "code": "1865",
@@ -7543,12 +7548,12 @@ var ucodesName2 =
   {
     "code": "1866",
     "name": "CHINA XLX FERT",
-    "nmll": "中國心連心化肥"
+    "nmll": "中国心连心化肥"
   },
   {
     "code": "1867",
     "name": "LKS HOLDING",
-    "nmll": "樂嘉思控股"
+    "nmll": "乐嘉思控股"
   },
   {
     "code": "1868",
@@ -7558,17 +7563,17 @@ var ucodesName2 =
   {
     "code": "1869",
     "name": "LI BAO GE GP",
-    "nmll": "利寶閣集團"
+    "nmll": "利宝阁集团"
   },
   {
     "code": "1870",
     "name": "ACME INTL HLDGS",
-    "nmll": "益美國際控股"
+    "nmll": "益美国际控股"
   },
   {
     "code": "1871",
     "name": "CHINA ORIENTED",
-    "nmll": "向中國際"
+    "nmll": "向中国际"
   },
   {
     "code": "1872",
@@ -7578,22 +7583,22 @@ var ucodesName2 =
   {
     "code": "1873",
     "name": "VIVA BIOTECH",
-    "nmll": "維亞生物"
+    "nmll": "维亚生物"
   },
   {
     "code": "1875",
     "name": "TOT BIOPHARM-B",
-    "nmll": "東曜藥業－Ｂ "
+    "nmll": "东曜药业－Ｂ "
   },
   {
     "code": "1876",
     "name": "BUD APAC",
-    "nmll": "百威亞太"
+    "nmll": "百威亚太"
   },
   {
     "code": "1877",
     "name": "JUNSHI BIO",
-    "nmll": "君實生物"
+    "nmll": "君实生物"
   },
   {
     "code": "1878",
@@ -7603,52 +7608,52 @@ var ucodesName2 =
   {
     "code": "1881",
     "name": "REGAL REIT",
-    "nmll": "富豪產業信託"
+    "nmll": "富豪产业信托"
   },
   {
     "code": "1882",
     "name": "HAITIAN INT'L",
-    "nmll": "海天國際"
+    "nmll": "海天国际"
   },
   {
     "code": "1883",
     "name": "CITIC TELECOM",
-    "nmll": "中信國際電訊"
+    "nmll": "中信国际电讯"
   },
   {
     "code": "1884",
     "name": "EPRINT GROUP",
-    "nmll": "eprint集團 "
+    "nmll": "eprint集团 "
   },
   {
     "code": "1885",
     "name": "CH WOOD OPT",
-    "nmll": "中國優材"
+    "nmll": "中国优材"
   },
   {
     "code": "1886",
     "name": "HUIYUAN JUICE",
-    "nmll": "匯源果汁"
+    "nmll": "汇源果汁"
   },
   {
     "code": "1888",
     "name": "KB LAMINATES",
-    "nmll": "建滔積層板"
+    "nmll": "建滔积层板"
   },
   {
     "code": "1889",
     "name": "SANAI HEALTH GP",
-    "nmll": "三愛健康集團"
+    "nmll": "三爱健康集团"
   },
   {
     "code": "1890",
     "name": "CHINA KEPEI",
-    "nmll": "中國科培"
+    "nmll": "中国科培"
   },
   {
     "code": "1891",
     "name": "HENG HUP",
-    "nmll": "興合控股"
+    "nmll": "兴合控股"
   },
   {
     "code": "1894",
@@ -7658,17 +7663,17 @@ var ucodesName2 =
   {
     "code": "1895",
     "name": "XINYUAN PM",
-    "nmll": "鑫苑服務"
+    "nmll": "鑫苑服务"
   },
   {
     "code": "1896",
     "name": "MAOYAN ENT",
-    "nmll": "貓眼娛樂"
+    "nmll": "猫眼娱乐"
   },
   {
     "code": "1897",
     "name": "MILLIONHOPE IND",
-    "nmll": "美亨實業"
+    "nmll": "美亨实业"
   },
   {
     "code": "1898",
@@ -7678,22 +7683,22 @@ var ucodesName2 =
   {
     "code": "1899",
     "name": "XINGDA INT'L",
-    "nmll": "興達國際"
+    "nmll": "兴达国际"
   },
   {
     "code": "1900",
     "name": "CHINA ITS",
-    "nmll": "中國智能交通"
+    "nmll": "中国智能交通"
   },
   {
     "code": "1901",
     "name": "FEIYANG GROUP",
-    "nmll": "飛揚集團"
+    "nmll": "飞扬集团"
   },
   {
     "code": "1902",
     "name": "YINCHENG INTL",
-    "nmll": "銀城國際控股"
+    "nmll": "银城国际控股"
   },
   {
     "code": "1903",
@@ -7703,7 +7708,7 @@ var ucodesName2 =
   {
     "code": "1905",
     "name": "HAITONG UT",
-    "nmll": "海通恆信"
+    "nmll": "海通恒信"
   },
   {
     "code": "1906",
@@ -7713,22 +7718,22 @@ var ucodesName2 =
   {
     "code": "1907",
     "name": "CHINA RISUN GP",
-    "nmll": "中國旭陽集團"
+    "nmll": "中国旭阳集团"
   },
   {
     "code": "1908",
     "name": "C&D INTL GROUP",
-    "nmll": "建發國際集團"
+    "nmll": "建发国际集团"
   },
   {
     "code": "1910",
     "name": "SAMSONITE",
-    "nmll": "新秀麗"
+    "nmll": "新秀丽"
   },
   {
     "code": "1911",
     "name": "CR HOLDINGS",
-    "nmll": "華興資本控股"
+    "nmll": "华兴资本控股"
   },
   {
     "code": "1912",
@@ -7738,17 +7743,17 @@ var ucodesName2 =
   {
     "code": "1913",
     "name": "PRADA",
-    "nmll": "普拉達"
+    "nmll": "普拉达"
   },
   {
     "code": "1915",
     "name": "TAIHE M-FIN",
-    "nmll": "泰和小貸"
+    "nmll": "泰和小贷"
   },
   {
     "code": "1916",
     "name": "JIANGXI BANK",
-    "nmll": "江西銀行"
+    "nmll": "江西银行"
   },
   {
     "code": "1917",
@@ -7758,37 +7763,37 @@ var ucodesName2 =
   {
     "code": "1918",
     "name": "SUNAC",
-    "nmll": "融創中國"
+    "nmll": "融创中国"
   },
   {
     "code": "1919",
     "name": "COSCO SHIP HOLD",
-    "nmll": "中遠海控"
+    "nmll": "中远海控"
   },
   {
     "code": "1920",
     "name": "HANDS FORM HLDG",
-    "nmll": "恆新豐控股"
+    "nmll": "恒新丰控股"
   },
   {
     "code": "1921",
     "name": "DALIPAL HLDG",
-    "nmll": "達力普控股"
+    "nmll": "达力普控股"
   },
   {
     "code": "1922",
     "name": "YINCHENG LS",
-    "nmll": "銀城生活服務"
+    "nmll": "银城生活服务"
   },
   {
     "code": "1925",
     "name": "KWUNGS HOLDINGS",
-    "nmll": "曠世控股"
+    "nmll": "旷世控股"
   },
   {
     "code": "1928",
     "name": "SANDS CHINA LTD",
-    "nmll": "金沙中國有限公司"
+    "nmll": "金沙中国有限公司"
   },
   {
     "code": "1929",
@@ -7798,17 +7803,17 @@ var ucodesName2 =
   {
     "code": "1930",
     "name": "SHINELONG",
-    "nmll": "勛龍"
+    "nmll": "勋龙"
   },
   {
     "code": "1931",
     "name": "IVD MEDICAL",
-    "nmll": "華檢醫療"
+    "nmll": "华检医疗"
   },
   {
     "code": "1932",
     "name": "CPM GROUP",
-    "nmll": "中漆集團"
+    "nmll": "中漆集团"
   },
   {
     "code": "1933",
@@ -7833,17 +7838,17 @@ var ucodesName2 =
   {
     "code": "1938",
     "name": "CHU KONG PIPE",
-    "nmll": "珠江鋼管"
+    "nmll": "珠江钢管"
   },
   {
     "code": "1939",
     "name": "TOKYO CHUO",
-    "nmll": "東京中央拍賣"
+    "nmll": "东京中央拍卖"
   },
   {
     "code": "1941",
     "name": "YE XING GROUP",
-    "nmll": "燁星集團"
+    "nmll": "烨星集团"
   },
   {
     "code": "1942",
@@ -7853,7 +7858,7 @@ var ucodesName2 =
   {
     "code": "1943",
     "name": "SILVER TIDE",
-    "nmll": "銀濤控股"
+    "nmll": "银涛控股"
   },
   {
     "code": "1949",
@@ -7863,12 +7868,12 @@ var ucodesName2 =
   {
     "code": "1950",
     "name": "SUNLIGHT TECH H",
-    "nmll": "深藍科技控股"
+    "nmll": "深蓝科技控股"
   },
   {
     "code": "1951",
     "name": "JXR",
-    "nmll": "錦欣生殖"
+    "nmll": "锦欣生殖"
   },
   {
     "code": "1953",
@@ -7878,7 +7883,7 @@ var ucodesName2 =
   {
     "code": "1955",
     "name": "JOHNSON HLDGS",
-    "nmll": "莊臣控股"
+    "nmll": "庄臣控股"
   },
   {
     "code": "1957",
@@ -7888,12 +7893,12 @@ var ucodesName2 =
   {
     "code": "1958",
     "name": "BAIC MOTOR",
-    "nmll": "北京汽車股份  "
+    "nmll": "北京汽车股份  "
   },
   {
     "code": "1959",
     "name": "CENT UNIT HLDG",
-    "nmll": "世紀聯合控股"
+    "nmll": "世纪联合控股"
   },
   {
     "code": "1960",
@@ -7903,37 +7908,37 @@ var ucodesName2 =
   {
     "code": "1961",
     "name": "JIU ZUN DIGITAL",
-    "nmll": "九尊數字互娛"
+    "nmll": "九尊数字互娱"
   },
   {
     "code": "1962",
     "name": "EVERGREEN PG",
-    "nmll": "訓修實業集團 "
+    "nmll": "训修实业集团 "
   },
   {
     "code": "1963",
     "name": "BCQ",
-    "nmll": "重慶銀行股份  "
+    "nmll": "重庆银行股份  "
   },
   {
     "code": "1966",
     "name": "CHINA SCE GROUP",
-    "nmll": "中駿集團控股"
+    "nmll": "中骏集团控股"
   },
   {
     "code": "1967",
     "name": "CONFIDENCE IN",
-    "nmll": "信懇智能"
+    "nmll": "信恳智能"
   },
   {
     "code": "1968",
     "name": "HINGTEX HLDGS",
-    "nmll": "興紡控股"
+    "nmll": "兴纺控股"
   },
   {
     "code": "1969",
     "name": "CHINA CHUNLAI",
-    "nmll": "中國春來"
+    "nmll": "中国春来"
   },
   {
     "code": "1970",
@@ -7943,42 +7948,42 @@ var ucodesName2 =
   {
     "code": "1971",
     "name": "RSUN SER",
-    "nmll": "弘陽服務集團 "
+    "nmll": "弘阳服务集团 "
   },
   {
     "code": "1972",
     "name": "SWIREPROPERTIES",
-    "nmll": "太古地產"
+    "nmll": "太古地产"
   },
   {
     "code": "1975",
     "name": "SUN HING PRINT",
-    "nmll": "新興印刷"
+    "nmll": "新兴印刷"
   },
   {
     "code": "1977",
     "name": "ANALOGUE HLDGS",
-    "nmll": "安樂工程"
+    "nmll": "安乐工程"
   },
   {
     "code": "1978",
     "name": "LH GROUP",
-    "nmll": "敘福樓集團"
+    "nmll": "叙福楼集团"
   },
   {
     "code": "1979",
     "name": "TEN PAO GROUP",
-    "nmll": "天寶集團"
+    "nmll": "天宝集团"
   },
   {
     "code": "1980",
     "name": "TIANGE",
-    "nmll": "天鴿互動"
+    "nmll": "天鸽互动"
   },
   {
     "code": "1981",
     "name": "CATHAY EDU",
-    "nmll": "華夏視聽教育"
+    "nmll": "华夏视听教育"
   },
   {
     "code": "1982",
@@ -7988,7 +7993,7 @@ var ucodesName2 =
   {
     "code": "1983",
     "name": "LUZHOU BANK",
-    "nmll": "瀘州銀行"
+    "nmll": "泸州银行"
   },
   {
     "code": "1985",
@@ -7998,7 +8003,7 @@ var ucodesName2 =
   {
     "code": "1986",
     "name": "TSAKER CHEM",
-    "nmll": "彩客化學"
+    "nmll": "彩客化学"
   },
   {
     "code": "1987",
@@ -8008,167 +8013,167 @@ var ucodesName2 =
   {
     "code": "1988",
     "name": "MINSHENG BANK",
-    "nmll": "民生銀行"
+    "nmll": "民生银行"
   },
   {
     "code": "1989",
     "name": "PINE CARE GP",
-    "nmll": "松齡護老集團"
+    "nmll": "松龄护老集团"
   },
   {
     "code": "1990",
     "name": "XINGHUA PORT",
-    "nmll": "興華港口控股 "
+    "nmll": "兴华港口控股 "
   },
   {
     "code": "1991",
     "name": "TA YANG GROUP",
-    "nmll": "大洋集團"
+    "nmll": "大洋集团"
   },
   {
     "code": "1992",
     "name": "FOSUN TOURISM",
-    "nmll": "復星旅遊文化"
+    "nmll": "复星旅游文化"
   },
   {
     "code": "1993",
     "name": "ASIARAY",
-    "nmll": "雅仕維傳媒 "
+    "nmll": "雅仕维传媒 "
   },
   {
     "code": "1995",
     "name": "EVERSUNSHINE LS",
-    "nmll": "永升生活服務"
+    "nmll": "永升生活服务"
   },
   {
     "code": "1996",
     "name": "RSUN PPT",
-    "nmll": "弘陽地產"
+    "nmll": "弘阳地产"
   },
   {
     "code": "1997",
     "name": "WHARF REIC",
-    "nmll": "九龍倉置業"
+    "nmll": "九龙仓置业"
   },
   {
     "code": "1998",
     "name": "FLYKE INT'L",
-    "nmll": "飛克國際"
+    "nmll": "飞克国际"
   },
   {
     "code": "1999",
     "name": "MAN WAH HLDGS",
-    "nmll": "敏華控股"
+    "nmll": "敏华控股"
   },
   {
     "code": "2000",
     "name": "SIM TECH",
-    "nmll": "晨訊科技"
+    "nmll": "晨讯科技"
   },
   {
     "code": "2001",
     "name": "NEW HIGHER EDU",
-    "nmll": "新高教集團"
+    "nmll": "新高教集团"
   },
   {
     "code": "2002",
     "name": "SUNSHINE PAPER",
-    "nmll": "陽光紙業"
+    "nmll": "阳光纸业"
   },
   {
     "code": "2003",
     "name": "VCREDIT",
-    "nmll": "維信金科"
+    "nmll": "维信金科"
   },
   {
     "code": "2005",
     "name": "SSY GROUP",
-    "nmll": "石四藥集團"
+    "nmll": "石四药集团"
   },
   {
     "code": "2006",
     "name": "JINJIANGCAPITAL",
-    "nmll": "錦江資本"
+    "nmll": "锦江资本"
   },
   {
     "code": "2007",
     "name": "COUNTRY GARDEN",
-    "nmll": "碧桂園"
+    "nmll": "碧桂园"
   },
   {
     "code": "2008",
     "name": "PHOENIX TV",
-    "nmll": "鳳凰衛視投資 "
+    "nmll": "凤凰卫视投资 "
   },
   {
     "code": "2009",
     "name": "BBMG",
-    "nmll": "金隅集團"
+    "nmll": "金隅集团"
   },
   {
     "code": "2010",
     "name": "REAL NUTRI",
-    "nmll": "瑞年國際"
+    "nmll": "瑞年国际"
   },
   {
     "code": "2011",
     "name": "CHINA APEX GP",
-    "nmll": "中國恒泰集團"
+    "nmll": "中国恒泰集团"
   },
   {
     "code": "2012",
     "name": "SUNSHINE OIL",
-    "nmll": "陽光油砂"
+    "nmll": "阳光油砂"
   },
   {
     "code": "2013",
     "name": "WEIMOB INC",
-    "nmll": "微盟集團"
+    "nmll": "微盟集团"
   },
   {
     "code": "2014",
     "name": "OZNER WATER",
-    "nmll": "浩澤淨水"
+    "nmll": "浩泽净水"
   },
   {
     "code": "2016",
     "name": "CZBANK",
-    "nmll": "浙商銀行"
+    "nmll": "浙商银行"
   },
   {
     "code": "2017",
     "name": "CHANHIGH",
-    "nmll": "滄海控股"
+    "nmll": "沧海控股"
   },
   {
     "code": "2018",
     "name": "AAC TECH",
-    "nmll": "瑞聲科技"
+    "nmll": "瑞声科技"
   },
   {
     "code": "2019",
     "name": "DEXIN CHINA",
-    "nmll": "德信中國"
+    "nmll": "德信中国"
   },
   {
     "code": "2020",
     "name": "ANTA SPORTS",
-    "nmll": "安踏體育"
+    "nmll": "安踏体育"
   },
   {
     "code": "2022",
     "name": "DIGIT HOLLYWOOD",
-    "nmll": "遊萊互動"
+    "nmll": "游莱互动"
   },
   {
     "code": "2023",
     "name": "CHINA LUDAO",
-    "nmll": "中國綠島科技"
+    "nmll": "中国绿岛科技"
   },
   {
     "code": "2025",
     "name": "RUIFENG POWER",
-    "nmll": "瑞豐動力"
+    "nmll": "瑞丰动力"
   },
   {
     "code": "2028",
@@ -8178,7 +8183,7 @@ var ucodesName2 =
   {
     "code": "2030",
     "name": "CABBEEN",
-    "nmll": "卡賓服飾 "
+    "nmll": "卡宾服饰 "
   },
   {
     "code": "2031",
@@ -8188,22 +8193,22 @@ var ucodesName2 =
   {
     "code": "2033",
     "name": "TIME WATCH",
-    "nmll": "時計寶"
+    "nmll": "时计宝"
   },
   {
     "code": "2038",
     "name": "FIH",
-    "nmll": "富智康集團"
+    "nmll": "富智康集团"
   },
   {
     "code": "2039",
     "name": "CIMC",
-    "nmll": "中集集團"
+    "nmll": "中集集团"
   },
   {
     "code": "2048",
     "name": "E-HOUSE ENT",
-    "nmll": "易居企業控股"
+    "nmll": "易居企业控股"
   },
   {
     "code": "2051",
@@ -8213,27 +8218,27 @@ var ucodesName2 =
   {
     "code": "2060",
     "name": "PUJIANG INTL",
-    "nmll": "浦江國際"
+    "nmll": "浦江国际"
   },
   {
     "code": "2066",
     "name": "SHENGJINGBANK",
-    "nmll": "盛京銀行"
+    "nmll": "盛京银行"
   },
   {
     "code": "2068",
     "name": "CHALIECO",
-    "nmll": "中鋁國際工程  "
+    "nmll": "中铝国际工程  "
   },
   {
     "code": "2078",
     "name": "PANASIALUM",
-    "nmll": "榮陽實業"
+    "nmll": "荣阳实业"
   },
   {
     "code": "2080",
     "name": "AUX INTL",
-    "nmll": "奧克斯國際控股 "
+    "nmll": "奥克斯国际控股 "
   },
   {
     "code": "2083",
@@ -8243,32 +8248,32 @@ var ucodesName2 =
   {
     "code": "2086",
     "name": "HNA TECH INV",
-    "nmll": "海航科技投資"
+    "nmll": "海航科技投资"
   },
   {
     "code": "2088",
     "name": "XIWANG PROPERTY",
-    "nmll": "西王置業"
+    "nmll": "西王置业"
   },
   {
     "code": "2098",
     "name": "ZALL SMARTCOM",
-    "nmll": "卓爾智聯"
+    "nmll": "卓尔智联"
   },
   {
     "code": "2099",
     "name": "CHINAGOLDINTL",
-    "nmll": "中國黃金國際"
+    "nmll": "中国黄金国际"
   },
   {
     "code": "2100",
     "name": "BAIOO",
-    "nmll": "百奧家庭互動"
+    "nmll": "百奥家庭互动"
   },
   {
     "code": "2103",
     "name": "SINIC HOLDINGS",
-    "nmll": "新力控股集團"
+    "nmll": "新力控股集团"
   },
   {
     "code": "2108",
@@ -8278,42 +8283,42 @@ var ucodesName2 =
   {
     "code": "2111",
     "name": "BEST PACIFIC",
-    "nmll": "超盈國際控股"
+    "nmll": "超盈国际控股"
   },
   {
     "code": "2112",
     "name": "CAA RESOURCES",
-    "nmll": "優庫資源"
+    "nmll": "优库资源"
   },
   {
     "code": "2113",
     "name": "CENTURY GP INTL",
-    "nmll": "世紀集團國際"
+    "nmll": "世纪集团国际"
   },
   {
     "code": "2116",
     "name": "JS INNOV",
-    "nmll": "江蘇創新"
+    "nmll": "江苏创新"
   },
   {
     "code": "2118",
     "name": "TIAN SHAN DEV",
-    "nmll": "天山發展控股"
+    "nmll": "天山发展控股"
   },
   {
     "code": "2119",
     "name": "TSIT WING INTL",
-    "nmll": "捷榮國際控股"
+    "nmll": "捷荣国际控股"
   },
   {
     "code": "2120",
     "name": "KN HOSPITAL",
-    "nmll": "康寧醫院"
+    "nmll": "康宁医院"
   },
   {
     "code": "2122",
     "name": "KIDSLAND INTL",
-    "nmll": "凱知樂國際"
+    "nmll": "凯知乐国际"
   },
   {
     "code": "2123",
@@ -8323,32 +8328,32 @@ var ucodesName2 =
   {
     "code": "2128",
     "name": "CHINA LESSO",
-    "nmll": "中國聯塑集團 "
+    "nmll": "中国联塑集团 "
   },
   {
     "code": "2133",
     "name": "GREENWAY MINING",
-    "nmll": "信盛礦業"
+    "nmll": "信盛矿业"
   },
   {
     "code": "2136",
     "name": "LIFESTYLE CHI",
-    "nmll": "利福中國"
+    "nmll": "利福中国"
   },
   {
     "code": "2138",
     "name": "UM HEALTHCARE",
-    "nmll": "香港醫思醫療集團"
+    "nmll": "香港医思医疗集团"
   },
   {
     "code": "2139",
     "name": "BANK OF GANSU",
-    "nmll": "甘肅銀行"
+    "nmll": "甘肃银行"
   },
   {
     "code": "2163",
     "name": "BROAD HOMES",
-    "nmll": "遠大住工"
+    "nmll": "远大住工"
   },
   {
     "code": "2166",
@@ -8358,7 +8363,7 @@ var ucodesName2 =
   {
     "code": "2168",
     "name": "KAISA PROSPER",
-    "nmll": "佳兆業美好"
+    "nmll": "佳兆业美好"
   },
   {
     "code": "2178",
@@ -8368,17 +8373,17 @@ var ucodesName2 =
   {
     "code": "2180",
     "name": "MANPOWER GRC",
-    "nmll": "萬寶盛華"
+    "nmll": "万宝盛华"
   },
   {
     "code": "2181",
     "name": "MABPHARM-B",
-    "nmll": "邁博藥業－Ｂ "
+    "nmll": "迈博药业－Ｂ "
   },
   {
     "code": "2182",
     "name": "TIAN CHANG GP",
-    "nmll": "天長集團"
+    "nmll": "天长集团"
   },
   {
     "code": "2183",
@@ -8388,67 +8393,67 @@ var ucodesName2 =
   {
     "code": "2186",
     "name": "LUYE PHARMA",
-    "nmll": "綠葉製藥集團 "
+    "nmll": "绿叶制药集团 "
   },
   {
     "code": "2188",
     "name": "TITANS ENERGY",
-    "nmll": "泰坦能源技術"
+    "nmll": "泰坦能源技术"
   },
   {
     "code": "2189",
     "name": "KATO (HK) HLDGS",
-    "nmll": "嘉濤（香港）控股"
+    "nmll": "嘉涛（香港）控股"
   },
   {
     "code": "2193",
     "name": "MAN KING HOLD",
-    "nmll": "萬景控股"
+    "nmll": "万景控股"
   },
   {
     "code": "2196",
     "name": "FOSUN PHARMA",
-    "nmll": "上海復星醫藥  "
+    "nmll": "上海复星医药  "
   },
   {
     "code": "2198",
     "name": "CHINA SANJIANG",
-    "nmll": "中國三江化工"
+    "nmll": "中国三江化工"
   },
   {
     "code": "2199",
     "name": "REGINA MIRACLE",
-    "nmll": "維珍妮"
+    "nmll": "维珍妮"
   },
   {
     "code": "2202",
     "name": "CHINA VANKE",
-    "nmll": "萬科企業股份  "
+    "nmll": "万科企业股份  "
   },
   {
     "code": "2203",
     "name": "BRAINHOLE TECH",
-    "nmll": "腦洞科技"
+    "nmll": "脑洞科技"
   },
   {
     "code": "2208",
     "name": "GOLDWIND",
-    "nmll": "金風科技"
+    "nmll": "金风科技"
   },
   {
     "code": "2211",
     "name": "UNI HEALTH",
-    "nmll": "大健康國際"
+    "nmll": "大健康国际"
   },
   {
     "code": "2212",
     "name": "FB MINING",
-    "nmll": "高鵬礦業"
+    "nmll": "高鹏矿业"
   },
   {
     "code": "2213",
     "name": "YI HUA HLDG",
-    "nmll": "益華控股"
+    "nmll": "益华控股"
   },
   {
     "code": "2218",
@@ -8458,27 +8463,27 @@ var ucodesName2 =
   {
     "code": "2221",
     "name": "NEW CONCEPTS",
-    "nmll": "創業集團控股"
+    "nmll": "创业集团控股"
   },
   {
     "code": "2222",
     "name": "NVC INTL",
-    "nmll": "雷士國際"
+    "nmll": "雷士国际"
   },
   {
     "code": "2223",
     "name": "CASABLANCA",
-    "nmll": "卡撒天嬌"
+    "nmll": "卡撒天娇"
   },
   {
     "code": "2225",
     "name": "JINHAI INTL",
-    "nmll": "今海國際"
+    "nmll": "今海国际"
   },
   {
     "code": "2226",
     "name": "HONWORLD GP",
-    "nmll": "老恒和釀造"
+    "nmll": "老恒和酿造"
   },
   {
     "code": "2227",
@@ -8488,22 +8493,22 @@ var ucodesName2 =
   {
     "code": "2228",
     "name": "CECEP COSTIN",
-    "nmll": "中國節能海東青"
+    "nmll": "中国节能海东青"
   },
   {
     "code": "2230",
     "name": "MEDIALINK GROUP",
-    "nmll": "羚邦集團"
+    "nmll": "羚邦集团"
   },
   {
     "code": "2231",
     "name": "JY GRANDMARK",
-    "nmll": "景業名邦集團"
+    "nmll": "景业名邦集团"
   },
   {
     "code": "2232",
     "name": "CRYSTAL INTL",
-    "nmll": "晶苑國際集團 "
+    "nmll": "晶苑国际集团 "
   },
   {
     "code": "2233",
@@ -8513,32 +8518,32 @@ var ucodesName2 =
   {
     "code": "2236",
     "name": "WISON ENGRG",
-    "nmll": "惠生工程技術服務 "
+    "nmll": "惠生工程技术服务 "
   },
   {
     "code": "2238",
     "name": "GAC GROUP",
-    "nmll": "廣汽集團"
+    "nmll": "广汽集团"
   },
   {
     "code": "2239",
     "name": "SMIT",
-    "nmll": "國微控股"
+    "nmll": "国微控股"
   },
   {
     "code": "2255",
     "name": "HAICHANG HLDG",
-    "nmll": "海昌海洋公園"
+    "nmll": "海昌海洋公园"
   },
   {
     "code": "2258",
     "name": "WATTS INT'L",
-    "nmll": "華滋國際海洋"
+    "nmll": "华滋国际海洋"
   },
   {
     "code": "2262",
     "name": "SLD GROUP",
-    "nmll": "梁志天設計集團"
+    "nmll": "梁志天设计集团"
   },
   {
     "code": "2263",
@@ -8548,87 +8553,87 @@ var ucodesName2 =
   {
     "code": "2266",
     "name": "LAI SI ENT",
-    "nmll": "黎氏企業"
+    "nmll": "黎氏企业"
   },
   {
     "code": "2268",
     "name": "YOUYUAN HLDGS",
-    "nmll": "優源控股"
+    "nmll": "优源控股"
   },
   {
     "code": "2269",
     "name": "WUXI BIO",
-    "nmll": "藥明生物"
+    "nmll": "药明生物"
   },
   {
     "code": "2277",
     "name": "HUARONG INV",
-    "nmll": "華融投資股份"
+    "nmll": "华融投资股份"
   },
   {
     "code": "2278",
     "name": "HAILAN HLDGS",
-    "nmll": "海藍控股"
+    "nmll": "海蓝控股"
   },
   {
     "code": "2280",
     "name": "HC GROUP",
-    "nmll": "慧聰集團"
+    "nmll": "慧聪集团"
   },
   {
     "code": "2281",
     "name": "XINGLU WATER",
-    "nmll": "興瀘水務"
+    "nmll": "兴泸水务"
   },
   {
     "code": "2282",
     "name": "MGM CHINA",
-    "nmll": "美高梅中國"
+    "nmll": "美高梅中国"
   },
   {
     "code": "2283",
     "name": "TK GROUP HLDG",
-    "nmll": "東江集團控股"
+    "nmll": "东江集团控股"
   },
   {
     "code": "2286",
     "name": "CHEN XING",
-    "nmll": "辰興發展控股 "
+    "nmll": "辰兴发展控股 "
   },
   {
     "code": "2288",
     "name": "RYKADAN CAPITAL",
-    "nmll": "宏基資本"
+    "nmll": "宏基资本"
   },
   {
     "code": "2289",
     "name": "CHARMACY PHAR",
-    "nmll": "創美藥業"
+    "nmll": "创美药业"
   },
   {
     "code": "2292",
     "name": "THING ON ENT",
-    "nmll": "晉安實業"
+    "nmll": "晋安实业"
   },
   {
     "code": "2293",
     "name": "BAMBOOSHEALTH",
-    "nmll": "百本醫護"
+    "nmll": "百本医护"
   },
   {
     "code": "2296",
     "name": "HUARCHI GLOBAL",
-    "nmll": "華記環球集團"
+    "nmll": "华记环球集团"
   },
   {
     "code": "2298",
     "name": "COSMO LADY",
-    "nmll": "都市麗人"
+    "nmll": "都市丽人"
   },
   {
     "code": "2299",
     "name": "BILLION IND",
-    "nmll": "百宏實業"
+    "nmll": "百宏实业"
   },
   {
     "code": "2300",
@@ -8638,17 +8643,17 @@ var ucodesName2 =
   {
     "code": "2302",
     "name": "CNNC INT'L",
-    "nmll": "中核國際"
+    "nmll": "中核国际"
   },
   {
     "code": "2303",
     "name": "HENGXING GOLD",
-    "nmll": "恒興黃金控股 "
+    "nmll": "恒兴黄金控股 "
   },
   {
     "code": "2307",
     "name": "KAM HING INT'L",
-    "nmll": "錦興國際控股"
+    "nmll": "锦兴国际控股"
   },
   {
     "code": "2308",
@@ -8658,52 +8663,52 @@ var ucodesName2 =
   {
     "code": "2309",
     "name": "BIRMINGHAM SPTS",
-    "nmll": "伯明翰體育"
+    "nmll": "伯明翰体育"
   },
   {
     "code": "2310",
     "name": "TIMES UNI GP",
-    "nmll": "時代環球集團"
+    "nmll": "时代环球集团"
   },
   {
     "code": "2312",
     "name": "CH FIN LEASING",
-    "nmll": "中國金融租賃"
+    "nmll": "中国金融租赁"
   },
   {
     "code": "2313",
     "name": "SHENZHOU INTL",
-    "nmll": "申洲國際"
+    "nmll": "申洲国际"
   },
   {
     "code": "2314",
     "name": "LEE & MAN PAPER",
-    "nmll": "理文造紙"
+    "nmll": "理文造纸"
   },
   {
     "code": "2317",
     "name": "VEDAN INT'L",
-    "nmll": "味丹國際"
+    "nmll": "味丹国际"
   },
   {
     "code": "2318",
     "name": "PING AN",
-    "nmll": "中國平安"
+    "nmll": "中国平安"
   },
   {
     "code": "2319",
     "name": "MENGNIU DAIRY",
-    "nmll": "蒙牛乳業"
+    "nmll": "蒙牛乳业"
   },
   {
     "code": "2320",
     "name": "HOP FUNG GROUP",
-    "nmll": "合豐集團"
+    "nmll": "合丰集团"
   },
   {
     "code": "2322",
     "name": "HK CHAOSHANG GP",
-    "nmll": "香港潮商集團"
+    "nmll": "香港潮商集团"
   },
   {
     "code": "2323",
@@ -8713,72 +8718,72 @@ var ucodesName2 =
   {
     "code": "2324",
     "name": "CAPITAL VC",
-    "nmll": "首都創投"
+    "nmll": "首都创投"
   },
   {
     "code": "2326",
     "name": "NPE HOLDINGS",
-    "nmll": "新源萬恒控股"
+    "nmll": "新源万恒控股"
   },
   {
     "code": "2327",
     "name": "MEILLEUREHEALTH",
-    "nmll": "美瑞健康國際"
+    "nmll": "美瑞健康国际"
   },
   {
     "code": "2328",
     "name": "PICC P&C",
-    "nmll": "中國財險"
+    "nmll": "中国财险"
   },
   {
     "code": "2329",
     "name": "GUORUI PPT",
-    "nmll": "國瑞置業"
+    "nmll": "国瑞置业"
   },
   {
     "code": "2330",
     "name": "CHINA UPTOWN",
-    "nmll": "中國上城"
+    "nmll": "中国上城"
   },
   {
     "code": "2331",
     "name": "LI NING",
-    "nmll": "李寧"
+    "nmll": "李宁"
   },
   {
     "code": "2333",
     "name": "GREATWALL MOTOR",
-    "nmll": "長城汽車"
+    "nmll": "长城汽车"
   },
   {
     "code": "2336",
     "name": "HAILIANG INTL",
-    "nmll": "海亮國際"
+    "nmll": "海亮国际"
   },
   {
     "code": "2337",
     "name": "UNITED STRENGTH",
-    "nmll": "眾誠能源"
+    "nmll": "众诚能源"
   },
   {
     "code": "2338",
     "name": "WEICHAI POWER",
-    "nmll": "濰柴動力"
+    "nmll": "潍柴动力"
   },
   {
     "code": "2339",
     "name": "BWI INT'L",
-    "nmll": "京西國際"
+    "nmll": "京西国际"
   },
   {
     "code": "2340",
     "name": "SYNERGIS HOLD",
-    "nmll": "昇捷控股"
+    "nmll": "升捷控股"
   },
   {
     "code": "2341",
     "name": "ECOGREEN",
-    "nmll": "中怡國際"
+    "nmll": "中怡国际"
   },
   {
     "code": "2342",
@@ -8788,12 +8793,12 @@ var ucodesName2 =
   {
     "code": "2343",
     "name": "PACIFIC BASIN",
-    "nmll": "太平洋航運"
+    "nmll": "太平洋航运"
   },
   {
     "code": "2345",
     "name": "SHANGHAI PRIME",
-    "nmll": "上海集優"
+    "nmll": "上海集优"
   },
   {
     "code": "2346",
@@ -8803,27 +8808,27 @@ var ucodesName2 =
   {
     "code": "2348",
     "name": "DAWNRAYS PHARMA",
-    "nmll": "東瑞製葯"
+    "nmll": "东瑞制药"
   },
   {
     "code": "2349",
     "name": "CH CITY INFRA",
-    "nmll": "中國城市基礎設施"
+    "nmll": "中国城市基础设施"
   },
   {
     "code": "2355",
     "name": "BAOYE GROUP",
-    "nmll": "寶業集團"
+    "nmll": "宝业集团"
   },
   {
     "code": "2356",
     "name": "DAHSING BANKING",
-    "nmll": "大新銀行集團"
+    "nmll": "大新银行集团"
   },
   {
     "code": "2357",
     "name": "AVICHINA",
-    "nmll": "中國航空科技工業  "
+    "nmll": "中国航空科技工业  "
   },
   {
     "code": "2358",
@@ -8833,102 +8838,102 @@ var ucodesName2 =
   {
     "code": "2359",
     "name": "WUXI APPTEC",
-    "nmll": "藥明康德"
+    "nmll": "药明康德"
   },
   {
     "code": "2360",
     "name": "BEST MART 360",
-    "nmll": "優品３６０"
+    "nmll": "优品３６０"
   },
   {
     "code": "2362",
     "name": "JINCHUAN INTL",
-    "nmll": "金川國際"
+    "nmll": "金川国际"
   },
   {
     "code": "2363",
     "name": "TONGDA HONG TAI",
-    "nmll": "通達宏泰"
+    "nmll": "通达宏泰"
   },
   {
     "code": "2366",
     "name": "SMI CULTURE",
-    "nmll": "星美文化旅遊"
+    "nmll": "星美文化旅游"
   },
   {
     "code": "2368",
     "name": "EAGLE NICE",
-    "nmll": "鷹美"
+    "nmll": "鹰美"
   },
   {
     "code": "2369",
     "name": "COOLPAD GROUP",
-    "nmll": "酷派集團"
+    "nmll": "酷派集团"
   },
   {
     "code": "2371",
     "name": "CL EDU FIN",
-    "nmll": "創聯教育金融"
+    "nmll": "创联教育金融"
   },
   {
     "code": "2377",
     "name": "BOQI ENV",
-    "nmll": "博奇環保"
+    "nmll": "博奇环保"
   },
   {
     "code": "2378",
     "name": "PRU",
-    "nmll": "保誠"
+    "nmll": "保诚"
   },
   {
     "code": "2379",
     "name": "ZHONGTIAN INT'L",
-    "nmll": "中天國際"
+    "nmll": "中天国际"
   },
   {
     "code": "2380",
     "name": "CHINA POWER",
-    "nmll": "中國電力"
+    "nmll": "中国电力"
   },
   {
     "code": "2381",
     "name": "SMC ELECTRIC",
-    "nmll": "蜆殼電業 "
+    "nmll": "蚬壳电业 "
   },
   {
     "code": "2382",
     "name": "SUNNY OPTICAL",
-    "nmll": "舜宇光學科技"
+    "nmll": "舜宇光学科技"
   },
   {
     "code": "2383",
     "name": "TOM GROUP",
-    "nmll": "ＴＯＭ集團"
+    "nmll": "ＴＯＭ集团"
   },
   {
     "code": "2386",
     "name": "SINOPEC SEG",
-    "nmll": "中石化煉化工程"
+    "nmll": "中石化炼化工程"
   },
   {
     "code": "2388",
     "name": "BOC HONG KONG",
-    "nmll": "中銀香港"
+    "nmll": "中银香港"
   },
   {
     "code": "2389",
     "name": "BJ ENT M&H",
-    "nmll": "北控醫療健康"
+    "nmll": "北控医疗健康"
   },
   {
     "code": "2393",
     "name": "YESTAR HEALTH",
-    "nmll": "巨星醫療控股"
+    "nmll": "巨星医疗控股"
   },
   {
     "code": "2398",
     "name": "GOOD FRIEND",
-    "nmll": "友佳國際"
+    "nmll": "友佳国际"
   },
   {
     "code": "2399",
@@ -8938,12 +8943,12 @@ var ucodesName2 =
   {
     "code": "2400",
     "name": "XD INC",
-    "nmll": "心動公司"
+    "nmll": "心动公司"
   },
   {
     "code": "2448",
     "name": "SPACE GROUP",
-    "nmll": "恆宇集團"
+    "nmll": "恒宇集团"
   },
   {
     "code": "2488",
@@ -8953,7 +8958,7 @@ var ucodesName2 =
   {
     "code": "2500",
     "name": "VENUS MEDTECH-B",
-    "nmll": "啟明醫療－Ｂ"
+    "nmll": "启明医疗－Ｂ"
   },
   {
     "code": "2527",
@@ -8963,17 +8968,17 @@ var ucodesName2 =
   {
     "code": "2528",
     "name": "FW FASHION INT",
-    "nmll": "尚晉國際控股"
+    "nmll": "尚晋国际控股"
   },
   {
     "code": "2552",
     "name": "HUA MEDICINE-B",
-    "nmll": "華領醫藥－Ｂ"
+    "nmll": "华领医药－Ｂ"
   },
   {
     "code": "2558",
     "name": "JINSHANG BANK",
-    "nmll": "晉商銀行"
+    "nmll": "晋商银行"
   },
   {
     "code": "2568",
@@ -8983,147 +8988,147 @@ var ucodesName2 =
   {
     "code": "2588",
     "name": "BOC AVIATION",
-    "nmll": "中銀航空租賃"
+    "nmll": "中银航空租赁"
   },
   {
     "code": "2600",
     "name": "CHALCO",
-    "nmll": "中國鋁業"
+    "nmll": "中国铝业"
   },
   {
     "code": "2601",
     "name": "CPIC",
-    "nmll": "中國太保"
+    "nmll": "中国太保"
   },
   {
     "code": "2606",
     "name": "LANGUANGJUSTBON",
-    "nmll": "藍光嘉寶服務"
+    "nmll": "蓝光嘉宝服务"
   },
   {
     "code": "2607",
     "name": "SH PHARMA",
-    "nmll": "上海醫藥"
+    "nmll": "上海医药"
   },
   {
     "code": "2608",
     "name": "SUNSHINE 100",
-    "nmll": "陽光１００中國"
+    "nmll": "阳光１００中国"
   },
   {
     "code": "2611",
     "name": "GTJA",
-    "nmll": "國泰君安"
+    "nmll": "国泰君安"
   },
   {
     "code": "2616",
     "name": "CSTONE PHARMA-B",
-    "nmll": "基石藥業－Ｂ"
+    "nmll": "基石药业－Ｂ"
   },
   {
     "code": "2623",
     "name": "ADD NEW ENERGY",
-    "nmll": "愛德新能源"
+    "nmll": "爱德新能源"
   },
   {
     "code": "2628",
     "name": "CHINA LIFE",
-    "nmll": "中國人壽"
+    "nmll": "中国人寿"
   },
   {
     "code": "2633",
     "name": "JACOBSON PHARMA",
-    "nmll": "雅各臣科研製藥"
+    "nmll": "雅各臣科研制药"
   },
   {
     "code": "2638",
     "name": "HKELECTRIC-SS",
-    "nmll": "港燈電力投資-SS "
+    "nmll": "港灯电力投资-SS "
   },
   {
     "code": "2660",
     "name": "ZENGAME",
-    "nmll": "禪遊科技"
+    "nmll": "禅游科技"
   },
   {
     "code": "2662",
     "name": "CAMSING INTL",
-    "nmll": "承興國際控股"
+    "nmll": "承兴国际控股"
   },
   {
     "code": "2663",
     "name": "KPA-BM HLDGS",
-    "nmll": "應力控股"
+    "nmll": "应力控股"
   },
   {
     "code": "2666",
     "name": "UNI MEDICAL",
-    "nmll": "環球醫療"
+    "nmll": "环球医疗"
   },
   {
     "code": "2668",
     "name": "PAK TAK INT'L",
-    "nmll": "百德國際"
+    "nmll": "百德国际"
   },
   {
     "code": "2669",
     "name": "CHINA OVS PPT",
-    "nmll": "中海物業"
+    "nmll": "中海物业"
   },
   {
     "code": "2678",
     "name": "TEXHONG TEXTILE",
-    "nmll": "天虹紡織"
+    "nmll": "天虹纺织"
   },
   {
     "code": "2680",
     "name": "INNOVAX HLDGS",
-    "nmll": "創陞控股"
+    "nmll": "创升控股"
   },
   {
     "code": "2682",
     "name": "YUN LEE MARINE",
-    "nmll": "潤利海事"
+    "nmll": "润利海事"
   },
   {
     "code": "2683",
     "name": "WAHSUN HANDBAGS",
-    "nmll": "華新手袋國際控股"
+    "nmll": "华新手袋国际控股"
   },
   {
     "code": "2686",
     "name": "AAG ENERGY",
-    "nmll": "亞美能源"
+    "nmll": "亚美能源"
   },
   {
     "code": "2688",
     "name": "ENN ENERGY",
-    "nmll": "新奧能源"
+    "nmll": "新奥能源"
   },
   {
     "code": "2689",
     "name": "ND PAPER",
-    "nmll": "玖龍紙業"
+    "nmll": "玖龙纸业"
   },
   {
     "code": "2696",
     "name": "HENLIUS-B",
-    "nmll": "復宏漢霖－Ｂ  "
+    "nmll": "复宏汉霖－Ｂ  "
   },
   {
     "code": "2698",
     "name": "WEIQIAO TEXTILE",
-    "nmll": "魏橋紡織"
+    "nmll": "魏桥纺织"
   },
   {
     "code": "2699",
     "name": "XINMING CHINA",
-    "nmll": "新明中國"
+    "nmll": "新明中国"
   },
   {
     "code": "2700",
     "name": "GREEN INTL HLDG",
-    "nmll": "格林國際控股"
+    "nmll": "格林国际控股"
   },
   {
     "code": "2708",
@@ -9133,17 +9138,17 @@ var ucodesName2 =
   {
     "code": "2718",
     "name": "DONGZHENG AFC",
-    "nmll": "東正金融"
+    "nmll": "东正金融"
   },
   {
     "code": "2722",
     "name": "CHONGQING M&E",
-    "nmll": "重慶機電"
+    "nmll": "重庆机电"
   },
   {
     "code": "2727",
     "name": "SH ELECTRIC",
-    "nmll": "上海電氣"
+    "nmll": "上海电气"
   },
   {
     "code": "2728",
@@ -9153,12 +9158,12 @@ var ucodesName2 =
   {
     "code": "2738",
     "name": "HUAJIN INTL",
-    "nmll": "華津國際控股"
+    "nmll": "华津国际控股"
   },
   {
     "code": "2768",
     "name": "JIAYUAN INTL",
-    "nmll": "佳源國際控股"
+    "nmll": "佳源国际控股"
   },
   {
     "code": "2772",
@@ -9168,37 +9173,37 @@ var ucodesName2 =
   {
     "code": "2777",
     "name": "R&F PROPERTIES",
-    "nmll": "富力地產"
+    "nmll": "富力地产"
   },
   {
     "code": "2778",
     "name": "CHAMPION REIT",
-    "nmll": "冠君產業信託"
+    "nmll": "冠君产业信托"
   },
   {
     "code": "2779",
     "name": "CH XINHUA EDU",
-    "nmll": "中國新華教育"
+    "nmll": "中国新华教育"
   },
   {
     "code": "2788",
     "name": "YORKEY OPTICAL",
-    "nmll": "精熙國際"
+    "nmll": "精熙国际"
   },
   {
     "code": "2789",
     "name": "YUANDA CHINA",
-    "nmll": "遠大中國"
+    "nmll": "远大中国"
   },
   {
     "code": "2798",
     "name": "PER ENERGY",
-    "nmll": "久泰邦達能源"
+    "nmll": "久泰邦达能源"
   },
   {
     "code": "2799",
     "name": "CHINA HUARONG",
-    "nmll": "中國華融"
+    "nmll": "中国华融"
   },
   {
     "code": "2800",
@@ -9208,17 +9213,17 @@ var ucodesName2 =
   {
     "code": "2801",
     "name": "ISHARES CHINA",
-    "nmll": "安碩中國ETF "
+    "nmll": "安硕中国ETF "
   },
   {
     "code": "2802",
     "name": "ISHARES EM ASIA",
-    "nmll": "安碩亞洲新興"
+    "nmll": "安硕亚洲新兴"
   },
   {
     "code": "2803",
     "name": "PP BEDROCK",
-    "nmll": "ＰＰ中國基石"
+    "nmll": "ＰＰ中国基石"
   },
   {
     "code": "2804",
@@ -9228,52 +9233,52 @@ var ucodesName2 =
   {
     "code": "2805",
     "name": "VANGUARDASXJP",
-    "nmll": "領航亞洲"
+    "nmll": "领航亚洲"
   },
   {
     "code": "2806",
     "name": "GX CN CONSUME",
-    "nmll": "ＧＸ中國消費"
+    "nmll": "ＧＸ中国消费"
   },
   {
     "code": "2807",
     "name": "GX CN ROBO&AI",
-    "nmll": "ＧＸ中國機智"
+    "nmll": "ＧＸ中国机智"
   },
   {
     "code": "2809",
     "name": "GX CN CLN EN",
-    "nmll": "ＧＸ中國潔能"
+    "nmll": "ＧＸ中国洁能"
   },
   {
     "code": "2810",
     "name": "PREMIAEMASEAN",
-    "nmll": "ＰＰ新興東盟"
+    "nmll": "ＰＰ新兴东盟"
   },
   {
     "code": "2811",
     "name": "HT CSI300 ETF",
-    "nmll": "海通滬深三百"
+    "nmll": "海通沪深三百"
   },
   {
     "code": "2812",
     "name": "SAMSUNGCDGN",
-    "nmll": "三星中國龍網"
+    "nmll": "三星中国龙网"
   },
   {
     "code": "2813",
     "name": "CAM CTPB BOND",
-    "nmll": "華夏政銀國債"
+    "nmll": "华夏政银国债"
   },
   {
     "code": "2819",
     "name": "ABF HK IDX ETF",
-    "nmll": "ABF港債指數 "
+    "nmll": "ABF港债指数 "
   },
   {
     "code": "2820",
     "name": "GX CN BIOTECH",
-    "nmll": "ＧＸ中國生科"
+    "nmll": "ＧＸ中国生科"
   },
   {
     "code": "2821",
@@ -9288,37 +9293,37 @@ var ucodesName2 =
   {
     "code": "2823",
     "name": "ISHARES A50",
-    "nmll": "安碩Ａ５０"
+    "nmll": "安硕Ａ５０"
   },
   {
     "code": "2824",
     "name": "LIPPO HK&M PROP",
-    "nmll": "力寶專選中港地產"
+    "nmll": "力宝专选中港地产"
   },
   {
     "code": "2825",
     "name": "WISECSIHK100ETF",
-    "nmll": "標智香港100 "
+    "nmll": "标智香港100 "
   },
   {
     "code": "2826",
     "name": "GX CN CLOUD",
-    "nmll": "ＧＸ中國雲算"
+    "nmll": "ＧＸ中国云算"
   },
   {
     "code": "2827",
     "name": "WISE CSI300 ETF",
-    "nmll": "標智滬深３００"
+    "nmll": "标智沪深３００"
   },
   {
     "code": "2828",
     "name": "HSCEI ETF",
-    "nmll": "恒生中國企業"
+    "nmll": "恒生中国企业"
   },
   {
     "code": "2832",
     "name": "BOSERA FA50",
-    "nmll": "博時ＦＡ５０"
+    "nmll": "博时ＦＡ５０"
   },
   {
     "code": "2833",
@@ -9328,17 +9333,17 @@ var ucodesName2 =
   {
     "code": "2834",
     "name": "ISHARESND100",
-    "nmll": "安碩納指一百"
+    "nmll": "安硕纳指一百"
   },
   {
     "code": "2836",
     "name": "ISHARES INDIA",
-    "nmll": "安碩印度"
+    "nmll": "安硕印度"
   },
   {
     "code": "2838",
     "name": "HS FCI50 ETF",
-    "nmll": "恒生富時中國５０"
+    "nmll": "恒生富时中国５０"
   },
   {
     "code": "2840",
@@ -9348,52 +9353,52 @@ var ucodesName2 =
   {
     "code": "2843",
     "name": "AMUNDI A50",
-    "nmll": "東匯Ａ５０"
+    "nmll": "东汇Ａ５０"
   },
   {
     "code": "2845",
     "name": "GX CN ELE VEH",
-    "nmll": "ＧＸ中國電車"
+    "nmll": "ＧＸ中国电车"
   },
   {
     "code": "2846",
     "name": "ISHARESCSI300",
-    "nmll": "安碩滬深三百"
+    "nmll": "安硕沪深三百"
   },
   {
     "code": "2848",
     "name": "TRMSCIKOREA",
-    "nmll": "ＴＲ 韓國 "
+    "nmll": "ＴＲ 韩国 "
   },
   {
     "code": "2858",
     "name": "YIXIN",
-    "nmll": "易鑫集團"
+    "nmll": "易鑫集团"
   },
   {
     "code": "2863",
     "name": "GOLDEN FAITH GP",
-    "nmll": "高豐集團控股"
+    "nmll": "高丰集团控股"
   },
   {
     "code": "2866",
     "name": "COSCO SHIP DEV",
-    "nmll": "中遠海發"
+    "nmll": "中远海发"
   },
   {
     "code": "2868",
     "name": "BJ CAPITAL LAND",
-    "nmll": "首創置業"
+    "nmll": "首创置业"
   },
   {
     "code": "2869",
     "name": "GREENTOWN SER",
-    "nmll": "綠城服務"
+    "nmll": "绿城服务"
   },
   {
     "code": "2877",
     "name": "SHINEWAY PHARM",
-    "nmll": "神威藥業"
+    "nmll": "神威药业"
   },
   {
     "code": "2878",
@@ -9403,17 +9408,17 @@ var ucodesName2 =
   {
     "code": "2880",
     "name": "DALIAN PORT",
-    "nmll": "大連港"
+    "nmll": "大连港"
   },
   {
     "code": "2882",
     "name": "HKRH",
-    "nmll": "香港資源控股"
+    "nmll": "香港资源控股"
   },
   {
     "code": "2883",
     "name": "CHINA OILFIELD",
-    "nmll": "中海油田服務"
+    "nmll": "中海油田服务"
   },
   {
     "code": "2885",
@@ -9423,32 +9428,32 @@ var ucodesName2 =
   {
     "code": "2886",
     "name": "BINHAI INV",
-    "nmll": "濱海投資"
+    "nmll": "滨海投资"
   },
   {
     "code": "2888",
     "name": "STANCHART",
-    "nmll": "渣打集團"
+    "nmll": "渣打集团"
   },
   {
     "code": "2892",
     "name": "MILLION CITIES",
-    "nmll": "萬城控股"
+    "nmll": "万城控股"
   },
   {
     "code": "2898",
     "name": "LONGRUN TEA",
-    "nmll": "龍潤茶"
+    "nmll": "龙润茶"
   },
   {
     "code": "2899",
     "name": "ZIJIN MINING",
-    "nmll": "紫金礦業"
+    "nmll": "紫金矿业"
   },
   {
     "code": "2906",
     "name": "WAH YAN-OLD",
-    "nmll": "中國華仁-新 "
+    "nmll": "中国华仁-新 "
   },
   {
     "code": "2922",
@@ -9458,12 +9463,12 @@ var ucodesName2 =
   {
     "code": "2924",
     "name": "CH INV FIN-OLD",
-    "nmll": "中國投融資（舊）"
+    "nmll": "中国投融资（旧）"
   },
   {
     "code": "2925",
     "name": "CENTRALHOLD-OLD",
-    "nmll": "中環控股（舊）"
+    "nmll": "中环控股（旧）"
   },
   {
     "code": "2927",
@@ -9473,17 +9478,17 @@ var ucodesName2 =
   {
     "code": "2928",
     "name": "GREEN LEADER",
-    "nmll": "綠領控股"
+    "nmll": "绿领控股"
   },
   {
     "code": "2929",
     "name": "BAY AREA GOLD",
-    "nmll": "灣區黃金"
+    "nmll": "湾区黄金"
   },
   {
     "code": "2931",
     "name": "SAFETY GODOWN",
-    "nmll": "安全貨倉"
+    "nmll": "安全货仓"
   },
   {
     "code": "2933",
@@ -9493,27 +9498,27 @@ var ucodesName2 =
   {
     "code": "3005",
     "name": "CSOPCSI500ETF",
-    "nmll": "南方中證五百"
+    "nmll": "南方中证五百"
   },
   {
     "code": "3007",
     "name": "TRFXIC50",
-    "nmll": "ＴＲ 富時５０ "
+    "nmll": "ＴＲ 富时５０ "
   },
   {
     "code": "3010",
     "name": "ISHARES AXJ",
-    "nmll": "安碩亞洲除日"
+    "nmll": "安硕亚洲除日"
   },
   {
     "code": "3011",
     "name": "A ICBCCICCUSD",
-    "nmll": "Ａ工銀中金美"
+    "nmll": "Ａ工银中金美"
   },
   {
     "code": "3012",
     "name": "AMUNDI HK35",
-    "nmll": "東匯香港３５"
+    "nmll": "东汇香港３５"
   },
   {
     "code": "3015",
@@ -9523,47 +9528,47 @@ var ucodesName2 =
   {
     "code": "3016",
     "name": "TRMSCIPHIL",
-    "nmll": "ＴＲ 菲律賓 "
+    "nmll": "ＴＲ 菲律宾 "
   },
   {
     "code": "3019",
     "name": "X TRMSCIWORLD",
-    "nmll": "ＸＴＲ 環球 "
+    "nmll": "ＸＴＲ 环球 "
   },
   {
     "code": "3020",
     "name": "X TRMSCIUSA",
-    "nmll": "ＸＴＲ 美國 "
+    "nmll": "ＸＴＲ 美国 "
   },
   {
     "code": "3022",
     "name": "ISHARESMSCIEM",
-    "nmll": "安碩新興市場"
+    "nmll": "安硕新兴市场"
   },
   {
     "code": "3023",
     "name": "PA AI&ROBOTICS",
-    "nmll": "平安智能及機械人"
+    "nmll": "平安智能及机械人"
   },
   {
     "code": "3024",
     "name": "WISE SSE50ETF",
-    "nmll": "標智上證５０"
+    "nmll": "标智上证５０"
   },
   {
     "code": "3027",
     "name": "X TRMSCIRUSSIA",
-    "nmll": "ＸＴＲ 俄羅斯 "
+    "nmll": "ＸＴＲ 俄罗斯 "
   },
   {
     "code": "3036",
     "name": "TRMSCITAIWAN",
-    "nmll": "ＴＲ 台灣 "
+    "nmll": "ＴＲ 台湾 "
   },
   {
     "code": "3040",
     "name": "GX MSCI CHINA",
-    "nmll": "ＧＸＭＳＣＩ中國"
+    "nmll": "ＧＸＭＳＣＩ中国"
   },
   {
     "code": "3043",
@@ -9573,12 +9578,12 @@ var ucodesName2 =
   {
     "code": "3046",
     "name": "VALUE CHINA ETF",
-    "nmll": "價值中國ETF "
+    "nmll": "价值中国ETF "
   },
   {
     "code": "3047",
     "name": "F SSIFIRONORE",
-    "nmll": "Ｆ山證鐵礦石"
+    "nmll": "Ｆ山证铁矿石"
   },
   {
     "code": "3048",
@@ -9588,17 +9593,17 @@ var ucodesName2 =
   {
     "code": "3049",
     "name": "X TRCSI300",
-    "nmll": "ＸＴＲ 滬深三百 "
+    "nmll": "ＸＴＲ 沪深三百 "
   },
   {
     "code": "3053",
     "name": "CSOP HKD MM",
-    "nmll": "南方港元貨幣"
+    "nmll": "南方港元货币"
   },
   {
     "code": "3055",
     "name": "TRMSCICHINA",
-    "nmll": "ＴＲ 中國 "
+    "nmll": "ＴＲ 中国 "
   },
   {
     "code": "3065",
@@ -9613,82 +9618,82 @@ var ucodesName2 =
   {
     "code": "3072",
     "name": "NIKKOAM INET",
-    "nmll": "日興環球聯網"
+    "nmll": "日兴环球联网"
   },
   {
     "code": "3073",
     "name": "SPDR GREATCHINA",
-    "nmll": "ＳＰＤＲ大中華"
+    "nmll": "ＳＰＤＲ大中华"
   },
   {
     "code": "3074",
     "name": "ISHARESMSCITW",
-    "nmll": "安碩ＭＳ台灣"
+    "nmll": "安硕ＭＳ台湾"
   },
   {
     "code": "3077",
     "name": "PREMIA UST",
-    "nmll": "ＰＰ美國庫"
+    "nmll": "ＰＰ美国库"
   },
   {
     "code": "3079",
     "name": "CICC CGB",
-    "nmll": "中金中國國債"
+    "nmll": "中金中国国债"
   },
   {
     "code": "3080",
     "name": "PING AN CGB",
-    "nmll": "平安中國國債"
+    "nmll": "平安中国国债"
   },
   {
     "code": "3081",
     "name": "VALUEGOLD ETF",
-    "nmll": "價值黃金"
+    "nmll": "价值黄金"
   },
   {
     "code": "3082",
     "name": "TRMSCIMALAY",
-    "nmll": "ＴＲ 馬來西亞 "
+    "nmll": "ＴＲ 马来西亚 "
   },
   {
     "code": "3085",
     "name": "VANGUARDAXJHY",
-    "nmll": "領航亞洲高息"
+    "nmll": "领航亚洲高息"
   },
   {
     "code": "3086",
     "name": "BMO NASDAQ100",
-    "nmll": "ＢＭＯ納指"
+    "nmll": "ＢＭＯ纳指"
   },
   {
     "code": "3087",
     "name": "X TRFTSEVIET",
-    "nmll": "ＸＴＲ 富時越南 "
+    "nmll": "ＸＴＲ 富时越南 "
   },
   {
     "code": "3091",
     "name": "A NIKKOAMGAME",
-    "nmll": "Ａ日興電遊"
+    "nmll": "Ａ日兴电游"
   },
   {
     "code": "3092",
     "name": "TRMSCITHAI",
-    "nmll": "ＴＲ 泰國 "
+    "nmll": "ＴＲ 泰国 "
   },
   {
     "code": "3093",
     "name": "CICCSELECT100",
-    "nmll": "中金優選一百"
+    "nmll": "中金优选一百"
   },
   {
     "code": "3095",
     "name": "VALUE A SHARE",
-    "nmll": "價值中國Ａ股"
+    "nmll": "价值中国Ａ股"
   },
   {
     "code": "3096",
     "name": "CSOP USD MM",
-    "nmll": "南方美元貨幣"
+    "nmll": "南方美元货币"
   },
   {
     "code": "3097",
@@ -9703,12 +9708,12 @@ var ucodesName2 =
   {
     "code": "3100",
     "name": "EFUND CSI100",
-    "nmll": "易方達中一百"
+    "nmll": "易方达中一百"
   },
   {
     "code": "3101",
     "name": "VANGUARDDVEUR",
-    "nmll": "領航發展歐洲"
+    "nmll": "领航发展欧洲"
   },
   {
     "code": "3110",
@@ -9718,62 +9723,62 @@ var ucodesName2 =
   {
     "code": "3115",
     "name": "ISHARESHSI",
-    "nmll": "安碩恒生指數"
+    "nmll": "安硕恒生指数"
   },
   {
     "code": "3118",
     "name": "HGI MSCI CN A",
-    "nmll": "嘉實明晟Ａ股"
+    "nmll": "嘉实明晟Ａ股"
   },
   {
     "code": "3121",
     "name": "BMO AP REAL EST",
-    "nmll": "ＢＭＯ亞太房地產"
+    "nmll": "ＢＭＯ亚太房地产"
   },
   {
     "code": "3122",
     "name": "CSOP RMB MM",
-    "nmll": "南方人民幣"
+    "nmll": "南方人民币"
   },
   {
     "code": "3126",
     "name": "VANGUARDJAPAN",
-    "nmll": "領航日本"
+    "nmll": "领航日本"
   },
   {
     "code": "3127",
     "name": "GX CSI300",
-    "nmll": "GX滬深三百 "
+    "nmll": "GX沪深三百 "
   },
   {
     "code": "3128",
     "name": "HS AINDTOPETF",
-    "nmll": "恒生Ａ股龍頭"
+    "nmll": "恒生Ａ股龙头"
   },
   {
     "code": "3140",
     "name": "VANGUARDSP500",
-    "nmll": "領航標普五百"
+    "nmll": "领航标普五百"
   },
   {
     "code": "3141",
     "name": "BMO ASIA IGB",
-    "nmll": "ＢＭＯ亞投債"
+    "nmll": "ＢＭＯ亚投债"
   },
   {
     "code": "3143",
     "name": "BMO HK BANKS",
-    "nmll": "ＢＭＯ香港銀行股"
+    "nmll": "ＢＭＯ香港银行股"
   },
   {
     "code": "3145",
     "name": "BMO ASIA HIGHDV",
-    "nmll": "ＢＭＯ亞洲高息股"
+    "nmll": "ＢＭＯ亚洲高息股"
   },
   {
     "code": "3147",
     "name": "CSOP CHINEXT",
-    "nmll": "南方中創業板"
+    "nmll": "南方中创业板"
   },
   {
     "code": "3149",
@@ -9783,47 +9788,47 @@ var ucodesName2 =
   {
     "code": "3157",
     "name": "CAM SCSMALLCAP",
-    "nmll": "華夏港股通小型股"
+    "nmll": "华夏港股通小型股"
   },
   {
     "code": "3160",
     "name": "BMO JAPAN HDG",
-    "nmll": "ＢＭＯ日股對沖"
+    "nmll": "ＢＭＯ日股对冲"
   },
   {
     "code": "3163",
     "name": "PA MULTI-FACTOR",
-    "nmll": "平安中國多因子"
+    "nmll": "平安中国多因子"
   },
   {
     "code": "3165",
     "name": "BMO EU QLTY HDG",
-    "nmll": "ＢＭＯ歐優股對沖"
+    "nmll": "ＢＭＯ欧优股对冲"
   },
   {
     "code": "3166",
     "name": "PA QLTY FACTOR",
-    "nmll": "平安中國質量因子"
+    "nmll": "平安中国质量因子"
   },
   {
     "code": "3167",
     "name": "ICBCCSOPCHINA",
-    "nmll": "工銀南方中國"
+    "nmll": "工银南方中国"
   },
   {
     "code": "3169",
     "name": "VANGUARDCHINA",
-    "nmll": "領航中國"
+    "nmll": "领航中国"
   },
   {
     "code": "3170",
     "name": "ISHARESKS200",
-    "nmll": "安碩韓國二百"
+    "nmll": "安硕韩国二百"
   },
   {
     "code": "3173",
     "name": "PP CN NEWECON",
-    "nmll": "ＰＰ中新經濟"
+    "nmll": "ＰＰ中新经济"
   },
   {
     "code": "3175",
@@ -9833,32 +9838,32 @@ var ucodesName2 =
   {
     "code": "3181",
     "name": "PREMIAASIATEC",
-    "nmll": "ＰＰ亞洲創科"
+    "nmll": "ＰＰ亚洲创科"
   },
   {
     "code": "3182",
     "name": "WISE NEW ECON50",
-    "nmll": "標智新經濟５０"
+    "nmll": "标智新经济５０"
   },
   {
     "code": "3186",
     "name": "CICCKRANECNET",
-    "nmll": "中金金瑞中網"
+    "nmll": "中金金瑞中网"
   },
   {
     "code": "3188",
     "name": "CAM CSI300",
-    "nmll": "華夏滬深三百"
+    "nmll": "华夏沪深三百"
   },
   {
     "code": "3191",
     "name": "GX CN SEMICON",
-    "nmll": "ＧＸ中國半導"
+    "nmll": "ＧＸ中国半导"
   },
   {
     "code": "3197",
     "name": "CAM MSCI AINC",
-    "nmll": "華夏Ａ國際通"
+    "nmll": "华夏Ａ国际通"
   },
   {
     "code": "3198",
@@ -9868,17 +9873,17 @@ var ucodesName2 =
   {
     "code": "3199",
     "name": "CSOP CTPBBOND",
-    "nmll": "南方政銀國債"
+    "nmll": "南方政银国债"
   },
   {
     "code": "3300",
     "name": "CHINA GLASS",
-    "nmll": "中國玻璃"
+    "nmll": "中国玻璃"
   },
   {
     "code": "3301",
     "name": "RONSHINECHINA",
-    "nmll": "融信中國"
+    "nmll": "融信中国"
   },
   {
     "code": "3302",
@@ -9888,7 +9893,7 @@ var ucodesName2 =
   {
     "code": "3303",
     "name": "JUTAL OIL SER",
-    "nmll": "巨濤海洋石油服務"
+    "nmll": "巨涛海洋石油服务"
   },
   {
     "code": "3306",
@@ -9898,17 +9903,17 @@ var ucodesName2 =
   {
     "code": "3308",
     "name": "GOLDEN EAGLE",
-    "nmll": "金鷹商貿集團"
+    "nmll": "金鹰商贸集团"
   },
   {
     "code": "3309",
     "name": "C-MER EYE",
-    "nmll": "希瑪眼科"
+    "nmll": "希玛眼科"
   },
   {
     "code": "3311",
     "name": "CHINA STATE CON",
-    "nmll": "中國建築國際"
+    "nmll": "中国建筑国际"
   },
   {
     "code": "3313",
@@ -9918,137 +9923,137 @@ var ucodesName2 =
   {
     "code": "3315",
     "name": "GOLDPAC GROUP",
-    "nmll": "金邦達寶嘉"
+    "nmll": "金邦达宝嘉"
   },
   {
     "code": "3316",
     "name": "BINJIANG SER",
-    "nmll": "濱江服務"
+    "nmll": "滨江服务"
   },
   {
     "code": "3318",
     "name": "CHINA BOTON",
-    "nmll": "中國波頓"
+    "nmll": "中国波顿"
   },
   {
     "code": "3319",
     "name": "A-LIVING",
-    "nmll": "雅生活服務"
+    "nmll": "雅生活服务"
   },
   {
     "code": "3320",
     "name": "CHINARES PHARMA",
-    "nmll": "華潤醫藥"
+    "nmll": "华润医药"
   },
   {
     "code": "3321",
     "name": "WAI HUNG GROUP",
-    "nmll": "偉鴻集團控股"
+    "nmll": "伟鸿集团控股"
   },
   {
     "code": "3322",
     "name": "WIN HANVERKY",
-    "nmll": "永嘉集團"
+    "nmll": "永嘉集团"
   },
   {
     "code": "3323",
     "name": "CNBM",
-    "nmll": "中國建材"
+    "nmll": "中国建材"
   },
   {
     "code": "3326",
     "name": "PERFECT GROUP",
-    "nmll": "保發集團"
+    "nmll": "保发集团"
   },
   {
     "code": "3328",
     "name": "BANKCOMM",
-    "nmll": "交通銀行"
+    "nmll": "交通银行"
   },
   {
     "code": "3329",
     "name": "BOCOM INTL",
-    "nmll": "交銀國際"
+    "nmll": "交银国际"
   },
   {
     "code": "3330",
     "name": "LINGBAO GOLD",
-    "nmll": "靈寶黃金"
+    "nmll": "灵宝黄金"
   },
   {
     "code": "3331",
     "name": "VINDA INT'L",
-    "nmll": "維達國際"
+    "nmll": "维达国际"
   },
   {
     "code": "3332",
     "name": "SINOLIFE UTD",
-    "nmll": "南京中生聯合  "
+    "nmll": "南京中生联合  "
   },
   {
     "code": "3333",
     "name": "EVERGRANDE",
-    "nmll": "中國恒大"
+    "nmll": "中国恒大"
   },
   {
     "code": "3335",
     "name": "DBA TELECOM",
-    "nmll": "DBA電訊 "
+    "nmll": "DBA电讯 "
   },
   {
     "code": "3336",
     "name": "JU TENG INTL",
-    "nmll": "巨騰國際"
+    "nmll": "巨腾国际"
   },
   {
     "code": "3337",
     "name": "ANTON OILFIELD",
-    "nmll": "安東油田服務"
+    "nmll": "安东油田服务"
   },
   {
     "code": "3339",
     "name": "LONKING",
-    "nmll": "中國龍工"
+    "nmll": "中国龙工"
   },
   {
     "code": "3344",
     "name": "GTI HLDGS",
-    "nmll": "共享集團"
+    "nmll": "共享集团"
   },
   {
     "code": "3347",
     "name": "TIGERMED",
-    "nmll": "泰格醫藥"
+    "nmll": "泰格医药"
   },
   {
     "code": "3348",
     "name": "CHINA PENGFEI",
-    "nmll": "中國鵬飛集團"
+    "nmll": "中国鹏飞集团"
   },
   {
     "code": "3358",
     "name": "BESTWAY GLOBAL",
-    "nmll": "榮威國際控股 "
+    "nmll": "荣威国际控股 "
   },
   {
     "code": "3360",
     "name": "FE HORIZON",
-    "nmll": "遠東宏信"
+    "nmll": "远东宏信"
   },
   {
     "code": "3363",
     "name": "ZHENGYE INT'L",
-    "nmll": "正業國際"
+    "nmll": "正业国际"
   },
   {
     "code": "3366",
     "name": "OCT (ASIA)",
-    "nmll": "華僑城（亞洲）"
+    "nmll": "华侨城（亚洲）"
   },
   {
     "code": "3368",
     "name": "PARKSON GROUP",
-    "nmll": "百盛集團"
+    "nmll": "百盛集团"
   },
   {
     "code": "3369",
@@ -10058,27 +10063,27 @@ var ucodesName2 =
   {
     "code": "3377",
     "name": "SINO-OCEAN GP",
-    "nmll": "遠洋集團"
+    "nmll": "远洋集团"
   },
   {
     "code": "3378",
     "name": "XIAMEN PORT",
-    "nmll": "廈門港務"
+    "nmll": "厦门港务"
   },
   {
     "code": "3380",
     "name": "LOGAN GROUP",
-    "nmll": "龍光集團"
+    "nmll": "龙光集团"
   },
   {
     "code": "3382",
     "name": "TIANJINPORT DEV",
-    "nmll": "天津港發展"
+    "nmll": "天津港发展"
   },
   {
     "code": "3383",
     "name": "AGILE GROUP",
-    "nmll": "雅居樂集團"
+    "nmll": "雅居乐集团"
   },
   {
     "code": "3389",
@@ -10088,12 +10093,12 @@ var ucodesName2 =
   {
     "code": "3390",
     "name": "TYCOON GROUP",
-    "nmll": "滿貫集團"
+    "nmll": "满贯集团"
   },
   {
     "code": "3393",
     "name": "WASION HOLDINGS",
-    "nmll": "威勝控股"
+    "nmll": "威胜控股"
   },
   {
     "code": "3395",
@@ -10103,27 +10108,27 @@ var ucodesName2 =
   {
     "code": "3396",
     "name": "LEGENDHOLDING",
-    "nmll": "聯想控股"
+    "nmll": "联想控股"
   },
   {
     "code": "3398",
     "name": "CHINA TING",
-    "nmll": "華鼎控股"
+    "nmll": "华鼎控股"
   },
   {
     "code": "3399",
     "name": "YUEYUN TRANS",
-    "nmll": "粵運交通"
+    "nmll": "粤运交通"
   },
   {
     "code": "3600",
     "name": "MODERN DENTAL",
-    "nmll": "現代牙科"
+    "nmll": "现代牙科"
   },
   {
     "code": "3601",
     "name": "LUDASHI",
-    "nmll": "魯大師"
+    "nmll": "鲁大师"
   },
   {
     "code": "3603",
@@ -10143,22 +10148,22 @@ var ucodesName2 =
   {
     "code": "3613",
     "name": "TONGRENTANGCM",
-    "nmll": "同仁堂國藥"
+    "nmll": "同仁堂国药"
   },
   {
     "code": "3616",
     "name": "EVER REACH GP",
-    "nmll": "恒達集團控股"
+    "nmll": "恒达集团控股"
   },
   {
     "code": "3618",
     "name": "CQRC BANK",
-    "nmll": "重慶農村商業銀行"
+    "nmll": "重庆农村商业银行"
   },
   {
     "code": "3623",
     "name": "C SUCCESS FIN",
-    "nmll": "中國金融發展"
+    "nmll": "中国金融发展"
   },
   {
     "code": "3626",
@@ -10168,102 +10173,102 @@ var ucodesName2 =
   {
     "code": "3628",
     "name": "RENHENG ENT",
-    "nmll": "仁恒實業控股"
+    "nmll": "仁恒实业控股"
   },
   {
     "code": "3633",
     "name": "ZHONGYU GAS",
-    "nmll": "中裕燃氣"
+    "nmll": "中裕燃气"
   },
   {
     "code": "3636",
     "name": "POLY CULTURE",
-    "nmll": "保利文化集團  "
+    "nmll": "保利文化集团  "
   },
   {
     "code": "3638",
     "name": "HUABANG FIN",
-    "nmll": "華邦金融控股 "
+    "nmll": "华邦金融控股 "
   },
   {
     "code": "3639",
     "name": "YIDA CHINA",
-    "nmll": "億達中國控股 "
+    "nmll": "亿达中国控股 "
   },
   {
     "code": "3662",
     "name": "AOYUAN HEALTHY",
-    "nmll": "奧園健康"
+    "nmll": "奥园健康"
   },
   {
     "code": "3663",
     "name": "XIEZHONG INTL",
-    "nmll": "協眾國際控股"
+    "nmll": "协众国际控股"
   },
   {
     "code": "3666",
     "name": "TANSH",
-    "nmll": "國際天食"
+    "nmll": "国际天食"
   },
   {
     "code": "3668",
     "name": "YANCOAL AUS",
-    "nmll": "兗煤澳大利亞"
+    "nmll": "兖煤澳大利亚"
   },
   {
     "code": "3669",
     "name": "YONGDA AUTO",
-    "nmll": "中國永達汽車 "
+    "nmll": "中国永达汽车 "
   },
   {
     "code": "3678",
     "name": "HOLLY FUTURES",
-    "nmll": "弘業期貨"
+    "nmll": "弘业期货"
   },
   {
     "code": "3680",
     "name": "SUOXINDA",
-    "nmll": "索信達控股"
+    "nmll": "索信达控股"
   },
   {
     "code": "3681",
     "name": "SINOMAB BIO-B",
-    "nmll": "中國抗體－Ｂ "
+    "nmll": "中国抗体－Ｂ "
   },
   {
     "code": "3683",
     "name": "GREAT HARVEST",
-    "nmll": "榮豐聯合控股"
+    "nmll": "荣丰联合控股"
   },
   {
     "code": "3686",
     "name": "CLIFFORDML",
-    "nmll": "祈福生活服務"
+    "nmll": "祈福生活服务"
   },
   {
     "code": "3688",
     "name": "TOP SPRING",
-    "nmll": "萊蒙國際"
+    "nmll": "莱蒙国际"
   },
   {
     "code": "3689",
     "name": "KANGHUA HEALTH",
-    "nmll": "康華醫療"
+    "nmll": "康华医疗"
   },
   {
     "code": "3690",
     "name": "MEITUAN-W",
-    "nmll": "美團點評－Ｗ"
+    "nmll": "美团点评－Ｗ"
   },
   {
     "code": "3692",
     "name": "HANSOH PHARMA",
-    "nmll": "翰森製藥"
+    "nmll": "翰森制药"
   },
   {
     "code": "3698",
     "name": "HUISHANG BANK",
-    "nmll": "徽商銀行"
+    "nmll": "徽商银行"
   },
   {
     "code": "3699",
@@ -10273,22 +10278,22 @@ var ucodesName2 =
   {
     "code": "3700",
     "name": "INKE",
-    "nmll": "映客互娛 "
+    "nmll": "映客互娱 "
   },
   {
     "code": "3708",
     "name": "CH SUPPLY CHAIN",
-    "nmll": "中國供應鏈產業"
+    "nmll": "中国供应链产业"
   },
   {
     "code": "3709",
     "name": "EEKA FASHION",
-    "nmll": "贏家時尚"
+    "nmll": "赢家时尚"
   },
   {
     "code": "3718",
     "name": "BJ ENT URBAN",
-    "nmll": "北控城市資源"
+    "nmll": "北控城市资源"
   },
   {
     "code": "3728",
@@ -10298,22 +10303,22 @@ var ucodesName2 =
   {
     "code": "3737",
     "name": "ZHONGZHIPHARM",
-    "nmll": "中智藥業"
+    "nmll": "中智药业"
   },
   {
     "code": "3738",
     "name": "VOBILE GROUP",
-    "nmll": "阜博集團"
+    "nmll": "阜博集团"
   },
   {
     "code": "3759",
     "name": "PHARMARON",
-    "nmll": "康龍化成"
+    "nmll": "康龙化成"
   },
   {
     "code": "3768",
     "name": "DCWT",
-    "nmll": "滇池水務"
+    "nmll": "滇池水务"
   },
   {
     "code": "3773",
@@ -10323,12 +10328,12 @@ var ucodesName2 =
   {
     "code": "3778",
     "name": "CHINA WEAVING",
-    "nmll": "中國織材控股"
+    "nmll": "中国织材控股"
   },
   {
     "code": "3788",
     "name": "CHINA HANKING",
-    "nmll": "中國罕王控股 "
+    "nmll": "中国罕王控股 "
   },
   {
     "code": "3789",
@@ -10338,27 +10343,27 @@ var ucodesName2 =
   {
     "code": "3798",
     "name": "HOMELAND ITL",
-    "nmll": "家鄉互動"
+    "nmll": "家乡互动"
   },
   {
     "code": "3799",
     "name": "DALI FOODS",
-    "nmll": "達利食品"
+    "nmll": "达利食品"
   },
   {
     "code": "3800",
     "name": "GCL-POLY ENERGY",
-    "nmll": "保利協鑫能源"
+    "nmll": "保利协鑫能源"
   },
   {
     "code": "3808",
     "name": "SINOTRUK",
-    "nmll": "中國重汽"
+    "nmll": "中国重汽"
   },
   {
     "code": "3813",
     "name": "POU SHENG INT'L",
-    "nmll": "寶勝國際"
+    "nmll": "宝胜国际"
   },
   {
     "code": "3816",
@@ -10368,72 +10373,72 @@ var ucodesName2 =
   {
     "code": "3818",
     "name": "CHINA DONGXIANG",
-    "nmll": "中國動向"
+    "nmll": "中国动向"
   },
   {
     "code": "3822",
     "name": "SAM WOO CONS",
-    "nmll": "三和建築集團"
+    "nmll": "三和建筑集团"
   },
   {
     "code": "3828",
     "name": "MING FAI INT'L",
-    "nmll": "明輝國際"
+    "nmll": "明辉国际"
   },
   {
     "code": "3830",
     "name": "KIDDIELAND",
-    "nmll": "童園國際"
+    "nmll": "童园国际"
   },
   {
     "code": "3833",
     "name": "XINXIN MINING",
-    "nmll": "新疆新鑫礦業"
+    "nmll": "新疆新鑫矿业"
   },
   {
     "code": "3836",
     "name": "HARMONY AUTO",
-    "nmll": "中國和諧汽車 "
+    "nmll": "中国和谐汽车 "
   },
   {
     "code": "3838",
     "name": "CHINA STARCH",
-    "nmll": "中國澱粉"
+    "nmll": "中国淀粉"
   },
   {
     "code": "3839",
     "name": "CT ENTERPRISE",
-    "nmll": "正大企業國際"
+    "nmll": "正大企业国际"
   },
   {
     "code": "3848",
     "name": "WEALTHY WAY",
-    "nmll": "富道集團"
+    "nmll": "富道集团"
   },
   {
     "code": "3860",
     "name": "SPEED APPAREL",
-    "nmll": "尚捷集團控股"
+    "nmll": "尚捷集团控股"
   },
   {
     "code": "3866",
     "name": "BQD",
-    "nmll": "青島銀行"
+    "nmll": "青岛银行"
   },
   {
     "code": "3868",
     "name": "XINYI ENERGY",
-    "nmll": "信義能源"
+    "nmll": "信义能源"
   },
   {
     "code": "3869",
     "name": "HOSPITAL CORP",
-    "nmll": "弘和仁愛醫療"
+    "nmll": "弘和仁爱医疗"
   },
   {
     "code": "3877",
     "name": "CSSC SHIPPING",
-    "nmll": "中國船舶租賃"
+    "nmll": "中国船舶租赁"
   },
   {
     "code": "3878",
@@ -10448,32 +10453,32 @@ var ucodesName2 =
   {
     "code": "3883",
     "name": "CHINA AOYUAN",
-    "nmll": "中國奧園"
+    "nmll": "中国奥园"
   },
   {
     "code": "3886",
     "name": "TOWN HEALTH",
-    "nmll": "康健國際醫療"
+    "nmll": "康健国际医疗"
   },
   {
     "code": "3888",
     "name": "KINGSOFT",
-    "nmll": "金山軟件"
+    "nmll": "金山软件"
   },
   {
     "code": "3889",
     "name": "GLOBAL SWEET",
-    "nmll": "大成糖業"
+    "nmll": "大成糖业"
   },
   {
     "code": "3893",
     "name": "CROSSTEC",
-    "nmll": "易緯集團"
+    "nmll": "易纬集团"
   },
   {
     "code": "3898",
     "name": "CRRC TIMES ELEC",
-    "nmll": "中車時代電氣"
+    "nmll": "中车时代电气"
   },
   {
     "code": "3899",
@@ -10483,12 +10488,12 @@ var ucodesName2 =
   {
     "code": "3900",
     "name": "GREENTOWN CHINA",
-    "nmll": "綠城中國"
+    "nmll": "绿城中国"
   },
   {
     "code": "3903",
     "name": "HANHUA FIN",
-    "nmll": "瀚華金控"
+    "nmll": "瀚华金控"
   },
   {
     "code": "3908",
@@ -10503,7 +10508,7 @@ var ucodesName2 =
   {
     "code": "3919",
     "name": "GOLDENPOWER",
-    "nmll": "金力集團控股 "
+    "nmll": "金力集团控股 "
   },
   {
     "code": "3928",
@@ -10513,17 +10518,17 @@ var ucodesName2 =
   {
     "code": "3933",
     "name": "UNITED LAB",
-    "nmll": "聯邦制藥"
+    "nmll": "联邦制药"
   },
   {
     "code": "3938",
     "name": "LFG INV HLDGS",
-    "nmll": "ＬＦＧ投資控股"
+    "nmll": "ＬＦＧ投资控股"
   },
   {
     "code": "3939",
     "name": "WANGUO MINING",
-    "nmll": "萬國國際礦業"
+    "nmll": "万国国际矿业"
   },
   {
     "code": "3948",
@@ -10533,77 +10538,77 @@ var ucodesName2 =
   {
     "code": "3958",
     "name": "DFZQ",
-    "nmll": "東方證券"
+    "nmll": "东方证券"
   },
   {
     "code": "3963",
     "name": "RONGZHONG FIN",
-    "nmll": "融眾金融"
+    "nmll": "融众金融"
   },
   {
     "code": "3966",
     "name": "CH BAOFENG INTL",
-    "nmll": "中國寶豐國際"
+    "nmll": "中国宝丰国际"
   },
   {
     "code": "3968",
     "name": "CM BANK",
-    "nmll": "招商銀行"
+    "nmll": "招商银行"
   },
   {
     "code": "3969",
     "name": "CHINA CRSC",
-    "nmll": "中國鐵路通信  "
+    "nmll": "中国铁路通信  "
   },
   {
     "code": "3978",
     "name": "BESTSTUDY EDU",
-    "nmll": "卓越教育集團"
+    "nmll": "卓越教育集团"
   },
   {
     "code": "3983",
     "name": "CHINA BLUECHEM",
-    "nmll": "中海石油化學"
+    "nmll": "中海石油化学"
   },
   {
     "code": "3988",
     "name": "BANK OF CHINA",
-    "nmll": "中國銀行"
+    "nmll": "中国银行"
   },
   {
     "code": "3989",
     "name": "CAPITAL ENV",
-    "nmll": "首創環境"
+    "nmll": "首创环境"
   },
   {
     "code": "3990",
     "name": "MIDEA REAL EST",
-    "nmll": "美的置業"
+    "nmll": "美的置业"
   },
   {
     "code": "3991",
     "name": "CHANGHONG JH",
-    "nmll": "長虹佳華"
+    "nmll": "长虹佳华"
   },
   {
     "code": "3992",
     "name": "CREATIVE HLDGS",
-    "nmll": "創毅控股"
+    "nmll": "创毅控股"
   },
   {
     "code": "3993",
     "name": "CMOC",
-    "nmll": "洛陽鉬業"
+    "nmll": "洛阳钼业"
   },
   {
     "code": "3996",
     "name": "CH ENERGY ENG",
-    "nmll": "中國能源建設"
+    "nmll": "中国能源建设"
   },
   {
     "code": "3997",
     "name": "TSO",
-    "nmll": "電訊首科"
+    "nmll": "电讯首科"
   },
   {
     "code": "3998",
@@ -10948,12 +10953,12 @@ var ucodesName2 =
   {
     "code": "4335",
     "name": "INTEL-T",
-    "nmll": "英特爾 "
+    "nmll": "英特尔 "
   },
   {
     "code": "4336",
     "name": "APPL MATERIAL-T",
-    "nmll": "應用材料 "
+    "nmll": "应用材料 "
   },
   {
     "code": "4337",
@@ -10963,7 +10968,7 @@ var ucodesName2 =
   {
     "code": "4338",
     "name": "MICROSOFT-T",
-    "nmll": "微軟 "
+    "nmll": "微软 "
   },
   {
     "code": "4400",
@@ -15913,17 +15918,17 @@ var ucodesName2 =
   {
     "code": "6030",
     "name": "CITIC SEC",
-    "nmll": "中信証券"
+    "nmll": "中信证券"
   },
   {
     "code": "6033",
     "name": "TELECOM DIGIT",
-    "nmll": "電訊數碼控股"
+    "nmll": "电讯数码控股"
   },
   {
     "code": "6036",
     "name": "APEX ACE HLDG",
-    "nmll": "光麗科技"
+    "nmll": "光丽科技"
   },
   {
     "code": "6038",
@@ -15933,92 +15938,92 @@ var ucodesName2 =
   {
     "code": "6049",
     "name": "POLY PPT SER",
-    "nmll": "保利物業"
+    "nmll": "保利物业"
   },
   {
     "code": "6055",
     "name": "CTIHK",
-    "nmll": "中煙香港"
+    "nmll": "中烟香港"
   },
   {
     "code": "6058",
     "name": "CISI FIN",
-    "nmll": "興證國際"
+    "nmll": "兴证国际"
   },
   {
     "code": "6060",
     "name": "ZA ONLINE",
-    "nmll": "眾安在線  "
+    "nmll": "众安在线  "
   },
   {
     "code": "6063",
     "name": "LOTUS HORIZON",
-    "nmll": "智中國際"
+    "nmll": "智中国际"
   },
   {
     "code": "6066",
     "name": "CSC",
-    "nmll": "中信建投証券"
+    "nmll": "中信建投证券"
   },
   {
     "code": "6068",
     "name": "WISDOM EDU INTL",
-    "nmll": "睿見教育國際 "
+    "nmll": "睿见教育国际 "
   },
   {
     "code": "6069",
     "name": "SHENGYE CAPITAL",
-    "nmll": "盛業資本"
+    "nmll": "盛业资本"
   },
   {
     "code": "6078",
     "name": "HYGEIA HEALTH",
-    "nmll": "海吉亞醫療"
+    "nmll": "海吉亚医疗"
   },
   {
     "code": "6080",
     "name": "WING CHI HLDGS",
-    "nmll": "榮智控股"
+    "nmll": "荣智控股"
   },
   {
     "code": "6083",
     "name": "WORLD-LINK LOG",
-    "nmll": "環宇物流（亞洲）"
+    "nmll": "环宇物流（亚洲）"
   },
   {
     "code": "6088",
     "name": "FIT HON TENG",
-    "nmll": "鴻騰六零八八科技 "
+    "nmll": "鸿腾六零八八科技 "
   },
   {
     "code": "6090",
     "name": "CENTURION CORP",
-    "nmll": "勝捷企業"
+    "nmll": "胜捷企业"
   },
   {
     "code": "6093",
     "name": "HEVOL SERVICES",
-    "nmll": "和泓服務"
+    "nmll": "和泓服务"
   },
   {
     "code": "6098",
     "name": "CG SERVICES",
-    "nmll": "碧桂園服務"
+    "nmll": "碧桂园服务"
   },
   {
     "code": "6099",
     "name": "CMSC",
-    "nmll": "招商證券"
+    "nmll": "招商证券"
   },
   {
     "code": "6100",
     "name": "TONGDAO LIEPIN",
-    "nmll": "同道獵聘"
+    "nmll": "同道猎聘"
   },
   {
     "code": "6108",
     "name": "NEW RAY MEDIC",
-    "nmll": "新銳醫藥"
+    "nmll": "新锐医药"
   },
   {
     "code": "6110",
@@ -16028,7 +16033,7 @@ var ucodesName2 =
   {
     "code": "6111",
     "name": "DAFA PPT",
-    "nmll": "大發地產"
+    "nmll": "大发地产"
   },
   {
     "code": "6113",
@@ -16038,7 +16043,7 @@ var ucodesName2 =
   {
     "code": "6116",
     "name": "LA CHAPELLE",
-    "nmll": "拉夏貝爾"
+    "nmll": "拉夏贝尔"
   },
   {
     "code": "6117",
@@ -16048,42 +16053,42 @@ var ucodesName2 =
   {
     "code": "6118",
     "name": "AUSTAR",
-    "nmll": "奧星生命科技"
+    "nmll": "奥星生命科技"
   },
   {
     "code": "6119",
     "name": "TIAN YUAN GP",
-    "nmll": "天源集團"
+    "nmll": "天源集团"
   },
   {
     "code": "6122",
     "name": "JIUTAI RCB",
-    "nmll": "九台農商銀行"
+    "nmll": "九台农商银行"
   },
   {
     "code": "6123",
     "name": "YTO EXP INTL",
-    "nmll": "圓通速遞(國際) "
+    "nmll": "圆通速递(国际) "
   },
   {
     "code": "6128",
     "name": "EARTHASIA",
-    "nmll": "泛亞國際"
+    "nmll": "泛亚国际"
   },
   {
     "code": "6133",
     "name": "VITAL INNO",
-    "nmll": "維太創科"
+    "nmll": "维太创科"
   },
   {
     "code": "6136",
     "name": "KANGDA ENV",
-    "nmll": "康達國際環保 "
+    "nmll": "康达国际环保 "
   },
   {
     "code": "6138",
     "name": "HARBIN BANK",
-    "nmll": "哈爾濱銀行"
+    "nmll": "哈尔滨银行"
   },
   {
     "code": "6139",
@@ -16093,67 +16098,67 @@ var ucodesName2 =
   {
     "code": "6158",
     "name": "ZHENRO PPT",
-    "nmll": "正榮地產"
+    "nmll": "正荣地产"
   },
   {
     "code": "6160",
     "name": "BEIGENE",
-    "nmll": "百濟神州"
+    "nmll": "百济神州"
   },
   {
     "code": "6161",
     "name": "TARGET INS",
-    "nmll": "泰加保險"
+    "nmll": "泰加保险"
   },
   {
     "code": "6162",
     "name": "TR INTERIORS",
-    "nmll": "天瑞汽車內飾"
+    "nmll": "天瑞汽车内饰"
   },
   {
     "code": "6163",
     "name": "GEMILANG INTL",
-    "nmll": "彭順國際"
+    "nmll": "彭顺国际"
   },
   {
     "code": "6166",
     "name": "CHINA VAST",
-    "nmll": "中國宏泰發展"
+    "nmll": "中国宏泰发展"
   },
   {
     "code": "6168",
     "name": "U-TON FUTURE",
-    "nmll": "優通未來"
+    "nmll": "优通未来"
   },
   {
     "code": "6169",
     "name": "YUHUA EDU",
-    "nmll": "宇華教育"
+    "nmll": "宇华教育"
   },
   {
     "code": "6178",
     "name": "EB SECURITIES",
-    "nmll": "光大證券"
+    "nmll": "光大证券"
   },
   {
     "code": "6182",
     "name": "TWINTEK",
-    "nmll": "乙德投資控股"
+    "nmll": "乙德投资控股"
   },
   {
     "code": "6183",
     "name": "CH GREENFRESH",
-    "nmll": "中國綠寶"
+    "nmll": "中国绿宝"
   },
   {
     "code": "6185",
     "name": "CANSINOBIO-B",
-    "nmll": "康希諾生物－Ｂ  "
+    "nmll": "康希诺生物－Ｂ  "
   },
   {
     "code": "6186",
     "name": "CHINA FEIHE",
-    "nmll": "中國飛鶴"
+    "nmll": "中国飞鹤"
   },
   {
     "code": "6188",
@@ -16163,12 +16168,12 @@ var ucodesName2 =
   {
     "code": "6189",
     "name": "ADWAY",
-    "nmll": "愛得威建設集團"
+    "nmll": "爱得威建设集团"
   },
   {
     "code": "6190",
     "name": "BANKOFJIUJIANG",
-    "nmll": "九江銀行"
+    "nmll": "九江银行"
   },
   {
     "code": "6193",
@@ -16178,17 +16183,17 @@ var ucodesName2 =
   {
     "code": "6196",
     "name": "BANKOFZHENGZHOU",
-    "nmll": "鄭州銀行"
+    "nmll": "郑州银行"
   },
   {
     "code": "6198",
     "name": "QINGDAO PORT",
-    "nmll": "青島港國際  "
+    "nmll": "青岛港国际  "
   },
   {
     "code": "6199",
     "name": "BANK OF GUIZHOU",
-    "nmll": "貴州銀行"
+    "nmll": "贵州银行"
   },
   {
     "code": "6288",
@@ -16243,12 +16248,12 @@ var ucodesName2 =
   {
     "code": "6805",
     "name": "KIMOU ENVIRON",
-    "nmll": "金茂源環保"
+    "nmll": "金茂源环保"
   },
   {
     "code": "6806",
     "name": "SWHY",
-    "nmll": "申萬宏源"
+    "nmll": "申万宏源"
   },
   {
     "code": "6808",
@@ -16258,22 +16263,22 @@ var ucodesName2 =
   {
     "code": "6811",
     "name": "TAI HING GROUP",
-    "nmll": "太興集團"
+    "nmll": "太兴集团"
   },
   {
     "code": "6812",
     "name": "WINSON HLDGS HK",
-    "nmll": "永順控股香港"
+    "nmll": "永顺控股香港"
   },
   {
     "code": "6816",
     "name": "PROSPER CONS",
-    "nmll": "瑞港建設"
+    "nmll": "瑞港建设"
   },
   {
     "code": "6818",
     "name": "CEB BANK",
-    "nmll": "中國光大銀行"
+    "nmll": "中国光大银行"
   },
   {
     "code": "6819",
@@ -16283,17 +16288,17 @@ var ucodesName2 =
   {
     "code": "6820",
     "name": "FRIENDTIMES",
-    "nmll": "友誼時光"
+    "nmll": "友谊时光"
   },
   {
     "code": "6822",
     "name": "KING'S FLAIR",
-    "nmll": "科勁國際"
+    "nmll": "科劲国际"
   },
   {
     "code": "6823",
     "name": "HKT-SS",
-    "nmll": "香港電訊－ＳＳ "
+    "nmll": "香港电讯－ＳＳ "
   },
   {
     "code": "6826",
@@ -16303,82 +16308,82 @@ var ucodesName2 =
   {
     "code": "6828",
     "name": "BG BLUE SKY",
-    "nmll": "北京燃氣藍天"
+    "nmll": "北京燃气蓝天"
   },
   {
     "code": "6829",
     "name": "DRAGON RISE GP",
-    "nmll": "龍昇集團控股"
+    "nmll": "龙升集团控股"
   },
   {
     "code": "6830",
     "name": "HUAZHONG IN-V",
-    "nmll": "華眾車載"
+    "nmll": "华众车载"
   },
   {
     "code": "6833",
     "name": "SINCO PHARMA",
-    "nmll": "興科蓉醫藥"
+    "nmll": "兴科蓉医药"
   },
   {
     "code": "6836",
     "name": "TIANYUN INT'L",
-    "nmll": "天韻國際控股"
+    "nmll": "天韵国际控股"
   },
   {
     "code": "6837",
     "name": "HAITONG SEC",
-    "nmll": "海通證券股份  "
+    "nmll": "海通证券股份  "
   },
   {
     "code": "6838",
     "name": "WINOX",
-    "nmll": "盈利時"
+    "nmll": "盈利时"
   },
   {
     "code": "6839",
     "name": "YUNNAN WATER",
-    "nmll": "雲南水務投資  "
+    "nmll": "云南水务投资  "
   },
   {
     "code": "6855",
     "name": "ASCENTAGE-B",
-    "nmll": "亞盛醫藥－B "
+    "nmll": "亚盛医药－B "
   },
   {
     "code": "6858",
     "name": "HONMAGOLF",
-    "nmll": "本間高爾夫"
+    "nmll": "本间高尔夫"
   },
   {
     "code": "6860",
     "name": "FINGERTANGO",
-    "nmll": "指尖悅動"
+    "nmll": "指尖悦动"
   },
   {
     "code": "6862",
     "name": "HAIDILAO",
-    "nmll": "海底撈國際 "
+    "nmll": "海底捞国际 "
   },
   {
     "code": "6865",
     "name": "FLAT GLASS",
-    "nmll": "福萊特玻璃"
+    "nmll": "福莱特玻璃"
   },
   {
     "code": "6866",
     "name": "ZUOLI M-FIN",
-    "nmll": "佐力科創小額貸款  "
+    "nmll": "佐力科创小额贷款  "
   },
   {
     "code": "6868",
     "name": "TENFU",
-    "nmll": "天福(開曼) "
+    "nmll": "天福(开曼) "
   },
   {
     "code": "6869",
     "name": "YOFC",
-    "nmll": "長飛光纖光纜"
+    "nmll": "长飞光纤光缆"
   },
   {
     "code": "6877",
@@ -16388,37 +16393,37 @@ var ucodesName2 =
   {
     "code": "6878",
     "name": "DIFFER GROUP",
-    "nmll": "鼎豐集團控股"
+    "nmll": "鼎丰集团控股"
   },
   {
     "code": "6880",
     "name": "TEMPUS HOLD",
-    "nmll": "騰邦控股"
+    "nmll": "腾邦控股"
   },
   {
     "code": "6881",
     "name": "CGS",
-    "nmll": "中國銀河"
+    "nmll": "中国银河"
   },
   {
     "code": "6882",
     "name": "EGL HOLDINGS",
-    "nmll": "東瀛遊"
+    "nmll": "东瀛游"
   },
   {
     "code": "6885",
     "name": "JINMA ENERGY",
-    "nmll": "河南金馬能源  "
+    "nmll": "河南金马能源  "
   },
   {
     "code": "6886",
     "name": "HTSC",
-    "nmll": "華泰證券  "
+    "nmll": "华泰证券  "
   },
   {
     "code": "6888",
     "name": "FREETECH",
-    "nmll": "英達公路再生科技"
+    "nmll": "英达公路再生科技"
   },
   {
     "code": "6889",
@@ -16428,12 +16433,12 @@ var ucodesName2 =
   {
     "code": "6890",
     "name": "KANGLI INT HLDG",
-    "nmll": "康利國際控股"
+    "nmll": "康利国际控股"
   },
   {
     "code": "6893",
     "name": "HINSANG GROUP",
-    "nmll": "衍生集團"
+    "nmll": "衍生集团"
   },
   {
     "code": "6896",
@@ -16443,12 +16448,12 @@ var ucodesName2 =
   {
     "code": "6898",
     "name": "CHINA ALUMCAN",
-    "nmll": "中國鋁罐"
+    "nmll": "中国铝罐"
   },
   {
     "code": "6899",
     "name": "OURGAME",
-    "nmll": "聯眾國際控股 "
+    "nmll": "联众国际控股 "
   },
   {
     "code": "6908",
@@ -16458,7 +16463,7 @@ var ucodesName2 =
   {
     "code": "6918",
     "name": "KIDZTECH",
-    "nmll": "奇士達"
+    "nmll": "奇士达"
   },
   {
     "code": "6919",
@@ -16473,27 +16478,27 @@ var ucodesName2 =
   {
     "code": "6933",
     "name": "SINO-ENTERTAIN",
-    "nmll": "新娛科控股"
+    "nmll": "新娱科控股"
   },
   {
     "code": "6958",
     "name": "ZHENRO SERVICES",
-    "nmll": "正榮服務"
+    "nmll": "正荣服务"
   },
   {
     "code": "6966",
     "name": "C WAN TONG YUAN",
-    "nmll": "中國萬桐園"
+    "nmll": "中国万桐园"
   },
   {
     "code": "6968",
     "name": "GANGLONG CHINA",
-    "nmll": "港龍中國地產"
+    "nmll": "港龙中国地产"
   },
   {
     "code": "6969",
     "name": "SMOORE INTL",
-    "nmll": "思摩爾國際"
+    "nmll": "思摩尔国际"
   },
   {
     "code": "6978",
@@ -16513,17 +16518,17 @@ var ucodesName2 =
   {
     "code": "7221",
     "name": "FL2CAMDXNHSI",
-    "nmll": "ＦＬ二華夏恒指"
+    "nmll": "ＦＬ二华夏恒指"
   },
   {
     "code": "7228",
     "name": "FL2SAMSUNGHSCEI",
-    "nmll": "ＦＬ二　三星國指"
+    "nmll": "ＦＬ二　三星国指"
   },
   {
     "code": "7230",
     "name": "FL2 GX HSCEI",
-    "nmll": "ＦＬ二ＧＸ國指"
+    "nmll": "ＦＬ二ＧＸ国指"
   },
   {
     "code": "7231",
@@ -16533,42 +16538,42 @@ var ucodesName2 =
   {
     "code": "7233",
     "name": "XL2CSOPCSI300",
-    "nmll": "ＸＬ二南方滬深三"
+    "nmll": "ＸＬ二南方沪深三"
   },
   {
     "code": "7242",
     "name": "FL2EFUND YT HSI",
-    "nmll": "ＦＬ二易方達恒指"
+    "nmll": "ＦＬ二易方达恒指"
   },
   {
     "code": "7261",
     "name": "FL2CAMDXNNDQ100",
-    "nmll": "ＦＬ二華夏納一百"
+    "nmll": "ＦＬ二华夏纳一百"
   },
   {
     "code": "7266",
     "name": "FL2CSOPNASDAQ",
-    "nmll": "ＦＬ二南方納指"
+    "nmll": "ＦＬ二南方纳指"
   },
   {
     "code": "7267",
     "name": "FL2CAMDXNHSCEI",
-    "nmll": "ＦＬ二華夏國指"
+    "nmll": "ＦＬ二华夏国指"
   },
   {
     "code": "7272",
     "name": "XL2CAMDXNCSI300",
-    "nmll": "ＸＬ二華夏滬深三"
+    "nmll": "ＸＬ二华夏沪深三"
   },
   {
     "code": "7288",
     "name": "FL2 CSOP HSCEI",
-    "nmll": "ＦＬ二南方國指"
+    "nmll": "ＦＬ二南方国指"
   },
   {
     "code": "7299",
     "name": "FL2CSOPGOLD",
-    "nmll": "ＦＬ二南方黃金"
+    "nmll": "ＦＬ二南方黄金"
   },
   {
     "code": "7300",
@@ -16578,7 +16583,7 @@ var ucodesName2 =
   {
     "code": "7302",
     "name": "FI EFund YT HSI",
-    "nmll": "ＦＩ易方達恒指"
+    "nmll": "ＦＩ易方达恒指"
   },
   {
     "code": "7312",
@@ -16588,27 +16593,27 @@ var ucodesName2 =
   {
     "code": "7321",
     "name": "FICAMDXNHSI",
-    "nmll": "ＦＩ華夏恒指"
+    "nmll": "ＦＩ华夏恒指"
   },
   {
     "code": "7322",
     "name": "XI GX S&P500",
-    "nmll": "ＸＩＧＸ標普"
+    "nmll": "ＸＩＧＸ标普"
   },
   {
     "code": "7328",
     "name": "FISAMSUNGHSCEI",
-    "nmll": "ＦＩ　三星國指"
+    "nmll": "ＦＩ　三星国指"
   },
   {
     "code": "7331",
     "name": "FICAMDXNNDQ100",
-    "nmll": "ＦＩ華夏納一百"
+    "nmll": "ＦＩ华夏纳一百"
   },
   {
     "code": "7333",
     "name": "XICSOPCSI300",
-    "nmll": "ＸＩ南方滬深三百"
+    "nmll": "ＸＩ南方沪深三百"
   },
   {
     "code": "7336",
@@ -16618,17 +16623,17 @@ var ucodesName2 =
   {
     "code": "7341",
     "name": "FICAMDXNHSCEI",
-    "nmll": "ＦＩ華夏國指"
+    "nmll": "ＦＩ华夏国指"
   },
   {
     "code": "7362",
     "name": "FI GX HSCEI",
-    "nmll": "ＦＩＧＸ國指"
+    "nmll": "ＦＩＧＸ国指"
   },
   {
     "code": "7373",
     "name": "XICAMDXNCSI300",
-    "nmll": "ＸＩ華夏滬深三百"
+    "nmll": "ＸＩ华夏沪深三百"
   },
   {
     "code": "7500",
@@ -16638,22 +16643,22 @@ var ucodesName2 =
   {
     "code": "7522",
     "name": "FI2CAMDXNNDQ100",
-    "nmll": "ＦＩ二華夏納一百"
+    "nmll": "ＦＩ二华夏纳一百"
   },
   {
     "code": "7568",
     "name": "FI2CSOPNASDAQ",
-    "nmll": "ＦＩ二南方納指"
+    "nmll": "ＦＩ二南方纳指"
   },
   {
     "code": "7588",
     "name": "FI2 CSOP HSCEI",
-    "nmll": "ＦＩ二南方國指"
+    "nmll": "ＦＩ二南方国指"
   },
   {
     "code": "8001",
     "name": "ORIENTSEC INT",
-    "nmll": "東方匯財證券"
+    "nmll": "东方汇财证券"
   },
   {
     "code": "8003",
@@ -16663,22 +16668,22 @@ var ucodesName2 =
   {
     "code": "8005",
     "name": "YUXING INFOTECH",
-    "nmll": "裕興科技"
+    "nmll": "裕兴科技"
   },
   {
     "code": "8006",
     "name": "SINO SPLENDID",
-    "nmll": "華泰瑞銀"
+    "nmll": "华泰瑞银"
   },
   {
     "code": "8007",
     "name": "GLOBALSTRAT",
-    "nmll": "環球戰略集團"
+    "nmll": "环球战略集团"
   },
   {
     "code": "8009",
     "name": "CHI ENGY HOLD",
-    "nmll": "華夏能源控股"
+    "nmll": "华夏能源控股"
   },
   {
     "code": "8011",
@@ -16693,17 +16698,17 @@ var ucodesName2 =
   {
     "code": "8015",
     "name": "CH TRENDS W2103",
-    "nmll": "中國趨勢二一零三"
+    "nmll": "中国趋势二一零三"
   },
   {
     "code": "8017",
     "name": "TRADEGO",
-    "nmll": "捷利交易寶"
+    "nmll": "捷利交易宝"
   },
   {
     "code": "8018",
     "name": "FINSOFT FIN",
-    "nmll": "匯財金融投資"
+    "nmll": "汇财金融投资"
   },
   {
     "code": "8019",
@@ -16713,87 +16718,87 @@ var ucodesName2 =
   {
     "code": "8020",
     "name": "UNITAS HOLD",
-    "nmll": "宏海控股集團"
+    "nmll": "宏海控股集团"
   },
   {
     "code": "8021",
     "name": "WLS HOLDINGS",
-    "nmll": "匯隆控股"
+    "nmll": "汇隆控股"
   },
   {
     "code": "8022",
     "name": "EVERSHINE GP",
-    "nmll": "永耀集團控股"
+    "nmll": "永耀集团控股"
   },
   {
     "code": "8023",
     "name": "KWONG MAN KEE",
-    "nmll": "鄺文記"
+    "nmll": "邝文记"
   },
   {
     "code": "8025",
     "name": "ACR HOLDINGS",
-    "nmll": "亞洲資產"
+    "nmll": "亚洲资产"
   },
   {
     "code": "8026",
     "name": "CB GLOBAL",
-    "nmll": "朗華國際集團"
+    "nmll": "朗华国际集团"
   },
   {
     "code": "8027",
     "name": "KPM HOLDING",
-    "nmll": "吉輝控股（新）"
+    "nmll": "吉辉控股（新）"
   },
   {
     "code": "8028",
     "name": "TIMELESS",
-    "nmll": "天時軟件"
+    "nmll": "天时软件"
   },
   {
     "code": "8029",
     "name": "SUN INT'L",
-    "nmll": "太陽國際"
+    "nmll": "太阳国际"
   },
   {
     "code": "8030",
     "name": "FLYING FIN",
-    "nmll": "匯聯金融服務"
+    "nmll": "汇联金融服务"
   },
   {
     "code": "8031",
     "name": "ETS GROUP",
-    "nmll": "易通訊集團"
+    "nmll": "易通讯集团"
   },
   {
     "code": "8032",
     "name": "VIVA CHINA",
-    "nmll": "非凡中國"
+    "nmll": "非凡中国"
   },
   {
     "code": "8033",
     "name": "VODATEL NETWORK",
-    "nmll": "愛達利網絡"
+    "nmll": "爱达利网络"
   },
   {
     "code": "8035",
     "name": "JANCO HOLDINGS",
-    "nmll": "駿高控股"
+    "nmll": "骏高控股"
   },
   {
     "code": "8036",
     "name": "EBROKER GROUP",
-    "nmll": "電子交易集團"
+    "nmll": "电子交易集团"
   },
   {
     "code": "8037",
     "name": "CH BIOTECH SER",
-    "nmll": "中國生物科技服務"
+    "nmll": "中国生物科技服务"
   },
   {
     "code": "8039",
     "name": "KNK HOLDINGS",
-    "nmll": "中國卓銀"
+    "nmll": "中国卓银"
   },
   {
     "code": "8040",
@@ -16803,7 +16808,7 @@ var ucodesName2 =
   {
     "code": "8042",
     "name": "KOS INTL",
-    "nmll": "高奧士國際"
+    "nmll": "高奥士国际"
   },
   {
     "code": "8043",
@@ -16813,47 +16818,47 @@ var ucodesName2 =
   {
     "code": "8045",
     "name": "NANDASOFT",
-    "nmll": "南大蘇富特"
+    "nmll": "南大苏富特"
   },
   {
     "code": "8047",
     "name": "CHINA OCEAN GP",
-    "nmll": "中國海洋發展"
+    "nmll": "中国海洋发展"
   },
   {
     "code": "8048",
     "name": "YU TAK INT'L",
-    "nmll": "御德國際控股"
+    "nmll": "御德国际控股"
   },
   {
     "code": "8049",
     "name": "JILIN CHANGLONG",
-    "nmll": "吉林長龍藥業"
+    "nmll": "吉林长龙药业"
   },
   {
     "code": "8050",
     "name": "QUANTUM THINK",
-    "nmll": "量子思維"
+    "nmll": "量子思维"
   },
   {
     "code": "8051",
     "name": "CIRCUTECH",
-    "nmll": "訊智海"
+    "nmll": "讯智海"
   },
   {
     "code": "8052",
     "name": "LUK HING ENT",
-    "nmll": "陸慶娛樂"
+    "nmll": "陆庆娱乐"
   },
   {
     "code": "8053",
     "name": "PIZU GROUP",
-    "nmll": "比優集團"
+    "nmll": "比优集团"
   },
   {
     "code": "8055",
     "name": "CHI E-INFO TECH",
-    "nmll": "中國網絡信息科技"
+    "nmll": "中国网络信息科技"
   },
   {
     "code": "8056",
@@ -16863,7 +16868,7 @@ var ucodesName2 =
   {
     "code": "8057",
     "name": "MADISON HLDG",
-    "nmll": "麥迪森控股"
+    "nmll": "麦迪森控股"
   },
   {
     "code": "8059",
@@ -16873,132 +16878,132 @@ var ucodesName2 =
   {
     "code": "8060",
     "name": "GLOBAL LINK",
-    "nmll": "國聯通信"
+    "nmll": "国联通信"
   },
   {
     "code": "8062",
     "name": "EFT SOLUTIONS",
-    "nmll": "俊盟國際"
+    "nmll": "俊盟国际"
   },
   {
     "code": "8063",
     "name": "GLOBAL M HLDG",
-    "nmll": "環球大通集團"
+    "nmll": "环球大通集团"
   },
   {
     "code": "8065",
     "name": "KML TECH",
-    "nmll": "高萌科技集團 "
+    "nmll": "高萌科技集团 "
   },
   {
     "code": "8066",
     "name": "PHOENITRON HOLD",
-    "nmll": "品創控股"
+    "nmll": "品创控股"
   },
   {
     "code": "8067",
     "name": "OUC HOLDINGS",
-    "nmll": "東方大學城控股"
+    "nmll": "东方大学城控股"
   },
   {
     "code": "8069",
     "name": "WWPKG HOLDINGS",
-    "nmll": "縱橫遊控股"
+    "nmll": "纵横游控股"
   },
   {
     "code": "8070",
     "name": "KEEN OCEAN",
-    "nmll": "僑洋國際控股"
+    "nmll": "侨洋国际控股"
   },
   {
     "code": "8071",
     "name": "CH NETCOMTECH",
-    "nmll": "中彩網通控股"
+    "nmll": "中彩网通控股"
   },
   {
     "code": "8072",
     "name": "ROMA GROUP",
-    "nmll": "羅馬集團"
+    "nmll": "罗马集团"
   },
   {
     "code": "8073",
     "name": "SINGYES NM",
-    "nmll": "興業新材料"
+    "nmll": "兴业新材料"
   },
   {
     "code": "8075",
     "name": "MEDIA ASIA",
-    "nmll": "寰亞傳媒集團 "
+    "nmll": "寰亚传媒集团 "
   },
   {
     "code": "8076",
     "name": "SING LEE",
-    "nmll": "新利軟件"
+    "nmll": "新利软件"
   },
   {
     "code": "8078",
     "name": "C CREATIVE DIGI",
-    "nmll": "中國創意數碼"
+    "nmll": "中国创意数码"
   },
   {
     "code": "8079",
     "name": "EASY REPAY FIN",
-    "nmll": "易還財務投資"
+    "nmll": "易还财务投资"
   },
   {
     "code": "8080",
     "name": "NAS HOLDINGS",
-    "nmll": "北亞策略"
+    "nmll": "北亚策略"
   },
   {
     "code": "8081",
     "name": "HANG TAI YUE GP",
-    "nmll": "恆泰裕集團"
+    "nmll": "恒泰裕集团"
   },
   {
     "code": "8082",
     "name": "SUN ENT GP",
-    "nmll": "太陽娛樂集團"
+    "nmll": "太阳娱乐集团"
   },
   {
     "code": "8083",
     "name": "CHINA YOUZAN",
-    "nmll": "中國有贊"
+    "nmll": "中国有赞"
   },
   {
     "code": "8085",
     "name": "HK LIFE SCI",
-    "nmll": "香港生命科學"
+    "nmll": "香港生命科学"
   },
   {
     "code": "8086",
     "name": "SINO VISION WW",
-    "nmll": "新維國際控股"
+    "nmll": "新维国际控股"
   },
   {
     "code": "8087",
     "name": "CHINA 33MEDIA",
-    "nmll": "中國三三傳媒"
+    "nmll": "中国三三传媒"
   },
   {
     "code": "8088",
     "name": "AID LIFE SCI",
-    "nmll": "匯友生命科學 "
+    "nmll": "汇友生命科学 "
   },
   {
     "code": "8089",
     "name": "CHINESE STRAT",
-    "nmll": "華人策略控股"
+    "nmll": "华人策略控股"
   },
   {
     "code": "8090",
     "name": "CHI ASSURANCE",
-    "nmll": "中國融保金融集團"
+    "nmll": "中国融保金融集团"
   },
   {
     "code": "8091",
     "name": "OOH HOLDINGS",
-    "nmll": "奧傳思維控股"
+    "nmll": "奥传思维控股"
   },
   {
     "code": "8092",
@@ -17008,17 +17013,17 @@ var ucodesName2 =
   {
     "code": "8093",
     "name": "MILLION STARS",
-    "nmll": "萬星控股"
+    "nmll": "万星控股"
   },
   {
     "code": "8095",
     "name": "BEIDA JADE BIRD",
-    "nmll": "北大青鳥環宇"
+    "nmll": "北大青鸟环宇"
   },
   {
     "code": "8096",
     "name": "TASTY CONCEPTS",
-    "nmll": "賞之味"
+    "nmll": "赏之味"
   },
   {
     "code": "8098",
@@ -17038,32 +17043,32 @@ var ucodesName2 =
   {
     "code": "8103",
     "name": "HMVOD",
-    "nmll": "HMVOD視頻 "
+    "nmll": "HMVOD视频 "
   },
   {
     "code": "8106",
     "name": "SHENGHUA LANDE",
-    "nmll": "浙江升華蘭德  "
+    "nmll": "浙江升华兰德  "
   },
   {
     "code": "8107",
     "name": "VISION INT",
-    "nmll": "威誠國際控股－新"
+    "nmll": "威诚国际控股－新"
   },
   {
     "code": "8108",
     "name": "GRAND PEACE",
-    "nmll": "福澤集團"
+    "nmll": "福泽集团"
   },
   {
     "code": "8109",
     "name": "KIRIN GROUP",
-    "nmll": "麒麟集團控股"
+    "nmll": "麒麟集团控股"
   },
   {
     "code": "8111",
     "name": "CT IND GROUP",
-    "nmll": "中國科技產業集團"
+    "nmll": "中国科技产业集团"
   },
   {
     "code": "8112",
@@ -17073,7 +17078,7 @@ var ucodesName2 =
   {
     "code": "8113",
     "name": "HI-LEVEL TECH",
-    "nmll": "揚宇科技"
+    "nmll": "扬宇科技"
   },
   {
     "code": "8115",
@@ -17083,57 +17088,57 @@ var ucodesName2 =
   {
     "code": "8116",
     "name": "C FORTUNE INV",
-    "nmll": "中國幸福投資"
+    "nmll": "中国幸福投资"
   },
   {
     "code": "8117",
     "name": "CHI P ENERGY",
-    "nmll": "中國基礎能源"
+    "nmll": "中国基础能源"
   },
   {
     "code": "8118",
     "name": "BORTEX GLOBAL",
-    "nmll": "濠亮環球"
+    "nmll": "濠亮环球"
   },
   {
     "code": "8119",
     "name": "THIZ TECHNOLOGY",
-    "nmll": "即時科研"
+    "nmll": "即时科研"
   },
   {
     "code": "8120",
     "name": "CH DEMETER FIN",
-    "nmll": "國農金融投資"
+    "nmll": "国农金融投资"
   },
   {
     "code": "8121",
     "name": "GURU ONLINE",
-    "nmll": "超凡網絡"
+    "nmll": "超凡网络"
   },
   {
     "code": "8123",
     "name": "SINOFORTUNE FIN",
-    "nmll": "華億金控"
+    "nmll": "华亿金控"
   },
   {
     "code": "8125",
     "name": "ROYAL CEN RES",
-    "nmll": "仁德資源"
+    "nmll": "仁德资源"
   },
   {
     "code": "8126",
     "name": "G. A. HOLDINGS",
-    "nmll": "Ｇ﹒Ａ﹒控股"
+    "nmll": "Ｇ．Ａ．控股"
   },
   {
     "code": "8128",
     "name": "CH GEOTHERMAL",
-    "nmll": "中國地熱能"
+    "nmll": "中国地热能"
   },
   {
     "code": "8130",
     "name": "DADI INTL GROUP",
-    "nmll": "大地國際集團"
+    "nmll": "大地国际集团"
   },
   {
     "code": "8131",
@@ -17148,27 +17153,27 @@ var ucodesName2 =
   {
     "code": "8133",
     "name": "JETE POWER",
-    "nmll": "鑄能控股"
+    "nmll": "铸能控股"
   },
   {
     "code": "8135",
     "name": "ZMFY GLASS",
-    "nmll": "正美豐業汽車玻璃 "
+    "nmll": "正美丰业汽车玻璃 "
   },
   {
     "code": "8136",
     "name": "IMS GROUP",
-    "nmll": "英馬斯集團"
+    "nmll": "英马斯集团"
   },
   {
     "code": "8137",
     "name": "HONBRIDGE",
-    "nmll": "洪橋集團"
+    "nmll": "洪桥集团"
   },
   {
     "code": "8139",
     "name": "CHANGAN RH",
-    "nmll": "長安仁恒"
+    "nmll": "长安仁恒"
   },
   {
     "code": "8140",
@@ -17178,27 +17183,27 @@ var ucodesName2 =
   {
     "code": "8142",
     "name": "TAK LEE MACH",
-    "nmll": "德利機械"
+    "nmll": "德利机械"
   },
   {
     "code": "8143",
     "name": "GF HEALTHCARE",
-    "nmll": "金威醫療"
+    "nmll": "金威医疗"
   },
   {
     "code": "8146",
     "name": "GRACEWINE",
-    "nmll": "怡園酒業"
+    "nmll": "怡园酒业"
   },
   {
     "code": "8147",
     "name": "MILLENNIUM PG",
-    "nmll": "匯思太平洋"
+    "nmll": "汇思太平洋"
   },
   {
     "code": "8148",
     "name": "AURUM PACIFIC",
-    "nmll": "奧柏中國 "
+    "nmll": "奥柏中国 "
   },
   {
     "code": "8149",
@@ -17208,112 +17213,112 @@ var ucodesName2 =
   {
     "code": "8150",
     "name": "SEAMLESS GREEN",
-    "nmll": "無縫綠色"
+    "nmll": "无缝绿色"
   },
   {
     "code": "8151",
     "name": "BAO SHEN HLDGS",
-    "nmll": "寶申控股"
+    "nmll": "宝申控股"
   },
   {
     "code": "8152",
     "name": "M&L HOLDINGS",
-    "nmll": "明樑控股"
+    "nmll": "明梁控股"
   },
   {
     "code": "8153",
     "name": "FARNOVA GROUP",
-    "nmll": "法諾集團"
+    "nmll": "法诺集团"
   },
   {
     "code": "8155",
     "name": "SC ASSETS HLDGS",
-    "nmll": "南華資產控股"
+    "nmll": "南华资产控股"
   },
   {
     "code": "8156",
     "name": "SINOPHARM TECH",
-    "nmll": "國藥科技股份"
+    "nmll": "国药科技股份"
   },
   {
     "code": "8158",
     "name": "CRMI",
-    "nmll": "中國再生醫學"
+    "nmll": "中国再生医学"
   },
   {
     "code": "8159",
     "name": "GLORY MARK",
-    "nmll": "輝煌科技"
+    "nmll": "辉煌科技"
   },
   {
     "code": "8160",
     "name": "GOLDWAY EDU",
-    "nmll": "金匯教育 "
+    "nmll": "金汇教育 "
   },
   {
     "code": "8161",
     "name": "MEDINET GROUP",
-    "nmll": "醫匯集團"
+    "nmll": "医汇集团"
   },
   {
     "code": "8162",
     "name": "LOCO HK",
-    "nmll": "港銀控股"
+    "nmll": "港银控股"
   },
   {
     "code": "8163",
     "name": "MERDEKA FIN",
-    "nmll": "領智金融"
+    "nmll": "领智金融"
   },
   {
     "code": "8165",
     "name": "JIAN EPAYMENT",
-    "nmll": "華普智通"
+    "nmll": "华普智通"
   },
   {
     "code": "8166",
     "name": "CHINA ECO-FARM",
-    "nmll": "中國農業生態"
+    "nmll": "中国农业生态"
   },
   {
     "code": "8167",
     "name": "NEO TELEMEDIA",
-    "nmll": "中國新電信"
+    "nmll": "中国新电信"
   },
   {
     "code": "8168",
     "name": "AMASSE CAPITAL",
-    "nmll": "寶積資本"
+    "nmll": "宝积资本"
   },
   {
     "code": "8169",
     "name": "ECO-TEK HLDGS",
-    "nmll": "環康集團"
+    "nmll": "环康集团"
   },
   {
     "code": "8170",
     "name": "ALL NATION INTL",
-    "nmll": "全民國際"
+    "nmll": "全民国际"
   },
   {
     "code": "8171",
     "name": "CHINA TRENDS",
-    "nmll": "中國趨勢"
+    "nmll": "中国趋势"
   },
   {
     "code": "8172",
     "name": "LAJIN ENT",
-    "nmll": "拉近網娛"
+    "nmll": "拉近网娱"
   },
   {
     "code": "8173",
     "name": "UNION ASIA ENT",
-    "nmll": "萬亞企業控股"
+    "nmll": "万亚企业控股"
   },
   {
     "code": "8175",
     "name": "C DIGITAL CUL",
-    "nmll": "中國數碼文化"
+    "nmll": "中国数码文化"
   },
   {
     "code": "8176",
@@ -17323,7 +17328,7 @@ var ucodesName2 =
   {
     "code": "8178",
     "name": "CHINA INFO TECH",
-    "nmll": "中國信息科技"
+    "nmll": "中国信息科技"
   },
   {
     "code": "8179",
@@ -17333,27 +17338,27 @@ var ucodesName2 =
   {
     "code": "8181",
     "name": "SHISHI SERVICES",
-    "nmll": "時時服務"
+    "nmll": "时时服务"
   },
   {
     "code": "8186",
     "name": "IR RESOURCES",
-    "nmll": "同仁資源"
+    "nmll": "同仁资源"
   },
   {
     "code": "8187",
     "name": "JIMU GROUP",
-    "nmll": "積木集團"
+    "nmll": "积木集团"
   },
   {
     "code": "8188",
     "name": "GME GROUP",
-    "nmll": "駿傑集團控股"
+    "nmll": "骏杰集团控股"
   },
   {
     "code": "8189",
     "name": "TEDA BIOMEDICAL",
-    "nmll": "泰達生物"
+    "nmll": "泰达生物"
   },
   {
     "code": "8190",
@@ -17363,27 +17368,27 @@ var ucodesName2 =
   {
     "code": "8191",
     "name": "HONG WEI ASIA",
-    "nmll": "鴻偉亞洲"
+    "nmll": "鸿伟亚洲"
   },
   {
     "code": "8192",
     "name": "GLOBAL TOKEN",
-    "nmll": "環球通証"
+    "nmll": "环球通证"
   },
   {
     "code": "8195",
     "name": "L&A INTL HOLD",
-    "nmll": "樂亞國際控股 "
+    "nmll": "乐亚国际控股 "
   },
   {
     "code": "8196",
     "name": "GREAT WATER",
-    "nmll": "建禹集團"
+    "nmll": "建禹集团"
   },
   {
     "code": "8198",
     "name": "LOTO INTERACT",
-    "nmll": "樂透互娛"
+    "nmll": "乐透互娱"
   },
   {
     "code": "8200",
@@ -17393,17 +17398,17 @@ var ucodesName2 =
   {
     "code": "8201",
     "name": "PPS INT'L",
-    "nmll": "寶聯控股"
+    "nmll": "宝联控股"
   },
   {
     "code": "8202",
     "name": "INNO-TECH HOLD",
-    "nmll": "匯創控股"
+    "nmll": "汇创控股"
   },
   {
     "code": "8203",
     "name": "KAISUN HOLDINGS",
-    "nmll": "凱順控股"
+    "nmll": "凯顺控股"
   },
   {
     "code": "8205",
@@ -17413,7 +17418,7 @@ var ucodesName2 =
   {
     "code": "8206",
     "name": "S ROBOT EDU",
-    "nmll": "神通機器人教育"
+    "nmll": "神通机器人教育"
   },
   {
     "code": "8207",
@@ -17428,7 +17433,7 @@ var ucodesName2 =
   {
     "code": "8210",
     "name": "DLC ASIA",
-    "nmll": "衍匯亞洲"
+    "nmll": "衍汇亚洲"
   },
   {
     "code": "8211",
@@ -17438,7 +17443,7 @@ var ucodesName2 =
   {
     "code": "8213",
     "name": "STARGLORY HLDGS",
-    "nmll": "榮暉控股"
+    "nmll": "荣晖控股"
   },
   {
     "code": "8215",
@@ -17448,27 +17453,27 @@ var ucodesName2 =
   {
     "code": "8216",
     "name": "MAXICITY",
-    "nmll": "豐城控股"
+    "nmll": "丰城控股"
   },
   {
     "code": "8217",
     "name": "LUEN WONG GP",
-    "nmll": "聯旺集團 "
+    "nmll": "联旺集团 "
   },
   {
     "code": "8218",
     "name": "ECHO INT",
-    "nmll": "毅高國際（新）"
+    "nmll": "毅高国际（新）"
   },
   {
     "code": "8219",
     "name": "HANVEY GROUP",
-    "nmll": "恆偉集團控股"
+    "nmll": "恒伟集团控股"
   },
   {
     "code": "8220",
     "name": "BINGO GROUP",
-    "nmll": "比高集團控股 "
+    "nmll": "比高集团控股 "
   },
   {
     "code": "8221",
@@ -17478,7 +17483,7 @@ var ucodesName2 =
   {
     "code": "8222",
     "name": "E LIGHTING",
-    "nmll": "壹照明集團 "
+    "nmll": "壹照明集团 "
   },
   {
     "code": "8223",
@@ -17488,22 +17493,22 @@ var ucodesName2 =
   {
     "code": "8225",
     "name": "C HEALTH GP",
-    "nmll": "中國醫療集團"
+    "nmll": "中国医疗集团"
   },
   {
     "code": "8226",
     "name": "KOALA FIN GP",
-    "nmll": "樹熊金融集團"
+    "nmll": "树熊金融集团"
   },
   {
     "code": "8227",
     "name": "HAITIAN ANTENNA",
-    "nmll": "海天天線  "
+    "nmll": "海天天线  "
   },
   {
     "code": "8228",
     "name": "NATIONAL ARTS",
-    "nmll": "國藝娛樂"
+    "nmll": "国艺娱乐"
   },
   {
     "code": "8229",
@@ -17513,12 +17518,12 @@ var ucodesName2 =
   {
     "code": "8230",
     "name": "CHINA YU TIAN",
-    "nmll": "中國宇天"
+    "nmll": "中国宇天"
   },
   {
     "code": "8231",
     "name": "PFC DEVICE",
-    "nmll": "節能元件"
+    "nmll": "节能元件"
   },
   {
     "code": "8232",
@@ -17528,22 +17533,22 @@ var ucodesName2 =
   {
     "code": "8235",
     "name": "CCID CONSULTING",
-    "nmll": "賽迪顧問"
+    "nmll": "赛迪顾问"
   },
   {
     "code": "8236",
     "name": "POWERLEADER",
-    "nmll": "寶德科技集團"
+    "nmll": "宝德科技集团"
   },
   {
     "code": "8237",
     "name": "LINK HOLDINGS",
-    "nmll": "華星控股"
+    "nmll": "华星控股"
   },
   {
     "code": "8238",
     "name": "WINTO GROUP",
-    "nmll": "惠陶集團"
+    "nmll": "惠陶集团"
   },
   {
     "code": "8239",
@@ -17553,22 +17558,22 @@ var ucodesName2 =
   {
     "code": "8241",
     "name": "YING KEE TEA",
-    "nmll": "英記茶莊集團"
+    "nmll": "英记茶庄集团"
   },
   {
     "code": "8242",
     "name": "NEW WESTERN",
-    "nmll": "新威斯頓"
+    "nmll": "新威斯顿"
   },
   {
     "code": "8245",
     "name": "ON REAL INT'L",
-    "nmll": "安悅國際控股"
+    "nmll": "安悦国际控股"
   },
   {
     "code": "8246",
     "name": "ZHONGHUA GAS",
-    "nmll": "中華燃氣"
+    "nmll": "中华燃气"
   },
   {
     "code": "8247",
@@ -17578,17 +17583,17 @@ var ucodesName2 =
   {
     "code": "8249",
     "name": "RUIYUAN IC TECH",
-    "nmll": "瑞遠智控"
+    "nmll": "瑞远智控"
   },
   {
     "code": "8250",
     "name": "SILK RD ENERGY",
-    "nmll": "絲路能源"
+    "nmll": "丝路能源"
   },
   {
     "code": "8255",
     "name": "CHINA BINARY",
-    "nmll": "神州數字新金融 "
+    "nmll": "神州数字新金融 "
   },
   {
     "code": "8256",
@@ -17598,12 +17603,12 @@ var ucodesName2 =
   {
     "code": "8257",
     "name": "GENES TECH",
-    "nmll": "靖洋集團控股 "
+    "nmll": "靖洋集团控股 "
   },
   {
     "code": "8258",
     "name": "NW INDUSTRY",
-    "nmll": "西北實業"
+    "nmll": "西北实业"
   },
   {
     "code": "8259",
@@ -17613,77 +17618,77 @@ var ucodesName2 =
   {
     "code": "8260",
     "name": "YIN HE HLDGS",
-    "nmll": "銀合控股"
+    "nmll": "银合控股"
   },
   {
     "code": "8262",
     "name": "SUPER STRONG",
-    "nmll": "宏強控股"
+    "nmll": "宏强控股"
   },
   {
     "code": "8265",
     "name": "CHINA TRUSTFUL",
-    "nmll": "中國之信集團"
+    "nmll": "中国之信集团"
   },
   {
     "code": "8266",
     "name": "ZHUOXIN INTL",
-    "nmll": "卓信國際控股"
+    "nmll": "卓信国际控股"
   },
   {
     "code": "8267",
     "name": "LINEKONG",
-    "nmll": "藍港互動"
+    "nmll": "蓝港互动"
   },
   {
     "code": "8268",
     "name": "DESON CONS",
-    "nmll": "迪臣建設"
+    "nmll": "迪臣建设"
   },
   {
     "code": "8269",
     "name": "WEALTH GLORY",
-    "nmll": "富譽控股"
+    "nmll": "富誉控股"
   },
   {
     "code": "8270",
     "name": "CHINA CBM",
-    "nmll": "中國煤層氣"
+    "nmll": "中国煤层气"
   },
   {
     "code": "8271",
     "name": "GDC",
-    "nmll": "環球數碼創意"
+    "nmll": "环球数码创意"
   },
   {
     "code": "8272",
     "name": "C FOOD&BEV GP",
-    "nmll": "華人飲食集團"
+    "nmll": "华人饮食集团"
   },
   {
     "code": "8275",
     "name": "BEAVER GROUP",
-    "nmll": "永勤集團控股"
+    "nmll": "永勤集团控股"
   },
   {
     "code": "8277",
     "name": "STEEDORIENTAL",
-    "nmll": "駿東控股"
+    "nmll": "骏东控股"
   },
   {
     "code": "8279",
     "name": "AGTECH HOLDINGS",
-    "nmll": "亞博科技控股"
+    "nmll": "亚博科技控股"
   },
   {
     "code": "8280",
     "name": "CDV HOLDINGS",
-    "nmll": "中國數字視頻"
+    "nmll": "中国数字视频"
   },
   {
     "code": "8281",
     "name": "CH GOLD CLASSIC",
-    "nmll": "中國金典集團"
+    "nmll": "中国金典集团"
   },
   {
     "code": "8282",
@@ -17698,12 +17703,12 @@ var ucodesName2 =
   {
     "code": "8285",
     "name": "SLING GROUP",
-    "nmll": "森浩集團"
+    "nmll": "森浩集团"
   },
   {
     "code": "8286",
     "name": "CCOE",
-    "nmll": "長城微光"
+    "nmll": "长城微光"
   },
   {
     "code": "8287",
@@ -17713,12 +17718,12 @@ var ucodesName2 =
   {
     "code": "8290",
     "name": "AHSAY BACKUP",
-    "nmll": "亞勢備份軟件開發 "
+    "nmll": "亚势备份软件开发 "
   },
   {
     "code": "8291",
     "name": "WAN CHENG METAL",
-    "nmll": "萬成金屬包裝"
+    "nmll": "万成金属包装"
   },
   {
     "code": "8292",
@@ -17728,22 +17733,22 @@ var ucodesName2 =
   {
     "code": "8293",
     "name": "SINGASIA HLDG",
-    "nmll": "星亞控股"
+    "nmll": "星亚控股"
   },
   {
     "code": "8295",
     "name": "ZZ CAP INTL",
-    "nmll": "中植資本國際"
+    "nmll": "中植资本国际"
   },
   {
     "code": "8296",
     "name": "SINO-LIFE GROUP",
-    "nmll": "中國生命集團"
+    "nmll": "中国生命集团"
   },
   {
     "code": "8297",
     "name": "BODIBRA",
-    "nmll": "芭迪貝伊"
+    "nmll": "芭迪贝伊"
   },
   {
     "code": "8299",
@@ -17753,17 +17758,17 @@ var ucodesName2 =
   {
     "code": "8300",
     "name": "ROYALCATERING",
-    "nmll": "皇璽餐飲集團"
+    "nmll": "皇玺餐饮集团"
   },
   {
     "code": "8301",
     "name": "MINGWAH HI TECH",
-    "nmll": "明華科技"
+    "nmll": "明华科技"
   },
   {
     "code": "8305",
     "name": "TONG KEE HLDG",
-    "nmll": "棠記控股"
+    "nmll": "棠记控股"
   },
   {
     "code": "8307",
@@ -17778,57 +17783,57 @@ var ucodesName2 =
   {
     "code": "8309",
     "name": "MANSHING GLOBAL",
-    "nmll": "萬成環球控股"
+    "nmll": "万成环球控股"
   },
   {
     "code": "8310",
     "name": "DAFENG PORT",
-    "nmll": "大豐港"
+    "nmll": "大丰港"
   },
   {
     "code": "8311",
     "name": "PERFECT OPT",
-    "nmll": "圓美光電"
+    "nmll": "圆美光电"
   },
   {
     "code": "8313",
     "name": "ZACD",
-    "nmll": "杰地集團"
+    "nmll": "杰地集团"
   },
   {
     "code": "8315",
     "name": "GREATWALLE INC",
-    "nmll": "長城匯理"
+    "nmll": "长城汇理"
   },
   {
     "code": "8316",
     "name": "PAK WING GP",
-    "nmll": "柏榮集團控股"
+    "nmll": "柏荣集团控股"
   },
   {
     "code": "8317",
     "name": "FINET GROUP",
-    "nmll": "財華社集團"
+    "nmll": "财华社集团"
   },
   {
     "code": "8319",
     "name": "EXPERT SYS",
-    "nmll": "思博系統"
+    "nmll": "思博系统"
   },
   {
     "code": "8320",
     "name": "AEC GROUP",
-    "nmll": "沛然環保"
+    "nmll": "沛然环保"
   },
   {
     "code": "8321",
     "name": "TAI KAM HLDGS",
-    "nmll": "泰錦控股"
+    "nmll": "泰锦控股"
   },
   {
     "code": "8325",
     "name": "CHINA SMARTPAY",
-    "nmll": "中國支付通"
+    "nmll": "中国支付通"
   },
   {
     "code": "8326",
@@ -17838,17 +17843,17 @@ var ucodesName2 =
   {
     "code": "8328",
     "name": "XINYI HK",
-    "nmll": "信義香港"
+    "nmll": "信义香港"
   },
   {
     "code": "8329",
     "name": "NEP INTERLONG",
-    "nmll": "海王英特龍"
+    "nmll": "海王英特龙"
   },
   {
     "code": "8331",
     "name": "HANGKAN GROUP",
-    "nmll": "恆勤集團"
+    "nmll": "恒勤集团"
   },
   {
     "code": "8333",
@@ -17858,7 +17863,7 @@ var ucodesName2 =
   {
     "code": "8337",
     "name": "DIRECTEL",
-    "nmll": "直通電訊"
+    "nmll": "直通电讯"
   },
   {
     "code": "8340",
@@ -17868,22 +17873,22 @@ var ucodesName2 =
   {
     "code": "8341",
     "name": "AESO HOLDING",
-    "nmll": "艾碩控股"
+    "nmll": "艾硕控股"
   },
   {
     "code": "8346",
     "name": "TEM HOLDINGS",
-    "nmll": "創新電子控股"
+    "nmll": "创新电子控股"
   },
   {
     "code": "8347",
     "name": "F8 ENT",
-    "nmll": "F8企業控股 "
+    "nmll": "F8企业控股 "
   },
   {
     "code": "8348",
     "name": "BINHAI TEDA",
-    "nmll": "濱海泰達物流"
+    "nmll": "滨海泰达物流"
   },
   {
     "code": "8349",
@@ -17893,22 +17898,22 @@ var ucodesName2 =
   {
     "code": "8350",
     "name": "EXCALIBURGLOBAL",
-    "nmll": "駿溢環球金融"
+    "nmll": "骏溢环球金融"
   },
   {
     "code": "8351",
     "name": "LARRY JEWELRY",
-    "nmll": "俊文寶石"
+    "nmll": "俊文宝石"
   },
   {
     "code": "8353",
     "name": "ANACLE",
-    "nmll": "安科系統"
+    "nmll": "安科系统"
   },
   {
     "code": "8356",
     "name": "CNC HOLDINGS",
-    "nmll": "中國新華電視"
+    "nmll": "中国新华电视"
   },
   {
     "code": "8357",
@@ -17918,12 +17923,12 @@ var ucodesName2 =
   {
     "code": "8360",
     "name": "AL GROUP",
-    "nmll": "利駿集團香港"
+    "nmll": "利骏集团香港"
   },
   {
     "code": "8362",
     "name": "WINNING TOWER",
-    "nmll": "運興泰集團"
+    "nmll": "运兴泰集团"
   },
   {
     "code": "8363",
@@ -17933,12 +17938,12 @@ var ucodesName2 =
   {
     "code": "8365",
     "name": "VBG INT'L",
-    "nmll": "建泉國際控股"
+    "nmll": "建泉国际控股"
   },
   {
     "code": "8366",
     "name": "ZJ UNITED INV",
-    "nmll": "浙江聯合投資"
+    "nmll": "浙江联合投资"
   },
   {
     "code": "8367",
@@ -17948,32 +17953,32 @@ var ucodesName2 =
   {
     "code": "8368",
     "name": "CREATIVE CHINA",
-    "nmll": "中國創意控股"
+    "nmll": "中国创意控股"
   },
   {
     "code": "8370",
     "name": "ZHI SHENG GP",
-    "nmll": "智昇集團控股"
+    "nmll": "智升集团控股"
   },
   {
     "code": "8371",
     "name": "TASTEGOURMET GP",
-    "nmll": "嚐高美集團"
+    "nmll": "尝高美集团"
   },
   {
     "code": "8372",
     "name": "GBG HOLDINGS",
-    "nmll": "君百延集團"
+    "nmll": "君百延集团"
   },
   {
     "code": "8373",
     "name": "INDIGO STAR",
-    "nmll": "靛藍星"
+    "nmll": "靛蓝星"
   },
   {
     "code": "8375",
     "name": "VERTICAL INT'L",
-    "nmll": "弘浩國際控股"
+    "nmll": "弘浩国际控股"
   },
   {
     "code": "8377",
@@ -17983,42 +17988,42 @@ var ucodesName2 =
   {
     "code": "8379",
     "name": "PRIME INTEL",
-    "nmll": "匯安智能"
+    "nmll": "汇安智能"
   },
   {
     "code": "8383",
     "name": "LINOCRAFT HLDGS",
-    "nmll": "東駿控股"
+    "nmll": "东骏控股"
   },
   {
     "code": "8385",
     "name": "PROSPEROUSPRINT",
-    "nmll": "萬里印刷"
+    "nmll": "万里印刷"
   },
   {
     "code": "8391",
     "name": "ELEGANCE PRINT",
-    "nmll": "精雅印刷集團"
+    "nmll": "精雅印刷集团"
   },
   {
     "code": "8392",
     "name": "SATU HOLDINGS",
-    "nmll": "舍圖控股"
+    "nmll": "舍图控股"
   },
   {
     "code": "8395",
     "name": "TREE HOLDINGS",
-    "nmll": "齊家控股"
+    "nmll": "齐家控股"
   },
   {
     "code": "8400",
     "name": "ASIA PIONEER",
-    "nmll": "亞洲先鋒娛樂"
+    "nmll": "亚洲先锋娱乐"
   },
   {
     "code": "8401",
     "name": "STREAM IDEAS",
-    "nmll": "源想集團"
+    "nmll": "源想集团"
   },
   {
     "code": "8402",
@@ -18038,7 +18043,7 @@ var ucodesName2 =
   {
     "code": "8406",
     "name": "ALPHA ERA",
-    "nmll": "合寶豐年"
+    "nmll": "合宝丰年"
   },
   {
     "code": "8411",
@@ -18048,12 +18053,12 @@ var ucodesName2 =
   {
     "code": "8412",
     "name": "BCI GROUP",
-    "nmll": "高門集團"
+    "nmll": "高门集团"
   },
   {
     "code": "8413",
     "name": "ASIA GROCERY",
-    "nmll": "亞洲雜貨"
+    "nmll": "亚洲杂货"
   },
   {
     "code": "8416",
@@ -18068,12 +18073,12 @@ var ucodesName2 =
   {
     "code": "8418",
     "name": "OPTIMA AUTO",
-    "nmll": "傲迪瑪汽車"
+    "nmll": "傲迪玛汽车"
   },
   {
     "code": "8419",
     "name": "AV PROMOTIONS",
-    "nmll": "ＡＶ策劃推廣"
+    "nmll": "ＡＶ策划推广"
   },
   {
     "code": "8420",
@@ -18083,7 +18088,7 @@ var ucodesName2 =
   {
     "code": "8422",
     "name": "WT GROUP",
-    "nmll": "ＷＴ集團"
+    "nmll": "ＷＴ集团"
   },
   {
     "code": "8423",
@@ -18093,27 +18098,27 @@ var ucodesName2 =
   {
     "code": "8425",
     "name": "HING MING HLDGS",
-    "nmll": "興銘控股"
+    "nmll": "兴铭控股"
   },
   {
     "code": "8426",
     "name": "MODERN LIVING",
-    "nmll": "雅居投資控股"
+    "nmll": "雅居投资控股"
   },
   {
     "code": "8427",
     "name": "SK TARGET",
-    "nmll": "瑞強集團"
+    "nmll": "瑞强集团"
   },
   {
     "code": "8428",
     "name": "CBK HOLDINGS",
-    "nmll": "國茂控股"
+    "nmll": "国茂控股"
   },
   {
     "code": "8429",
     "name": "ICICLE GROUP",
-    "nmll": "冰雪集團"
+    "nmll": "冰雪集团"
   },
   {
     "code": "8430",
@@ -18123,7 +18128,7 @@ var ucodesName2 =
   {
     "code": "8431",
     "name": "HAO BAI INTL",
-    "nmll": "浩柏國際"
+    "nmll": "浩柏国际"
   },
   {
     "code": "8432",
@@ -18133,7 +18138,7 @@ var ucodesName2 =
   {
     "code": "8436",
     "name": "TAKBO GROUP",
-    "nmll": "德寶集團控股"
+    "nmll": "德宝集团控股"
   },
   {
     "code": "8437",
@@ -18143,17 +18148,17 @@ var ucodesName2 =
   {
     "code": "8439",
     "name": "SOMERLEY CAP",
-    "nmll": "新百利融資"
+    "nmll": "新百利融资"
   },
   {
     "code": "8441",
     "name": "IWS GROUP",
-    "nmll": "國際永勝集團"
+    "nmll": "国际永胜集团"
   },
   {
     "code": "8445",
     "name": "NOBLE ENG GP",
-    "nmll": "怡康泰工程集團"
+    "nmll": "怡康泰工程集团"
   },
   {
     "code": "8446",
@@ -18168,12 +18173,12 @@ var ucodesName2 =
   {
     "code": "8448",
     "name": "UNI PRINTSHOP",
-    "nmll": "環球印館"
+    "nmll": "环球印馆"
   },
   {
     "code": "8450",
     "name": "EDICO HOLDINGS",
-    "nmll": "鉅京控股"
+    "nmll": "巨京控股"
   },
   {
     "code": "8451",
@@ -18183,37 +18188,37 @@ var ucodesName2 =
   {
     "code": "8452",
     "name": "FY FINANCIAL",
-    "nmll": "富銀融資股份"
+    "nmll": "富银融资股份"
   },
   {
     "code": "8455",
     "name": "LAI GROUP",
-    "nmll": "禮建德集團"
+    "nmll": "礼建德集团"
   },
   {
     "code": "8456",
     "name": "MANSION INTL",
-    "nmll": "民信國際控股"
+    "nmll": "民信国际控股"
   },
   {
     "code": "8460",
     "name": "BASETROPHY GP",
-    "nmll": "基地錦標集團"
+    "nmll": "基地锦标集团"
   },
   {
     "code": "8462",
     "name": "OMNIBRIDGE HLDG",
-    "nmll": "橋英控股"
+    "nmll": "桥英控股"
   },
   {
     "code": "8465",
     "name": "TRANSTECH",
-    "nmll": "高科橋光導 "
+    "nmll": "高科桥光导 "
   },
   {
     "code": "8471",
     "name": "REACH NEW HLDGS",
-    "nmll": "新達控股"
+    "nmll": "新达控股"
   },
   {
     "code": "8472",
@@ -18223,37 +18228,37 @@ var ucodesName2 =
   {
     "code": "8473",
     "name": "MI MING MART",
-    "nmll": "彌明生活百貨"
+    "nmll": "弥明生活百货"
   },
   {
     "code": "8475",
     "name": "K GROUP HLDGS",
-    "nmll": "千盛集團控股"
+    "nmll": "千盛集团控股"
   },
   {
     "code": "8476",
     "name": "OCEAN ONE HLDG",
-    "nmll": "大洋環球控股"
+    "nmll": "大洋环球控股"
   },
   {
     "code": "8479",
     "name": "JTF INTL",
-    "nmll": "金泰豐國際控股"
+    "nmll": "金泰丰国际控股"
   },
   {
     "code": "8480",
     "name": "FURNIWEB",
-    "nmll": "飛霓控股"
+    "nmll": "飞霓控股"
   },
   {
     "code": "8481",
     "name": "SHENGLONG INTL",
-    "nmll": "盛龍錦秀國際"
+    "nmll": "盛龙锦秀国际"
   },
   {
     "code": "8482",
     "name": "WAN LEADER",
-    "nmll": "萬勵達"
+    "nmll": "万励达"
   },
   {
     "code": "8483",
@@ -18273,7 +18278,7 @@ var ucodesName2 =
   {
     "code": "8490",
     "name": "NICHE-TECH",
-    "nmll": "駿碼科技"
+    "nmll": "骏码科技"
   },
   {
     "code": "8491",
@@ -18283,7 +18288,7 @@ var ucodesName2 =
   {
     "code": "8493",
     "name": "DRAGON KING GP",
-    "nmll": "龍皇集團"
+    "nmll": "龙皇集团"
   },
   {
     "code": "8495",
@@ -18298,32 +18303,32 @@ var ucodesName2 =
   {
     "code": "8500",
     "name": "ICONCULTURE",
-    "nmll": "天泓文創"
+    "nmll": "天泓文创"
   },
   {
     "code": "8501",
     "name": "SANBASE CORP",
-    "nmll": "莊皇集團公司"
+    "nmll": "庄皇集团公司"
   },
   {
     "code": "8502",
     "name": "OCEAN LINE PORT",
-    "nmll": "遠航港口"
+    "nmll": "远航港口"
   },
   {
     "code": "8506",
     "name": "FUTEX HLDGS",
-    "nmll": "福紡控股"
+    "nmll": "福纺控股"
   },
   {
     "code": "8507",
     "name": "I.CENTURY HLDG",
-    "nmll": "愛世紀集團"
+    "nmll": "爱世纪集团"
   },
   {
     "code": "8509",
     "name": "WINE'S LINK",
-    "nmll": "威揚酒業控股"
+    "nmll": "威扬酒业控股"
   },
   {
     "code": "8510",
@@ -18338,57 +18343,57 @@ var ucodesName2 =
   {
     "code": "8512",
     "name": "HYFUSIN GROUP",
-    "nmll": "凱富善集團控股"
+    "nmll": "凯富善集团控股"
   },
   {
     "code": "8513",
     "name": "IAG HOLDINGS",
-    "nmll": "官醞控股"
+    "nmll": "官酝控股"
   },
   {
     "code": "8516",
     "name": "GRAND TALENT",
-    "nmll": "廣駿集團控股 "
+    "nmll": "广骏集团控股 "
   },
   {
     "code": "8519",
     "name": "JIA GROUP",
-    "nmll": "佳民集團 "
+    "nmll": "佳民集团 "
   },
   {
     "code": "8521",
     "name": "ST INTL HLDGS",
-    "nmll": "智紡國際控股"
+    "nmll": "智纺国际控股"
   },
   {
     "code": "8523",
     "name": "SHEUNG MOON",
-    "nmll": "常滿控股"
+    "nmll": "常满控股"
   },
   {
     "code": "8525",
     "name": "BAIYING HOLDING",
-    "nmll": "百應控股"
+    "nmll": "百应控股"
   },
   {
     "code": "8526",
     "name": "WING FUNG GROUP",
-    "nmll": "榮豐集團亞洲"
+    "nmll": "荣丰集团亚洲"
   },
   {
     "code": "8527",
     "name": "JLOGO HLDGS",
-    "nmll": "聚利寶控股"
+    "nmll": "聚利宝控股"
   },
   {
     "code": "8532",
     "name": "POLYFAIR HLDGS",
-    "nmll": "寶發控股"
+    "nmll": "宝发控股"
   },
   {
     "code": "8535",
     "name": "VISTAR HOLDINGS",
-    "nmll": "熒德控股"
+    "nmll": "荧德控股"
   },
   {
     "code": "8536",
@@ -18398,17 +18403,17 @@ var ucodesName2 =
   {
     "code": "8537",
     "name": "CHONG FAI JEWEL",
-    "nmll": "創輝珠寶集團 "
+    "nmll": "创辉珠宝集团 "
   },
   {
     "code": "8540",
     "name": "VICTORY SEC",
-    "nmll": "勝利證券"
+    "nmll": "胜利证券"
   },
   {
     "code": "8545",
     "name": "AMUSE GROUP",
-    "nmll": "佰悅集團"
+    "nmll": "佰悦集团"
   },
   {
     "code": "8547",
@@ -18418,27 +18423,27 @@ var ucodesName2 =
   {
     "code": "8558",
     "name": "KPM HOLDING-OLD",
-    "nmll": "吉輝控股（舊）"
+    "nmll": "吉辉控股（旧）"
   },
   {
     "code": "8559",
     "name": "ECHO INT-OLD",
-    "nmll": "毅高國際（舊）"
+    "nmll": "毅高国际（旧）"
   },
   {
     "code": "8560",
     "name": "VISION INT-OLD",
-    "nmll": "威誠國際控股－舊"
+    "nmll": "威诚国际控股－旧"
   },
   {
     "code": "8561",
     "name": "LUXEY INT'L",
-    "nmll": "薈萃國際（控股）"
+    "nmll": "荟萃国际（控股）"
   },
   {
     "code": "8562",
     "name": "ASIAPAC FIN INV",
-    "nmll": "亞太金融投資"
+    "nmll": "亚太金融投资"
   },
   {
     "code": "8601",
@@ -18458,12 +18463,12 @@ var ucodesName2 =
   {
     "code": "8607",
     "name": "NARNIA GROUP",
-    "nmll": "納尼亞集團"
+    "nmll": "纳尼亚集团"
   },
   {
     "code": "8609",
     "name": "EGGRICULTURE",
-    "nmll": "永續農業"
+    "nmll": "永续农业"
   },
   {
     "code": "8611",
@@ -18473,22 +18478,22 @@ var ucodesName2 =
   {
     "code": "8612",
     "name": "WORLD SUPER",
-    "nmll": "維亮控股"
+    "nmll": "维亮控股"
   },
   {
     "code": "8613",
     "name": "ORIENTAL PAY",
-    "nmll": "東方支付集團控股"
+    "nmll": "东方支付集团控股"
   },
   {
     "code": "8616",
     "name": "SUNRAY ENG GP",
-    "nmll": "新威工程集團"
+    "nmll": "新威工程集团"
   },
   {
     "code": "8617",
     "name": "BEST LINKING",
-    "nmll": "永聯豐控股"
+    "nmll": "永联丰控股"
   },
   {
     "code": "8619",
@@ -18498,7 +18503,7 @@ var ucodesName2 =
   {
     "code": "8620",
     "name": "AE LOGISTICS",
-    "nmll": "亞洲速運"
+    "nmll": "亚洲速运"
   },
   {
     "code": "8621",
@@ -18508,12 +18513,12 @@ var ucodesName2 =
   {
     "code": "8622",
     "name": "HUAKANG BIOMED",
-    "nmll": "華康生物醫學"
+    "nmll": "华康生物医学"
   },
   {
     "code": "8623",
     "name": "CHINA SAFTOWER",
-    "nmll": "中國蜀塔"
+    "nmll": "中国蜀塔"
   },
   {
     "code": "8627",
@@ -18528,7 +18533,7 @@ var ucodesName2 =
   {
     "code": "8635",
     "name": "NOVACON TECH",
-    "nmll": "連成科技集團"
+    "nmll": "连成科技集团"
   },
   {
     "code": "8645",
@@ -18538,157 +18543,157 @@ var ucodesName2 =
   {
     "code": "8646",
     "name": "CHINA HONGGUANG",
-    "nmll": "中國宏光"
+    "nmll": "中国宏光"
   },
   {
     "code": "8659",
     "name": "YIK WO INTL",
-    "nmll": "易和國際控股"
+    "nmll": "易和国际控股"
   },
   {
     "code": "8668",
     "name": "YING HAI GROUP",
-    "nmll": "瀛海集團"
+    "nmll": "瀛海集团"
   },
   {
     "code": "9010",
     "name": "ISHARES AXJ-U",
-    "nmll": "安碩亞洲除日-U "
+    "nmll": "安硕亚洲除日-U "
   },
   {
     "code": "9011",
     "name": "A ICBCCICCUSD-U",
-    "nmll": "Ａ工銀中金美－Ｕ"
+    "nmll": "Ａ工银中金美－Ｕ"
   },
   {
     "code": "9022",
     "name": "ISHARESMSCIEM-U",
-    "nmll": "安碩新興市場－Ｕ"
+    "nmll": "安硕新兴市场－Ｕ"
   },
   {
     "code": "9047",
     "name": "F SSIFIRONORE-U",
-    "nmll": "Ｆ山證鐵礦石－Ｕ"
+    "nmll": "Ｆ山证铁矿石－Ｕ"
   },
   {
     "code": "9072",
     "name": "NIKKOAM INET-U",
-    "nmll": "日興環球聯網－Ｕ"
+    "nmll": "日兴环球联网－Ｕ"
   },
   {
     "code": "9074",
     "name": "ISHARESMSCITW-U",
-    "nmll": "安碩ＭＳ台灣－Ｕ "
+    "nmll": "安硕ＭＳ台湾－Ｕ "
   },
   {
     "code": "9077",
     "name": "PREMIA UST-U",
-    "nmll": "ＰＰ美國庫－Ｕ"
+    "nmll": "ＰＰ美国库－Ｕ"
   },
   {
     "code": "9078",
     "name": "PREMIA UST A -U",
-    "nmll": "ＰＰ美國庫Ａ－Ｕ"
+    "nmll": "ＰＰ美国库Ａ－Ｕ"
   },
   {
     "code": "9081",
     "name": "VALUEGOLD ETF-U",
-    "nmll": "價值黃金－Ｕ "
+    "nmll": "价值黄金－Ｕ "
   },
   {
     "code": "9085",
     "name": "VANGUARDAXJHY-U",
-    "nmll": "領航亞洲高息－Ｕ"
+    "nmll": "领航亚洲高息－Ｕ"
   },
   {
     "code": "9086",
     "name": "BMO NASDAQ100-U",
-    "nmll": "ＢＭＯ納指－Ｕ"
+    "nmll": "ＢＭＯ纳指－Ｕ"
   },
   {
     "code": "9091",
     "name": "A NIKKOAMGAME-U",
-    "nmll": "Ａ日興電遊－Ｕ"
+    "nmll": "Ａ日兴电游－Ｕ"
   },
   {
     "code": "9096",
     "name": "CSOP USD MM-U",
-    "nmll": "南方美元貨幣－Ｕ"
+    "nmll": "南方美元货币－Ｕ"
   },
   {
     "code": "9101",
     "name": "VANGUARDDVEUR-U",
-    "nmll": "領航發展歐洲－Ｕ"
+    "nmll": "领航发展欧洲－Ｕ"
   },
   {
     "code": "9115",
     "name": "ISHARESHSI-U",
-    "nmll": "安碩恒生指數－Ｕ "
+    "nmll": "安硕恒生指数－Ｕ "
   },
   {
     "code": "9126",
     "name": "VANGUARDJAPAN-U",
-    "nmll": "領航日本－Ｕ"
+    "nmll": "领航日本－Ｕ"
   },
   {
     "code": "9140",
     "name": "VANGUARDSP500-U",
-    "nmll": "領航標普五百－Ｕ"
+    "nmll": "领航标普五百－Ｕ"
   },
   {
     "code": "9141",
     "name": "BMO ASIA IGB-U",
-    "nmll": "ＢＭＯ亞投債－Ｕ"
+    "nmll": "ＢＭＯ亚投债－Ｕ"
   },
   {
     "code": "9167",
     "name": "ICBCCSOPCHINA-U",
-    "nmll": "工銀南方中國－Ｕ"
+    "nmll": "工银南方中国－Ｕ"
   },
   {
     "code": "9169",
     "name": "VANGUARDCHINA-U",
-    "nmll": "領航中國－Ｕ"
+    "nmll": "领航中国－Ｕ"
   },
   {
     "code": "9170",
     "name": "ISHARESKS200-U",
-    "nmll": "安碩韓國二百－Ｕ "
+    "nmll": "安硕韩国二百－Ｕ "
   },
   {
     "code": "9173",
     "name": "PP CN NEWECON-U",
-    "nmll": "ＰＰ中新經濟－Ｕ"
+    "nmll": "ＰＰ中新经济－Ｕ"
   },
   {
     "code": "9181",
     "name": "PREMIAASIATEC-U",
-    "nmll": "ＰＰ亞洲創科－Ｕ"
+    "nmll": "ＰＰ亚洲创科－Ｕ"
   },
   {
     "code": "9186",
     "name": "CICCKRANECNET-U",
-    "nmll": "中金金瑞中網－Ｕ"
+    "nmll": "中金金瑞中网－Ｕ"
   },
   {
     "code": "9191",
     "name": "GX CN SEMICON-U",
-    "nmll": "ＧＸ中國半導－Ｕ"
+    "nmll": "ＧＸ中国半导－Ｕ"
   },
   {
     "code": "9618",
     "name": "JD-SW",
-    "nmll": "京東集團－ＳＷ"
+    "nmll": "京东集团－ＳＷ"
   },
   {
     "code": "9668",
     "name": "CBHB",
-    "nmll": "渤海銀行"
+    "nmll": "渤海银行"
   },
   {
     "code": "9803",
     "name": "PP BEDROCK-U",
-    "nmll": "ＰＰ中國基石－Ｕ"
+    "nmll": "ＰＰ中国基石－Ｕ"
   },
   {
     "code": "9804",
@@ -18698,62 +18703,62 @@ var ucodesName2 =
   {
     "code": "9805",
     "name": "VANGUARDASXJP-U",
-    "nmll": "領航亞洲－Ｕ"
+    "nmll": "领航亚洲－Ｕ"
   },
   {
     "code": "9806",
     "name": "GX CN CONSUME-U",
-    "nmll": "ＧＸ中國消費－Ｕ"
+    "nmll": "ＧＸ中国消费－Ｕ"
   },
   {
     "code": "9807",
     "name": "GX CN ROBO&AI-U",
-    "nmll": "ＧＸ中國機智－Ｕ"
+    "nmll": "ＧＸ中国机智－Ｕ"
   },
   {
     "code": "9809",
     "name": "GX CN CLN EN-U",
-    "nmll": "ＧＸ中國潔能－Ｕ"
+    "nmll": "ＧＸ中国洁能－Ｕ"
   },
   {
     "code": "9810",
     "name": "PREMIAEMASEAN-U",
-    "nmll": "ＰＰ新興東盟－Ｕ"
+    "nmll": "ＰＰ新兴东盟－Ｕ"
   },
   {
     "code": "9812",
     "name": "SAMSUNGCDGN-U",
-    "nmll": "三星中國龍網－Ｕ "
+    "nmll": "三星中国龙网－Ｕ "
   },
   {
     "code": "9820",
     "name": "GX CN BIOTECH-U",
-    "nmll": "ＧＸ中國生科－Ｕ"
+    "nmll": "ＧＸ中国生科－Ｕ"
   },
   {
     "code": "9826",
     "name": "GX CN CLOUD-U",
-    "nmll": "ＧＸ中國雲算－Ｕ"
+    "nmll": "ＧＸ中国云算－Ｕ"
   },
   {
     "code": "9834",
     "name": "ISHARESND100-U",
-    "nmll": "安碩納指一百－Ｕ "
+    "nmll": "安硕纳指一百－Ｕ "
   },
   {
     "code": "9836",
     "name": "ISHARES INDIA-U",
-    "nmll": "安碩印度-U "
+    "nmll": "安硕印度-U "
   },
   {
     "code": "9845",
     "name": "GX CN ELE VEH-U",
-    "nmll": "ＧＸ中國電車－Ｕ "
+    "nmll": "ＧＸ中国电车－Ｕ "
   },
   {
     "code": "9846",
     "name": "ISHARESCSI300-U",
-    "nmll": "安碩滬深三百－Ｕ "
+    "nmll": "安硕沪深三百－Ｕ "
   },
   {
     "code": "9900",
@@ -18763,17 +18768,17 @@ var ucodesName2 =
   {
     "code": "9906",
     "name": "HONLIV HEALTH",
-    "nmll": "宏力醫療管理"
+    "nmll": "宏力医疗管理"
   },
   {
     "code": "9908",
     "name": "JIAXING GAS",
-    "nmll": "嘉興燃氣"
+    "nmll": "嘉兴燃气"
   },
   {
     "code": "9909",
     "name": "POWERLONG CM",
-    "nmll": "寶龍商業管理 "
+    "nmll": "宝龙商业管理 "
   },
   {
     "code": "9911",
@@ -18788,17 +18793,17 @@ var ucodesName2 =
   {
     "code": "9916",
     "name": "XINGYE WULIAN",
-    "nmll": "興業物聯"
+    "nmll": "兴业物联"
   },
   {
     "code": "9918",
     "name": "WISE ALLY INTL",
-    "nmll": "麗年國際"
+    "nmll": "丽年国际"
   },
   {
     "code": "9919",
     "name": "ACTIVATION GP",
-    "nmll": "艾德韋宣集團"
+    "nmll": "艾德韦宣集团"
   },
   {
     "code": "9922",
@@ -18818,12 +18823,12 @@ var ucodesName2 =
   {
     "code": "9928",
     "name": "TIMES NEIGHBOR",
-    "nmll": "時代鄰里"
+    "nmll": "时代邻里"
   },
   {
     "code": "9929",
     "name": "SEM HLDGS",
-    "nmll": "澳達控股"
+    "nmll": "澳达控股"
   },
   {
     "code": "9933",
@@ -18833,57 +18838,57 @@ var ucodesName2 =
   {
     "code": "9936",
     "name": "XIMEI RESOURCES",
-    "nmll": "稀美資源"
+    "nmll": "稀美资源"
   },
   {
     "code": "9938",
     "name": "WAH WO HOLDINGS",
-    "nmll": "華和控股"
+    "nmll": "华和控股"
   },
   {
     "code": "9939",
     "name": "KINTOR PHARMA-B",
-    "nmll": "開拓藥業－Ｂ"
+    "nmll": "开拓药业－Ｂ"
   },
   {
     "code": "9958",
     "name": "LITIAN PICTURES",
-    "nmll": "力天影業"
+    "nmll": "力天影业"
   },
   {
     "code": "9966",
     "name": "ALPHAMAB-B",
-    "nmll": "康寧傑瑞製藥－Ｂ"
+    "nmll": "康宁杰瑞制药－Ｂ"
   },
   {
     "code": "9968",
     "name": "HUIJING HLDGS",
-    "nmll": "匯景控股 "
+    "nmll": "汇景控股 "
   },
   {
     "code": "9969",
     "name": "INNOCARE-B",
-    "nmll": "諾誠健華－Ｂ"
+    "nmll": "诺诚健华－Ｂ"
   },
   {
     "code": "9977",
     "name": "FENGXIANG CO",
-    "nmll": "鳳祥股份"
+    "nmll": "凤祥股份"
   },
   {
     "code": "9978",
     "name": "FINELANDSERVICE",
-    "nmll": "方圓房服集團"
+    "nmll": "方圆房服集团"
   },
   {
     "code": "9979",
     "name": "GREENTOWN MGMT",
-    "nmll": "綠城管理控股"
+    "nmll": "绿城管理控股"
   },
   {
     "code": "9983",
     "name": "CC NEW LIFE",
-    "nmll": "建業新生活"
+    "nmll": "建业新生活"
   },
   {
     "code": "9986",
@@ -18903,26 +18908,26 @@ var ucodesName2 =
   {
     "code": "9990",
     "name": "ARCHOSAUR GAMES",
-    "nmll": "祖龍娛樂"
+    "nmll": "祖龙娱乐"
   },
   {
     "code": "9996",
     "name": "PEIJIA-B",
-    "nmll": "沛嘉醫療－Ｂ"
+    "nmll": "沛嘉医疗－Ｂ"
   },
   {
     "code": "9997",
     "name": "KANGJI MEDICAL",
-    "nmll": "康基醫療"
+    "nmll": "康基医疗"
   },
   {
     "code": "9998",
     "name": "KWAN YONG",
-    "nmll": "光榮控股"
+    "nmll": "光荣控股"
   },
   {
     "code": "9999",
     "name": "NTES-S",
-    "nmll": "網易－Ｓ"
+    "nmll": "网易－Ｓ"
   }
 ]

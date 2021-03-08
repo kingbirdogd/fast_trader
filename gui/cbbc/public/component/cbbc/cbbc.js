@@ -76,6 +76,8 @@ class Cbbc extends React.Component {
       var data = JSON.parse(res)
       console.log(data)
       var obj = $.extend(true, {}, this.state)
+      if ('user_id' in data && (!obj.userId))
+        obj = {userId: data.user_id}
       if ('action' in data) {
         // 接口v1
         if (data.action=='pricetable') {obj = this.setPriceTable(obj, data)}

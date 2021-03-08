@@ -16,8 +16,8 @@ class Position extends React.Component {
   
   static getDerivedStateFromProps(props, state) {
     if (typeof props.data !== 'undefined' && props.data.length > 0) {
-      var no = 0
-      for (var arr of props.data) {
+      for (var i in props.data) {
+        var arr = props.data[i]
         if (typeof arr !== 'undefined' && arr.length > 0) {
           // code主键
           var codes = []
@@ -75,9 +75,9 @@ class Position extends React.Component {
                 var bpSum = buyTurnover.reduce((a, b) => a + b, 0)
                 var bpAvg = (bpSum / buyTotalQuantity) || 0
                 
-                if (props.data2.length >= no && props.data2[no].bid > 0) {
+                if (props.data2.length >= i && props.data2[i].bid > 0) {
                   // 輪 bid價
-                  wbid = props.data2[no].bid
+                  wbid = props.data2[i].bid
                   // 盈亏
                   pnl = wbid-bpAvg
                 }
@@ -96,7 +96,6 @@ class Position extends React.Component {
           }
         }
       }
-      no++
     }
     return state
   }
@@ -124,11 +123,11 @@ class Position extends React.Component {
   getText(lang) {
     var text = {
       en: {position: 'Position', buyPrice: 'Buy Price', buyQuantity: 'Buy Quantity', sellPrice: 'Sell Price', 
-            sellQuantity: 'Sell Quantity', id: 'ID', code: 'Code', transactionTm: 'Last Update Time', pnl: 'Gain', forceSell: 'Sell'},
+            sellQuantity: 'Sell Quantity', id: 'ID', code: 'Code', transactionTm: 'Last Update Time', pnl: 'Gain', forceSell: 'Sell', bidPrice:'Wnt Price'},
       sc: {position: '持仓', buyPrice: '买入价', buyQuantity: '买入单位', sellPrice: '卖出价', 
-            sellQuantity: '卖出单位', id: 'ID', code: '牛熊证', transactionTm: '交易时间', pnl: '盈亏', forceSell: '卖出'},
+            sellQuantity: '卖出单位', id: 'ID', code: '牛熊证', transactionTm: '交易时间', pnl: '盈亏', forceSell: '卖出', bidPrice: '轮证卖出价'},
       tc: {position: '持倉', buyPrice: '買入價', buyQuantity: '買入單位', sellPrice: '賣出價', 
-            sellQuantity: '賣出單位', id: 'ID', code: '牛熊證', transactionTm: '交易時間', pnl: '盈虧', forceSell: '賣出'}
+            sellQuantity: '賣出單位', id: 'ID', code: '牛熊證', transactionTm: '交易時間', pnl: '盈虧', forceSell: '賣出', bidPrice: '輪證賣出價'}
     }
     return text[lang]
   }
@@ -145,6 +144,7 @@ class Position extends React.Component {
           <td>{len-no}</td>
           <td>{code}</td>
           <td>{ parseFloat(d.buyPrice).toFixed(4) }</td>
+          <td>{ parseFloat(d.wbid).toFixed(4) }</td>
           <td>{ parseFloat(d.sellPrice).toFixed(4) }</td>
           <td>{ numberWithCommas(d.buyQuantity) }</td>
           <td>{ numberWithCommas(d.sellQuantity) }</td>
@@ -179,12 +179,14 @@ class Position extends React.Component {
               <col span="1" width="150px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />
+              <col span="1" width="150px" />
             </colgroup>
             <thead>
               <tr>
                 <th>{text.id}</th>
                 <th>{text.code}</th>
                 <th>{text.buyPrice}</th>
+                <th>{text.bidPrice}</th>
                 <th>{text.sellPrice}</th>
                 <th>{text.buyQuantity}</th>
                 <th>{text.sellQuantity}</th>

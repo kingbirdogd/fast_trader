@@ -4,7 +4,8 @@ exports.load = function()
     let users = {};
     try
     {
-        users = require(__dirname + "/user.json");
+        // users = require(__dirname + "/user.json");
+        users = JSON.parse(fs.readFileSync(__dirname + "/user.json"));
     }
     catch(e)
     {

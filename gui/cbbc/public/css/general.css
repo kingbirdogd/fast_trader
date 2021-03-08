@@ -5,8 +5,18 @@ input, textarea, select, textarea:focus, input:focus, select:focus, .form-contro
 }
 
 .navbar {
+  padding: 0.1rem 1rem 0.1rem 1rem;
   margin-bottom: 22px;
   border-bottom: 1px solid #cfcfcf;
+  font-size: 14px;
+}
+
+.navbar .dropdown-item{
+  font-size: 14px;
+}
+
+.navbar .navbar-brand {
+  font-size: 18px;
 }
 
 .navbar .nav-personal img{
@@ -15,6 +25,7 @@ input, textarea, select, textarea:focus, input:focus, select:focus, .form-contro
 }
 
 .navbar .nav-personal-info {
+  font-size: 14px;
   color: rgba(0,0,0,.5);
 }
 
@@ -51,20 +62,22 @@ input, textarea, select, textarea:focus, input:focus, select:focus, .form-contro
 #login form {
   position: relative;
   margin: 0 auto 100px;
-  padding: 45px;
-  width: 500px;
+  padding-top: 45px;
+  width: 400px;
   background: #ffffff;
-  text-align: center;
+  text-align: left;
 }
 
-#login input {
+#login input, #login select {
   background: #f2f2f2;
   width: 100%;
   border: 0;
   margin: 0 0 15px;
+  height: 50px;
   padding: 15px;
   box-sizing: border-box;
   font-size: 14px;
+  border-radius: 0px;
 }
 
 #login button {
