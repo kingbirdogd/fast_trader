@@ -57,6 +57,9 @@ enum TradeSide : char
 
 struct pricedata{
 
+	unsigned long long IBestbid;
+	unsigned long long IBestask;
+
 	unsigned long long Bestbid;
 	unsigned long long Bestask;
 	unsigned long long BestBidQty;
@@ -102,6 +105,8 @@ struct pricedata{
 	bool isUnderlying;
 
 	unsigned int UCode;
+	unsigned long long gBSeq;
+	unsigned long long gASeq;
 };
 
 struct s1signal{
