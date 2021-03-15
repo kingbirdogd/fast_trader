@@ -1365,7 +1365,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 				}
 
 				p._Symbol = str_underlying;
-				p._Underlying_code = it_omdd->second;
+				p._Underlying_code = ucode;
 				p._Utype = ST_SYMBOL;
 
 
