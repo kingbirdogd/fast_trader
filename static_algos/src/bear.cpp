@@ -1121,7 +1121,7 @@ std::string bear::force_buy(unsigned long long price, unsigned long long quantit
 std::string bear::force_sell(unsigned long long price, unsigned long long quantity, const std::string& ref)
 {
 
-	p.Log(to_string(p.warrant_code()) + std::string("Do Force Sell 1"));
+	//p.Log(to_string(p.warrant_code()) + std::string("Do Force Sell 1"));
 
 	auto it = _p_map.find(ref);
 	if (_p_map.end() == it)
