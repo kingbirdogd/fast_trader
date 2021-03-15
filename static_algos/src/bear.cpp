@@ -19,6 +19,56 @@ bear::bear(user& u, const std::string& name):
 
 void bear::on_omdc_book(const Tradable& tradable)
 {
+
+	auto uit = uprice_map.find(tradable.m_Code);
+	if(uprice_map.end() != uit){
+
+
+		//unsigned int code = tradable.m_Code;
+
+		//auto best_bid_qty = tradable.m_Bid[0].m_uQuantity;
+		auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
+
+		//auto best_ask_qty = tradable.m_Ask[0].m_uQuantity;
+		auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
+
+		//Log("Data = " + to_string(tradable.m_Code) + " ----- " + to_string(best_bid_price) + ":" + to_string(best_ask_price));
+
+		if(uit->second->FBestbid != best_bid_price){
+
+			//Log("UCODE  = " + to_string(tradable.m_Code) + " Bid Change from  " + to_string(uit->second->FBestbid) + " To  " + to_string(best_bid_price));
+			uit->second->BidSeq++;
+			uit->second->PFBestbid = uit->second->FBestbid;
+			uit->second->FBestbid = best_bid_price;
+
+		}
+		if(uit->second->FBestask != best_ask_price ){
+
+
+			//Log("UCODE  = " + to_string(tradable.m_Code) + " Ask Change from  " + to_string(uit->second->FBestask) + " To  " + to_string(best_ask_price));
+			uit->second->AskSeq++;
+			uit->second->PFBestask = uit->second->FBestask;
+			uit->second->FBestask = best_ask_price;
+		}
+
+		auto it = _u_map.find(tradable.m_Code);
+		if (_u_map.end() != it)
+		{
+			for (const auto& p : it->second)
+			{
+				if(p->action_status() == STAGE_START && p->has_position()){
+					p->on_omdd_book(tradable);
+				}
+			}
+		}
+
+		uit->second->LFBestbid = best_bid_price;
+		uit->second->LFBestask = best_ask_price;
+
+		return;
+	}
+
+
 	auto it = _w_map.find(tradable.m_Code);
 	if (_w_map.end() != it)
 	{
@@ -87,7 +137,7 @@ void bear::on_omdc_book(const Tradable& tradable)
 	}
 }
 
-void bear::on_omdc_trade(const Tradable& )
+void bear::on_omdc_trade(const Tradable& tradable)
 {
 	/*
 	auto it = _w_map.find(tradable.m_Code);
@@ -99,6 +149,128 @@ void bear::on_omdc_trade(const Tradable& )
 		it->second->Log(std::to_string(tradable.m_Code) + " Side=" + std::to_string(side) + " Price=" + std::to_string(trade_price) + " Qty=" + std::to_string(tradable.m_LastTradeQuantity) + " Buyin=" + to_string(it->second->getBuyIn()) + " Sellout=" + std::to_string(it->second->getSellOut()) );
 
 	}*/
+
+	auto it = _u_map.find(tradable.m_Code);
+	if (_u_map.end() != it)
+	{
+
+		priceinfo* uprice = uprice_map[tradable.m_Code];
+
+
+		auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
+		auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
+		auto best_bid_price1 = static_cast<unsigned long long>(tradable.m_Bid[1].m_iPrice) * 100000;
+		auto best_ask_price1 = static_cast<unsigned long long>(tradable.m_Ask[1].m_iPrice) * 100000;
+		auto best_bid_qty = static_cast<unsigned long long>(tradable.m_Bid[0].m_uQuantity);
+		auto best_ask_qty = static_cast<unsigned long long>(tradable.m_Ask[0].m_uQuantity);
+
+		//auto trade_quantity = tradable.m_uAccumulatedQuantity;
+		auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice) * 100000;
+		Log(" Code = " + to_string(tradable.m_Code) + " START ");
+		Log(" Code = " + to_string(tradable.m_Code) + " Best Bid  = " + to_string(best_bid_price) + " Best Ask  = " + to_string(best_ask_price));
+		Log(" Code = " + to_string(tradable.m_Code) + " Best Bid1 = " + to_string(best_bid_price1) + " Best Ask1 = " + to_string(best_ask_price1));
+		Log(" Code = " + to_string(tradable.m_Code) + " Best Bid Qty = " + to_string(best_bid_qty) + " Best Ask Qty = " + to_string(best_ask_qty));
+
+		if(tradable.m_TradeSide == BUY_ORDER){
+			Log(" Code = " + to_string(tradable.m_Code) + " BID SIDE TRADE = 1");
+		}else{
+			Log(" Code = " + to_string(tradable.m_Code) + " ASK SIDE TRADE = -1");
+		}
+
+
+		if(BUY_ORDER == tradable.m_TradeSide){
+
+
+			auto trade_quantity = static_cast<unsigned long long>(tradable.m_AccumulateSellQuantity);
+
+			Log(" Code = " + to_string(tradable.m_Code) + " Trade Price = " + to_string(trade_price) + " tradable.m_TradeSide = BUY " + " Qty = " + to_string(trade_quantity));
+
+			if(uprice->TBestbid != trade_price){
+				uprice->PTBestbid = uprice->TBestbid;
+				uprice->TBestbid = trade_price;
+			}
+
+
+			if (trade_price == best_bid_price && trade_quantity >= tradable.m_Bid[0].m_uQuantity &&	0 != tradable.m_Bid[0].m_uQuantity )
+			{
+				for (const auto& p : it->second)
+				{
+
+					if(p->getWtype() == BULL){
+						if((p->getSellOut() == trade_price) || (best_bid_price > p->getSellOut() && p->getSellOut() > best_bid_price1))
+						{
+							p->on_bull_trade(tradable);
+						}
+					}else{
+						if(p->getBuyIn() == trade_price && (p->status() == STATUS_READY || p->status() == STATUS_DONE) && p->action_status() == STAGE_START)
+						{
+							p->on_bear_trade(tradable);
+						}
+					}
+
+				}
+			}else{
+				for (const auto& p : it->second)
+				{
+
+					if(p->getWtype() == BULL){
+						if((p->getSellOut() == trade_price || (best_bid_price > p->getSellOut() && p->getSellOut() > best_bid_price1)) && uprice->PTBestbid > trade_price && p->has_position())
+						{
+							p->doSellLevel();
+						}
+					}
+				}
+			}
+
+		}
+
+		if(SELL_ORDER == tradable.m_TradeSide){
+			auto trade_quantity = static_cast<unsigned long long>(tradable.m_AccumulateBuyQuantity);
+
+			Log(" Code = " + to_string(tradable.m_Code) + " Trade Price = " + to_string(trade_price) + " tradable.m_TradeSide = SELL " + " Qty = " + to_string(trade_quantity));
+
+
+			if(uprice->TBestask != trade_price ){
+				uprice->PTBestask = uprice->TBestask;
+				uprice->TBestask = trade_price;
+			}
+
+			if (trade_price == best_ask_price && trade_quantity >= tradable.m_Ask[0].m_uQuantity &&	0 != tradable.m_Ask[0].m_uQuantity )
+			{
+				for (const auto& p : it->second)
+				{
+
+					if(p->getWtype() == BULL){
+
+						Log(" Code = " + to_string(tradable.m_Code) + " Trade Price = " + to_string(trade_price) + " Buyin = " + to_string(p->getBuyIn()) + " sTATUS = " + to_string(p->status()));
+						if(p->getBuyIn() == trade_price  && (p->status() == STATUS_READY || p->status() == STATUS_DONE) && p->action_status() == STAGE_START)
+						{
+							p->on_bull_trade(tradable);
+						}
+					}else{
+						if(p->getSellOut() == trade_price || (best_ask_price < p->getSellOut() && p->getSellOut() < best_ask_price1))
+						{
+							p->on_bear_trade(tradable);
+						}
+					}
+				}
+			}else{
+				for (const auto& p : it->second)
+				{
+
+					if(p->getWtype() == BEAR){
+						if((p->getSellOut() == trade_price  || (best_ask_price < p->getSellOut() && p->getSellOut() < best_ask_price1) ) && uprice->PTBestask < trade_price && p->has_position())
+						{
+							p->doSellLevel();
+						}
+					}
+
+				}
+			}
+
+		}
+
+	}
 }
 
 void bear::on_omdd_book(const Tradable& tradable)
@@ -556,7 +728,7 @@ std::string bear::set_pair(pair&& p)
 						}
 					}
 				}
-			}else{
+			}else if (utype == NQ_SYMBOL){
 				auto u_it = _ru_map.find(symbol);
 				if (_ru_map.end() != u_it)
 				{
@@ -567,6 +739,22 @@ std::string bear::set_pair(pair&& p)
 						{
 							_ru_map.erase(u_it);
 							Log("set_pair RU 1 Delete  Exist = " + to_string(p.warrant_code()));
+						}
+					}
+				}
+			}else if(utype == ST_SYMBOL){
+				auto u_it = _u_map.find(underlying_code);
+				if (_u_map.end() != u_it)
+				{
+					if (u_it->second.end() != u_it->second.find(node))
+					{
+						u_it->second.erase(node);
+						if(u_it->second.empty())
+						{
+							_u_map.erase(u_it);
+							Log("set_pair 1 Delete  Exist = " + to_string(p.warrant_code()));
+							//subscribe_omdd_trade(underlying_code, false);
+							//subscribe_omdd_book(underlying_code, false);
 						}
 					}
 				}
@@ -598,8 +786,10 @@ std::string bear::set_pair(pair&& p)
 	auto node = &(it->second);
 	if(utype == HSI_SYMBOL){
 		_u_map[underlying_code].insert(node);
-	}else{
+	}else if(utype == NQ_SYMBOL){
 		_ru_map[symbol].insert(node);
+	}else if(utype == ST_SYMBOL){
+		_u_map[underlying_code].insert(node);
 	}
 	_w_map[warrant_code] = node;
 
@@ -617,7 +807,7 @@ std::string bear::set_pair(pair&& p)
 			uprice_map[underlying_code]->BidSeq = 0;
 			uprice_map[underlying_code]->AskSeq = 0;
 		}
-	}else{
+	}else if (utype == NQ_SYMBOL){
 		auto itu = rprice_map.find(symbol);
 		if(itu  == rprice_map.end()){
 			Log("Init NQ Priceinfo : Symbol = >>>" +symbol+"<<<" );
@@ -627,6 +817,14 @@ std::string bear::set_pair(pair&& p)
 			rprice_map[symbol] = std::move(new priceinfo());
 			rprice_map[symbol]->BidSeq = 0;
 			rprice_map[symbol]->AskSeq = 0;
+		}
+	}else if(utype == ST_SYMBOL){
+		auto itu = uprice_map.find(underlying_code);
+		if(itu  == uprice_map.end()){
+			Log("Init Stock Priceinfo : Underlying Code = >>>" +to_string(underlying_code)+"<<<" );
+			uprice_map[underlying_code] = std::move(new priceinfo());
+			uprice_map[underlying_code]->BidSeq = 0;
+			uprice_map[underlying_code]->AskSeq = 0;
 		}
 	}
 
@@ -1132,6 +1330,49 @@ algo_msg_base* bear::json_to_msg(json& json)
 				p._Utype = NQ_SYMBOL;
 			}
 
+			if("" == p._Symbol){
+				unsigned int ucode = 0;
+				try
+				{
+					int iucode = std::stoi(str_underlying);
+					ucode = static_cast<unsigned int>(iucode);
+
+					if(stockWarrantomdcMap.end() == stockWarrantomdcMap.find(ucode)){
+						auto msg = algo_err_msg_pool.get_obj();
+						msg->al = this;
+						msg->algo_name = _name;
+						msg->id = _u.get_id();
+						msg->ref = ref;
+						msg->action = "cmd set";
+						msg->result = "FAIL";
+						msg->reason = "fail command set " + str_underlying + " underlying not found";
+						pset->release();
+						return msg;
+					}
+				}
+				catch(const std::exception& e)
+				{
+					auto msg = algo_err_msg_pool.get_obj();
+					msg->al = this;
+					msg->algo_name = _name;
+					msg->id = _u.get_id();
+					msg->ref = ref;
+					msg->action = "cmd set";
+					msg->result = "FAIL";
+					msg->reason = "fail command set " + str_underlying + " Invalid underlying code";
+					pset->release();
+					return msg;
+				}
+
+				p._Symbol = str_underlying;
+				p._Underlying_code = it_omdd->second;
+				p._Utype = ST_SYMBOL;
+
+
+			}
+
+
+
 			Log("Set Pair Utype = " + to_string(p._Utype));
 
 			if(p._Symbol == ""){
@@ -1181,7 +1422,37 @@ algo_msg_base* bear::json_to_msg(json& json)
 			}
 			if(p._Utype == NQ_SYMBOL){
 				p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, 250000000);
-				//p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, 25000);
+			}
+			if(p._Utype == ST_SYMBOL){
+
+				if(omdcAdditionDefinitionsMap.end() == omdcAdditionDefinitionsMap.find(p._Underlying_code)){
+					auto msg = algo_err_msg_pool.get_obj();
+					msg->al = this;
+					msg->algo_name = _name;
+					msg->id = _u.get_id();
+					msg->ref = ref;
+					msg->action = "cmd set";
+					msg->result = "FAIL";
+					msg->reason = "fail command set " + str_underlying + " Invalid underlying code";
+					pset->release();
+					return msg;
+				}
+
+				unsigned long long price = 0;
+				auto it = stockWarrantomdcMap.find(p._Underlying_code);
+				if (stockWarrantomdcMap.end() != it)
+				{
+					auto& tradable = it->second;
+					if (0 != tradable.m_Bid[0].m_iPrice)
+					{
+						price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
+					}
+				}
+
+				COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[p._Underlying_code];
+				unsigned long long spread = spreadTable.getSpread(omdcdef.SpreadTableCode, price);
+
+				p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, spread);
 			}
 
 			Log("bear 4");

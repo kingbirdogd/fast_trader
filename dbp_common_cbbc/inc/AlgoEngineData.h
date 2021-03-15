@@ -36,6 +36,7 @@
 
 #define HSI_SYMBOL 1
 #define NQ_SYMBOL 2
+#define ST_SYMBOL 3
 
 
 
