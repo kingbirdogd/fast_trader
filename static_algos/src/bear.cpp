@@ -1150,6 +1150,9 @@ std::string bear::force_sell(unsigned long long price, unsigned long long quanti
 			return "Order Error";;
 		}
 	}else{
+
+		p.Log(to_string(p.warrant_code()) + std::string("No Position"));
+
 		return "No Position";
 	}
 	return "SUCCESS";
