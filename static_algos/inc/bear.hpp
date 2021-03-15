@@ -877,8 +877,10 @@ private:
 				//priceinfo* uprice = _algo->uprice_map[_Underlying_code];
 				if(_Utype == HSI_SYMBOL){
 					uprice = _algo->uprice_map[_Underlying_code];
-				}else{
+				}else if(_Utype == NQ_SYMBOL){
 					uprice = _algo->rprice_map[_Symbol];
+				}else if(_Utype == ST_SYMBOL){
+					uprice = _algo->uprice_map[_Underlying_code];
 				}
 
 				//priceinfo* uprice = _algo->uprice_map[_Underlying_code];
@@ -1274,8 +1276,10 @@ private:
 				//priceinfo* uprice = _algo->uprice_map[_Underlying_code];
 				if(_Utype == HSI_SYMBOL){
 					uprice = _algo->uprice_map[_Underlying_code];
-				}else{
+				}else if(_Utype == NQ_SYMBOL){
 					uprice = _algo->rprice_map[_Symbol];
+				}else if(_Utype == ST_SYMBOL){
+					uprice = _algo->uprice_map[_Underlying_code];
 				}
 
 
