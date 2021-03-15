@@ -166,16 +166,18 @@ void bear::on_omdc_trade(const Tradable& tradable)
 
 		//auto trade_quantity = tradable.m_uAccumulatedQuantity;
 		auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice) * 100000;
-		Log(" Code = " + to_string(tradable.m_Code) + " START ");
-		Log(" Code = " + to_string(tradable.m_Code) + " Best Bid  = " + to_string(best_bid_price) + " Best Ask  = " + to_string(best_ask_price));
-		Log(" Code = " + to_string(tradable.m_Code) + " Best Bid1 = " + to_string(best_bid_price1) + " Best Ask1 = " + to_string(best_ask_price1));
-		Log(" Code = " + to_string(tradable.m_Code) + " Best Bid Qty = " + to_string(best_bid_qty) + " Best Ask Qty = " + to_string(best_ask_qty));
+		//Log(" Code = " + to_string(tradable.m_Code) + " START ");
+		//Log(" Code = " + to_string(tradable.m_Code) + " Best Bid  = " + to_string(best_bid_price) + " Best Ask  = " + to_string(best_ask_price));
+		//Log(" Code = " + to_string(tradable.m_Code) + " Best Bid1 = " + to_string(best_bid_price1) + " Best Ask1 = " + to_string(best_ask_price1));
+		//Log(" Code = " + to_string(tradable.m_Code) + " Best Bid Qty = " + to_string(best_bid_qty) + " Best Ask Qty = " + to_string(best_ask_qty));
 
+		/*
 		if(tradable.m_TradeSide == BUY_ORDER){
 			Log(" Code = " + to_string(tradable.m_Code) + " BID SIDE TRADE = 1");
 		}else{
 			Log(" Code = " + to_string(tradable.m_Code) + " ASK SIDE TRADE = -1");
 		}
+		*/
 
 
 		if(BUY_ORDER == tradable.m_TradeSide){
@@ -396,6 +398,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 
 		//auto trade_quantity = tradable.m_uAccumulatedQuantity;
 		auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice) * 100000;
+		/*
 		Log(" Code = " + to_string(tradable.m_Code) + " START ");
 		Log(" Code = " + to_string(tradable.m_Code) + " Best Bid  = " + to_string(best_bid_price) + " Best Ask  = " + to_string(best_ask_price));
 		Log(" Code = " + to_string(tradable.m_Code) + " Best Bid1 = " + to_string(best_bid_price1) + " Best Ask1 = " + to_string(best_ask_price1));
@@ -406,6 +409,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 		}else{
 			Log(" Code = " + to_string(tradable.m_Code) + " ASK SIDE TRADE = -1");
 		}
+		*/
 
 
 		if(BUY_ORDER == tradable.m_TradeSide){
@@ -1116,6 +1120,9 @@ std::string bear::force_buy(unsigned long long price, unsigned long long quantit
 
 std::string bear::force_sell(unsigned long long price, unsigned long long quantity, const std::string& ref)
 {
+
+	p.Log(to_string(p.warrant_code()) + std::string("Do Force Sell 1"));
+
 	auto it = _p_map.find(ref);
 	if (_p_map.end() == it)
 	{
@@ -1135,20 +1142,31 @@ std::string bear::force_sell(unsigned long long price, unsigned long long quanti
 	newWarrant->Name = std::to_string(p.warrant_code());
 
 
+	p.Log(to_string(p.warrant_code()) + std::string("Do Force Sell 2"));
+
 	if(p.status() != STATUS_AVAILABLE){
 		return "Invalid order status";
 	}
+
+
+	p.Log(to_string(p.warrant_code()) + std::string("Do Force Sell 3"));
 
 	if(p.has_position()){
 		p.Log(to_string(p.warrant_code()) + std::string("Position = ") + to_string(p.getPosition()));
 		if(p.getPosition()<quantity){
 			return "Insufficient Position";
 		}
+
+		p.Log(to_string(p.warrant_code()) + std::string("Do Force Sell 4"));
+
 		//auto result = p.sell(0, false, quantity);
 		bool result = p.doSell(newWarrant);
 		if(!result){
 			return "Order Error";;
 		}
+
+		p.Log(to_string(p.warrant_code()) + std::string("Do Force Sell 5"));
+
 	}else{
 
 		p.Log(to_string(p.warrant_code()) + std::string("No Position"));
