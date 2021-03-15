@@ -36,7 +36,7 @@
 	"USERS":
 	[
 		{
-			"ID":2,
+			"ID":1,
 			"IP":"192.168.134.196",
 			"PORT":35101,
 			"USER":"P990098",
@@ -44,27 +44,9 @@
 			"BUY_POWER":100000,
 			"ALGOS":
 			{
-				"demo001_semi":
+				"leo_bear":
 				{
-					"lib": "semi",
-					"params":
-					{
-					}
-				}
-			}
-		},
-		{
-			"ID":3,
-			"IP":"192.168.134.196",
-			"PORT":35101,
-			"USER":"P990098",
-			"PASS":"pass",
-			"BUY_POWER":100000,
-			"ALGOS":
-			{
-				"demo002_semi":
-				{
-					"lib": "semi",
+					"lib": "bear",
 					"params":
 					{
 					}
@@ -188,8 +170,7 @@
 	],
 	"ActivateChannel":
 	[
-		{"Channel":"SWOmdcChannel"},
-		{"Channel":"OmddftChannel"}
+		{"Channel":"SWOmdcChannel"}
 	]
 }
 
