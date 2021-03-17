@@ -56,6 +56,11 @@ void bear::on_omdc_book(const Tradable& tradable)
 				best_ask_qty + best_ask1_qty + best_ask2_qty + best_ask3_qty + best_ask4_qty)/2;
 
 
+		float W1 = 5f;
+		float W2 = 3f;
+		float W3 = 1.5f;
+		float W4 = 0.5f;
+
 		vector<unsigned long long> values;
 		values.push_back(0);
 		values.push_back(average2);

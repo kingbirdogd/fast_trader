@@ -17,10 +17,7 @@
 #include <algorithm>
 
 
-#define W1 5f
-#define W2 3f
-#define W3 1.5f
-#define W4 0.5f
+
 
 static inline void ltrim(std::string &s) {
     s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
