@@ -1,5 +1,5 @@
-#ifndef __SMFH_SRV_SWOMDC__
-#define __SMFH_SRV_SWOMDC__
+#ifndef __SMFH_SRV_SWOMDC5__
+#define __SMFH_SRV_SWOMDC5__
 #include <tools.h>
 #include <global_memory.hpp>
 #include "smfh_srv_orderbook.h"
