@@ -114,8 +114,8 @@ void bear::on_omdc_book(const Tradable& tradable)
 		unsigned long long wb =  static_cast<unsigned long long>((wbp1 + wbp2 + wbp3 + wbp4)/(wbq1 + wbq2 + wbq3 + wbq4));
 		unsigned long long wa = static_cast<unsigned long long>((wap1 + wap2 + wap3 + wap4)/(waq1 + waq2 + waq3 + waq4));
 
-		unsigned long long bremainder = wb%10000;
-		unsigned long long aremainder = wa%10000;
+		unsigned long long bremainder = wb%100000;
+		unsigned long long aremainder = wa%100000;
 
 		unsigned long long swb = wb - bremainder;
 		unsigned long long swa = wa - aremainder;
@@ -1550,6 +1550,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 					return msg;
 				}
 
+				/*
 				unsigned long long price = 0;
 				auto it = stockWarrantomdcMap.find(p._Underlying_code);
 				if (stockWarrantomdcMap.end() != it)
@@ -1563,8 +1564,9 @@ algo_msg_base* bear::json_to_msg(json& json)
 
 				COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[p._Underlying_code];
 				unsigned long long spread = spreadTable.getSpread(omdcdef.SpreadTableCode, price);
-
-				p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, spread);
+				 */
+				//p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, spread);
+				p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, 1000000);
 			}
 
 			Log("bear 4");
