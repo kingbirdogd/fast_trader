@@ -28,27 +28,113 @@ void bear::on_omdc_book(const Tradable& tradable)
 
 		//auto best_bid_qty = tradable.m_Bid[0].m_uQuantity;
 		auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
+		auto best_bid1_price = static_cast<unsigned long long>(tradable.m_Bid[1].m_iPrice) * 100000;
+		auto best_bid2_price = static_cast<unsigned long long>(tradable.m_Bid[2].m_iPrice) * 100000;
+		auto best_bid3_price = static_cast<unsigned long long>(tradable.m_Bid[3].m_iPrice) * 100000;
+
+		auto best_bid_qty = tradable.m_Bid[0].m_uQuantity;
+		auto best_bid1_qty = tradable.m_Bid[1].m_uQuantity;
+		auto best_bid2_qty = tradable.m_Bid[2].m_uQuantity;
+		auto best_bid3_qty = tradable.m_Bid[3].m_uQuantity;
+		auto best_bid4_qty = tradable.m_Bid[4].m_uQuantity;
+
 
 		//auto best_ask_qty = tradable.m_Ask[0].m_uQuantity;
 		auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
+		auto best_ask1_price = static_cast<unsigned long long>(tradable.m_Ask[1].m_iPrice) * 100000;
+		auto best_ask2_price = static_cast<unsigned long long>(tradable.m_Ask[2].m_iPrice) * 100000;
+		auto best_ask3_price = static_cast<unsigned long long>(tradable.m_Ask[3].m_iPrice) * 100000;
+
+		auto best_ask_qty = tradable.m_Ask[0].m_uQuantity;
+		auto best_ask1_qty = tradable.m_Ask[1].m_uQuantity;
+		auto best_ask2_qty = tradable.m_Ask[2].m_uQuantity;
+		auto best_ask3_qty = tradable.m_Ask[3].m_uQuantity;
+		auto best_ask4_qty = tradable.m_Ask[4].m_uQuantity;
+
+		unsigned long long average2 = (best_bid_qty + best_bid1_qty + best_ask_qty + best_ask1_qty)/2;
+		unsigned long long average5 = (best_bid_qty + best_bid1_qty + best_bid2_qty + best_bid3_qty + best_bid4_qty +
+				best_ask_qty + best_ask1_qty + best_ask2_qty + best_ask3_qty + best_ask4_qty)/2;
+
+
+		vector<unsigned long long> values;
+		values.push_back(0);
+		values.push_back(average2);
+		values.push_back(average5);
+
+		unsigned long long quotevol = static_cast<unsigned long long>(CalcMedian(values));
+
+		unsigned long long accbq1 = best_bid_qty;
+		unsigned long long accbq2 = best_bid1_qty + accbq1;
+		unsigned long long accbq3 = best_bid2_qty + accbq2;
+		unsigned long long accbq4 = best_bid3_qty + accbq3;
+
+		unsigned long long accaq1 = best_ask_qty;
+		unsigned long long accaq2 = best_ask1_qty + accaq1;
+		unsigned long long accaq3 = best_ask2_qty + accaq2;
+		unsigned long long accaq4 = best_ask3_qty + accaq3;
+
+
+		unsigned long long bq1 = calBidAskQuantity(accbq1, 0, quotevol, best_bid_qty, accbq1);
+		unsigned long long bq2 = calBidAskQuantity(accbq2, accbq1, quotevol, best_bid1_qty, quotevol-accbq1);
+		unsigned long long bq3 = calBidAskQuantity(accbq3, accbq2, quotevol, best_bid2_qty, quotevol-accbq2);
+		unsigned long long bq4 = calBidAskQuantity(accbq4, accbq3, quotevol, best_bid3_qty, quotevol-accbq3);
+
+		unsigned long long aq1 = calBidAskQuantity(accaq1, 0, quotevol, best_ask_qty, accaq1);
+		unsigned long long aq2 = calBidAskQuantity(accaq2, accaq1, quotevol, best_ask1_qty, quotevol-accaq1);
+		unsigned long long aq3 = calBidAskQuantity(accaq3, accaq2, quotevol, best_ask2_qty, quotevol-accaq2);
+		unsigned long long aq4 = calBidAskQuantity(accaq4, accaq3, quotevol, best_ask3_qty, quotevol-accaq3);
+
+
+		unsigned long long wbp1 = static_cast<unsigned long long>(best_bid_price*W1*bq1);
+		unsigned long long wbp2 = static_cast<unsigned long long>(best_bid1_price*W2*bq2);
+		unsigned long long wbp3 = static_cast<unsigned long long>(best_bid2_price*W3*bq3);
+		unsigned long long wbp4 = static_cast<unsigned long long>(best_bid3_price*W4*bq4);
+
+		unsigned long long wap1 = static_cast<unsigned long long>(best_ask_price*W1*aq1);
+		unsigned long long wap2 = static_cast<unsigned long long>(best_ask1_price*W2*aq2);
+		unsigned long long wap3 = static_cast<unsigned long long>(best_ask2_price*W3*aq3);
+		unsigned long long wap4 = static_cast<unsigned long long>(best_ask3_price*W4*aq4);
+
+
+		unsigned long long wbq1 = static_cast<unsigned long long>(bq1*W1);
+		unsigned long long wbq2 = static_cast<unsigned long long>(bq2*W2);
+		unsigned long long wbq3 = static_cast<unsigned long long>(bq3*W3);
+		unsigned long long wbq4 = static_cast<unsigned long long>(bq4*W4);
+
+		unsigned long long waq1 = static_cast<unsigned long long>(aq1*W1);
+		unsigned long long waq2 = static_cast<unsigned long long>(aq2*W2);
+		unsigned long long waq3 = static_cast<unsigned long long>(aq3*W3);
+		unsigned long long waq4 = static_cast<unsigned long long>(aq4*W4);
+
+		unsigned long long wb =  static_cast<unsigned long long>((wbp1 + wbp2 + wbp3 + wbp4)/(wbq1 + wbq2 + wbq3 + wbq4));
+		unsigned long long wa = static_cast<unsigned long long>((wap1 + wap2 + wap3 + wap4)/(waq1 + waq2 + waq3 + waq4));
+
+		unsigned long long bremainder = wb%10000;
+		unsigned long long aremainder = wa%10000;
+
+		unsigned long long swb = wb - bremainder;
+		unsigned long long swa = wa - aremainder;
+
 
 		//Log("Data = " + to_string(tradable.m_Code) + " ----- " + to_string(best_bid_price) + ":" + to_string(best_ask_price));
 
-		if(uit->second->FBestbid != best_bid_price){
+		//if(uit->second->FBestbid != best_bid_price){
+		if(uit->second->FBestbid != swb){
 
 			//Log("UCODE  = " + to_string(tradable.m_Code) + " Bid Change from  " + to_string(uit->second->FBestbid) + " To  " + to_string(best_bid_price));
 			uit->second->BidSeq++;
 			uit->second->PFBestbid = uit->second->FBestbid;
-			uit->second->FBestbid = best_bid_price;
+			uit->second->FBestbid = swb;
 
 		}
-		if(uit->second->FBestask != best_ask_price ){
+		//if(uit->second->FBestask != best_ask_price ){
+		if(uit->second->FBestask != swa ){
 
 
 			//Log("UCODE  = " + to_string(tradable.m_Code) + " Ask Change from  " + to_string(uit->second->FBestask) + " To  " + to_string(best_ask_price));
 			uit->second->AskSeq++;
 			uit->second->PFBestask = uit->second->FBestask;
-			uit->second->FBestask = best_ask_price;
+			uit->second->FBestask = swa;
 		}
 
 		auto it = _u_map.find(tradable.m_Code);

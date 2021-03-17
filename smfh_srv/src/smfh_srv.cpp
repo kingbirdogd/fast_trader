@@ -640,7 +640,7 @@ inline static bool start()
 	if(itActivate != mActivateChannel.end())
 	{
 		flush_printf("tm:%llu, Start startSWOmdcChannel5 \n", dbp::tools::srv::current());
-		if (!startStockWarrantOmdcChannel())
+		if (!startStockWarrantOmdcChannel5())
 		{
 			return false;
 		}
