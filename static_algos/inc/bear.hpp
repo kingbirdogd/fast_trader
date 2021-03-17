@@ -228,7 +228,9 @@ private:
 						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " BuyIn=" + std::to_string(_OBSetting->BuyIn) +  " SellOut=" + std::to_string(_OBSetting->SellOut) +  " LvlBid=" + std::to_string(_OBSetting->LvLBid) );
 						if(_INOUT > 0){
 							unsigned long long cal_inout = _OBSetting->SellOut - _OBSetting->BuyIn;
-							unsigned long long mak_inout =  static_cast<unsigned long long>(_INOUT) * 100000;
+							//unsigned long long mak_inout =  static_cast<unsigned long long>(_INOUT) * 100000;
+							unsigned long long mak_inout =  static_cast<unsigned long long>(_INOUT) * _SPREAD;
+
 							Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " InoutRange" + " cal_inout = " + std::to_string(cal_inout) +  + " cal_inout = " + std::to_string(mak_inout)  );
 							if(cal_inout < mak_inout || cal_inout > 99999999){
 								Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " InoutRange Not Pass");
@@ -251,7 +253,10 @@ private:
 						}
 						if(_LVLRANGE > 0){
 							unsigned long long cal_lvlrange = abs(static_cast<long long>(_OBSetting->LvLBid) - static_cast<long long>(_OBSetting->BuyIn));
-							unsigned long long mak_lvlrange =  static_cast<unsigned long long>(_LVLRANGE) * 100000;
+							//unsigned long long mak_lvlrange =  static_cast<unsigned long long>(_LVLRANGE) * 100000;
+
+							unsigned long long mak_lvlrange =  static_cast<unsigned long long>(_LVLRANGE) * _SPREAD;
+
 							Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " _LVLRANGE" + " cal_lvlrange = " + std::to_string(cal_lvlrange) +  + " mak_lvlrange = " + std::to_string(mak_lvlrange)  );
 							if(cal_lvlrange >  mak_lvlrange || cal_lvlrange > 99999999){
 								Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " LVLRANGE Not Pass");
@@ -279,7 +284,10 @@ private:
 
 							long long cal_ptrange = static_cast<long long>(prev_buyin) - static_cast<long long>(_OBSetting->BuyIn) ;
 							//unsigned long long cal_ptrange = _OBSetting->BuyIn - prev_buyin;
-							long long mak_ptrange =  static_cast<long long>(_PTRANGE) * 100000;
+							//long long mak_ptrange =  static_cast<long long>(_PTRANGE) * 100000;
+
+							long long mak_ptrange =  static_cast<long long>(_PTRANGE) * _SPREAD;
+
 							Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " _PTRANGE" + " cal_ptrange = " + std::to_string(cal_ptrange) +  + " mak_ptrange = " + std::to_string(mak_ptrange)  );
 							if(cal_ptrange <  mak_ptrange  && _OBSetting->BuyIn != 99999999 && prev_buyin != 99999999){
 								Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " PTRANGE Not Pass");
