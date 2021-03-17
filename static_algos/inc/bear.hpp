@@ -73,7 +73,7 @@ static inline unsigned long long calBidAskQuantity(unsigned long long accqty,uns
 			value = def;
 
 
-		return std::max(value, 0);
+		return std::max(value, 0ull);
 }
 
 class bear : public algo
