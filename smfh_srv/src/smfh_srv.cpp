@@ -636,6 +636,16 @@ inline static bool start()
 		}
 	}
 
+	itActivate = mActivateChannel.find("SWOmdcChannel5");
+	if(itActivate != mActivateChannel.end())
+	{
+		flush_printf("tm:%llu, Start startSWOmdcChannel5 \n", dbp::tools::srv::current());
+		if (!startStockWarrantOmdcChannel())
+		{
+			return false;
+		}
+	}
+
 	itActivate = mActivateChannel.find("OmddChannel");
 	if(itActivate != mActivateChannel.end())
 	{
@@ -1001,6 +1011,16 @@ inline static bool initJson(const char* _pszJsonPath)
 		if (!loadChannel(j, "OmdcChannel", omdcStreams))
 		{
 			std::cerr << "loadChannel SWOmdcChannel" << std::endl;
+			return false;
+		}
+	}
+	itActivate = mActivateChannel.find("SWOmdcChannel5");
+	if(itActivate != mActivateChannel.end())
+	{
+		flush_printf("tm:%llu, loadChannel = SWOmdcChannel5 \n", dbp::tools::srv::current());
+		if (!loadChannel(j, "OmdcChannel", omdcStreams))
+		{
+			std::cerr << "loadChannel SWOmdcChannel5" << std::endl;
 			return false;
 		}
 	}

@@ -14,7 +14,13 @@
 #include <rapid_ring/ring_buffer_object_poll.hpp>
 #include <algo.hpp>
 #include "ThreadLogger.h"
+#include <algorithm>
 
+
+#define W1 5f
+#define W2 3f
+#define W3 1.5f
+#define W4 0.5f
 
 static inline void ltrim(std::string &s) {
     s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
@@ -26,6 +32,48 @@ static inline void rtrim(std::string &s) {
     s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
         return !std::isspace(ch);
     }).base(), s.end());
+}
+
+
+static inline double CalcMedian(vector<unsigned long long> scores)
+{
+  size_t size = scores.size();
+
+  if (size == 0)
+  {
+    return 0;  // Undefined, really.
+  }
+  else
+  {
+    std::sort(scores.begin(), scores.end());
+    if (size % 2 == 0)
+    {
+      return (scores[size / 2 - 1] + scores[size / 2]) / 2;
+    }
+    else
+    {
+      return scores[size / 2];
+    }
+  }
+}
+
+
+static inline unsigned long long calBidAskQuantity(unsigned long long accqty,unsigned long long accqty1,unsigned long  long quotevol,unsigned long long qty,unsigned long long def){
+
+		unsigned long long value = 0;
+
+		unsigned long long minVal = std::min(quotevol, accqty);
+		if(accqty >= quotevol){
+			if(accqty <= minVal)
+				value =  qty;
+			else{
+				value = (quotevol - accqty1);
+			}
+		}else
+			value = def;
+
+
+		return std::max(value, 0);
 }
 
 class bear : public algo

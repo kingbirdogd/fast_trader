@@ -16,6 +16,7 @@
 #include "smfh_srv_s1signal.h"
 #include "smfh_srv_slimomdc.h"
 #include "smfh_srv_swomdc.h"
+#include "smfh_srv_swomdc5.h"
 
 #ifdef FULLTICK
 #define HANDLE(MSG, TM, CHANNEL_ID) _codes.insert(OMD_GET_VALUE(MSG, 4, unsigned int)); \
@@ -742,6 +743,10 @@ public:
 inline static bool startStockWarrantOmdcChannel()
 {
 	return ChannelHandler<handleStockWarrantOmdc>::handleChannelVec(omdcStreams);
+}
+inline static bool startStockWarrantOmdcChannel5()
+{
+	return ChannelHandler<handleStockWarrantOmdc5>::handleChannelVec(omdcStreams);
 }
 inline static bool startSlimOmdcChannel()
 {
