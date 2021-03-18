@@ -40,6 +40,7 @@ protected:
 	unsigned long long _buy_power;
 	bool _ready;
 	unsigned long long _client_order_id;
+	unsigned long long _initial_order_id;
 protected:
 	void handle_msg(const char* ptr, std::size_t size);
 public:
@@ -72,6 +73,7 @@ public:
 	const dbp::top::enhance_order* get_order(unsigned long long order_id);
 	void set_buy_power(unsigned long long buy_power);
 	unsigned long long get_buy_power();
+	unsigned long long get_base_id();
 protected:
 	void login();
 	void clean();

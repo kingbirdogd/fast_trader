@@ -253,6 +253,7 @@ top_client::top_client
 	_client_order_id( _base_order_id.fetch_add(100000, std::memory_order_relaxed))
 {
 		fprintf(stderr, " Base ID : %llu\n",  _client_order_id);
+		_initial_order_id = _client_order_id;
 }
 
 top_client::top_client(top_client&& client):
@@ -540,6 +541,10 @@ void top_client::login()
 	std::fprintf(stderr, "do login\n");
 	send(_login);
 	std::fprintf(stderr, "end do login\n");
+}
+
+unsigned long long top_client::get_base_id(){
+	return _initial_order_id;
 }
 
 void top_client::clean()
