@@ -52,6 +52,10 @@ public:
 	virtual ~CbbcPriceMark();
 	vector<string> split(string str, char delimiter);
 
+
+	bool updateThBid(unsigned long long wbid, unsigned long long pwbid, unsigned long long fbid, unsigned long long pfbid);
+	bool updateThAsk(unsigned long long wask, unsigned long long pwask, unsigned long long fask, unsigned long long pfask);
+
 	bool updateBid(unsigned long long wbid, unsigned long long pwbid, unsigned long long fbid, unsigned long long pfbid);
 	bool updateAsk(unsigned long long wask, unsigned long long pwask, unsigned long long fask, unsigned long long pfask);
 	bool updateBid(unsigned long long wbid, unsigned long long pwbid, unsigned long long fbid, unsigned long long pfbid, bool ignoref);

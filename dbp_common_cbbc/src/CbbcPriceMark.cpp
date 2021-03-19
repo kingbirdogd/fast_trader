@@ -66,7 +66,110 @@ unsigned long long CbbcPriceMark::getAskPrice(){
 	return askprice;
 }
 
+bool CbbcPriceMark::updateThBid(unsigned long long wbid, unsigned long long pwbid, unsigned long long fprice, unsigned long long  pfprice){
 
+	if(pwtype == BULL){
+		if(wbid > pwbid && fprice > pfprice){
+			if(pwbid > 0){
+
+
+
+					pDnBidMark[wbid] = fprice;
+					bidkey = wbid;
+					bidprice = fprice;
+
+					return true;
+
+			}
+		}
+		if(wbid < pwbid && fprice < pfprice){
+			if(pwbid > 0){
+				pDnBidMark[pwbid] = pfprice;
+				bidkey = pwbid;
+				bidprice = pfprice;
+				return true;
+			}
+		}
+	}
+	if(pwtype == BEAR){
+		if(wbid > pwbid && fprice < pfprice){
+			if(pwbid > 0){
+
+					pDnBidMark[wbid] = fprice;
+					bidkey = wbid;
+					bidprice = fprice;
+
+					return true;
+
+			}
+		}
+		if(wbid < pwbid && fprice > pfprice){
+			if(pwbid > 0){
+
+				pDnBidMark[pwbid] = pfprice;
+				bidkey = pwbid;
+				bidprice = pfprice;
+
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+bool CbbcPriceMark::updateThAsk(unsigned long long wask, unsigned long long  pwask, unsigned long long  fprice, unsigned long long  pfprice){
+	if(pwtype == BULL ){
+		if(wask > pwask && fprice > pfprice){
+			if(pwask > 0){
+
+				pUpAskMark[pwask] = pfprice;
+				askkey = pwask;
+				askprice = pfprice;
+
+				return true;
+			}
+		}
+		if(wask < pwask && fprice < pfprice){
+			if(pwask > 0){
+
+
+						pUpAskMark[wask] = fprice;
+						askkey = wask;
+						askprice = fprice;
+
+						return true;
+
+
+			}
+		}
+	}
+	if(pwtype == BEAR ){
+		if(wask > pwask && fprice < pfprice){
+			if(pwask > 0){
+
+				pUpAskMark[pwask] = pfprice;
+				askkey = pwask;
+				askprice = pfprice;
+
+				return true;
+			}
+		}
+		if(wask < pwask && fprice > pfprice){
+			if(pwask > 0){
+
+
+						pUpAskMark[pwask] = fprice;
+						askkey = pwask;
+						askprice = fprice;
+
+						return true;
+
+
+			}
+		}
+	}
+	return false;
+}
 
 //bool CbbcPriceMark::updateBid(float wbid, float pwbid, int fbid, int pfbid){
 bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, unsigned long long fprice, unsigned long long  pfprice){
