@@ -2,7 +2,7 @@
 #define INC_MSG_HPP_
 
 #ifndef TRADABLE_BOOK_SIZE
-#define TRADABLE_BOOK_SIZE 5
+#define TRADABLE_BOOK_SIZE 2
 #endif
 #include <unordered_map>
 #include <dbp_cpu.h>

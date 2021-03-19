@@ -61,6 +61,7 @@ class Control extends React.Component {
 
 <div className="col-12 col-sm-6 col-md-3 mb-2 mb-sm-0">
   <button type="button" name="subtract" className="btn btn-sm btn-secondary" onClick={this.handleClick}>-</button>
+  <span className="ml-1 mr-1">{this.props.data1.cur}</span>
   <button type="button" name="add" className="btn btn-sm btn-secondary" onClick={this.handleClick}>+</button>
   <button type="button" name="position" className={classNames("btn btn-sm ml-2 ml-sm-2", cssBtnPos)} onClick={this.handleClick}>仓位</button>
   <button type="button" name="order" className={classNames("btn btn-sm ml-2 ml-sm-2", cssBtnOrder)} onClick={this.handleClick}>当日成交</button>

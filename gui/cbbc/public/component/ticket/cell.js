@@ -325,11 +325,14 @@ class Cell extends React.Component {
     
     // 6.0 輪證標題
     var title = 'Warrant '+this.props.no.toString()
-    var cssTitle = ''
+    var cssTitle = '', cssTitleFont = 'text-dark'
     if (wnt.code.wtype && wnt.code.code) {
       title = (wnt.code.wtype=='c') ? '<Call> ' : '<Put> '
       title += wnt.code.code.toString() 
-      cssTitle = (wnt.code.wtype=='c') ? 'text-primary' : 'text-success'
+      if (wnt.code.wtype=='c')
+        cssTitle = 'bg-danger', cssTitleFont = 'text-white'
+      else
+        cssTitle = 'bg-success', cssTitleFont = 'text-white'
     }
     // 7.0 正股標題
     var title2 = 'Stock '+this.props.no.toString()
@@ -355,10 +358,10 @@ class Cell extends React.Component {
     
     // 10.0 正股 觸買
     var cssStockStatus1 = 'btn-secondary', cssStockStatus2 = 'btn-secondary', cssStockStatus3 = 'btn-secondary', cssStockStatus4 = 'btn-secondary'
-    if (stock.status1 == 'open') cssStockStatus1 = 'btn-primary'
-    if (stock.status2 == 'open') cssStockStatus2 = 'btn-primary'
-    if (stock.status3 == 'open') cssStockStatus3 = 'btn-primary'
-    if (stock.status4 == 'open') cssStockStatus4 = 'btn-primary'
+    if (stock.status1 == 'open') cssStockStatus1 = 'btn-success'
+    if (stock.status2 == 'open') cssStockStatus2 = 'btn-success'
+    if (stock.status3 == 'open') cssStockStatus3 = 'btn-success'
+    if (stock.status4 == 'open') cssStockStatus4 = 'btn-success'
     
     // 10.1 正股 觸買 输入框
     var isShowQty = false, isShowRatio = false
@@ -373,14 +376,14 @@ class Cell extends React.Component {
     
     // 11.1 action1
     if (stock.action1 == 'start') cssStockAction1 = 'btn-success'
-    else if (stock.action1 == 'stop') cssStockAction1 = 'btn-warning'
+    else if (stock.action1 == 'stop') cssStockAction1 = 'btn-secondary'
     else if (stock.action1 == 'fail') cssStockAction1 = 'btn-danger'
     
     if (stock.action1 == 'start' && parseInt(wnt.position) > 0 && wnt.stopLoss.status == 'start')
       isStockAction2Disable = false, isStockAction3Disable = false
     
-    if (stock.action2 == 'start') cssStockAction2 = 'btn-primary', isStockAction3Disable = true
-    if (stock.action3 == 'start') cssStockAction3 = 'btn-primary', isStockAction2Disable = true
+    if (stock.action2 == 'start') cssStockAction2 = 'btn-success', isStockAction3Disable = true
+    if (stock.action3 == 'start') cssStockAction3 = 'btn-success', isStockAction2Disable = true
     
     // 12.0 止蝕
     var isStopLossDisable = true, isStopLossDisable2 = isDisable, cssStopLoss = 'btn-secondary'
@@ -392,7 +395,7 @@ class Cell extends React.Component {
       var a=1 // isStopLossDisable = false
     
     if (wnt.stopLoss.status == 'start' && !stock.action2)
-      cssStopLoss = 'btn-primary'
+      cssStopLoss = 'btn-success'
     
     if (wnt.stopLoss.status == 'start')
       isStopLossDisable2 = true
@@ -401,9 +404,9 @@ class Cell extends React.Component {
 
     // 13.0 track
     var css_nTrack = 'btn-secondary', css_aTrack = 'btn-secondary', css_xTrack = 'btn-secondary'
-    if (stock.nTrack == 'start') css_nTrack = 'btn-primary'
-    if (stock.aTrack == 'start') css_aTrack = 'btn-primary'
-    if (stock.xTrack == 'start') css_xTrack = 'btn-primary'
+    if (stock.nTrack == 'start') css_nTrack = 'btn-success'
+    if (stock.aTrack == 'start') css_aTrack = 'btn-success'
+    if (stock.xTrack == 'start') css_xTrack = 'btn-success'
 
     return(
       <React.Fragment>
@@ -413,8 +416,8 @@ class Cell extends React.Component {
 
   <div className="row">
   <div className="col-12 col-sm-12 mb-2 mb-sm-2">
-  <div className="header d-flex justify-content-between">
-    <span className={classNames('text-right', cssTitle)}> {title} </span> 
+  <div className={classNames("header d-flex justify-content-between", cssTitle)}>
+    <span className={classNames('text-right', cssTitleFont)}> {title} </span> 
     <span className="text-left"></span>
   </div>
   </div>
@@ -509,8 +512,8 @@ class Cell extends React.Component {
     </div>
     
     <div className="col-12 col-sm-12 pl-0 pl-sm-0 pr-0 pr-sm-0">
-      <button className="btn btn-sm btn-secondary" type="button" disabled={true || isDisable}>Copy</button>
-      <button className="btn btn-sm btn-primary" name="pair" type="button" onClick={this.handleClick} disabled={isPairDisable}>Pair B&S </button>
+      <button className="btn btn-sm btn-secondary d-none" type="button" disabled={true || isDisable}>Copy</button>
+      <button className="btn btn-sm btn-secondary" name="pair" type="button" onClick={this.handleClick} disabled={isPairDisable}>Pair B&S </button>
     </div>
   </div>
   </div>

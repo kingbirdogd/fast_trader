@@ -78,6 +78,13 @@ and reboot
   		node set_user.js user_name=demo001 password=12345678
   		
   		
+ 
+ #192.168.104.88
+ node set_user.js user_name=demo001 password=12345678  
+ 
+ 
+  		
+  		
   David Task
   #Item 1 : Top Share Library Send Request Queue
   Updated Source:
@@ -206,6 +213,43 @@ add algo user
 edit config
 >>cd fast_trader/config
 >>vi config-FT-134.196.json
+
+
+#CPU ISOLATION (134.197)
+
+2,
+3,
+6,
+7,
+8,
+9,			
+12,
+13,
+14,
+15
+
+
+[下午5:56, 2021年2月4日] David Uk: /etc/sysctl.conf
+[下午5:56, 2021年2月4日] David Uk: 哩個唔得
+[晚上6:02, 2021年2月4日] David Uk: nmi_watchdog=0
+[晚上6:02, 2021年2月4日] David Uk: 加左哩個
+[晚上6:02, 2021年2月4日] David Uk: cat /etc/grub2-efi.cfg
+[晚上6:02, 2021年2月4日] David Uk: reboot
+[晚上6:02, 2021年2月4日] David Uk: 要咁樣先可以Permanently disable
+
+
+
+
+#謝生
+Forticlient VPN:
+
+Gateway: securessl.dbpower.com.hk
+User: GWP06
+Pass: rmjxZOpu0#2B-TK
+
+
+HTS票式
+http://192.168.14.88:9919
 
 
 

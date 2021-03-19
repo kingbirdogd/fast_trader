@@ -12,6 +12,7 @@ class Ticket extends React.Component {
     this.state.portfolio = []
     this.state.orders = []
     this.state.positions = {}
+    this.state.setting = {}
     
     this.state.instance = () => {
       return {
@@ -103,6 +104,17 @@ class Ticket extends React.Component {
       this.setState(obj)
     }
     initWebsocket(render)
+    
+    async function getUserSetting(that) {
+      var data = await $.ajax({url: '/api/users/'+global.cookies['semipro-uname'], type: 'GET'})
+      if (data.result=='success') {
+        that.setState({setting: data.data})
+        // 票式數量
+        if ('windowMax' in data.data && 'windowShow' in data.data)
+          that.setState({noCell: {cur: data.data.windowShow, max: data.data.windowMax}})
+      }
+    }
+    getUserSetting(this)
   }
   
   setAlgo(obj, data) {
@@ -176,10 +188,10 @@ class Ticket extends React.Component {
       
       // 輪 輸入框
       if (typeof status1 == 'undefined' || status1 == 'nTrack' || status1 == 'xTrack') {
-        obj.cells[data.no].wnt.buy.price = formatPrice2(data.warrant_price.m_Bid.m_iPrice)
-        obj.cells[data.no].wnt.sell.price = formatPrice2(data.warrant_price.m_Ask.m_iPrice)
+        obj.cells[data.no].wnt.buy.price = formatPrice2(data.warrant_price.m_Ask.m_iPrice)
+        obj.cells[data.no].wnt.sell.price = formatPrice2(data.warrant_price.m_Bid.m_iPrice)
         if (obj.cells[data.no].wnt.stopLoss.status != 'start')
-          obj.cells[data.no].wnt.stopLoss.price = formatPrice2(data.warrant_price.m_Ask.m_iPrice)
+          obj.cells[data.no].wnt.stopLoss.price = formatPrice2(data.warrant_price.m_Bid.m_iPrice)
       }
       if (typeof status1 == 'undefined') {
         var qty = 10000
@@ -190,12 +202,12 @@ class Ticket extends React.Component {
       // 正股 輸入框
       if (typeof status1 == 'undefined' || status1 == 'aTrack' || status1 == 'xTrack') {
         if (data.CallPut.toLowerCase() == 'p') {
-          obj.cells[data.no].stock.buy.price = formatPrice2(data.underlying_price.m_Ask.m_iPrice)
-          obj.cells[data.no].stock.sell.price = formatPrice2(data.underlying_price.m_Bid.m_iPrice)
+          obj.cells[data.no].stock.buy.price = formatPrice2(data.underlying_price.m_Bid.m_iPrice)
+          obj.cells[data.no].stock.sell.price = formatPrice2(data.underlying_price.m_Ask.m_iPrice)
         }
         else if (data.CallPut.toLowerCase() == 'c') {
-          obj.cells[data.no].stock.sell.price = formatPrice2(data.underlying_price.m_Ask.m_iPrice)
-          obj.cells[data.no].stock.buy.price = formatPrice2(data.underlying_price.m_Bid.m_iPrice)
+          obj.cells[data.no].stock.sell.price = formatPrice2(data.underlying_price.m_Bid.m_iPrice)
+          obj.cells[data.no].stock.buy.price = formatPrice2(data.underlying_price.m_Ask.m_iPrice)
         }
       }
       if (typeof status1 == 'undefined') {
@@ -244,7 +256,7 @@ class Ticket extends React.Component {
       obj.cells[no].wnt.sell.price = formatLong(data.pair.sell_price)
       
       if (formatLong(data.pair.bottom_price)<=0.001 || formatLong(data.pair.position)==0)
-        obj.cells[no].wnt.stopLoss.price = formatLong(data.pair.sell_price)
+        obj.cells[no].wnt.stopLoss.price = formatLong(data.pair.buy_price)
       else {
         obj.cells[no].wnt.stopLoss.price = formatLong(data.pair.bottom_price)
         obj.cells[no].wnt.stopLoss.status = 'start'

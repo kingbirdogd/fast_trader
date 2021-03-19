@@ -4,6 +4,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"/>
+  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="/css/general.css">
   <style>
   .table th, .table td {
@@ -45,7 +48,10 @@
               html += '<td>'+k.toString()+'</td>';
               html += '<td>'+v.toString()+'</td>';
               html += '<td> <textarea class="form-control textarea-msg" id="'+taId+'" rows="2"></textarea> </td>';
-              html += '<td> <button data-user="'+userId.toString()+'" data-origin="'+k.toString()+'" data-msg="'+taId+'" class="btn btn-sm btn-primary btn-send">Send</button> </td>';
+              html += '<td>';
+              html += '<button data-user="'+userId.toString()+'" data-origin="'+k.toString()+'" data-msg="'+taId+'" class="btn btn-sm btn-primary btn-send">Send Message</button> <br />';
+              html += '<button data-user="'+userId.toString()+'" data-origin="'+k.toString()+'" data-msg="'+taId+'" class="btn btn-sm btn-danger btn-logout">Force Logout</button>';
+              html += '</td>';
               html += '</tr>';
             }
           }
@@ -60,29 +66,35 @@
         if (('users' in res) && Object.keys(res.users).length>0) {
           var html = '';
           for (const [name, val] of Object.entries(res.users)) {
+            // 1.2.1 content
             html += '<tr>';
             html += '<td>'+name.toString()+'</td>';
-            html += '<td>'+val.id.toString()+'</td>';
-            html += '<td>'+val.password.toString()+'</td>';
-            html += '<td></td>';
+            for (var [k, v] of Object.entries(val))
+              html += '<td>'+v+'</td>';
             html += '</tr>';
+            // 1.2.2 columns
+            var columns = Object.keys(val), columns2 = []
+            columns.unshift('name')
+            for (var v2 of columns) columns2.push({title: v2});
           }
           ui.tbUsers.children('tbody').html(html);
+          ui.tbUsers.DataTable({searching: false, paging: false, info: false, order: [[1, "asc"]], columns: columns2});
         }
         else if (!('users' in res) || Object.keys(res.users).length==0) {
           var html = '<tr><td colspan="5">No Users</td></tr>'
           ui.tbUsers.children('tbody').html(html);
-        } 
+        }
       },
-      // 1.4 post process
+      // 1.3 post process
       complete: function() {
         initUI();
         handleSend();
       }
     });
     
-    // 1.1 handle socket
+    // 1.4 handle socket
     function handleSend() {
+      // 1.4.1
       ui.btnSend.click(function() {
         var userId = $(this).data('user'),
             origin = $(this).data('origin'),
@@ -92,7 +104,7 @@
           msg = JSON.stringify({"action":"block_trade"});
         else
           msg = JSON.stringify({"admin_message":msg});
-        var data = {id: userId, origin: origin, msg: msg};
+        var data = {userId: userId, origin: origin, msg: msg};
         
         $.ajax({
           type: "POST",
@@ -103,8 +115,22 @@
         });
         
       });
+      // 1.4.2
+      ui.btnLogout.click(function() {
+        var userId = $(this).data('user'),
+            origin = $(this).data('origin'),
+            msg = JSON.stringify({action: 'connect_reject', error: 'Force to Logout!'});
+            
+        var data = {userId: userId, origin: origin, msg: msg};
+        $.ajax({
+          type: "POST",
+          crossDomain: true,
+          url: "/admin-send-msg",
+          data: data,
+          success: function(res) {}
+        });
+      });
     }
-    
     
   });
   
@@ -113,6 +139,7 @@
     ui.tbConns = $('#tb-conns');
     ui.tbUsers = $('#tb-users');
     ui.btnSend = $('.btn-send');
+    ui.btnLogout = $('.btn-logout');
   }
   </script>
 </head>
@@ -172,10 +199,6 @@
   <table class="table table-striped" id="tb-users">
   <thead>
     <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Id</th>
-      <th scope="col">Password</th>
-      <th scope="col">Action</th>
     </tr>
   </thead>
   <tbody>
