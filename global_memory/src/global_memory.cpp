@@ -42,6 +42,8 @@ AlgoParameter algoParam;
 SpreadTable spreadTable;
 TcpChannelConfig tcpConfig;
 
+unsigned long long gSeq = 0;
+
 
 #ifdef FULLTICK
 FullTickBooks<unsigned short int> omdcFullTickBook;

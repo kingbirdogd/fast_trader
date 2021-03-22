@@ -85,7 +85,7 @@ inline static void handleStockWarrantOmdc5(dbp::omd::COmdMsgHeader* _pMsg, unsig
 		{
 			auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
 #ifndef FULL_BOOK
-			auto is_top = book.new_order(id, price, quantity, side);
+			auto is_top = book.new_order5(id, price, quantity, side);
 			if (is_top)
 			{
 #else
@@ -120,7 +120,7 @@ inline static void handleStockWarrantOmdc5(dbp::omd::COmdMsgHeader* _pMsg, unsig
 		auto& book = omdcFullTickBook[uSecurityCode];
 		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
 		auto quantity = OMD_GET_VALUE(_pMsg, 16, unsigned int);
-		auto result = book.modify_order(id, quantity);
+		auto result = book.modify_order5(id, quantity);
 #ifndef FULL_BOOK
 		if (result.is_top)
 		{
@@ -146,7 +146,7 @@ inline static void handleStockWarrantOmdc5(dbp::omd::COmdMsgHeader* _pMsg, unsig
 	{
 		auto& book = omdcFullTickBook[uSecurityCode];
 		auto id = OMD_GET_VALUE(_pMsg, 8, unsigned long long);
-		auto result = book.cancel_order(id);
+		auto result = book.cancel_order5(id);
 		rOrderBook.m_MsgType = MsgType::OMDC_BOOK;
 #ifndef FULL_BOOK
 		if (result.is_top)

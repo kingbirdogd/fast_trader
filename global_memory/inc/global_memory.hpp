@@ -73,6 +73,7 @@ extern CPriceDataMap pricedataMap;
 extern AlgoParameter algoParam;
 extern SpreadTable spreadTable;
 extern TcpChannelConfig tcpConfig;
+extern unsigned long long gSeq;
 
 #ifdef FULLTICK
 template <typename SideType>
@@ -111,6 +112,26 @@ public:
 	BidMap Bids;
 	AskMap Asks;
 public:
+	bool new_order5(unsigned long long id, int price, unsigned int quantity, OrderSide side)
+	{
+		auto& odr = Ords[id];
+		odr.price = price;
+		odr.quantity = quantity;
+		odr.side = side;
+		if (OrderSide::BID == side)
+		{
+			auto it = Bids.emplace(price, PriceItem()).first;
+			it->second.quantity += quantity;
+			++it->second.number_of_order;
+		}
+		else
+		{
+			auto it = Asks.emplace(price, PriceItem()).first;
+			it->second.quantity += quantity;
+			++it->second.number_of_order;
+		}
+		return true;
+	}
 	bool new_order(unsigned long long id, int price, unsigned int quantity, OrderSide side)
 	{
 		auto& odr = Ords[id];
@@ -207,6 +228,49 @@ public:
 				}
 				it->second.quantity = quantity;
 				return result{it->second.side, (Asks.begin() == it2)};
+			}
+		}
+		return result{OrderSide::NONE, false};
+	}
+
+	auto modify_order5(unsigned long long id, unsigned int quantity)
+	{
+		struct result
+		{
+			OrderSide side;
+			bool is_top;
+		};
+		auto it = Ords.find(id);
+		if (Ords.end() != it)
+		{
+			if (OrderSide::BID == it->second.side)
+			{
+				auto it2 = Bids.find(it->second.price);
+				if (quantity > it->second.quantity)
+				{
+					it2->second.quantity += (quantity - it->second.quantity);
+				}
+				else
+				{
+					it2->second.quantity -= (it->second.quantity - quantity);
+				}
+				it->second.quantity = quantity;
+				//return result{it->second.side, (Bids.begin() == it2)};
+				return result{it->second.side, true};
+			}
+			else
+			{
+				auto it2 = Asks.find(it->second.price);
+				if (quantity > it->second.quantity)
+				{
+					it2->second.quantity += (quantity - it->second.quantity);
+				}
+				else
+				{
+					it2->second.quantity -= (it->second.quantity - quantity);
+				}
+				it->second.quantity = quantity;
+				return result{it->second.side, true};
 			}
 		}
 		return result{OrderSide::NONE, false};
@@ -578,6 +642,52 @@ public:
 			}
 			Ords.erase(it);
 			return result{side, isTop};
+		}
+		return result{OrderSide::NONE, false};
+	}
+
+	auto cancel_order5(unsigned long long id)
+	{
+		struct result
+		{
+			OrderSide side;
+			bool is_top;
+		};
+		auto it = Ords.find(id);
+		if (Ords.end() != it)
+		{
+			auto side = it->second.side;
+			bool isTop = false;
+			if (OrderSide::BID == it->second.side)
+			{
+				auto it2 = Bids.find(it->second.price);
+				if (Bids.begin() == it2)
+				{
+					isTop = true;
+				}
+				it2->second.quantity -= it->second.quantity;
+				it2->second.number_of_order -= 1;
+				if (0 == it2->second.number_of_order)
+				{
+					Bids.erase(it2);
+				}
+			}
+			else
+			{
+				auto it2 = Asks.find(it->second.price);
+				if (Asks.begin() == it2)
+				{
+					isTop = true;
+				}
+				it2->second.quantity -= it->second.quantity;
+				it2->second.number_of_order -= 1;
+				if (0 == it2->second.number_of_order)
+				{
+					Asks.erase(it2);
+				}
+			}
+			Ords.erase(it);
+			return result{side, true};
 		}
 		return result{OrderSide::NONE, false};
 	}
