@@ -50,6 +50,27 @@
 					"params":
 					{
 					}
+				},
+				"leo_semipro":
+				{
+					"lib": "semipro",
+					"params":
+					{
+					}
+				},
+				"leo_semi":
+				{
+					"lib": "semi",
+					"params":
+					{
+					}
+				},
+				"leo_s1algo":
+				{
+					"lib": "s1algo",
+					"params":
+					{
+					}
 				}
 			}
 		}
