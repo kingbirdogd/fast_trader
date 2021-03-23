@@ -70,13 +70,13 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 						const auto& login_response = *static_cast<const dbp::top::login_response*>(static_cast<const void*>(p));
 						if (dbp::top::logon_response::success == login_response.response)
 						{
-							std::fprintf(stderr, "Logon Success\n");
+							std::fprintf(stderr, "Logon Success %llu\n", _id);
 							std::memcpy(_session_id, login_response.session_id, sizeof(login_response.session_id));
 							_ready = true;
 						}
 						else
 						{
-							std::fprintf(stderr, "Logon Fail\n");
+							std::fprintf(stderr, "Logon Fail %llu\n", _id);
 							clean();
 						}
 						if (_on_login)
@@ -236,6 +236,7 @@ void top_client::handle_msg(const char* ptr, std::size_t size)
 
 top_client::top_client
 (
+	unsigned long long id,
 	const std::string& user,
 	const std::string& pass,
 	unsigned long long buy_power
@@ -250,9 +251,10 @@ top_client::top_client
 	_on_top_buy_power(),
 	_buy_power(buy_power),
 	_ready(false),
-	_client_order_id( _base_order_id.fetch_add(100000, std::memory_order_relaxed))
+	_client_order_id( _base_order_id.fetch_add(100000, std::memory_order_relaxed)),
+	_id(id)
 {
-		fprintf(stderr, " Base ID : %llu\n",  _client_order_id);
+		fprintf(stderr, " Base ID : %llu Client ID %llu\n",  _client_order_id, id);
 		_initial_order_id = _client_order_id;
 }
 
@@ -265,7 +267,8 @@ top_client::top_client(top_client&& client):
 	_on_top_buy_power(std::move(client._on_top_buy_power)),
 	_buy_power(client._buy_power),
 	_ready(client._ready),
-	_client_order_id(client._client_order_id)
+	_client_order_id(client._client_order_id),
+	_id(client._id)
 {
 	std::memcpy(_session_id, client._session_id, sizeof(_session_id));
 	client._ready = false;
@@ -283,6 +286,7 @@ top_client& top_client::operator= (top_client&& client)
 	std::memcpy(_session_id, client._session_id, sizeof(_session_id));
 	client._ready = false;
 	_client_order_id = client._client_order_id;
+	_id = client._id;
 	return *this;
 }
 
@@ -538,9 +542,9 @@ unsigned long long top_client::get_buy_power()
 
 void top_client::login()
 {
-	std::fprintf(stderr, "do login\n");
+	std::fprintf(stderr, "do login %llu\n", _id);
 	send(_login);
-	std::fprintf(stderr, "end do login\n");
+	std::fprintf(stderr, "end do login %llu\n", _id);
 }
 
 unsigned long long top_client::get_base_id(){

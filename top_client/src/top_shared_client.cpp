@@ -17,11 +17,12 @@ void top_shared_client::do_send()
 
 top_shared_client::top_shared_client
 (
+	unsigned long long id,
 	const std::string& user,
 	const std::string& pass,
 	unsigned long long buy_power
 ):
-	top_client(user, pass, buy_power),
+	top_client(id, user, pass, buy_power),
 	_queue(),
 	_connected(false)
 {
@@ -29,7 +30,7 @@ top_shared_client::top_shared_client
 	{
 		_node = new top_shared_node();
 	}
-	std::fprintf(stderr, "start top_shared_client\n");
+	std::fprintf(stderr, "start top_shared_client %llu\n", id);
 	_queue.warm_up();
 	if (!has_instanse)
 	{

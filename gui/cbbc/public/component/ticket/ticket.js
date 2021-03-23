@@ -118,10 +118,12 @@ class Ticket extends React.Component {
   }
   
   setAlgo(obj, data) {
-    if (('algos' in data) && data.algos) {
-      obj.modules.call = Object.keys(data.algos)[0]
-      obj.modules.put = Object.keys(data.algos)[0]
-    }
+    for (var algo in data.algos)
+      if (algo.includes('semipro'))
+        obj.modules.call = algo, obj.modules.put = algo
+    // 沒有cbbc algo
+    if ( (obj.modules.call != null && obj.modules.call.includes('semipro')) && (obj.modules.put != null && obj.modules.put.includes('semipro')) )
+      console.log({log: 'algo exist'})
     
     for(var i=0; i<obj.noCell.max; i++) {
       var command = {cmd: 'get', id: parseInt(obj.userId), algo_name: obj.modules.call, ref: setNo(i)}

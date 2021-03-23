@@ -29,6 +29,7 @@ private:
 public:
 	top_shared_client
 	(
+		unsigned long long id,
 		const std::string& user,
 		const std::string& pass,
 		unsigned long long buy_power = std::numeric_limits<unsigned long long>::max()

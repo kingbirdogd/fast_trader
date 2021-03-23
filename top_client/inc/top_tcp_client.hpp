@@ -12,6 +12,7 @@ private:
 public:
 	top_tcp_client
 	(
+		unsigned long long id,
 		const std::string& host,
 		unsigned short int port,
 		const std::string& user,

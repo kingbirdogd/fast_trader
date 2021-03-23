@@ -41,11 +41,13 @@ protected:
 	bool _ready;
 	unsigned long long _client_order_id;
 	unsigned long long _initial_order_id;
+	unsigned long long _id;
 protected:
 	void handle_msg(const char* ptr, std::size_t size);
 public:
 	top_client
 	(
+		unsigned long long id,
 		const std::string& user,
 		const std::string& pass,
 		unsigned long long buy_power = std::numeric_limits<unsigned long long>::max()

@@ -169,13 +169,13 @@ public:
 		unsigned long long buy_power = std::numeric_limits<unsigned long long>::max()
 	):
 	_id(id),
-	_client(new top_shared_client(user, pass, buy_power)),
+	_client(new top_shared_client(id, user, pass, buy_power)),
 	_md(broadcastQueue),
 	_algos(),
 	_odr_map(),
 	_creator([user, pass, buy_power]()
 			{
-				return new top_shared_client(user, pass, buy_power);
+				return new top_shared_client(id, user, pass, buy_power);
 			})
 	{
 		_client->set_on_order([&](const dbp::top::enhance_order& odr){handler_order(odr);});
@@ -194,13 +194,13 @@ public:
 		unsigned long long buy_power = std::numeric_limits<unsigned long long>::max()
 	):
 	_id(id),
-	_client(new top_tcp_client(host, port, user, pass, buy_power)),
+	_client(new top_tcp_client(id, host, port, user, pass, buy_power)),
 	_md(broadcastQueue),
 	_algos(),
 	_odr_map(),
-	_creator([host, port, user, pass, buy_power]()
+	_creator([id, host, port, user, pass, buy_power]()
 			{
-				return new top_tcp_client(host, port, user, pass, buy_power);
+				return new top_tcp_client(id, host, port, user, pass, buy_power);
 			})
 	{
 		_client->set_on_order([&](const dbp::top::enhance_order& odr){handler_order(odr);});

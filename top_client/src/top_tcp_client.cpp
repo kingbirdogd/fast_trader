@@ -3,18 +3,19 @@
 
 top_tcp_client::top_tcp_client
 (
+	unsigned long long id,
 	const std::string& host,
 	unsigned short int port,
 	const std::string& user,
 	const std::string& pass,
 	unsigned long long buy_power
 ):
-	top_client(user, pass, buy_power),
+	top_client(id, user, pass, buy_power),
 	_client(host, port),
 	_last_login(0),
 	_retry_wait(false)
 {
-	std::fprintf(stderr, "start top_tcp_client");
+	std::fprintf(stderr, "start top_tcp_client %uul", id);
 	_client.set_connected([&]()
 	{
 		time_t now = ::time(nullptr);
