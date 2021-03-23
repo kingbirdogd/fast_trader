@@ -527,7 +527,7 @@ string PriceMark::printTable(unsigned long long ubid){
 
 	unsigned long long spread = spreadTable.getSpread("01", ubid - 1llu);
 
-	unsigned long long refbid = ubid - 2*spread;
+	unsigned long long refbid = ubid - 4*spread;
 
 	unsigned long long aspread = spreadTable.getSpread("01", refbid + 1llu);
 
@@ -543,7 +543,7 @@ string PriceMark::printTable(unsigned long long ubid){
 			data += key + "=" + value + "\n";
 			count++;
 		}
-		if(count > 10)
+		if(count > 12)
 			break;
 	}
 	return data;
