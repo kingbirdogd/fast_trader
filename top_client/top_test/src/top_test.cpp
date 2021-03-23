@@ -4,7 +4,7 @@
 int main(void)
 {
 	bool running = true;
-	top_tcp_client cli("192.168.134.38", 35101, "P990098", "pass");
+	top_tcp_client cli(1,"192.168.134.38", 35101, "P990098", "pass");
 	cli.set_on_login([&](const dbp::top::login_response& response)
 	{
 		if (dbp::top::logon_response::success == response.response)
