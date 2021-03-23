@@ -1482,6 +1482,8 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 		auto trade_qty = static_cast<unsigned long long>(tradable.m_LastTradeQuantity);
 		auto best_bid_vol = static_cast<unsigned long long>(tradable.m_Bid[0].m_uQuantity);
 		auto best_ask_vol = static_cast<unsigned long long>(tradable.m_Ask[0].m_uQuantity);
+		auto best_bid_vol1 = static_cast<unsigned long long>(tradable.m_Bid[1].m_uQuantity);
+		//auto best_ask_vol1 = static_cast<unsigned long long>(tradable.m_Ask[1].m_uQuantity);
 		auto trade_sell_quantity = static_cast<unsigned long long>(tradable.m_AccumulateSellQuantity);
 		auto trade_buy_quantity = static_cast<unsigned long long>(tradable.m_AccumulateBuyQuantity);
 		auto untradeqty = static_cast<unsigned long long>(tradable.m_UnTradedQuantity);
@@ -1770,8 +1772,8 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 
 								//if(wbest_bid_price == wobsArray[i]->BuyPrice && expectSellOut == trade_price){
-								/*
-								if(wbest_bid_price == wobsArray[i]->BuyPrice && expectSellOut == trade_price){
+
+								if(wbest_bid_price == wobsArray[i]->BuyPrice && expectSellOut == trade_price && best_bid_vol1 < obs->ReadyBidBuy){
 									wobsArray[i]->Status = STATUS_SELLING;
 
 									bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
@@ -1782,7 +1784,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 									}
 									Log("2 1: Do Sell Level Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
 									continue;
-								}*/
+								}
 
 								if(wbest_bid_price > wobsArray[i]->BuyPrice){
 									wobsArray[i]->Status = STATUS_SELLING;
