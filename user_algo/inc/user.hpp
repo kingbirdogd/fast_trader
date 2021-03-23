@@ -173,7 +173,7 @@ public:
 	_md(broadcastQueue),
 	_algos(),
 	_odr_map(),
-	_creator([user, pass, buy_power]()
+	_creator([id, user, pass, buy_power]()
 			{
 				return new top_shared_client(id, user, pass, buy_power);
 			})
