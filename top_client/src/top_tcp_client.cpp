@@ -15,7 +15,7 @@ top_tcp_client::top_tcp_client
 	_last_login(0),
 	_retry_wait(false)
 {
-	std::fprintf(stderr, "start top_tcp_client %uul", id);
+	std::fprintf(stderr, "start top_tcp_client %llu", id);
 	_client.set_connected([&]()
 	{
 		time_t now = ::time(nullptr);
