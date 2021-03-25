@@ -2084,6 +2084,12 @@ private:
 		{
 			_PTRANGE = ptrange;
 		}
+		void set_BuyOffset(int offs){
+			_BUY_OFFSET = offs;
+		}
+		void set_SellOffset(int offs){
+			_SELL_OFFSET = offs;
+		}
 		bool has_position(){
 			return _OBSetting->hasPosition;
 		}
