@@ -246,7 +246,20 @@ private:
 		}
 		unsigned long long getBuyIn()
 		{
-			return _OBSetting->BuyIn;
+			if(BULL == _Wtype){
+				if(_OBSetting->BuyIn != 99999999){
+					return _OBSetting->BuyIn + _BUY_OFFSET*100000;
+				}
+				return _OBSetting->BuyIn;
+			}
+			if(BEAR == _Wtype){
+				if(_OBSetting->BuyIn != 99999999){
+					return _OBSetting->BuyIn - _BUY_OFFSET*100000;
+				}
+				return _OBSetting->BuyIn;
+			}
+
+			return _OBSetting->BuyIn ;
 		}
 		unsigned long long getLvlBid()
 		{
