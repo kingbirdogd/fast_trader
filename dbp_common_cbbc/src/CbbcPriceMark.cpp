@@ -8,17 +8,11 @@
 #include "CbbcPriceMark.h"
 
 
-
-
-
-
-
-
-
-CbbcPriceMark::CbbcPriceMark(int wtype, unsigned long long spread, unsigned long long uspread){
+CbbcPriceMark::CbbcPriceMark(int pType, int wtype, unsigned long long spread, unsigned long long uspread){
 	pwtype = wtype;
 	pDefaultSpread = spread;
 	pUSpread = uspread;
+	ppType = pType;
 }
 
 CbbcPriceMark::~CbbcPriceMark() {
@@ -65,6 +59,28 @@ unsigned long long CbbcPriceMark::getBidPrice(){
 unsigned long long CbbcPriceMark::getAskPrice(){
 	return askprice;
 }
+
+
+bool CbbcPriceMark::updateTableBid(unsigned long long wbid, unsigned long long pwbid, unsigned long long fbid, unsigned long long pfbid){
+	if(INDEX_TYPE == ppType){
+		return updateBid(wbid, pwbid, fbid, pfbid);
+	}
+	if(STOCK_TYPE == ppType){
+		return updateThBid(wbid, pwbid, fbid, pfbid);
+	}
+	return false;
+}
+
+bool CbbcPriceMark::updateTableAsk(unsigned long long wask, unsigned long long pwask, unsigned long long fask, unsigned long long pfask){
+	if(INDEX_TYPE == ppType){
+		return updateAsk(wask, pwask, fask, pfask);
+	}
+	if(STOCK_TYPE == ppType){
+		return updateThAsk(wask, pwask, fask, pfask);
+	}
+	return false;
+}
+
 
 bool CbbcPriceMark::updateThBid(unsigned long long wbid, unsigned long long pwbid, unsigned long long fprice, unsigned long long  pfprice){
 

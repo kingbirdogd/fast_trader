@@ -123,7 +123,8 @@ private:
 		int _INOUT = 0;
 		int _LVLRANGE = 0;
 		int _PTRANGE = 0;
-
+		int _SELL_OFFSET = 0;
+		int _BUY_OFFSET = 2;
  
 	public:
 		pair
@@ -1074,7 +1075,7 @@ private:
 						if(_PriceInfo->LastBidSeq != _PriceInfoU->BidSeq){
 							_PriceInfo->LastBidSeq = _PriceInfoU->BidSeq;
 							//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark BID");
-							bool hasUpdate = _CbbcPriceMark->updateThBid(ibest_bid_price, _PriceInfo->IBestbid, _PriceInfoU->FBestbid, _PriceInfoU->PFBestbid);
+							bool hasUpdate = _CbbcPriceMark->updateTableBid(ibest_bid_price, _PriceInfo->IBestbid, _PriceInfoU->FBestbid, _PriceInfoU->PFBestbid);
 							if(hasUpdate){
 								unsigned long long bkey = _CbbcPriceMark->getBidKey();
 								unsigned long long bprice = _CbbcPriceMark->getBidPrice();
@@ -1154,7 +1155,7 @@ private:
 						if(_PriceInfo->LastAskSeq != _PriceInfoU->AskSeq){
 
 							_PriceInfo->LastAskSeq = _PriceInfoU->AskSeq;
-							bool hasUpdate = _CbbcPriceMark->updateThAsk(ibest_ask_price, _PriceInfo->IBestask, _PriceInfoU->FBestask, _PriceInfoU->PFBestask);
+							bool hasUpdate = _CbbcPriceMark->updateTableAsk(ibest_ask_price, _PriceInfo->IBestask, _PriceInfoU->FBestask, _PriceInfoU->PFBestask);
 							if(hasUpdate){
 								unsigned long long bkey = _CbbcPriceMark->getAskKey();
 								unsigned long long bprice = _CbbcPriceMark->getAskPrice();
@@ -1479,7 +1480,7 @@ private:
 						if(_PriceInfo->LastBidSeq != _PriceInfoU->BidSeq){
 							_PriceInfo->LastBidSeq = _PriceInfoU->BidSeq;
 
-							bool hasUpdate = _CbbcPriceMark->updateThBid(ibest_bid_price, _PriceInfo->IBestbid, _PriceInfoU->FBestask, _PriceInfoU->PFBestask);
+							bool hasUpdate = _CbbcPriceMark->updateTableBid(ibest_bid_price, _PriceInfo->IBestbid, _PriceInfoU->FBestask, _PriceInfoU->PFBestask);
 							if(hasUpdate){
 								unsigned long long bkey = _CbbcPriceMark->getBidKey();
 								unsigned long long bprice = _CbbcPriceMark->getBidPrice();
@@ -1557,7 +1558,7 @@ private:
 						if(_PriceInfo->LastAskSeq != _PriceInfoU->AskSeq){
 							_PriceInfo->LastAskSeq = _PriceInfoU->AskSeq;
 
-							bool hasUpdate = _CbbcPriceMark->updateThAsk(ibest_ask_price, _PriceInfo->IBestask, _PriceInfoU->FBestbid, _PriceInfoU->PFBestbid);
+							bool hasUpdate = _CbbcPriceMark->updateTableAsk(ibest_ask_price, _PriceInfo->IBestask, _PriceInfoU->FBestbid, _PriceInfoU->PFBestbid);
 							if(hasUpdate){
 								unsigned long long bkey = _CbbcPriceMark->getAskKey();
 								unsigned long long bprice = _CbbcPriceMark->getAskPrice();

@@ -29,12 +29,16 @@ using namespace std;
 #define BULL 1
 #define BEAR 2
 
+#define INDEX_TYPE 1
+#define STOCK_TYPE 2
+
 
 
 class CbbcPriceMark {
 private:
 	//unsigned int porderbookid;
 	//unsigned int pcode;
+	int ppType;
 	int pwtype;
 	unsigned long long pIssuerSize;
 	map<unsigned long long,unsigned long long> pUpAskMark;
@@ -48,9 +52,14 @@ private:
 	unsigned long long bidprice = 0;
 	unsigned long long askprice = 0;
 public:
-	CbbcPriceMark(int wtype, unsigned long long spread, unsigned long long uspread);
+	CbbcPriceMark(int ptype, int wtype, unsigned long long spread, unsigned long long uspread);
 	virtual ~CbbcPriceMark();
 	vector<string> split(string str, char delimiter);
+
+
+
+	bool updateTableBid(unsigned long long wbid, unsigned long long pwbid, unsigned long long fbid, unsigned long long pfbid);
+	bool updateTableAsk(unsigned long long wask, unsigned long long pwask, unsigned long long fask, unsigned long long pfask);
 
 
 	bool updateThBid(unsigned long long wbid, unsigned long long pwbid, unsigned long long fbid, unsigned long long pfbid);

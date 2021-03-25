@@ -1666,10 +1666,10 @@ algo_msg_base* bear::json_to_msg(json& json)
 			p._PriceInfo->LastAskSeq=0;
 			p._PriceInfoU = new priceinfo();
 			if(p._Utype == HSI_SYMBOL){
-				p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, 100000);
+				p._CbbcPriceMark = new CbbcPriceMark(INDEX_TYPE, p._Wtype, p._SPREAD, 100000);
 			}
 			if(p._Utype == NQ_SYMBOL){
-				p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, 250000000);
+				p._CbbcPriceMark = new CbbcPriceMark(INDEX_TYPE, p._Wtype, p._SPREAD, 250000000);
 			}
 			if(p._Utype == ST_SYMBOL){
 
@@ -1702,7 +1702,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 				unsigned long long spread = spreadTable.getSpread(omdcdef.SpreadTableCode, price);
 				 */
 				//p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, spread);
-				p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, 1000000);
+				p._CbbcPriceMark = new CbbcPriceMark(STOCK_TYPE, p._Wtype, p._SPREAD, 1000000);
 			}
 
 			Log("bear 4");
