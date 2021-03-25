@@ -94,12 +94,20 @@ struct pricedata{
 	unsigned long long Bestask2;
 	unsigned long long Bestbid3;
 	unsigned long long Bestask3;
+	unsigned long long Bestbid4;
+	unsigned long long Bestask4;
+	unsigned long long Bestbid5;
+	unsigned long long Bestask5;
 	unsigned long long BestBidQty1;
 	unsigned long long BestAskQty1;
 	unsigned long long BestBidQty2;
 	unsigned long long BestAskQty2;
 	unsigned long long BestBidQty3;
 	unsigned long long BestAskQty3;
+	unsigned long long BestBidQty4;
+	unsigned long long BestAskQty4;
+	unsigned long long BestBidQty5;
+	unsigned long long BestAskQty5;
 
 	bool isWarrant;
 	bool isUnderlying;
