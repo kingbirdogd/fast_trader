@@ -82,6 +82,8 @@ class Setting extends React.Component {
         stoplost: {label: 'Stop Lost', placeholder: ''},
         ptrange: {label: 'Point Range', placeholder: ''},
         code: {label: 'Code', placeholder: ''},
+        buyoffset: {label: 'Buy Offset', placeholder: ''},
+        selloffset: {label: 'Sell Offset', placeholder: ''},
         priceTable: {label: 'Price Table'},
         btn: {set: 'Set', reset: 'Reset'}
       },
@@ -92,6 +94,8 @@ class Setting extends React.Component {
         stoplost: {label: '止蚀', placeholder: ''},
         ptrange: {label: '格数', placeholder: ''},
         code: {label: '牛熊证号码', placeholder: ''},
+        buyoffset: {label: '买入偏移', placeholder: ''},
+        selloffset: {label: '賣出偏移', placeholder: ''},
         priceTable: {label: '报价表'},
         btn: {set: '确定', reset: '重设'}
       },
@@ -102,6 +106,8 @@ class Setting extends React.Component {
         stoplost: {label: '止蝕', placeholder: ''},
         ptrange: {label: '格數', placeholder: ''},
         code: {label: '牛熊證號碼', placeholder: ''},
+        buyoffset: {label: '買入偏移', placeholder: ''},
+        selloffset: {label: '賣出偏移', placeholder: ''},
         priceTable: {label: '報價表'},
         btn: {set: '確定', reset: '重設'}
       }
@@ -201,6 +207,36 @@ class Setting extends React.Component {
           onClick={this.handleClick}
         />
         
+        <InputTextWithBtn
+          key={"buyoffset_"+no}
+          no={no}
+          label={text.buyoffset.label}
+          name="buyoffset"
+          value={this.props.data2.buyoffset.value}
+          feedback={this.props.data2.buyoffset.feedback}
+          responseResult={this.props.data2.buyoffset.responseResult}
+          btnName={text.btn.set}
+          isDisabled={isDisabled}
+          isDisabledTv={false}
+          onChange={this.handleChange}
+          onClick={this.handleClick}
+        />
+        
+        <InputTextWithBtn
+          key={"selloffset_"+no}
+          no={no}
+          label={text.selloffset.label}
+          name="selloffset"
+          value={this.props.data2.selloffset.value}
+          feedback={this.props.data2.selloffset.feedback}
+          responseResult={this.props.data2.selloffset.responseResult}
+          btnName={text.btn.set}
+          isDisabled={isDisabled}
+          isDisabledTv={false}
+          onChange={this.handleChange}
+          onClick={this.handleClick}
+        />
+        
         <BtnControl
           key={"btnControlPriceTb_"+no}
           no={no}
@@ -211,6 +247,7 @@ class Setting extends React.Component {
           setStates={this.props.setStates}
           getStates={this.props.getStates}
         />
+        
       </div>
     )
     /*<div className="form-group row">

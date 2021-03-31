@@ -48,6 +48,8 @@ class Cbbc extends React.Component {
         inlvl: {value: '0', defaultValue: '', feedback: '', responseResult: '', valid: 'number_except_zero'},
         stoplost: {value: '0', defaultValue: '', feedback: '', responseResult: '', valid: 'number_except_zero'},
         ptrange: {value: '0', defaultValue: '', feedback: '', responseResult: '', valid: 'number_except_zero'},
+        buyoffset: {value: '0', defaultValue: '', feedback: '', responseResult: '', valid: 'number_except_zero'},
+        selloffset: {value: '0', defaultValue: '', feedback: '', responseResult: '', valid: 'number_except_zero'},
       }
       
       cells[i].trade = {
@@ -591,7 +593,7 @@ class Cbbc extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.12
+          Copyright © {curYear} Fast Trader v1.0.13
         </div>
       </React.Fragment>
       /*<Selector

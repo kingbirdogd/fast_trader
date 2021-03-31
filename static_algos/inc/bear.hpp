@@ -124,7 +124,7 @@ private:
 		int _LVLRANGE = 0;
 		int _PTRANGE = 0;
 		int _SELL_OFFSET = 0;
-		int _BUY_OFFSET = 2;
+		int _BUY_OFFSET = 0;
  
 	public:
 		pair
