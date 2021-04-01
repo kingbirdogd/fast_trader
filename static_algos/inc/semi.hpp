@@ -248,7 +248,7 @@ private:
 		}
 		bool cancelorder()
 		{
-			if(_is_selling == true && _sell_type ==  dbp::top::order_type::sl && _auto_sell_id > 0){
+			if(_is_selling == true && _sell_type ==  dbp::top::order_type::pl && _auto_sell_id > 0){
 				auto result = _algo->_u.cancel_order(_auto_sell_id);
 				return result;
 			}
@@ -274,6 +274,7 @@ private:
 
 			_is_buying = true;
 			_auto_buy = false;
+
 			auto odr = _algo->_u.new_order(
 					_algo,
 					quantity,
