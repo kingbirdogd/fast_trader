@@ -169,7 +169,7 @@ private:
 			_last_trigger_price(0),
 			_last_price(0),
 			_odrid(0),
-			_sell_type(0)
+			_sell_type(dbp::top::order_type::sl)
 		{
 		}
 		json to_json() const
