@@ -242,10 +242,31 @@ private:
 		}
 		unsigned long long getSellOut()
 		{
+
+			if(_BUY_OFFSET == 0)
+				return _OBSetting->SellOut;
+
+			if(BULL == _Wtype){
+				if(_OBSetting->SellOut != 0){
+					return _OBSetting->SellOut - _SELL_OFFSET*100000;
+				}
+				return _OBSetting->SellOut;
+			}
+			if(BEAR == _Wtype){
+				if(_OBSetting->SellOut != 0){
+					return _OBSetting->SellOut + _SELL_OFFSET*100000;
+				}
+				return _OBSetting->SellOut;
+			}
+
 			return _OBSetting->SellOut;
 		}
 		unsigned long long getBuyIn()
 		{
+			if(_BUY_OFFSET == 0)
+				return _OBSetting->BuyIn ;
+
+
 			if(BULL == _Wtype){
 				if(_OBSetting->BuyIn != 99999999){
 					return _OBSetting->BuyIn + _BUY_OFFSET*100000;
