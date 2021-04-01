@@ -344,6 +344,43 @@ std::string semi::force_sell(unsigned long long price, unsigned long long quanti
 	}
 }
 
+std::string semi::limit_sell(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref)
+{
+	pref = nullptr;
+	auto it = _p_map.find(ref);
+	if (_p_map.end() == it)
+	{
+		return "fail pair not found";
+	}
+	auto& p = it->second;
+	pref = &p;
+	auto result = p.sell_limit(price, false, quantity);
+	if (pair::sell_result::SUCCESS == result)
+	{
+		return "SUCCESS";
+	}
+	else if (pair::sell_result::NOTHING_TO_SELL == result)
+	{
+		return "fail NOTHING_TO_SELL";
+	}
+	else if (pair::sell_result::SELLING == result)
+	{
+		return "fail SELLING";
+	}
+	else if (pair::sell_result::SHORT_SELL == result)
+	{
+		return "fail SHORT_SELL";
+	}
+	else if (pair::sell_result::NEW_SELL_ODR_FAIL == result)
+	{
+		return "fail NEW_SELL_ODR_FAIL";
+	}
+	else
+	{
+		return "fail UNKNOW";
+	}
+}
+
 
 void semi::position(algo_odr_position& msg) const
 {
@@ -368,6 +405,7 @@ algo_msg_base* semi::json_to_msg(json& json)
 	algo_set* pset = nullptr;
 	algo_force_buy* pforce_buy = nullptr;
 	algo_force_sell* pforce_sell = nullptr;
+	algo_limit_sell* plimit_sell = nullptr;
 	try
 	{
 
@@ -635,6 +673,17 @@ algo_msg_base* semi::json_to_msg(json& json)
 			pforce_sell->quantity = json["quantity"].get<unsigned long long>();
 			return pforce_sell;
 		}
+		else if (cmd == "limit_sell")
+		{
+			plimit_sell = algo_limit_sell_pool.get_obj();
+			plimit_sell->al = this;
+			plimit_sell->algo_name = _name;
+			plimit_sell->id = _u.get_id();
+			plimit_sell->ref = ref;
+			plimit_sell->price = json["price"].get<unsigned long long>();
+			plimit_sell->quantity = json["quantity"].get<unsigned long long>();
+			return plimit_sell;
+		}
 		else
 		{
 			auto msg = algo_err_msg_pool.get_obj();
@@ -662,6 +711,8 @@ algo_msg_base* semi::json_to_msg(json& json)
 			pforce_buy->release();
 		if (pforce_sell)
 			pforce_sell->release();
+		if(plimit_sell)
+			plimit_sell->release();
 		return msg;
 	}
 }
@@ -690,5 +741,6 @@ rapid_ring::spsc_ring_buffer_object_pool<semi::algo_del, 8192> semi::algo_del_po
 rapid_ring::spsc_ring_buffer_object_pool<semi::algo_get, 8192> semi::algo_get_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semi::algo_force_buy, 8192> semi::algo_force_buy_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semi::algo_force_sell, 8192> semi::algo_force_sell_pool;
+rapid_ring::spsc_ring_buffer_object_pool<semi::algo_limit_sell, 8192> semi::algo_limit_sell_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semi::algo_getprofit_msg, 8192> semi::algo_getprofit_msg_pool;
 

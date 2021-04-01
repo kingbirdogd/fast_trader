@@ -55,6 +55,8 @@ private:
 		unsigned long long wbestask;
 		unsigned long long _last_trigger_price;
 		unsigned long long _last_price;
+		unsigned long long _odrid;
+		unsigned char _sell_type;
 	public:
 		enum class sell_result: unsigned long long
 		{
@@ -106,7 +108,9 @@ private:
 			wbestbid(0),
 			wbestask(0),
 			_last_trigger_price(0),
-			_last_price(0)
+			_last_price(0),
+			_odrid(0),
+			_sell_type(0)
 		{
 		}
 		pair
@@ -163,7 +167,9 @@ private:
 			wbestbid(0),
 			wbestask(0),
 			_last_trigger_price(0),
-			_last_price(0)
+			_last_price(0),
+			_odrid(0),
+			_sell_type(0)
 		{
 		}
 		json to_json() const
@@ -195,6 +201,7 @@ private:
 			j["is_reset_position"] = _is_reset_position;
 			j["last_trigger_price"] = _last_trigger_price;
 			j["last_price"] = _last_price;
+			j["sell_type"] = _sell_type;
 			return j;
 		}
 		json to_minor_json() const
@@ -238,6 +245,14 @@ private:
 				}
 			}
 			return price;
+		}
+		bool cancelorder()
+		{
+			if(_is_selling == true && _sell_type ==  dbp::top::order_type::sl && _auto_sell_id > 0){
+				auto result = _algo->_u.cancel_order(_auto_sell_id);
+				return result;
+			}
+			return false;
 		}
 		buy_result buy(unsigned long long price = 0, bool is_auto = true, unsigned long long quantity = 0)
 		{
@@ -323,6 +338,7 @@ private:
 				return sell_result::SHORT_SELL;
 			}
 			_is_selling = true;
+			_sell_type = dbp::top::order_type::sl;
 			//_auto_sell = false;
 			auto odr = _algo->_u.new_order(
 					_algo,
@@ -331,6 +347,58 @@ private:
 					_warrant_code,
 					dbp::top::order_side::sell,
 					dbp::top::order_type::sl,
+					dbp::top::aon_type::non_ano,
+					dbp::top::ignore_price_type::ignore,
+					0);
+			if (odr.is_valid())
+			{
+				_algo->_o_map[odr.order_id] = this;
+				if (is_auto)
+				{
+					_auto_sell_id = odr.order_id;
+				}
+				return sell_result::SUCCESS;
+			}
+			else
+			{
+				return sell_result::NEW_SELL_ODR_FAIL;
+			}
+		}
+		sell_result sell_limit(unsigned long long price = 0, bool is_auto = true, unsigned long long quantity = 0)
+		{
+			if (is_auto)
+			{
+			}
+			if (0 == quantity)
+			{
+				quantity = _position;
+			}
+			if (0 == price)
+			{
+				price = default_sell_price();
+			}
+			if (0 == quantity)
+			{
+				return sell_result::NOTHING_TO_SELL;
+			}
+			else if (_is_selling)
+			{
+				return sell_result::SELLING;
+			}
+			else if (quantity > _position)
+			{
+				return sell_result::SHORT_SELL;
+			}
+			_is_selling = true;
+			_sell_type = dbp::top::order_type::pl;
+			//_auto_sell = false;
+			auto odr = _algo->_u.new_order(
+					_algo,
+					quantity,
+					price,
+					_warrant_code,
+					dbp::top::order_side::sell,
+					dbp::top::order_type::pl,
 					dbp::top::aon_type::non_ano,
 					dbp::top::ignore_price_type::ignore,
 					0);
@@ -642,6 +710,14 @@ private:
 			std::string strstatus = "";
 			std::string strside = "";
 			std::string strreason = "";
+
+			if(dbp::top::order_status::queued == status){
+				if(dbp::top::order_side::sell == side && dbp::top::order_type::pl == odr.type ){
+					_odrid = odr.order_ref;
+					strstatus = "queued";
+				}
+			}
+
 			if (dbp::top::order_status::rejected == status || dbp::top::order_status::canceled == status || dbp::top::order_status::deleted == status || dbp::top::order_status::filled == status)
 			{
 
@@ -1321,6 +1397,45 @@ private:
 		}
 		virtual ~algo_force_sell() = default;
 	};
+	struct algo_limit_sell: public algo_msg_base
+	{
+		pair* p;
+		std::string result;
+		unsigned long long price;
+		unsigned long long quantity;
+		algo_limit_sell():
+			algo_msg_base(),
+			p(nullptr),
+			result(""),
+			price(0),
+			quantity(0)
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["msg_type"] = "semi_algo_limit_sell";
+			if (p)
+				j["pair"] = p->to_minor_json();
+			else
+				j["pair"] = nullptr;
+			j["price"] = price;
+			j["quantity"] = quantity;
+			j["result"] = result;
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<semi*>(al);
+			result = self->limit_sell(price, quantity, p, ref);
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_limit_sell_pool.release_obj(this);
+		}
+		virtual ~algo_limit_sell() = default;
+	};
 public:
 	semi() = delete;
 	semi(user& u, const std::string& name);
@@ -1333,6 +1448,7 @@ public:
 	std::string get_pair(const std::string& ref, pair*& pref);
 	std::string force_buy(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref);
 	std::string force_sell(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref);
+	std::string limit_sell(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref);
 	void position(algo_odr_position& msg) const;
 	virtual ~semi() = default;
 	virtual void on_omdc_book(const Tradable&);
@@ -1358,6 +1474,7 @@ public:
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_get, 8192> algo_get_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_force_buy, 8192> algo_force_buy_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_force_sell, 8192> algo_force_sell_pool;
+	static rapid_ring::spsc_ring_buffer_object_pool<algo_limit_sell, 8192> algo_limit_sell_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_getprofit_msg, 8192> algo_getprofit_msg_pool;
 };
 
