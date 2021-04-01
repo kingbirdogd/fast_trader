@@ -56,7 +56,7 @@ private:
 		unsigned long long _last_trigger_price;
 		unsigned long long _last_price;
 		unsigned long long _odrid;
-		unsigned char _sell_type;
+		dbp::top::order_type _sell_type;
 	public:
 		enum class sell_result: unsigned long long
 		{
