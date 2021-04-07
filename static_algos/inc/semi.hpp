@@ -1288,7 +1288,7 @@ private:
 	{
 		pair* p;
 		std::string result;
-		():
+		algo_cancel():
 			algo_msg_base(),
 			p(nullptr),
 			result("")
