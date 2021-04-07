@@ -765,6 +765,7 @@ rapid_ring::spmc_ring_buffer_object_pool<semi::algo_latency, 8192> semi::algo_la
 #endif
 rapid_ring::spsc_ring_buffer_object_pool<semi::algo_set, 8192> semi::algo_set_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semi::algo_del, 8192> semi::algo_del_pool;
+rapid_ring::spsc_ring_buffer_object_pool<semi::algo_cancel, 8192> semi::algo_cancel_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semi::algo_get, 8192> semi::algo_get_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semi::algo_force_buy, 8192> semi::algo_force_buy_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semi::algo_force_sell, 8192> semi::algo_force_sell_pool;
