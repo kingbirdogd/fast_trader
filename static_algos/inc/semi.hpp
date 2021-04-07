@@ -422,6 +422,10 @@ private:
 				{
 					_auto_sell_id = odr.order_id;
 				}
+				if(_sell_type == dbp::top::order_type::pl)
+				{
+					_auto_sell_id = odr.order_id;
+				}
 				return sell_result::SUCCESS;
 			}
 			else
