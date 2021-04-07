@@ -370,7 +370,7 @@ private:
 					if(wbestbid == 0){
 						wbestbid = default_sell_price();
 					}
-					if (0 != wbestbid && (wbestbid == _bottom_price || wbestbid >= _ceiling_price))
+					if (0 != wbestbid && (wbestbid == _bottom_price || (wbestbid >= _ceiling_price && _ceiling_price > 0)  ))
 					{
 
 						if(sell(wbestbid) == sell_result::SUCCESS){
