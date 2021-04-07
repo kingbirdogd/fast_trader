@@ -231,6 +231,7 @@ public:
 	void set_buy_power(unsigned long long buy_power);
 	unsigned long long get_buy_power();
 	unsigned long long get_id();
+	unsigned long long get_base_id();
 	algo* get_algo(const std::string& name);
 	std::unordered_map<std::string, std::string> get_algos();
 	bool get_top_buy_power(const std::string& ref, const std::string& algo_name);

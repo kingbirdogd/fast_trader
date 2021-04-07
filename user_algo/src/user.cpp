@@ -156,6 +156,11 @@ unsigned long long user::get_id()
 	return _id;
 }
 
+unsigned long long user::get_base_id()
+{
+	return _client->get_base_id();;
+}
+
 algo* user::get_algo(const std::string& name)
 {
 	auto it = _algos.find(name);

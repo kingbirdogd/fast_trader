@@ -327,6 +327,13 @@ inline void decode()
 				output(j);
 				return;
 			}
+			else if (cmd == "get_base_id")
+			{
+				j["base_id"] = u.get_base_id();
+				output(j);
+				return;
+			}
+
 			else if (cmd == "set_buy_power")
 			{
 				auto buy_power = j["buy_power"].get<unsigned long long>();
