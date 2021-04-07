@@ -1288,7 +1288,7 @@ private:
 	{
 		pair* p;
 		std::string result;
-		algo_cancel():
+		():
 			algo_msg_base(),
 			p(nullptr),
 			result("")
@@ -1313,9 +1313,9 @@ private:
 		}
 		virtual void release()
 		{
-			algo_del_pool.release_obj(this);
+			algo_cancel_pool.release_obj(this);
 		}
-		virtual ~algo_del() = default;
+		virtual ~algo_cancel() = default;
 	};
 	struct algo_get: public algo_msg_base
 	{
