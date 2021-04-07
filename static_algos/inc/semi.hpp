@@ -248,6 +248,9 @@ private:
 		}
 		bool cancelorder()
 		{
+			_algo->Log("Code = " + to_string(_warrant_code) + " Action=Cancel Order,  Auto Sell ID=" + to_string(_auto_sell_id));
+
+
 			if(_is_selling == true && _sell_type ==  dbp::top::order_type::pl && _auto_sell_id > 0){
 				auto result = _algo->_u.cancel_order(_auto_sell_id);
 				return result;
@@ -367,6 +370,10 @@ private:
 		}
 		sell_result sell_limit(unsigned long long price = 0, bool is_auto = true, unsigned long long quantity = 0)
 		{
+
+
+			_algo->Log("Code = " + to_string(_warrant_code) + " Action=Do Sell Limit");
+
 			if (is_auto)
 			{
 			}
@@ -390,6 +397,7 @@ private:
 			{
 				return sell_result::SHORT_SELL;
 			}
+
 			_is_selling = true;
 			_sell_type = dbp::top::order_type::pl;
 			//_auto_sell = false;
@@ -403,6 +411,10 @@ private:
 					dbp::top::aon_type::non_ano,
 					dbp::top::ignore_price_type::ignore,
 					0);
+
+
+			_algo->Log("Code = " + to_string(_warrant_code) + " Action=Do Sell Limit , internal Order id = " + to_string(odr.order_id));
+
 			if (odr.is_valid())
 			{
 				_algo->_o_map[odr.order_id] = this;

@@ -400,7 +400,7 @@ private:
 						bool within1spread = (b1 - a) == 0;
 
 						//if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn && fallback){
-						if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn){
+						if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn && _OBSetting->SellOut > _OBSetting->BuyIn){
 
 							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Buy " );
 
@@ -575,7 +575,7 @@ private:
 						bool within1spread = (b1 - a) == 0;
 
 						//if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn != 0 && fallback){
-						if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn != 0){
+						if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn != 0 && _OBSetting->BuyIn > _OBSetting->SellOut){
 
 
 
@@ -1014,7 +1014,7 @@ private:
 				_OBSetting->BuyIn = buyin;
 				_OBSetting->SellOut = sellout;
 				_OBSetting->LvLBid = lvlBid;
-
+/*
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _PriceInfo->LBestbid != best_bid_price && best_bid_price > 0 && best_bid_price > _PriceInfo->LBestbid){
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 					if(warrant->BuyPrice > _PriceInfo->LBestbid && warrant->BuyPrice > best_bid_price){
@@ -1032,6 +1032,7 @@ private:
 						doSell(warrant);
 					}
 				}
+*/
 
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Stop_Lost > 0 && best_bid_qty >= _IssuerSize){
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
@@ -1412,7 +1413,7 @@ private:
 				_OBSetting->SellOut = sellout;
 				_OBSetting->LvLBid = lvlBid;
 
-
+/*
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _PriceInfo->LBestbid != best_bid_price && best_bid_price > 0 && best_bid_price > _PriceInfo->LBestbid){
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 					if(warrant->BuyPrice > _PriceInfo->LBestbid && warrant->BuyPrice > best_bid_price){
@@ -1432,7 +1433,7 @@ private:
 						doSell(warrant);
 					}
 				}
-
+*/
 
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Stop_Lost > 0 && best_bid_qty >= _IssuerSize){
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
