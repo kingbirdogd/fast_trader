@@ -381,7 +381,7 @@ std::string semi::limit_sell(unsigned long long price, unsigned long long quanti
 	}
 }
 
-std::string semi::cancel_order(pair*& pref, const std::string& ref)
+std::string semi::cancel_order(const std::string& ref, pair*& pref)
 {
 	pref = nullptr;
 	auto it = _p_map.find(ref);
