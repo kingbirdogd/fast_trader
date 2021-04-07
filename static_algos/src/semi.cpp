@@ -381,6 +381,24 @@ std::string semi::limit_sell(unsigned long long price, unsigned long long quanti
 	}
 }
 
+std::string semi::cancel_order(pair*& pref, const std::string& ref)
+{
+	pref = nullptr;
+	auto it = _p_map.find(ref);
+	if (_p_map.end() == it)
+	{
+		return "fail pair not found";
+	}
+	auto& p = it->second;
+	pref = &p;
+	bool result = p.cancelorder();
+	if (result)
+	{
+		return "SUCCESS";
+	}
+	return "FAIL";
+}
+
 
 void semi::position(algo_odr_position& msg) const
 {
@@ -627,6 +645,15 @@ algo_msg_base* semi::json_to_msg(json& json)
 		else if (cmd == "delete")
 		{
 			auto msg = algo_del_pool.get_obj();
+			msg->al = this;
+			msg->algo_name = _name;
+			msg->id = _u.get_id();
+			msg->ref = ref;
+			return msg;
+		}
+		else if (cmd == "cancel")
+		{
+			auto msg = algo_cancel_pool.get_obj();
 			msg->al = this;
 			msg->algo_name = _name;
 			msg->id = _u.get_id();

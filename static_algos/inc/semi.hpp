@@ -1284,6 +1284,39 @@ private:
 		}
 		virtual ~algo_del() = default;
 	};
+	struct algo_cancel: public algo_msg_base
+	{
+		pair* p;
+		std::string result;
+		algo_cancel():
+			algo_msg_base(),
+			p(nullptr),
+			result("")
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["msg_type"] = "semi_algo_cancel";
+			if (p)
+				j["pair"] = p->to_minor_json();
+			else
+				j["pair"] = nullptr;
+			j["result"] = result;
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<semi*>(al);
+			result = self->cancel_order(ref, p);
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_del_pool.release_obj(this);
+		}
+		virtual ~algo_del() = default;
+	};
 	struct algo_get: public algo_msg_base
 	{
 		pair* p;
@@ -1447,6 +1480,7 @@ public:
 	std::string set_pair(pair&& p, bool no_change);
 	std::string delete_pair(const std::string& ref, pair*& pref);
 	std::string get_pair(const std::string& ref, pair*& pref);
+	std::string cancel_order(const std::string& ref, pair*& pref);
 	std::string force_buy(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref);
 	std::string force_sell(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref);
 	std::string limit_sell(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref);
@@ -1472,6 +1506,7 @@ public:
 #endif
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_set, 8192> algo_set_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_del, 8192> algo_del_pool;
+	static rapid_ring::spsc_ring_buffer_object_pool<algo_cancel, 8192> algo_cancel_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_get, 8192> algo_get_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_force_buy, 8192> algo_force_buy_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_force_sell, 8192> algo_force_sell_pool;
