@@ -1450,11 +1450,11 @@ inline static bool loadDefinition(json& _json)
 														}
 
 
-															flush_printf("tm:%llu, OMDD Underlying Set, code: %lu, InstrumentGroup:%u,CommodityCode:%u\n",
+															flush_printf("tm:%llu, OMDD Underlying Set, code: %lu, InstrumentGroup:%u,CommodityCode:%u    Today=%s   ExpDate=%s\n",
 																	dbp::tools::srv::current(),
 																	orderbookid,
 																	static_cast<unsigned int>(underlying.InstrumentGroup),
-																	static_cast<unsigned int>(underlying.CommodityCode));
+																	static_cast<unsigned int>(underlying.CommodityCode),strToday.c_str(), expdate.c_str() );
 														}else{
 
 															flush_printf("tm:%llu, OMDD Underlying Set, code: %lu, InstrumentGroup:%u,CommodityCode:%u   Expire Today\n",
