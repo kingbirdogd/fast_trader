@@ -1410,9 +1410,13 @@ inline static bool loadDefinition(json& _json)
 
 													unsigned short int CommodityCode = OMD_GET_VALUE(pszBuffer, 44, unsigned short int);
 													unsigned char InstrumentGroup = OMD_GET_VALUE(pszBuffer, 42, unsigned char);
+													auto expdate = OMD_GET_STR(pszBuffer, 80, 8);
 
 													if(CommodityCode == 4001 || CommodityCode == 4002 || CommodityCode == 4038){
 														if(InstrumentGroup == 4){
+
+															std::string strToday = std::to_string(dbp::tools::srv::get_YYYYMMDD() / 1000000000);
+															if(strToday != expdate){ //Exclude exp contract
 
 														cache["omdd_name"][std::to_string(orderbookid)] = symbol;
 														omddMap[orderbookid].m_Code = orderbookid;
@@ -1431,6 +1435,10 @@ inline static bool loadDefinition(json& _json)
 														cache["omdd_underlying"][std::to_string(orderbookid)]["CommodityCode"] = static_cast<unsigned short int>(underlying.CommodityCode);
 														cache["omdd_underlying"][std::to_string(orderbookid)]["Symbol"] = static_cast<std::string>(underlying.Symbol);
 
+
+
+
+
 														if(CommodityCode == 4001){
 															hsiVec.push_back(symbol);
 														}
@@ -1447,6 +1455,8 @@ inline static bool loadDefinition(json& _json)
 																orderbookid,
 																static_cast<unsigned int>(underlying.InstrumentGroup),
 																static_cast<unsigned int>(underlying.CommodityCode));
+														}
+
 														}
 													}
 												}
