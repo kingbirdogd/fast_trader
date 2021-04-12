@@ -5,6 +5,7 @@ COmdOrderMap stockWarrantomdcMap;
 COmdOrderMap omdcSlimMap;
 COmdOrderMap omddMap;
 CTcpOrderMap tcpMap;
+COmdOrderMap ptomddMap;
 COmdOrderMap ptomdcMap;
 COmdOrderMap s1omdcMap;
 COmdcAdditionDefinitionsMap omdcAdditionDefinitionsMap;
@@ -18,6 +19,7 @@ CStreamVec omdcStreams;
 CStreamVec omddStreams;
 CStreamVec s1Streams;
 CStreamVec pricetableStreams;
+CStreamVec omddpricetableStreams;
 COmddSymbolVec hsiVec;
 COmddSymbolVec hsceiVec;
 COmddSymbolVec hstecVec;
@@ -43,6 +45,7 @@ SpreadTable spreadTable;
 TcpChannelConfig tcpConfig;
 
 unsigned long long gSeq = 0;
+bool OmddDefReady = false;
 
 
 #ifdef FULLTICK

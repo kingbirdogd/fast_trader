@@ -1201,6 +1201,9 @@ inline static bool loadDefinition(json& _json)
 														warrantToUnderlying[warrant_code] = underlying_code;
 														underlyingToWarrant[underlying_code].insert(warrant_code);
 
+
+														unsigned int omdd_code = 0;
+
 														if(underlying_code > 0){
 
 															cache["warrent_map"][std::to_string(warrant_code)] = underlying_code;
@@ -1213,18 +1216,24 @@ inline static bool loadDefinition(json& _json)
 																warrantToUnderlying[warrant_code] = 100001;
 																underlyingToWarrant[100001].insert(warrant_code);
 																cache["warrent_map"][std::to_string(warrant_code)] = 100001;
+
+																omdd_code = 100001;
 															}
 															pos = sname.find("HSCEI");
 															if(pos != sname.npos){
 																warrantToUnderlying[warrant_code] = 100002;
 																underlyingToWarrant[100002].insert(warrant_code);
 																cache["warrent_map"][std::to_string(warrant_code)] = 100002;
+
+																omdd_code = 100002;
 															}
 															pos = sname.find("HSTEC");
 															if(pos != sname.npos){
 																warrantToUnderlying[warrant_code] = 100003;
 																underlyingToWarrant[100003].insert(warrant_code);
 																cache["warrent_map"][std::to_string(warrant_code)] = 100003;
+
+																omdd_code = 100003;
 															}
 
 
@@ -1253,7 +1262,7 @@ inline static bool loadDefinition(json& _json)
 														pricemarkMap[uSecurityCode] = new PriceMark(uSecurityCode, wtype);
 														ptomdcMap[uSecurityCode].m_Code = uSecurityCode;
 														if(underlying_code > 0){
-														ptomdcMap[underlying_code].m_Code = underlying_code;
+															ptomdcMap[underlying_code].m_Code = underlying_code;
 														}
 
 														if(underlying_code > 0){
@@ -1264,6 +1273,12 @@ inline static bool loadDefinition(json& _json)
 														pricedataMap[uSecurityCode]->isWarrant = true;
 														pricedataMap[uSecurityCode]->isUnderlying = false;
 														pricedataMap[uSecurityCode]->UCode = underlying_code;
+														pricedataMap[uSecurityCode]->IsIndex = false;
+														pricedataMap[uSecurityCode]->Orderbook_id = 0;
+														if(underlying_code == 0){
+															pricedataMap[uSecurityCode]->UCode = omdd_code;
+															pricedataMap[uSecurityCode]->IsIndex = true;
+														}
 														pricedataMap[uSecurityCode]->Bestbid=0ull;
 														pricedataMap[uSecurityCode]->Bestask=0ull;
 														pricedataMap[uSecurityCode]->BestBidQty=0ull;
@@ -1289,6 +1304,8 @@ inline static bool loadDefinition(json& _json)
 																pricedataMap[underlying_code] = new pricedata();
 																pricedataMap[underlying_code]->isUnderlying = true;
 																pricedataMap[underlying_code]->isWarrant = false;
+																pricedataMap[underlying_code]->IsIndex = false;
+																pricedataMap[underlying_code]->Orderbook_id = 0;
 																pricedataMap[underlying_code]->UCode = 0;
 																pricedataMap[underlying_code]->Bestbid=0ull;
 																pricedataMap[underlying_code]->Bestask=0ull;
@@ -1397,6 +1414,7 @@ inline static bool loadDefinition(json& _json)
 													objEvent.data.fd = iFd;
 													epoll_ctl(iDefEopll, EPOLL_CTL_DEL, iFd, &objEvent);
 													flush_printf("tm:%llu, Finish Omdd Definition Refresh \n\n", dbp::tools::srv::current());
+													OmddDefReady = true;
 												}
 												else if (304 == uMsgType)
 												{
@@ -1420,6 +1438,35 @@ inline static bool loadDefinition(json& _json)
 
 														cache["omdd_name"][std::to_string(orderbookid)] = symbol;
 														omddMap[orderbookid].m_Code = orderbookid;
+
+														ptomddMap[orderbookid].m_Code = orderbookid;
+														auto itp = pricedataMap.find(orderbookid);
+														if(itp == pricedataMap.end()){
+															pricedataMap[orderbookid] = new pricedata();
+															pricedataMap[orderbookid]->isUnderlying = true;
+															pricedataMap[orderbookid]->isWarrant = false;
+															pricedataMap[orderbookid]->IsIndex = true;
+															pricedataMap[orderbookid]->UCode = 0;
+															pricedataMap[orderbookid]->Bestbid=0ull;
+															pricedataMap[orderbookid]->Bestask=0ull;
+															pricedataMap[orderbookid]->BestBidQty=0ull;
+															pricedataMap[orderbookid]->BestAskQty=0ull;
+															pricedataMap[orderbookid]->PBestbid=0ull;
+															pricedataMap[orderbookid]->PBestask=0ull;
+															pricedataMap[orderbookid]->LBestbid=0ull;
+															pricedataMap[orderbookid]->LBestask=0ull;
+															pricedataMap[orderbookid]->BidIssuerSize=0ull;
+															pricedataMap[orderbookid]->AskIssuerSize=0ull;
+															pricedataMap[orderbookid]->BidSeq=1;
+															pricedataMap[orderbookid]->AskSeq=1;
+															pricedataMap[orderbookid]->BSeq=1;
+															pricedataMap[orderbookid]->ASeq=1;
+															pricedataMap[orderbookid]->BidVolSeq=1;
+															pricedataMap[orderbookid]->AskVolSeq=1;
+														}
+
+
+
 	#ifdef FULLTICK
 														omddFullTickBook[orderbookid];
 	#endif //FULLTICK
@@ -1434,10 +1481,6 @@ inline static bool loadDefinition(json& _json)
 														cache["omdd_underlying"][std::to_string(orderbookid)]["InstrumentGroup"] = static_cast<unsigned short int>(underlying.InstrumentGroup);
 														cache["omdd_underlying"][std::to_string(orderbookid)]["CommodityCode"] = static_cast<unsigned short int>(underlying.CommodityCode);
 														cache["omdd_underlying"][std::to_string(orderbookid)]["Symbol"] = static_cast<std::string>(underlying.Symbol);
-
-
-
-
 
 														if(CommodityCode == 4001){
 															hsiVec.push_back(symbol);

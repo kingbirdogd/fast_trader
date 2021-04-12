@@ -37,6 +37,7 @@ extern COmdOrderMap omdcMap;
 extern COmdOrderMap stockWarrantomdcMap;
 extern COmdOrderMap omdcSlimMap;
 extern COmdOrderMap omddMap;
+extern COmdOrderMap ptomddMap;
 extern CTcpOrderMap tcpMap;
 extern COmdOrderMap ptomdcMap;
 extern COmdOrderMap s1omdcMap;
@@ -53,6 +54,7 @@ extern CRetranVec retranVec;
 extern CStreamVec omdcStreams;
 extern CStreamVec omddStreams;
 extern CStreamVec pricetableStreams;
+extern CStreamVec omddpricetableStreams;
 extern CStreamVec s1Streams;
 extern CActivateChannel mActivateChannel;
 extern CBroadCastQueue broadcastQueue;
@@ -74,6 +76,7 @@ extern AlgoParameter algoParam;
 extern SpreadTable spreadTable;
 extern TcpChannelConfig tcpConfig;
 extern unsigned long long gSeq;
+extern bool OmddDefReady;
 
 #ifdef FULLTICK
 template <typename SideType>

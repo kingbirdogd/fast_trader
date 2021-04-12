@@ -128,7 +128,45 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				issuer_ask = best_ask_price1;
 			}
 
-			pricedata* pdu = pricedataMap[pd->UCode];
+			pricedata* pdu = nullptr;
+			if(pd->IsIndex){
+				unsigned int orderbook_id = 0;
+				if(OmddDefReady ){
+
+					if(pd->Orderbook_id == 0){
+						unsigned int omddcode = pd->UCode;
+						if(pd->UCode = 100001){
+							auto symbol = hsiVec.front();
+							orderbook_id = nameToCode[symbol];
+							pd->Orderbook_id = orderbook_id;
+						}
+						if(pd->UCode = 100002){
+							auto symbol = hsceiVec.front();
+							orderbook_id = nameToCode[symbol];
+							pd->Orderbook_id = orderbook_id;
+						}
+						if(pd->UCode = 100003){
+							auto symbol = hstecVec.front();
+							orderbook_id = nameToCode[symbol];
+							pd->Orderbook_id = orderbook_id;
+						}
+
+						if(pd->Orderbook_id == 0)
+							return;
+					}else{
+						pdu = pricedataMap[pd->Orderbook_id];
+					}
+				}
+			}else{
+				 pdu = pricedataMap[pd->UCode];
+			}
+
+
+			if(pdu == nullptr)
+				return;
+
+
+			//pricedata* pdu = pricedataMap[pd->UCode];
 			PriceMark* _PriceMark = pricemarkMap[uSecurityCode];
 
 			if(_PriceMark == nullptr){
