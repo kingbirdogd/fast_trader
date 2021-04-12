@@ -99,8 +99,8 @@ inline void decode()
 		{
 			auto code = j["code"].get<unsigned int>();
 
-			auto itpm = pricedataMap.find(code);
-			if(pricedataMap.end() == itpm)
+			auto itpm = pricemarkMap.find(code);
+			if(pricemarkMap.end() == itpm)
 			{
 				j["error"] = std::string("No such Pricetable : ") + std::to_string(code);
 				output(j);
@@ -109,20 +109,6 @@ inline void decode()
 			else
 			{
 				j["table"] = itpm->second->printTable();
-				output(j);
-				return;
-			}
-
-			auto it = warrantToUnderlying.find(code);
-			if (warrantToUnderlying.end() == it)
-			{
-				j["error"] = std::string("underlying code not found for warrent:") + std::to_string(code);
-				output(j);
-				return;
-			}
-			else
-			{
-				j["underlying"] = it->second;
 				output(j);
 				return;
 			}
