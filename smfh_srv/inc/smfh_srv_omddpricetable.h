@@ -1,5 +1,5 @@
-#ifndef __SMFH_SRV_OMDD__
-#define __SMFH_SRV_OMDD__
+#ifndef __SMFH_SRV_OMDDPRICETABLE__
+#define __SMFH_SRV_OMDDPRICETABLE__
 #include <tools.h>
 #include <global_memory.hpp>
 #include "smfh_srv_orderbook.h"
