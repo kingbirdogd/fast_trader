@@ -369,6 +369,7 @@ inline static bool loadDefinition(json& _json)
 				unsigned int warrent = static_cast<unsigned int>(std::stoul(key));
 				warrantToUnderlying[warrent] = underlying;
 
+				unsigned int omdd_code = 0;
 				if(underlying > 0){
 					underlyingToWarrant[underlying].insert(warrent);
 				}else{
@@ -381,16 +382,19 @@ inline static bool loadDefinition(json& _json)
 						if(pos != sname.npos){
 							underlyingToWarrant[100001].insert(warrent);
 							warrantToUnderlying[warrent] = 100001;
+							omdd_code = 100001;
 						}
 						pos = sname.find("HSCEI");
 						if(pos != sname.npos){
 							underlyingToWarrant[100002].insert(warrent);
 							warrantToUnderlying[warrent] = 100002;
+							omdd_code = 100002;
 						}
 						pos = sname.find("HSTEC");
 						if(pos != sname.npos){
 							underlyingToWarrant[100003].insert(warrent);
 							warrantToUnderlying[warrent] = 100003;
+							omdd_code = 100003;
 						}
 					}
 				}
@@ -413,6 +417,15 @@ inline static bool loadDefinition(json& _json)
 				pricedataMap[warrent]->isWarrant = true;
 				pricedataMap[warrent]->isUnderlying = false;
 				pricedataMap[warrent]->UCode = underlying;
+
+				pricedataMap[warrent]->IsIndex = false;
+				pricedataMap[warrent]->Orderbook_id = 0;
+
+				if(underlying == 0){
+					pricedataMap[warrent]->UCode = omdd_code;
+					pricedataMap[warrent]->IsIndex = true;
+				}
+
 				pricedataMap[warrent]->Bestbid=0ull;
 				pricedataMap[warrent]->Bestask=0ull;
 				pricedataMap[warrent]->BestBidQty=0ull;
@@ -439,6 +452,8 @@ inline static bool loadDefinition(json& _json)
 						pricedataMap[underlying]->isUnderlying = true;
 						pricedataMap[underlying]->isWarrant = false;
 						pricedataMap[underlying]->UCode = 0;
+						pricedataMap[underlying]->IsIndex = false;
+						pricedataMap[underlying]->Orderbook_id = 0;
 						pricedataMap[underlying]->Bestbid=0ull;
 						pricedataMap[underlying]->Bestask=0ull;
 						pricedataMap[underlying]->BestBidQty=0ull;
@@ -488,6 +503,8 @@ inline static bool loadDefinition(json& _json)
 					hstecVec.push_back(underlying.Symbol);
 				}
 
+
+				OmddDefReady = true;
 			}
 			for (auto it = omdc_addition_definition.begin(); it != omdc_addition_definition.end(); ++it)
 			{
