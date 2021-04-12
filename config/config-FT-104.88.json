@@ -287,6 +287,27 @@
 			"RetranProxyIndex": 2
 		}
 	],
+	"OmddPriceTableChannel":
+	[
+		{
+			"ChannelId": 231,
+			"Hot":
+			{
+				"InterfaceIp": "10.123.132.88",
+				"InterfaceName": "enp10s0f0",
+				"MulticastIp": "239.1.1.131",
+				"MulticastPort": 51000
+			},
+			"Refresh":
+			{
+				"InterfaceIp": "10.123.132.88",
+				"InterfaceName": "enp10s0f0",
+				"MulticastIp": "239.1.1.12",
+				"MulticastPort": 51000
+			},
+			"RetranProxyIndex": 1
+		}
+	],
 	"S1Channel":
 	[
 		{
@@ -326,6 +347,7 @@
 		{"Channel":"OmddftChannel"},
 		{"Channel":"SWOmdcChannel"},
 		{"Channel":"PriceTableChannel"},
+		{"Channel":"OmddPriceTableChannel"},
 		{"Channel":"S1Channel"}
 		
 	]
