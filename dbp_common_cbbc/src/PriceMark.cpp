@@ -549,6 +549,20 @@ string PriceMark::printTable(unsigned long long ubid){
 	return data;
 }
 
+string PriceMark::printTable(){
+
+	string data = "Warrant Code = " + to_string(pcode) + " Price Table\n";
+	int count = 0;
+	for (auto it = priceMarkTable.begin(); it != priceMarkTable.end(); ++it ){
+		string key = it->first;
+		string value = it->second;
+
+		data += key + "=" + value + "\n";
+		count++;
+	}
+	return data;
+}
+
 unsigned long long PriceMark::getMaxBidAskSpread(){
 
 	unsigned long long maxBidAskSpread = 0;
