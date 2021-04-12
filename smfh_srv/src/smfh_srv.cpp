@@ -108,7 +108,7 @@ inline void decode()
 			}
 			else
 			{
-				j["table"] = it->second->printTable();
+				j["table"] = itpm->second->printTable();
 				output(j);
 				return;
 			}
