@@ -558,8 +558,28 @@ string PriceMark::printTable(){
 		string value = it->second;
 
 		data += key + "=" + value + "\n";
+	}
+	return data;
+}
+
+string PriceMark::printTableJson(){
+
+	string data = "{\"table\": \"" + to_string(pcode) + "\",";
+
+	data += "\"rows\":[";
+	int count = 0;
+	for (auto it = priceMarkTable.begin(); it != priceMarkTable.end(); ++it ){
+		string key = it->first;
+		string value = it->second;
+
+		if(count == 0)
+			data += "{\"key\":\""+key+ "\",\"value\":\"" + value + "\"}";
+		else
+			data += ",{\"key\":\""+key+ "\",\"value\":\"" + value + "\"}";
 		count++;
 	}
+	data += "]";
+	data += "}";
 	return data;
 }
 

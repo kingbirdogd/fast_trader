@@ -43,7 +43,7 @@ inline void decode()
 	auto line = input();
 	try
 	{
-		flush_printf("Decode, tm:%s, :%s\n", dbp::tools::srv::get_time_str().c_str(), line.c_str());
+		//flush_printf("Decode, tm:%s, :%s\n", dbp::tools::srv::get_time_str().c_str(), line.c_str());
 		json j = json::parse(line);
 		auto cmd = j["cmd"].get<std::string>();
 		if (cmd == "get_omdc_tradable")
@@ -109,6 +109,24 @@ inline void decode()
 			else
 			{
 				j["table"] = itpm->second->printTable();
+				output(j);
+				return;
+			}
+		}
+		else if (cmd == "get_pricetable_json")
+		{
+			auto code = j["code"].get<unsigned int>();
+
+			auto itpm = pricemarkMap.find(code);
+			if(pricemarkMap.end() == itpm)
+			{
+				j["error"] = std::string("No such Pricetable : ") + std::to_string(code);
+				output(j);
+				return;
+			}
+			else
+			{
+				j["table"] = itpm->second->printTableJson();
 				output(j);
 				return;
 			}

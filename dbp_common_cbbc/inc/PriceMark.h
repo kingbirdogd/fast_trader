@@ -89,6 +89,7 @@ public:
 	void setAskIssuerQty(unsigned long long qty);
 	string printTable(unsigned long long ubid);
 	string printTable();
+	string printTableJson();
 	unsigned long long getMaxBidAskSpread();
 };
 
