@@ -442,11 +442,14 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 
 							return false;
 						}
-
+/*
 						pUpAskMark[pwask] = fprice;
 						askkey = pwask;
 						askprice = fprice;
-
+*/
+						pUpAskMark[wask] = fprice;
+						askkey = wask;
+						askprice = fprice;
 						return true;
 					}
 				}
