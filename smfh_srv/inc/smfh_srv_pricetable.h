@@ -153,9 +153,9 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 
 						if(pd->Orderbook_id == 0)
 							return;
-					}else{
-						pdu = pricedataMap[pd->Orderbook_id];
 					}
+
+					pdu = pricedataMap[pd->Orderbook_id];
 				}
 			}else{
 				 pdu = pricedataMap[pd->UCode];
