@@ -135,20 +135,34 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 
 					if(pd->Orderbook_id == 0){
 						unsigned int omddcode = pd->UCode;
-						if(pd->UCode = 100001){
+						if(pd->UCode == 100001){
 							auto symbol = hsiVec.front();
 							orderbook_id = nameToCode[symbol];
 							pd->Orderbook_id = orderbook_id;
+
+							DEBUG("tm:%llu, HSI OMDD Price Table Orderbook ID: %u, \n",
+														dbp::tools::srv::current(),
+														orderbook_id
+														);
+
 						}
-						if(pd->UCode = 100002){
+						if(pd->UCode == 100002){
 							auto symbol = hsceiVec.front();
 							orderbook_id = nameToCode[symbol];
 							pd->Orderbook_id = orderbook_id;
+							DEBUG("tm:%llu, HSCEI OMDD Price Table Orderbook ID: %u, \n",
+																					dbp::tools::srv::current(),
+																					orderbook_id
+																					);
 						}
-						if(pd->UCode = 100003){
+						if(pd->UCode == 100003){
 							auto symbol = hstecVec.front();
 							orderbook_id = nameToCode[symbol];
 							pd->Orderbook_id = orderbook_id;
+							DEBUG("tm:%llu, HSTEC OMDD Price Table Orderbook ID: %u, \n",
+																					dbp::tools::srv::current(),
+																					orderbook_id
+																					);
 						}
 
 						if(pd->Orderbook_id == 0)
