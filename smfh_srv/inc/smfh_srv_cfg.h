@@ -1292,6 +1292,10 @@ inline static bool loadDefinition(json& _json)
 														auto warrant_code = OMD_GET_VALUE(pszBuffer, 4, unsigned int);
 														//auto underlying_code = OMD_GET_VALUE(pszBuffer, 464, unsigned int); OMD-C V1.3
 
+														//auto underlying_code = OMD_GET_VALUE(pszBuffer, 544, int);
+
+														unsigned short int ucount = OMD_GET_VALUE(pszBuffer, 542, unsigned short int);
+
 														auto underlying_code = OMD_GET_VALUE(pszBuffer, 544, unsigned int);
 														warrantToUnderlying[warrant_code] = underlying_code;
 														underlyingToWarrant[underlying_code].insert(warrant_code);
@@ -1299,7 +1303,7 @@ inline static bool loadDefinition(json& _json)
 
 														unsigned int omdd_code = 0;
 
-														if(underlying_code > 0){
+														if(ucount > 0){
 
 															cache["warrent_map"][std::to_string(warrant_code)] = underlying_code;
 														}else{
