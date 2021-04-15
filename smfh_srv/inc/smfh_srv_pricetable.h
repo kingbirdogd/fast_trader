@@ -150,16 +150,16 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 							orderbook_id = nameToCode[symbol];
 							pd->Orderbook_id = orderbook_id;
 							flush_printf("tm:%llu, OMDD PriceTable, orderbookid : %d, \n",
-														dbp::tools::srv::current(),
-														orderbook_id);
+								dbp::tools::srv::current(),
+								orderbook_id);
 						}
 						if(pd->UCode == 100003){
 							auto symbol = hstecVec.front();
 							orderbook_id = nameToCode[symbol];
 							pd->Orderbook_id = orderbook_id;
 							flush_printf("tm:%llu, OMDD PriceTable, orderbookid : %d, \n",
-														dbp::tools::srv::current(),
-														orderbook_id);
+								dbp::tools::srv::current(),
+								orderbook_id);
 						}
 
 						if(pd->Orderbook_id == 0)
