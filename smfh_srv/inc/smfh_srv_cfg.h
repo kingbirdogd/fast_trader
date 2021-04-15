@@ -1335,7 +1335,9 @@ inline static bool loadDefinition(json& _json)
 																omdd_code = 100003;
 															}
 
-
+															if(omdd_code > 0){
+																cache["warrent_map"][std::to_string(warrant_code)] = omdd_code;
+															}
 														}
 
 														stockWarrantomdcMap[warrant_code].m_Code = warrant_code;
@@ -1375,7 +1377,7 @@ inline static bool loadDefinition(json& _json)
 														pricedataMap[uSecurityCode]->UCode = underlying_code;
 														pricedataMap[uSecurityCode]->IsIndex = false;
 														pricedataMap[uSecurityCode]->Orderbook_id = 0;
-														if(underlying_code == 0){
+														if(omdd_code == 100001 || omdd_code == 100002 || omdd_code == 100003){
 															pricedataMap[uSecurityCode]->UCode = omdd_code;
 															pricedataMap[uSecurityCode]->IsIndex = true;
 														}
