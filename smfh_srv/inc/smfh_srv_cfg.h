@@ -1336,6 +1336,7 @@ inline static bool loadDefinition(json& _json)
 
 														stockWarrantomdcMap[warrant_code].m_Code = warrant_code;
 														flush_printf("tm:%llu, stockWarrantomdcMap Wcode = %d \n", dbp::tools::srv::current(), warrant_code);
+														flush_printf("tm:%llu, stockWarrantomdcMap Omdd Code = %d \n", dbp::tools::srv::current(), omdd_code);
 														if(underlying_code > 0){
 
 															stockWarrantomdcMap[underlying_code].m_Code = underlying_code;
