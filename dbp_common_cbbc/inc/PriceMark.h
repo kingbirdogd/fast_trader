@@ -32,6 +32,7 @@ using namespace std;
 #define PRICE_CHANGE 1
 #define VOL_CHANGE 2
 
+#define INDEX_SPREAD 100000
 
 class PriceMark {
 private:
@@ -57,6 +58,8 @@ public:
 
 	bool updateBid(unsigned long long wbid, unsigned long long pwbid, unsigned long long fbid, unsigned long long pfbid);
 	bool updateAsk(unsigned long long wask, unsigned long long pwask, unsigned long long fask, unsigned long long pfask);
+	bool updateIBid(unsigned long long wbid, unsigned long long pwbid, unsigned long long fbid, unsigned long long pfbid);
+	bool updateIAsk(unsigned long long wask, unsigned long long pwask, unsigned long long fask, unsigned long long pfask);
 
 	string updateTableBid(string key, unsigned long long bidprice);
 	string updateTableAsk(string key, unsigned long long askprice);
@@ -89,6 +92,7 @@ public:
 	void setAskIssuerQty(unsigned long long qty);
 	string printTable(unsigned long long ubid);
 	string printTable();
+	string printIndexTable();
 	string printTableJson();
 	unsigned long long getMaxBidAskSpread();
 };

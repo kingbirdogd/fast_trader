@@ -113,6 +113,24 @@ inline void decode()
 				return;
 			}
 		}
+		else if (cmd == "get_pricetable_index")
+		{
+			auto code = j["code"].get<unsigned int>();
+
+			auto itpm = pricemarkMap.find(code);
+			if(pricemarkMap.end() == itpm)
+			{
+				j["error"] = std::string("No such Pricetable : ") + std::to_string(code);
+				output(j);
+				return;
+			}
+			else
+			{
+				j["table"] = itpm->second->printIndexTable();
+				output(j);
+				return;
+			}
+		}
 		else if (cmd == "get_pricetable_json")
 		{
 			auto code = j["code"].get<unsigned int>();

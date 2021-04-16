@@ -470,6 +470,151 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 	return false;
 }
 
+
+bool PriceMark::updateIBid(unsigned long long wbid, unsigned long long pwbid, unsigned long long fprice, unsigned long long  pfprice){
+
+	if(pwtype == BULL){
+		if(wbid > pwbid && fprice > pfprice){
+			if(pwbid > 0 && pfprice>0){
+
+				//unsigned long long spread = spreadTable.getSpread("01", pfprice + 1llu);
+				unsigned long long refprice = pfprice+INDEX_SPREAD;
+				bool eq1 = (refprice == fprice);
+				if(eq1){
+					auto itp = pDnBidMark.find(wbid);
+					if(itp != pDnBidMark.end()){
+						return false;
+					}
+					pDnBidMark[wbid] = fprice;
+					bidkey = wbid;
+					bidprice = fprice;
+
+					return true;
+				}
+				return false;
+			}
+
+		}
+		if(wbid < pwbid && fprice < pfprice){
+			if(pwbid > 0 && pfprice>0){
+
+				pDnBidMark[pwbid] = pfprice;
+				bidkey = pwbid;
+				bidprice = pfprice;
+
+				return true;
+			}
+		}
+	}
+	if(pwtype == BEAR){
+		if(wbid > pwbid && fprice < pfprice){
+			if(pwbid > 0 && fprice>0){
+
+				//unsigned long long spread = spreadTable.getSpread("01", pfprice - 1llu);
+				unsigned long long refprice = pfprice-INDEX_SPREAD;
+				bool eq1 = (refprice == fprice);
+				if(eq1){
+					auto itp = pDnBidMark.find(wbid);
+					if(itp != pDnBidMark.end()){
+						return false;
+					}
+					pDnBidMark[wbid] = fprice;
+					bidkey = wbid;
+					bidprice = fprice;
+
+					return true;
+				}
+
+				return false;
+			}
+		}
+		if(wbid < pwbid && fprice > pfprice){
+			if(wbid > 0 && pfprice>0){
+
+				pDnBidMark[pwbid] = pfprice;
+				bidkey = pwbid;
+				bidprice = pfprice;
+
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+bool PriceMark::updateIAsk(unsigned long long wask, unsigned long long  pwask, unsigned long long  fprice, unsigned long long  pfprice){
+	if(pwtype == BULL ){
+		if(wask > pwask && fprice > pfprice){
+			if(pwask > 0 && pfprice>0){
+
+				pUpAskMark[pwask] = pfprice;
+				askkey = pwask;
+				askprice = pfprice;
+
+				return true;
+			}
+		}
+		if(wask < pwask && fprice < pfprice){
+			if(fprice > 0 && wask>0){
+
+
+				//unsigned long long spread = spreadTable.getSpread("01", pfprice - 1llu);
+				unsigned long long refprice = pfprice-INDEX_SPREAD;
+				bool eq1 = (refprice == fprice);
+				if(eq1){
+					auto itp = pUpAskMark.find(wask);
+					if(itp != pUpAskMark.end()){
+						return false;
+					}
+					pUpAskMark[wask] = fprice;
+					askkey = wask;
+					askprice = fprice;
+
+					return true;
+				}
+
+				return false;
+			}
+
+
+		}
+	}
+	if(pwtype == BEAR ){
+		if(wask > pwask && fprice < pfprice){
+			if(pwask > 0 && fprice>0){
+
+				pUpAskMark[pwask] = pfprice;
+				askkey = pwask;
+				askprice = pfprice;
+
+				return true;
+			}
+		}
+		if(wask < pwask && fprice > pfprice){
+
+			if(pfprice > 0 && wask>0){
+				//unsigned long long spread = spreadTable.getSpread("01", pfprice + 1llu);
+				unsigned long long refprice = pfprice+INDEX_SPREAD;
+				bool eq1 = (refprice == fprice);
+				if(eq1){
+					auto itp = pUpAskMark.find(wask);
+					if(itp != pUpAskMark.end()){
+						return false;
+					}
+					pUpAskMark[wask] = fprice;
+					askkey = wask;
+					askprice = fprice;
+
+					return true;
+				}
+				return false;
+			}
+
+		}
+	}
+	return false;
+}
+
 unsigned long long PriceMark::buyIn(unsigned long long wprice){
 	//string swask = to_string(wprice);
 	unsigned long long buyInUpAsk = 0;
@@ -558,6 +703,43 @@ string PriceMark::printTable(){
 		string value = it->second;
 
 		data += key + "=" + value + "\n";
+	}
+	return data;
+}
+
+string PriceMark::printIndexTable(){
+
+	string data = "Warrant Code = " + to_string(pcode) + " Price Table\n";
+
+	map<unsigned long long,std::string> pTableMap;
+
+	for (auto it = pDnBidMark.begin(); it != pDnBidMark.end(); ++it ){
+			unsigned long long key = it->first;
+			unsigned long long value = it->second;
+			pTableMap[key] = to_string(value) + "-#";
+	}
+
+	for (auto it = pUpAskMark.begin(); it != pUpAskMark.end(); ++it ){
+			unsigned long long key = it->first;
+			unsigned long long value = it->second;
+			auto itf = pTableMap.find(key);
+			if(itf == pTableMap.end()){
+				pTableMap[key] = "#-" + to_string(value);
+			}else{
+				std:string svalue = pTableMap[key];
+				vector<string> bidask = split(svalue, '-');
+
+				pTableMap[key] = bidask[0] +  "-" + to_string(value);
+			}
+
+	}
+
+	int count = 0;
+	for (auto it = pTableMap.begin(); it != pTableMap.end(); ++it ){
+		string key = it->first;
+		string value = it->second;
+
+		data += to_string(key) + "=" + value + "\n";
 	}
 	return data;
 }
