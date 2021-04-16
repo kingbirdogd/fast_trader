@@ -735,9 +735,9 @@ string PriceMark::printIndexTable(){
 	}
 
 	int count = 0;
-	for (auto it = pTableMap.begin(); it != pTableMap.end(); ++it ){
-		string key = it->first;
-		string value = it->second;
+	for (auto it2 = pTableMap.begin(); it2 != pTableMap.end(); ++it2 ){
+		unsigned long long key = it2->first;
+		string value = it2->second;
 
 		data += to_string(key) + "=" + value + "\n";
 	}
