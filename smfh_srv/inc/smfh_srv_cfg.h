@@ -494,10 +494,10 @@ inline static bool loadDefinition(json& _json)
 				codeTounderlying[code] = underlying;
 
 				if(underlying.CommodityCode == 4001){
-					hsiVec.push_back(underlying.Symbol);
+					hsceiVec.push_back(underlying.Symbol);
 				}
 				if(underlying.CommodityCode == 4002){
-					hsceiVec.push_back(underlying.Symbol);
+					hsiVec.push_back(underlying.Symbol);
 				}
 				if(underlying.CommodityCode == 4038){
 					hstecVec.push_back(underlying.Symbol);
@@ -1585,10 +1585,10 @@ inline static bool loadDefinition(json& _json)
 														cache["omdd_underlying"][std::to_string(orderbookid)]["Symbol"] = static_cast<std::string>(underlying.Symbol);
 
 														if(CommodityCode == 4001){
-															hsiVec.push_back(symbol);
+															hsceiVec.push_back(symbol);
 														}
 														if(CommodityCode == 4002){
-															hsceiVec.push_back(symbol);
+															hsiVec.push_back(symbol);
 														}
 														if(CommodityCode == 4038){
 															hstecVec.push_back(symbol);
