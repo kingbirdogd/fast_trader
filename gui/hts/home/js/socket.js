@@ -152,6 +152,12 @@ function getWsMsg(type, id){
 		}
 		
 		return '{"cmd": "set", "type":"'+wtype+'", "warrant_code": '+wcode+', "underlying_code":'+ucode+', "buy_trriger": '+uprice+', "sell_trriger": '+uprice2+', "buy_price": '+wprice+', "sell_price": '+wprice2+', "bottom_price": '+bottom+', "ceiling_price": '+ceiling+', "auto_buy_quantity": '+_vol+', "early_buy_qty": '+buy_vol+', "early_sell_qty": '+sell_vol+', "ratio_buy": '+buy_ratio+', "ratio_sell": '+sell_ratio+', "id": '+user_id+', "action": "'+action+'", "algo_name":"'+key+'", "ref": "'+id+'"'+position+resetposition+'}';
+	}else if(type=="limitsell"){
+		//{"cmd": "limit_sell","price":"12345", "quantity":400, "id": 1, "algo_name":"leo_semi", "ref": "test"}
+		return '{"cmd": "limit_sell","price":'+wprice2+', "quantity":'+t_vol+', "id": '+user_id+', "algo_name":"'+key+'", "ref": "'+id+'"}';
+	}else if(type=="limitstop"){
+		//{"cmd": "cancel", "id": 1, "algo_name":"leo_semi", "ref": "test"}
+		return '{"cmd": "cancel", "id": '+user_id+', "algo_name":"'+key+'", "ref": "'+id+'"}';
 	}
 	/*if(type=="setbuy"){
 		//set|wtype|underlying_code|warrant_code|buy_trigger_price|sell_trigger_price|buy_price|sell_price|bottom_price|ceiling_price|auto_buy_quantity|action|ref_id 
@@ -508,6 +514,7 @@ function initWebsocket(){
 								}else{
 									$("#"+id+"monsell").removeClass("disable");
 									$("#"+id+"force_sell").removeClass("disable off");
+									$("#"+id+"monsell2").addClass("disable");
 									$("#"+id+"monsell").addClass("off");
 									
 									if($("#"+id+"click_sell").val()==1){
@@ -522,6 +529,7 @@ function initWebsocket(){
 									//$("#"+id+"t_vol_i").val(formatValue(data.pair.position/factor_stock));
 									//$("#"+id+"t_vol").val(data.pair.position/factor_stock);
 									$("#"+id+"monsell").removeClass("disable off");
+									$("#"+id+"monsell2").removeClass("disable off");
 									$("#"+id+"force_sell").removeClass("disable off");
 									$("#"+id+"sell_status").removeClass("bg_green").addClass("bg_orange");
 								}else{
@@ -566,6 +574,7 @@ function initWebsocket(){
 					
 					//reject: {"algo_name":"wendy_semi","auto_buy":true,"auto_sell":false,"buy_price":17600000,"buy_trigger":45000000000,"id":3,"msg_type":"semi_algo_odr_msg","odr":{"aon":"aon_type::non_ano","broker_id":"9712","code":29707,"exectuion_id":"","filled_quantity":0,"header":{"api_id":"api_id_flag::new_order","first_ref":0,"flag":"api_type_flag::single_reply","len":254,"order_id":166,"ref_data":"0x000000000000A600000000000000","session_id":"0x454B306146766E6B"},"match_price":0,"match_quantity":0,"match_records":[],"order_ref":161,"ori_price":0,"ori_quantity":0,"price":17700000,"quantity":18446741073709552000,"reject_reason":"Invalid order price","remain_quantity":0,"rep_type":"report_type::order_report","report_id":162,"side":"order_side::sell","status":"order_status::rejected","transaction_tm":"20200618105551848","type":"order_type::sl"},"recovery":true,"ref":"u002_1","tm":1592448951849} {"algo_name":"wendy_semi","auto_buy":true,"auto_sell":false,"buy_price":17600000,"buy_trigger":45000000000,"id":3,"msg_type":"semi_algo_odr_msg","odr":{"aon":"aon_type::non_ano","broker_id":"9712","code":29707,"exectuion_id":"","filled_quantity":0,"header":{"api_id":"api_id_flag::new_order","first_ref":0,"flag":"api_type_flag::single_reply","len":254,"order_id":163,"ref_data":"0x000000000000A300000000000000","session_id":"0x454B306146766E6B"},"match_price":0,"match_quantity":0,"match_records":[],"order_ref":155,"ori_price":0,"ori_quantity":0,"price":17700000,"quantity":3000000000000,"reject_reason":"Invalid order price","remain_quantity":0,"rep_type":"report_type::order_report","report_id":156,"side":"order_side::sell","status":"order_status::rejected","transaction_tm":"20200618105544561","type":"order_type::sl"},"recovery":true,"ref":"u002_1","tm":1592448951849}
 					
+					//limit_sell: {"algo_name":"M315448_semi","auto_buy":false,"auto_buy_qty":1000000000000,"auto_sell":false,"buy_price":18100000,"buy_trigger":63550000000,"filled_price":18000000,"filled_quantity":1000000000000,"id":6,"last_price":18000000,"last_trigger_price":63550000000,"msg_type":"semi_algo_odr_msg","position":0,"reason":"","ref":"u000_1","side":"SELL","status":"filled","tm":1617767340012}
 					var id = data.ref;
 					var idArr = id.split("_");
 					var status = "";
@@ -653,6 +662,7 @@ function initWebsocket(){
 								
 								if(data.auto_sell == true){
 									$("#"+id+"monsell").addClass("off").removeClass("disable");
+									$("#"+id+"monsell2").removeClass("off").addClass("disable");
 									$("#"+id+"force_sell").removeClass("disable");
 									$("#"+id+"as").removeClass("off").addClass("disable");
 									$("#"+id+"sell_status").addClass("bg_green");
@@ -677,9 +687,11 @@ function initWebsocket(){
 								$("#"+id+"sell_status").html("");
 								$("#"+id+"init").val(1);
 								$("#"+id+"monsell").removeClass("off");
+								$("#"+id+"monsell2").removeClass("off");
 								$("#"+id+"force_sell").removeClass("off");
 								if($("#"+id+"t_vol").val()==0){
 									$("#"+id+"monsell").addClass("disable");
+									$("#"+id+"monsell2").addClass("disable");
 									$("#"+id+"force_sell").addClass("disable");
 									setBuy(id);
 								}else{
@@ -692,20 +704,24 @@ function initWebsocket(){
 							}
 						}else{
 							if(status != ""){
-								if(data.auto_sell == true && type=="sell"){
+								if($("#"+id+"ismon2").val()==1 && status == "cancel"){
+									stopSell(id);
 								}else{
-									$("#"+id+"ismon").val(0);
-									if(type=="sell"){
-										stopSell(id);
-									}else if(type=="buy"){
-										if(data.auto_sell == true){
-											stopAutoBuy(id, "2");
-										}else{
-											stopBuy(id,"2");
+									if(data.auto_sell == true && type=="sell"){
+									}else{
+										$("#"+id+"ismon").val(0);
+										if(type=="sell"){
+											stopSell(id);
+										}else if(type=="buy"){
+											if(data.auto_sell == true){
+												stopAutoBuy(id, "2");
+											}else{
+												stopBuy(id,"2");
+											}
 										}
 									}
+									getWsStatus(id, data.reason, type, "bg_red", status);
 								}
-								getWsStatus(id, data.reason, type, "bg_red", status);
 							}
 						}
 					}
@@ -1113,6 +1129,10 @@ function initWebsocket(){
 				}else if(data.msg_type=="semi_algo_get"){
 					//{"algo_name":"leo_semi","id":1,"msg_type":"semi_algo_get","pair":{"auto_buy":false,"auto_buy_id":102,"auto_buy_quantity":4000000000000,"auto_sell":false,"auto_sell_id":106,"bottom_price":12500000,"buy_price":12800000,"buy_trriger":21200000000,"ceiling_price":12900000,"early_buy_qty":0,"early_sell_qty":0,"is_bull":true,"is_buying":false,"is_reset_position":false,"is_selling":false,"last_price":12500000,"last_trigger_price":21200000000,"position":0,"ratio_buy":0,"ratio_sell":0,"ref":"u008_1","sell_price":12800000,"sell_trriger":21200000000,"underlying_code":9988,"underlying_symbol":"","warrant_code":26901},"ref":"u008_1","result":"SUCCESS","tm":1593486569214}
 					
+					//{"algo_name":"M315448_semi","id":6,"msg_type":"semi_algo_get","pair":{"auto_buy":false,"auto_buy_id":300102,"auto_buy_quantity":1000000000000,"auto_sell":false,"auto_sell_id":300105,"bottom_price":9700000,"buy_price":10000000,"buy_trriger":62950000000,"ceiling_price":10100000,"early_buy_qty":0,"early_sell_qty":0,"is_bull":true,"is_buying":false,"is_reset_position":false,"is_selling":true,"last_price":10000000,"last_trigger_price":62950000000,"position":1000000000000,"ratio_buy":0,"ratio_sell":0,"ref":"u000_1","sell_price":10200000,"sell_trriger":63000000000,"sell_type":80,"underlying_code":700,"underlying_symbol":"","warrant_code":22303},"ref":"u000_1","result":"SUCCESS","tm":1617781027330}
+					
+					//sell_type: 80 -> limit sell
+					
 					var id = data.ref;
 					var stop_sell = false;
 					if(id.indexOf("_stopsell")>0){
@@ -1125,7 +1145,11 @@ function initWebsocket(){
 						if(data.pair.is_buying == true){
 							type = "buy";
 						}else if(data.pair.is_selling == true){
-							type = "sell";
+							if(data.pair.sell_type == 80){
+								type = "limit_sell";
+							}else{
+								type = "sell";
+							}
 						}else if(data.pair.auto_buy == true && data.pair.auto_sell == true){
 							type = "auto";
 						}else if(data.pair.auto_buy == true ){
@@ -1218,7 +1242,7 @@ function initWebsocket(){
 						if(type!="update"){
 							if(type=="auto"){
 								$("#"+id+"monbuy").removeClass("off").addClass("disable");
-							}else if(type=="buy" || type=="sell"){
+							}else if(type=="buy" || type=="sell" || type=="limit_sell"){
 								$("#"+id+"as").removeClass("off").addClass("disable");
 							}
 							
@@ -1238,6 +1262,12 @@ function initWebsocket(){
 								$("#"+id+"buy_status").addClass("bg_green");
 								$("#"+id+"buy_status").html("");
 								$("#"+id+"ismon").val(1);
+							}else if(type=="limit_sell"){
+								limitSellDisable(id);
+								$("#"+id+"monsell2").removeClass("disable");
+								$("#"+id+"monsell2").addClass("off");
+								$("#"+id+"sell_status").addClass("bg_green");
+								$("#"+id+"ismon2").val(1);
 							}else if(type=="sell"){
 								//$("#"+id+"t_vol").val(data.pair.auto_buy_quantity/factor_stock);
 								//$("#"+id+"t_vol_i").val(formatValue(data.pair.auto_buy_quantity/factor_stock));
@@ -1251,7 +1281,7 @@ function initWebsocket(){
 								$("#"+id+"ismon").val(2);
 							}else{
 								if($("#"+id+"t_vol").val()*1>0){
-									$("#"+id+"monsell, #"+id+"force_sell").removeClass("disable");
+									$("#"+id+"monsell, #"+id+"monsell2, #"+id+"force_sell").removeClass("disable");
 									//setSell(id);
 								}else{
 									$("#"+id+"vol").val(formatValue(data.pair.auto_buy_quantity/factor_stock));
@@ -1281,6 +1311,22 @@ function initWebsocket(){
 							}*/
 							$("#"+id+"remove_btn").hide();
 						}
+					}
+				}else if(data.msg_type=="semi_algo_limit_sell"){
+					//{"algo_name":"M315448_semi","id":6,"msg_type":"semi_algo_limit_sell","pair":{"auto_buy":false,"auto_sell":false},"price":18000000,"quantity":1000000000000,"ref":"u000_1","result":"SUCCESS","tm":1617767340011}
+					var id = data.ref;
+					if(data.result == "SUCCESS"){
+						$("#"+id+"sell_status").addClass("bg_green");
+					}else{
+						stopSell(id);
+					}
+				}else if(data.msg_type=="semi_algo_cancel"){
+					//{"algo_name":"M315448_semi","id":6,"msg_type":"semi_algo_cancel","pair":{"auto_buy":false,"auto_sell":false},"ref":"u000_1","result":"SUCCESS","tm":1617780126209}
+					var id = data.ref;
+					if(data.result == "SUCCESS"){
+						$("#"+id+"ismon2").val(1);
+					}else{
+						
 					}
 				}else if(data.msg_type=="semi_algo_force_buy"){
 					//{"algo_name":"leo_semi","id":1,"msg_type":"semi_algo_force_buy","pair":{"auto_buy":false,"auto_buy_id":0,"auto_buy_quantity":1000000000000,"auto_sell":false,"auto_sell_id":0,"bottom_price":10700000,"buy_price":11000000,"buy_trriger":41640000000,"early_buy_qty":0,"early_sell_qty":0,"is_bull":true,"is_buying":true,"is_selling":false,"position":0,"ref":"u000_1","sell_price":11000000,"sell_trriger":41640000000,"underlying_code":700,"underlying_symbol":"","warrant_code":29707},"quantity":1000000000000,"ref":"u000_1","result":"fail new buy order not valid","tm":1590399061103}

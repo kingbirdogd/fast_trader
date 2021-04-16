@@ -322,6 +322,7 @@ function initTable(){
         codeContent += '<td><input type="text" name="" id="'+id2+'ceiling" class="ceiling" /></td>';
         codeContent += '<td class="left"><a id="'+id2+'monsell" class="button sell monsell disable" href="javascript:clickSell(\''+id2+'\');">開啟</a></td>';
         codeContent += '<td><a id="'+id2+'force_sell" class="button sell force_sell disable" href="javascript:clickForcesell(\''+id2+'\');">即賣</a></td>';
+        codeContent += '<td class="left"><a id="'+id2+'monsell2" class="button sell monsell2 disable" href="javascript:clickSell2(\''+id2+'\');">開啟</a><input type="hidden" name="" id="'+id2+'ismon2" value="0" class="ismon2" /></td>';
         codeContent += '<td id="'+id2+'sell_status" class="border_right"></td>';
         codeContent += '</tr>';
 		
@@ -883,6 +884,7 @@ function setBuy(id){
 	var buy_last = $("#"+id+"buy_last").val()*1;
 	if(isUnderlying(ucode) && isWarrant(code) && Number.isInteger(code) && vol>0 && buy_ulast>0 && buy_last>0 && t_vol*1==0){
 		$("#"+id+"monsell").addClass("disable");
+		$("#"+id+"monsell2").addClass("disable");
 		$("#"+id+"force_sell").addClass("disable");
 		
 		if($("#"+id+"force_buy").hasClass("off") || $("#"+id+"monbuy").hasClass("off") || $("#"+id+"as").hasClass("off")){
@@ -891,6 +893,7 @@ function setBuy(id){
 			$("#"+id+"remove_btn").hide();
 			
 			$("#"+id+"monsell").addClass("disable");
+			$("#"+id+"monsell2").addClass("disable");
 			$("#"+id+"force_sell").addClass("disable");
 			
 			/*if($("#"+id+"force_buy").hasClass("off")){
@@ -949,7 +952,7 @@ function setSell(id){
 		$("#"+id+"monbuy").addClass("disable");
 		$("#"+id+"force_buy").addClass("disable");
 			
-		if($("#"+id+"force_sell").hasClass("off") || $("#"+id+"monsell").hasClass("off")){
+		if($("#"+id+"force_sell").hasClass("off") || $("#"+id+"monsell").hasClass("off") || $("#"+id+"monsell2").hasClass("off")){
 			$("#"+idArr[0]+"ucode").attr('readonly','readonly');
 			$("#"+id+"code").attr('readonly','readonly');
 			$("#"+id+"remove_btn").hide();
@@ -958,13 +961,20 @@ function setSell(id){
 			$("#"+id+"monbuy").addClass("disable");
 			$("#"+id+"force_buy").addClass("disable");
 			
-			if($("#"+id+"ismon").val()*1==0){
-				sendWsMsg(getWsMsg("setsell", id));
+			if($("#"+id+"monsell2").hasClass("off")){
+				limitSellDisable(id);
+				sendWsMsg(getWsMsg("limitsell", id));
 			}else{
-				sendWsMsg(getWsMsg("updatesell", id));
+				$("#"+id+"monsell2").addClass("disable");
+				if($("#"+id+"ismon").val()*1==0){
+					sendWsMsg(getWsMsg("setsell", id));
+				}else{
+					sendWsMsg(getWsMsg("updatesell", id));
+				}
 			}
 		}else{
 			$("#"+id+"monsell").removeClass("disable");
+			$("#"+id+"monsell2").removeClass("disable");
 			$("#"+id+"force_sell").removeClass("disable");
 			$("#"+id+"sell_status").addClass("bg_orange");
 			$("#"+id+"sell_status").html("");
@@ -979,6 +989,21 @@ function setSell(id){
 	}
 	
 	asBtn(id);
+}
+
+function limitSellDisable(id){
+	$("#"+id+"vol").attr('readonly','readonly');
+	$("#"+id+"buy_ulast").attr('readonly','readonly');
+	$("#"+id+"buy_last").attr('readonly','readonly');
+	$("#"+id+"buy_vol").attr('readonly','readonly');
+	$("#"+id+"buy_ratio").attr('readonly','readonly');
+	$("#"+id+"sell_ulast").attr('readonly','readonly');
+	$("#"+id+"sell_last").attr('readonly','readonly');
+	$("#"+id+"sell_vol").attr('readonly','readonly');
+	$("#"+id+"sell_ratio").attr('readonly','readonly');
+	$("#"+id+"t_vol_i").attr('readonly','readonly');
+	$("#"+id+"monsell").addClass("disable");
+	$("#"+id+"force_sell").addClass("disable");
 }
 
 function clickBuy(id){//class=off: clicked
@@ -1017,6 +1042,17 @@ function clickSell(id){
 	}else{
 		$("#"+id+"monsell").addClass("off");
 		$("#"+id+"click_sell").val(1);
+		setSell(id);
+	}
+}
+
+function clickSell2(id){
+	if($("#"+id+"force_sell").hasClass("off") || $("#"+id+"monsell").hasClass("off")){
+		
+	}else if($("#"+id+"monsell2").hasClass("off")){
+		sendWsMsg(getWsMsg("limitstop", id));
+	}else{
+		$("#"+id+"monsell2").addClass("off");
 		setSell(id);
 	}
 }
@@ -1349,7 +1385,7 @@ function overAction(id, checkBS=0){
 
 function keyAction(id, checkBS=0){  //checkBS --> 1: spread+getbid/getask 	2: mon
 	//if(mousedown){
-		if($("#"+id).val()!="" && $("#"+id).val()*1!=0 && checkBS==1){
+		if($("#"+id).val()!="" && $("#"+id).val()*1!=0 && checkBS==1 && $("#"+id).attr('readonly')!="readonly"){
 			//console.log("keyAction_"+id);
 			if ( event.key == "q" || event.key == "Q" ) {
 				$("#"+id).val(($("#"+id).val()*1+getSpread($("#"+id).val()*1+0.0001)).toFixed(3)*1);
@@ -1362,7 +1398,7 @@ function keyAction(id, checkBS=0){  //checkBS --> 1: spread+getbid/getask 	2: mo
 		
 		var id2 = $("#"+id).closest("tr").attr("id");
 		var idArr = id2.split("_");
-		if(isUnderlying($("#"+idArr[0]+"ucode").val()) && $("#"+id2+"code").val()*1>0 && checkBS==1){//console.log("keyAction "+id+" -- "+id2);
+		if(isUnderlying($("#"+idArr[0]+"ucode").val()) && $("#"+id2+"code").val()*1>0 && checkBS==1 && $("#"+id).attr('readonly')!="readonly"){//console.log("keyAction "+id+" -- "+id2);
 			if ( event.key == "a" || event.key == "A" ) {
 				//$("#"+id).val((getBidAsk("bid")*1).toFixed(3)*1);
 				sendWsMsg(getWsMsg("getbid", id));
@@ -1507,6 +1543,25 @@ function stopSell(id){
 	$("#"+id+"sell_status").html("");
 	if(t_vol*1>0){
 		$("#"+id+"sell_status").addClass("bg_orange");
+		
+		if($("#"+id+"ismon2").val()==1){
+			$("#"+id+"vol").removeAttr('readonly');
+			$("#"+id+"buy_ulast").removeAttr('readonly');
+			$("#"+id+"buy_last").removeAttr('readonly');
+			$("#"+id+"buy_vol").removeAttr('readonly');
+			$("#"+id+"buy_ratio").removeAttr('readonly');
+			$("#"+id+"sell_ulast").removeAttr('readonly');
+			$("#"+id+"sell_last").removeAttr('readonly');
+			$("#"+id+"sell_vol").removeAttr('readonly');
+			$("#"+id+"sell_ratio").removeAttr('readonly');
+			$("#"+id+"t_vol_i").removeAttr('readonly');
+			$("#"+id+"monsell").removeAttr('readonly');
+			$("#"+id+"force_sell").removeAttr('readonly');
+			
+			$("#"+id+"monsell").removeClass("disable");
+			$("#"+id+"force_sell").removeClass("disable");
+			$("#"+id+"ismon2").val(0);
+		}
 	}else{
 		$("#"+idArr[0]+"ucode").removeAttr('readonly');
 		$("#"+id+"code").removeAttr('readonly');
@@ -1515,6 +1570,7 @@ function stopSell(id){
 		//setBuy(id);
 	}
 	$("#"+id+"monsell").removeClass("off");
+	$("#"+id+"monsell2").removeClass("off");
 	$("#"+id+"monsell").removeClass("orange");
 	$("#"+id+"force_sell").removeClass("off");
 	//$("#"+id+"status").text(htsstatus[3]);

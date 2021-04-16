@@ -46,6 +46,12 @@ class Control extends React.Component {
       else if (!this.props.data2.order) obj.order = true
     }
     
+    else if (name == 'command') {
+      
+      if (this.props.data2.command) obj.command = false
+      else if (!this.props.data2.command) obj.command = true
+    }
+    
     this.props.setStates({visible: obj})
   }
   
@@ -56,6 +62,9 @@ class Control extends React.Component {
     var cssBtnPos = 'btn-secondary'
     if (this.props.data2.position) cssBtnPos = 'btn-primary'
     
+    var cssBtnCommand = 'btn-secondary'
+    if (this.props.data2.command) cssBtnCommand = 'btn-primary'
+    
     return(
       <React.Fragment>
 
@@ -65,6 +74,7 @@ class Control extends React.Component {
   <button type="button" name="add" className="btn btn-sm btn-secondary" onClick={this.handleClick}>+</button>
   <button type="button" name="position" className={classNames("btn btn-sm ml-2 ml-sm-2", cssBtnPos)} onClick={this.handleClick}>仓位</button>
   <button type="button" name="order" className={classNames("btn btn-sm ml-2 ml-sm-2", cssBtnOrder)} onClick={this.handleClick}>当日成交</button>
+  {false && <button type="button" name="command" className={classNames("btn btn-sm ml-2 ml-sm-2", cssBtnCommand)} onClick={this.handleClick}>指令</button> }
 </div>
 
       </React.Fragment>
