@@ -136,8 +136,8 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 			unsigned long long _UBestask = 0;
 			unsigned long long _PUBestbid = 0;
 			unsigned long long _PUBestask = 0;
-			unsigned long long BidSeq;
-			unsigned long long AskSeq;
+			unsigned long long BidSeq = 0;
+			unsigned long long AskSeq = 0;
 
 
 
@@ -152,26 +152,26 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 							orderbook_id = nameToCode[symbol];
 							pd->Orderbook_id = orderbook_id;
 
-							flush_printf("tm:%llu, OMDD PriceTable, code : %d, orderbookid : %d, \n",
+							flush_printf("tm:%llu, OMDD PriceTable, code : %d, orderbookid : %d, ucode : %d\n",
 							dbp::tools::srv::current(), uSecurityCode,
-							orderbook_id);
+							orderbook_id, pd->UCode);
 
 						}
 						if(pd->UCode == 100002){
 							auto symbol = hsceiVec.front();
 							orderbook_id = nameToCode[symbol];
 							pd->Orderbook_id = orderbook_id;
-							flush_printf("tm:%llu, OMDD PriceTable, code : %d, orderbookid : %d, \n",
+							flush_printf("tm:%llu, OMDD PriceTable, code : %d, orderbookid : %d, ucode : %d \n",
 								dbp::tools::srv::current(), uSecurityCode,
-								orderbook_id);
+								orderbook_id, pd->UCode);
 						}
 						if(pd->UCode == 100003){
 							auto symbol = hstecVec.front();
 							orderbook_id = nameToCode[symbol];
 							pd->Orderbook_id = orderbook_id;
-							flush_printf("tm:%llu, OMDD PriceTable, code : %d, orderbookid : %d, \n",
+							flush_printf("tm:%llu, OMDD PriceTable, code : %d, orderbookid : %d, ucode : %d \n",
 								dbp::tools::srv::current(), uSecurityCode,
-								orderbook_id);
+								orderbook_id, pd->UCode);
 						}
 
 						if(pd->Orderbook_id == 0)
@@ -212,7 +212,7 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				//if(pd->Bestbid != best_bid_price && best_bid_price > 0){
 				if(pd->IBestbid != issuer_bid && issuer_bid > 0){
 					//if(best_bid_qty >= issuerSize80(pd->BidIssuerSize) && pd->BidIssuerSize > 0){
-						if(pd->LastBidSeq != BidSeq){
+						if(pd->LastBidSeq != BidSeq && BidSeq>0){
 							pd->LastBidSeq = BidSeq;
 							//_PriceMark->updateBid(best_bid_price, pd->Bestbid, pdu->Bestbid, pdu->PBestbid);
 							if(pd->IsIndex)
@@ -228,7 +228,7 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				if(pd->IBestask != issuer_ask && issuer_ask > 0){
 					//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark ASK");
 					//if(best_ask_qty >= issuerSize80(pd->AskIssuerSize) && pd->AskIssuerSize > 0){
-						if(pd->LastAskSeq != AskSeq){
+						if(pd->LastAskSeq != AskSeq && AskSeq>0){
 							pd->LastAskSeq = AskSeq;
 							//_PriceMark->updateAsk(best_ask_price, pd->Bestask, pdu->Bestask, pdu->PBestask);
 							if(pd->IsIndex)
@@ -246,7 +246,7 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				if(pd->IBestbid != issuer_bid && issuer_bid > 0){
 					//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark BID");
 					//if(best_bid_qty >= issuerSize80(pd->BidIssuerSize) && pd->BidIssuerSize > 0){
-						if(pd->LastAskSeq != AskSeq){
+						if(pd->LastAskSeq != AskSeq && AskSeq>0){
 							pd->LastAskSeq = AskSeq;
 							//_PriceMark->updateBid(best_bid_price, pd->Bestbid, pdu->Bestask, pdu->PBestask);
 							if(pd->IsIndex)
@@ -262,7 +262,7 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				if(pd->IBestask != issuer_ask && issuer_ask > 0){
 					//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark ASK");
 					//if(best_ask_qty >= issuerSize80(pd->AskIssuerSize) && pd->AskIssuerSize > 0){
-						if(pd->LastBidSeq != BidSeq){
+						if(pd->LastBidSeq != BidSeq && BidSeq>0){
 							pd->LastBidSeq = BidSeq;
 							//_PriceMark->updateAsk(best_ask_price, pd->Bestask, pdu->Bestbid, pdu->PBestbid);
 							if(pd->IsIndex)
