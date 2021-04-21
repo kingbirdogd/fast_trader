@@ -713,13 +713,13 @@ string PriceMark::printIndexTable(){
 
 	map<unsigned long long,std::string> pTableMap;
 
-	for (auto it = pDnBidMark.begin(); it != pDnBidMark.end(); ++it ){
+	for (auto it = pBidMark.begin(); it != pBidMark.end(); ++it ){
 			unsigned long long key = it->first;
 			unsigned long long value = it->second;
 			pTableMap[key] = to_string(value) + "-#";
 	}
 
-	for (auto it = pUpAskMark.begin(); it != pUpAskMark.end(); ++it ){
+	for (auto it = pAskMark.begin(); it != pAskMark.end(); ++it ){
 			unsigned long long key = it->first;
 			unsigned long long value = it->second;
 			auto itf = pTableMap.find(key);
@@ -772,13 +772,13 @@ string PriceMark::printIndexTableJson(){
 
 	map<unsigned long long,std::string> pTableMap;
 
-	for (auto it = pDnBidMark.begin(); it != pDnBidMark.end(); ++it ){
+	for (auto it = pBidMark.begin(); it != pBidMark.end(); ++it ){
 			unsigned long long key = it->first;
 			unsigned long long value = it->second;
 			pTableMap[key] = to_string(value) + "-#";
 	}
 
-	for (auto it = pUpAskMark.begin(); it != pUpAskMark.end(); ++it ){
+	for (auto it = pAskMark.begin(); it != pAskMark.end(); ++it ){
 			unsigned long long key = it->first;
 			unsigned long long value = it->second;
 			auto itf = pTableMap.find(key);
