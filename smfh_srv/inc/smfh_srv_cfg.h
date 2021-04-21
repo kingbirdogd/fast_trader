@@ -365,6 +365,9 @@ inline static bool loadDefinition(json& _json)
 				unsigned int code = static_cast<unsigned int>(std::stoul(key));
 				codeToName[code] = name;
 				nameToCode[name] = code;
+
+				flush_printf("tm:%llu, File omdd_name orderbook_id = %d , Symbol = %s \n", dbp::tools::srv::current(), code, name.c_str());
+
 			}
 			for (auto it = omdd_underlying.begin(); it != omdd_underlying.end(); ++it)
 			{
