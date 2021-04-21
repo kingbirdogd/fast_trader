@@ -630,7 +630,7 @@ unsigned long long PriceMark::sellOut(unsigned long long wprice){
 	unsigned long long sellOutDnBid = 99999999;
 	auto bdn = pBidMark.find(wprice);
 	if(bdn != pBidMark.end()){
-		sellOutDnBid = pDnBidMark[wprice];
+		sellOutDnBid = pBidMark[wprice];
 	}
 	return sellOutDnBid;
 }
