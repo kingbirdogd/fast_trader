@@ -43,6 +43,12 @@ private:
 	map<string,string> priceMarkTable;
 	map<unsigned long long,unsigned long long> pAskMark;
 	map<unsigned long long,unsigned long long> pBidMark;
+
+	map<unsigned long long,unsigned long long> pUpAskMark;
+	map<unsigned long long,unsigned long long> pUpBidMark;
+	map<unsigned long long,unsigned long long> pDnAskMark;
+	map<unsigned long long,unsigned long long> pDnBidMark;
+
 	SpreadTable spreadTable;
 
 	unsigned long long bidkey = 0;
@@ -93,6 +99,7 @@ public:
 	string printTable(unsigned long long ubid);
 	string printTable();
 	string printIndexTable();
+	string printIndexTable2();
 	string printTableJson();
 	string printIndexTableJson();
 

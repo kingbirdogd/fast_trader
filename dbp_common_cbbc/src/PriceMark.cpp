@@ -162,6 +162,9 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 				unsigned long long refprice = pfprice+spread;
 				bool eq1 = (refprice == fprice);
 				if(eq1){
+
+					pUpBidMark[wbid] = fprice;
+
 					auto itp = pBidMark.find(wbid);
 					if(itp != pBidMark.end()){
 						return false;
@@ -212,6 +215,8 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 					}
 				}*/
 
+				pDnBidMark[pwbid] = pfprice;
+
 				pBidMark[pwbid] = pfprice;
 				bidkey = pwbid;
 				bidprice = pfprice;
@@ -232,6 +237,9 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 				unsigned long long refprice = pfprice-spread;
 				bool eq1 = (refprice == fprice);
 				if(eq1){
+
+					pUpBidMark[pwbid] = pfprice;
+
 					auto itp = pBidMark.find(wbid);
 					if(itp != pBidMark.end()){
 						return false;
@@ -292,7 +300,7 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 					}
 				}
 			*/
-
+				pDnBidMark[pwbid] = pfprice;
 
 				pBidMark[pwbid] = pfprice;
 				bidkey = pwbid;
@@ -329,6 +337,9 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 				}
 				*/
 
+				pUpAskMark[pwask] = pfprice;
+
+
 				pAskMark[pwask] = pfprice;
 				askkey = pwask;
 				askprice = pfprice;
@@ -349,6 +360,9 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 				unsigned long long refprice = pfprice-spread;
 				bool eq1 = (refprice == fprice);
 				if(eq1){
+
+					pDnAskMark[wask] = fprice;
+
 					auto itp = pAskMark.find(wask);
 					if(itp != pAskMark.end()){
 						return false;
@@ -403,6 +417,9 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 						return false;
 					}
 				}*/
+
+				pUpAskMark[pwask] = pfprice;
+
 				pAskMark[pwask] = pfprice;
 				askkey = pwask;
 				askprice = pfprice;
@@ -422,6 +439,9 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 				unsigned long long refprice = pfprice+spread;
 				bool eq1 = (refprice == fprice);
 				if(eq1){
+
+					pDnAskMark[wask] = fprice;
+
 					auto itp = pAskMark.find(wask);
 					if(itp != pAskMark.end()){
 						return false;
@@ -481,6 +501,9 @@ bool PriceMark::updateIBid(unsigned long long wbid, unsigned long long pwbid, un
 				unsigned long long refprice = pfprice+INDEX_SPREAD;
 				bool eq1 = (refprice == fprice);
 				if(eq1){
+
+					pUpBidMark[wbid] = fprice;
+
 					auto itp = pBidMark.find(wbid);
 					if(itp != pBidMark.end()){
 						return false;
@@ -498,6 +521,9 @@ bool PriceMark::updateIBid(unsigned long long wbid, unsigned long long pwbid, un
 		if(wbid < pwbid && fprice < pfprice){
 			if(pwbid > 0 && pfprice>0){
 
+
+				pDnBidMark[pwbid] = pfprice;
+
 				pBidMark[pwbid] = pfprice;
 				bidkey = pwbid;
 				bidprice = pfprice;
@@ -514,6 +540,9 @@ bool PriceMark::updateIBid(unsigned long long wbid, unsigned long long pwbid, un
 				unsigned long long refprice = pfprice-INDEX_SPREAD;
 				bool eq1 = (refprice == fprice);
 				if(eq1){
+
+					pUpBidMark[wbid] = fprice;
+
 					auto itp = pBidMark.find(wbid);
 					if(itp != pBidMark.end()){
 						return false;
@@ -531,6 +560,8 @@ bool PriceMark::updateIBid(unsigned long long wbid, unsigned long long pwbid, un
 		if(wbid < pwbid && fprice > pfprice){
 			if(wbid > 0 && pfprice>0){
 
+				pDnBidMark[pwbid] = pfprice;
+
 				pBidMark[pwbid] = pfprice;
 				bidkey = pwbid;
 				bidprice = pfprice;
@@ -547,6 +578,8 @@ bool PriceMark::updateIAsk(unsigned long long wask, unsigned long long  pwask, u
 		if(wask > pwask && fprice > pfprice){
 			if(pwask > 0 && pfprice>0){
 
+				pUpAskMark[pwask] = pfprice;
+
 				pAskMark[pwask] = pfprice;
 				askkey = pwask;
 				askprice = pfprice;
@@ -562,6 +595,10 @@ bool PriceMark::updateIAsk(unsigned long long wask, unsigned long long  pwask, u
 				unsigned long long refprice = pfprice-INDEX_SPREAD;
 				bool eq1 = (refprice == fprice);
 				if(eq1){
+
+
+					pDnAskMark[wask] = fprice;
+
 					auto itp = pAskMark.find(wask);
 					if(itp != pAskMark.end()){
 						return false;
@@ -583,6 +620,9 @@ bool PriceMark::updateIAsk(unsigned long long wask, unsigned long long  pwask, u
 		if(wask > pwask && fprice < pfprice){
 			if(pwask > 0 && fprice>0){
 
+
+				pUpAskMark[pwask] = pfprice;
+
 				pAskMark[pwask] = pfprice;
 				askkey = pwask;
 				askprice = pfprice;
@@ -597,10 +637,14 @@ bool PriceMark::updateIAsk(unsigned long long wask, unsigned long long  pwask, u
 				unsigned long long refprice = pfprice+INDEX_SPREAD;
 				bool eq1 = (refprice == fprice);
 				if(eq1){
+
+					pDnAskMark[wask] = fprice;
+
 					auto itp = pAskMark.find(wask);
 					if(itp != pAskMark.end()){
 						return false;
 					}
+
 					pAskMark[wask] = fprice;
 					askkey = wask;
 					askprice = fprice;
@@ -743,6 +787,45 @@ string PriceMark::printIndexTable(){
 	}
 	return data;
 }
+
+
+string PriceMark::printIndexTable2(){
+
+	string data = "Warrant Code = " + to_string(pcode) + " Price Table\n";
+
+	map<unsigned long long,std::string> pTableMap;
+
+	for (auto it = pDnBidMark.begin(); it != pDnBidMark.end(); ++it ){
+			unsigned long long key = it->first;
+			unsigned long long value = it->second;
+			pTableMap[key] = to_string(value) + "-#";
+	}
+
+	for (auto it = pUpAskMark.begin(); it != pUpAskMark.end(); ++it ){
+			unsigned long long key = it->first;
+			unsigned long long value = it->second;
+			auto itf = pTableMap.find(key);
+			if(itf == pTableMap.end()){
+				pTableMap[key] = "#-" + to_string(value);
+			}else{
+				std:string svalue = pTableMap[key];
+				vector<string> bidask = split(svalue, '-');
+
+				pTableMap[key] = bidask[0] +  "-" + to_string(value);
+			}
+
+	}
+
+	int count = 0;
+	for (auto it2 = pTableMap.begin(); it2 != pTableMap.end(); ++it2 ){
+		unsigned long long key = it2->first;
+		string value = it2->second;
+
+		data += to_string(key) + "=" + value + "\n";
+	}
+	return data;
+}
+
 
 string PriceMark::printTableJson(){
 
