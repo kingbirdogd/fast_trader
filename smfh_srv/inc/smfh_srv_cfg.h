@@ -357,6 +357,35 @@ inline static bool loadDefinition(json& _json)
 				omddFullTickBook[code];
 #endif //FULLTICK
 
+				ptomddMap[code].m_Code = code;
+				auto itp = pricedataMap.find(code);
+				if(itp == pricedataMap.end()){
+					pricedataMap[code] = new pricedata();
+					pricedataMap[code]->isUnderlying = true;
+					pricedataMap[code]->isWarrant = false;
+					pricedataMap[code]->IsIndex = true;
+					pricedataMap[code]->UCode = 0;
+					pricedataMap[code]->Bestbid=0ull;
+					pricedataMap[code]->Bestask=0ull;
+					pricedataMap[code]->BestBidQty=0ull;
+					pricedataMap[code]->BestAskQty=0ull;
+					pricedataMap[code]->PBestbid=0ull;
+					pricedataMap[code]->PBestask=0ull;
+					pricedataMap[code]->LBestbid=0ull;
+					pricedataMap[code]->LBestask=0ull;
+					pricedataMap[code]->BidIssuerSize=0ull;
+					pricedataMap[code]->AskIssuerSize=0ull;
+					pricedataMap[code]->BidSeq=1;
+					pricedataMap[code]->AskSeq=1;
+					pricedataMap[code]->BSeq=1;
+					pricedataMap[code]->ASeq=1;
+					pricedataMap[code]->BidVolSeq=1;
+					pricedataMap[code]->AskVolSeq=1;
+				}
+
+
+
+
 			}
 
 
@@ -454,6 +483,12 @@ inline static bool loadDefinition(json& _json)
 						pricedataMap[underlying]->UCode = 0;
 						pricedataMap[underlying]->IsIndex = false;
 						pricedataMap[underlying]->Orderbook_id = 0;
+
+						if(omdd_code == 100001 || omdd_code == 100002 || omdd_code == 100003){
+							pricedataMap[uSecurityCode]->UCode = omdd_code;
+							pricedataMap[uSecurityCode]->IsIndex = true;
+						}
+
 						pricedataMap[underlying]->Bestbid=0ull;
 						pricedataMap[underlying]->Bestask=0ull;
 						pricedataMap[underlying]->BestBidQty=0ull;
