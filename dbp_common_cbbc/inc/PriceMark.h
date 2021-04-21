@@ -41,8 +41,8 @@ private:
 	int pwtype;
 	unsigned long long pIssuerSize;
 	map<string,string> priceMarkTable;
-	map<unsigned long long,unsigned long long> pUpAskMark;
-	map<unsigned long long,unsigned long long> pDnBidMark;
+	map<unsigned long long,unsigned long long> pAskMark;
+	map<unsigned long long,unsigned long long> pBidMark;
 	SpreadTable spreadTable;
 
 	unsigned long long bidkey = 0;
@@ -94,6 +94,8 @@ public:
 	string printTable();
 	string printIndexTable();
 	string printTableJson();
+	string printIndexTableJson();
+
 	unsigned long long getMaxBidAskSpread();
 };
 
