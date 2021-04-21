@@ -357,37 +357,71 @@ inline static bool loadDefinition(json& _json)
 				omddFullTickBook[code];
 #endif //FULLTICK
 
-				ptomddMap[code].m_Code = code;
-				auto itp = pricedataMap.find(code);
-				if(itp == pricedataMap.end()){
-					pricedataMap[code] = new pricedata();
-					pricedataMap[code]->isUnderlying = true;
-					pricedataMap[code]->isWarrant = false;
-					pricedataMap[code]->IsIndex = true;
-					pricedataMap[code]->UCode = 0;
-					pricedataMap[code]->Bestbid=0ull;
-					pricedataMap[code]->Bestask=0ull;
-					pricedataMap[code]->BestBidQty=0ull;
-					pricedataMap[code]->BestAskQty=0ull;
-					pricedataMap[code]->PBestbid=0ull;
-					pricedataMap[code]->PBestask=0ull;
-					pricedataMap[code]->LBestbid=0ull;
-					pricedataMap[code]->LBestask=0ull;
-					pricedataMap[code]->BidIssuerSize=0ull;
-					pricedataMap[code]->AskIssuerSize=0ull;
-					pricedataMap[code]->BidSeq=1;
-					pricedataMap[code]->AskSeq=1;
-					pricedataMap[code]->BSeq=1;
-					pricedataMap[code]->ASeq=1;
-					pricedataMap[code]->BidVolSeq=1;
-					pricedataMap[code]->AskVolSeq=1;
+			}
+			for (auto it = omdd_name.begin(); it != omdd_name.end(); ++it)
+			{
+				const auto& key = it->first;
+				const auto& name = it->second.get<std::string>();
+				unsigned int code = static_cast<unsigned int>(std::stoul(key));
+				codeToName[code] = name;
+				nameToCode[name] = code;
+			}
+			for (auto it = omdd_underlying.begin(); it != omdd_underlying.end(); ++it)
+			{
+				COmddUnderlying underlying;
+				const auto& key = it->first;
+				underlying.CommodityCode = it->second["CommodityCode"].get<unsigned short int>();
+				underlying.InstrumentGroup = it->second["InstrumentGroup"].get<unsigned char>();
+				underlying.Symbol = it->second["Symbol"].get<std::string>();
+				unsigned int code = static_cast<unsigned int>(std::stoul(key));
+				codeTounderlying[code] = underlying;
+
+				if(underlying.CommodityCode == 4001){
+					hsceiVec.push_back(underlying.Symbol);
+				}
+				if(underlying.CommodityCode == 4002){
+					hsiVec.push_back(underlying.Symbol);
+				}
+				if(underlying.CommodityCode == 4038){
+					hstecVec.push_back(underlying.Symbol);
+				}
+
+
+				if(underlying.CommodityCode == 4001 || underlying.CommodityCode == 4002 || underlying.CommodityCode == 4038){
+					if(underlying.InstrumentGroup == 4){
+
+						ptomddMap[code].m_Code = code;
+						auto itp = pricedataMap.find(code);
+						if(itp == pricedataMap.end()){
+							pricedataMap[code] = new pricedata();
+							pricedataMap[code]->isUnderlying = true;
+							pricedataMap[code]->isWarrant = false;
+							pricedataMap[code]->IsIndex = true;
+							pricedataMap[code]->UCode = 0;
+							pricedataMap[code]->Bestbid=0ull;
+							pricedataMap[code]->Bestask=0ull;
+							pricedataMap[code]->BestBidQty=0ull;
+							pricedataMap[code]->BestAskQty=0ull;
+							pricedataMap[code]->PBestbid=0ull;
+							pricedataMap[code]->PBestask=0ull;
+							pricedataMap[code]->LBestbid=0ull;
+							pricedataMap[code]->LBestask=0ull;
+							pricedataMap[code]->BidIssuerSize=0ull;
+							pricedataMap[code]->AskIssuerSize=0ull;
+							pricedataMap[code]->BidSeq=1;
+							pricedataMap[code]->AskSeq=1;
+							pricedataMap[code]->BSeq=1;
+							pricedataMap[code]->ASeq=1;
+							pricedataMap[code]->BidVolSeq=1;
+							pricedataMap[code]->AskVolSeq=1;
+						}
+					}
 				}
 
 
 
-
+				OmddDefReady = true;
 			}
-
 
 
 
@@ -487,6 +521,11 @@ inline static bool loadDefinition(json& _json)
 						if(omdd_code == 100001 || omdd_code == 100002 || omdd_code == 100003){
 							pricedataMap[underlying]->UCode = omdd_code;
 							pricedataMap[underlying]->IsIndex = true;
+
+
+
+
+
 						}
 
 						pricedataMap[underlying]->Bestbid=0ull;
@@ -510,37 +549,7 @@ inline static bool loadDefinition(json& _json)
 				}
 
 			}
-			for (auto it = omdd_name.begin(); it != omdd_name.end(); ++it)
-			{
-				const auto& key = it->first;
-				const auto& name = it->second.get<std::string>();
-				unsigned int code = static_cast<unsigned int>(std::stoul(key));
-				codeToName[code] = name;
-				nameToCode[name] = code;
-			}
-			for (auto it = omdd_underlying.begin(); it != omdd_underlying.end(); ++it)
-			{
-				COmddUnderlying underlying;
-				const auto& key = it->first;
-				underlying.CommodityCode = it->second["CommodityCode"].get<unsigned short int>();
-				underlying.InstrumentGroup = it->second["InstrumentGroup"].get<unsigned char>();
-				underlying.Symbol = it->second["Symbol"].get<std::string>();
-				unsigned int code = static_cast<unsigned int>(std::stoul(key));
-				codeTounderlying[code] = underlying;
 
-				if(underlying.CommodityCode == 4001){
-					hsceiVec.push_back(underlying.Symbol);
-				}
-				if(underlying.CommodityCode == 4002){
-					hsiVec.push_back(underlying.Symbol);
-				}
-				if(underlying.CommodityCode == 4038){
-					hstecVec.push_back(underlying.Symbol);
-				}
-
-
-				OmddDefReady = true;
-			}
 			for (auto it = omdc_addition_definition.begin(); it != omdc_addition_definition.end(); ++it)
 			{
 				COmdcAdditionDefinitions defs;
@@ -1370,9 +1379,9 @@ inline static bool loadDefinition(json& _json)
 																omdd_code = 100003;
 															}
 
-															if(omdd_code > 0){
-																cache["warrent_map"][std::to_string(warrant_code)] = omdd_code;
-															}
+															//if(omdd_code > 0){
+															//	cache["warrent_map"][std::to_string(warrant_code)] = omdd_code;
+															//}
 														}
 
 														stockWarrantomdcMap[warrant_code].m_Code = warrant_code;
