@@ -1360,6 +1360,7 @@ inline static bool loadDefinition(json& _json)
 																warrantToUnderlying[warrant_code] = 0;
 																underlyingToWarrant[100001].insert(warrant_code);
 																//cache["warrent_map"][std::to_string(warrant_code)] = 100001;
+																cache["warrent_map"][std::to_string(warrant_code)] = 0;
 
 																omdd_code = 100001;
 															}
@@ -1368,6 +1369,7 @@ inline static bool loadDefinition(json& _json)
 																warrantToUnderlying[warrant_code] = 0;
 																underlyingToWarrant[100002].insert(warrant_code);
 																//cache["warrent_map"][std::to_string(warrant_code)] = 100002;
+																cache["warrent_map"][std::to_string(warrant_code)] = 0;
 
 																omdd_code = 100002;
 															}
@@ -1376,6 +1378,7 @@ inline static bool loadDefinition(json& _json)
 																warrantToUnderlying[warrant_code] = 0;
 																underlyingToWarrant[100003].insert(warrant_code);
 																//cache["warrent_map"][std::to_string(warrant_code)] = 100003;
+																cache["warrent_map"][std::to_string(warrant_code)] = 0;
 
 																omdd_code = 100003;
 															}
