@@ -498,9 +498,9 @@ bool PriceMark::updateIBid(unsigned long long wbid, unsigned long long pwbid, un
 			if(pwbid > 0 && pfprice>0){
 
 				//unsigned long long spread = spreadTable.getSpread("01", pfprice + 1llu);
-				unsigned long long refprice = pfprice+INDEX_SPREAD;
-				bool eq1 = (refprice == fprice);
-				if(eq1){
+				//unsigned long long refprice = pfprice+INDEX_SPREAD;
+				//bool eq1 = (refprice == fprice);
+				//if(eq1){
 
 					pUpBidMark[wbid] = fprice;
 
@@ -513,8 +513,8 @@ bool PriceMark::updateIBid(unsigned long long wbid, unsigned long long pwbid, un
 					bidprice = fprice;
 
 					return true;
-				}
-				return false;
+				//}
+				//return false;
 			}
 
 		}
@@ -537,9 +537,9 @@ bool PriceMark::updateIBid(unsigned long long wbid, unsigned long long pwbid, un
 			if(pwbid > 0 && fprice>0){
 
 				//unsigned long long spread = spreadTable.getSpread("01", pfprice - 1llu);
-				unsigned long long refprice = pfprice-INDEX_SPREAD;
-				bool eq1 = (refprice == fprice);
-				if(eq1){
+				//unsigned long long refprice = pfprice-INDEX_SPREAD;
+				//bool eq1 = (refprice == fprice);
+				//if(eq1){
 
 					pUpBidMark[wbid] = fprice;
 
@@ -552,9 +552,9 @@ bool PriceMark::updateIBid(unsigned long long wbid, unsigned long long pwbid, un
 					bidprice = fprice;
 
 					return true;
-				}
+				//}
 
-				return false;
+				//return false;
 			}
 		}
 		if(wbid < pwbid && fprice > pfprice){
@@ -592,9 +592,9 @@ bool PriceMark::updateIAsk(unsigned long long wask, unsigned long long  pwask, u
 
 
 				//unsigned long long spread = spreadTable.getSpread("01", pfprice - 1llu);
-				unsigned long long refprice = pfprice-INDEX_SPREAD;
-				bool eq1 = (refprice == fprice);
-				if(eq1){
+				//unsigned long long refprice = pfprice-INDEX_SPREAD;
+				//bool eq1 = (refprice == fprice);
+				//if(eq1){
 
 
 					pDnAskMark[wask] = fprice;
@@ -608,9 +608,9 @@ bool PriceMark::updateIAsk(unsigned long long wask, unsigned long long  pwask, u
 					askprice = fprice;
 
 					return true;
-				}
+				//}
 
-				return false;
+				//return false;
 			}
 
 
@@ -634,9 +634,9 @@ bool PriceMark::updateIAsk(unsigned long long wask, unsigned long long  pwask, u
 
 			if(pfprice > 0 && wask>0){
 				//unsigned long long spread = spreadTable.getSpread("01", pfprice + 1llu);
-				unsigned long long refprice = pfprice+INDEX_SPREAD;
-				bool eq1 = (refprice == fprice);
-				if(eq1){
+				//unsigned long long refprice = pfprice+INDEX_SPREAD;
+				//bool eq1 = (refprice == fprice);
+				//if(eq1){
 
 					pDnAskMark[wask] = fprice;
 
@@ -650,8 +650,8 @@ bool PriceMark::updateIAsk(unsigned long long wask, unsigned long long  pwask, u
 					askprice = fprice;
 
 					return true;
-				}
-				return false;
+				//}
+				//return false;
 			}
 
 		}

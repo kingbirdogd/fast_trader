@@ -128,7 +128,15 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 				issuer_ask = best_ask_price1;
 			}
 
-			pricedata* pdu = nullptr;
+			//pricedata* pdu = nullptr;
+
+			//pricedata* pdu =
+
+			unsigned long long _UBestbid = 0;
+			unsigned long long _UBestask = 0;
+			unsigned long long _PUBestbid = 0;
+			unsigned long long _PUBestask = 0;
+
 			if(pd->IsIndex){
 				unsigned int orderbook_id = 0;
 				if(OmddDefReady ){
@@ -166,15 +174,23 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 							return;
 					}
 
-					pdu = pricedataMap[pd->Orderbook_id];
+					pricedata* _pdu = pricedataMap[pd->Orderbook_id];
+					_UBestbid = _pdu->Bestbid;
+					_UBestask = _pdu->Bestask;
+					_PUBestbid = _pdu->PBestbid;
+					_PUBestask = _pdu->PBestask;
 				}
 			}else{
-				 pdu = pricedataMap[pd->UCode];
+				pricedata* _pdu = pricedataMap[pd->UCode];
+				_UBestbid = _pdu->Bestbid;
+				_UBestask = _pdu->Bestask;
+				_PUBestbid = _pdu->PBestbid;
+				_PUBestask = _pdu->PBestask;
 			}
 
 
-			if(pdu == nullptr)
-				return;
+			//if(pdu == nullptr)
+			//	return;
 
 
 			//pricedata* pdu = pricedataMap[pd->UCode];
@@ -192,9 +208,9 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 							pd->LastBidSeq = pdu->BidSeq;
 							//_PriceMark->updateBid(best_bid_price, pd->Bestbid, pdu->Bestbid, pdu->PBestbid);
 							if(pd->IsIndex)
-								_PriceMark->updateIBid(issuer_bid, pd->IBestbid, pdu->Bestbid, pdu->PBestbid);
+								_PriceMark->updateIBid(issuer_bid, pd->IBestbid, _UBestbid, _PUBestbid);
 							else
-								_PriceMark->updateBid(issuer_bid, pd->IBestbid, pdu->Bestbid, pdu->PBestbid);
+								_PriceMark->updateBid(issuer_bid, pd->IBestbid, _UBestbid, _PUBestbid);
 							_PriceMark->setBidIssuerQty(best_bid_qty);
 						}
 					//}
@@ -208,9 +224,9 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 							pd->LastAskSeq = pdu->AskSeq;
 							//_PriceMark->updateAsk(best_ask_price, pd->Bestask, pdu->Bestask, pdu->PBestask);
 							if(pd->IsIndex)
-								_PriceMark->updateIAsk(issuer_ask, pd->IBestask, pdu->Bestask, pdu->PBestask);
+								_PriceMark->updateIAsk(issuer_ask, pd->IBestask, _UBestask, _PUBestask);
 							else
-								_PriceMark->updateAsk(issuer_ask, pd->IBestask, pdu->Bestask, pdu->PBestask);
+								_PriceMark->updateAsk(issuer_ask, pd->IBestask, _UBestask, _PUBestask);
 							_PriceMark->setAskIssuerQty(best_ask_qty);
 						}
 					//}
@@ -226,9 +242,9 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 							pd->LastAskSeq = pdu->AskSeq;
 							//_PriceMark->updateBid(best_bid_price, pd->Bestbid, pdu->Bestask, pdu->PBestask);
 							if(pd->IsIndex)
-								_PriceMark->updateIBid(issuer_bid, pd->IBestbid, pdu->Bestask, pdu->PBestask);
+								_PriceMark->updateIBid(issuer_bid, pd->IBestbid, _UBestask, _PUBestask);
 							else
-								_PriceMark->updateBid(issuer_bid, pd->IBestbid, pdu->Bestask, pdu->PBestask);
+								_PriceMark->updateBid(issuer_bid, pd->IBestbid, _UBestask, _PUBestask);
 							_PriceMark->setBidIssuerQty(best_bid_qty);
 						}
 					//}
@@ -242,9 +258,9 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 							pd->LastBidSeq = pdu->BidSeq;
 							//_PriceMark->updateAsk(best_ask_price, pd->Bestask, pdu->Bestbid, pdu->PBestbid);
 							if(pd->IsIndex)
-								_PriceMark->updateIAsk(issuer_ask, pd->IBestask, pdu->Bestbid, pdu->PBestbid);
+								_PriceMark->updateIAsk(issuer_ask, pd->IBestask, _UBestbid, _PUBestask);
 							else
-								_PriceMark->updateAsk(issuer_ask, pd->IBestask, pdu->Bestbid, pdu->PBestbid);
+								_PriceMark->updateAsk(issuer_ask, pd->IBestask, _UBestbid, _PUBestask);
 							_PriceMark->setAskIssuerQty(best_ask_qty);
 						}
 					//}
