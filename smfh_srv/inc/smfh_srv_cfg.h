@@ -489,8 +489,8 @@ inline static bool loadDefinition(json& _json)
 
 
 				if(omdd_code == 100001 || omdd_code == 100002 || omdd_code == 100003){
-					pricedataMap[underlying]->UCode = omdd_code;
-					pricedataMap[underlying]->IsIndex = true;
+					pricedataMap[warrent]->UCode = omdd_code;
+					pricedataMap[warrent]->IsIndex = true;
 				}
 
 				//if(underlying == 0){
