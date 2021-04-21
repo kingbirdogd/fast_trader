@@ -1356,7 +1356,7 @@ inline static bool loadDefinition(json& _json)
 															string::size_type pos=0;
 															pos = sname.find("HSI");
 															if(pos != sname.npos){
-																warrantToUnderlying[warrant_code] = 100001;
+																warrantToUnderlying[warrant_code] = 0;
 																underlyingToWarrant[100001].insert(warrant_code);
 																cache["warrent_map"][std::to_string(warrant_code)] = 100001;
 
@@ -1364,7 +1364,7 @@ inline static bool loadDefinition(json& _json)
 															}
 															pos = sname.find("HSCEI");
 															if(pos != sname.npos){
-																warrantToUnderlying[warrant_code] = 100002;
+																warrantToUnderlying[warrant_code] = 0;
 																underlyingToWarrant[100002].insert(warrant_code);
 																cache["warrent_map"][std::to_string(warrant_code)] = 100002;
 
@@ -1372,7 +1372,7 @@ inline static bool loadDefinition(json& _json)
 															}
 															pos = sname.find("HSTEC");
 															if(pos != sname.npos){
-																warrantToUnderlying[warrant_code] = 100003;
+																warrantToUnderlying[warrant_code] = 0;
 																underlyingToWarrant[100003].insert(warrant_code);
 																cache["warrent_map"][std::to_string(warrant_code)] = 100003;
 
