@@ -464,10 +464,13 @@ inline static bool loadDefinition(json& _json)
 
 				stockWarrantomdcMap[warrent].m_Code = warrent;
 				flush_printf("tm:%llu, stockWarrantomdcMap Wcode = %d \n", dbp::tools::srv::current(), warrent);
+
 				if(underlying > 0){
 					stockWarrantomdcMap[underlying].m_Code = underlying;
-					flush_printf("tm:%llu, stockWarrantomdcMap UCode = %d \n", dbp::tools::srv::current(), underlying);
+
 				}
+				flush_printf("tm:%llu, stockWarrantomdcMap UCode = %d \n", dbp::tools::srv::current(), underlying);
+				flush_printf("tm:%llu, File stockWarrantomdcMap Omdd Code = %d \n", dbp::tools::srv::current(), omdd_code);
 
 //New
 				ptomdcMap[warrent].m_Code = warrent;
@@ -484,10 +487,16 @@ inline static bool loadDefinition(json& _json)
 				pricedataMap[warrent]->IsIndex = false;
 				pricedataMap[warrent]->Orderbook_id = 0;
 
-				if(underlying == 0){
-					pricedataMap[warrent]->UCode = omdd_code;
-					pricedataMap[warrent]->IsIndex = true;
+
+				if(omdd_code == 100001 || omdd_code == 100002 || omdd_code == 100003){
+					pricedataMap[underlying]->UCode = omdd_code;
+					pricedataMap[underlying]->IsIndex = true;
 				}
+
+				//if(underlying == 0){
+				//	pricedataMap[warrent]->UCode = omdd_code;
+				//	pricedataMap[warrent]->IsIndex = true;
+				//}
 
 				pricedataMap[warrent]->Bestbid=0ull;
 				pricedataMap[warrent]->Bestask=0ull;
@@ -518,15 +527,7 @@ inline static bool loadDefinition(json& _json)
 						pricedataMap[underlying]->IsIndex = false;
 						pricedataMap[underlying]->Orderbook_id = 0;
 
-						if(omdd_code == 100001 || omdd_code == 100002 || omdd_code == 100003){
-							pricedataMap[underlying]->UCode = omdd_code;
-							pricedataMap[underlying]->IsIndex = true;
 
-
-
-
-
-						}
 
 						pricedataMap[underlying]->Bestbid=0ull;
 						pricedataMap[underlying]->Bestask=0ull;
