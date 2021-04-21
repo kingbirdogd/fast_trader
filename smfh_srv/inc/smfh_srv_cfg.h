@@ -1632,6 +1632,7 @@ inline static bool loadDefinition(json& _json)
 														COmddUnderlying underlying;
 														underlying.InstrumentGroup = OMD_GET_VALUE(pszBuffer, 42, unsigned char);
 														underlying.CommodityCode = OMD_GET_VALUE(pszBuffer, 44, unsigned short int);
+														underlying.Symbol = symbol;
 														codeTounderlying[orderbookid] = underlying;
 														cache["omdd_underlying"][std::to_string(orderbookid)] = json::object();
 														cache["omdd_underlying"][std::to_string(orderbookid)]["InstrumentGroup"] = static_cast<unsigned short int>(underlying.InstrumentGroup);
