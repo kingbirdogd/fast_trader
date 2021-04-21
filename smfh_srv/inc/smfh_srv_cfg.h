@@ -379,6 +379,9 @@ inline static bool loadDefinition(json& _json)
 				unsigned int code = static_cast<unsigned int>(std::stoul(key));
 				codeTounderlying[code] = underlying;
 
+				flush_printf("tm:%llu, File omdd_underlying Orderbook_id: %d,  CommodityCode = %d, InstrumentGroup = %d , Symbol = %s \n", dbp::tools::srv::current(), code, underlying.CommodityCode, underlying.InstrumentGroup,underlying.Symbol.c_str() );
+
+
 				if(underlying.CommodityCode == 4001){
 					hsceiVec.push_back(underlying.Symbol);
 				}
