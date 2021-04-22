@@ -789,9 +789,9 @@ string PriceMark::printIndexTable(){
 }
 
 
-string PriceMark::printIndexTable2(){
+string PriceMark::printIndexTable1(){
 
-	string data = "Warrant Code = " + to_string(pcode) + " Price Table\n";
+	string data = "Warrant Code = " + to_string(pcode) + " Price Table 1\n";
 
 	map<unsigned long long,std::string> pTableMap;
 
@@ -802,6 +802,43 @@ string PriceMark::printIndexTable2(){
 	}
 
 	for (auto it = pUpAskMark.begin(); it != pUpAskMark.end(); ++it ){
+			unsigned long long key = it->first;
+			unsigned long long value = it->second;
+			auto itf = pTableMap.find(key);
+			if(itf == pTableMap.end()){
+				pTableMap[key] = "#-" + to_string(value);
+			}else{
+				std:string svalue = pTableMap[key];
+				vector<string> bidask = split(svalue, '-');
+
+				pTableMap[key] = bidask[0] +  "-" + to_string(value);
+			}
+
+	}
+
+	int count = 0;
+	for (auto it2 = pTableMap.begin(); it2 != pTableMap.end(); ++it2 ){
+		unsigned long long key = it2->first;
+		string value = it2->second;
+
+		data += to_string(key) + "=" + value + "\n";
+	}
+	return data;
+}
+
+string PriceMark::printIndexTable2(){
+
+	string data = "Warrant Code = " + to_string(pcode) + " Price Table 2\n";
+
+	map<unsigned long long,std::string> pTableMap;
+
+	for (auto it = pUpBidMark.begin(); it != pUpBidMark.end(); ++it ){
+			unsigned long long key = it->first;
+			unsigned long long value = it->second;
+			pTableMap[key] = to_string(value) + "-#";
+	}
+
+	for (auto it = pDnAskMark.begin(); it != pDnAskMark.end(); ++it ){
 			unsigned long long key = it->first;
 			unsigned long long value = it->second;
 			auto itf = pTableMap.find(key);

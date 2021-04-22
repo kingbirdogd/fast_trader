@@ -99,6 +99,7 @@ public:
 	string printTable(unsigned long long ubid);
 	string printTable();
 	string printIndexTable();
+	string printIndexTable1();
 	string printIndexTable2();
 	string printTableJson();
 	string printIndexTableJson();
