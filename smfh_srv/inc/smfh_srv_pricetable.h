@@ -148,6 +148,11 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 					if(pd->Orderbook_id == 0){
 						unsigned int omddcode = pd->UCode;
 						if(pd->UCode == 100001){
+
+
+							//std::sort(hsiVec.begin(), hsiVec.end());
+
+
 							auto symbol = hsiVec.front();
 							orderbook_id = nameToCode[symbol];
 							pd->Orderbook_id = orderbook_id;
@@ -158,6 +163,9 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 
 						}
 						if(pd->UCode == 100002){
+
+							//std::sort(hsceiVec.begin(), hsceiVec.end());
+
 							auto symbol = hsceiVec.front();
 							orderbook_id = nameToCode[symbol];
 							pd->Orderbook_id = orderbook_id;
@@ -166,6 +174,9 @@ inline static void handlePricetable(dbp::omd::COmdMsgHeader* _pMsg, unsigned lon
 								orderbook_id, pd->UCode, symbol.c_str());
 						}
 						if(pd->UCode == 100003){
+
+
+
 							auto symbol = hstecVec.front();
 							orderbook_id = nameToCode[symbol];
 							pd->Orderbook_id = orderbook_id;

@@ -426,9 +426,12 @@ inline static bool loadDefinition(json& _json)
 
 
 
-				OmddDefReady = true;
+
 			}
 
+			std::sort(hsceiVec.begin(), hsceiVec.end());
+			std::sort(hsiVec.begin(), hsiVec.end());
+			std::sort(hstecVec.begin(), hstecVec.end());
 
 
 			for (auto it = warrent.begin(); it != warrent.end(); ++it)
@@ -1571,6 +1574,11 @@ inline static bool loadDefinition(json& _json)
 													epoll_ctl(iDefEopll, EPOLL_CTL_DEL, iFd, &objEvent);
 													flush_printf("tm:%llu, Finish Omdd Definition Refresh \n\n", dbp::tools::srv::current());
 													OmddDefReady = true;
+
+													std::sort(hsceiVec.begin(), hsceiVec.end());
+													std::sort(hsiVec.begin(), hsiVec.end());
+													std::sort(hstecVec.begin(), hstecVec.end());
+
 												}
 												else if (304 == uMsgType)
 												{
