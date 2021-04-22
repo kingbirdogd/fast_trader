@@ -425,7 +425,7 @@ inline static bool loadDefinition(json& _json)
 				}
 
 
-
+				OmddDefReady = true;
 
 			}
 
