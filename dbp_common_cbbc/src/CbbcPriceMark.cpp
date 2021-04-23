@@ -73,7 +73,8 @@ bool CbbcPriceMark::updateTableBid(unsigned long long wbid, unsigned long long p
 		return updateBid(wbid, pwbid, fbid, pfbid);
 	}
 	if(STOCK_TYPE == ppType){
-		return updateThBid(wbid, pwbid, fbid, pfbid);
+		//return updateThBid(wbid, pwbid, fbid, pfbid);
+		return updateBid(wbid, pwbid, fbid, pfbid);
 	}
 	return false;
 }
@@ -83,7 +84,8 @@ bool CbbcPriceMark::updateTableAsk(unsigned long long wask, unsigned long long p
 		return updateAsk(wask, pwask, fask, pfask);
 	}
 	if(STOCK_TYPE == ppType){
-		return updateThAsk(wask, pwask, fask, pfask);
+		//return updateThAsk(wask, pwask, fask, pfask);
+		return updateAsk(wask, pwask, fask, pfask);
 	}
 	return false;
 }
