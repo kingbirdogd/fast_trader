@@ -1676,9 +1676,9 @@ algo_msg_base* bear::json_to_msg(json& json)
 
 				auto itpm = pricemarkMap.find(p._warrant_code);
 				if(itpm != pricemarkMap.end()){
-					p._CbbcPriceMark.copyTable(itpm->second->getBidTable(), itpm->second->getAskTable());
-					p._CbbcPriceMark.copyUpTable(itpm->second->getUpBidTable(), itpm->second->getUpAskTable());
-					p._CbbcPriceMark.copyDnTable(itpm->second->getDnBidTable(), itpm->second->getDnAskTable());
+					p._CbbcPriceMark->copyTable(itpm->second->getBidTable(), itpm->second->getAskTable());
+					p._CbbcPriceMark->copyUpTable(itpm->second->getUpBidTable(), itpm->second->getUpAskTable());
+					p._CbbcPriceMark->copyDnTable(itpm->second->getDnBidTable(), itpm->second->getDnAskTable());
 				}
 			}
 			if(p._Utype == NQ_SYMBOL){
@@ -1719,9 +1719,9 @@ algo_msg_base* bear::json_to_msg(json& json)
 
 				auto itpm = pricemarkMap.find(p._warrant_code);
 				if(itpm != pricemarkMap.end()){
-					p._CbbcPriceMark.copyTable(itpm->second->getBidTable(), itpm->second->getAskTable());
-					p._CbbcPriceMark.copyUpTable(itpm->second->getUpBidTable(), itpm->second->getUpAskTable());
-					p._CbbcPriceMark.copyDnTable(itpm->second->getDnBidTable(), itpm->second->getDnAskTable());
+					p._CbbcPriceMark->copyTable(itpm->second->getBidTable(), itpm->second->getAskTable());
+					p._CbbcPriceMark->copyUpTable(itpm->second->getUpBidTable(), itpm->second->getUpAskTable());
+					p._CbbcPriceMark->copyDnTable(itpm->second->getDnBidTable(), itpm->second->getDnAskTable());
 				}
 			}
 
