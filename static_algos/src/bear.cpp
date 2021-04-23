@@ -1098,7 +1098,7 @@ bear::action_resp bear::set_start(unsigned int code, const std::string& ref){
 	}
 
 	if(p.action_status() == STAGE_STOP){
-		load_price_table(code, ref);
+		load_pricetable(code, ref);
 	}
 
 
