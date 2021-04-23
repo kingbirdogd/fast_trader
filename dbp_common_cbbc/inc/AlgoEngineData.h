@@ -13,6 +13,7 @@
 #define STAGE_START 1
 #define STAGE_STOP 0
 #define STAGE_PAUSE 2
+#define STAGE_NEW -1
 
 #define CHANGE_UP 1
 #define CHANGE_DN 0
