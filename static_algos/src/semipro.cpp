@@ -400,7 +400,7 @@ std::string semipro::cancel_order(const std::string& ref, pair*& pref)
 }
 
 
-void semipo::position(algo_odr_position& msg) const
+void semipro::position(algo_odr_position& msg) const
 {
 	for (const auto& it : _p_map)
 	{
