@@ -344,8 +344,63 @@ std::string semipro::force_sell(unsigned long long price, unsigned long long qua
 	}
 }
 
+std::string semipro::limit_sell(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref)
+{
+	pref = nullptr;
+	auto it = _p_map.find(ref);
+	if (_p_map.end() == it)
+	{
+		return "fail pair not found";
+	}
+	auto& p = it->second;
+	pref = &p;
+	auto result = p.sell_limit(price, false, quantity);
+	if (pair::sell_result::SUCCESS == result)
+	{
+		return "SUCCESS";
+	}
+	else if (pair::sell_result::NOTHING_TO_SELL == result)
+	{
+		return "fail NOTHING_TO_SELL";
+	}
+	else if (pair::sell_result::SELLING == result)
+	{
+		return "fail SELLING";
+	}
+	else if (pair::sell_result::SHORT_SELL == result)
+	{
+		return "fail SHORT_SELL";
+	}
+	else if (pair::sell_result::NEW_SELL_ODR_FAIL == result)
+	{
+		return "fail NEW_SELL_ODR_FAIL";
+	}
+	else
+	{
+		return "fail UNKNOW";
+	}
+}
 
-void semipro::position(algo_odr_position& msg) const
+std::string semipro::cancel_order(const std::string& ref, pair*& pref)
+{
+	pref = nullptr;
+	auto it = _p_map.find(ref);
+	if (_p_map.end() == it)
+	{
+		return "fail pair not found";
+	}
+	auto& p = it->second;
+	pref = &p;
+	bool result = p.cancelorder();
+	if (result)
+	{
+		return "SUCCESS";
+	}
+	return "FAIL";
+}
+
+
+void semi::position(algo_odr_position& msg) const
 {
 	for (const auto& it : _p_map)
 	{
@@ -368,6 +423,7 @@ algo_msg_base* semipro::json_to_msg(json& json)
 	algo_set* pset = nullptr;
 	algo_force_buy* pforce_buy = nullptr;
 	algo_force_sell* pforce_sell = nullptr;
+	algo_limit_sell* plimit_sell = nullptr;
 	try
 	{
 
@@ -595,6 +651,15 @@ algo_msg_base* semipro::json_to_msg(json& json)
 			msg->ref = ref;
 			return msg;
 		}
+		else if (cmd == "cancel")
+		{
+			auto msg = algo_cancel_pool.get_obj();
+			msg->al = this;
+			msg->algo_name = _name;
+			msg->id = _u.get_id();
+			msg->ref = ref;
+			return msg;
+		}
 		else if (cmd == "get")
 		{
 			auto msg = algo_get_pool.get_obj();
@@ -634,6 +699,17 @@ algo_msg_base* semipro::json_to_msg(json& json)
 			pforce_sell->price = json["price"].get<unsigned long long>();
 			pforce_sell->quantity = json["quantity"].get<unsigned long long>();
 			return pforce_sell;
+		}
+		else if (cmd == "limit_sell")
+		{
+			plimit_sell = algo_limit_sell_pool.get_obj();
+			plimit_sell->al = this;
+			plimit_sell->algo_name = _name;
+			plimit_sell->id = _u.get_id();
+			plimit_sell->ref = ref;
+			plimit_sell->price = json["price"].get<unsigned long long>();
+			plimit_sell->quantity = json["quantity"].get<unsigned long long>();
+			return plimit_sell;
 		}
 		else
 		{
@@ -687,8 +763,10 @@ rapid_ring::spmc_ring_buffer_object_pool<semipro::algo_latency, 8192> semipro::a
 #endif
 rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_set, 8192> semipro::algo_set_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_del, 8192> semipro::algo_del_pool;
+rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_cancel, 8192> semipro::algo_cancel_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_get, 8192> semipro::algo_get_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_force_buy, 8192> semipro::algo_force_buy_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_force_sell, 8192> semipro::algo_force_sell_pool;
+rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_limit_sell, 8192> semipro::algo_limit_sell_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_getprofit_msg, 8192> semipro::algo_getprofit_msg_pool;
 
