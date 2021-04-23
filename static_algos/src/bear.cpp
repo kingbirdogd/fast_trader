@@ -1673,6 +1673,13 @@ algo_msg_base* bear::json_to_msg(json& json)
 			p._PriceInfoU = new priceinfo();
 			if(p._Utype == HSI_SYMBOL){
 				p._CbbcPriceMark = new CbbcPriceMark(INDEX_TYPE, p._Wtype, p._SPREAD, 100000);
+
+				auto itpm = pricemarkMap.find(p._warrant_code);
+				if(itpm != pricemarkMap.end()){
+					p._CbbcPriceMark.copyTable(itpm->second->getBidTable(), itpm->second->getAskTable());
+					p._CbbcPriceMark.copyUpTable(itpm->second->getUpBidTable(), itpm->second->getUpAskTable());
+					p._CbbcPriceMark.copyDnTable(itpm->second->getDnBidTable(), itpm->second->getDnAskTable());
+				}
 			}
 			if(p._Utype == NQ_SYMBOL){
 				p._CbbcPriceMark = new CbbcPriceMark(INDEX_TYPE, p._Wtype, p._SPREAD, 250000000);
@@ -1709,6 +1716,13 @@ algo_msg_base* bear::json_to_msg(json& json)
 				 */
 				//p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, spread);
 				p._CbbcPriceMark = new CbbcPriceMark(STOCK_TYPE, p._Wtype, p._SPREAD, 1000000);
+
+				auto itpm = pricemarkMap.find(p._warrant_code);
+				if(itpm != pricemarkMap.end()){
+					p._CbbcPriceMark.copyTable(itpm->second->getBidTable(), itpm->second->getAskTable());
+					p._CbbcPriceMark.copyUpTable(itpm->second->getUpBidTable(), itpm->second->getUpAskTable());
+					p._CbbcPriceMark.copyDnTable(itpm->second->getDnBidTable(), itpm->second->getDnAskTable());
+				}
 			}
 
 			Log("bear 4");

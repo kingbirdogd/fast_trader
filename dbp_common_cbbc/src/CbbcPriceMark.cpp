@@ -21,8 +21,15 @@ CbbcPriceMark::~CbbcPriceMark() {
 
 
 void CbbcPriceMark::clearall(){
+
+	pBidMark.clear();
+	pAskMark.clear();
+
 	pDnBidMark.clear();
 	pUpAskMark.clear();
+
+	pUpBidMark.clear();
+	pDnAskMark.clear();
 }
 
 string CbbcPriceMark::ftos(float value, int dp){
@@ -88,21 +95,21 @@ bool CbbcPriceMark::updateThBid(unsigned long long wbid, unsigned long long pwbi
 		if(wbid > pwbid && fprice > pfprice){
 			if(pwbid > 0){
 
+				pBidMark[wbid] = fprice;
+				bidkey = wbid;
+				bidprice = fprice;
 
-
-					pDnBidMark[wbid] = fprice;
-					bidkey = wbid;
-					bidprice = fprice;
-
-					return true;
+				return true;
 
 			}
 		}
 		if(wbid < pwbid && fprice < pfprice){
 			if(pwbid > 0){
-				pDnBidMark[pwbid] = pfprice;
+
+				pBidMark[pwbid] = pfprice;
 				bidkey = pwbid;
 				bidprice = pfprice;
+
 				return true;
 			}
 		}
@@ -111,18 +118,17 @@ bool CbbcPriceMark::updateThBid(unsigned long long wbid, unsigned long long pwbi
 		if(wbid > pwbid && fprice < pfprice){
 			if(pwbid > 0){
 
-					pDnBidMark[wbid] = fprice;
-					bidkey = wbid;
-					bidprice = fprice;
+				pBidMark[wbid] = fprice;
+				bidkey = wbid;
+				bidprice = fprice;
 
-					return true;
-
+				return true;
 			}
 		}
 		if(wbid < pwbid && fprice > pfprice){
 			if(pwbid > 0){
 
-				pDnBidMark[pwbid] = pfprice;
+				pBidMark[pwbid] = pfprice;
 				bidkey = pwbid;
 				bidprice = pfprice;
 
@@ -138,7 +144,7 @@ bool CbbcPriceMark::updateThAsk(unsigned long long wask, unsigned long long  pwa
 		if(wask > pwask && fprice > pfprice){
 			if(pwask > 0){
 
-				pUpAskMark[pwask] = pfprice;
+				pAskMark[pwask] = pfprice;
 				askkey = pwask;
 				askprice = pfprice;
 
@@ -148,14 +154,11 @@ bool CbbcPriceMark::updateThAsk(unsigned long long wask, unsigned long long  pwa
 		if(wask < pwask && fprice < pfprice){
 			if(pwask > 0){
 
+				pAskMark[wask] = fprice;
+				askkey = wask;
+				askprice = fprice;
 
-						pUpAskMark[wask] = fprice;
-						askkey = wask;
-						askprice = fprice;
-
-						return true;
-
-
+				return true;
 			}
 		}
 	}
@@ -163,7 +166,7 @@ bool CbbcPriceMark::updateThAsk(unsigned long long wask, unsigned long long  pwa
 		if(wask > pwask && fprice < pfprice){
 			if(pwask > 0){
 
-				pUpAskMark[pwask] = pfprice;
+				pAskMark[pwask] = pfprice;
 				askkey = pwask;
 				askprice = pfprice;
 
@@ -173,14 +176,11 @@ bool CbbcPriceMark::updateThAsk(unsigned long long wask, unsigned long long  pwa
 		if(wask < pwask && fprice > pfprice){
 			if(pwask > 0){
 
+				pAskMark[pwask] = fprice;
+				askkey = pwask;
+				askprice = fprice;
 
-						pUpAskMark[pwask] = fprice;
-						askkey = pwask;
-						askprice = fprice;
-
-						return true;
-
-
+				return true;
 			}
 		}
 	}
@@ -200,12 +200,14 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 				bool eq1 = (fprice - pfprice) == pUSpread;
 				if(pplus1 == wbid && eq1){
 
-					auto itp = pDnBidMark.find(wbid);
-					if(itp != pDnBidMark.end()){
+					pUpBidMark[wbid] = fprice;
+
+					auto itp = pBidMark.find(wbid);
+					if(itp != pBidMark.end()){
 						return false;
 					}
 
-					pDnBidMark[wbid] = fprice;
+					pBidMark[wbid] = fprice;
 					bidkey = wbid;
 					bidprice = fprice;
 
@@ -245,7 +247,10 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 					return true;
 				}
 				*/
+
 				pDnBidMark[pwbid] = pfprice;
+
+				pBidMark[pwbid] = pfprice;
 				bidkey = pwbid;
 				bidprice = pfprice;
 				return true;
@@ -263,14 +268,16 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 				bool eq1 = (pfprice - fprice) == pUSpread;
 				if(pplus1 == wbid && eq1){
 
-					auto itp = pDnBidMark.find(wbid);
-					if(itp != pDnBidMark.end()){
+					pUpBidMark[wbid] = fprice;
+
+					auto itp = pBidMark.find(wbid);
+					if(itp != pBidMark.end()){
 
 						return false;
 					}
 
 
-					pDnBidMark[wbid] = fprice;
+					pBidMark[wbid] = fprice;
 					bidkey = wbid;
 					bidprice = fprice;
 
@@ -307,7 +314,10 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 
 					return true;
 				}*/
+
 				pDnBidMark[pwbid] = pfprice;
+
+				pBidMark[pwbid] = pfprice;
 				bidkey = pwbid;
 				bidprice = pfprice;
 
@@ -354,7 +364,10 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 						return true;
 					}
 				}*/
+
 				pUpAskMark[pwask] = pfprice;
+
+				pAskMark[pwask] = pfprice;
 				askkey = pwask;
 				askprice = pfprice;
 
@@ -371,13 +384,15 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 
 					if(fprice > 0){
 
-						auto itp = pUpAskMark.find(wask);
-						if(itp != pUpAskMark.end()){
+						auto itp = pDnAskMark.find(wask);
+
+						auto itp = pAskMark.find(wask);
+						if(itp != pAskMark.end()){
 
 							return false;
 						}
 
-						pUpAskMark[wask] = fprice;
+						pAskMark[wask] = fprice;
 						askkey = wask;
 						askprice = fprice;
 
@@ -420,7 +435,10 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 						return true;
 					}
 				}*/
+
 				pUpAskMark[pwask] = pfprice;
+
+				pAskMark[pwask] = pfprice;
 				askkey = pwask;
 				askprice = pfprice;
 
@@ -437,8 +455,10 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 
 					if(fprice > 0){
 
-						auto itp = pUpAskMark.find(wask);
-						if(itp != pUpAskMark.end()){
+						pDnAskMark[wask] = fprice;
+
+						auto itp = pAskMark.find(wask);
+						if(itp != pAskMark.end()){
 
 							return false;
 						}
@@ -447,7 +467,7 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 						askkey = pwask;
 						askprice = fprice;
 */
-						pUpAskMark[wask] = fprice;
+						pAskMark[wask] = fprice;
 						askkey = wask;
 						askprice = fprice;
 						return true;
@@ -472,14 +492,14 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 				bool eq1 = ((fprice - pfprice) == pUSpread)|ignoreF;
 				if(pplus1 == wbid && eq1){
 
-					auto itp = pDnBidMark.find(wbid);
-					if(itp != pDnBidMark.end()){
+					auto itp = pBidMark.find(wbid);
+					if(itp != pBidMark.end()){
 
 						return false;
 					}
 
 
-					pDnBidMark[wbid] = fprice;
+					pBidMark[wbid] = fprice;
 					bidkey = wbid;
 					bidprice = fprice;
 
@@ -497,11 +517,11 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 				bool eq1 = ((pfprice - fprice) == pUSpread)|ignoreF;
 				if(pplus1 == pwbid && eq1){
 
-					auto itp = pDnBidMark.find(pwbid);
-					if(itp != pDnBidMark.end()){
+					auto itp = pBidMark.find(pwbid);
+					if(itp != pBidMark.end()){
 						if(itp->second != pfprice){
 
-							pDnBidMark[pwbid] = pfprice;
+							pBidMark[pwbid] = pfprice;
 							bidkey = pwbid;
 							bidprice = pfprice;
 							return true;
@@ -511,7 +531,7 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 						}
 					}
 
-					pDnBidMark[pwbid] = pfprice;
+					pBidMark[pwbid] = pfprice;
 					bidkey = pwbid;
 					bidprice = pfprice;
 
@@ -532,14 +552,14 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 				if(pplus1 == wbid && eq1){
 
 
-					auto itp = pDnBidMark.find(wbid);
-					if(itp != pDnBidMark.end()){
+					auto itp = pBidMark.find(wbid);
+					if(itp != pBidMark.end()){
 
 						return false;
 					}
 
 
-					pDnBidMark[wbid] = fprice;
+					pBidMark[wbid] = fprice;
 					bidkey = wbid;
 					bidprice = fprice;
 
@@ -557,11 +577,11 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 				if(pplus1 == pwbid && eq1){
 
 
-					auto itp = pDnBidMark.find(pwbid);
-					if(itp != pDnBidMark.end()){
+					auto itp = pBidMark.find(pwbid);
+					if(itp != pBidMark.end()){
 						if(itp->second != pfprice){
 
-							pDnBidMark[pwbid] = pfprice;
+							pBidMark[pwbid] = pfprice;
 							bidkey = pwbid;
 							bidprice = pfprice;
 							return true;
@@ -571,7 +591,7 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 						}
 					}
 
-					pDnBidMark[pwbid] = pfprice;
+					pBidMark[pwbid] = pfprice;
 					bidkey = pwbid;
 					bidprice = pfprice;
 
@@ -596,11 +616,11 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 					if(pwask > 0){
 
 
-						auto itp = pUpAskMark.find(pwask);
-						if(itp != pUpAskMark.end()){
+						auto itp = pAskMark.find(pwask);
+						if(itp != pAskMark.end()){
 							if(itp->second != pfprice){
 
-								pUpAskMark[pwask] = pfprice;
+								pAskMark[pwask] = pfprice;
 								askkey = pwask;
 								askprice = pfprice;
 								return true;
@@ -610,7 +630,7 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 							}
 						}
 
-						pUpAskMark[pwask] = pfprice;
+						pAskMark[pwask] = pfprice;
 						askkey = pwask;
 						askprice = pfprice;
 
@@ -629,13 +649,13 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 
 					if(fprice > 0){
 
-						auto itp = pUpAskMark.find(wask);
-						if(itp != pUpAskMark.end()){
+						auto itp = pAskMark.find(wask);
+						if(itp != pAskMark.end()){
 
 							return false;
 						}
 
-						pUpAskMark[wask] = fprice;
+						pAskMark[wask] = fprice;
 						askkey = wask;
 						askprice = pfprice;
 
@@ -656,11 +676,11 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 
 					if(pwask > 0){
 
-						auto itp = pUpAskMark.find(pwask);
-						if(itp != pUpAskMark.end()){
+						auto itp = pAskMark.find(pwask);
+						if(itp != pAskMark.end()){
 							if(itp->second != pfprice){
 
-								pUpAskMark[pwask] = pfprice;
+								pAskMark[pwask] = pfprice;
 								askkey = pwask;
 								askprice = pfprice;
 								return true;
@@ -670,7 +690,7 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 							}
 						}
 
-						pUpAskMark[pwask] = pfprice;
+						pAskMark[pwask] = pfprice;
 						askkey = pwask;
 						askprice = pfprice;
 
@@ -689,13 +709,13 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 
 					if(fprice > 0){
 
-						auto itp = pUpAskMark.find(wask);
-						if(itp != pUpAskMark.end()){
+						auto itp = pAskMark.find(wask);
+						if(itp != pAskMark.end()){
 
 							return false;
 						}
 
-						pUpAskMark[wask] = fprice;
+						pAskMark[wask] = fprice;
 						askkey = pwask;
 						askprice = fprice;
 
@@ -711,9 +731,9 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 unsigned long long CbbcPriceMark::buyIn(unsigned long long wprice){
 	//string swask = to_string(wprice);
 	unsigned long long buyInUpAsk = 0;
-	auto aup = pUpAskMark.find(wprice);
-	if(aup != pUpAskMark.end()){
-		buyInUpAsk = pUpAskMark[wprice];
+	auto aup = pAskMark.find(wprice);
+	if(aup != pAskMark.end()){
+		buyInUpAsk = pAskMark[wprice];
 	}
 	return buyInUpAsk;
 }
@@ -721,9 +741,9 @@ unsigned long long CbbcPriceMark::buyIn(unsigned long long wprice){
 unsigned long long CbbcPriceMark::sellOut(unsigned long long wprice){
 	//string swbid = to_string(wprice);
 	unsigned long long sellOutDnBid = 99999999;
-	auto bdn = pDnBidMark.find(wprice);
-	if(bdn != pDnBidMark.end()){
-		sellOutDnBid = pDnBidMark[wprice];
+	auto bdn = pBidMark.find(wprice);
+	if(bdn != pBidMark.end()){
+		sellOutDnBid = pBidMark[wprice];
 	}
 	return sellOutDnBid;
 }
@@ -733,12 +753,41 @@ unsigned long long CbbcPriceMark::getIssuerIize(){
 }
 
 map<unsigned long long,unsigned long long> CbbcPriceMark::getBidTable(){
-	return pDnBidMark;
+	return pBidMark;
 }
 
 map<unsigned long long,unsigned long long> CbbcPriceMark::getAskTable(){
+	return pAskMark;
+}
+
+map<unsigned long long,unsigned long long> CbbcPriceMark::getDnBidTable(){
+	return pDnBidMark;
+}
+
+map<unsigned long long,unsigned long long> CbbcPriceMark::getUpAskTable(){
 	return pUpAskMark;
 }
 
+map<unsigned long long,unsigned long long> CbbcPriceMark::getUpBidTable(){
+	return pUpBidMark;
+}
+
+map<unsigned long long,unsigned long long> CbbcPriceMark::getDnAskTable(){
+	return pDnAskMark;
+}
+
+
+void CbbcPriceMark::copyTable(map<unsigned long long,unsigned long long> bid,  map<unsigned long long,unsigned long long> ask){
+	pBidMark.insert(bid.begin(), bid.end());
+	pAskMark.insert(ask.begin(), ask.end());
+}
+void CbbcPriceMark::copyUpTable(map<unsigned long long,unsigned long long> bid,  map<unsigned long long,unsigned long long> ask){
+	pUpBidMark.insert(bid.begin(), bid.end());
+	pUpAskMark.insert(ask.begin(), ask.end());
+}
+void CbbcPriceMark::copyDnTable(map<unsigned long long,unsigned long long> bid,  map<unsigned long long,unsigned long long> ask){
+	pDnBidMark.insert(bid.begin(), bid.end());
+	pDnAskMark.insert(ask.begin(), ask.end());
+}
 
 

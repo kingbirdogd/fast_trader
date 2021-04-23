@@ -84,6 +84,12 @@ public:
 	map<unsigned long long,unsigned long long> getBidTable();
 	map<unsigned long long,unsigned long long> getAskTable();
 
+	map<unsigned long long,unsigned long long> getUpBidTable();
+	map<unsigned long long,unsigned long long> getUpAskTable();
+	map<unsigned long long,unsigned long long> getDnBidTable();
+	map<unsigned long long,unsigned long long> getDnAskTable();
+
+
 	unsigned long long getWarrantBidAskSpread(string key);
 	unsigned long long getRefWarrantBid(string key);
 

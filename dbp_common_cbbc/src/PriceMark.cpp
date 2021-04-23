@@ -699,6 +699,19 @@ map<unsigned long long,unsigned long long> PriceMark::getAskTable(){
 	return pAskMark;
 }
 
+map<unsigned long long,unsigned long long> PriceMark::getUpBidTable(){
+	return pUpBidMark;
+}
+map<unsigned long long,unsigned long long> PriceMark::getUpAskTable(){
+	return pUpAskMark;
+}
+map<unsigned long long,unsigned long long> PriceMark::getDnBidTable(){
+	return pDnBidMark;
+}
+map<unsigned long long,unsigned long long> PriceMark::getDnAskTable(){
+	return pDnAskMark;
+}
+
 unsigned long long PriceMark::getIssuerBidQty(){
 	return BidIssuerQty;
 }

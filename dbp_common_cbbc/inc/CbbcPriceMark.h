@@ -41,8 +41,21 @@ private:
 	int ppType;
 	int pwtype;
 	unsigned long long pIssuerSize;
+
+
+	map<unsigned long long,unsigned long long> pAskMark;
+	map<unsigned long long,unsigned long long> pBidMark;
+
+
 	map<unsigned long long,unsigned long long> pUpAskMark;
 	map<unsigned long long,unsigned long long> pDnBidMark;
+
+
+	map<unsigned long long,unsigned long long> pDnAskMark;
+	map<unsigned long long,unsigned long long> pUpBidMark;
+
+
+
 	SpreadTable spreadTable;
 	unsigned long long pDefaultSpread;
 	unsigned long long pUSpread;
@@ -79,13 +92,22 @@ public:
 	int getWType();
 	string ftos(float value, int dp);
 
+
 	map<unsigned long long,unsigned long long> getBidTable();
 	map<unsigned long long,unsigned long long> getAskTable();
+	map<unsigned long long,unsigned long long> getUpBidTable();
+	map<unsigned long long,unsigned long long> getUpAskTable();
+	map<unsigned long long,unsigned long long> getDnBidTable();
+	map<unsigned long long,unsigned long long> getDnAskTable();
 
 	unsigned long long getBidKey();
 	unsigned long long getAskKey();
 	unsigned long long getBidPrice();
 	unsigned long long getAskPrice();
+
+	void copyTable(map<unsigned long long,unsigned long long> bid,  map<unsigned long long,unsigned long long> ask);
+	void copyUpTable(map<unsigned long long,unsigned long long> bid,  map<unsigned long long,unsigned long long> ask);
+	void copyDnTable(map<unsigned long long,unsigned long long> bid,  map<unsigned long long,unsigned long long> ask);
 };
 
 
