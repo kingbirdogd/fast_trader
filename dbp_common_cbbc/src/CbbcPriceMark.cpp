@@ -386,7 +386,8 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 
 					if(fprice > 0){
 
-						auto itp = pDnAskMark.find(wask);
+						//auto itp = pDnAskMark.find(wask);
+						pDnAskMark[wask] = fprice;
 
 						auto itp = pAskMark.find(wask);
 						if(itp != pAskMark.end()){
@@ -493,6 +494,7 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 
 				bool eq1 = ((fprice - pfprice) == pUSpread)|ignoreF;
 				if(pplus1 == wbid && eq1){
+
 
 					auto itp = pBidMark.find(wbid);
 					if(itp != pBidMark.end()){
