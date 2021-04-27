@@ -1677,6 +1677,9 @@ algo_msg_base* bear::json_to_msg(json& json)
 			p._PriceInfo->LastAskSeq=0;
 			p._PriceInfoU = new priceinfo();
 			if(p._Utype == HSI_SYMBOL){
+
+				Log("HSI_SYMBOL Code = " + to_string(p._warrant_code));
+
 				p._CbbcPriceMark = new CbbcPriceMark(INDEX_TYPE, p._Wtype, p._SPREAD, 100000);
 
 				auto itpm = pricemarkMap.find(p._warrant_code);
@@ -1686,6 +1689,9 @@ algo_msg_base* bear::json_to_msg(json& json)
 					p._CbbcPriceMark->copyDnTable(itpm->second->getDnBidTable(), itpm->second->getDnAskTable());
 				}
 				if(ivLoader.exist(p._warrant_code)){
+
+					Log("Load IV = " + to_string(p._warrant_code));
+
 					WarrantIv wiv = ivLoader.getWarrantIv(p._warrant_code);
 					if (wiv.Delta > 0){
 						unsigned long long sensitivity = static_cast<unsigned long long>(0.001f * wiv.Cratio / wiv.Delta * 100) * 100000;
