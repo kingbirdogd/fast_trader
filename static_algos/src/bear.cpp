@@ -1694,7 +1694,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 
 					WarrantIv wiv = ivLoader.getWarrantIv(p._warrant_code);
 					if (wiv.Delta > 0){
-						unsigned long long sensitivity = static_cast<unsigned long long>(0.001f * wiv.Cratio / wiv.Delta * 100) * 100000;
+						unsigned long long sensitivity = static_cast<unsigned long long>(0.001f * wiv.Cratio / wiv.Delta) * 100000;
 						p._CbbcPriceMark->setSensitivity(sensitivity);
 
 
