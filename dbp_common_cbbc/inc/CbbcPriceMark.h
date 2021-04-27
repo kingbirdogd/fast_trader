@@ -64,6 +64,9 @@ private:
 	unsigned long long askkey = 0;
 	unsigned long long bidprice = 0;
 	unsigned long long askprice = 0;
+
+	unsigned long long sensitivity = 0;
+
 public:
 	CbbcPriceMark(int ptype, int wtype, unsigned long long spread, unsigned long long uspread);
 	virtual ~CbbcPriceMark();
@@ -85,6 +88,9 @@ public:
 
 	unsigned long long buyIn(unsigned long long wprice);
 	unsigned long long sellOut(unsigned long long wprice);
+
+	unsigned long long dynameicBuyIn(unsigned long long wprice);
+	unsigned long long dynameicSellOut(unsigned long long wprice);
 
 	void clearall();
 
@@ -108,6 +114,8 @@ public:
 	void copyTable(map<unsigned long long,unsigned long long> bid,  map<unsigned long long,unsigned long long> ask);
 	void copyUpTable(map<unsigned long long,unsigned long long> bid,  map<unsigned long long,unsigned long long> ask);
 	void copyDnTable(map<unsigned long long,unsigned long long> bid,  map<unsigned long long,unsigned long long> ask);
+
+	void setSensitivity(unsigned long long value);
 };
 
 

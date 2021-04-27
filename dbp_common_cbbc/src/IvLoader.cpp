@@ -53,7 +53,18 @@ void IvLoader::load(const char* filename){
 		str = regex_replace(str, regex("\\<"), "");
 		str = regex_replace(str, regex("\\>"), "");
 		str = regex_replace(str, regex("\\.HK"), "");
-		wiv.UCode = atoi(str.c_str());
+
+		str = regex_replace(str, regex("."), "");
+
+		if(str.compare("HSI") == 0){
+			wiv.UCode = 100001;
+		}else if(str.compare("HSCE") == 0){
+			wiv.UCode = 100002;
+		}else if(str.compare("HSTECH") == 0){
+			wiv.UCode = 100003;
+		}else{
+			wiv.UCode = atoi(str.c_str());
+		}
 		wiv.Wtype = sep[7];
 		wiv.Issuer = sep[8];
 		IvMap[wiv.Code] = wiv;

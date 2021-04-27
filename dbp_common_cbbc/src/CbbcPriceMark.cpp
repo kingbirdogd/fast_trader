@@ -720,7 +720,7 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 						}
 
 						pAskMark[wask] = fprice;
-						askkey = pwask;
+						askkey = wask;
 						askprice = fprice;
 
 						return true;
@@ -733,6 +733,11 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 }
 
 unsigned long long CbbcPriceMark::buyIn(unsigned long long wprice){
+
+	if(sensitivity > 0){
+		return dynameicBuyIn(wprice);
+	}
+
 	//string swask = to_string(wprice);
 	unsigned long long buyInUpAsk = 0;
 	auto aup = pAskMark.find(wprice);
@@ -743,6 +748,11 @@ unsigned long long CbbcPriceMark::buyIn(unsigned long long wprice){
 }
 
 unsigned long long CbbcPriceMark::sellOut(unsigned long long wprice){
+
+	if(sensitivity > 0){
+		return dynameicSellOut(wprice);
+	}
+
 	//string swbid = to_string(wprice);
 	unsigned long long sellOutDnBid = 99999999;
 	auto bdn = pBidMark.find(wprice);
@@ -751,6 +761,59 @@ unsigned long long CbbcPriceMark::sellOut(unsigned long long wprice){
 	}
 	return sellOutDnBid;
 }
+
+unsigned long long CbbcPriceMark::dynameicBuyIn(unsigned long long wprice){
+
+	if(sensitivity == 0)
+		return 0;
+
+	if(pwtype == BULL ){
+		if(wprice > askkey && askkey > 0){
+			return askprice + sensitivity;
+		}
+		if(wprice < askkey && askkey > 0){
+			return askprice - sensitivity;
+		}
+		return askprice;
+	}
+	if(pwtype == BEAR ){
+		if(wprice > askkey && askkey > 0){
+			return askprice - sensitivity;
+		}
+		if(wprice < askkey && askkey > 0){
+			return askprice + sensitivity;
+		}
+		return askprice;
+	}
+	return 0;
+}
+
+unsigned long long CbbcPriceMark::dynameicSellOut(unsigned long long wprice){
+
+	if(sensitivity == 0)
+		return 99999999;
+
+	if(pwtype == BULL ){
+		if(wprice > bidkey && bidkey > 0){
+			return bidprice - sensitivity;
+		}
+		if(wprice < bidkey && bidkey > 0){
+			return bidprice + sensitivity;
+		}
+		return bidprice;
+	}
+	if(pwtype == BEAR ){
+		if(wprice > bidkey && bidkey > 0){
+			return bidprice - sensitivity;
+		}
+		if(wprice < bidkey && bidkey > 0){
+			return bidprice + sensitivity;
+		}
+		return bidprice;
+	}
+	return 0;
+}
+
 
 unsigned long long CbbcPriceMark::getIssuerIize(){
 	return pIssuerSize;
@@ -792,6 +855,10 @@ void CbbcPriceMark::copyUpTable(map<unsigned long long,unsigned long long> bid, 
 void CbbcPriceMark::copyDnTable(map<unsigned long long,unsigned long long> bid,  map<unsigned long long,unsigned long long> ask){
 	pDnBidMark.insert(bid.begin(), bid.end());
 	pDnAskMark.insert(ask.begin(), ask.end());
+}
+
+void CbbcPriceMark::setSensitivity(unsigned long long value){
+	sensitivity = value;
 }
 
 

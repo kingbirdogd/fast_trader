@@ -1685,6 +1685,18 @@ algo_msg_base* bear::json_to_msg(json& json)
 					p._CbbcPriceMark->copyUpTable(itpm->second->getUpBidTable(), itpm->second->getUpAskTable());
 					p._CbbcPriceMark->copyDnTable(itpm->second->getDnBidTable(), itpm->second->getDnAskTable());
 				}
+				if(ivLoader.exist(p._warrant_code)){
+					WarrantIv wiv = ivLoader.getWarrantIv(p._warrant_code);
+					if (wiv.Delta > 0){
+						unsigned long long sensitivity = static_cast<unsigned long long>(0.001f * wiv.Cratio / wiv.Delta * 100) * 100000;
+						p._CbbcPriceMark->setSensitivity(sensitivity);
+
+
+
+						Log("Sensitivity = " + to_string(sensitivity));
+					}
+				}
+
 			}
 			if(p._Utype == NQ_SYMBOL){
 				p._CbbcPriceMark = new CbbcPriceMark(INDEX_TYPE, p._Wtype, p._SPREAD, 250000000);
@@ -1722,12 +1734,25 @@ algo_msg_base* bear::json_to_msg(json& json)
 				//p._CbbcPriceMark = new CbbcPriceMark(p._Wtype, p._SPREAD, spread);
 				p._CbbcPriceMark = new CbbcPriceMark(STOCK_TYPE, p._Wtype, p._SPREAD, 1000000);
 
+
+
 				auto itpm = pricemarkMap.find(p._warrant_code);
 				if(itpm != pricemarkMap.end()){
 					p._CbbcPriceMark->copyTable(itpm->second->getBidTable(), itpm->second->getAskTable());
 					p._CbbcPriceMark->copyUpTable(itpm->second->getUpBidTable(), itpm->second->getUpAskTable());
 					p._CbbcPriceMark->copyDnTable(itpm->second->getDnBidTable(), itpm->second->getDnAskTable());
 				}
+
+				/*
+				if(ivLoader.exist(p._warrant_code)){
+					WarrantIv wiv = ivLoader.getWarrantIv(p._warrant_code);
+					if (wiv.Delta > 0){
+						unsigned long long sensitivity = static_cast<unsigned long long>(0.001f * wiv.Cratio / wiv.Delta * 100) * 100000;
+						p._CbbcPriceMark->setSensitivity(sensitivity);
+					}
+				}*/
+
+
 			}
 
 			Log("bear 4");
