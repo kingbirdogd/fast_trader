@@ -38,7 +38,7 @@ void IvLoader::load(const char* filename){
 
 		struct WarrantIv wiv;
 		string str = sep[6];
-		if(str.find(".HK", 0) == std::string::npos){
+		if(str.find(".HK", 0) == std::string::npos && str.find(".HSI", 0) == std::string::npos && str.find(".HSCE", 0) == std::string::npos && str.find(".HSTECH", 0) == std::string::npos){
 			continue;
 		}
 
