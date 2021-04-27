@@ -329,7 +329,7 @@
 			"RetranProxyIndex": 2
 		}
 	],
-	"IVFile":"/home/fast_trader/ivfile/ivall.txt",
+	"IVFile":"/home/fast_trader/ivfile/ivallwindex.txt",
 	"IVFilePut":"/home/fast_trader/ivfile/ivallput.txt",
 	"OrderbookFile":
 	{	
