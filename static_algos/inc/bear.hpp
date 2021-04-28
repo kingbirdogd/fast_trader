@@ -125,7 +125,7 @@ private:
 		int _PTRANGE = 0;
 		int _SELL_OFFSET = 0;
 		int _BUY_OFFSET = 0;
-		float _DELTA = 0f;
+		float _DELTA = 0;
  
 	public:
 		pair
