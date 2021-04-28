@@ -1523,6 +1523,16 @@ algo_msg_base* bear::json_to_msg(json& json)
 			p._SPREAD = json["spread"].get<unsigned long long>();
 			p._warrant_code = json["warrant_code"].get<unsigned int>();
 
+
+			p._DELTA = 0f;
+
+			auto it_delta = json.find("delta");
+			if (json.end() != it_delta)
+			{
+				std::string strDelta = json["delta"].get<string>();
+				p._DELTA = atof(strDelta.c_str());
+			}
+
 			auto it = warrantToUnderlying.find(p._warrant_code);
 			if (warrantToUnderlying.end() == it){
 				auto msg = algo_err_msg_pool.get_obj();
@@ -1697,10 +1707,14 @@ algo_msg_base* bear::json_to_msg(json& json)
 						unsigned long long sensitivity = static_cast<unsigned long long>(0.001f * wiv.Cratio / wiv.Delta) * 100000;
 						p._CbbcPriceMark->setSensitivity(sensitivity);
 
+						Log("1 Sensitivity = " + to_string(sensitivity));
+					}else if(p._DELTA > 0){
+						unsigned long long sensitivity = static_cast<unsigned long long>(0.001f * wiv.Cratio / p._DELTA) * 100000;
+						p._CbbcPriceMark->setSensitivity(sensitivity);
 
-
-						Log("Sensitivity = " + to_string(sensitivity));
+						Log("2 Sensitivity = " + to_string(sensitivity));
 					}
+
 				}
 
 			}

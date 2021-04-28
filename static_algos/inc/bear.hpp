@@ -125,6 +125,7 @@ private:
 		int _PTRANGE = 0;
 		int _SELL_OFFSET = 0;
 		int _BUY_OFFSET = 0;
+		float _DELTA = 0f;
  
 	public:
 		pair
@@ -189,6 +190,7 @@ private:
 			j["buy_quantity"] = _Quantity;
 			j["spread"] = _SPREAD;
 			j["wtype"] = _Wtype;
+			j["delta"] = _DELTA;
 			return j;
 		}
 		~pair() = default;
