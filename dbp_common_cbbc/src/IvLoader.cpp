@@ -56,6 +56,8 @@ void IvLoader::load(const char* filename){
 
 		str = regex_replace(str, regex("."), "");
 
+
+		bool isStockWarrant = false;
 		if(str.compare("HSI") == 0){
 			wiv.UCode = 100001;
 		}else if(str.compare("HSCE") == 0){
@@ -64,21 +66,25 @@ void IvLoader::load(const char* filename){
 			wiv.UCode = 100003;
 		}else{
 			wiv.UCode = atoi(str.c_str());
+			isStockWarrant = true;
 		}
 		wiv.Wtype = sep[7];
 		wiv.Issuer = sep[8];
 		IvMap[wiv.Code] = wiv;
 
-		IssuerMap[wiv.Issuer][wiv.UCode].insert(wiv.Code);
+		if(isStockWarrant){
 
-		UWarrantMap[wiv.UCode].insert(wiv.Code);
+			IssuerMap[wiv.Issuer][wiv.UCode].insert(wiv.Code);
+
+			UWarrantMap[wiv.UCode].insert(wiv.Code);
 
 
-		auto umap = UMap.find(wiv.UCode);
-		if(UMap.end() == umap){
-			UMap[wiv.UCode] = 1;
-		}else{
-			umap->second++;
+			auto umap = UMap.find(wiv.UCode);
+			if(UMap.end() == umap){
+				UMap[wiv.UCode] = 1;
+			}else{
+				umap->second++;
+			}
 		}
 
 	}
