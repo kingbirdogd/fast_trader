@@ -1524,7 +1524,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 			p._warrant_code = json["warrant_code"].get<unsigned int>();
 
 
-			p._DELTA = 0f;
+			p._DELTA = 0;
 
 			auto it_delta = json.find("delta");
 			if (json.end() != it_delta)
