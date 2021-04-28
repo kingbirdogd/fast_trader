@@ -769,19 +769,45 @@ unsigned long long CbbcPriceMark::dynameicBuyIn(unsigned long long wprice){
 
 	if(pwtype == BULL ){
 		if(wprice > askkey && askkey > 0){
-			return askprice + sensitivity;
+
+			unsigned long long v = wprice - askkey;
+			int no_of_spread = static_cast<int>(v / pDefaultSpread);
+
+			return askprice + no_of_spread*sensitivity;
+
+
+			//return askprice + sensitivity;
 		}
 		if(wprice < askkey && askkey > 0){
-			return askprice - sensitivity;
+
+			unsigned long long v = askkey - wprice;
+			int no_of_spread = static_cast<int>(v / pDefaultSpread);
+
+			return askprice - no_of_spread*sensitivity;
+			//return askprice - sensitivity;
 		}
 		return askprice;
 	}
 	if(pwtype == BEAR ){
 		if(wprice > askkey && askkey > 0){
-			return askprice - sensitivity;
+
+			unsigned long long v = wprice - askkey;
+			int no_of_spread = static_cast<int>(v / pDefaultSpread);
+
+			return askprice - no_of_spread*sensitivity;
+
+
+			//return askprice - sensitivity;
 		}
 		if(wprice < askkey && askkey > 0){
-			return askprice + sensitivity;
+
+			unsigned long long v = askkey - wprice;
+			int no_of_spread = static_cast<int>(v / pDefaultSpread);
+
+			return askprice + no_of_spread*sensitivity;
+
+
+			//return askprice + sensitivity;
 		}
 		return askprice;
 	}
@@ -795,19 +821,44 @@ unsigned long long CbbcPriceMark::dynameicSellOut(unsigned long long wprice){
 
 	if(pwtype == BULL ){
 		if(wprice > bidkey && bidkey > 0){
-			return bidprice - sensitivity;
+
+			unsigned long long v = wprice - bidkey;
+			int no_of_spread = static_cast<int>(v / pDefaultSpread);
+
+			return bidprice - no_of_spread*sensitivity;
+			//return bidprice - sensitivity;
 		}
 		if(wprice < bidkey && bidkey > 0){
-			return bidprice + sensitivity;
+
+			unsigned long long v = bidkey - wprice;
+			int no_of_spread = static_cast<int>(v / pDefaultSpread);
+
+			return bidprice + no_of_spread*sensitivity;
+
+			//return bidprice + sensitivity;
 		}
 		return bidprice;
 	}
 	if(pwtype == BEAR ){
 		if(wprice > bidkey && bidkey > 0){
-			return bidprice - sensitivity;
+
+			unsigned long long v = wprice - bidkey;
+			int no_of_spread = static_cast<int>(v / pDefaultSpread);
+
+			return bidprice - no_of_spread*sensitivity;
+
+
+			//return bidprice - sensitivity;
 		}
 		if(wprice < bidkey && bidkey > 0){
-			return bidprice + sensitivity;
+
+			unsigned long long v = bidkey - wprice;
+			int no_of_spread = static_cast<int>(v / pDefaultSpread);
+
+			return bidprice + no_of_spread*sensitivity;
+
+
+			//return bidprice + sensitivity;
 		}
 		return bidprice;
 	}
