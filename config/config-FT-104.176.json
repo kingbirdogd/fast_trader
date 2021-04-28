@@ -212,6 +212,27 @@
 			"RetranProxyIndex": 1
 		}
 	],
+	"OmddPriceTableChannel":
+	[
+		{
+			"ChannelId": 234,
+			"Hot":
+			{
+				"InterfaceIp": "10.123.132.176",
+				"InterfaceName": "enp101s0f0",
+				"MulticastIp": "239.1.1.132",
+				"MulticastPort": 51002
+			},
+			"Refresh":
+			{
+				"InterfaceIp": "10.123.132.176",
+				"InterfaceName": "enp101s0f0",
+				"MulticastIp": "239.1.1.157",
+				"MulticastPort": 51002
+			},
+			"RetranProxyIndex": 1
+		}
+	],
 	"PriceTableChannel":
 	[
 		{
@@ -254,7 +275,7 @@
 			"RetranProxyIndex": 2
 		}
 	],
-	"IVFile":"/home/fast_trader/ivfile/ivall.txt",
+	"IVFile":"/home/fast_trader/ivfile/ivallwindex.txt",
 	"IVFilePut":"/home/fast_trader/ivfile/ivallput.txt",
 	"OrderbookFile":
 	{	
@@ -272,6 +293,7 @@
 		{"Channel":"OmddftChannel"},
 		{"Channel":"SWOmdcChannel"},
 		{"Channel":"PriceTableChannel"},
+		{"Channel":"OmddPriceTableChannel"},
 		{"Channel":"S1Channel"}
 	]
 }
