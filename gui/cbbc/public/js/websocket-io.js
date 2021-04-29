@@ -10,6 +10,8 @@ else if (href.includes('csalgo'))
   domain += '/origin=csalgo'
 else if (href.includes('semipro'))
   domain += '/origin=semipro'
+else if (href.includes('admin'))
+  domain += '/origin=admin'
 else
   domain += '/origin=unknown'
 var ws = null;
@@ -48,7 +50,7 @@ function initWebsocket(callback){
     }
     ws.onclose = function(){
       console.log("已关闭！");
-      initWebsocket(callback);
+      setTimeout(() => { initWebsocket(callback); }, 2000);
       console.log("重新连接！");
     };
 

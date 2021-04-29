@@ -216,7 +216,45 @@ function getSpread(val){
   }
   return spread;
 }
-  
+
+function getSpreadStock(val){
+  val = parseFloat(val);
+  if (val>=0.01 && val<0.25) {return 0.001;}
+  else if (val>=0.25 && val<0.5) {return 0.005;}
+  else if (val>=0.5 && val<10) {return 0.01;}
+  else if (val>=10 && val<20) {return 0.02;}
+  else if (val>=20 && val<100) {return 0.05;}
+  else if (val>=100 && val<200) {return 0.1;}
+  else if (val>=200 && val<500) {return 0.2;}
+  else if (val>=500 && val<1000) {return 0.5;}
+  else if (val>=100 && val<2000) {return 1;}
+  else if (val>=2000 && val<5000) {return 2;}
+  else if (val>=5000 && val<9955) {return 5;}
+  else {return 0;}
+}
+
+function getSpreadETF(val){
+  val = parseFloat(val);
+  if (val>=0.01 && val<0.25) {return 0.001;}
+  else if (val>=0.25 && val<0.5) {return 0.002;}
+  else if (val>=0.5 && val<10) {return 0.005;}
+  else if (val>=10 && val<20) {return 0.01;}
+  else if (val>=20 && val<100) {return 0.02;}
+  else if (val>=100 && val<200) {return 0.05;}
+  else if (val>=200 && val<500) {return 0.1;}
+  else if (val>=500 && val<1000) {return 0.2;}
+  else if (val>=100 && val<2000) {return 0.5;}
+  else if (val>=2000 && val<5000) {return 1;}
+  else if (val>=5000 && val<9955) {return 1;}
+  else {return 0;}
+}
+
+function isETF(ucode) {
+  ucode = parseInt(ucode);
+  if ([2800, 3033, 2828, 2822, 3188].includes(ucode)) {return true}
+  return false
+}
+
 function capitalize(val) {
   if (!val) return val;
   return val.charAt(0).toUpperCase() + val.slice(1);

@@ -3,9 +3,13 @@
   <title>Admin</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"/>
   <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+  <script src="/js/js-cookie.js"></script>
+  <script src="/js/websocket-io.js"></script>
+  <script src="/page/general.js"></script>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="/css/general.css">
   <style>
@@ -27,7 +31,7 @@
   $(document).ready(function() {
     initUI();
     
-    ui.btnLogout.click(function() {
+    ui.btnAdminLogout.click(function() {
       window.location.href = "/admin";
     });
   
@@ -132,14 +136,26 @@
       });
     }
     
+    // 2.0 socket
+    var render = (res) => {
+      console.log(res);
+    }
+    initWebsocket(render)
+    
+    ui.btnSocket.click(function() {
+      sendWebsocket(ui.tvSocket.val());
+    });
+    
   });
   
   function initUI() {
-    ui.btnLogout = $('#btn-logout');
+    ui.btnAdminLogout = $('#btn-admin-logout');
     ui.tbConns = $('#tb-conns');
     ui.tbUsers = $('#tb-users');
     ui.btnSend = $('.btn-send');
     ui.btnLogout = $('.btn-logout');
+    ui.btnSocket = $('#btnSocket');
+    ui.tvSocket = $('#tvSocket');
   }
   </script>
 </head>
@@ -162,7 +178,7 @@
     <ul class="navbar-nav ml-auto">
     <li class="nav-item">
       <form class="form-inline mb-0 mb-sm-0">
-        <button id="btn-logout" class="btn btn-sm btn-outline-success" type="button">Logout</button>
+        <button id="btn-admin-logout" class="btn btn-sm btn-outline-success" type="button">Logout</button>
       </form>
     </li>
     </ul>
@@ -193,7 +209,7 @@
 </div>
 
 
-<div class="row">
+<div class="row mb-4 mb-sm-4">
 <div class="col-12 col-sm-12">
   <h6> Users </h6>
   <table class="table table-striped" id="tb-users">
@@ -204,6 +220,19 @@
   <tbody>
   </tbody>
   </table>
+</div>
+</div>
+
+
+<div class="row">
+<div class="col-12 col-sm-12">
+  <h6> Test Socket </h6>
+  <form action="javascript:void(0);">
+  <div class="form-group">
+  <textarea class="form-control textarea-msg" id="tvSocket" rows="3"></textarea>
+  </div>
+  <button class="btn btn-sm btn-primary" id="btnSocket">Submit</button>
+  </form>
 </div>
 </div>
 

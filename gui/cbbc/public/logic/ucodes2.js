@@ -9561,6 +9561,11 @@ var ucodesName2 =
     "nmll": "ＸＴＲ 俄罗斯 "
   },
   {
+    "code": "3033",
+    "name": "CSOP HSTECH ETF",
+    "nmll": "南方科指ETF"
+  },
+  {
     "code": "3036",
     "name": "TRMSCITAIWAN",
     "nmll": "ＴＲ 台湾 "
@@ -18686,6 +18691,11 @@ var ucodesName2 =
     "nmll": "京东集团－ＳＷ"
   },
   {
+    "code": "9626",
+    "name": "BILIBILI",
+    "nmll": "哔哩哔哩"
+  },
+  {
     "code": "9668",
     "name": "CBHB",
     "nmll": "渤海银行"
@@ -18759,6 +18769,11 @@ var ucodesName2 =
     "code": "9846",
     "name": "ISHARESCSI300-U",
     "nmll": "安硕沪深三百－Ｕ "
+  },
+  {
+    "code": "9888",
+    "name": "BAIDU",
+    "nmll": "百度集团 "
   },
   {
     "code": "9900",

@@ -591,15 +591,9 @@ class Cbbc extends React.Component {
             setStates={this.setStates}
             getStates={this.getStates}
           />
-          <Command
-            key="command"
-            lang={this.props.lang}
-            setStates={this.setStates}
-            getStates={this.getStates}
-          />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.14
+          Copyright © {curYear} Fast Trader v1.0.13
         </div>
       </React.Fragment>
       /*<Selector

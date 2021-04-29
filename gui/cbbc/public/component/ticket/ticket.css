@@ -98,3 +98,11 @@
   border: 1px solid #cfcfcf;
   background-color: #f9f9f9;
 }
+
+#ticket .bg-purple {
+  background-color: #6200ea;
+}
+
+#ticket .bg-yellow {
+  background-color: #ff9800;
+}

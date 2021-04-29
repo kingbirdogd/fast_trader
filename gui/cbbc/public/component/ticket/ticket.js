@@ -5,7 +5,7 @@ class Ticket extends React.Component {
     this.getStates = this.getStates.bind(this)
     
     this.state = {}
-    this.state.visible = {position: false, order: false}
+    this.state.visible = {position: false, order: false, command: false}
     this.state.modules = {bear: undefined, bull: undefined, call: undefined, put: undefined}
     this.state.noCell = {cur: 8, max: 12}
     this.state.sizeReceiptData = {totalBytes: 0, noPackage: 0, lastAliveTime: undefined}
@@ -86,7 +86,7 @@ class Ticket extends React.Component {
       else if ('msg_type' in data) {
         if (data.msg_type == 'semipro_algo_get') {obj = this.setWarrantDetail2(obj, data)}
         else if (data.msg_type == 'semipro_algo_set') {obj = this.setAlgoSet(obj, data)}
-        else if (data.msg_type == 'semipro_algo_force_buy') {}
+        else if (data.msg_type == 'semipro_algo_force_buy') {obj = this.setForceBuy(obj, data)}
         else if (data.msg_type == 'semipro_algo_force_sell') {obj = this.setForceSell(obj, data)}
         else if (data.msg_type == 'semipro_algo_odr_msg') {obj = this.setOdr(obj, data)}
         else if (data.msg_type == 'semipro_algo_odr_position') {obj = this.setPosition(obj, data)}
@@ -125,10 +125,20 @@ class Ticket extends React.Component {
     if ( (obj.modules.call != null && obj.modules.call.includes('semipro')) && (obj.modules.put != null && obj.modules.put.includes('semipro')) )
       console.log({log: 'algo exist'})
     
+    // 初始化
+    var userId = parseInt(obj.userId)
+    var algoName = obj.modules.call
+    
     for(var i=0; i<obj.noCell.max; i++) {
-      var command = {cmd: 'get', id: parseInt(obj.userId), algo_name: obj.modules.call, ref: setNo(i)}
+      var command = {cmd: 'get', id: userId, algo_name: algoName, ref: setNo(i)}
       sendWebsocket(JSON.stringify(command))
     }
+    var command1 = {cmd: "order_list", id: userId, algo_name: algoName, max_display: 30, ref: 'orders'}
+    sendWebsocket(JSON.stringify(command1))
+    var command2 = {cmd: 'getprofit', id: userId, algo_name: algoName, ref: 'getprofit'}
+    sendWebsocket(JSON.stringify(command2))
+    var command3 = {cmd: 'position', id: userId, algo_name: algoName, ref: 'position'}
+    sendWebsocket(JSON.stringify(command3))
     
     return obj
   }
@@ -144,7 +154,7 @@ class Ticket extends React.Component {
       var status1 = obj.cells[data.no].wnt.code.status1
       
       // 正股
-      if (typeof status1=='undefined' || status1=='recover' || status1=='aTrack' || status1=='xTrack') {
+      if (typeof status1=='undefined' || status1=='recover' || status1=='xTrack' || status1=='aTrack') {
         var ratio1 = data.underlying_price.m_Ask.m_uQuantity+data.underlying_price.m_Bid.m_uQuantity
         obj.cells[data.no].stock.code.code = data.underlying
         obj.cells[data.no].stock.priceTable = {
@@ -170,7 +180,7 @@ class Ticket extends React.Component {
       }
       
       // 輪
-      if (typeof status1 == 'undefined' || status1=='recover' || status1=='nTrack' || status1=='xTrack') {
+      if (typeof status1 == 'undefined' || status1=='recover' || status1=='nTrack' || status1=='aTrack') {
         obj.cells[data.no].wnt.code.status = 'success'
         var ratio2 = data.warrant_price.m_Ask.m_uQuantity+data.warrant_price.m_Bid.m_uQuantity
         obj.cells[data.no].wnt.code.wtype = data.CallPut.toLowerCase()
@@ -188,28 +198,42 @@ class Ticket extends React.Component {
         }
       }
       
+      // 持貨量
+      var position = 0
+      if (data.code in obj.positions)
+        position = formatInputUnit(obj.positions[data.code], true)
+
       // 輪 輸入框
-      if (typeof status1 == 'undefined' || status1 == 'nTrack' || status1 == 'xTrack') {
-        obj.cells[data.no].wnt.buy.price = formatPrice2(data.warrant_price.m_Ask.m_iPrice)
+      if (typeof status1 == 'undefined' || status1 == 'nTrack' || status1 == 'aTrack') {
+        if (position<=0) {
+          obj.cells[data.no].wnt.buy.price = formatPrice2(data.warrant_price.m_Ask.m_iPrice)
+        }
         obj.cells[data.no].wnt.sell.price = formatPrice2(data.warrant_price.m_Bid.m_iPrice)
-        if (obj.cells[data.no].wnt.stopLoss.status != 'start')
+        if (obj.cells[data.no].wnt.stopLoss.status != 'start') {
           obj.cells[data.no].wnt.stopLoss.price = formatPrice2(data.warrant_price.m_Bid.m_iPrice)
+        }
       }
       if (typeof status1 == 'undefined') {
         var qty = 10000
-        obj.cells[data.no].wnt.buy.qty = formatInputUnit(qty, false)
+        if (position<=0) {
+          obj.cells[data.no].wnt.buy.qty = formatInputUnit(qty, false)
+        }
         obj.cells[data.no].wnt.sell.qty = formatInputUnit(qty, false)
       }
       
       // 正股 輸入框
-      if (typeof status1 == 'undefined' || status1 == 'aTrack' || status1 == 'xTrack') {
+      if (typeof status1 == 'undefined' || status1 == 'xTrack' || status1 == 'aTrack') {
         if (data.CallPut.toLowerCase() == 'p') {
-          obj.cells[data.no].stock.buy.price = formatPrice2(data.underlying_price.m_Bid.m_iPrice)
+          if (position<=0) {
+            obj.cells[data.no].stock.buy.price = formatPrice2(data.underlying_price.m_Bid.m_iPrice)
+          }
           obj.cells[data.no].stock.sell.price = formatPrice2(data.underlying_price.m_Ask.m_iPrice)
         }
         else if (data.CallPut.toLowerCase() == 'c') {
           obj.cells[data.no].stock.sell.price = formatPrice2(data.underlying_price.m_Bid.m_iPrice)
-          obj.cells[data.no].stock.buy.price = formatPrice2(data.underlying_price.m_Ask.m_iPrice)
+          if (position<=0) {
+            obj.cells[data.no].stock.buy.price = formatPrice2(data.underlying_price.m_Ask.m_iPrice)
+          }
         }
       }
       if (typeof status1 == 'undefined') {
@@ -274,6 +298,11 @@ class Ticket extends React.Component {
         obj.cells[no].stock.action1  = 'start'
       else
         obj.cells[no].stock.action1  = 'stop'
+      
+      // 買賣
+      if (data.pair.auto_buy == true) obj.cells[no].wnt.buy.status = 'open'
+      if (data.pair.auto_sell == true) obj.cells[no].wnt.sell.status = 'open'
+      
       // 報價
       var command = {cmd: 'get_warrant_detail', code: wntCode, algo_name: obj.modules.call, id: obj.userId, no: no}
       sendWebsocket(JSON.stringify(command))
@@ -284,12 +313,17 @@ class Ticket extends React.Component {
   setAlgoSet(obj, data) {
     var no = getNo(data.ref)
     if ('result' in data && 'pair' in data && data.result.toLowerCase()=='success') {
+      // 操作
       if (data.no_change == true)
         var a=1
       else if (data.pair.auto_buy == true || data.pair.auto_sell == true)
         obj.cells[no].stock.action1  = 'start'
       else
         obj.cells[no].stock.action1  = 'stop'
+      
+      // 買賣
+      if (data.pair.auto_buy == true) obj.cells[no].wnt.buy.status = 'open'
+      if (data.pair.auto_sell == true) obj.cells[no].wnt.sell.status = 'open'
     }
     else {
       obj.cells[no].stock.action1  = 'fail'
@@ -314,8 +348,10 @@ class Ticket extends React.Component {
         
         // 检查stoploss
         if (parseFloat(data.position) == 0) {
+          obj.cells[no].wnt.sell.status = 'close'
+          
           obj.cells[no].wnt.stopLoss.status = 'stop'
-          obj.cells[no].wnt.stopLoss.price = obj.cells[no].wnt.priceTable.bid.price
+          // obj.cells[no].wnt.stopLoss.price = obj.cells[no].wnt.priceTable.bid.price
           
           obj.cells[no].stock.action2 = undefined
           obj.cells[no].stock.action3 = undefined
@@ -402,6 +438,14 @@ class Ticket extends React.Component {
     return obj
   }
   
+  setForceBuy(obj, data) {
+    var no = getNo(data.ref)
+    if ('result' in data && data.result.toLowerCase() == 'success') {
+      obj.cells[no].stock.action4 = undefined
+    }
+    return obj
+  }
+  
   connectReject(data) {
     alert(data.error)
     global.func.logout()
@@ -470,6 +514,14 @@ class Ticket extends React.Component {
         lang={this.props.lang}
         data={this.state.orders}
         data2={this.state.portfolio}
+        setStates={this.setStates}
+        getStates={this.getStates}
+      />}
+      
+      {this.state.visible.command &&
+      <Command
+        key="command"
+        lang={this.props.lang}
         setStates={this.setStates}
         getStates={this.getStates}
       />}

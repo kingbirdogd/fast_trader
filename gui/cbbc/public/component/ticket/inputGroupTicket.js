@@ -17,15 +17,17 @@ class InputGroupTicket extends React.Component {
     var {name, no, key, states, userId, algoName} = that.initData(that, event)
     
     var command1 = that.props.initInputData(obj, no, userId, algoName, 'set', obj.wnt.stopLoss.status).command
-    if (key!='wnt.stopLoss.price') {
-      if (obj.stock.action1 == 'start') {
-        command1.action = 'NOCHANGE'
-        sendWebsocket(JSON.stringify(command1))
-      }
-      else if (obj.stock.action1 == 'stop') {
-        command1.action = 'STOP'
-        sendWebsocket(JSON.stringify(command1))
-      }
+    if (key == 'wnt.stopLoss.price' && (obj.stock.action2 == 'start' || obj.stock.action3 == 'start')) {
+      command1.action = 'NOCHANGE'
+      sendWebsocket(JSON.stringify(command1))
+    }
+    else if (obj.stock.action1 == 'start') {
+      command1.action = 'STOP'
+      sendWebsocket(JSON.stringify(command1))
+    }
+    else if (obj.stock.action1 == 'stop') {
+      command1.action = 'STOP'
+      sendWebsocket(JSON.stringify(command1))
     }
   }
   
@@ -51,7 +53,14 @@ class InputGroupTicket extends React.Component {
     // 1.0 差價
     var qtySpread = 10000
     var ratioSpread = 2
-    var priceSpread = getSpread(val)
+    
+    if (key.includes('wnt'))
+      var priceSpread = getSpread(val)
+    else if (key.includes('stock') && isETF(obj.stock.code.code) == false)
+      var priceSpread = getSpreadStock(val)
+    else if (key.includes('stock') && isETF(obj.stock.code.code) == true)
+      var priceSpread = getSpreadETF(val)
+    
     if (priceSpread==0 && key.includes('wnt'))
       priceSpread = 0.001
     else if (priceSpread==0 && key.includes('stock'))
