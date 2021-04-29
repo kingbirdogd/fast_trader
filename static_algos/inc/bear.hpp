@@ -1024,7 +1024,7 @@ private:
 				_OBSetting->BuyIn = buyin;
 				_OBSetting->SellOut = sellout;
 				_OBSetting->LvLBid = lvlBid;
-				_OBSetting->Sensitivity = _CbbcPriceMark->sensitivity();
+				_OBSetting->Sensitivity = _CbbcPriceMark->getSensitivity();
 /*
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _PriceInfo->LBestbid != best_bid_price && best_bid_price > 0 && best_bid_price > _PriceInfo->LBestbid){
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
@@ -1423,7 +1423,7 @@ private:
 				_OBSetting->BuyIn = buyin;
 				_OBSetting->SellOut = sellout;
 				_OBSetting->LvLBid = lvlBid;
-				_OBSetting->Sensitivity = _CbbcPriceMark->sensitivity();
+				_OBSetting->Sensitivity = _CbbcPriceMark->getSensitivity();
 
 /*
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _PriceInfo->LBestbid != best_bid_price && best_bid_price > 0 && best_bid_price > _PriceInfo->LBestbid){

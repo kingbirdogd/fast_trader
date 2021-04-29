@@ -732,7 +732,7 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 	return false;
 }
 
-unsigned long long CbbcPriceMark::sensitivity(){
+unsigned long long CbbcPriceMark::getSensitivity(){
 	return sensitivity;
 }
 

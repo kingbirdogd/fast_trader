@@ -60,6 +60,7 @@ public:
 	unsigned long long UAskSpread;
 	unsigned long long IssuerSize;
 
+	unsigned long long Sensitivity = 0;
 	unsigned long long BuyIn = -1;
 	unsigned long long SellOut = -1;
 	unsigned long long LvLBid = -1;

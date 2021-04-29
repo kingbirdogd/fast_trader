@@ -89,7 +89,7 @@ public:
 	unsigned long long buyIn(unsigned long long wprice);
 	unsigned long long sellOut(unsigned long long wprice);
 
-	unsigned long long sensitivity();
+	unsigned long long getSensitivity();
 
 	unsigned long long dynameicBuyIn(unsigned long long wprice);
 	unsigned long long dynameicSellOut(unsigned long long wprice);
