@@ -567,6 +567,14 @@ private:
 						}
 
 
+						if(_OBSetting->sensitivity > 0){
+							unsigned long long cal_lvlrange = abs(static_cast<long long>(_OBSetting->LvLBid) - static_cast<long long>(_OBSetting->BuyIn));
+							if(cal_lvlrange > 300000){
+								Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Sensitivity = " + to_string(_OBSetting->sensitivity));
+								Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " LVL Range not pass > 3");
+								return;
+							}
+						}
 
 						unsigned long long refSpread = _SPREAD;
 						unsigned long long b = _PriceInfo->Bestbid;
@@ -1016,6 +1024,7 @@ private:
 				_OBSetting->BuyIn = buyin;
 				_OBSetting->SellOut = sellout;
 				_OBSetting->LvLBid = lvlBid;
+				_OBSetting->Sensitivity = _CbbcPriceMark->sensitivity();
 /*
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _PriceInfo->LBestbid != best_bid_price && best_bid_price > 0 && best_bid_price > _PriceInfo->LBestbid){
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
@@ -1414,6 +1423,7 @@ private:
 				_OBSetting->BuyIn = buyin;
 				_OBSetting->SellOut = sellout;
 				_OBSetting->LvLBid = lvlBid;
+				_OBSetting->Sensitivity = _CbbcPriceMark->sensitivity();
 
 /*
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _PriceInfo->LBestbid != best_bid_price && best_bid_price > 0 && best_bid_price > _PriceInfo->LBestbid){
