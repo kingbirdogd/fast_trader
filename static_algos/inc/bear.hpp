@@ -567,10 +567,10 @@ private:
 						}
 
 
-						if(_OBSetting->sensitivity > 0){
+						if(_OBSetting->Sensitivity > 0){
 							unsigned long long cal_lvlrange = abs(static_cast<long long>(_OBSetting->LvLBid) - static_cast<long long>(_OBSetting->BuyIn));
 							if(cal_lvlrange > 300000){
-								Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Sensitivity = " + to_string(_OBSetting->sensitivity));
+								Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Sensitivity = " + to_string(_OBSetting->Sensitivity));
 								Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " LVL Range not pass > 3");
 								return;
 							}
