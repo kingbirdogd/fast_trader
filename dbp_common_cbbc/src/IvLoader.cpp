@@ -54,7 +54,7 @@ void IvLoader::load(const char* filename){
 		str = regex_replace(str, regex("\\>"), "");
 		str = regex_replace(str, regex("\\.HK"), "");
 
-		str = regex_replace(str, regex("."), "");
+		str = regex_replace(str, regex("\."), "");
 
 
 		fprintf(stderr, "STR UCODE : %s\n", str.c_str());
