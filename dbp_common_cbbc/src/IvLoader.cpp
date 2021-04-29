@@ -33,7 +33,7 @@ void IvLoader::load(const char* filename){
 	string str;
 	while (getline(file, str))
 	{
-		//fprintf(stderr, "Load Iv File : %s\n", str.c_str());
+		fprintf(stderr, "Load Iv File : %s\n", str.c_str());
 		vector<string> sep = split(str, ',');
 
 		struct WarrantIv wiv;
@@ -56,6 +56,8 @@ void IvLoader::load(const char* filename){
 
 		str = regex_replace(str, regex("."), "");
 
+
+		fprintf(stderr, "STR UCODE : %s\n", str.c_str());
 
 		bool isStockWarrant = false;
 		if(str.compare("HSI") == 0){
