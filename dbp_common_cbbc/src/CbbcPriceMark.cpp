@@ -829,7 +829,7 @@ unsigned long long CbbcPriceMark::dynameicSellOut(unsigned long long wprice){
 			unsigned long long v = wprice - bidkey;
 			int no_of_spread = static_cast<int>(v / pDefaultSpread);
 
-			return bidprice - no_of_spread*sensitivity;
+			return bidprice + no_of_spread*sensitivity;
 			//return bidprice - sensitivity;
 		}
 		if(wprice < bidkey && bidkey > 0){
@@ -837,7 +837,7 @@ unsigned long long CbbcPriceMark::dynameicSellOut(unsigned long long wprice){
 			unsigned long long v = bidkey - wprice;
 			int no_of_spread = static_cast<int>(v / pDefaultSpread);
 
-			return bidprice + no_of_spread*sensitivity;
+			return bidprice - no_of_spread*sensitivity;
 
 			//return bidprice + sensitivity;
 		}
