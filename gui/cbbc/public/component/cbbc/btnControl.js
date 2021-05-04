@@ -149,6 +149,7 @@ class BtnControl extends React.Component {
           issuersize: format1(obj.issuerSize.value),
           quantity: formatLongV2(format1(obj.quantity.value)),
           spread: formatLongV2(obj.spread.value),
+          delta: (obj.delta.value).toString(),
           ref: states.prefix+no,
           id: parseInt(states.userId),
           algo_name: states.modules[this.props.type]

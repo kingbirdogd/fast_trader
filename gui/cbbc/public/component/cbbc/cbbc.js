@@ -35,6 +35,7 @@ class Cbbc extends React.Component {
         issuerSize: {value: '', feedback: '', valid: '', responseResult: ''}, 
         quantity: {value: '', feedback: '', valid: '', responseResult: ''},
         spread: {value: '', feedback: '', valid: 'number'},
+        delta: {value: '', feedback: '', valid: ''},
         status: {isSet: false, isStart: false, isPause: false, isStop: false, needToSetAgain: false, result: ''}
       }
       
@@ -184,6 +185,7 @@ class Cbbc extends React.Component {
       state.cells[id].action.issuerSize.value = formatInputUnit(pair.pair.issuer_size, false).toString()
       state.cells[id].action.quantity.value = formatInputUnit(formatLong(pair.pair.buy_quantity), false).toString()
       state.cells[id].action.spread.value = formatInputUnit(formatLong(pair.pair.spread), false).toString()
+      state.cells[id].action.delta.value = pair.pair.delta.toFixed(4)
       state.cells[id].action.status.isSet = true
       state.cells[id].action.status.isPause = false
       state.cells[id].action.status.isStart = false

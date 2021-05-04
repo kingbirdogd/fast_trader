@@ -99,6 +99,7 @@ class Action extends React.Component {
         issuerSize: {label: 'Issuer Size', placeholder: ''},
         quantity: {label: 'Quantity', placeholder: ''},
         spread: {label: 'Spread', placeholder: ''},
+        delta: {label: 'Delta', placeholder: ''},
         btn: {set: 'Set'},
         err: {wrongNumber: 'Wrong Number Or Unit'}
       },
@@ -108,6 +109,7 @@ class Action extends React.Component {
         issuerSize: {label: '每手股数', placeholder: ''},
         quantity: {label: '申购份数', placeholder: ''},
         spread: {label: '格数', placeholder: ''},
+        delta: {label: '对冲值', placeholder: ''},
         btn: {set: '设置'},
         err: {wrongNumber: '错误数字、单位'}
       },
@@ -117,6 +119,7 @@ class Action extends React.Component {
         issuerSize: {label: '每手股數', placeholder: ''},
         quantity: {label: '買入額', placeholder: ''},
         spread: {label: '格數', placeholder: ''},
+        delta: {label: '對沖值', placeholder: ''},
         btn: {set: '設置'},
         err: {wrongNumber: '錯誤數字、單位'}
       }
@@ -232,6 +235,17 @@ class Action extends React.Component {
           name="spread"
           value={this.props.data.spread.value}
           feedback={this.props.data.spread.feedback}
+          disabled={isTvDisabled}
+          onChange={this.handleChange}
+        />
+        
+        <InputText
+          key={"delta_"+no}
+          no={no}
+          label={text.delta.label}
+          name="delta"
+          value={this.props.data.delta.value}
+          feedback={this.props.data.delta.feedback}
           disabled={isTvDisabled}
           onChange={this.handleChange}
         />
