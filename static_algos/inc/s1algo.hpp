@@ -324,6 +324,43 @@ private:
 		}
 		virtual ~algo_winsell_msg() = default;
 	};
+	struct algo_lvlsell_msg: public algo_msg_base
+	{
+		unsigned int ucode;
+		unsigned int wcode;
+		string action;
+		bool result;
+
+		algo_lvlsell_msg():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["action"] = "lvlsell";
+			j["code"] = wcode;
+			j["setaction"] = action;
+			if(result){
+				j["result"] = "SUCCESS";
+			}else{
+				j["result"] = "FAIL";
+			}
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<s1algo*>(al);
+			result = self->setLvlSell(action,ucode, wcode);
+
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_lvlsell_msg_pool.release_obj(this);
+		}
+		virtual ~algo_lvlsell_msg() = default;
+	};
 	struct algo_winlvlsell_msg: public algo_msg_base
 	{
 		unsigned int ucode;
@@ -849,6 +886,7 @@ public:
 
 	virtual bool setPause(std::string action, unsigned int ucode, unsigned int code);
 	virtual bool setWinSell(std::string action, unsigned int ucode, unsigned int code);
+	virtual bool setLvlSell(std::string action, unsigned int ucode, unsigned int code);
 	virtual bool setWinLvlSell(std::string action, unsigned int ucode, unsigned int code);
 	virtual bool setSelectedIssuer(std::string action, std::string issuer);
 	virtual bool setSelectedUnderlying(std::string action, unsigned int ucode);
@@ -872,6 +910,7 @@ public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_stoplost_msg, 8192> algo_stoplost_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_pause_msg, 8192> algo_pause_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_winsell_msg, 8192> algo_winsell_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_lvlsell_msg, 8192> algo_lvlsell_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_winlvlsell_msg, 8192> algo_winlvlsell_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_force_sell, 8192> algo_force_sell_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_warrantprice_msg, 8192> algo_warrantprice_msg_pool;

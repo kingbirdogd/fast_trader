@@ -842,6 +842,40 @@ bool s1algo::setWinSell(std::string action, unsigned int ucode, unsigned int cod
 	return false;
 }
 
+bool s1algo::setLvlSell(std::string action, unsigned int ucode, unsigned int code){
+	if(action == "set"){
+		auto it = obMap.find(ucode);
+		if(it != obMap.end()){
+			OBSetting* obs = it->second;
+			if(obs->hasPosition){
+				if(obs->isExist(code)){
+					warrant* w = obs->getRelatedWarrant(code);
+					if(w != nullptr){
+						w->isLvl = true;
+						return true;
+					}
+				}
+			}
+		}
+	}
+	if(action == "unset"){
+		auto it = obMap.find(ucode);
+		if(it != obMap.end()){
+			OBSetting* obs = it->second;
+			if(obs->hasPosition){
+				if(obs->isExist(code)){
+					warrant* w = obs->getRelatedWarrant(code);
+					if(w != nullptr){
+						w->isLvl = false;
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
+
 bool s1algo::setWinLvlSell(std::string action, unsigned int ucode, unsigned int code){
 	if(action == "set"){
 		auto it = obMap.find(ucode);
@@ -1748,6 +1782,24 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								continue;
 
 
+							//Level Sell
+							if(wobsArray[i]->isLvl){
+								if(wobsArray[i]->BuyPrice > 0 && wbest_bid_price > 0){
+									if(wbest_bid_price >= wobsArray[i]->BuyPrice && wobsArray[i]->Status == STATUS_AVAILABLE){
+										Log("Warrant Code = " + to_string(code) + " Do Quick Lvl Sell @ " + to_string(wbest_bid_price) + " Buy Price = " + to_string(wobsArray[i]->BuyPrice));
+										wobsArray[i]->Status = STATUS_SELLING;
+										bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::sell, wbest_bid_price, wobsArray[i]->Quantity);
+										if(!result){
+											obs->setRelatedWarrantStatus(wobsArray[i]->Code, STATUS_AVAILABLE);
+										}
+										continue;
+									}
+								}
+							}
+
+
+
+
 							PriceMark* spm = pricemarkMap[wobsArray[i]->Code];
 
 							unsigned long long bidIssuerQty = spm->getIssuerBidQty();
@@ -1760,6 +1812,9 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 									" BidQty = " +  to_string(wbest_bid_qty) +
 									"  IssuerQty = " +  to_string(bidIssuerQty)
 							);
+
+
+
 
 
 
@@ -2763,6 +2818,7 @@ rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_portfolio_msg, 8192> s1alg
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_signal_msg, 8192> s1algo::algo_signal_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_stoplost_msg, 8192> s1algo::algo_stoplost_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_pause_msg, 8192> s1algo::algo_pause_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_lvlsell_msg, 8192> s1algo::algo_lvlsell_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_winsell_msg, 8192> s1algo::algo_winsell_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_winlvlsell_msg, 8192> s1algo::algo_winlvlsell_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_force_sell, 8192> s1algo::algo_force_sell_pool;

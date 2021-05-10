@@ -396,13 +396,17 @@ private:
 						unsigned long long a = _PriceInfo->Bestask;
 						unsigned long long b1 = b + refSpread;
 
+						unsigned long long ib = _PriceInfo->LBestbid;
+						unsigned long long ia = _PriceInfo->LBestask;
+
 						//bool fallback =  _PriceInfo->PBestask > _PriceInfo->Bestask;
 
 
 						bool within1spread = (b1 - a) == 0;
+						bool issuerPrice = (a==ia && b==ib);
 
 						//if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn && fallback){
-						if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn && _OBSetting->SellOut > _OBSetting->BuyIn){
+						if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn && _OBSetting->SellOut > _OBSetting->BuyIn && issuerPrice){
 
 							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Buy " );
 
@@ -578,14 +582,22 @@ private:
 
 						unsigned long long refSpread = _SPREAD;
 						unsigned long long b = _PriceInfo->Bestbid;
+
+
 						unsigned long long a = _PriceInfo->Bestask;
+
+						unsigned long long ib = _PriceInfo->LBestbid;
+						unsigned long long ia = _PriceInfo->LBestask;
+
+
 						unsigned long long b1 = b + refSpread;
 						//bool fallback =  _PriceInfo->PBestask > _PriceInfo->Bestask;
 
 						bool within1spread = (b1 - a) == 0;
+						bool issuerPrice = (a==ia && b==ib);
 
 						//if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn != 0 && fallback){
-						if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn != 0 && _OBSetting->BuyIn > _OBSetting->SellOut){
+						if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn != 0 && _OBSetting->BuyIn > _OBSetting->SellOut && issuerPrice){
 
 
 
