@@ -658,7 +658,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 				{
 
 					if(p->getWtype() == BULL){
-						if((p->getSellOut() == trade_price) || (best_bid_price > p->getSellOut() && p->getSellOut() > best_bid_price1))
+						if((p->getLvlBid() == trade_price && p->isLevel()) || (p->getSellOut() == trade_price) || (best_bid_price > p->getSellOut() && p->getSellOut() > best_bid_price1))
 						{
 							p->on_bull_trade(tradable);
 						}
@@ -681,6 +681,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 */
 				}
 			}else{
+				/*
 				for (const auto& p : it->second)
 				{
 
@@ -690,7 +691,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 							p->doSellLevel();
 						}
 					}
-				}
+				}*/
 			}
 
 		}
@@ -719,7 +720,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 							p->on_bull_trade(tradable);
 						}
 					}else{
-						if(p->getSellOut() == trade_price || (best_ask_price < p->getSellOut() && p->getSellOut() < best_ask_price1))
+						if((p->getLvlBid() == trade_price && p->isLevel()) || (p->getSellOut() == trade_price) || (best_ask_price < p->getSellOut() && p->getSellOut() < best_ask_price1))
 						{
 							p->on_bear_trade(tradable);
 						}
@@ -737,6 +738,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 */
 				}
 			}else{
+				/*
 				for (const auto& p : it->second)
 				{
 
@@ -747,7 +749,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 						}
 					}
 
-				}
+				}*/
 			}
 
 		}

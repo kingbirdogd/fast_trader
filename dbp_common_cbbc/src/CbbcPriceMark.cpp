@@ -765,6 +765,21 @@ unsigned long long CbbcPriceMark::sellOut(unsigned long long wprice){
 	}
 	return sellOutDnBid;
 }
+/*
+unsigned long long CbbcPriceMark::level(unsigned long long wprice){
+
+	if(sensitivity > 0){
+		return dynameicLevel(wprice);
+	}
+
+	//string swbid = to_string(wprice);
+	unsigned long long sellOutDnBid = 99999999;
+	auto bdn = pBidMark.find(wprice);
+	if(bdn != pBidMark.end()){
+		sellOutDnBid = pBidMark[wprice];
+	}
+	return sellOutDnBid;
+}*/
 
 unsigned long long CbbcPriceMark::dynameicBuyIn(unsigned long long wprice){
 
@@ -868,7 +883,57 @@ unsigned long long CbbcPriceMark::dynameicSellOut(unsigned long long wprice){
 	}
 	return 0;
 }
+/*
+unsigned long long CbbcPriceMark::dynameicLevel(unsigned long long wprice){
 
+	if(sensitivity == 0)
+		return 99999999;
+
+	if(pwtype == BULL ){
+		if(wprice > bidkey && bidkey > 0){
+
+			unsigned long long v = wprice - bidkey;
+			int no_of_spread = static_cast<int>(v / pDefaultSpread);
+
+			return bidprice + no_of_spread*sensitivity + pUSpread;
+			//return bidprice - sensitivity;
+		}
+		if(wprice < bidkey && bidkey > 0){
+
+			unsigned long long v = bidkey - wprice;
+			int no_of_spread = static_cast<int>(v / pDefaultSpread);
+
+			return bidprice - no_of_spread*sensitivity + pUSpread;
+
+			//return bidprice + sensitivity;
+		}
+		return bidprice + pUSpread;
+	}
+	if(pwtype == BEAR ){
+		if(wprice > bidkey && bidkey > 0){
+
+			unsigned long long v = wprice - bidkey;
+			int no_of_spread = static_cast<int>(v / pDefaultSpread);
+
+			return bidprice - no_of_spread*sensitivity - pUSpread;
+
+
+			//return bidprice - sensitivity;
+		}
+		if(wprice < bidkey && bidkey > 0){
+
+			unsigned long long v = bidkey - wprice;
+			int no_of_spread = static_cast<int>(v / pDefaultSpread);
+
+			return bidprice + no_of_spread*sensitivity- pUSpread;
+
+
+			//return bidprice + sensitivity;
+		}
+		return bidprice - pUSpread;
+	}
+	return 0;
+}*/
 
 unsigned long long CbbcPriceMark::getIssuerIize(){
 	return pIssuerSize;

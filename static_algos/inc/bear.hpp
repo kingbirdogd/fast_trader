@@ -286,8 +286,19 @@ private:
 		}
 		unsigned long long getLvlBid()
 		{
+
+			if(BULL == _Wtype){
+
+				return _OBSetting->LvLBid + 100000;
+			}
+			if(BEAR == _Wtype){
+
+				return _OBSetting->LvLBid - 100000;
+			}
+
 			return _OBSetting->LvLBid;
 		}
+
 		void on_bear_trade(const Tradable& tradable)
 		{
 
@@ -2136,6 +2147,12 @@ private:
 		void set_SellOffset(int offs){
 			_SELL_OFFSET = offs;
 		}
+
+		bool isLevel(){
+			warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
+			return _PriceInfo->Bestbid == warrant->BuyPrice;
+		}
+
 		bool has_position(){
 			return _OBSetting->hasPosition;
 		}
@@ -2783,6 +2800,8 @@ public:
 	virtual void on_omdd_trade(const Tradable&);
 	virtual void on_tcp_trade(const Tradable&);
 	virtual void handler_order(const dbp::top::enhance_order&);
+
+	bool isLevel();
 	std::string set_pair(pair&& p);
 	action_resp set_pause(unsigned int code, const std::string& ref);
 	action_resp set_stop(unsigned int code, const std::string& ref);
