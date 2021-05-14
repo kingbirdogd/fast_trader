@@ -2149,8 +2149,14 @@ private:
 		}
 
 		bool isLevel(){
-			warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
-			return _PriceInfo->Bestbid == warrant->BuyPrice;
+			if(_Status == STATUS_AVAILABLE){
+				warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
+				if(warrant == nullptr)
+					return false;
+
+				return _PriceInfo->Bestbid == warrant->BuyPrice;
+			}
+			return false;
 		}
 
 		bool has_position(){
