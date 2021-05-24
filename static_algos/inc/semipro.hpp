@@ -701,6 +701,9 @@ private:
 					if (0 != best_bid_price && (best_bid_price == _bottom_price || (best_bid_price >= _ceiling_price && _buy_price >= _ceiling_price )))
 					{
 
+
+						_algo->Log("Code = " + to_string(_warrant_code) + " func=on_book  Action=SELL Price=" + to_string(best_bid_price) + " Position=" + to_string(_position));
+
 						if(sell(best_bid_price) == sell_result::SUCCESS){
 							#ifndef NOT_MEASURE
 								auto msg = algo_latency_pool.get_obj();

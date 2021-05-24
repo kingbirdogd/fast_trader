@@ -13,6 +13,9 @@
 {"cmd": "order_list", "id": 1, "ref": "test"}
 
 
+{"cmd": "limit_sell","price":"12345", "quantity":400, "id": 1, "algo_name":"leo_semi", "ref": "test"}
+{"cmd": "cancel", "id": 1, "algo_name":"leo_semi", "ref": "test"}
+
 #20200525
 1)
 Add result to algo_msg_base
