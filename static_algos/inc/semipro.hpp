@@ -687,8 +687,12 @@ private:
 				}
 			}
 		}
-		void on_book(const Tradable& tradable)
+		//void on_book(const Tradable& tradable)
+		void on_book(const Tradable& )
 		{
+
+			/*
+
 			auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
 			auto best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
 			wbestbid = best_bid_price;
@@ -723,6 +727,7 @@ private:
 				}
 
 			}
+			*/
 		}
 
 		void on_order(const dbp::top::enhance_order& odr)
