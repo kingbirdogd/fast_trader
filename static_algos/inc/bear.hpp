@@ -2702,7 +2702,7 @@ private:
 			j["transaction_time"] = string(transaction_time);
 
 			j["reason"] = string(reason);
-			j["recovery"] = true;
+			//j["recovery"] = true;
 			return j;
 		}
 		virtual void on_command()
