@@ -698,27 +698,30 @@ private:
 				if (_auto_sell)
 				{
 					auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
-					if (0 != best_bid_price && (best_bid_price == _bottom_price || (best_bid_price >= _ceiling_price && _buy_price >= _ceiling_price )))
-					{
+					if(_ceiling_price > 0 || _bottom_price > 0){
+						if (0 != best_bid_price && ((best_bid_price == _bottom_price && _bottom_price>0) || (best_bid_price >= _ceiling_price && _buy_price >= _ceiling_price && _ceiling_price>0 )))
+						{
 
 
-						_algo->Log("Code = " + to_string(_warrant_code) + " func=on_book  Action=SELL Price=" + to_string(best_bid_price) + " Position=" + to_string(_position));
+							_algo->Log("Code = " + to_string(_warrant_code) + " func=on_book  Action=SELL Price=" + to_string(best_bid_price) + " Position=" + to_string(_position));
 
-						if(sell(best_bid_price) == sell_result::SUCCESS){
-							#ifndef NOT_MEASURE
-								auto msg = algo_latency_pool.get_obj();
-								msg->al = _algo;
-								msg->algo_name = _algo->_name;
-								msg->id = _algo->_u.get_id();
-								msg->ref = _ref;
-								msg->pkg_tm = tradable.m_PkgTime;
-								msg->m_tm = tradable.m_MsgTime;
-								msg->o_tm = dbp::tools::srv::current();
-								ouputQueue.enqueue(msg);
-							#endif
+							if(sell(best_bid_price) == sell_result::SUCCESS){
+								#ifndef NOT_MEASURE
+									auto msg = algo_latency_pool.get_obj();
+									msg->al = _algo;
+									msg->algo_name = _algo->_name;
+									msg->id = _algo->_u.get_id();
+									msg->ref = _ref;
+									msg->pkg_tm = tradable.m_PkgTime;
+									msg->m_tm = tradable.m_MsgTime;
+									msg->o_tm = dbp::tools::srv::current();
+									ouputQueue.enqueue(msg);
+								#endif
+							}
 						}
 					}
 				}
+
 			}
 		}
 
