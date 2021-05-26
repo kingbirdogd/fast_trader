@@ -765,6 +765,17 @@ unsigned long long CbbcPriceMark::sellOut(unsigned long long wprice){
 	}
 	return sellOutDnBid;
 }
+
+unsigned long long CbbcPriceMark::leveldiff(unsigned long long buyprice){
+
+	unsigned long long buyin = dynameicBuyIn(buyprice);
+	unsigned long long sellout = dynameicSellOut(buyprice);
+
+	long long cal_ptrange = static_cast<long long>(buyin) - static_cast<long long>(sellout) ;
+	return static_cast<unsigned long long>(abs(cal_ptrange));
+	//return 0;
+}
+
 /*
 unsigned long long CbbcPriceMark::level(unsigned long long wprice){
 

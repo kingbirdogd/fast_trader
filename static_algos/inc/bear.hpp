@@ -457,6 +457,13 @@ private:
 
 					warrant* newWarrant = _OBSetting->getRelatedWarrant(_warrant_code);
 
+					unsigned long long leveldiff = _CbbcPriceMark->leveldiff(newWarrant->BuyPrice);
+
+										//long long diff = static_cast<long long>(_PriceInfo->Bestbid) - static_cast<long long>(newWarrant->BuyPrice);
+
+										Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Level Diff =  " + to_string(leveldiff));
+
+
 					if(within1spread){
 
 						Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Sell " );
@@ -640,6 +647,9 @@ private:
 				//if(_Status == STATUS_AVAILABLE && (_Action_Status == STAGE_START || _Win_Tick > 0) ){
 				if(_Status == STATUS_AVAILABLE && _Action_Status == STAGE_START  && trade_price == _OBSetting->SellOut){
 
+
+
+
 					unsigned long long refSpread = _SPREAD;
 					unsigned long long b = _PriceInfo->Bestbid;
 					unsigned long long a = _PriceInfo->Bestask;
@@ -649,7 +659,12 @@ private:
 
 					//if(within1spread || _OBSetting->BidAskSpread == 0){
 					warrant* newWarrant = _OBSetting->getRelatedWarrant(_warrant_code);
+
+					unsigned long long leveldiff = _CbbcPriceMark->leveldiff(newWarrant->BuyPrice);
+
 					//long long diff = static_cast<long long>(_PriceInfo->Bestbid) - static_cast<long long>(newWarrant->BuyPrice);
+
+					Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Level Diff =  " + to_string(leveldiff));
 
 					//if(within1spread || diff >= 0){
 					if(within1spread){

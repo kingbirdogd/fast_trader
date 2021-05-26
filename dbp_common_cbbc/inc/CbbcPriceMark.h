@@ -88,7 +88,7 @@ public:
 
 	unsigned long long buyIn(unsigned long long wprice);
 	unsigned long long sellOut(unsigned long long wprice);
-	//unsigned long long level(unsigned long long wprice);
+	unsigned long long leveldiff(unsigned long long buyprice);
 
 	unsigned long long getSensitivity();
 
