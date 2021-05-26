@@ -644,7 +644,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 
 			auto trade_quantity = static_cast<unsigned long long>(tradable.m_AccumulateSellQuantity);
 
-			Log(" Code = " + to_string(tradable.m_Code) + " Trade Price = " + to_string(trade_price) + " tradable.m_TradeSide = BUY " + " Qty = " + to_string(trade_quantity));
+			//Log(" Code = " + to_string(tradable.m_Code) + " Trade Price = " + to_string(trade_price) + " tradable.m_TradeSide = BUY " + " Qty = " + to_string(trade_quantity));
 
 			if(uprice->TBestbid != trade_price){
 				uprice->PTBestbid = uprice->TBestbid;
@@ -699,7 +699,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 		if(SELL_ORDER == tradable.m_TradeSide){
 			auto trade_quantity = static_cast<unsigned long long>(tradable.m_AccumulateBuyQuantity);
 
-			Log(" Code = " + to_string(tradable.m_Code) + " Trade Price = " + to_string(trade_price) + " tradable.m_TradeSide = SELL " + " Qty = " + to_string(trade_quantity));
+			//Log(" Code = " + to_string(tradable.m_Code) + " Trade Price = " + to_string(trade_price) + " tradable.m_TradeSide = SELL " + " Qty = " + to_string(trade_quantity));
 
 
 			if(uprice->TBestask != trade_price ){
@@ -714,7 +714,7 @@ void bear::on_omdd_trade(const Tradable& tradable)
 
 					if(p->getWtype() == BULL){
 
-						Log(" Code = " + to_string(tradable.m_Code) + " Trade Price = " + to_string(trade_price) + " Buyin = " + to_string(p->getBuyIn()) + " sTATUS = " + to_string(p->status()));
+						//Log(" Code = " + to_string(tradable.m_Code) + " Trade Price = " + to_string(trade_price) + " Buyin = " + to_string(p->getBuyIn()) + " sTATUS = " + to_string(p->status()));
 						if(p->getBuyIn() == trade_price  && (p->status() == STATUS_READY || p->status() == STATUS_DONE) && p->action_status() == STAGE_START)
 						{
 							p->on_bull_trade(tradable);
