@@ -1721,7 +1721,9 @@ algo_msg_base* bear::json_to_msg(json& json)
 
 				auto itpm = pricemarkMap.find(p._warrant_code);
 				if(itpm != pricemarkMap.end()){
-					p._CbbcPriceMark->copyTable(itpm->second->getBidTable(), itpm->second->getAskTable());
+					int point = p._CbbcPriceMark->copyTable(itpm->second->getBidTable(), itpm->second->getAskTable());
+					Log("Code = " + to_string(p._warrant_code) + " Point = " + to_string(point));
+
 					p._CbbcPriceMark->copyUpTable(itpm->second->getUpBidTable(), itpm->second->getUpAskTable());
 					p._CbbcPriceMark->copyDnTable(itpm->second->getDnBidTable(), itpm->second->getDnAskTable());
 				}
