@@ -1719,10 +1719,16 @@ algo_msg_base* bear::json_to_msg(json& json)
 
 				p._CbbcPriceMark = new CbbcPriceMark(INDEX_TYPE, p._Wtype, p._SPREAD, 100000);
 
+
+				unsigned long long _estimate_sensitivity = 0;
+
 				auto itpm = pricemarkMap.find(p._warrant_code);
 				if(itpm != pricemarkMap.end()){
 					int point = p._CbbcPriceMark->copyTable(itpm->second->getBidTable(), itpm->second->getAskTable());
-					Log("Code = " + to_string(p._warrant_code) + " Point = " + to_string(point));
+
+					_estimate_sensitivity = static_cast<unsigned long long>(point);
+
+					Log("Code = " + to_string(p._warrant_code) + " Point = " + to_string(_estimate_sensitivity));
 
 					p._CbbcPriceMark->copyUpTable(itpm->second->getUpBidTable(), itpm->second->getUpAskTable());
 					p._CbbcPriceMark->copyDnTable(itpm->second->getDnBidTable(), itpm->second->getDnAskTable());
@@ -1731,18 +1737,31 @@ algo_msg_base* bear::json_to_msg(json& json)
 
 					Log("Load IV = " + to_string(p._warrant_code));
 
+
+					unsigned long long sensitivity = 0;
+
 					WarrantIv wiv = ivLoader.getWarrantIv(p._warrant_code);
 					if (wiv.Delta > 0){
-						unsigned long long sensitivity = static_cast<unsigned long long>(0.001f * wiv.Cratio / wiv.Delta) * 100000;
+						sensitivity = static_cast<unsigned long long>(0.001f * wiv.Cratio / wiv.Delta) * 100000;
 						p._CbbcPriceMark->setSensitivity(sensitivity);
 
 						Log("1 Sensitivity = " + to_string(sensitivity));
 					}else if(p._DELTA > 0){
-						unsigned long long sensitivity = static_cast<unsigned long long>(0.001f * wiv.Cratio / p._DELTA) * 100000;
+						sensitivity = static_cast<unsigned long long>(0.001f * wiv.Cratio / p._DELTA) * 100000;
 						p._CbbcPriceMark->setSensitivity(sensitivity);
 
 						Log("2 Sensitivity = " + to_string(sensitivity));
 					}
+
+					if(sensitivity == 0 && _estimate_sensitivity > 0){
+						sensitivity = _estimate_sensitivity;
+
+						p._CbbcPriceMark->setSensitivity(sensitivity);
+
+						Log("3 Sensitivity = " + to_string(sensitivity));
+					}
+
+
 
 				}
 
