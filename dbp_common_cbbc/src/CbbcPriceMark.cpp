@@ -990,7 +990,7 @@ int CbbcPriceMark::copyTable(map<unsigned long long,unsigned long long> bid,  ma
 			continue;
 		}else{
 
-			unsigned long long difpoint = abs(it->second - previous);
+			unsigned long long difpoint = abs(static_cast<long long>(it->second) - static_cast<long long>(previous));
 			previous = it->second;
 
 			auto itn = pointcount.find(difpoint);
