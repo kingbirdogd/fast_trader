@@ -975,9 +975,72 @@ map<unsigned long long,unsigned long long> CbbcPriceMark::getDnAskTable(){
 }
 
 
-void CbbcPriceMark::copyTable(map<unsigned long long,unsigned long long> bid,  map<unsigned long long,unsigned long long> ask){
+int CbbcPriceMark::copyTable(map<unsigned long long,unsigned long long> bid,  map<unsigned long long,unsigned long long> ask){
+
+
+	map<unsigned long long, int> pointcount;
+
+	map<unsigned long long, unsigned long long>::iterator it;
+
+	unsigned long long previous = 0;
+	for (it = bid.begin(); it != bid.end(); it++)
+	{
+		if(previous == 0){
+			previous = it->second;
+			continue;
+		}else{
+
+			unsigned long long difpoint = abs(it->second - previous);
+			previous = it->second;
+
+			auto itn = pointcount.find(difpoint);
+			if(itn == pointcount.end()){
+				pointcount[difpoint] = 1;
+			}else{
+				int v = pointcount[difpoint];
+				v++;
+				pointcount[difpoint]=v;
+			}
+		}
+
+	}
+
+	previous = 0;
+	for (it = ask.begin(); it != ask.end(); it++)
+	{
+		if(previous == 0){
+			previous = it->second;
+			continue;
+		}else{
+
+			unsigned long long difpoint = abs(it->second - previous);
+			previous = it->second;
+
+			auto itn = pointcount.find(difpoint);
+			if(itn == pointcount.end()){
+				pointcount[difpoint] = 1;
+			}else{
+				int v = pointcount[difpoint];
+				v++;
+				pointcount[difpoint]=v;
+			}
+		}
+	}
+
+	int maxcount = 0;
+	unsigned long long point = 0;
+
+	map<unsigned long long, int>::iterator it2;
+	for (it2 = pointcount.begin(); it2 != pointcount.end(); it2++){
+		if(it2->second > maxcount){
+			point = it2->first;
+		}
+	}
+
 	pBidMark.insert(bid.begin(), bid.end());
 	pAskMark.insert(ask.begin(), ask.end());
+
+	return point;
 }
 void CbbcPriceMark::copyUpTable(map<unsigned long long,unsigned long long> bid,  map<unsigned long long,unsigned long long> ask){
 	pUpBidMark.insert(bid.begin(), bid.end());

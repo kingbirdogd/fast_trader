@@ -115,7 +115,7 @@ public:
 	unsigned long long getBidPrice();
 	unsigned long long getAskPrice();
 
-	void copyTable(map<unsigned long long,unsigned long long> bid,  map<unsigned long long,unsigned long long> ask);
+	int copyTable(map<unsigned long long,unsigned long long> bid,  map<unsigned long long,unsigned long long> ask);
 	void copyUpTable(map<unsigned long long,unsigned long long> bid,  map<unsigned long long,unsigned long long> ask);
 	void copyDnTable(map<unsigned long long,unsigned long long> bid,  map<unsigned long long,unsigned long long> ask);
 

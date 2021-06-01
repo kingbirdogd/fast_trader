@@ -459,9 +459,9 @@ private:
 
 					unsigned long long leveldiff = _CbbcPriceMark->leveldiff(newWarrant->BuyPrice);
 
-										//long long diff = static_cast<long long>(_PriceInfo->Bestbid) - static_cast<long long>(newWarrant->BuyPrice);
+					//long long diff = static_cast<long long>(_PriceInfo->Bestbid) - static_cast<long long>(newWarrant->BuyPrice);
 
-										Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Level Diff =  " + to_string(leveldiff));
+					Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) + " BuyPrice = " + to_string(newWarrant->BuyPrice) +  " Level Diff =  " + to_string(leveldiff));
 
 
 					if(within1spread){
@@ -664,10 +664,10 @@ private:
 
 					//long long diff = static_cast<long long>(_PriceInfo->Bestbid) - static_cast<long long>(newWarrant->BuyPrice);
 
-					Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Level Diff =  " + to_string(leveldiff));
+					Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) + " BuyPrice = " + to_string(newWarrant->BuyPrice) +  " Level Diff =  " + to_string(leveldiff));
 
 					//if(within1spread || diff >= 0){
-					if(within1spread){
+					if(within1spread || leveldiff > 300000){
 
 						Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Sell " );
 

@@ -914,8 +914,33 @@ std::string bear::set_pair(pair&& p)
 	auto itcr = _w_ref_map.find(p.warrant_code());
 	if(itcr != _w_ref_map.end()){
 		if(p.ref() != itcr->second){
-			Log("Duplication Warrant Code");
-			return "Duplicate Warrant";
+
+			auto itrr2 = _p_map.find(itcr->second);
+			if (_p_map.end() != itrr2){
+				if(itrr2->second.ref() == itcr->second){
+					Log("Duplication Warrant Code");
+					return "Duplicate Warrant";
+				}
+			}
+
+			Log("Warrant Code : " + to_string(p.warrant_code()) + " on Ref :  " + itrr2->second.ref() + " Replace Already.");
+
+
+
+			if (_p_map.end() != it){
+				if(it->second._Action_Status != STAGE_STOP){
+					Log("Duplication Warrant Code");
+					return "Duplicate Warrant";
+				}
+			}
+			Log("State Stop : Warrant Code : " + to_string(it->second._warrant_code));
+
+			_w_ref_map.erase(p.warrant_code());
+			Log("remove Old entry Warrant Code");
+
+
+			//Log("Duplication Warrant Code");
+			//return "Duplicate Warrant";
 		}else{
 			_w_ref_map.erase(p.warrant_code());
 			Log("remove Old entry Warrant Code");
@@ -1760,7 +1785,10 @@ algo_msg_base* bear::json_to_msg(json& json)
 
 				auto itpm = pricemarkMap.find(p._warrant_code);
 				if(itpm != pricemarkMap.end()){
-					p._CbbcPriceMark->copyTable(itpm->second->getBidTable(), itpm->second->getAskTable());
+					int point = p._CbbcPriceMark->copyTable(itpm->second->getBidTable(), itpm->second->getAskTable());
+
+					Log("Code = " + to_string(p._warrant_code) + " Point = " + to_string(point));
+
 					p._CbbcPriceMark->copyUpTable(itpm->second->getUpBidTable(), itpm->second->getUpAskTable());
 					p._CbbcPriceMark->copyDnTable(itpm->second->getDnBidTable(), itpm->second->getDnAskTable());
 				}
