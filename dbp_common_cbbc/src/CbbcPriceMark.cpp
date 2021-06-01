@@ -1034,6 +1034,7 @@ int CbbcPriceMark::copyTable(map<unsigned long long,unsigned long long> bid,  ma
 	for (it2 = pointcount.begin(); it2 != pointcount.end(); it2++){
 		if(it2->second > maxcount){
 			point = it2->first;
+			maxcount = it2->second;
 		}
 	}
 
