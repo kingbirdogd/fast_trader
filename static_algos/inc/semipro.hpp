@@ -1572,7 +1572,7 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
-			j["msg_type"] = "semi_algo_limit_sell";
+			j["msg_type"] = "semi_algo_limit_modify";
 			if (p)
 				j["pair"] = p->to_minor_json();
 			else

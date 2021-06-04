@@ -381,6 +381,47 @@ std::string semipro::limit_sell(unsigned long long price, unsigned long long qua
 	}
 }
 
+std::string semipro::limit_modify(unsigned long long price, unsigned long long quantity, pair*& pref, const std::string& ref)
+{
+	pref = nullptr;
+	auto it = _p_map.find(ref);
+	if (_p_map.end() == it)
+	{
+		return "fail pair not found";
+	}
+	auto& p = it->second;
+	pref = &p;
+	auto result = p.limit_modify(price, false, quantity);
+	if (pair::sell_result::SUCCESS == result)
+	{
+		return "SUCCESS";
+	}
+	else if (pair::sell_result::NOTHING_TO_SELL == result)
+	{
+		return "fail NOTHING_TO_SELL";
+	}
+	else if (pair::sell_result::SELLING == result)
+	{
+		return "fail SELLING";
+	}
+	else if (pair::sell_result::SHORT_SELL == result)
+	{
+		return "fail SHORT_SELL";
+	}
+	else if (pair::sell_result::NEW_SELL_ODR_FAIL == result)
+	{
+		return "fail NEW_SELL_ODR_FAIL";
+	}
+	else if (pair::sell_result::MOD_ODR_FAIL == result)
+	{
+		return "fail MOD_ODR_FAIL";
+	}
+	else
+	{
+		return "fail UNKNOW";
+	}
+}
+
 std::string semipro::cancel_order(const std::string& ref, pair*& pref)
 {
 	pref = nullptr;
