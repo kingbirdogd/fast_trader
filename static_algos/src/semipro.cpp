@@ -424,6 +424,7 @@ algo_msg_base* semipro::json_to_msg(json& json)
 	algo_force_buy* pforce_buy = nullptr;
 	algo_force_sell* pforce_sell = nullptr;
 	algo_limit_sell* plimit_sell = nullptr;
+	algo_limit_modify* plimit_modify = nullptr;
 	try
 	{
 
@@ -711,6 +712,17 @@ algo_msg_base* semipro::json_to_msg(json& json)
 			plimit_sell->quantity = json["quantity"].get<unsigned long long>();
 			return plimit_sell;
 		}
+		else if (cmd == "limit_modify")
+		{
+			plimit_modify = algo_limit_modify_pool.get_obj();
+			plimit_modify->al = this;
+			plimit_modify->algo_name = _name;
+			plimit_modify->id = _u.get_id();
+			plimit_modify->ref = ref;
+			plimit_modify->price = json["price"].get<unsigned long long>();
+			plimit_modify->quantity = json["quantity"].get<unsigned long long>();
+			return plimit_modify;
+		}
 		else
 		{
 			auto msg = algo_err_msg_pool.get_obj();
@@ -768,5 +780,6 @@ rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_get, 8192> semipro::algo_
 rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_force_buy, 8192> semipro::algo_force_buy_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_force_sell, 8192> semipro::algo_force_sell_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_limit_sell, 8192> semipro::algo_limit_sell_pool;
+rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_limit_modify, 8192> semipro::algo_limit_modify_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_getprofit_msg, 8192> semipro::algo_getprofit_msg_pool;
 
