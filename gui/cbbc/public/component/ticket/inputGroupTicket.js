@@ -17,17 +17,19 @@ class InputGroupTicket extends React.Component {
     var {name, no, key, states, userId, algoName} = that.initData(that, event)
     
     var command1 = that.props.initInputData(obj, no, userId, algoName, 'set', obj.wnt.stopLoss.status).command
-    if (key == 'wnt.stopLoss.price' && (obj.stock.action2 == 'start' || obj.stock.action3 == 'start')) {
-      command1.action = 'NOCHANGE'
-      sendWebsocket(JSON.stringify(command1))
+    if (obj.stock.action2 == 'start' || obj.stock.action3 == 'start') {
+      // command1.action = 'NOCHANGE'
+      // sendWebsocket(JSON.stringify(command1))
     }
-    else if (obj.stock.action1 == 'start') {
-      command1.action = 'STOP'
-      sendWebsocket(JSON.stringify(command1))
-    }
-    else if (obj.stock.action1 == 'stop') {
-      command1.action = 'STOP'
-      sendWebsocket(JSON.stringify(command1))
+    else if (obj.stock.action1 == 'start' || obj.stock.action1 == 'stop') {
+      if (obj.wnt.sell.status == 'open' || obj.wnt.buy.status == 'open') {
+        command1.action = 'STOP'
+        sendWebsocket(JSON.stringify(command1))
+      }
+      else if (obj.wnt.stopLoss.status == 'start' && obj.stock.action1 == 'start') {
+        var command5 = {cmd: "cancel", id: userId, algo_name: algoName, ref: setNo(no)}
+        sendWebsocket(JSON.stringify(command5))
+      }
     }
   }
   

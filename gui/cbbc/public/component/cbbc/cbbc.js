@@ -67,6 +67,7 @@ class Cbbc extends React.Component {
     this.state.orders = orders
     this.state.positions = positions
     this.state.portfolios = portfolios
+    this.state.idxCells = {}
   }
   
   componentDidMount() {
@@ -79,6 +80,8 @@ class Cbbc extends React.Component {
       var data = JSON.parse(res)
       console.log(data)
       var obj = $.extend(true, {}, this.state)
+      for(var i in obj.cells)
+        obj.idxCells[obj.cells[i].action.code.value] = i
       if ('user_id' in data && (!obj.userId))
         obj = {userId: data.user_id}
       if ('action' in data) {
@@ -575,6 +578,7 @@ class Cbbc extends React.Component {
             key="position"
             data={this.state.positions}
             data2={wprices}
+            data3={this.state.idxCells}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}
@@ -593,20 +597,20 @@ class Cbbc extends React.Component {
             setStates={this.setStates}
             getStates={this.getStates}
           />
-          <Command
-            key="command"
-            lang={this.props.lang}
-            setStates={this.setStates}
-            getStates={this.getStates}
-          />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.14
+          Copyright © {curYear} Fast Trader v1.0.16
         </div>
       </React.Fragment>
       /*<Selector
         key="selector_cbbc"
         config={this.state.config}
+        setStates={this.setStates}
+        getStates={this.getStates}
+      />
+      <Command
+        key="command"
+        lang={this.props.lang}
         setStates={this.setStates}
         getStates={this.getStates}
       />*/

@@ -59,7 +59,6 @@
 }
 
 #ticket .input-group-ticket button {
-  width: 14.5px;
   z-index: 0;
 }
 
@@ -105,4 +104,68 @@
 
 #ticket .bg-yellow {
   background-color: #ff9800;
+}
+
+/* large */
+#ticket .cell.large {
+  min-width: 548px;
+  font-size: 14px;
+}
+
+#ticket .cell.large  .price-table input.form-control {
+  height: 28px;
+  font-size: 14px;
+}
+
+#ticket .cell.large .bar {
+  top: -22px;
+}
+
+#ticket .cell.large button {
+  font-size: 14px;
+}
+
+#ticket .cell.large .input-group-ticket input {
+  font-size: 14px;
+  height: 28px;
+}
+
+#ticket .cell.large .input-group-ticket {
+  width: 120px;
+}
+
+#ticket .cell.large button {
+  padding: 1px 6px;
+}
+
+/* xlarge */
+#ticket .cell.xlarge {
+  min-width: 760px;
+  font-size: 16px;
+}
+
+#ticket .cell.xlarge  .price-table input.form-control {
+  height: 32px;
+  font-size: 16px;
+}
+
+#ticket .cell.xlarge .bar {
+  top: -24px;
+}
+
+#ticket .cell.xlarge button {
+  font-size: 16px;
+}
+
+#ticket .cell.xlarge .input-group-ticket input {
+  font-size: 16px;
+  height: 32px;
+}
+
+#ticket .cell.xlarge .input-group-ticket {
+  width: 160px;
+}
+
+#ticket .cell.xlarge button {
+  padding: 1px 8px;
 }

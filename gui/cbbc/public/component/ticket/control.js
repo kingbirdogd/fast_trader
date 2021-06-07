@@ -37,7 +37,7 @@ class Control extends React.Component {
     }
 
     else if (name == 'order') {
-      var command1 = {cmd: "order_list", id: userId, algo_name: algoName, max_display: 30, ref: 'orders'}
+      var command1 = {cmd: "order_list", id: userId, algo_name: algoName, max_display: 9999, ref: 'orders'}
       sendWebsocket(JSON.stringify(command1))
       var command2 = {cmd: 'getprofit', id: userId, algo_name: algoName, ref: 'getprofit'}
       sendWebsocket(JSON.stringify(command2))

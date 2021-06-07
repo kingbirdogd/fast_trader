@@ -5,6 +5,7 @@ class Cell extends React.Component {
     this.initData = this.initData.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
+    this.handleLayout = this.handleLayout.bind(this)
     this.initInputData = this.initInputData.bind(this)
   }
   
@@ -19,7 +20,9 @@ class Cell extends React.Component {
     if (name == 'wnt') {
       // 1.1 輸入中
       if (val.length<=obj.wnt.code.len) {
+        var layout = obj.config.layout
         obj = this.props.getInstance()
+        obj.config.layout = layout
         obj.wnt.code.code = val.replace(/[^0-9]/g, '')
       }
       // 1.2 已完成輸入
@@ -65,8 +68,7 @@ class Cell extends React.Component {
     data.ref = setNo(no)
     // 
     data.spread = getSpread(wnt.buy.price)
-    if (isUseStoploss==true || isUseStoploss=='start') data.bottom_price = data.stoploss
-    else data.bottom_price = formatLongV2(0.000)
+    data.bottom_price = formatLongV2(0.000)
     data.ceiling_price = formatLongV2(0.000)
     
     if (cmd==null) data.cmd = null
@@ -124,22 +126,33 @@ class Cell extends React.Component {
     
     // 3.0 初始化
     if (name == 'wntBuy' || name == 'wntSell' || name == 'pair' || name == 'stoploss' || name == 'stock.action4') {
-      var command4 = this.initInputData(obj, no, userId, algoName, 'set', false).command
-      command4.action = 'STOP'
-      sendWebsocket(JSON.stringify(command4))
+      if (wnt.sell.status == 'open' || wnt.buy.status == 'open') {
+        var command4 = this.initInputData(obj, no, userId, algoName, 'set', false).command
+        command4.action = 'STOP'
+        sendWebsocket(JSON.stringify(command4))
+      }
+      else if (wnt.stopLoss.status == 'start' && stock.action1 == 'start') {
+        var command5 = {cmd: "cancel", id: userId, algo_name: algoName, ref: setNo(no)}
+        sendWebsocket(JSON.stringify(command5))
+      }
+      obj.stock.action2 = undefined
+      obj.stock.action3 = undefined
     }
     
     // 3.1 買賣
-    if (name == 'wntBuy' && wnt.buy.status != 'open') obj.wnt.buy.status = 'open'
-    else if (name == 'wntSell' && wnt.sell.status != 'open') obj.wnt.sell.status = 'open'
+    if (name == 'wntBuy' && wnt.buy.status != 'open') obj.wnt.buy.status = 'open', obj.wnt.stopLoss.status = 'stop'
+    else if (name == 'wntSell' && wnt.sell.status != 'open') obj.wnt.sell.status = 'open', obj.wnt.stopLoss.status = 'stop'
     else if (name == 'wntBuy' && wnt.buy.status == 'open') obj.wnt.buy.status = 'close' 
-    else if (name == 'wntSell' && wnt.sell.status == 'open') obj.wnt.sell.status = 'close', obj.wnt.stopLoss.status = 'stop'
-    else if (name == 'pair') obj.wnt.buy.status = 'open', obj.wnt.sell.status = 'open'
+    else if (name == 'wntSell' && wnt.sell.status == 'open') obj.wnt.sell.status = 'close'
+    else if (name == 'pair') obj.wnt.buy.status = 'open', obj.wnt.sell.status = 'open', obj.wnt.stopLoss.status = 'stop'
     
-    // 3.2 現價買入
-    else if (name == 'stock.action4' && wnt.buy.status == 'open' && !isErrorWntBuy) {
+    // 3.2 現價買入 / 賣出
+    else if (name == 'stock.action4' && ((wnt.buy.status == 'open' && !isErrorWntBuy) || (wnt.sell.status == 'open' && !isErrorWntSell))) {
       obj.stock.action4 = 'start'
-      var command = {cmd: 'force_buy', quantity: buy_qty, id: userId, algo_name: algoName, ref: ref, price: buy_price}
+      if (position<=0)
+        var command = {cmd: 'force_buy', quantity: buy_qty, id: userId, algo_name: algoName, ref: ref, price: buy_price}
+      else
+        var command = {cmd: 'force_sell', quantity: sell_qty, id: userId, algo_name: algoName, ref: ref, price: sell_price}
       sendWebsocket(JSON.stringify(command))
       
       obj.wnt.buy.status = undefined
@@ -147,39 +160,17 @@ class Cell extends React.Component {
       obj.wnt.stopLoss.status = undefined
     }
     
-    /* 3.3 現價賣出
-    else if (name == 'wntSell' && !isErrorWntSell) {
-      if (position>=sell_qty) {
-        var command = {cmd: 'force_sell', quantity: sell_qty, id: userId, algo_name: algoName, ref: ref, price: sell_price}
-        sendWebsocket(JSON.stringify(command))
-      }
-      else if (position==0) {
-        obj.wnt.msg.unshift(getTime()+' Cannot force sell. Your position is 0.')
-      }
-      else if (sell_qty>position) {
-        obj.wnt.msg.unshift(getTime()+' Cannot force sell. Do not have enough position.')
-      }
-    }*/
-    
     // 4.0 止蝕
-    else if (name == 'stoploss' && !isErrorStoploss && (wnt.sell.price == wnt.stopLoss.price)) {
-      obj.wnt.msg.unshift(getTime()+' Stoploss Price should not equal to Order Price.')
+    else if (name == 'stoploss' && !isErrorStoploss && position<=0) {
+      obj.wnt.msg.unshift(getTime()+' Cannot Stoploss. Do not have position.')
     }
     else if (name == 'stoploss' && !isErrorStoploss && (!obj.wnt.stopLoss.status || obj.wnt.stopLoss.status=='stop')) {
-      var command3 = this.initInputData(obj, no, userId, algoName, 'set', true).command
-      command3.action = 'NOCHANGE'
-      sendWebsocket(JSON.stringify(command3))
+      obj.wnt.sell.status = 'close'
+      obj.wnt.buy.status = 'close'
       obj.wnt.stopLoss.status = 'start'
-      
-      if (obj.wnt.sell.status != 'open')
-        obj.wnt.sell.status = 'open'
     }
     else if (name == 'stoploss' && !isErrorStoploss && obj.wnt.stopLoss.status=='start') {
-      var command3 = this.initInputData(obj, no, userId, algoName, 'set', false).command
-      command3.action = 'NOCHANGE'
-      sendWebsocket(JSON.stringify(command3))
       obj.wnt.stopLoss.status = 'stop'
-      // obj.wnt.stopLoss.price = obj.wnt.sell.price
     }
     
     // 5.0 開啟 交易策略
@@ -197,12 +188,23 @@ class Cell extends React.Component {
         command1.action = 'SELL'
       else if (obj.wnt.sell.status == 'open' && position <= 0)
         command1.action = 'NOCHANGE', obj.wnt.msg.unshift(getTime()+' Cannot start algo. Do not have position.')
+      if (command1.action)
+        sendWebsocket(JSON.stringify(command1))
       
-      sendWebsocket(JSON.stringify(command1))
+      if (obj.wnt.stopLoss.status=='start') {
+        var command6 = {cmd: 'limit_sell', price: stoploss, quantity: position, id: userId, algo_name: algoName, ref: setNo(no)}
+        sendWebsocket(JSON.stringify(command6))
+      }
     }
     else if (name=='stock.action1' && stock.action1 && (stock.action1=='start' || stock.action1=='fail')) {
-      command1.action = 'STOP'
-      sendWebsocket(JSON.stringify(command1))
+      if (wnt.buy.status == 'open' || wnt.sell.status == 'open') {
+        command1.action = 'STOP'
+        sendWebsocket(JSON.stringify(command1))
+      }
+      else if (wnt.stopLoss.status == 'start' && stock.action1 == 'start') {
+        var command5 = {cmd: "cancel", id: userId, algo_name: algoName, ref: setNo(no)}
+        sendWebsocket(JSON.stringify(command5))
+      }
       
       obj.wnt.buy.status = undefined
       obj.wnt.sell.status = undefined
@@ -211,19 +213,20 @@ class Cell extends React.Component {
       obj.stock.action2 = undefined
       obj.stock.action3 = undefined
     }
-    else if (name=='stock.action2' && stock.action1 && stock.action1=='start' && position>0 && wnt.stopLoss.status=='start') {
+    else if (name=='stock.action2' && stock.action1 && stock.action1=='start' && (wnt.sell.status == 'open' || wnt.buy.status == 'open')) {
       if (!stock.action2) {
         obj.stock.action2 = 'start'
         command1.action = 'NOCHANGE'
-        command1.bottom_price = formatLongV2(0.000)
         sendWebsocket(JSON.stringify(command1))
       }
       else {
         obj.stock.action2 = undefined
         //
-        if (position<=0)
+        if (wnt.sell.status == 'open' && wnt.buy.status == 'open')
           command1.action = 'AUTO'
-        else if(position>0)
+        else if (wnt.buy.status == 'open')
+          command1.action = 'BUY'
+        else if (wnt.sell.status == 'open')
           command1.action = 'SELL'
         sendWebsocket(JSON.stringify(command1))
       }
@@ -270,15 +273,33 @@ class Cell extends React.Component {
       var command = {cmd: 'get_warrant_detail', code: parseInt(code), algo_name: algoName, id: userId, no: no}
       sendWebsocket(JSON.stringify(command))
       
-      if (obj.stock.action1 == 'start')
-        command1.action = 'STOP'
-      else
-        command1.action = 'NOCHANGE'
-      sendWebsocket(JSON.stringify(command1))
+      /*if (wnt.sell.status == 'open' || wnt.buy.status == 'open') {
+        if (obj.stock.action1 == 'start')
+          command1.action = 'STOP'
+        else
+          command1.action = 'NOCHANGE'
+        sendWebsocket(JSON.stringify(command1))
+      }*/
       
-      obj.wnt.buy.status = undefined
-      obj.wnt.sell.status = undefined
-      obj.wnt.stopLoss.status = undefined
+      function initStatus(obj) {
+        obj.wnt.buy.status = undefined
+        obj.wnt.sell.status = undefined
+        obj.wnt.stopLoss.status = undefined
+        obj.stock.action2 = undefined
+        obj.stock.action3 = undefined
+        return obj
+      }
+      
+      if (wnt.stopLoss.status == 'start' && stock.action1 == 'start') {
+        var command5 = {cmd: "cancel", id: userId, algo_name: algoName, ref: setNo(no)}
+        sendWebsocket(JSON.stringify(command5))
+        obj = initStatus(obj)
+      }
+      else if (!(obj.stock.action2 == 'start' || obj.stock.action3 == 'start')) {
+        command1.action = 'STOP'
+        sendWebsocket(JSON.stringify(command1))
+        obj = initStatus(obj)
+      }
     }
     
     states.cells[no] = obj
@@ -299,9 +320,28 @@ class Cell extends React.Component {
     }
   }
   
+  handleLayout() {
+    var name = event.target.name,
+        no = this.props.no,
+        states = this.props.getStates(),
+        obj = $.extend(true, {}, states.cells[this.props.no])
+    
+    var size = ['normal', 'large', 'xlarge']
+    var idx = size.indexOf(obj.config.layout)
+
+    if (name == 'add' && idx < size.length-1)
+      obj.config.layout = size[idx+1]
+    else if (name == 'subtract' && idx > 0)
+      obj.config.layout = size[idx-1]
+    
+    states.cells[no] = obj
+    this.props.setStates({states: obj})
+  }
+  
   render() {
     var wnt = $.extend(true, {}, this.props.data.wnt)
     var stock = $.extend(true, {}, this.props.data.stock)
+    var config = $.extend(true, {}, this.props.data.config)
     
     // 1.0 輪證
     var isDisable = true
@@ -397,7 +437,7 @@ class Cell extends React.Component {
         isStockAction1Disable = true, isStockAction2Disable = true, isStockAction3Disable = true, isStockAction4Disable = true
     
     // 11.1 is pair open?
-    if (wnt.buy.status == 'open' || wnt.sell.status == 'open')
+    if (wnt.buy.status == 'open' || wnt.sell.status == 'open' || wnt.stopLoss.status == 'start')
       isStockAction1Disable = false
     
     // 11.2 action1
@@ -405,46 +445,47 @@ class Cell extends React.Component {
     else if (stock.action1 == 'stop') cssStockAction1 = 'btn-secondary'
     else if (stock.action1 == 'fail') cssStockAction1 = 'btn-danger'
     
-    if (stock.action1 == 'start' && parseInt(wnt.position) > 0 && wnt.stopLoss.status == 'start')
+    if (stock.action1 == 'start' && (wnt.sell.status == 'open' || wnt.buy.status == 'open'))
       isStockAction2Disable = false, isStockAction3Disable = false
     
-    if (stock.action1 == 'start' && wnt.buy.status == 'open')
+    if (stock.action1 == 'start' && (wnt.buy.status == 'open' || wnt.sell.status == 'open'))
       isStockAction4Disable = false
     
-    if (stock.action2 == 'start') cssStockAction2 = 'btn-success', isStockAction3Disable = true
-    if (stock.action3 == 'start') cssStockAction3 = 'btn-success', isStockAction2Disable = true
+    if (stock.action2 == 'start') cssStockAction2 = 'btn-success', isStockAction2Disable = false
+    if (stock.action3 == 'start') cssStockAction3 = 'btn-success', isStockAction3Disable = true
     if (stock.action4 == 'start') cssStockAction4 = 'btn-success', isStockAction4Disable = true
+    
+    // 暫時沒用
+    cssStockAction3 = 'btn-secondary'
+    isStockAction3Disable = true
     
     // 12.0 止蝕
     var isStopLossDisable = isDisable, isStopLossDisable2 = isDisable, cssStopLoss = 'btn-secondary'
     if (parseInt(wnt.position) > 0)
       isStopLossDisable = false
-    /*if (wnt.stopLoss.status == 'start')
-      isStopLossDisable = true*/
     
     if (wnt.stopLoss.status == 'start' && !stock.action2)
       cssStopLoss = 'btn-success'
     
-    /*if (wnt.stopLoss.status == 'start')
-      isStopLossDisable2 = true*/
     if (stock.action2 == 'start' || stock.action3 == 'start')
       isStopLossDisable2 = false
-    
-    // 未有這功能
-    isStopLossDisable = true
-    isStopLossDisable2 = true
 
     // 13.0 track
     var css_nTrack = 'btn-secondary', css_aTrack = 'btn-secondary', css_xTrack = 'btn-secondary'
     if (stock.nTrack == 'start') css_nTrack = 'btn-success'
     if (stock.aTrack == 'start') css_aTrack = 'btn-success'
     if (stock.xTrack == 'start') css_xTrack = 'btn-success'
+    
+    // 14.0 layout
+    var isLayout1Disable = false, isLayout2Disable = false
+    if (config.layout == 'normal') isLayout2Disable = true
+    else if (config.layout == 'xlarge') isLayout1Disable = true
 
     return(
       <React.Fragment>
 
 <div className="col-12 col-sm-6 col-md-3 mb-2 mb-sm-3 drag-cell">
-<div className="cell">
+<div className={classNames("cell", config.layout)}>
 
   <div className="row">
   <div className="col-12 col-sm-12 mb-2 mb-sm-2">
@@ -539,7 +580,7 @@ class Cell extends React.Component {
         setStates={this.props.setStates}
         getStates={this.props.getStates}
       />
-      <input type="text" value="Delay(s)" onChange={this.handleChange} disabled={true} />
+      <input type="text" value="" onChange={this.handleChange} disabled={true} />
       <button className={classNames("btn btn-sm", cssStopLoss)} name="stoploss" type="button" onClick={this.handleClick} disabled={isStopLossDisable}>StopLoss</button>
     </div>
     
@@ -684,6 +725,18 @@ class Cell extends React.Component {
     <button className={classNames("btn btn-sm mb-1 mb-sm-1", cssStockAction2)} name="stock.action2" type="button" onClick={this.handleClick} disabled={isStockAction2Disable}> {capitalize(this.props.data.stock.action2) || 'Amend'} </button> <br />
     <button className={classNames("btn btn-sm mb-1 mb-sm-1", cssStockAction3)} name="stock.action3" type="button" onClick={this.handleClick} disabled={isStockAction3Disable}> {capitalize(this.props.data.stock.action3) || 'Mon&Amend'} </button> <br />
     <button className={classNames("btn btn-sm mb-1 mb-sm-1", cssStockAction4)} name="stock.action4" type="button" onClick={this.handleClick} disabled={isStockAction4Disable}>Force</button> <br />
+  </div>
+  </div>
+  
+  
+  <div className="row">
+  <div className="col-12 col-sm-12">
+  <div className="float-right">
+    <div className="btn-group">
+    <button type="button" name="subtract" className="btn btn-secondary" disabled={isLayout2Disable} onClick={this.handleLayout}> - </button>
+    <button type="button" name="add" className="btn btn-secondary" disabled={isLayout1Disable} onClick={this.handleLayout}> + </button>
+    </div>
+  </div>
   </div>
   </div>
 

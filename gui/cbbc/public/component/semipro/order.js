@@ -13,7 +13,11 @@ class Order extends React.Component {
         data2 = this.props.data2,
         isShowDataDefault = data.length==0 ? true : false,
         isShowData2Default = data2.length==0 ? true : false
-        
+    
+    var noShow = 30
+    if (data.length > noShow)
+      data = data.slice(Math.max(data.length - noShow, 0))
+    
     var rows = []
     for(var v of data) {
       if (v.side=='buy') var css='text-success'

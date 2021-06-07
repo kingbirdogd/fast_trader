@@ -1,39 +1,49 @@
 <html>
 <head>
   <title>Admin</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.js"></script>
-  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
-  <script src="/js/js-cookie.js"></script>
-  <script src="/js/websocket-io.js"></script>
-  <script src="/page/general.js"></script>
+  <script type="application/javascript" src="/js/jquery-3.3.1.slim.min.js"></script>
+  <script type="application/javascript" src="/js/bootstrap.min.js"></script>
+  <script type="application/javascript" src="/js/jquery.dataTables.min.js"></script>
+  <script type="application/javascript" src="/js/dataTables.bootstrap4.min.js"></script>
+  <script type="application/javascript" src="/js/js-cookie.js"></script>
+  <script type="application/javascript" src="/js/websocket-io.js"></script>
+  <script type="application/javascript" src="/page/general.js"></script>
   
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="/css/general.css">
   <style>
   .table th, .table td {
-    padding: .25rem .75rem;
-    font-size: 12px;
+    padding: .25rem .75rem; font-size: 12px;
   }
-  
   .textarea-msg, .btn-sm {
     font-size: 12px;
   }
-  
+  .btn-send, .btn-logout {
+    width: 60px;
+  }
+  #tb-users input {
+    width: 80px;
+    border: 0px solid #ccc !important;
+    background-color: rgba(0, 0, 0, 0);
+    padding: 2px 0px 0px 2px;
+  }
+  #tb-users td {
+    padding: 2px;
+  }
+  .dataTables_filter {
+    display: None;
+  }
   </style>
   <script>
   var ui = {};      // 组件
-  var global = {};  // 公共
   global.host = location.host;
   
   $(document).ready(function() {
     initUI();
     
-    ui.btnAdminLogout.click(function() {
-      window.location.href = "/admin";
-    });
+    ui.rowSocketTest.hide();
+    ui.rowSocketList.hide();
   
     // 1.0 data
     $.ajax({
@@ -51,10 +61,10 @@
               html += '<td>'+userId.toString()+'</td>';
               html += '<td>'+k.toString()+'</td>';
               html += '<td>'+v.toString()+'</td>';
-              html += '<td> <textarea class="form-control textarea-msg" id="'+taId+'" rows="2"></textarea> </td>';
+              html += '<td> <textarea class="form-control textarea-msg" id="'+taId+'" rows="1"></textarea> </td>';
               html += '<td>';
-              html += '<button data-user="'+userId.toString()+'" data-origin="'+k.toString()+'" data-msg="'+taId+'" class="btn btn-sm btn-primary btn-send">Send Message</button> <br />';
-              html += '<button data-user="'+userId.toString()+'" data-origin="'+k.toString()+'" data-msg="'+taId+'" class="btn btn-sm btn-danger btn-logout">Force Logout</button>';
+              html += '<button data-user="'+userId.toString()+'" data-origin="'+k.toString()+'" data-msg="'+taId+'" class="btn btn-sm btn-primary btn-send">Send</button>';
+              html += '<button data-user="'+userId.toString()+'" data-origin="'+k.toString()+'" data-msg="'+taId+'" class="btn btn-sm btn-danger btn-logout">Logout</button>';
               html += '</td>';
               html += '</tr>';
             }
@@ -70,19 +80,42 @@
         if (('users' in res) && Object.keys(res.users).length>0) {
           var html = '';
           for (const [name, val] of Object.entries(res.users)) {
+            global.colKeys = Object.keys(val);
             // 1.2.1 content
             html += '<tr>';
             html += '<td>'+name.toString()+'</td>';
             for (var [k, v] of Object.entries(val))
-              html += '<td>'+v+'</td>';
+              html += '<td><input type="text" value="'+v+'"></input></td>';
+            html += '<td><button class="btn btn-sm btn-secondary">Edit</button></td>';
             html += '</tr>';
             // 1.2.2 columns
-            var columns = Object.keys(val), columns2 = []
-            columns.unshift('name')
-            for (var v2 of columns) columns2.push({title: v2});
+            var columns = Object.keys(val), columns2 = [];
+            columns.unshift('name');
+            for (var v2 of columns) columns2.push({title: v2, orderDataType: 'dom-text', type: "numeric"});
           }
+          columns2.push({title: 'Action'});
+          // 1.2.3
           ui.tbUsers.children('tbody').html(html);
-          ui.tbUsers.DataTable({searching: false, paging: false, info: false, order: [[1, "asc"]], columns: columns2});
+          var columnDefs = [{targets: [1], visible: false,}, {targets: [2], visible: false,}];
+          global.dtUsers = ui.tbUsers.DataTable({searching: true, paging: false, info: false, order: [[0, "asc"]], columns: columns2, columnDefs: columnDefs});
+          // 1.2.4 apply filter
+          var group = null, role = null, uname = global.cookies['admin-uname'];
+          if (uname in res.users)
+            group = res.users[uname].userGroup, role = res.users[uname].userRole
+          if (role==2)
+            global.dtUsers.search('').draw();
+          else if (role==1)
+            global.dtUsers.columns(7).search(group).draw();
+          else if (role==0)
+            global.dtUsers.columns(0).search(group).draw();
+          // 1.2.5
+          if (role==2) {
+            ui.rowSocketTest.show();
+            ui.rowSocketList.show();
+          }
+          else if (role==0) {
+            global.func.logout();
+          }
         }
         else if (!('users' in res) || Object.keys(res.users).length==0) {
           var html = '<tr><td colspan="5">No Users</td></tr>'
@@ -93,8 +126,24 @@
       complete: function() {
         initUI();
         handleSend();
+        handleClick();
       }
     });
+    
+    // 1.5
+    function handleClick() {
+      ui.tbUsers.children('tbody').on('click', 'button', function (e) {
+        // var data = global.dtUsers.row($(this).parents('tr')).data();
+        var that = $(this).parents('tr'),
+            data = {};
+        for (var i in global.colKeys) {
+          var k = parseInt(i)+1;
+          data[global.colKeys[i]] = that.find("td:eq("+k+") input").val();
+        }
+        data.name = that.find("td:eq(0)").html();
+        console.log(data);
+      });
+    }
     
     // 1.4 handle socket
     function handleSend() {
@@ -149,13 +198,14 @@
   });
   
   function initUI() {
-    ui.btnAdminLogout = $('#btn-admin-logout');
     ui.tbConns = $('#tb-conns');
     ui.tbUsers = $('#tb-users');
     ui.btnSend = $('.btn-send');
     ui.btnLogout = $('.btn-logout');
     ui.btnSocket = $('#btnSocket');
     ui.tvSocket = $('#tvSocket');
+    ui.rowSocketTest = $('#row-socket-test');
+    ui.rowSocketList = $('#row-socket-list');
   }
   </script>
 </head>
@@ -177,8 +227,8 @@
 
     <ul class="navbar-nav ml-auto">
     <li class="nav-item">
-      <form class="form-inline mb-0 mb-sm-0">
-        <button id="btn-admin-logout" class="btn btn-sm btn-outline-success" type="button">Logout</button>
+      <form id="btn-logout-admin" action="admin-logout" method="POST" class="form-inline mb-0 mb-sm-0">
+        <button class="btn btn-sm btn-outline-success" type="submit">Logout</button>
       </form>
     </li>
     </ul>
@@ -189,7 +239,23 @@
 
 <div class="container">
 
+
 <div class="row mb-4 mb-sm-4">
+<div class="col-12 col-sm-12">
+  <h6> Users </h6>
+  <table class="table table-striped" id="tb-users" style="width:100%">
+  <thead>
+    <tr>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+  </table>
+</div>
+</div>
+
+
+<div class="row mb-4 mb-sm-4" id="row-socket-list">
 <div class="col-12 col-sm-12">
   <h6> WS Socket </h6>
   <table class="table table-striped" id="tb-conns">
@@ -208,30 +274,14 @@
 </div>
 </div>
 
-
-<div class="row mb-4 mb-sm-4">
-<div class="col-12 col-sm-12">
-  <h6> Users </h6>
-  <table class="table table-striped" id="tb-users">
-  <thead>
-    <tr>
-    </tr>
-  </thead>
-  <tbody>
-  </tbody>
-  </table>
-</div>
-</div>
-
-
-<div class="row">
+<div class="row mb-4 mb-sm-4" id="row-socket-test">
 <div class="col-12 col-sm-12">
   <h6> Test Socket </h6>
   <form action="javascript:void(0);">
   <div class="form-group">
-  <textarea class="form-control textarea-msg" id="tvSocket" rows="3"></textarea>
+  <textarea class="form-control textarea-msg" id="tvSocket" rows="3">{"cmd":"get_warrent_underlying", "code": 15217, "algo_name":"leo_admin", "ref": "u000_1"}</textarea>
   </div>
-  <button class="btn btn-sm btn-primary" id="btnSocket">Submit</button>
+  <button class="btn btn-sm btn-secondary" id="btnSocket">Submit</button>
   </form>
 </div>
 </div>

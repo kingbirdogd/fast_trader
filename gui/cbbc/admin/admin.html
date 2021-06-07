@@ -1,9 +1,9 @@
 <html>
 <head>
   <title>Admin</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"/>
+  <script type="application/javascript" src="/js/jquery-3.3.1.slim.min.js"></script>
+  <script type="application/javascript" src="/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
   <style>
     form, #tvResult {padding: 10px; border: 1px solid #cfcfcf; background-color: #f9f9f9; font-size: 12px;}
     form .form-group {margin-bottom: 10px;}
@@ -18,7 +18,7 @@
     initUI();
     ui.tvErrorMsg.hide();
     
-    ui.btnSubmit.click(function() {
+    /*ui.btnSubmit.click(function() {
       if (ui.tvAc.val() == 'fast_trader' && ui.tvPw.val() == '123a') {
         window.location.href = "/admin-panel";
       }
@@ -26,13 +26,13 @@
         ui.tvErrorMsg.text("Wrong name or password!");
         ui.tvErrorMsg.show();
       }
-    });
+    });*/
   });
   
   function initUI() {
     ui.formLogin = $('#formLogin');
-    ui.tvAc = $('input[name="ac"]');
-    ui.tvPw = $('input[name="pw"]');
+    ui.tvAc = $('input[name="user_name"]');
+    ui.tvPw = $('input[name="password"]');
     ui.btnSubmit = $('#btnSubmit');
     ui.tvErrorMsg = $('#tvErrorMsg');
   }
@@ -44,20 +44,20 @@
 <div class="row">
 <div class="col-12 mt-4">
   <h6> Login </h6>
-  <form id="formLogin">
+  <form id="formLogin" action="./admin-login" method="post">
     <div class="form-group row">
-      <label for="name" class="col-sm-2 col-form-label col-form-label-sm">Name</label>
+      <label for="user_name" class="col-sm-2 col-form-label col-form-label-sm">Name</label>
       <div class="col-sm-10">
-        <input type="text" name="ac" class="form-control form-control-sm" value="">
+        <input type="text" name="user_name" class="form-control form-control-sm" value="">
       </div>
     </div>
     <div class="form-group row">
-      <label for="pw" class="col-sm-2 col-form-label col-form-label-sm">Password</label>
+      <label for="password" class="col-sm-2 col-form-label col-form-label-sm">Password</label>
       <div class="col-sm-10">
-        <input type="text" name="pw" class="form-control form-control-sm" value="">
+        <input type="text" name="password" class="form-control form-control-sm" value="">
       </div>
     </div>
-    <button type="button" id="btnSubmit" class="btn btn-sm btn-primary">Submit</button>
+    <button type="submit" id="btnSubmit" class="btn btn-sm btn-primary">Submit</button>
   </form>
   <div id="tvErrorMsg" class="alert alert-danger" role="alert"></div>
 </div>

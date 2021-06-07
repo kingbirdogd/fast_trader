@@ -16,6 +16,9 @@ $(document).ready(function() {
     
     'semipro-lang': Cookies.get('semipro-lang'),
     'semipro-uname': Cookies.get('semipro-uname'),
+    
+    'admin-lang': Cookies.get('admin-lang'),
+    'admin-uname': Cookies.get('admin-uname'),
   }
   global.ui = {
     'navbar-a1': $("#navbar-nav-a1"),
@@ -29,6 +32,7 @@ $(document).ready(function() {
     'btn-logout-csalgo': $("#btn-logout-csalgo"),
     'btn-logout-s1algoput': $("#btn-logout-s1algoput"),
     'btn-logout-semipro': $("#btn-logout-semipro"),
+    'btn-logout-admin': $("#btn-logout-admin"),
     
     'navber-personal-info': $('.nav-personal-info'),
   };
@@ -45,6 +49,8 @@ $(document).ready(function() {
       global.ui['btn-logout-s1algoput'].submit();
     else if (href.includes('semipro'))
       global.ui['btn-logout-semipro'].submit();
+    else if (href.includes('admin'))
+      global.ui['btn-logout-admin'].submit();
   }
   
   initNavbar();

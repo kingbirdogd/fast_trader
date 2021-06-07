@@ -49,6 +49,9 @@ class Ticket extends React.Component {
           xTrack: undefined,
           tick: undefined,
         },
+        config: {
+          layout: 'normal',
+        }
       }
     }
     
@@ -91,6 +94,8 @@ class Ticket extends React.Component {
         else if (data.msg_type == 'semipro_algo_odr_msg') {obj = this.setOdr(obj, data)}
         else if (data.msg_type == 'semipro_algo_odr_position') {obj = this.setPosition(obj, data)}
         else if (data.msg_type == 'algo_getprofit_msg') {obj = this.setProfit(obj, data)}
+        else if (data.msg_type == 'semi_algo_cancel') {obj = this.setCancel(obj, data)}
+        else if (data.msg_type == 'semi_algo_limit_sell') {obj = this.setLimitSet(obj, data)}
       }
       
       else if ('ref' in data) {
@@ -133,7 +138,7 @@ class Ticket extends React.Component {
       var command = {cmd: 'get', id: userId, algo_name: algoName, ref: setNo(i)}
       sendWebsocket(JSON.stringify(command))
     }
-    var command1 = {cmd: "order_list", id: userId, algo_name: algoName, max_display: 30, ref: 'orders'}
+    var command1 = {cmd: "order_list", id: userId, algo_name: algoName, max_display: 9999, ref: 'orders'}
     sendWebsocket(JSON.stringify(command1))
     var command2 = {cmd: 'getprofit', id: userId, algo_name: algoName, ref: 'getprofit'}
     sendWebsocket(JSON.stringify(command2))
@@ -306,6 +311,9 @@ class Ticket extends React.Component {
       // 報價
       var command = {cmd: 'get_warrant_detail', code: wntCode, algo_name: obj.modules.call, id: obj.userId, no: no}
       sendWebsocket(JSON.stringify(command))
+      
+      // 顯示格數
+      if (no+1 > obj.noCell.cur) obj.noCell.cur = no+1
     }
     return obj
   }
@@ -325,17 +333,13 @@ class Ticket extends React.Component {
       if (data.pair.auto_buy == true) obj.cells[no].wnt.buy.status = 'open'
       if (data.pair.auto_sell == true) obj.cells[no].wnt.sell.status = 'open'
     }
+    else if (data.result.toLowerCase() == "can't change action while buying / selling") {
+      obj.cells[no].stock.action1  = 'fail'
+      obj.cells[no].wnt.msg.unshift(getTime()+' '+data.result.toLowerCase())
+    }
     else {
       obj.cells[no].stock.action1  = 'fail'
       obj.cells[no].wnt.msg.unshift(getTime()+' Fail to start algo.')
-    }
-    return obj
-  }
-  
-  setForceSell(obj, data) {
-    var no = getNo(data.ref)
-    if ('result' in data && data.result.toLowerCase().includes('fail')) {
-      obj.cells[no].wnt.msg.unshift(getTime()+' Fail to force sell.')
     }
     return obj
   }
@@ -356,6 +360,10 @@ class Ticket extends React.Component {
           obj.cells[no].stock.action2 = undefined
           obj.cells[no].stock.action3 = undefined
         }
+        // 買盤
+        else if (parseFloat(data.position) > 0) {
+          obj.cells[no].wnt.buy.status = 'close'
+        }
       }
     }
     var userId = obj.userId
@@ -364,7 +372,7 @@ class Ticket extends React.Component {
     var command1 = {cmd: 'position', id: userId, algo_name: algoName, ref: 'position'}
     sendWebsocket(JSON.stringify(command1))
     // 單
-    var command2 = {cmd: "order_list", id: userId, algo_name: algoName, max_display: 30, ref: 'orders'}
+    var command2 = {cmd: "order_list", id: userId, algo_name: algoName, max_display: 9999, ref: 'orders'}
     sendWebsocket(JSON.stringify(command2))
     // 利潤
     var command3 = {cmd: 'getprofit', id: userId, algo_name: algoName, ref: 'getprofit'}
@@ -398,7 +406,7 @@ class Ticket extends React.Component {
           buyturnover: formatPrice(p.buyturnover),
           buyvolume: formatPrice(p.buyvolume),
           code: p.code,
-          profit: formatPrice(p.profit),
+          profit: parseFloat(p.profit)/1000000,
           sellturnover: formatPrice(p.sellturnover),
           sellvolume:  formatPrice(p.sellvolume)
         })
@@ -434,6 +442,19 @@ class Ticket extends React.Component {
           orderRef: parseFloat(order.order_ref),
         })
       }
+      
+      //
+      for (var order1 of obj.orders) {
+        if (order1.status == 'queued') {
+          for (var i in obj.cells) {
+            if (order1.code == obj.cells[i].wnt.code.code) {
+              obj.cells[i].wnt.stopLoss.price = order1.price
+              obj.cells[i].wnt.stopLoss.status = 'start'
+              obj.cells[i].stock.action1 = 'start'
+            }
+          }
+        }
+      }
     }
     return obj
   }
@@ -442,6 +463,45 @@ class Ticket extends React.Component {
     var no = getNo(data.ref)
     if ('result' in data && data.result.toLowerCase() == 'success') {
       obj.cells[no].stock.action4 = undefined
+    }
+    return obj
+  }
+  
+  setForceSell(obj, data) {
+    var no = getNo(data.ref)
+    if ('result' in data && data.result.toLowerCase().includes('fail')) {
+      obj.cells[no].wnt.msg.unshift(getTime()+' Fail to force sell.')
+    }
+    else if ('result' in data && data.result.toLowerCase() == 'success') {
+      obj.cells[no].stock.action4 = undefined
+    }
+    return obj
+  }
+  
+  setLimitSet(obj, data) {
+    var no = getNo(data.ref)
+    if ('result' in data && data.result.toLowerCase().includes('fail')) {
+      obj.cells[no].stock.action1  = 'fail'
+      obj.cells[no].wnt.stopLoss.status  = 'stop'
+      obj.cells[no].wnt.msg.unshift(getTime()+' Fail to place a Limited Sell Order.')
+    }
+    else if ('result' in data && data.result.toLowerCase().includes('success')) {
+      obj.cells[no].stock.action1  = 'start'
+      obj.cells[no].wnt.stopLoss.status  = 'start'
+    }
+    return obj
+  }
+  
+  setCancel(obj, data) {
+    var no = getNo(data.ref)
+    if ('result' in data && data.result.toLowerCase() == 'fail') {
+      obj.cells[no].stock.action1  = 'fail'
+      obj.cells[no].wnt.stopLoss.status  = 'stop'
+      obj.cells[no].wnt.msg.unshift(getTime()+' Fail to cancel a Limited Sell Order.')
+    }
+    else if ('result' in data && data.result.toLowerCase() == 'success') {
+      obj.cells[no].stock.action1  = 'stop'
+      obj.cells[no].wnt.stopLoss.status  = 'stop'
     }
     return obj
   }

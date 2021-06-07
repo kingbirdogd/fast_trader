@@ -139,6 +139,9 @@ class Position extends React.Component {
     var no = 0
     for (const [code, d] of Object.entries(this.state.position)) {
       var style = (d.pnl==0) ? '' : (d.pnl>0) ? 'font-up' : 'font-down'
+      var idx = no
+      if (code in this.props.data3)
+        idx = this.props.data3[code]
       rows.push(
         <tr key={'position_'+no}>
           <td>{len-no}</td>
@@ -153,7 +156,7 @@ class Position extends React.Component {
           <td>
             <button
               name={code}
-              data-no={no}
+              data-no={idx}
               type="button"
               className="btn btn-sm btn-secondary"
               onClick={this.handleForceSell}>
