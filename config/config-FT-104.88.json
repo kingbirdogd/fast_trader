@@ -62,13 +62,6 @@
 					"params":
 					{
 					}
-				},
-				"leo_s1algoput":
-				{
-					"lib": "s1algoput",
-					"params":
-					{
-					}
 				}
 			}
 		},
@@ -109,17 +102,24 @@
 			}
 		},
 		{
-			"ID":6,
+			"ID":15,
 			"IP":"192.168.104.88",
 			"PORT":35101,
-			"USER":"P315448",
-			"PASS":"Ww202012?><88",
+			"USER":"P990098",
+			"PASS":"pass",
 			"BUY_POWER":5000000,
 			"ALGOS":
 			{
-				"M315448_semi":
+				"demo002_semi":
 				{
 					"lib": "semi",
+					"params":
+					{
+					}
+				},
+				"demo002_semipro":
+				{
+					"lib": "semipro",
 					"params":
 					{
 					}
