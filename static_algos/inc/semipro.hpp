@@ -457,10 +457,6 @@ private:
 				{
 					return sell_result::NOTHING_TO_SELL;
 				}
-				else if (_is_selling)
-				{
-					return sell_result::SELLING;
-				}
 				else if (quantity > _position)
 				{
 					return sell_result::SHORT_SELL;
