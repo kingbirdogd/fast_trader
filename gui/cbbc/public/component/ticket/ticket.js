@@ -51,7 +51,8 @@ class Ticket extends React.Component {
         },
         config: {
           layout: 'normal',
-        }
+        },
+        updatePrice: {isUpdate1: false, isUpdate2: false},
       }
     }
     
@@ -96,6 +97,7 @@ class Ticket extends React.Component {
         else if (data.msg_type == 'algo_getprofit_msg') {obj = this.setProfit(obj, data)}
         else if (data.msg_type == 'semi_algo_cancel') {obj = this.setCancel(obj, data)}
         else if (data.msg_type == 'semi_algo_limit_sell') {obj = this.setLimitSet(obj, data)}
+        else if (data.msg_type == 'semi_algo_limit_modify') {obj = this.setLimitModify(obj, data)}
       }
       
       else if ('ref' in data) {
@@ -209,7 +211,10 @@ class Ticket extends React.Component {
         position = formatInputUnit(obj.positions[data.code], true)
 
       // 輪 輸入框
-      if (typeof status1 == 'undefined' || status1 == 'nTrack' || status1 == 'aTrack') {
+      var isUpdate1 = obj.cells[data.no].updatePrice.isUpdate1
+      var isUpdate2 = obj.cells[data.no].updatePrice.isUpdate2
+      
+      if ((typeof status1 == 'undefined' || status1 == 'nTrack' || status1 == 'aTrack') && (isUpdate1 == false && isUpdate2 == false)) {
         if (position<=0) {
           obj.cells[data.no].wnt.buy.price = formatPrice2(data.warrant_price.m_Ask.m_iPrice)
         }
@@ -227,16 +232,16 @@ class Ticket extends React.Component {
       }
       
       // 正股 輸入框
-      if (typeof status1 == 'undefined' || status1 == 'xTrack' || status1 == 'aTrack') {
+      if ((typeof status1 == 'undefined' || status1 == 'xTrack' || status1 == 'aTrack') && (isUpdate1 == false && isUpdate2 == false)) {
         if (data.CallPut.toLowerCase() == 'p') {
-          if (position<=0) {
+          if (position<=0 || obj.cells[data.no].stock.status4 == 'open') {
             obj.cells[data.no].stock.buy.price = formatPrice2(data.underlying_price.m_Bid.m_iPrice)
           }
           obj.cells[data.no].stock.sell.price = formatPrice2(data.underlying_price.m_Ask.m_iPrice)
         }
         else if (data.CallPut.toLowerCase() == 'c') {
           obj.cells[data.no].stock.sell.price = formatPrice2(data.underlying_price.m_Bid.m_iPrice)
-          if (position<=0) {
+          if (position<=0 || obj.cells[data.no].stock.status4 == 'open') {
             obj.cells[data.no].stock.buy.price = formatPrice2(data.underlying_price.m_Ask.m_iPrice)
           }
         }
@@ -257,6 +262,9 @@ class Ticket extends React.Component {
         obj.cells[data.no].stock.aTrack = undefined
       if (obj.cells[data.no].stock.xTrack == 'start')
         obj.cells[data.no].stock.xTrack = undefined
+      if (obj.cells[data.no].updatePrice.isUpdate1 == true)
+        obj.cells[data.no].updatePrice.isUpdate1 = false
+        
       
       obj.cells[data.no].wnt.code.status1 = 'complete'
       return obj
@@ -484,6 +492,20 @@ class Ticket extends React.Component {
       obj.cells[no].stock.action1  = 'fail'
       obj.cells[no].wnt.stopLoss.status  = 'stop'
       obj.cells[no].wnt.msg.unshift(getTime()+' Fail to place a Limited Sell Order.')
+    }
+    else if ('result' in data && data.result.toLowerCase().includes('success')) {
+      obj.cells[no].stock.action1  = 'start'
+      obj.cells[no].wnt.stopLoss.status  = 'start'
+    }
+    return obj
+  }
+  
+  setLimitModify(obj, data) {
+    var no = getNo(data.ref)
+    if ('result' in data && data.result.toLowerCase().includes('fail')) {
+      obj.cells[no].stock.action1  = 'fail'
+      obj.cells[no].wnt.stopLoss.status  = 'stop'
+      obj.cells[no].wnt.msg.unshift(getTime()+' Fail to modify a Limited Sell Order.')
     }
     else if ('result' in data && data.result.toLowerCase().includes('success')) {
       obj.cells[no].stock.action1  = 'start'

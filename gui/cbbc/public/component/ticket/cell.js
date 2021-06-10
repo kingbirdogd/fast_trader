@@ -32,6 +32,27 @@ class Cell extends React.Component {
       }
     }
     
+    // 2.0
+    var intUpdatePrice = null
+    if (name == 'updatePrice2') {
+      if (obj.updatePrice.isUpdate2 == true)
+        obj.updatePrice.isUpdate2 = false
+      else if (obj.updatePrice.isUpdate2 == false) {
+        /*obj.wnt.code.status1 = 'aTrack'
+        obj.updatePrice.isUpdate2 = true
+        intUpdatePrice = setInterval(() => {
+          // 2.1
+          if (obj.updatePrice.isUpdate2 == false)
+            clearInterval(intUpdatePrice)
+          // 2.2
+          var command = {cmd: 'get_warrant_detail', code: parseInt(val), algo_name: algoName, id: userId, no: no}
+          sendWebsocket(JSON.stringify(command))
+          states.cells[no] = obj
+          this.props.setStates({states: obj})
+        }, 3000);*/
+      }
+    }
+    
     states.cells[no] = obj
     this.props.setStates({states: obj})
   }
@@ -236,11 +257,7 @@ class Cell extends React.Component {
         obj.stock.action3 = 'start'
       else {
         obj.stock.action3 = undefined
-        //
-        if (position<=0)
-          command1.action = 'AUTO'
-        else if(position>0)
-          command1.action = 'SELL'
+        var command1 = {cmd: 'limit_modify', price: stoploss, quantity: position, id: userId, algo_name: algoName, ref: setNo(no)}
         sendWebsocket(JSON.stringify(command1))
       }
     }
@@ -300,6 +317,15 @@ class Cell extends React.Component {
         sendWebsocket(JSON.stringify(command1))
         obj = initStatus(obj)
       }
+    }
+    
+    // 8.0
+    if (name == 'updatePrice1') {
+      obj.wnt.code.status1 = 'aTrack'
+      obj.stock.aTrack = 'start'
+      obj.updatePrice.isUpdate1 = true
+      var command = {cmd: 'get_warrant_detail', code: parseInt(code), algo_name: algoName, id: userId, no: no}
+      sendWebsocket(JSON.stringify(command))
     }
     
     states.cells[no] = obj
@@ -446,18 +472,17 @@ class Cell extends React.Component {
     else if (stock.action1 == 'fail') cssStockAction1 = 'btn-danger'
     
     if (stock.action1 == 'start' && (wnt.sell.status == 'open' || wnt.buy.status == 'open'))
-      isStockAction2Disable = false, isStockAction3Disable = false
+      isStockAction2Disable = false
+    
+    if (stock.action1 == 'start' && wnt.stopLoss.status == 'start')
+      isStockAction3Disable = false
     
     if (stock.action1 == 'start' && (wnt.buy.status == 'open' || wnt.sell.status == 'open'))
       isStockAction4Disable = false
     
     if (stock.action2 == 'start') cssStockAction2 = 'btn-success', isStockAction2Disable = false
-    if (stock.action3 == 'start') cssStockAction3 = 'btn-success', isStockAction3Disable = true
+    if (stock.action3 == 'start') cssStockAction3 = 'btn-success', isStockAction3Disable = false
     if (stock.action4 == 'start') cssStockAction4 = 'btn-success', isStockAction4Disable = true
-    
-    // 暫時沒用
-    cssStockAction3 = 'btn-secondary'
-    isStockAction3Disable = true
     
     // 12.0 止蝕
     var isStopLossDisable = isDisable, isStopLossDisable2 = isDisable, cssStopLoss = 'btn-secondary'
@@ -731,12 +756,22 @@ class Cell extends React.Component {
   
   <div className="row">
   <div className="col-12 col-sm-12">
+  
+  <div className="d-flex d-block float-left">
+    <button type="button" name="updatePrice1" className="btn btn-secondary" onClick={this.handleClick} disabled={isDisable}> Update </button>
+    {false && <div className="form-check">
+      <input className="form-check-input" type="checkbox" name="updatePrice2" value={wnt.code.code || ''} id="updatePrice2" checked={this.props.data.updatePrice.isUpdate2} onChange={this.handleChange} disabled={isDisable}></input>
+      <label className="form-check-label" className="updatePrice2">3s</label>
+    </div>}
+  </div>
+  
   <div className="float-right">
     <div className="btn-group">
     <button type="button" name="subtract" className="btn btn-secondary" disabled={isLayout2Disable} onClick={this.handleLayout}> - </button>
     <button type="button" name="add" className="btn btn-secondary" disabled={isLayout1Disable} onClick={this.handleLayout}> + </button>
     </div>
   </div>
+  
   </div>
   </div>
 
