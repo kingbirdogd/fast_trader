@@ -773,10 +773,11 @@ private:
 			//unsigned long long _max_sell_trriger;
 			//unsigned long long _max_sell_price;
 
-			if(_max_sell_trriger > 0 &&
-					_max_sell_price > 0 &&
-					_min_sell_trriger > 0 &&
-					_min_sell_price > 0){
+//			if(_max_sell_trriger > 0 &&
+//					_max_sell_price > 0 &&
+//					_min_sell_trriger > 0 &&
+//					_min_sell_price > 0){
+
 				auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
 
 				if(best_bid_price > _sell_price){
@@ -799,6 +800,11 @@ private:
 					}
 					if(_is_bull){
 						if(uprice > 0 && uprice > _sell_trriger){
+
+
+							_algo->Log("Code = " + to_string(_warrant_code) + " BULL Raise Stoplost Uprice from " + to_string(_sell_trriger) + " to " + to_string(uprice));
+							_algo->Log("Code = " + to_string(_warrant_code) + " BULL Raise Stoplost Wprice from " + to_string(_sell_price) + " to " + to_string(best_bid_price));
+
 							_sell_trriger = uprice;
 							_sell_price = best_bid_price;
 
@@ -813,10 +819,17 @@ private:
 							msg->wbid = _sell_price;
 							ouputQueue.enqueue(msg);
 
+
+
+
 							return;
 						}
 					}else{
 						if(uprice > 0 && uprice < _sell_trriger){
+
+							_algo->Log("Code = " + to_string(_warrant_code) + " BEAR Raise Stoplost Uprice from " + to_string(_sell_trriger) + " to " + to_string(uprice));
+							_algo->Log("Code = " + to_string(_warrant_code) + " BEAR Raise Stoplost Wprice from " + to_string(_sell_price) + " to " + to_string(best_bid_price));
+
 							_sell_trriger = uprice;
 							_sell_price = best_bid_price;
 
@@ -834,7 +847,10 @@ private:
 						}
 					}
 				}
-/*
+
+
+
+				/*
 				if(best_bid_price < _sell_price &&  best_bid_price > _min_sell_price){
 					unsigned long long uprice = 0;
 					auto it = stockWarrantomdcMap.find(_underlying_code);
@@ -865,7 +881,9 @@ private:
 					_sell_price = _min_sell_price;
 				}
 */
-			}
+
+
+		//}
 
 			/*
 

@@ -83,6 +83,9 @@ and reboot
  node set_user.js user_name=demo001 password=12345678  
  
  
+  #192.168.104.88
+ node set_user.js user_name=demo002 password=12345678  
+ 
   		
   		
   David Task
@@ -252,5 +255,49 @@ HTS票式
 http://192.168.14.88:9919
 
 
+
+
+
+
+
+
+請看以下資料：
+https://www.forticlient.com/downloads
+http://pejslin.blogspot.com/2017/01/forticlient-vpn.html
+
+1. 配置 VPN
+
+2. SSL-VPN
+連接名：自訂 (e.g. DBPower VPN)
+描述：自訂可省略
+遠程網關：securessl.dbpower.com.hk
+勾選自訂一端口：443
+認證：自訂登入方式
+按應用鍵
+
+3. 輸入密碼 → 連接
+用戶: GWP011
+密碼:gAKasEc3!U4a
+按連接鍵
+請使用version 6.0
+
+
+
+
+系統開放測試時間: 09:00 - 16:30
+
+網頁瀏覽器:
+Chrome , Firefox
+
+
+HTS Login
+
+用戶: demo002
+密碼: 12345678
+
+http://192.168.104.88:9919
+
+hts : 票式
+hts classic : 表式
 
   
