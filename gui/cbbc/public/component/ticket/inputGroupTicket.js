@@ -17,12 +17,19 @@ class InputGroupTicket extends React.Component {
     var {name, no, key, states, userId, algoName} = that.initData(that, event)
     
     var command1 = that.props.initInputData(obj, no, userId, algoName, 'set', obj.wnt.stopLoss.status).command
-    if (obj.stock.action2 == 'start' || obj.stock.action3 == 'start') {
-      // command1.action = 'NOCHANGE'
-      // sendWebsocket(JSON.stringify(command1))
-    }
-    else if (obj.stock.action1 == 'start' || obj.stock.action1 == 'stop') {
-      if (obj.wnt.sell.status == 'open' || obj.wnt.buy.status == 'open') {
+    if (obj.stock.action1 == 'start' || obj.stock.action1 == 'stop') {
+      if (obj.stock.action2 == 'start') {
+        
+      }
+      else if (obj.stock.action3 == 'start') {
+        command1.action = 'SELL'
+        command1.min_sell_price = formatLongV2(obj.wnt.sell.price)
+        command1.max_sell_price = formatLongV2(obj.wnt.sell.max)
+        command1.min_sell_trriger = formatLongV2(obj.stock.sell.price)
+        command1.max_sell_trriger = formatLongV2(obj.stock.sell.max)
+        sendWebsocket(JSON.stringify(command1))
+      }
+      else if (obj.wnt.sell.status == 'open' || obj.wnt.buy.status == 'open') {
         command1.action = 'STOP'
         sendWebsocket(JSON.stringify(command1))
       }
@@ -37,7 +44,7 @@ class InputGroupTicket extends React.Component {
     var {name, val, no, key, states, obj} = this.initData(this, event)
     
     // 1.0 檢查
-    if (key.includes('price') || key.includes('ratio'))
+    if (key.includes('price') || key.includes('ratio') || key.includes('max'))
       val = val.replace(/[^0-9\.]/g, '')
     else if (key.includes('qty'))
       val = formatInput2(val)
@@ -76,11 +83,11 @@ class InputGroupTicket extends React.Component {
     }
     
     // 3.0 價
-    else if (key.includes('price') && name == 'add') {
+    else if ((key.includes('price') || key.includes('max')) && name == 'add') {
       val += priceSpread
       val = parseFloat(parseFloat(val).toFixed(3))
     }
-    else if (key.includes('price') && name == 'subtract') {
+    else if ((key.includes('price') || key.includes('max')) && name == 'subtract') {
       if (val-priceSpread > 0) val-=priceSpread
       val = parseFloat(parseFloat(val).toFixed(3))
     }
@@ -134,6 +141,10 @@ class InputGroupTicket extends React.Component {
       obj.wnt.buy.qty = val
     else if (k == 'wnt.sell.price')
       obj.wnt.sell.price = val
+    else if (k == 'wnt.sell.max')
+      obj.wnt.sell.max = val
+    else if (k == 'wnt.sell.min')
+      obj.wnt.sell.min = val
     else if (k == 'wnt.sell.qty')
       obj.wnt.sell.qty = val
     else if (k == 'wnt.stopLoss.price')
@@ -147,6 +158,10 @@ class InputGroupTicket extends React.Component {
       obj.stock.buy.ratio = val
     else if (k == 'stock.sell.price')
       obj.stock.sell.price = val
+    else if (k == 'stock.sell.min')
+      obj.stock.sell.min = val
+    else if (k == 'stock.sell.max')
+      obj.stock.sell.max = val
     else if (k == 'stock.sell.qty')
       obj.stock.sell.qty = val
     else if (k== 'stock.sell.ratio')

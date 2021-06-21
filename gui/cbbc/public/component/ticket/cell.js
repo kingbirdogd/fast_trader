@@ -58,7 +58,7 @@ class Cell extends React.Component {
   }
   
   // 输入框
-  initInputData(obj, no, userId, algoName, cmd=null, isUseStoploss=null) {
+  initInputData(obj, no, userId, algoName, cmd, isUseStoploss) {
     var wnt = $.extend(true, {}, obj.wnt),
         stock = $.extend(true, {}, obj.stock),
         data = {}
@@ -66,6 +66,8 @@ class Cell extends React.Component {
     data.code = parseInt(wnt.code.code)
     data.buy_price = formatLongV2(wnt.buy.price)
     data.sell_price = formatLongV2(wnt.sell.price)
+    data.max_sell_price = formatLongV2(wnt.sell.max)
+    data.min_sell_price = formatLongV2(wnt.sell.min)
     data.buy_qty = formatLongV2(formatInputUnit(wnt.buy.qty, true))
     data.stoploss = formatLongV2(wnt.stopLoss.price)
     if (wnt.position) {
@@ -81,6 +83,8 @@ class Cell extends React.Component {
     data.ucode = parseInt(stock.code.code)
     data.buy_trriger = formatLongV2(stock.buy.price)
     data.sell_trriger = formatLongV2(stock.sell.price)
+    data.max_sell_trriger = formatLongV2(stock.sell.max)
+    data.min_sell_trriger = formatLongV2(stock.sell.min)
     data.early_buy_qty = formatLongV2(formatInputUnit(stock.buy.qty, true))
     data.early_sell_qty = formatLongV2(formatInputUnit(stock.sell.qty, true))
     data.ratio_buy = formatLongV2(stock.buy.ratio)
@@ -96,8 +100,8 @@ class Cell extends React.Component {
     else if (cmd=='set') {
       data.command = 
       {cmd: "set", type: "bull", warrant_code: data.code, underlying_code: data.ucode, 
-      buy_trriger: data.buy_trriger, sell_trriger: data.sell_trriger, 
-      buy_price: data.buy_price, sell_price: data.sell_price, 
+      buy_trriger: data.buy_trriger, sell_trriger: data.sell_trriger, max_sell_trriger: data.max_sell_trriger, min_sell_trriger: data.min_sell_trriger,
+      buy_price: data.buy_price, sell_price: data.sell_price,  max_sell_price: data.max_sell_price, min_sell_price: data.min_sell_price,
       bottom_price: data.bottom_price, ceiling_price: data.ceiling_price,
       auto_buy_quantity: data.buy_qty, 
       early_buy_qty: data.early_buy_qty, early_sell_qty: data.early_sell_qty, 
@@ -252,13 +256,37 @@ class Cell extends React.Component {
         sendWebsocket(JSON.stringify(command1))
       }
     }
-    else if (name=='stock.action3' && stock.action1 && stock.action1=='start' && position>0 && wnt.stopLoss.status=='start') {
-      if (!stock.action3)
+    else if (name=='stock.action3' && stock.action1 && stock.action1=='start' && wnt.sell.status == 'open' && position > 0) {
+      if (!stock.action3) {
         obj.stock.action3 = 'start'
+        command1.action = 'NOCHANGE'
+        sendWebsocket(JSON.stringify(command1))
+        
+        obj.wnt.sell.max = wnt.sell.price
+        obj.wnt.sell.min = wnt.sell.price
+        obj.stock.sell.max = stock.sell.price
+        obj.stock.sell.min = stock.sell.price
+      }
       else {
         obj.stock.action3 = undefined
-        var command1 = {cmd: 'limit_modify', price: stoploss, quantity: position, id: userId, algo_name: algoName, ref: setNo(no)}
+        //
+        command1.max_sell_price = 0
+        command1.min_sell_price = 0
+        command1.max_sell_trriger = 0
+        command1.min_sell_trriger = 0
+        //
+        if (wnt.sell.status == 'open' && wnt.buy.status == 'open')
+          command1.action = 'AUTO'
+        else if (wnt.buy.status == 'open')
+          command1.action = 'BUY'
+        else if (wnt.sell.status == 'open')
+          command1.action = 'SELL'
         sendWebsocket(JSON.stringify(command1))
+        
+        obj.wnt.sell.max = undefined
+        obj.wnt.sell.min = undefined
+        obj.stock.sell.max = undefined
+        obj.stock.sell.min = undefined
       }
     }
     
@@ -458,6 +486,11 @@ class Cell extends React.Component {
     else if (stock.status4 == 'open')
       isShowRatio = true
     
+    // 10.2 
+    var isShowSell = true
+    if (stock.action3 == 'start')
+      isShowSell = false
+    
     // 11.0 操作
     var cssStockAction1 = 'btn-secondary', cssStockAction2 = 'btn-secondary', cssStockAction3 = 'btn-secondary', cssStockAction4 = 'btn-secondary',
         isStockAction1Disable = true, isStockAction2Disable = true, isStockAction3Disable = true, isStockAction4Disable = true
@@ -471,17 +504,14 @@ class Cell extends React.Component {
     else if (stock.action1 == 'stop') cssStockAction1 = 'btn-secondary'
     else if (stock.action1 == 'fail') cssStockAction1 = 'btn-danger'
     
-    if (stock.action1 == 'start' && (wnt.sell.status == 'open' || wnt.buy.status == 'open'))
-      isStockAction2Disable = false
+    if (stock.action1 == 'start' && (wnt.buy.status == 'open' || wnt.sell.status == 'open'))
+      isStockAction2Disable = false, isStockAction4Disable = false
     
-    if (stock.action1 == 'start' && wnt.stopLoss.status == 'start')
+    if (stock.action1 == 'start' && wnt.sell.status == 'open' && parseInt(wnt.position) > 0)
       isStockAction3Disable = false
     
-    if (stock.action1 == 'start' && (wnt.buy.status == 'open' || wnt.sell.status == 'open'))
-      isStockAction4Disable = false
-    
-    if (stock.action2 == 'start') cssStockAction2 = 'btn-success', isStockAction2Disable = false
-    if (stock.action3 == 'start') cssStockAction3 = 'btn-success', isStockAction3Disable = false
+    if (stock.action2 == 'start') cssStockAction2 = 'btn-success', isStockAction2Disable = false, cssStockAction3 = 'btn-secondary', isStockAction3Disable = true, cssStockAction4 = 'btn-secondary', isStockAction4Disable = true
+    if (stock.action3 == 'start') cssStockAction3 = 'btn-success', isStockAction3Disable = false, cssStockAction2 = 'btn-secondary', isStockAction2Disable = true, cssStockAction4 = 'btn-secondary', isStockAction4Disable = true
     if (stock.action4 == 'start') cssStockAction4 = 'btn-success', isStockAction4Disable = true
     
     // 12.0 止蝕
@@ -571,6 +601,7 @@ class Cell extends React.Component {
     </div>
     
     <div className="col-12 col-sm-12 pl-0 pl-sm-0 pr-0 pr-sm-0 d-flex">
+      {isShowSell &&
       <InputGroupTicket
         key={"wnt.sell.price"}
         no={this.props.no}
@@ -580,7 +611,18 @@ class Cell extends React.Component {
         initInputData={this.initInputData}
         setStates={this.props.setStates}
         getStates={this.props.getStates}
-      />
+      />}
+      {!isShowSell &&
+      <InputGroupTicket
+        key={"wnt.sell.max"}
+        no={this.props.no}
+        data1={wnt.sell.max}
+        data2={isDisable}
+        lang={this.props.lang}
+        initInputData={this.initInputData}
+        setStates={this.props.setStates}
+        getStates={this.props.getStates}
+      />}
       <InputGroupTicket
         key={"wnt.sell.qty"}
         no={this.props.no}
@@ -707,6 +749,7 @@ class Cell extends React.Component {
     </div>
     
     <div className="d-flex d-block">
+      {isShowSell &&
       <InputGroupTicket
         key={"stock.sell.price"}
         no={this.props.no}
@@ -716,7 +759,18 @@ class Cell extends React.Component {
         initInputData={this.initInputData}
         setStates={this.props.setStates}
         getStates={this.props.getStates}
-      />
+      />}
+      {!isShowSell &&
+      <InputGroupTicket
+        key={"stock.sell.max"}
+        no={this.props.no}
+        data1={stock.sell.max}
+        data2={isDisable}
+        lang={this.props.lang}
+        initInputData={this.initInputData}
+        setStates={this.props.setStates}
+        getStates={this.props.getStates}
+      />}
       
       {isShowQty &&
       <InputGroupTicket
