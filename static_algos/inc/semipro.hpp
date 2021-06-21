@@ -805,7 +805,7 @@ private:
 
 							auto msg = algo_stoplost_msg_pool.get_obj();
 							msg->al = _algo;
-							msg->algo_name = _name;
+							msg->algo_name = _algo->_name;
 							msg->id = _algo->_u.get_id();
 							msg->ref = _ref;
 							msg->code = _warrant_code;
@@ -822,7 +822,7 @@ private:
 
 							auto msg = algo_stoplost_msg_pool.get_obj();
 							msg->al = _algo;
-							msg->algo_name = _name;
+							msg->algo_name = _algo->_name;
 							msg->id = _algo->_u.get_id();
 							msg->ref = _ref;
 							msg->code = _warrant_code;
