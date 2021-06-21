@@ -24,7 +24,7 @@ void semipro::on_omdc_book(const Tradable& tradable)
 	{
 		for (const auto& p : it->second)
 		{
-			if (p->auto_sell())
+			if (p->auto_sell() && p->position() > 0)
 			{
 					p->on_book(tradable);
 			}
@@ -595,6 +595,10 @@ algo_msg_base* semipro::json_to_msg(json& json)
 			p._sell_trriger = json["sell_trriger"].get<unsigned long long>();
 			p._buy_price = json["buy_price"].get<unsigned long long>();
 			p._sell_price = json["sell_price"].get<unsigned long long>();
+			p._min_sell_trriger = json["min_sell_trriger"].get<unsigned long long>();
+			p._min_sell_price = json["min_sell_price"].get<unsigned long long>();
+			p._max_sell_trriger = json["max_sell_trriger"].get<unsigned long long>();
+			p._max_sell_price = json["max_sell_price"].get<unsigned long long>();
 			p._bottom_price = json["bottom_price"].get<unsigned long long>();
 			p._ceiling_price = json["ceiling_price"].get<unsigned long long>();
 			p._auto_buy_quantity = json["auto_buy_quantity"].get<unsigned long long>();
@@ -823,4 +827,5 @@ rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_force_sell, 8192> semipro
 rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_limit_sell, 8192> semipro::algo_limit_sell_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_limit_modify, 8192> semipro::algo_limit_modify_pool;
 rapid_ring::spsc_ring_buffer_object_pool<semipro::algo_getprofit_msg, 8192> semipro::algo_getprofit_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<semipro::algo_stoplost_msg, 8192> semipro::algo_stoplost_msg_pool;
 

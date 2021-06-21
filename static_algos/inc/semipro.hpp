@@ -30,6 +30,12 @@ private:
 		unsigned long long _sell_trriger;
 		unsigned long long _buy_price;
 		unsigned long long _sell_price;
+
+		unsigned long long _min_sell_trriger;
+		unsigned long long _min_sell_price;
+		unsigned long long _max_sell_trriger;
+		unsigned long long _max_sell_price;
+
 		unsigned long long _bottom_price;
 		unsigned long long _ceiling_price;
 		unsigned long long _auto_buy_quantity;
@@ -85,6 +91,10 @@ private:
 			_sell_trriger(0),
 			_buy_price(0),
 			_sell_price(0),
+			_min_sell_trriger(0),
+			_min_sell_price(0),
+			_max_sell_trriger(0),
+			_max_sell_price(0),
 			_bottom_price(0),
 			_ceiling_price(0),
 			_auto_buy_quantity(0),
@@ -121,6 +131,10 @@ private:
 			unsigned long long sell_trriger,
 			unsigned long long buy_price,
 			unsigned long long sell_price,
+			unsigned long long min_sell_trriger,
+			unsigned long long min_sell_price,
+			unsigned long long max_sell_trriger,
+			unsigned long long max_sell_price,
 			unsigned long long bottom_price,
 			unsigned long long ceiling_price,
 			unsigned long long auto_buy_quantity,
@@ -144,6 +158,10 @@ private:
 			_sell_trriger(sell_trriger),
 			_buy_price(buy_price),
 			_sell_price(sell_price),
+			_min_sell_trriger(min_sell_trriger),
+			_min_sell_price(min_sell_price),
+			_max_sell_trriger(max_sell_trriger),
+			_max_sell_price(max_sell_price),
 			_bottom_price(bottom_price),
 			_ceiling_price(ceiling_price),
 			_auto_buy_quantity(auto_buy_quantity),
@@ -182,6 +200,10 @@ private:
 			j["sell_price"] = _sell_price;
 			j["bottom_price"] = _bottom_price;
 			j["ceiling_price"] = _ceiling_price;
+			j["min_sell_trriger"] = _min_sell_trriger;
+			j["min_sell_price"] = _min_sell_price;
+			j["max_sell_trriger"] = _max_sell_trriger;
+			j["max_sell_price"] = _max_sell_price;
 			j["auto_buy_quantity"] = _auto_buy_quantity;
 			j["position"] = _position;
 			j["auto_buy_id"] = _auto_buy_id;
@@ -743,8 +765,107 @@ private:
 			}
 		}
 		//void on_book(const Tradable& tradable)
-		void on_book(const Tradable& )
+		void on_book(const Tradable& tradable)
 		{
+
+			//unsigned long long _min_sell_trriger;
+			//unsigned long long _min_sell_price;
+			//unsigned long long _max_sell_trriger;
+			//unsigned long long _max_sell_price;
+
+			if(_max_sell_trriger > 0 &&
+					_max_sell_price > 0 &&
+					_min_sell_trriger > 0 &&
+					_min_sell_price > 0){
+				auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
+
+				if(best_bid_price > _sell_price){
+					unsigned long long uprice = 0;
+					auto it = stockWarrantomdcMap.find(_underlying_code);
+					if (stockWarrantomdcMap.end() != it)
+					{
+						auto& tradable = it->second;
+						if(_is_bull){
+							if (0 != tradable.m_Bid[0].m_iPrice)
+							{
+								uprice = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
+							}
+						}else{
+							if (0 != tradable.m_Ask[0].m_iPrice)
+							{
+								uprice = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
+							}
+						}
+					}
+					if(_is_bull){
+						if(uprice > 0 && uprice > _sell_trriger){
+							_sell_trriger = uprice;
+							_sell_price = best_bid_price;
+
+
+							auto msg = algo_stoplost_msg_pool.get_obj();
+							msg->al = _algo;
+							msg->algo_name = _name;
+							msg->id = _algo->_u.get_id();
+							msg->ref = _ref;
+							msg->code = _warrant_code;
+							msg->stoplost = _sell_trriger;
+							msg->wbid = _sell_price;
+							ouputQueue.enqueue(msg);
+
+							return;
+						}
+					}else{
+						if(uprice > 0 && uprice < _sell_trriger){
+							_sell_trriger = uprice;
+							_sell_price = best_bid_price;
+
+							auto msg = algo_stoplost_msg_pool.get_obj();
+							msg->al = _algo;
+							msg->algo_name = _name;
+							msg->id = _algo->_u.get_id();
+							msg->ref = _ref;
+							msg->code = _warrant_code;
+							msg->stoplost = _sell_trriger;
+							msg->wbid = _sell_price;
+							ouputQueue.enqueue(msg);
+
+							return;
+						}
+					}
+				}
+/*
+				if(best_bid_price < _sell_price &&  best_bid_price > _min_sell_price){
+					unsigned long long uprice = 0;
+					auto it = stockWarrantomdcMap.find(_underlying_code);
+					if (stockWarrantomdcMap.end() != it)
+					{
+						auto& tradable = it->second;
+						if(_is_bull){
+							if (0 != tradable.m_Bid[0].m_iPrice)
+							{
+								uprice = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
+							}
+						}else{
+							if (0 != tradable.m_Ask[0].m_iPrice)
+							{
+								uprice = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
+							}
+						}
+					}
+					if(uprice > 0 && uprice < _sell_trriger){
+						_sell_trriger = uprice;
+						_sell_price = best_bid_price;
+						return;
+					}
+				}
+
+				if(best_bid_price == _min_sell_price){
+					_sell_trriger = _min_sell_trriger;
+					_sell_price = _min_sell_price;
+				}
+*/
+			}
 
 			/*
 
@@ -1551,6 +1672,35 @@ private:
 		}
 		virtual ~algo_limit_sell() = default;
 	};
+	struct algo_stoplost_msg: public algo_msg_base
+	{
+		unsigned int code;
+		unsigned long long stoplost;
+		unsigned long long wbid;
+
+		algo_stoplost_msg():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["action"] = "stoplost";
+			j["code"] = code;
+			j["stoplost"] = stoplost;
+			j["wbid"] = wbid;
+			return j;
+		}
+		virtual void on_command()
+		{
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_stoplost_msg_pool.release_obj(this);
+		}
+		virtual ~algo_stoplost_msg() = default;
+	};
 	struct algo_limit_modify: public algo_msg_base
 	{
 		pair* p;
@@ -1634,6 +1784,7 @@ public:
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_limit_sell, 8192> algo_limit_sell_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_limit_modify, 8192> algo_limit_modify_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_getprofit_msg, 8192> algo_getprofit_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_stoplost_msg, 8192> algo_stoplost_msg_pool;
 };
 
 
