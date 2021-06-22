@@ -13,7 +13,7 @@ class Ticket extends React.Component {
     this.state.orders = []
     this.state.positions = {}
     this.state.setting = {}
-    
+    this.state.render = undefined
     this.state.instance = () => {
       return {
         wnt: {
@@ -85,6 +85,7 @@ class Ticket extends React.Component {
       else if ('action' in data) {
         if (data.action=='connect_reject') {this.connectReject(data)}
         else if (data.action == 'exception' && data.msg_type == 'semipro_algo_err_msg') {obj = this.setError(obj, data)}
+        else if (data.action == 'stoplost') {obj = this.setStoploss(obj, data)}
       }
       
       else if ('msg_type' in data) {
@@ -107,7 +108,7 @@ class Ticket extends React.Component {
       else if ('type' in data) {
         if (data.type=='recovery_end') {obj = this.setRecoveryEnd(obj, data)}
       }
-      
+      this.state.render = render
       this.setState(obj)
     }
     initWebsocket(render)
@@ -280,6 +281,12 @@ class Ticket extends React.Component {
       obj.cells[no].stock.code.code = parseInt(data.pair.underlying_code)
       obj.cells[no].stock.buy.price = formatLong(data.pair.buy_trriger)
       obj.cells[no].stock.sell.price = formatLong(data.pair.sell_trriger)
+      
+      if (data.pair.max_sell_trriger > 0 && data.pair.min_sell_trriger > 0) {
+        obj.cells[no].stock.sell.price = formatLong(data.pair.max_sell_trriger)
+        obj.cells[no].stock.sell.max = formatLong(data.pair.max_sell_trriger)
+        obj.cells[no].stock.sell.min = formatLong(data.pair.min_sell_trriger)
+      }
 
       obj.cells[no].stock.buy.qty = formatInputUnit(formatLong(data.pair.early_buy_qty), false)
       obj.cells[no].stock.sell.qty = formatInputUnit(formatLong(data.pair.early_sell_qty), false)
@@ -294,6 +301,12 @@ class Ticket extends React.Component {
       obj.cells[no].wnt.buy.price = formatLong(data.pair.buy_price)
       obj.cells[no].wnt.sell.price = formatLong(data.pair.sell_price)
       
+      if (data.pair.max_sell_price > 0 && data.pair.min_sell_price > 0) {
+        obj.cells[no].wnt.sell.price = formatLong(data.pair.max_sell_price)
+        obj.cells[no].wnt.sell.max = formatLong(data.pair.max_sell_price)
+        obj.cells[no].wnt.sell.min = formatLong(data.pair.min_sell_price)
+      }
+      
       if (formatLong(data.pair.bottom_price)<=0.001 || formatLong(data.pair.position)==0)
         obj.cells[no].wnt.stopLoss.price = formatLong(data.pair.buy_price)
       else {
@@ -307,8 +320,11 @@ class Ticket extends React.Component {
       // 操作
       if (data.no_change == true)
         var a=1
-      else if (data.pair.auto_buy == true || data.pair.auto_sell == true)
+      else if (data.pair.auto_buy == true || data.pair.auto_sell == true) {
         obj.cells[no].stock.action1  = 'start'
+        if (data.pair.max_sell_price > 0 && data.pair.min_sell_price > 0)
+          obj.cells[no].stock.action3  = 'start'
+      }
       else
         obj.cells[no].stock.action1  = 'stop'
       
@@ -524,6 +540,17 @@ class Ticket extends React.Component {
     else if ('result' in data && data.result.toLowerCase() == 'success') {
       obj.cells[no].stock.action1  = 'stop'
       obj.cells[no].wnt.stopLoss.status  = 'stop'
+    }
+    return obj
+  }
+  
+  setStoploss(obj, data) {
+    var no = getNo(data.ref)
+    if ('stoplost' in data && 'wbid' in data) {
+      obj.cells[no].stock.sell.max = formatLong(data.stoplost)
+      obj.cells[no].stock.sell.price = formatLong(data.stoplost)
+      obj.cells[no].wnt.sell.max = formatLong(data.wbid)
+      obj.cells[no].wnt.sell.price = formatLong(data.wbid)
     }
     return obj
   }
