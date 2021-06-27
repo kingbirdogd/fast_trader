@@ -1024,6 +1024,7 @@ private:
 							_position -= odr.filled_quantity;
 							if(odr.filled_quantity == odr.quantity){
 								_auto_sell = false;
+								_auto_buy = false;
 							}
 							_last_trigger_price = _sell_trriger;
 							//_last_price = odr.match_price;

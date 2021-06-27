@@ -143,6 +143,7 @@ std::string semipro::set_pair(pair&& p, bool no_change)
 		{
 			if (it->second.is_buying())
 			{
+
 				return "can't change code while Buying";
 			}
 			else if (it->second.is_selling())
