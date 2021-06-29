@@ -464,7 +464,18 @@ class Ticket extends React.Component {
           matchPrice: formatLong(order.match_price),
           brokerId: parseFloat(order.broker_id),
           orderRef: parseFloat(order.order_ref),
+          reject: (order.reject_reason == '') ? '-' : order.reject_reason
         })
+        
+        //
+        if (!order.reject_reason == '') {
+          for (var i in obj.cells) {
+            if (obj.cells[i].wnt.code.code == order.code) {
+              obj.cells[i].wnt.msg.push(getTime()+' '+order.reject_reason)
+              obj.cells[i].stock.action1 = 'fail'
+            }
+          }
+        }
       }
       
       //
