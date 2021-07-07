@@ -24,7 +24,7 @@ void semipro::on_omdc_book(const Tradable& tradable)
 	{
 		for (const auto& p : it->second)
 		{
-			if (p->auto_sell() && p->position() > 0)
+			if (!p->auto_buy() && p->auto_sell() && p->position() > 0)
 			{
 					p->on_book(tradable);
 			}
