@@ -329,11 +329,31 @@ inline void decode()
 					auto it2 = stockWarrantomdcMap.find(code);
 					if(it2 != stockWarrantomdcMap.end()){
 						j["warrant_price"] = it2->second.to_simple_json();
+
+						unsigned long long wbid = it2->second.m_Bid[0].m_iPrice;
+						unsigned long long wask = it2->second.m_Ask[0].m_iPrice;
+
+						unsigned long long buyin = 0;
+						unsigned long long sellout = 0;
+
+						auto itpm = pricemarkMap.find(code);
+						if(itpm != pricemarkMap.end()){
+							PriceMark* spm = itpm->second;
+							buyin = spm->buyIn(wask);
+							sellout = spm->sellOut(wbid);
+						}
+
+						nlohmann::json jpm;
+						jpm["buyin"] = buyin;
+						jpm["sellout"] = sellout;
+
+						j["pricemark"] = jpm;
 					}
 					auto itu = stockWarrantomdcMap.find(underlying);
 					if(itu != stockWarrantomdcMap.end()){
 						j["underlying_price"] = itu->second.to_simple_json();
 					}
+
 				}
 				j["underlying"] = underlying;
 				j["CallPut"] = cptype;

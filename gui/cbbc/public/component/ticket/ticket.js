@@ -155,7 +155,7 @@ class Ticket extends React.Component {
     if ('error' in data && 'code' in data && 'no' in data) {
       obj.cells[data.no].wnt.code.status = 'error'
       var time = moment(data.tm).format("hh:mm:ss")
-      obj.cells[data.no].wnt.msg.unshift(time+' '+data.error)
+      obj.cells[data.no].wnt.msg[0] = time+' '+data.error
       return obj
     }
     else if ('code' in data && 'CallPut' in data && 'underlying' in data && 'underlying_price' in data && 'warrant_price' in data) {
@@ -348,29 +348,37 @@ class Ticket extends React.Component {
       // 操作
       if (data.no_change == true)
         var a=1
-      else if (data.pair.auto_buy == true || data.pair.auto_sell == true)
+      else if (data.pair.auto_buy == true || data.pair.auto_sell == true) {
         obj.cells[no].stock.action1  = 'start'
+        
+        if (data.pair.auto_buy == true && data.pair.auto_sell == true)
+          obj.cells[no].wnt.msg[0] = getTime()+' Auto start'
+        else if (data.pair.auto_buy == true)
+          obj.cells[no].wnt.msg[0] = getTime()+' Buy start'
+        else if (data.pair.auto_sell == true)
+          obj.cells[no].wnt.msg[0] = getTime()+' Sell start'
+      }
       else
-        obj.cells[no].stock.action1  = 'stop'
+        obj.cells[no].stock.action1  = 'stop', obj.cells[no].wnt.msg[0] = getTime()+' Stop'
       
       // 買賣
       if (data.pair.auto_buy == true) obj.cells[no].wnt.buy.status = 'open'
       if (data.pair.auto_sell == true) obj.cells[no].wnt.sell.status = 'open'
     }
-    else if (data.result.toLowerCase() == "can't change action while buying / selling") {
+    else if (data.result.toLowerCase() == "can't change action while buying / selling.") {
       obj.cells[no].stock.action1  = 'fail'
-      obj.cells[no].wnt.msg.unshift(getTime()+' '+data.result.toLowerCase())
+      obj.cells[no].wnt.msg[0] = getTime()+' '+data.result.toLowerCase()
     }
     else {
       obj.cells[no].stock.action1  = 'fail'
-      obj.cells[no].wnt.msg.unshift(getTime()+' Fail to start algo.')
+      obj.cells[no].wnt.msg[0] = getTime()+' Fail to start algo.'
     }
     return obj
   }
   
   setOdr(obj, data) {
     var no = getNo(data.ref)
-    if ('auto_buy' in data && 'auto_sell' in data && 'status' in data && 'position' in data) {
+    if ('auto_buy' in data && 'auto_sell' in data && 'status' in data && 'position' in data && 'side' in data) {
       if (data.auto_buy == false && data.auto_sell == false && data.status.toLowerCase() == 'filled') {
         obj.cells[no].stock.action1 = 'stop'
         
@@ -389,6 +397,14 @@ class Ticket extends React.Component {
           obj.cells[no].wnt.buy.status = 'close'
         }
       }
+      
+      if (data.status.toLowerCase() == 'filled')
+        obj.cells[no].wnt.position = formatInputUnit(formatLong(data.position), false)
+
+      if (data.status.toLowerCase() == 'filled' && data.side.toLowerCase() == 'buy')
+        obj.cells[no].wnt.msg[0] = getTime()+' Order Bought', obj.cells[no].wnt.buy.status = 'close'
+      else if (data.status.toLowerCase() == 'filled' && data.side.toLowerCase() == 'sell')
+        obj.cells[no].wnt.msg[0] = getTime()+' Order Sold', obj.cells[no].wnt.sell.status = 'close'
     }
     var userId = obj.userId
     var algoName = obj.modules.call
@@ -410,8 +426,8 @@ class Ticket extends React.Component {
       for (const [k, v] of Object.entries(data.position)) {
         //
         for(var k1 in obj.cells) {
-          if(obj.cells[k1].wnt.code.code == k)
-            obj.cells[k1].wnt.position = formatInputUnit(formatLong(v), false)
+          if(obj.cells[k1].wnt.code.code == k){}
+            //obj.cells[k1].wnt.position = formatInputUnit(formatLong(v), false)
         }
         // 
         obj.positions[k] = formatInputUnit(formatLong(v), false)
@@ -427,11 +443,11 @@ class Ticket extends React.Component {
         obj.portfolio.push({
           averagebuy: formatPrice(p.averagebuy),
           averagesell: formatPrice(p.averagesell),
-          buyturnover: formatPrice(p.buyturnover),
+          buyturnover: parseFloat(p.buyturnover)/1000000,
           buyvolume: formatPrice(p.buyvolume),
           code: p.code,
           profit: parseFloat(p.profit)/1000000,
-          sellturnover: formatPrice(p.sellturnover),
+          sellturnover: parseFloat(p.sellturnover)/1000000,
           sellvolume:  formatPrice(p.sellvolume)
         })
       }
@@ -443,7 +459,7 @@ class Ticket extends React.Component {
     var no = getNo(data.ref)
     if ('error' in data && data.error) {
       obj.cells[no].stock.action1 = 'fail'
-      obj.cells[no].wnt.msg.push(getTime()+' '+data.error)
+      obj.cells[no].wnt.msg[0] = getTime()+' '+data.error
     }
     return obj
   }
@@ -471,8 +487,8 @@ class Ticket extends React.Component {
         if (!order.reject_reason == '') {
           for (var i in obj.cells) {
             if (obj.cells[i].wnt.code.code == order.code) {
-              obj.cells[i].wnt.msg.push(getTime()+' '+order.reject_reason)
-              obj.cells[i].stock.action1 = 'fail'
+              obj.cells[i].wnt.msg[0] = getTime()+' '+order.reject_reason
+              // obj.cells[i].stock.action1 = 'fail'
             }
           }
         }
@@ -496,8 +512,12 @@ class Ticket extends React.Component {
   
   setForceBuy(obj, data) {
     var no = getNo(data.ref)
+    if ('result' in data && data.result.toLowerCase().includes('fail')) {
+      obj.cells[no].wnt.msg[0] = getTime()+' Fail to force buy.'
+    }
     if ('result' in data && data.result.toLowerCase() == 'success') {
       obj.cells[no].stock.action4 = undefined
+      obj.cells[no].wnt.msg[0] = getTime()+' Force buy'
     }
     return obj
   }
@@ -505,10 +525,11 @@ class Ticket extends React.Component {
   setForceSell(obj, data) {
     var no = getNo(data.ref)
     if ('result' in data && data.result.toLowerCase().includes('fail')) {
-      obj.cells[no].wnt.msg.unshift(getTime()+' Fail to force sell.')
+      obj.cells[no].wnt.msg[0] = getTime()+' Fail to force sell.'
     }
     else if ('result' in data && data.result.toLowerCase() == 'success') {
       obj.cells[no].stock.action4 = undefined
+      obj.cells[no].wnt.msg[0] = getTime()+' Force sell'
     }
     return obj
   }
@@ -518,7 +539,7 @@ class Ticket extends React.Component {
     if ('result' in data && data.result.toLowerCase().includes('fail')) {
       obj.cells[no].stock.action1  = 'fail'
       obj.cells[no].wnt.stopLoss.status  = 'stop'
-      obj.cells[no].wnt.msg.unshift(getTime()+' Fail to place a Limited Sell Order.')
+      obj.cells[no].wnt.msg[0] = getTime()+' Fail to place a Limited Sell Order.'
     }
     else if ('result' in data && data.result.toLowerCase().includes('success')) {
       obj.cells[no].stock.action1  = 'start'
@@ -532,7 +553,7 @@ class Ticket extends React.Component {
     if ('result' in data && data.result.toLowerCase().includes('fail')) {
       obj.cells[no].stock.action1  = 'fail'
       obj.cells[no].wnt.stopLoss.status  = 'stop'
-      obj.cells[no].wnt.msg.unshift(getTime()+' Fail to modify a Limited Sell Order.')
+      obj.cells[no].wnt.msg[0] = getTime()+' Fail to modify a Limited Sell Order.'
     }
     else if ('result' in data && data.result.toLowerCase().includes('success')) {
       obj.cells[no].stock.action1  = 'start'
@@ -546,7 +567,7 @@ class Ticket extends React.Component {
     if ('result' in data && data.result.toLowerCase() == 'fail') {
       obj.cells[no].stock.action1  = 'fail'
       obj.cells[no].wnt.stopLoss.status  = 'stop'
-      obj.cells[no].wnt.msg.unshift(getTime()+' Fail to cancel a Limited Sell Order.')
+      obj.cells[no].wnt.msg[0] = getTime()+' Fail to cancel a Limited Sell Order.'
     }
     else if ('result' in data && data.result.toLowerCase() == 'success') {
       obj.cells[no].stock.action1  = 'stop'
@@ -562,6 +583,7 @@ class Ticket extends React.Component {
       obj.cells[no].stock.sell.price = formatLong(data.stoplost)
       obj.cells[no].wnt.sell.max = formatLong(data.wbid)
       obj.cells[no].wnt.sell.price = formatLong(data.wbid)
+      obj.cells[no].wnt.msg[0] = getTime()+' Stop Raise :'+formatLong(data.stoplost)
     }
     return obj
   }

@@ -67,6 +67,7 @@ class Cbbc extends React.Component {
     this.state.orders = orders
     this.state.positions = positions
     this.state.portfolios = portfolios
+    this.state.issuerList = getIssuer()
     this.state.idxCells = {}
   }
   
@@ -569,6 +570,13 @@ class Cbbc extends React.Component {
           <Status
             key="status"
             data={this.state.sizeReceiptData}
+            lang={this.props.lang}
+            setStates={this.setStates}
+            getStates={this.getStates}
+          />
+          <Recommender
+            key="recommender"
+            data={this.state.issuerList}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}

@@ -85,7 +85,8 @@
 
 #cbbc .table-portfolio,
 #cbbc .table-order,
-#cbbc .table-position {
+#cbbc .table-position,
+#cbbc .table-recommand {
   display: block;
   overflow-y: scroll;
   margin-bottom: 0.5rem;
@@ -97,11 +98,13 @@
 
 #cbbc .table-portfolio.table-sm td, #cbbc .table-portfolio.table-sm th,
 #cbbc .table-order.table-sm td, #cbbc .table-order.table-sm th,
-#cbbc .table-position.table-sm td, #cbbc .table-position.table-sm th {
+#cbbc .table-position.table-sm td, #cbbc .table-position.table-sm th,
+#cbbc .table-recommand.table-sm td, #cbbc .table-recommand.table-sm th {
   padding: .1rem;
 }
 
-#cbbc .table-position {
+#cbbc .table-position,
+#cbbc .table-recommand {
   height: 110px;
 }
 
@@ -216,4 +219,9 @@
   padding: 12px;
   border: 1px solid #e6e6e6;
   background-color: #f9f9f9;
+}
+
+#cbbc .form-recommend input,
+#cbbc .form-recommend .form-control{
+  font-size: 12px;
 }

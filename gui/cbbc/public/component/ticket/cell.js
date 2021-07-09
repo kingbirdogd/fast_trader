@@ -123,31 +123,31 @@ class Cell extends React.Component {
     // 2.0 前置檢查
     var isErrorWntBuy = false, isErrorWntSell = false, isErrorStockBuy = false, isErrorStockSell = false, isErrorStoploss = false
     if (!buy_price || buy_price==0)
-      isErrorWntBuy = true, obj.wnt.msg.unshift(getTime()+' Warrant buy price cannot be null or 0.')
+      isErrorWntBuy = true, obj.wnt.msg[0] = getTime()+' Warrant buy price cannot be null or 0.'
     else if (!buy_qty || buy_qty==0)
-      isErrorWntBuy = true, obj.wnt.msg.unshift(getTime()+' Warrant buy qty cannot be null or 0.')
+      isErrorWntBuy = true, obj.wnt.msg[0] = getTime()+' Warrant buy qty cannot be null or 0.'
     
     if (!sell_price || sell_price==0)
-      isErrorWntSell = true, obj.wnt.msg.unshift(getTime()+' Warrant sell price cannot be null or 0.')
+      isErrorWntSell = true, obj.wnt.msg[0] = getTime()+' Warrant sell price cannot be null or 0.'
     else if (!sell_qty || sell_qty==0)
-      isErrorWntSell = true, obj.wnt.msg.unshift(getTime()+' Warrant sell qty cannot be null or 0.')
+      isErrorWntSell = true, obj.wnt.msg[0] = getTime()+' Warrant sell qty cannot be null or 0.'
     
     if (!buy_trriger || buy_trriger==0)
-      isErrorStockBuy = true, obj.wnt.msg.unshift(getTime()+' Stock trigger buy price cannot be null or 0.')
+      isErrorStockBuy = true, obj.wnt.msg[0] = getTime()+' Stock trigger buy price cannot be null or 0.'
     else if (early_buy_qty<0)
-      isErrorStockBuy = true, obj.wnt.msg.unshift(getTime()+' Stock trigger buy qty cannot be lsee than 0.')
+      isErrorStockBuy = true, obj.wnt.msg[0] = getTime()+' Stock trigger buy qty cannot be lsee than 0.'
     else if (ratio_buy<0)
-      isErrorStockBuy = true, obj.wnt.msg.unshift(getTime()+' Stock trigger buy ratio cannot be less than 0.')
+      isErrorStockBuy = true, obj.wnt.msg[0] = getTime()+' Stock trigger buy ratio cannot be less than 0.'
     
     if (!sell_trriger || sell_trriger==0)
-      isErrorStockSell = true, obj.wnt.msg.unshift(getTime()+' Stock trigger sell price cannot be null or 0.')
+      isErrorStockSell = true, obj.wnt.msg[0] = getTime()+' Stock trigger sell price cannot be null or 0.'
     else if (early_sell_qty<0)
-      isErrorStockSell = true, obj.wnt.msg.unshift(getTime()+' Stock trigger sell qty cannot be lsee than 0.')
+      isErrorStockSell = true, obj.wnt.msg[0] = getTime()+' Stock trigger sell qty cannot be lsee than 0.'
     else if (ratio_sell<0)
-      isErrorStockSell = true, obj.wnt.msg.unshift(getTime()+' Stock trigger sell ratio cannot be lsee than 0.')
+      isErrorStockSell = true, obj.wnt.msg[0] = getTime()+' Stock trigger sell ratio cannot be lsee than 0.'
     
     if (!stoploss || stoploss==0)
-      isErrorStoploss = true, obj.wnt.msg.unshift(getTime()+' Warrant stoploss cannot be null or 0.')
+      isErrorStoploss = true, obj.wnt.msg[0] = getTime()+' Warrant stoploss cannot be null or 0.'
     
     // 3.0 初始化
     if (name == 'wntBuy' || name == 'wntSell' || name == 'pair' || name == 'stoploss' || name == 'stock.action4') {
@@ -174,9 +174,9 @@ class Cell extends React.Component {
     // 3.2 現價買入 / 賣出
     else if (name == 'stock.action4' && ((wnt.buy.status == 'open' && !isErrorWntBuy) || (wnt.sell.status == 'open' && !isErrorWntSell))) {
       obj.stock.action4 = 'start'
-      if (position<=0)
+      if ((position<=0) || (position>0 && wnt.buy.status=='open') || (position>0 && wnt.buy.status=='open' && wnt.sell.status=='open'))
         var command = {cmd: 'force_buy', quantity: buy_qty, id: userId, algo_name: algoName, ref: ref, price: buy_price}
-      else
+      else if (position>0)
         var command = {cmd: 'force_sell', quantity: sell_qty, id: userId, algo_name: algoName, ref: ref, price: sell_price}
       sendWebsocket(JSON.stringify(command))
       
@@ -187,7 +187,7 @@ class Cell extends React.Component {
     
     // 4.0 止蝕
     else if (name == 'stoploss' && !isErrorStoploss && position<=0) {
-      obj.wnt.msg.unshift(getTime()+' Cannot Stoploss. Do not have position.')
+      obj.wnt.msg[0] = getTime()+' Cannot Stoploss. Do not have position.'
     }
     else if (name == 'stoploss' && !isErrorStoploss && (!obj.wnt.stopLoss.status || obj.wnt.stopLoss.status=='stop')) {
       obj.wnt.sell.status = 'close'
@@ -204,13 +204,13 @@ class Cell extends React.Component {
       if (obj.wnt.buy.status == 'open' && obj.wnt.sell.status == 'open' && position <= 0)
         command1.action = 'AUTO'
       else if (obj.wnt.buy.status == 'open' && obj.wnt.sell.status == 'open' && position > 0)
-        command1.action = 'SELL'
+        command1.action = 'BUY'
       else if (obj.wnt.buy.status == 'open')
         command1.action = 'BUY'
       else if (obj.wnt.sell.status == 'open' && position > 0)
         command1.action = 'SELL'
       else if (obj.wnt.sell.status == 'open' && position <= 0)
-        command1.action = 'NOCHANGE', obj.wnt.msg.unshift(getTime()+' Cannot start algo. Do not have position.')
+        command1.action = 'NOCHANGE', obj.wnt.msg[0] = getTime()+' Cannot start algo. Do not have position.'
       return {'command1': command1, 'obj': obj}
     }
     
