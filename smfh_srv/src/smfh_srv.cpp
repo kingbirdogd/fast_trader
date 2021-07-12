@@ -330,8 +330,8 @@ inline void decode()
 					if(it2 != stockWarrantomdcMap.end()){
 						j["warrant_price"] = it2->second.to_simple_json();
 
-						unsigned long long wbid = it2->second.m_Bid[0].m_iPrice;
-						unsigned long long wask = it2->second.m_Ask[0].m_iPrice;
+						unsigned long long wbid = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;;
+						unsigned long long wask = static_cast<unsigned long long>(it2->second.m_Ask[0].m_iPrice) * 100000;;
 
 						unsigned long long buyin = 0;
 						unsigned long long sellout = 0;
