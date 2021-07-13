@@ -782,68 +782,139 @@ private:
 
 				if(best_bid_price > _sell_price){
 					unsigned long long uprice = 0;
-					auto it = stockWarrantomdcMap.find(_underlying_code);
-					if (stockWarrantomdcMap.end() != it)
-					{
-						auto& tradable = it->second;
+
+					if(_is_omdd){
+						auto it = omddMap.find(_underlying_code);
+						if (omddMap.end() != it)
+						{
+							auto& tradable = it->second;
+							if(_is_bull){
+								if (0 != tradable.m_Bid[0].m_iPrice)
+								{
+									uprice = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
+								}
+							}else{
+								if (0 != tradable.m_Ask[0].m_iPrice)
+								{
+									uprice = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
+								}
+							}
+						}
+
 						if(_is_bull){
-							if (0 != tradable.m_Bid[0].m_iPrice)
-							{
-								uprice = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
+							if(uprice > 0 && uprice > _sell_trriger){
+
+
+								_algo->Log("Code = " + to_string(_warrant_code) + " BULL Raise Stoplost Uprice from " + to_string(_sell_trriger) + " to " + to_string(uprice));
+								_algo->Log("Code = " + to_string(_warrant_code) + " BULL Raise Stoplost Wprice from " + to_string(_sell_price) + " to " + to_string(best_bid_price));
+
+								_sell_trriger = uprice;
+								_sell_price = best_bid_price;
+
+
+								auto msg = algo_stoplost_msg_pool.get_obj();
+								msg->al = _algo;
+								msg->algo_name = _algo->_name;
+								msg->id = _algo->_u.get_id();
+								msg->ref = _ref;
+								msg->code = _warrant_code;
+								msg->stoplost = _sell_trriger;
+								msg->wbid = _sell_price;
+								ouputQueue.enqueue(msg);
+
+
+
+
+								return;
 							}
 						}else{
-							if (0 != tradable.m_Ask[0].m_iPrice)
-							{
-								uprice = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
+							if(uprice > 0 && uprice < _sell_trriger){
+
+								_algo->Log("Code = " + to_string(_warrant_code) + " BEAR Raise Stoplost Uprice from " + to_string(_sell_trriger) + " to " + to_string(uprice));
+								_algo->Log("Code = " + to_string(_warrant_code) + " BEAR Raise Stoplost Wprice from " + to_string(_sell_price) + " to " + to_string(best_bid_price));
+
+								_sell_trriger = uprice;
+								_sell_price = best_bid_price;
+
+								auto msg = algo_stoplost_msg_pool.get_obj();
+								msg->al = _algo;
+								msg->algo_name = _algo->_name;
+								msg->id = _algo->_u.get_id();
+								msg->ref = _ref;
+								msg->code = _warrant_code;
+								msg->stoplost = _sell_trriger;
+								msg->wbid = _sell_price;
+								ouputQueue.enqueue(msg);
+
+								return;
 							}
 						}
-					}
-					if(_is_bull){
-						if(uprice > 0 && uprice > _sell_trriger){
 
 
-							_algo->Log("Code = " + to_string(_warrant_code) + " BULL Raise Stoplost Uprice from " + to_string(_sell_trriger) + " to " + to_string(uprice));
-							_algo->Log("Code = " + to_string(_warrant_code) + " BULL Raise Stoplost Wprice from " + to_string(_sell_price) + " to " + to_string(best_bid_price));
-
-							_sell_trriger = uprice;
-							_sell_price = best_bid_price;
-
-
-							auto msg = algo_stoplost_msg_pool.get_obj();
-							msg->al = _algo;
-							msg->algo_name = _algo->_name;
-							msg->id = _algo->_u.get_id();
-							msg->ref = _ref;
-							msg->code = _warrant_code;
-							msg->stoplost = _sell_trriger;
-							msg->wbid = _sell_price;
-							ouputQueue.enqueue(msg);
-
-
-
-
-							return;
-						}
 					}else{
-						if(uprice > 0 && uprice < _sell_trriger){
+						auto it = stockWarrantomdcMap.find(_underlying_code);
+						if (stockWarrantomdcMap.end() != it)
+						{
+							auto& tradable = it->second;
+							if(_is_bull){
+								if (0 != tradable.m_Bid[0].m_iPrice)
+								{
+									uprice = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
+								}
+							}else{
+								if (0 != tradable.m_Ask[0].m_iPrice)
+								{
+									uprice = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
+								}
+							}
+						}
+						if(_is_bull){
+							if(uprice > 0 && uprice > _sell_trriger){
 
-							_algo->Log("Code = " + to_string(_warrant_code) + " BEAR Raise Stoplost Uprice from " + to_string(_sell_trriger) + " to " + to_string(uprice));
-							_algo->Log("Code = " + to_string(_warrant_code) + " BEAR Raise Stoplost Wprice from " + to_string(_sell_price) + " to " + to_string(best_bid_price));
 
-							_sell_trriger = uprice;
-							_sell_price = best_bid_price;
+								_algo->Log("Code = " + to_string(_warrant_code) + " BULL Raise Stoplost Uprice from " + to_string(_sell_trriger) + " to " + to_string(uprice));
+								_algo->Log("Code = " + to_string(_warrant_code) + " BULL Raise Stoplost Wprice from " + to_string(_sell_price) + " to " + to_string(best_bid_price));
 
-							auto msg = algo_stoplost_msg_pool.get_obj();
-							msg->al = _algo;
-							msg->algo_name = _algo->_name;
-							msg->id = _algo->_u.get_id();
-							msg->ref = _ref;
-							msg->code = _warrant_code;
-							msg->stoplost = _sell_trriger;
-							msg->wbid = _sell_price;
-							ouputQueue.enqueue(msg);
+								_sell_trriger = uprice;
+								_sell_price = best_bid_price;
 
-							return;
+
+								auto msg = algo_stoplost_msg_pool.get_obj();
+								msg->al = _algo;
+								msg->algo_name = _algo->_name;
+								msg->id = _algo->_u.get_id();
+								msg->ref = _ref;
+								msg->code = _warrant_code;
+								msg->stoplost = _sell_trriger;
+								msg->wbid = _sell_price;
+								ouputQueue.enqueue(msg);
+
+
+
+
+								return;
+							}
+						}else{
+							if(uprice > 0 && uprice < _sell_trriger){
+
+								_algo->Log("Code = " + to_string(_warrant_code) + " BEAR Raise Stoplost Uprice from " + to_string(_sell_trriger) + " to " + to_string(uprice));
+								_algo->Log("Code = " + to_string(_warrant_code) + " BEAR Raise Stoplost Wprice from " + to_string(_sell_price) + " to " + to_string(best_bid_price));
+
+								_sell_trriger = uprice;
+								_sell_price = best_bid_price;
+
+								auto msg = algo_stoplost_msg_pool.get_obj();
+								msg->al = _algo;
+								msg->algo_name = _algo->_name;
+								msg->id = _algo->_u.get_id();
+								msg->ref = _ref;
+								msg->code = _warrant_code;
+								msg->stoplost = _sell_trriger;
+								msg->wbid = _sell_price;
+								ouputQueue.enqueue(msg);
+
+								return;
+							}
 						}
 					}
 				}

@@ -8,9 +8,10 @@ class Recommender extends React.Component {
   
   constructor(props) {
     super(props)
-    this.state = {underlying: 'HSI', issuer: 'VT', type: 'RC'}
+    this.state = {underlying: 'HSI', issuer: 'VT', type: 'RC', products: []}
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
+    this.handleSelect = this.handleSelect(this)
   }
   
   static getDerivedStateFromProps(props, state) {
@@ -31,16 +32,24 @@ class Recommender extends React.Component {
   }
   
   handleClick(event) {
-    var url = 'http://192.168.21.119:8080/realtime?action=spread&underlying='+this.state.underlying+'&issuer='+this.state.issuer+'&type='+this.state.type+'&sort=tt&spread=1&format=json'
-    var data = [{"Code":62605,"Type":"RP","Name":"VT#HSI RP2110O","Bid":0.106,"Ask":0.107,"BidIssuerSize":25150000,"AskIssuerSize":24850000,"Cratio":12500,"LotSize":10000,"Spread":0.001},{"Code":57164,"Type":"RP","Name":"VT#HSI RP2109C","Bid":0.188,"Ask":0.19,"BidIssuerSize":30000000,"AskIssuerSize":30000000,"Cratio":12500,"LotSize":10000,"Spread":0.001},{"Code":61217,"Type":"RP","Name":"VT#HSI RP2110L","Bid":0.117,"Ask":0.12,"BidIssuerSize":30000000,"AskIssuerSize":30000000,"Cratio":12500,"LotSize":10000,"Spread":0.001},{"Code":60405,"Type":"RP","Name":"VT#HSI RP2110F","Bid":0.174,"Ask":0.176,"BidIssuerSize":30000000,"AskIssuerSize":30000000,"Cratio":12500,"LotSize":10000,"Spread":0.001},{"Code":60765,"Type":"RP","Name":"VT#HSI RP2110I","Bid":0.163,"Ask":0.153,"BidIssuerSize":20040000,"AskIssuerSize":26300000,"Cratio":12500,"LotSize":10000,"Spread":0.001},{"Code":69051,"Type":"RP","Name":"VT#HSI RP2109T","Bid":0.213,"Ask":0.216,"BidIssuerSize":30000000,"AskIssuerSize":30000000,"Cratio":12500,"LotSize":10000,"Spread":0.001},{"Code":52559,"Type":"RP","Name":"VT#HSI RP2109J","Bid":0.192,"Ask":0.193,"BidIssuerSize":16000000,"AskIssuerSize":16000000,"Cratio":20000,"LotSize":10000,"Spread":0.001},{"Code":66143,"Type":"RP","Name":"VT#HSI RP2108N","Bid":0.25,"Ask":0.255,"BidIssuerSize":20000000,"AskIssuerSize":20000000,"Cratio":12500,"LotSize":10000,"Spread":0.001}]
+    async function getData(that) {
+      var url = 'https://chart.dbpower.com.hk/buysellchart/cbbc_router.php?action=spread&underlying='+that.state.underlying+'&issuer='+that.state.issuer+'&type='+that.state.type+'&sort=tt&spread=1&format=json'
+      var data = await $.ajax({url: "./cross-data", type: "post", data:{url: url}})
+      if (data != '')
+        that.setState({products: JSON.parse(data)})
+    }
+    getData(this)
+  }
+  
+  handleSelect(event) {
     
   }
   
   getText(lang) {
     var text = {
-      en: {bear: 'Bear', bull: 'Bull', submit: 'Submit', code: 'Code', type: 'Type', name: 'Name', bid: 'Bid', ask: 'Ask', bidIssuerSize: 'Bid Issuer Size',  askIssuerSize: 'Ask Issuer Size', cratio: 'Cratio'},
-      sc: {bear: '熊证', bull: '牛证', submit: '提交'},
-      tc: {bear: '熊證', bull: '牛證', submit: '提交'}
+      en: {bear: 'Bear', bull: 'Bull', submit: 'Submit', code: 'Code', type: 'Type', name: 'Name', bid: 'Bid', ask: 'Ask', bidIssuerSize: 'Bid Issuer Size',  askIssuerSize: 'Ask Issuer Size', spread: 'Spread', cratio: 'Cratio', select: 'Select', tickCount: 'Tick Count', lastTradeTime: 'Last Trade Time'},
+      sc: {bear: '熊证', bull: '牛证', submit: '提交', code: '编号', type: '种类', name: '名称', bid: '买入价', ask: '卖出价', bidIssuerSize: '买入量',  askIssuerSize: '卖出量', spread: '格数', cratio: '对冲值', select: '选择', tickCount: '小单/中单/大单', lastTradeTime: '最後交易时间'},
+      tc: {bear: '熊證', bull: '牛證', submit: '提交', code: '編號', type: '種類', name: '名稱', bid: '買入價', ask: '賣出價', bidIssuerSize: '買入量',  askIssuerSize: '賣出量', spread: '格數', cratio: '對沖值', select: '選擇', tickCount: '小單/中單/大單', lastTradeTime: '最後交易時間'},
     }
     return text[lang]
   }
@@ -54,6 +63,26 @@ class Recommender extends React.Component {
         <option value={k} key={'issuer_'+k}>
           {k} ({v[this.props.lang]})
         </option>)
+    }
+    
+    var productsHTML = []
+    for (var i in this.state.products) {
+      var p = this.state.products[i]
+      productsHTML.push(
+        <tr key={'product_'+i}>
+          <td>{p.Code}</td>
+          <td>{p.Type}</td>
+          <td>{p.Name}</td>
+          <td>{p.Bid}</td>
+          <td>{p.Ask}</td>
+          <td>{formatInputUnit(p.BidIssuerSize, false)}</td>
+          <td>{formatInputUnit(p.AskIssuerSize, false)}</td>
+          <td>{p.Spread}</td>
+          <td>{p.Cratio}</td>
+          <td></td>
+          <td></td>
+        </tr>
+      )
     }
     
     return(
@@ -83,15 +112,17 @@ class Recommender extends React.Component {
 <div className="col-12 col-sm-12 col-md-12 mb-2">
   <table className="table table-sm table-striped table-light table-recommand">
   <colgroup>
+    <col span="1" width="80px" />
+    <col span="1" width="80px" />
+    <col span="1" width="150px" />
     <col span="1" width="100px" />
-    <col span="1" width="150px" />
-    <col span="1" width="150px" />
-    <col span="1" width="150px" />
-    <col span="1" width="150px" />
-    <col span="1" width="150px" />
-    <col span="1" width="150px" />
-    <col span="1" width="150px" />
-    <col span="1" width="150px" />
+    <col span="1" width="100px" />
+    <col span="1" width="100px" />
+    <col span="1" width="100px" />
+    <col span="1" width="100px" />
+    <col span="1" width="100px" />
+    <col span="1" width="100px" />
+    <col span="1" width="100px" />
   </colgroup>
   <thead>
     <tr>
@@ -102,11 +133,14 @@ class Recommender extends React.Component {
     <th>{text.ask}</th>
     <th>{text.bidIssuerSize}</th>
     <th>{text.askIssuerSize}</th>
+    <th>{text.spread}</th>
     <th>{text.cratio}</th>
-    <th></th>
+    <th>{text.tickCount}</th>
+    <th>{text.lastTradeTime}</th>
     </tr>
   </thead>
   <tbody>
+  {productsHTML}
   </tbody>
   </table>
 </div>

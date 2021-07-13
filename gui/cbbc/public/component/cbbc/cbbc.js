@@ -69,6 +69,7 @@ class Cbbc extends React.Component {
     this.state.portfolios = portfolios
     this.state.issuerList = getIssuer()
     this.state.idxCells = {}
+    this.state.isShow = {recommender: false}
   }
   
   componentDidMount() {
@@ -570,17 +571,19 @@ class Cbbc extends React.Component {
           <Status
             key="status"
             data={this.state.sizeReceiptData}
+            data2={this.state.isShow}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}
           />
+          {this.state.isShow.recommender &&
           <Recommender
             key="recommender"
             data={this.state.issuerList}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}
-          />
+          />}
           <div className='row'>{cells}</div>
           <Position
             key="position"
@@ -607,7 +610,7 @@ class Cbbc extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.16
+          Copyright © {curYear} Fast Trader v1.0.17
         </div>
       </React.Fragment>
       /*<Selector

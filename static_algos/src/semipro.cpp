@@ -90,6 +90,7 @@ void semipro::on_omdc_book(const Tradable& tradable)
 
 void semipro::on_omdd_book(const Tradable&)
 {
+
 }
 
 void semipro::on_omdc_trade(const Tradable& tradable)

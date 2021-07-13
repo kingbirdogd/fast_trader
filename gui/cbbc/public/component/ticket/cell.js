@@ -327,11 +327,12 @@ class Cell extends React.Component {
     }
     
     // 7.0 track
-    if (name == 'nTrack' || name == 'aTrack' || name == 'xTrack') {
+    if (name == 'nTrack' || name == 'aTrack' || name == 'xTrack' || name == 'pTrack') {
       obj.wnt.code.status1 = name
       if (name == 'nTrack') obj.stock.nTrack = 'start'
       else if (name == 'aTrack') obj.stock.aTrack = 'start'
       else if (name == 'xTrack') obj.stock.xTrack = 'start'
+      else if (name == 'pTrack') obj.stock.pTrack = 'start'
       
       var command = {cmd: 'get_warrant_detail', code: parseInt(code), algo_name: algoName, id: userId, no: no}
       sendWebsocket(JSON.stringify(command))
@@ -544,10 +545,11 @@ class Cell extends React.Component {
       isStopLossDisable2 = false
 
     // 13.0 track
-    var css_nTrack = 'btn-secondary', css_aTrack = 'btn-secondary', css_xTrack = 'btn-secondary'
+    var css_nTrack = 'btn-secondary', css_aTrack = 'btn-secondary', css_xTrack = 'btn-secondary', css_pTrack = 'btn-secondary'
     if (stock.nTrack == 'start') css_nTrack = 'btn-success'
     if (stock.aTrack == 'start') css_aTrack = 'btn-success'
     if (stock.xTrack == 'start') css_xTrack = 'btn-success'
+    if (stock.pTrack == 'start') css_pTrack = 'btn-success'
     
     // 14.0 layout
     var isLayout1Disable = false, isLayout2Disable = false
@@ -722,6 +724,7 @@ class Cell extends React.Component {
     <div className="mb-1 mb-sm-1">
       <button className={classNames("btn btn-sm", css_nTrack)} name="nTrack" type="button" onClick={this.handleClick} disabled={isDisable}>nTrack</button>
       <button className={classNames("btn btn-sm", css_aTrack)} name="aTrack" type="button" onClick={this.handleClick} disabled={isDisable}>aTrack</button>
+      <button className={classNames("btn btn-sm", css_pTrack)} name="pTrack" type="button" onClick={this.handleClick} disabled={isDisable}>pTrack</button>
     </div>
     
     <div className="mb-1 mb-sm-1">

@@ -9,6 +9,7 @@ class Status extends React.Component {
   constructor(props) {
     super(props)
     this.state = {isAlive: true, totalBytes: null, noPackage: null, lastAliveTime: null}
+    this.handleClick = this.handleClick.bind(this)
     
     setInterval(() => {
       var diff = (Date.now() - this.state.lastAliveTime)/1000
@@ -36,11 +37,23 @@ class Status extends React.Component {
   
   componentDidMount() {}
   
+  handleClick() {
+    var name = event.target.name
+    var data2 = $.extend(true, {}, this.props.data2)
+    
+    if (name == 'recommender') {
+      if (data2.recommender == false) data2.recommender = true
+      else if (data2.recommender == true) data2.recommender = false
+    }
+    
+    this.props.setStates({isShow: data2})
+  }
+  
   getText(lang) {
     var text = {
-      en: {totalBytes: 'Data Transferred', noPackage: 'Data packet', lastAliveTime: 'Last Connect Time', connect: 'Connected', close: 'Closed'},
-      sc: {totalBytes: '使用量', noPackage: '数据包', lastAliveTime: '最後连接时间', connect: '连接中', close: '已掉线'},
-      tc: {totalBytes: '使用量', noPackage: '數據包', lastAliveTime: '最後連接時間', connect: '连接中', close: '已掉线'}
+      en: {totalBytes: 'Data Transferred', noPackage: 'Data packet', lastAliveTime: 'Last Connect Time', connect: 'Connected', close: 'Closed', recommender: 'Product Recommender'},
+      sc: {totalBytes: '使用量', noPackage: '数据包', lastAliveTime: '最後连接时间', connect: '连接中', close: '已掉线', recommender: '产品推荐'},
+      tc: {totalBytes: '使用量', noPackage: '數據包', lastAliveTime: '最後連接時間', connect: '连接中', close: '已掉线', recommender: '產品推薦'}
     }
     return text[lang]
   }
@@ -54,9 +67,10 @@ class Status extends React.Component {
       <div className='row'>
         <div className="col-12 col-sm-6 col-md-3 mb-3">
           <div className="status">
-            <button className={classNames("btn status-icon", iconStyle)} data-toggle="collapse" data-target="#status_detail" aria-expanded="false" aria-controls="status_detail">
+            <button className={classNames("btn status-icon mr-2", iconStyle)} data-toggle="collapse" data-target="#status_detail" aria-expanded="false" aria-controls="status_detail">
               {connectStatus}
             </button>
+            <button name="recommender" className="btn status-icon btn-secondary" onClick={this.handleClick}> {text.recommender} </button>
             <div className="collapse" id="status_detail">
               <div className="card card-body">
                 {text.totalBytes}： {numberWithCommas(totalBytes)} Bytes <br />

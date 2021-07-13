@@ -47,6 +47,7 @@ class Ticket extends React.Component {
           nTrack:  undefined,
           aTrack: undefined,
           xTrack: undefined,
+          pTrack: undefined,
           tick: undefined,
         },
         config: {
@@ -216,9 +217,8 @@ class Ticket extends React.Component {
       var isUpdate2 = obj.cells[data.no].updatePrice.isUpdate2
       
       if ((typeof status1 == 'undefined' || status1 == 'nTrack' || status1 == 'aTrack') && (isUpdate1 == false && isUpdate2 == false)) {
-        if (position<=0) {
-          obj.cells[data.no].wnt.buy.price = formatPrice2(data.warrant_price.m_Ask.m_iPrice)
-        }
+        obj.cells[data.no].wnt.buy.price = formatPrice2(data.warrant_price.m_Ask.m_iPrice)
+        if (position<=0) {}
         obj.cells[data.no].wnt.sell.price = formatPrice2(data.warrant_price.m_Bid.m_iPrice)
         if (obj.cells[data.no].wnt.stopLoss.status != 'start') {
           obj.cells[data.no].wnt.stopLoss.price = formatPrice2(data.warrant_price.m_Bid.m_iPrice)
@@ -233,18 +233,26 @@ class Ticket extends React.Component {
       }
       
       // 正股 輸入框
-      if ((typeof status1 == 'undefined' || status1 == 'xTrack' || status1 == 'aTrack') && (isUpdate1 == false && isUpdate2 == false)) {
+      if (status1 == 'pTrack' && (isUpdate1 == false && isUpdate2 == false) && (data.pricemark.buyin > 0 && data.pricemark.buyin < 99999) && (isUpdate1 == false && isUpdate2 == false)) {
         if (data.CallPut.toLowerCase() == 'p') {
-          if (position<=0 || obj.cells[data.no].stock.status4 == 'open') {
-            obj.cells[data.no].stock.buy.price = formatPrice2(data.underlying_price.m_Bid.m_iPrice)
-          }
+          obj.cells[data.no].stock.buy.price = formatPrice2(data.pricemark.buyin)
+          obj.cells[data.no].stock.sell.price = formatPrice2(data.pricemark.buyin)
+        }
+        if (data.CallPut.toLowerCase() == 'c') {
+          obj.cells[data.no].stock.sell.price = formatPrice2(data.pricemark.buyin)
+          obj.cells[data.no].stock.buy.price = formatPrice2(data.pricemark.buyin)
+        }
+      }
+      if ((typeof status1 == 'undefined' || status1 == 'xTrack' || status1 == 'aTrack' || !(data.pricemark.buyin > 0 && data.pricemark.buyin < 99999)) && (isUpdate1 == false && isUpdate2 == false)) {
+        if (data.CallPut.toLowerCase() == 'p') {
+          obj.cells[data.no].stock.buy.price = formatPrice2(data.underlying_price.m_Bid.m_iPrice)
+          if (position<=0 || obj.cells[data.no].stock.status4 == 'open') {}
           obj.cells[data.no].stock.sell.price = formatPrice2(data.underlying_price.m_Ask.m_iPrice)
         }
         else if (data.CallPut.toLowerCase() == 'c') {
           obj.cells[data.no].stock.sell.price = formatPrice2(data.underlying_price.m_Bid.m_iPrice)
-          if (position<=0 || obj.cells[data.no].stock.status4 == 'open') {
-            obj.cells[data.no].stock.buy.price = formatPrice2(data.underlying_price.m_Ask.m_iPrice)
-          }
+          if (position<=0 || obj.cells[data.no].stock.status4 == 'open') {}
+          obj.cells[data.no].stock.buy.price = formatPrice2(data.underlying_price.m_Ask.m_iPrice)
         }
       }
       if (typeof status1 == 'undefined') {
@@ -263,6 +271,8 @@ class Ticket extends React.Component {
         obj.cells[data.no].stock.aTrack = undefined
       if (obj.cells[data.no].stock.xTrack == 'start')
         obj.cells[data.no].stock.xTrack = undefined
+      if (obj.cells[data.no].stock.pTrack == 'start')
+        obj.cells[data.no].stock.pTrack = undefined
       if (obj.cells[data.no].updatePrice.isUpdate1 == true)
         obj.cells[data.no].updatePrice.isUpdate1 = false
         
@@ -583,7 +593,7 @@ class Ticket extends React.Component {
       obj.cells[no].stock.sell.price = formatLong(data.stoplost)
       obj.cells[no].wnt.sell.max = formatLong(data.wbid)
       obj.cells[no].wnt.sell.price = formatLong(data.wbid)
-      obj.cells[no].wnt.msg[0] = getTime()+' Stop Raise :'+formatLong(data.stoplost)
+      obj.cells[no].wnt.msg[0] = getTime()+' Raise StopLost to'+formatLong(data.stoplost)
     }
     return obj
   }
