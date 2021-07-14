@@ -610,7 +610,7 @@ class Cbbc extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.17
+          Copyright © {curYear} Fast Trader v1.0.18
         </div>
       </React.Fragment>
       /*<Selector

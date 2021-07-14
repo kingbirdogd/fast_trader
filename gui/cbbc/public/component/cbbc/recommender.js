@@ -79,8 +79,8 @@ class Recommender extends React.Component {
           <td>{formatInputUnit(p.AskIssuerSize, false)}</td>
           <td>{p.Spread}</td>
           <td>{p.Cratio}</td>
-          <td></td>
-          <td></td>
+          <td>{p.CountTick.replaceAll(':', ' : ')}</td>
+          <td>{moment(p.LastTradeTime,'hhmmss').format('hh:mm:ss')}</td>
         </tr>
       )
     }
