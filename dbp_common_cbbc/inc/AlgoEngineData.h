@@ -151,7 +151,7 @@ struct warrant{
 #endif
 
 	//string StockName;
-	/string Issuer;
+	string Issuer;
 	//string Wtype;
 	string Strategy;
 
