@@ -1614,7 +1614,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 			p._wtype = wwtype + CallPutFlag;
 
 			p._issuer = SecurityShortName.substr(0,2);
-
+			p._wname = SecurityShortName;
 
 			p._Underlying_code = 0;
 
