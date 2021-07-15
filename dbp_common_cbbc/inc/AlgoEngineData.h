@@ -150,7 +150,9 @@ struct warrant{
 	unsigned long long o_tm;
 #endif
 
-	string Issuer;
+	//string StockName;
+	//string Issuer;
+	//string Wtype;
 	string Strategy;
 
 	unsigned long long UBuyPrice;
