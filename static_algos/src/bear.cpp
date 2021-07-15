@@ -1574,6 +1574,47 @@ algo_msg_base* bear::json_to_msg(json& json)
 				return msg;
 			}
 
+			auto itw = omdcAdditionDefinitionsMap.find(p._warrant_code);
+			if(omdcAdditionDefinitionsMap.end() == itw){
+				auto msg = algo_err_msg_pool.get_obj();
+				msg->al = this;
+				msg->algo_name = _name;
+				msg->id = _u.get_id();
+				msg->ref = ref;
+				msg->action = "cmd set";
+				msg->reason = "Invalid warrant Code";
+				msg->result = "FAIL";
+				pset->release();
+				return msg;
+			}
+
+			std::string wtype = "";
+
+			unsigned char ProductType = itw->second.ProductType;
+			std::string CallPutFlag = itw->second.CallPutFlag;
+			std::string SecuritySortName = itw->second.SecuritySortName;
+
+			if(ProductType == 3){
+				wtype = "E";
+			}else if(ProductType == 11){
+				wtype = "R";
+			}else{
+				auto msg = algo_err_msg_pool.get_obj();
+				msg->al = this;
+				msg->algo_name = _name;
+				msg->id = _u.get_id();
+				msg->ref = ref;
+				msg->action = "cmd set";
+				msg->reason = "Invalid warrant Type";
+				msg->result = "FAIL";
+				pset->release();
+				return msg;
+			}
+
+			p._wtype = wtype + CallPutFlag;
+
+			p._Issuer = SecuritySortName.substr(0,2);
+
 
 			p._Underlying_code = 0;
 

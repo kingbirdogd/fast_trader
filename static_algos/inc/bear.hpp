@@ -126,7 +126,10 @@ private:
 		int _SELL_OFFSET = 0;
 		int _BUY_OFFSET = 0;
 		float _DELTA = 0;
- 
+		std::string _issuer;
+		std::string _wtype;
+		std::string _wname;
+
 	public:
 		pair
 		(
@@ -434,6 +437,9 @@ private:
 							newWarrant->BuyIn = _OBSetting->BuyIn;
 							newWarrant->SellOut = _OBSetting->SellOut;
 							newWarrant->LvlBid = _OBSetting->LvLBid;
+							//newWarrant->Wtype = _wtype;
+							//newWarrant->Issuer = _issuer;
+							//newWarrant->StockName = _wname;
 
 							_OBSetting->addWarrantOrCbbc(newWarrant);
 
@@ -634,6 +640,9 @@ private:
 							newWarrant->BuyIn = _OBSetting->BuyIn;
 							newWarrant->SellOut = _OBSetting->SellOut;
 							newWarrant->LvlBid = _OBSetting->LvLBid;
+							//newWarrant->Wtype = _wtype;
+							//newWarrant->Issuer = _issuer;
+							//newWarrant->StockName = _wname;
 
 							_OBSetting->addWarrantOrCbbc(newWarrant);
 
@@ -1830,6 +1839,10 @@ private:
 						msg->ref = _Ref;
 						msg->orderid = odr.order_id;
 						msg->warrant_code = _warrant_code;
+						msg->issuer = _issuer;
+						msg->wname = _wname;
+						msg->wtype = _wtype;
+
 						msg->side = "BUY";
 						msg->filled_price = odr.match_price;
 						msg->filled_quantity = odr.filled_quantity;
@@ -1892,6 +1905,9 @@ private:
 							msg->ref = _Ref;
 							msg->orderid = odr.order_id;
 							msg->warrant_code = _warrant_code;
+							msg->issuer = _issuer;
+							msg->wname = _wname;
+							msg->wtype = _wtype;
 							msg->side = "SELL";
 							msg->filled_price = odr.match_price;
 							msg->filled_quantity = odr.filled_quantity;
@@ -1909,6 +1925,9 @@ private:
 							pmsg->id = _algo->_u.get_id();
 							pmsg->ref = _Ref;
 							pmsg->warrant_code = _warrant_code;
+							msg->issuer = _issuer;
+							msg->wname = _wname;
+							msg->wtype = _wtype;
 							pmsg->buy_price = obsw->BuyPrice;
 							pmsg->sell_price = obsw->SellPrice;
 							pmsg->quantity = obsw->Quantity;
@@ -1931,6 +1950,9 @@ private:
 							msg->ref = _Ref;
 							msg->orderid = odr.order_id;
 							msg->warrant_code = _warrant_code;
+							msg->issuer = _issuer;
+							msg->wname = _wname;
+							msg->wtype = _wtype;
 							msg->side = "SELL";
 							msg->filled_price = odr.match_price;
 							msg->filled_quantity = odr.filled_quantity;
@@ -1947,6 +1969,9 @@ private:
 							pmsg->id = _algo->_u.get_id();
 							pmsg->ref = _Ref;
 							pmsg->warrant_code = _warrant_code;
+							pmsg->issuer = _issuer;
+							pmsg->wname = _wname;
+							pmsg->wtype = _wtype;
 							pmsg->buy_price = obsw->BuyPrice;
 							pmsg->sell_price = obsw->SellPrice;
 							pmsg->quantity = odr.filled_quantity;
@@ -1978,6 +2003,9 @@ private:
 						msg->ref = _Ref;
 						msg->orderid = odr.order_id;
 						msg->warrant_code = _warrant_code;
+						msg->issuer = _issuer;
+						msg->wname = _wname;
+						msg->wtype = _wtype;
 						msg->side = "SELL";
 						msg->order_price = warrant->SellPrice;
 						msg->order_quantity = warrant->Quantity;
@@ -2688,6 +2716,9 @@ private:
 		unsigned long long buyin;
 		unsigned long long lvlbid;
 		std::string reason;
+		std::string issuer;
+		std::string wtype;
+		std::string wname;
 
 		algo_order_msg():
 			algo_msg_base()
@@ -2700,6 +2731,9 @@ private:
 			j["warrant_code"] = warrant_code;
 			j["action"] = "order";
 			j["side"] = side;
+			j["wtype"] = wtype;
+			j["issuer"] = issuer;
+			j["wname"] = wname;
 			if(side == "BUY"){
 				j["buyin"] = buyin;
 				j["sellout"] = sellout;
@@ -2777,6 +2811,9 @@ private:
 		unsigned long long quantity;
 		std::string buytime;
 		std::string selltime;
+		std::string wtype;
+		std::string issuer;
+		std::string wname;
 
 		algo_portfolio_msg():
 			algo_msg_base()
@@ -2788,6 +2825,9 @@ private:
 			j["action"] = "portfolio";
 			j["warrant_code"] = warrant_code;
 			j["buy_price"] = buy_price;
+			j["wtype"] = wtype;
+			j["issuer"] = issuer;
+			j["wname"] = wname;
 			j["buytime"] = buytime;
 			j["sell_price"] = sell_price;
 			j["sellime"] = selltime;
