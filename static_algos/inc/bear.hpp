@@ -1869,6 +1869,10 @@ private:
 							msg->ref = _Ref;
 							msg->orderid = odr.order_id;
 							msg->warrant_code = _warrant_code;
+
+							msg->issuer = _issuer;
+							msg->wname = _wname;
+							msg->wtype = _wtype;
 							msg->side = "BUY";
 							msg->order_price = warrant->BuyPrice;
 							msg->order_quantity = warrant->BuyQty;
@@ -1925,9 +1929,9 @@ private:
 							pmsg->id = _algo->_u.get_id();
 							pmsg->ref = _Ref;
 							pmsg->warrant_code = _warrant_code;
-							msg->issuer = _issuer;
-							msg->wname = _wname;
-							msg->wtype = _wtype;
+							pmsg->issuer = _issuer;
+							pmsg->wname = _wname;
+							pmsg->wtype = _wtype;
 							pmsg->buy_price = obsw->BuyPrice;
 							pmsg->sell_price = obsw->SellPrice;
 							pmsg->quantity = obsw->Quantity;
