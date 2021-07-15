@@ -1588,16 +1588,16 @@ algo_msg_base* bear::json_to_msg(json& json)
 				return msg;
 			}
 
-			std::string wtype = "";
+			std::string wwtype = "";
 
 			unsigned char ProductType = itw->second.ProductType;
 			std::string CallPutFlag = itw->second.CallPutFlag;
-			std::string SecuritySortName = itw->second.SecuritySortName;
+			std::string SecurityShortName = itw->second.SecuritySortName;
 
 			if(ProductType == 3){
-				wtype = "E";
+				wwtype = "E";
 			}else if(ProductType == 11){
-				wtype = "R";
+				wwtype = "R";
 			}else{
 				auto msg = algo_err_msg_pool.get_obj();
 				msg->al = this;
@@ -1611,9 +1611,9 @@ algo_msg_base* bear::json_to_msg(json& json)
 				return msg;
 			}
 
-			p._wtype = wtype + CallPutFlag;
+			p._wtype = wwtype + CallPutFlag;
 
-			p._Issuer = SecuritySortName.substr(0,2);
+			p._issuer = SecurityShortName.substr(0,2);
 
 
 			p._Underlying_code = 0;
