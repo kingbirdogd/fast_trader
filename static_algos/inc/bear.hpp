@@ -309,6 +309,8 @@ private:
 
 			auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice) * 100000;
 
+			unsigned long long udiff = _PriceInfoU->FBestask - _PriceInfoU->FBestbid;
+
 			Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " on_trade" + " Status = " + std::to_string(_Status) + " Bestbid = " + std::to_string(_PriceInfo->Bestbid)  + " Bestask = " + std::to_string(_PriceInfo->Bestask) + " Trade price = " +  std::to_string(trade_price) );
 
 			if(BUY_ORDER == tradable.m_TradeSide){
@@ -422,7 +424,7 @@ private:
 						//if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn && fallback){
 						if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn && _OBSetting->SellOut > _OBSetting->BuyIn && issuerPrice){
 
-							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Buy " );
+							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Buy "  + " udiff = " + to_string(udiff));
 
 							warrant* newWarrant = new warrant;
 							newWarrant->Date = DateUtil::getToday();
@@ -472,7 +474,7 @@ private:
 
 					if(within1spread){
 
-						Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Sell " );
+						Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Sell " + "udiff = " + to_string(udiff) );
 
 							newWarrant->DBid = trade_price;
 
@@ -500,6 +502,15 @@ private:
 			time_t currentTime = DateUtil::getCurrentSystemTime();
 
 			auto trade_price = static_cast<unsigned long long>(tradable.m_LastTradePrice) * 100000;
+
+
+			priceinfo* uprice = _algo->uprice_map[_Underlying_code];
+
+			unsigned long long udiff = _PriceInfoU->FBestask - _PriceInfoU->FBestbid;
+
+
+
+
 
 			Log(std::string("bear.hpp->on_bull_trade CODE = ") + std::to_string(_warrant_code) +  " on_trade" + " Status = " + std::to_string(_Status) + " Bestbid = " + std::to_string(_PriceInfo->Bestbid)  + " Bestask = " + std::to_string(_PriceInfo->Bestask) + " Trade Price = " + to_string(trade_price) + "Trade Side = " + to_string(tradable.m_TradeSide) + " STATUS = " + to_string(_Status));
 
@@ -625,7 +636,7 @@ private:
 
 
 
-							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Buy" );
+							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Buy " + "udiff = " + to_string(udiff) );
 
 							warrant* newWarrant = new warrant;
 							newWarrant->Date = DateUtil::getToday();
@@ -678,7 +689,7 @@ private:
 					//if(within1spread || diff >= 0){
 					if(within1spread || leveldiff > 300000){
 
-						Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Sell " );
+						Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Sell " + "udiff = " + to_string(udiff) );
 
 						//warrant* newWarrant = _OBSetting->getRelatedWarrant(_warrant_code);
 
