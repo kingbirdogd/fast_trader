@@ -324,6 +324,8 @@ private:
 					if(_OBSetting->SellOut != 99999999 && _OBSetting->BuyIn != 0 && trade_price == _OBSetting->BuyIn){
 						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " _INOUT=" + std::to_string(_INOUT) +  " _LVLRANGE=" + std::to_string(_LVLRANGE) +  " _PTRANGE=" + std::to_string(_PTRANGE) );
 						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " BuyIn=" + std::to_string(_OBSetting->BuyIn) +  " SellOut=" + std::to_string(_OBSetting->SellOut) +  " LvlBid=" + std::to_string(_OBSetting->LvLBid) );
+
+						/*
 						if(_INOUT > 0){
 							unsigned long long cal_inout = _OBSetting->SellOut - _OBSetting->BuyIn;
 							//unsigned long long mak_inout =  static_cast<unsigned long long>(_INOUT) * 100000;
@@ -406,6 +408,7 @@ private:
 								return;
 							}
 						}
+						*/
 
 						unsigned long long refSpread = _SPREAD;
 						unsigned long long b = _PriceInfo->Bestbid;
@@ -472,9 +475,46 @@ private:
 					Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) + " BuyPrice = " + to_string(newWarrant->BuyPrice) +  " Level Diff =  " + to_string(leveldiff));
 
 
-					if(within1spread){
+					if(within1spread || leveldiff > 300000){
 
 						Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Sell " + "udiff = " + to_string(udiff) );
+
+						if(_Stop_Lost > 0){
+
+							if(_PriceInfo->Bestbid >= newWarrant->BuyPrice){
+
+								newWarrant->DBid = trade_price;
+
+								newWarrant->Status = STATUS_SELLING;
+								newWarrant->SellPrice = _PriceInfo->Bestbid;
+								newWarrant->SellQty = newWarrant->Quantity;
+								newWarrant->SellOut = _OBSetting->SellOut;
+
+								_Status = STATUS_SELLING;
+
+								doSell(newWarrant);
+							}else{
+
+								long long diff = static_cast<long long>(newWarrant->BuyPrice) - static_cast<long long>(_PriceInfo->Bestbid);
+								long long rwinPrice =  static_cast<long long>(_SPREAD * _Stop_Lost);
+								if(diff >= rwinPrice ){
+
+									newWarrant->DBid = trade_price;
+
+									newWarrant->Status = STATUS_SELLING;
+									newWarrant->SellPrice = _PriceInfo->Bestbid;
+									newWarrant->SellQty = newWarrant->Quantity;
+									newWarrant->SellOut = _OBSetting->SellOut;
+
+									_Status = STATUS_SELLING;
+
+									doSell(newWarrant);
+								}
+							}
+
+
+						}else{
+
 
 							newWarrant->DBid = trade_price;
 
@@ -486,6 +526,7 @@ private:
 							_Status = STATUS_SELLING;
 
 							doSell(newWarrant);
+						}
 						//}
 					}else{
 						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Spread Width > 1 =  " + std::to_string(b) + " | " + std::to_string(a) );
@@ -528,6 +569,8 @@ private:
 					if(_OBSetting->SellOut != 99999999 && _OBSetting->BuyIn != 0){
 						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " _INOUT=" + std::to_string(_INOUT) +  " _LVLRANGE=" + std::to_string(_LVLRANGE) +  " _PTRANGE=" + std::to_string(_PTRANGE) );
 						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " BuyIn=" + std::to_string(_OBSetting->BuyIn) +  " SellOut=" + std::to_string(_OBSetting->SellOut) +  " LvlBid=" + std::to_string(_OBSetting->LvLBid) );
+
+						/*
 						if(_INOUT > 0){
 							unsigned long long cal_inout = _OBSetting->BuyIn - _OBSetting->SellOut;
 							unsigned long long mak_inout =  static_cast<unsigned long long>(_INOUT) * 100000;
@@ -603,7 +646,7 @@ private:
 
 								return;
 							}
-						}
+						}*/
 
 
 						if(_OBSetting->Sensitivity > 0){
@@ -668,8 +711,6 @@ private:
 				if(_Status == STATUS_AVAILABLE && _Action_Status == STAGE_START  && trade_price == _OBSetting->SellOut){
 
 
-
-
 					unsigned long long refSpread = _SPREAD;
 					unsigned long long b = _PriceInfo->Bestbid;
 					unsigned long long a = _PriceInfo->Bestask;
@@ -706,8 +747,47 @@ private:
 							atgtsl = true;
 						}
 
+
+
 						if(atgtsl || _Stop_Lost == 0){
 						*/
+
+						if(_Stop_Lost > 0){
+
+							if(_PriceInfo->Bestbid >= newWarrant->BuyPrice){
+
+								newWarrant->DBid = trade_price;
+
+								newWarrant->Status = STATUS_SELLING;
+								newWarrant->SellPrice = _PriceInfo->Bestbid;
+								newWarrant->SellQty = newWarrant->Quantity;
+								newWarrant->SellOut = _OBSetting->SellOut;
+
+								_Status = STATUS_SELLING;
+
+								doSell(newWarrant);
+							}else{
+
+								long long diff = static_cast<long long>(newWarrant->BuyPrice) - static_cast<long long>(_PriceInfo->Bestbid);
+								long long rwinPrice =  static_cast<long long>(_SPREAD * _Stop_Lost);
+								if(diff >= rwinPrice ){
+
+									newWarrant->DBid = trade_price;
+
+									newWarrant->Status = STATUS_SELLING;
+									newWarrant->SellPrice = _PriceInfo->Bestbid;
+									newWarrant->SellQty = newWarrant->Quantity;
+									newWarrant->SellOut = _OBSetting->SellOut;
+
+									_Status = STATUS_SELLING;
+
+									doSell(newWarrant);
+								}
+							}
+
+
+						}else{
+
 							newWarrant->DBid = trade_price;
 
 							newWarrant->Status = STATUS_SELLING;
@@ -718,6 +798,7 @@ private:
 							_Status = STATUS_SELLING;
 
 							doSell(newWarrant);
+						}
 						//}
 					}else{
 						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Spread Width > 1 =  " + std::to_string(b) + " | " + std::to_string(a) );
@@ -1103,6 +1184,9 @@ private:
 				}
 */
 
+
+				/*
+
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Stop_Lost > 0 && best_bid_qty >= _IssuerSize){
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 
@@ -1124,6 +1208,8 @@ private:
 						doSell(warrant);
 					}
 				}
+				*/
+
 
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Win_Tick >= 0){
 
@@ -1505,6 +1591,7 @@ private:
 				}
 */
 
+				/*
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Stop_Lost > 0 && best_bid_qty >= _IssuerSize){
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 
@@ -1526,6 +1613,7 @@ private:
 						doSell(warrant);
 					}
 				}
+				*/
 
 
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Win_Tick >= 0){
