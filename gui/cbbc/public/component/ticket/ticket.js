@@ -5,7 +5,7 @@ class Ticket extends React.Component {
     this.getStates = this.getStates.bind(this)
     
     this.state = {}
-    this.state.visible = {position: false, order: false, command: false}
+    this.state.visible = {position: false, order: false, command: false, recommender: false}
     this.state.modules = {bear: undefined, bull: undefined, call: undefined, put: undefined}
     this.state.noCell = {cur: 8, max: 12}
     this.state.sizeReceiptData = {totalBytes: 0, noPackage: 0, lastAliveTime: undefined}
@@ -13,6 +13,7 @@ class Ticket extends React.Component {
     this.state.orders = []
     this.state.positions = {}
     this.state.setting = {}
+    this.state.issuerList = getIssuer()
     this.state.render = undefined
     this.state.instance = () => {
       return {
@@ -650,6 +651,16 @@ class Ticket extends React.Component {
         getStates={this.getStates}
       />
       </div>
+      
+      
+      {this.state.visible.recommender &&
+      <Recommender
+        key="recommender"
+        data={this.state.issuerList}
+        lang={this.props.lang}
+        setStates={this.setStates}
+        getStates={this.getStates}
+      />}
       
       {this.state.visible.position &&
       <Position

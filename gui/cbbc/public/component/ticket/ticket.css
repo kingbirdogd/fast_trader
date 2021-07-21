@@ -106,6 +106,26 @@
   background-color: #ff9800;
 }
 
+#ticket .table-recommand {
+  display: block;
+  overflow-y: scroll;
+  margin-bottom: 0.5rem;
+  height: 110px;
+  width: 100%;
+  font-size: 11px;
+  border: 1px solid #e6e6e6;
+}
+
+#ticket .table-recommand.table-sm td, #cbbc .table-recommand.table-sm th {
+  padding: .1rem;
+}
+
+#ticket .form-recommend input,
+#ticket .form-recommend .form-control{
+  width: 100%;
+  font-size: 12px;
+}
+
 /* large */
 #ticket .cell.large {
   min-width: 548px;

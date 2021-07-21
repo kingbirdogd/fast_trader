@@ -52,6 +52,11 @@ class Control extends React.Component {
       else if (!this.props.data2.command) obj.command = true
     }
     
+    else if (name == 'recommender') {
+      if (this.props.data2.recommender == false) obj.recommender = true
+      else if (this.props.data2.recommender == true) obj.recommender = false
+    }
+    
     this.props.setStates({visible: obj})
   }
   
@@ -65,6 +70,9 @@ class Control extends React.Component {
     var cssBtnCommand = 'btn-secondary'
     if (this.props.data2.command) cssBtnCommand = 'btn-primary'
     
+    var cssBtnRecommender = 'btn-secondary'
+    if (this.props.data2.recommender) cssBtnRecommender = 'btn-primary'
+    
     return(
       <React.Fragment>
 
@@ -75,6 +83,7 @@ class Control extends React.Component {
   <button type="button" name="position" className={classNames("btn btn-sm ml-2 ml-sm-2", cssBtnPos)} onClick={this.handleClick}>仓位</button>
   <button type="button" name="order" className={classNames("btn btn-sm ml-2 ml-sm-2", cssBtnOrder)} onClick={this.handleClick}>当日成交</button>
   {false && <button type="button" name="command" className={classNames("btn btn-sm ml-2 ml-sm-2", cssBtnCommand)} onClick={this.handleClick}>指令</button> }
+  <button type="button" name="recommender" className={classNames("btn btn-sm ml-2 ml-sm-2", cssBtnRecommender)} onClick={this.handleClick}>产品推荐</button>
 </div>
 
       </React.Fragment>

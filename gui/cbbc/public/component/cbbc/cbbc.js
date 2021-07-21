@@ -389,7 +389,9 @@ class Cbbc extends React.Component {
       matchQuantity: formatLong(data.filled_quantity),
       totalPrice: formatLong(data.filled_price)*formatLong(data.filled_quantity),
       futurePrice: ('sellout' in data) ? formatPrice(data.sellout) : ('buyin' in data) ? formatPrice(data.buyin) : '',
-      reason: ('reason' in data) ? data.reason: ''
+      reason: ('reason' in data) ? data.reason: '',
+      wtype: data.wtype,
+      issuer: data.issuer
     }
     
     if (!(id in state.orders))
