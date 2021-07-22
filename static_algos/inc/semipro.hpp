@@ -773,13 +773,14 @@ private:
 			//unsigned long long _max_sell_trriger;
 			//unsigned long long _max_sell_price;
 
-//			if(_max_sell_trriger > 0 &&
-//					_max_sell_price > 0 &&
-//					_min_sell_trriger > 0 &&
-//					_min_sell_price > 0){
+			if(_max_sell_trriger > 0 &&
+					_max_sell_price > 0 &&
+					_min_sell_trriger > 0 &&
+					_min_sell_price > 0){
 
 				auto best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
 
+				//if(best_bid_price > _sell_price && best_bid_price >= _buy_price){
 				if(best_bid_price > _sell_price){
 					unsigned long long uprice = 0;
 
@@ -919,7 +920,7 @@ private:
 					}
 				}
 
-
+			}
 
 				/*
 				if(best_bid_price < _sell_price &&  best_bid_price > _min_sell_price){
