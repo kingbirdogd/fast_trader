@@ -346,6 +346,8 @@ inline void decode()
 						nlohmann::json jpm;
 						jpm["buyin"] = buyin;
 						jpm["sellout"] = sellout;
+						jpm["wbid"] = wbid;
+						jpm["wask"] = wask;
 
 						j["pricemark"] = jpm;
 					}
