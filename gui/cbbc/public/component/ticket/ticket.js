@@ -243,6 +243,8 @@ class Ticket extends React.Component {
           obj.cells[data.no].stock.sell.price = formatPrice2(data.pricemark.buyin)
           obj.cells[data.no].stock.buy.price = formatPrice2(data.pricemark.buyin)
         }
+        obj.cells[data.no].wnt.buy.price = formatPrice2(data.pricemark.wask)
+        obj.cells[data.no].wnt.sell.price = formatPrice2(data.pricemark.wbid)
       }
       if ((typeof status1 == 'undefined' || status1 == 'xTrack' || status1 == 'aTrack' || !(data.pricemark.buyin > 0 && data.pricemark.buyin < 99999)) && (isUpdate1 == false && isUpdate2 == false)) {
         if (data.CallPut.toLowerCase() == 'p') {

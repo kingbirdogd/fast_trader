@@ -368,7 +368,8 @@ class Cbbc extends React.Component {
       code: data.warrant_code, quantity: formatLong(data.quantity),
       buyPrice: formatLong(data.buy_price), buyTime: formatDate(data.buytime),
       sellPrice: formatLong(data.sell_price), soldTime: formatDate(data.sellime),
-      profitLoss: (formatLong(data.sell_price)-formatLong(data.buy_price))*formatLong(data.quantity)
+      profitLoss: (formatLong(data.sell_price)-formatLong(data.buy_price))*formatLong(data.quantity),
+      issuer: data.issuer, wtype: data.wtype
     }
     if(!(id in state.portfolios))
       state.portfolios[id] = []
@@ -612,7 +613,7 @@ class Cbbc extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.18
+          Copyright © {curYear} Fast Trader v1.0.19
         </div>
       </React.Fragment>
       /*<Selector

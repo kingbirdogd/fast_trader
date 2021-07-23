@@ -58,7 +58,7 @@ class Cell extends React.Component {
   }
   
   // 输入框
-  initInputData(obj, no, userId, algoName, cmd, isUseStoploss) {
+  initInputData(obj, no, userId, algoName, cmd) {
     var wnt = $.extend(true, {}, obj.wnt),
         stock = $.extend(true, {}, obj.stock),
         data = {}
@@ -66,8 +66,13 @@ class Cell extends React.Component {
     data.code = parseInt(wnt.code.code)
     data.buy_price = formatLongV2(wnt.buy.price)
     data.sell_price = formatLongV2(wnt.sell.price)
-    data.max_sell_price = formatLongV2(wnt.sell.max)
-    data.min_sell_price = (wnt.sell.min==0 || !wnt.sell.min || wnt.sell.price > wnt.sell.min) ? formatLongV2(wnt.sell.price) : formatLongV2(wnt.sell.min)
+    if (obj.stock.status2 == 'open') {
+      data.max_sell_price = formatLongV2(wnt.sell.max)
+      data.min_sell_price = (wnt.sell.min==0 || !wnt.sell.min || wnt.sell.price > wnt.sell.min) ? formatLongV2(wnt.sell.price) : formatLongV2(wnt.sell.min)
+    } else {
+      data.max_sell_price = 0
+      data.min_sell_price = 0
+    }
     data.buy_qty = formatLongV2(formatInputUnit(wnt.buy.qty, true))
     data.stoploss = formatLongV2(wnt.stopLoss.price)
     if (wnt.position) {
@@ -83,8 +88,13 @@ class Cell extends React.Component {
     data.ucode = parseInt(stock.code.code)
     data.buy_trriger = formatLongV2(stock.buy.price)
     data.sell_trriger = formatLongV2(stock.sell.price)
-    data.max_sell_trriger = formatLongV2(stock.sell.max)
-    data.min_sell_trriger = (stock.sell.min==0 || !stock.sell.min || stock.sell.price > stock.sell.min) ? formatLongV2(stock.sell.price) : formatLongV2(stock.sell.min)
+    if (obj.stock.status2 == 'open') {
+      data.max_sell_trriger = formatLongV2(stock.sell.max)
+      data.min_sell_trriger = (stock.sell.min==0 || !stock.sell.min || stock.sell.price > stock.sell.min) ? formatLongV2(stock.sell.price) : formatLongV2(stock.sell.min)
+    } else {
+      data.max_sell_trriger = 0
+      data.min_sell_trriger = 0
+    }
     data.early_buy_qty = formatLongV2(formatInputUnit(stock.buy.qty, true))
     data.early_sell_qty = formatLongV2(formatInputUnit(stock.sell.qty, true))
     data.ratio_buy = formatLongV2(stock.buy.ratio)
@@ -117,7 +127,7 @@ class Cell extends React.Component {
         stock = $.extend(true, {}, obj.stock)
     
     // 1.0 输入框
-    var inputData = this.initInputData(obj, no, userId, algoName, null, obj.wnt.stopLoss.status)
+    var inputData = this.initInputData(obj, no, userId, algoName, null)
     var {/*輪*/code, buy_price, sell_price, buy_qty, sell_qty, stoploss, position,/*正股*/ucode, buy_trriger, sell_trriger, early_buy_qty, early_sell_qty, ratio_buy, ratio_sell, /*通用*/ref} = inputData
     
     // 2.0 前置檢查
@@ -152,7 +162,7 @@ class Cell extends React.Component {
     // 3.0 初始化
     if (name == 'wntBuy' || name == 'wntSell' || name == 'pair' || name == 'stoploss' || name == 'stock.action4') {
       if (wnt.sell.status == 'open' || wnt.buy.status == 'open') {
-        var command4 = this.initInputData(obj, no, userId, algoName, 'set', false).command
+        var command4 = this.initInputData(obj, no, userId, algoName, 'set').command
         command4.action = 'STOP'
         sendWebsocket(JSON.stringify(command4))
       }
@@ -199,7 +209,7 @@ class Cell extends React.Component {
     }
     
     // 5.0 開啟 交易策略
-    var command1 = this.initInputData(obj, no, userId, algoName, 'set', obj.wnt.stopLoss.status).command
+    var command1 = this.initInputData(obj, no, userId, algoName, 'set').command
     function getAction(obj, command1, position) {
       if (obj.wnt.buy.status == 'open' && obj.wnt.sell.status == 'open' && position <= 0)
         command1.action = 'AUTO'
@@ -288,11 +298,13 @@ class Cell extends React.Component {
         obj.stock.action3 = undefined
         
         obj.wnt.sell.price = obj.wnt.sell.max
-        obj.wnt.sell.min = obj.wnt.sell.max
+        // obj.wnt.sell.min = obj.wnt.sell.max
+        obj.wnt.sell.min = undefined
         obj.wnt.sell.max = undefined
         
         obj.stock.sell.price = obj.stock.sell.max
-        obj.stock.sell.min = obj.stock.sell.max
+        // obj.stock.sell.min = obj.stock.sell.max
+        obj.stock.sell.min = undefined
         obj.stock.sell.max = undefined
         
         var {command1, obj} = getAction(obj, command1, position)
@@ -321,7 +333,7 @@ class Cell extends React.Component {
     }
     
     if (name == 'stock.status2' || name == 'stock.status4') {
-      var command2 = this.initInputData(obj, no, userId, algoName, 'set', obj.wnt.stopLoss.status).command
+      var command2 = this.initInputData(obj, no, userId, algoName, 'set').command
       command2.action = 'NOCHANGE'
       sendWebsocket(JSON.stringify(command2))
     }

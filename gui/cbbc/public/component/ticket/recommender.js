@@ -47,9 +47,9 @@ class Recommender extends React.Component {
   
   getText(lang) {
     var text = {
-      en: {bear: 'Bear', bull: 'Bull', call: 'Call', put: 'Put', submit: 'Submit', code: 'Code', type: 'Type', name: 'Name', bid: 'Bid', ask: 'Ask', bidIssuerSize: 'Bid Issuer Size',  askIssuerSize: 'Ask Issuer Size', spread: 'Spread', cratio: 'Cratio', select: 'Select', tickCount: 'Tick Count', lastTradeTime: 'Last Trade Time'},
-      sc: {bear: '熊证', bull: '牛证', call: '认购', put: '认沽', submit: '提交', code: '编号', type: '种类', name: '名称', bid: '买入价', ask: '卖出价', bidIssuerSize: '买入量',  askIssuerSize: '卖出量', spread: '格数', cratio: '对冲值', select: '选择', tickCount: '小单/中单/大单', lastTradeTime: '最後交易时间'},
-      tc: {bear: '熊證', bull: '牛證', call: '認購', put: '認沽', submit: '提交', code: '編號', type: '種類', name: '名稱', bid: '買入價', ask: '賣出價', bidIssuerSize: '買入量',  askIssuerSize: '賣出量', spread: '格數', cratio: '對沖值', select: '選擇', tickCount: '小單/中單/大單', lastTradeTime: '最後交易時間'},
+      en: {ucode: 'Underlying', bear: 'Bear', bull: 'Bull', call: 'Call', put: 'Put', submit: 'Submit', code: 'Code', type: 'Type', name: 'Name', bid: 'Bid', ask: 'Ask', bidIssuerSize: 'Bid Issuer Size',  askIssuerSize: 'Ask Issuer Size', spread: 'Spread', cratio: 'Cratio', select: 'Select', tickCount: 'Tick Count', lastTradeTime: 'Last Trade Time'},
+      sc: {ucode: '标的', bear: '熊证', bull: '牛证', call: '认购', put: '认沽', submit: '提交', code: '编号', type: '种类', name: '名称', bid: '买入价', ask: '卖出价', bidIssuerSize: '买入量',  askIssuerSize: '卖出量', spread: '格数', cratio: '对冲值', select: '选择', tickCount: '小单/中单/大单', lastTradeTime: '最後交易时间'},
+      tc: {ucode: '正股', bear: '熊證', bull: '牛證', call: '認購', put: '認沽', submit: '提交', code: '編號', type: '種類', name: '名稱', bid: '買入價', ask: '賣出價', bidIssuerSize: '買入量',  askIssuerSize: '賣出量', spread: '格數', cratio: '對沖值', select: '選擇', tickCount: '小單/中單/大單', lastTradeTime: '最後交易時間'},
     }
     return text[lang]
   }
@@ -68,9 +68,18 @@ class Recommender extends React.Component {
     var productsHTML = []
     for (var i in this.state.products) {
       var p = this.state.products[i]
+      
+      // OMDD code
+      var ucode = null
+      if (parseInt(p.UCode) == 4001) ucode = 'HSI 恒生指数'
+      else if (parseInt(p.UCode) == 4002) ucode = 'HSCE 国企指数'
+      else if (parseInt(p.UCode) == 4038) ucode = 'HSTEC 恒生科技指数'
+      else ucode = p.UCode+' '+getUnderlyingName2(p.UCode)
+      
       productsHTML.push(
         <tr key={'product_'+i}>
           <td>{p.Code}</td>
+          <td>{ucode}</td>
           <td>{p.Type}</td>
           <td>{p.Name}</td>
           <td>{p.Bid}</td>
@@ -81,6 +90,14 @@ class Recommender extends React.Component {
           <td>{p.Cratio}</td>
           <td>{p.CountTick.replaceAll(':', ' : ')}</td>
           <td>{moment(p.LastTradeTime,'hhmmss').format('hh:mm:ss')}</td>
+        </tr>
+      )
+    }
+    
+    if (this.state.products.length == 0) {
+      productsHTML.push(
+        <tr key={'product_0'}>
+          <td colSpan="12" className="text-center">No available products</td>
         </tr>
       )
     }
@@ -114,7 +131,8 @@ class Recommender extends React.Component {
 <div className="col-12 col-sm-12 col-md-12 mb-2">
   <table className="table table-sm table-striped table-light table-recommand">
   <colgroup>
-    <col span="1" width="80px" />
+    <col span="1" width="50px" />
+    <col span="1" width="150px" />
     <col span="1" width="80px" />
     <col span="1" width="150px" />
     <col span="1" width="100px" />
@@ -129,6 +147,7 @@ class Recommender extends React.Component {
   <thead>
     <tr>
     <th>{text.code}</th>
+    <th>{text.ucode}</th>
     <th>{text.type}</th>
     <th>{text.name}</th>
     <th>{text.bid}</th>

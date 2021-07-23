@@ -89,7 +89,7 @@ class OrderList extends React.Component {
               <col span="1" width="50px" />
               <col span="1" width="50px" />
               <col span="1" width="50px" />
-              <col span="1" width="100px" />
+              <col span="1" width="50px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />

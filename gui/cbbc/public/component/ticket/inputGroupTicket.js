@@ -16,7 +16,7 @@ class InputGroupTicket extends React.Component {
   handleSend(that, obj) {
     var {name, no, key, states, userId, algoName} = that.initData(that, event)
     
-    var command1 = that.props.initInputData(obj, no, userId, algoName, 'set', obj.wnt.stopLoss.status).command
+    var command1 = that.props.initInputData(obj, no, userId, algoName, 'set').command
     if (obj.stock.action1 == 'start' || obj.stock.action1 == 'stop') {
       if (obj.stock.action2 == 'start') {
         

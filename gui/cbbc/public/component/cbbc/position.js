@@ -89,7 +89,9 @@ class Position extends React.Component {
                   sellQuantity: sellQuantity,
                   transactionTm: item1.transactionTm,
                   pnl: pnl,
-                  wbid: wbid
+                  wbid: wbid,
+                  issuer: item1.issuer,
+                  wtype: item1.wtype
                 }
               }
             }
@@ -123,11 +125,11 @@ class Position extends React.Component {
   getText(lang) {
     var text = {
       en: {position: 'Position', buyPrice: 'Buy Price', buyQuantity: 'Buy Quantity', sellPrice: 'Sell Price', 
-            sellQuantity: 'Sell Quantity', id: 'ID', code: 'Code', transactionTm: 'Last Update Time', pnl: 'Gain', forceSell: 'Sell', bidPrice:'Wnt Price'},
+            sellQuantity: 'Sell Quantity', id: 'ID', code: 'Code', transactionTm: 'Last Update Time', pnl: 'Gain', forceSell: 'Sell', bidPrice:'Wnt Price', wtype: 'Type', issuer: 'Issuer'},
       sc: {position: '持仓', buyPrice: '买入价', buyQuantity: '买入单位', sellPrice: '卖出价', 
-            sellQuantity: '卖出单位', id: 'ID', code: '牛熊证', transactionTm: '交易时间', pnl: '盈亏', forceSell: '卖出', bidPrice: '轮证卖出价'},
+            sellQuantity: '卖出单位', id: 'ID', code: '牛熊证', transactionTm: '交易时间', pnl: '盈亏', forceSell: '卖出', bidPrice: '轮证卖出价', wtype: '种类', issuer: '发行人'},
       tc: {position: '持倉', buyPrice: '買入價', buyQuantity: '買入單位', sellPrice: '賣出價', 
-            sellQuantity: '賣出單位', id: 'ID', code: '牛熊證', transactionTm: '交易時間', pnl: '盈虧', forceSell: '賣出', bidPrice: '輪證賣出價'}
+            sellQuantity: '賣出單位', id: 'ID', code: '牛熊證', transactionTm: '交易時間', pnl: '盈虧', forceSell: '賣出', bidPrice: '輪證賣出價', wtype: '種類', issuer: '發行人'}
     }
     return text[lang]
   }
@@ -146,6 +148,8 @@ class Position extends React.Component {
         <tr key={'position_'+no}>
           <td>{len-no}</td>
           <td>{code}</td>
+          <td>{d.issuer}</td>
+          <td>{d.wtype}</td>
           <td>{ parseFloat(d.buyPrice).toFixed(4) }</td>
           <td>{ parseFloat(d.wbid).toFixed(4) }</td>
           <td>{ parseFloat(d.sellPrice).toFixed(4) }</td>
@@ -174,7 +178,9 @@ class Position extends React.Component {
           <table className="table table-sm table-striped table-light table-position">
             <colgroup>
               <col span="1" width="50px" />
-              <col span="1" width="100px" />
+              <col span="1" width="50px" />
+              <col span="1" width="50px" />
+              <col span="1" width="50px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />
@@ -188,6 +194,8 @@ class Position extends React.Component {
               <tr>
                 <th>{text.id}</th>
                 <th>{text.code}</th>
+                <th>{text.issuer}</th>
+                <th>{text.wtype}</th>
                 <th>{text.buyPrice}</th>
                 <th>{text.bidPrice}</th>
                 <th>{text.sellPrice}</th>

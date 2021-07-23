@@ -30,7 +30,7 @@ class Portfolio extends React.Component {
             datas[item.code].push(item)
           // 牛熊证，总买入价，总卖出价, 总买入单位, 总盈亏, 最后卖出时时
           for (const [code, datas1] of Object.entries(datas)) {
-            var noExecution=0, totalBuyPrice=0, totalSellPrice=0, totalQuantity=0, totalProfitLoss=0, lastSoldTime=null, totalWin=0, totalLoss=0, totalDraw=0
+            var noExecution=0, totalBuyPrice=0, totalSellPrice=0, totalQuantity=0, totalProfitLoss=0, lastSoldTime=null, totalWin=0, totalLoss=0, totalDraw=0, issuer=null, wtype=null
             for (var item1 of datas1) {
               noExecution+=1
               totalBuyPrice+=item1.buyPrice
@@ -41,6 +41,8 @@ class Portfolio extends React.Component {
               totalWin = (item1.sellPrice>item1.buyPrice) ? totalWin+1 : totalWin
               totalLoss = (item1.sellPrice<item1.buyPrice) ? totalLoss+1 : totalLoss
               totalDraw = (item1.sellPrice==item1.buyPrice) ? totalDraw+1 : totalDraw
+              issuer = item1.issuer
+              wtype = item1.wtype
             }
             // 平均
             state.portfolio[code] = {
@@ -52,7 +54,9 @@ class Portfolio extends React.Component {
               lastSoldTime: lastSoldTime,
               totalWin: totalWin,
               totalLoss: totalLoss,
-              totalDraw: totalDraw
+              totalDraw: totalDraw,
+              issuer: issuer,
+              wtype: wtype
             }
           }
         }
@@ -64,13 +68,13 @@ class Portfolio extends React.Component {
   getText(lang) {
     var text = {
       en: {
-        id: 'ID', portfolio: 'Portfolio', buyPrice: 'Avg Buy Price', code: 'Code', quantity: 'Total Quantity', ref: 'Ref', sellPrice: 'Avg Sell Price', soldTime: 'Last Update Time', profitLoss : 'Total P&L', noExecution: 'No. Execution', totalWin: 'Win', totalLoss: 'Loss', totalDraw: 'Draw'
+        id: 'ID', portfolio: 'Portfolio', buyPrice: 'Avg Buy Price', code: 'Code', quantity: 'Total Quantity', ref: 'Ref', sellPrice: 'Avg Sell Price', soldTime: 'Last Update Time', profitLoss : 'Total P&L', noExecution: 'No. Execution', totalWin: 'Win', totalLoss: 'Loss', totalDraw: 'Draw', wtype: 'Type', issuer: 'Issuer'
       },
       sc: {
-        id: 'ID', portfolio: '明细表', buyPrice: '平均买入价', code: '牛能证', quantity: '总买入单位', ref: 'Ref', sellPrice: '平均卖出价', soldTime: '最后卖出时间', profitLoss : '总盈亏', noExecution: '执行次数', totalWin: '赢', totalLoss: '亏', totalDraw: '平'
+        id: 'ID', portfolio: '明细表', buyPrice: '平均买入价', code: '牛能证', quantity: '总买入单位', ref: 'Ref', sellPrice: '平均卖出价', soldTime: '最后卖出时间', profitLoss : '总盈亏', noExecution: '执行次数', totalWin: '赢', totalLoss: '亏', totalDraw: '平', wtype: '种类', issuer: '发行人'
       },
       tc: {
-        id: 'ID', portfolio: '賺蝕紀錄', buyPrice: '平均買入價', code: '牛能證', quantity: '總買入單位', ref: 'Ref', sellPrice: '平均賣出價', soldTime: '最後賣出時間', profitLoss : '總盈虧', noExecution: '執行次數', totalWin: '贏', totalLoss: '虧', totalDraw: '平'
+        id: 'ID', portfolio: '賺蝕紀錄', buyPrice: '平均買入價', code: '牛能證', quantity: '總買入單位', ref: 'Ref', sellPrice: '平均賣出價', soldTime: '最後賣出時間', profitLoss : '總盈虧', noExecution: '執行次數', totalWin: '贏', totalLoss: '虧', totalDraw: '平', wtype: '種類', issuer: '發行人'
       }
     }
     return text[lang]
@@ -87,6 +91,8 @@ class Portfolio extends React.Component {
         <tr key={'portfolio_'+no}>
           <td>{len-no}</td>
           <td>{code}</td>
+          <td>{d.issuer}</td>
+          <td>{d.wtype}</td>
           <td>{ parseFloat(d.avgBuyPrice).toFixed(4) }</td>
           <td>{ parseFloat(d.avgSellPrice).toFixed(4) }</td>
           <td>{ numberWithCommas(d.totalQuantity) }</td>
@@ -108,7 +114,9 @@ class Portfolio extends React.Component {
           <table className="table table-sm table-striped table-light table-portfolio">
             <colgroup>
               <col span="1" width="50px" />
-              <col span="1" width="100px" />
+              <col span="1" width="50px" />
+              <col span="1" width="50px" />
+              <col span="1" width="50px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />
@@ -123,6 +131,8 @@ class Portfolio extends React.Component {
               <tr>
                 <th>{text.id}</th>
                 <th>{text.code}</th>
+                <th>{text.issuer}</th>
+                <th>{text.wtype}</th>
                 <th>{text.buyPrice}</th>
                 <th>{text.sellPrice}</th>
                 <th>{text.quantity}</th>
