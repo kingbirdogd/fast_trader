@@ -8,10 +8,10 @@ class Recommender extends React.Component {
   
   constructor(props) {
     super(props)
-    this.state = {underlying: 'HSI', issuer: 'VT', type: 'RC', products: []}
+    this.state = {underlying: '1', issuer: 'BI', type: 'EC', products: []}
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
-    this.handleSelect = this.handleSelect(this)
+    this.handleSelect = this.handleSelect.bind(this)
   }
   
   static getDerivedStateFromProps(props, state) {
@@ -42,7 +42,44 @@ class Recommender extends React.Component {
   }
   
   handleSelect(event) {
+    event.preventDefault()
+    var curCode = event.target.getAttribute('data-code')
     
+    var states = this.props.getStates()
+    var obj = $.extend(true, {}, states)
+    var obj2 = $.extend(true, {}, states.cells)
+    
+    if ('modules' in obj && ('bear' in obj.modules || 'bull' in obj.modules)) {
+      // get product
+      var curProduct = null
+      for (var i in this.state.products) {
+        if (this.state.products[i].Code == curCode)
+          curProduct = this.state.products[i]
+      }
+
+      // only cbbc
+      if ('Type' in curProduct && (curProduct.Type == 'RC' || curProduct.Type == 'RP')) {
+        for (var i in obj.config.value) {
+          if (((obj.config.value[i] == 'bull' && curProduct.Type == 'RC')         // fill bull
+                || (obj.config.value[i] == 'bear' && curProduct.Type == 'RP'))    // fill bear
+              && obj2[i].action.code.value == '') {                               // not empty
+              
+            if (curProduct.AskIssuerSize<=0)
+              curProduct.AskIssuerSize=0
+            
+            obj2[i].action.code.value = curProduct.Code.toString()
+            obj2[i].action.issuerSize.value = formatInputUnit(curProduct.AskIssuerSize*0.8, false)
+            obj2[i].action.quantity.value = formatInputUnit(10000, false)
+            obj2[i].action.spread.value = curProduct.Spread.toString()
+            obj2[i].action.delta.value = '0'
+            break 
+          }
+        }
+        
+      }
+    }
+    
+    this.props.setStates({'cells': obj2})
   }
   
   getText(lang) {
@@ -78,7 +115,7 @@ class Recommender extends React.Component {
       
       productsHTML.push(
         <tr key={'product_'+i}>
-          <td>{p.Code}</td>
+          <td><a href="" data-code={p.Code} onClick={this.handleSelect}> {p.Code} </a></td>
           <td>{ucode}</td>
           <td>{p.Type}</td>
           <td>{p.Name}</td>

@@ -232,21 +232,31 @@ class Ticket extends React.Component {
         }
         obj.cells[data.no].wnt.sell.qty = formatInputUnit(qty, false)
       }
-      
-      // 正股 輸入框
-      if (status1 == 'pTrack' && (isUpdate1 == false && isUpdate2 == false) && (data.pricemark.buyin > 0 && data.pricemark.buyin < 99999) && (isUpdate1 == false && isUpdate2 == false)) {
-        if (data.CallPut.toLowerCase() == 'p') {
-          obj.cells[data.no].stock.buy.price = formatPrice2(data.pricemark.buyin)
-          obj.cells[data.no].stock.sell.price = formatPrice2(data.pricemark.buyin)
+      // pTrack - 輪&正股 輸入框
+      if (status1 == 'pTrack' && (isUpdate1 == false && isUpdate2 == false)) {
+        // 正股 - 有價
+        if ('pricemark' in data && data.pricemark.buyin > 0 && data.pricemark.sellout < 99999999999) {
+          if (data.CallPut.toLowerCase() == 'p') {
+            obj.cells[data.no].stock.buy.price = formatLong(data.pricemark.buyin)
+            obj.cells[data.no].stock.sell.price = formatLong(data.pricemark.sellout)
+          }
+          if (data.CallPut.toLowerCase() == 'c') {
+            obj.cells[data.no].stock.sell.price = formatLong(data.pricemark.buyin)
+            obj.cells[data.no].stock.buy.price = formatLong(data.pricemark.sellout)
+          }
         }
-        if (data.CallPut.toLowerCase() == 'c') {
-          obj.cells[data.no].stock.sell.price = formatPrice2(data.pricemark.buyin)
-          obj.cells[data.no].stock.buy.price = formatPrice2(data.pricemark.buyin)
+        // 正股 - 沒價
+        else {
+          obj.cells[data.no].wnt.msg[0] = getTime()+' Pricemark not found.'
         }
-        obj.cells[data.no].wnt.buy.price = formatPrice2(data.pricemark.wask)
-        obj.cells[data.no].wnt.sell.price = formatPrice2(data.pricemark.wbid)
+        // 輪
+        if ('pricemark' in data) {
+          obj.cells[data.no].wnt.buy.price = formatLong(data.pricemark.wask)
+          obj.cells[data.no].wnt.sell.price = formatLong(data.pricemark.wbid)
+        }
       }
-      if ((typeof status1 == 'undefined' || status1 == 'xTrack' || status1 == 'aTrack' || !(data.pricemark.buyin > 0 && data.pricemark.buyin < 99999)) && (isUpdate1 == false && isUpdate2 == false)) {
+      // 正股 輸入框
+      if ((typeof status1 == 'undefined' || status1 == 'xTrack' || status1 == 'aTrack') && (isUpdate1 == false && isUpdate2 == false)) {
         if (data.CallPut.toLowerCase() == 'p') {
           obj.cells[data.no].stock.buy.price = formatPrice2(data.underlying_price.m_Bid.m_iPrice)
           if (position<=0 || obj.cells[data.no].stock.status4 == 'open') {}
