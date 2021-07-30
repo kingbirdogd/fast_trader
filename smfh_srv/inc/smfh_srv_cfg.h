@@ -201,7 +201,7 @@ inline static void loadLog(json& _json)
 
 bool compareSymbol(std::string s1, std::string s2){
 	if(s1.back() < s2.back())
-		return true;
+		return false;
 
 	return s1.compare(s2);
 }
