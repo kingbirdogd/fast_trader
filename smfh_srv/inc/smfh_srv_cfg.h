@@ -199,6 +199,13 @@ inline static void loadLog(json& _json)
 	return;
 }
 
+bool compareSymbol(std::string s1, std::string s2){
+	if(s1.back() < s2.back())
+		return true;
+
+	return s1.compare(s2);
+}
+
 inline static bool loadUsers(json& _json)
 {
 	user* pUser = nullptr;
@@ -429,9 +436,9 @@ inline static bool loadDefinition(json& _json)
 
 			}
 
-			std::sort(hsceiVec.begin(), hsceiVec.end());
-			std::sort(hsiVec.begin(), hsiVec.end());
-			std::sort(hstecVec.begin(), hstecVec.end());
+			std::sort(hsceiVec.begin(), hsceiVec.end(), compareSymbol);
+			std::sort(hsiVec.begin(), hsiVec.end(), compareSymbol);
+			std::sort(hstecVec.begin(), hstecVec.end(), compareSymbol);
 
 
 			for (auto it = warrent.begin(); it != warrent.end(); ++it)
@@ -1578,9 +1585,9 @@ inline static bool loadDefinition(json& _json)
 													flush_printf("tm:%llu, Finish Omdd Definition Refresh \n\n", dbp::tools::srv::current());
 													OmddDefReady = true;
 
-													std::sort(hsceiVec.begin(), hsceiVec.end());
-													std::sort(hsiVec.begin(), hsiVec.end());
-													std::sort(hstecVec.begin(), hstecVec.end());
+													std::sort(hsceiVec.begin(), hsceiVec.end(), compareSymbol);
+													std::sort(hsiVec.begin(), hsiVec.end(), compareSymbol);
+													std::sort(hstecVec.begin(), hstecVec.end(), compareSymbol);
 
 												}
 												else if (304 == uMsgType)
