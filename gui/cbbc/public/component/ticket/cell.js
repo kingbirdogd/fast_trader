@@ -86,6 +86,8 @@ class Cell extends React.Component {
     
     // 正股
     data.ucode = parseInt(stock.code.code)
+    if (isNaN(data.ucode))
+      data.ucode = stock.code.code
     data.buy_trriger = formatLongV2(stock.buy.price)
     data.sell_trriger = formatLongV2(stock.sell.price)
     if (obj.stock.status2 == 'open') {
@@ -469,6 +471,7 @@ class Cell extends React.Component {
     // 5.0 正股
     var digital = 2
     if (isETF(stock.code.code)) digital = 3
+    else if(isIndex(stock.code.code)) digital = 0
     if (stock.priceTable.ask.price) stock.priceTable.ask.price = parseFloat(stock.priceTable.ask.price).toFixed(digital)
     if (stock.priceTable.bid.price) stock.priceTable.bid.price = parseFloat(stock.priceTable.bid.price).toFixed(digital)
     if (stock.priceTable.ask.qty) stock.priceTable.ask.qty = formatInputUnit(stock.priceTable.ask.qty, false)

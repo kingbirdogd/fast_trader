@@ -72,6 +72,15 @@ class Recommender extends React.Component {
             obj2[i].action.quantity.value = formatInputUnit(10000, false)
             obj2[i].action.spread.value = curProduct.Spread.toString()
             obj2[i].action.delta.value = '0'
+            
+            if (curProduct.Type == 'RC')
+              var algoName = obj.modules.bull
+            else if (curProduct.Type == 'RP')
+              var algoName = obj.modules.bear
+            
+            var command1 = {algo_name: algoName, cmd: 'get_warrant_detail', code: parseInt(curProduct.Code), id: states.userId, no: parseInt(i)}
+            sendWebsocket(JSON.stringify(command1))
+            
             break 
           }
         }

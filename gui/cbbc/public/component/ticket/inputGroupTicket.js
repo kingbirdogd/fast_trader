@@ -65,6 +65,8 @@ class InputGroupTicket extends React.Component {
     
     if (key.includes('wnt'))
       var priceSpread = getSpread(val)
+    else if (key.includes('stock') && isIndex(obj.stock.code.code) == true)
+      var priceSpread = 0.5
     else if (key.includes('stock') && isETF(obj.stock.code.code) == false)
       var priceSpread = getSpreadStock(val)
     else if (key.includes('stock') && isETF(obj.stock.code.code) == true)

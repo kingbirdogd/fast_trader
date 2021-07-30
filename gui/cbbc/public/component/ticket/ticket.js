@@ -163,6 +163,14 @@ class Ticket extends React.Component {
     else if ('code' in data && 'CallPut' in data && 'underlying' in data && 'underlying_price' in data && 'warrant_price' in data) {
       var status1 = obj.cells[data.no].wnt.code.status1
       
+      // 指數
+      if (isNaN(parseInt(data.underlying))) {
+        data.underlying_price.m_Ask.m_iPrice *= 1000
+        data.underlying_price.m_Bid.m_iPrice *= 1000
+        data.pricemark.buyin *= 1000
+        data.pricemark.sellout *= 1000
+      }
+      
       // 正股
       if (typeof status1=='undefined' || status1=='recover' || status1=='xTrack' || status1=='aTrack') {
         var ratio1 = data.underlying_price.m_Ask.m_uQuantity+data.underlying_price.m_Bid.m_uQuantity
@@ -237,12 +245,12 @@ class Ticket extends React.Component {
         // 正股 - 有價
         if ('pricemark' in data && data.pricemark.buyin > 0 && data.pricemark.sellout < 99999999999) {
           if (data.CallPut.toLowerCase() == 'p') {
-            obj.cells[data.no].stock.buy.price = formatLong(data.pricemark.buyin)
-            obj.cells[data.no].stock.sell.price = formatLong(data.pricemark.sellout)
-          }
-          if (data.CallPut.toLowerCase() == 'c') {
             obj.cells[data.no].stock.sell.price = formatLong(data.pricemark.buyin)
             obj.cells[data.no].stock.buy.price = formatLong(data.pricemark.sellout)
+          }
+          if (data.CallPut.toLowerCase() == 'c') {
+            obj.cells[data.no].stock.buy.price = formatLong(data.pricemark.buyin)
+            obj.cells[data.no].stock.sell.price = formatLong(data.pricemark.sellout)
           }
         }
         // 正股 - 沒價

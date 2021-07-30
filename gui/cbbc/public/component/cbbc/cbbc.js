@@ -133,6 +133,7 @@ class Cbbc extends React.Component {
       // 接口v2
       else if ('cmd' in data) {
         if (data.cmd=='get_algo_names') {obj = this.setAlgoV2(obj, data)}
+        else if (data.cmd=='get_warrant_detail') {obj = this.setWarrantDetail(obj, data)}
       }
       else if ('type' in data) {
         // 接口v2
@@ -533,6 +534,15 @@ class Cbbc extends React.Component {
         state.cells[id].trade.size.feedback = data.reason
       else if (data.msg_type=='cbbc_algo_force_sell')
         state.cells[id].trade.size.feedback = data.reason
+    }
+    return {cells: state.cells}
+  }
+  
+  // 
+  setWarrantDetail(state, data) {
+    if ('code' in data && 'CallPut' in data && 'underlying' in data && 'underlying_price' in data && 'warrant_price' in data) {
+      if ('symbols' in data && data.symbols.length > 0)
+        state.cells[data.no].action.symbol.value = data.symbols[0]
     }
     return {cells: state.cells}
   }

@@ -255,6 +255,15 @@ function isETF(ucode) {
   return false
 }
 
+function isIndex(ucode) {
+  if (!ucode) {return false}
+  for (var index of ['hsi', 'hsce', 'hti']) {
+    if (ucode.toString().toLowerCase().includes(index))
+      return true
+  }
+  return false
+}
+
 function capitalize(val) {
   if (!val) return val;
   return val.charAt(0).toUpperCase() + val.slice(1);
