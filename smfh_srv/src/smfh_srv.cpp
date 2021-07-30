@@ -214,6 +214,27 @@ inline void decode()
 						j["warrant_price"] = it2->second.to_simple_json();
 					}
 
+					unsigned long long wbid = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;;
+					unsigned long long wask = static_cast<unsigned long long>(it2->second.m_Ask[0].m_iPrice) * 100000;;
+
+					unsigned long long buyin = 0;
+					unsigned long long sellout = 0;
+
+					auto itpm = pricemarkMap.find(code);
+					if(itpm != pricemarkMap.end()){
+						PriceMark* spm = itpm->second;
+						buyin = spm->buyIn(wask);
+						sellout = spm->sellOut(wbid);
+					}
+
+					nlohmann::json jpm;
+					jpm["buyin"] = buyin;
+					jpm["sellout"] = sellout;
+					jpm["wbid"] = wbid;
+					jpm["wask"] = wask;
+
+					j["pricemark"] = jpm;
+
 					if(underlying == 100001){
 						if(hsiVec.size() > 0){
 							//std::sort(hsiVec.begin(), hsiVec.end());
