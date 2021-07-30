@@ -216,7 +216,7 @@ inline void decode()
 
 					if(underlying == 100001){
 						if(hsiVec.size() > 0){
-							std::sort(hsiVec.begin(), hsiVec.end());
+							//std::sort(hsiVec.begin(), hsiVec.end());
 							std::string symbol = hsiVec.front();
 
 							j["symbols"] = nlohmann::json::array();
@@ -251,7 +251,7 @@ inline void decode()
 					}
 					if(underlying == 100002){
 						if(hsiVec.size() > 0){
-							std::sort(hsceiVec.begin(), hsceiVec.end());
+							//std::sort(hsceiVec.begin(), hsceiVec.end());
 							std::string symbol = hsceiVec.front();
 
 							j["symbols"] = nlohmann::json::array();
@@ -288,7 +288,7 @@ inline void decode()
 					}
 					if(underlying == 100003){
 						if(hsiVec.size() > 0){
-							std::sort(hstecVec.begin(), hstecVec.end());
+						//	std::sort(hstecVec.begin(), hstecVec.end());
 							std::string symbol = hstecVec.front();
 
 							j["symbols"] = nlohmann::json::array();
