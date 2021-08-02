@@ -615,7 +615,7 @@ algo_msg_base* semipro::json_to_msg(json& json)
 
 				unsigned long long lotsize = static_cast<unsigned long long>(def.LotSize) * 100000;
 
-				//Log("Set Code = " + to_string(p._warrant_code) + " Def Lotsize = " + to_string(lotsize));
+				Log("Set Code = " + to_string(p._warrant_code) + " Def Lotsize = " + to_string(lotsize) + " Order Size = " + to_string(p._auto_buy_quantity));
 
 				if((p._auto_buy_quantity % lotsize) > 0){
 					auto msg = algo_err_msg_pool.get_obj();
