@@ -205,7 +205,7 @@ inline void decode()
 				}
 
 				std::string cptype = itdef->second.CallPutFlag;
-				unsigned int lotsize = otdef->second.LotSize;
+				unsigned int lotsize = itdef->second.LotSize;
 
 				unsigned int underlying = it->second;
 				if(underlying == 100001 || underlying == 100002 || underlying == 100003){
