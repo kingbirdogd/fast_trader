@@ -205,6 +205,7 @@ inline void decode()
 				}
 
 				std::string cptype = itdef->second.CallPutFlag;
+				unsigned int lotsize = otdef->second.LotSize;
 
 				unsigned int underlying = it->second;
 				if(underlying == 100001 || underlying == 100002 || underlying == 100003){
@@ -265,6 +266,7 @@ inline void decode()
 								j["underlying"] = symbol;
 								j["underlying_price"] = it->second.to_simple_json();
 								j["CallPut"] = cptype;
+								j["Lotsize"] = lotsize;
 								output(j);
 								return;
 							}
@@ -300,6 +302,7 @@ inline void decode()
 								j["underlying"] = symbol;
 								j["underlying_price"] = it->second.to_simple_json();
 								j["CallPut"] = cptype;
+								j["Lotsize"] = lotsize;
 								output(j);
 								return;
 							}
@@ -337,6 +340,7 @@ inline void decode()
 								j["underlying"] = symbol;
 								j["underlying_price"] = it->second.to_simple_json();
 								j["CallPut"] = cptype;
+								j["Lotsize"] = lotsize;
 								output(j);
 								return;
 							}
@@ -380,6 +384,7 @@ inline void decode()
 				}
 				j["underlying"] = underlying;
 				j["CallPut"] = cptype;
+				j["Lotsize"] = lotsize;
 				output(j);
 				return;
 			}
