@@ -1346,6 +1346,7 @@ private:
 			auto j = algo_msg_base::to_json();
 			j["msg_type"] = "semipro_algo_odr_msg";
 			//j["odr"] = odr.to_json();
+			j["code"] = p._warrant_code;
 			j["auto_buy"] = p._auto_buy;
 			j["auto_sell"] = p._auto_sell;
 			j["buy_trigger"] = p._buy_trriger;
