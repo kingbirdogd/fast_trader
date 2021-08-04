@@ -83,7 +83,7 @@ class Control extends React.Component {
   <button type="button" name="position" className={classNames("btn btn-sm ml-2 ml-sm-2", cssBtnPos)} onClick={this.handleClick}>仓位</button>
   <button type="button" name="order" className={classNames("btn btn-sm ml-2 ml-sm-2", cssBtnOrder)} onClick={this.handleClick}>当日成交</button>
   {false && <button type="button" name="command" className={classNames("btn btn-sm ml-2 ml-sm-2", cssBtnCommand)} onClick={this.handleClick}>指令</button> }
-  <button type="button" name="recommender" className={classNames("btn btn-sm ml-2 ml-sm-2", cssBtnRecommender)} onClick={this.handleClick}>产品推荐</button>
+  {this.props.data2.btnRecommender && <button type="button" name="recommender" className={classNames("btn btn-sm ml-2 ml-sm-2", cssBtnRecommender)} onClick={this.handleClick}>产品推荐</button> }
 </div>
 
       </React.Fragment>

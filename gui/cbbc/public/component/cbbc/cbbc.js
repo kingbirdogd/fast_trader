@@ -11,6 +11,7 @@ class Cbbc extends React.Component {
       value: this.props.config
     }
     
+    this.state.setting = {}
     this.state.modules = {bull: null, bear: null}
     this.state.prefix = 'u000_'
     this.state.userId = parseInt(Cookies.get("cbbc-userId"))
@@ -69,7 +70,7 @@ class Cbbc extends React.Component {
     this.state.portfolios = portfolios
     this.state.issuerList = getIssuer()
     this.state.idxCells = {}
-    this.state.isShow = {recommender: false}
+    this.state.visible = {recommender: false, btnRecommender: false}
   }
   
   componentDidMount() {
@@ -145,6 +146,19 @@ class Cbbc extends React.Component {
     }
     initWebsocket(render)
     initTablePrice()
+    
+    async function getUserSetting(that) {
+      var data = await $.ajax({url: '/api/users/'+global.cookies['cbbc-uname'], type: 'GET'})
+      var obj = $.extend(true, {}, that.getStates())
+      if (data.result=='success') {
+        that.setState({setting: data.data})
+        if ('isShowRecommend' in data.data && data.data.isShowRecommend.toLowerCase() == 'true') {
+          obj.visible.btnRecommender = true
+          that.setState({visible: obj.visible})
+        }
+      }
+    }
+    getUserSetting(this)
   }
   
   // 盘口 set pairs v1
@@ -584,12 +598,12 @@ class Cbbc extends React.Component {
           <Status
             key="status"
             data={this.state.sizeReceiptData}
-            data2={this.state.isShow}
+            data2={this.state.visible}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}
           />
-          {this.state.isShow.recommender &&
+          {this.state.visible.recommender &&
           <Recommender
             key="recommender"
             data={this.state.issuerList}

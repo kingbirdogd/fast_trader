@@ -2,10 +2,23 @@ class Order extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
+    this.handleClose = this.handleClose.bind(this)
   }
   
   componentDidMount() {
-
+    $('.div-order').draggable({
+      zIndex: -1
+    })
+  }
+  
+  handleClose(event) {
+    event.preventDefault()
+    
+    var states = this.props.getStates()
+    var obj = $.extend(true, {}, states.visible)
+    obj.order = false
+    console.log(obj)
+    this.props.setStates({'visible': obj})
   }
   
   render() {
@@ -61,7 +74,7 @@ class Order extends React.Component {
     }
     
     return(
-      <React.Fragment>
+<div className="div-order">
       
 <div className="row">
 <div className="col-12 col-sm-12">
@@ -70,22 +83,22 @@ class Order extends React.Component {
 <thead>
   <tr>
   <th colSpan="6">当日成交 (只显示最近30条订单)</th>
-  <th colSpan="5"><a className="float-right" href="" onClick={(e) => {e.preventDefault()}}>下载 (显示所有订单)</a></th>
+  <th colSpan="5"><a className="float-right" href="" onClick={this.handleClose}>关闭</a></th>
   </tr>
 </thead>
 <tbody>
   <tr>
-  <td width="9%">时间</td>
-  <td width="9%">订单<br className="d-sm-none" />状态</td>
-  <td width="9%">订单<br className="d-sm-none" />号码</td>
-  <td width="9%">证代码</td>
-  <td width="9%">买/卖</td>
-  <td width="9%">买入量</td>
-  <td width="9%">盘价</td>
-  <td width="9%">成交价</td>
-  <td width="9%">成交量</td>
-  <td width="9%">对盘<br className="d-sm-none" />牌号</td>
-  <td width="9%">错误<br className="d-sm-none" />信息</td>
+  <td width="16%">时间</td>
+  <td width="8%">订单<br className="d-sm-none" />状态</td>
+  <td width="8%">订单<br className="d-sm-none" />号码</td>
+  <td width="8%">证代码</td>
+  <td width="8%">买/卖</td>
+  <td width="8%">买入量</td>
+  <td width="8%">盘价</td>
+  <td width="8%">成交价</td>
+  <td width="8%">成交量</td>
+  <td width="8%">对盘<br className="d-sm-none" />牌号</td>
+  <td width="8%">错误<br className="d-sm-none" />信息</td>
   </tr>
   {isShowDataDefault &&
   <tr>
@@ -152,7 +165,7 @@ class Order extends React.Component {
 </div>
 </div>
 
-      </React.Fragment>
+</div>
     )
   }
 }

@@ -23,7 +23,7 @@
     width: 60px;
   }
   #tb-users input {
-    width: 80px;
+    width: 100%;
     border: 0px solid #ccc !important;
     background-color: rgba(0, 0, 0, 0);
     padding: 2px 0px 0px 2px;
@@ -94,9 +94,11 @@
             for (var v2 of columns) columns2.push({title: v2, orderDataType: 'dom-text', type: "numeric"});
           }
           columns2.push({title: 'Action'});
-          // 1.2.3
+          // 1.2.3 datatable config
           ui.tbUsers.children('tbody').html(html);
           var columnDefs = [{targets: [1], visible: false,}, {targets: [2], visible: false,}];
+          for (var v of columnDefs)
+            global.colKeys.splice(v.targets[0], 1);
           global.dtUsers = ui.tbUsers.DataTable({searching: true, paging: false, info: false, order: [[0, "asc"]], columns: columns2, columnDefs: columnDefs});
           // 1.2.4 apply filter
           var group = null, role = null, uname = global.cookies['admin-uname'];
@@ -130,7 +132,7 @@
       }
     });
     
-    // 1.5
+    // 1.5 update user config
     function handleClick() {
       ui.tbUsers.children('tbody').on('click', 'button', function (e) {
         // var data = global.dtUsers.row($(this).parents('tr')).data();
@@ -141,7 +143,15 @@
           data[global.colKeys[i]] = that.find("td:eq("+k+") input").val();
         }
         data.name = that.find("td:eq(0)").html();
-        console.log(data);
+        delete data['id'];
+        // 1.5.1
+        $.ajax({
+          type: "POST",
+          crossDomain: true,
+          url: "/api/update/user-config",
+          data: data,
+          success: function(res) {}
+        });
       });
     }
     

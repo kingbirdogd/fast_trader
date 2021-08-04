@@ -5,7 +5,7 @@ class Ticket extends React.Component {
     this.getStates = this.getStates.bind(this)
     
     this.state = {}
-    this.state.visible = {position: false, order: false, command: false, recommender: false}
+    this.state.visible = {position: false, order: false, command: false, recommender: false, btnRecommender: false}
     this.state.modules = {bear: undefined, bull: undefined, call: undefined, put: undefined}
     this.state.noCell = {cur: 8, max: 12}
     this.state.sizeReceiptData = {totalBytes: 0, noPackage: 0, lastAliveTime: undefined}
@@ -27,6 +27,7 @@ class Ticket extends React.Component {
           buy: {price: undefined, qty: undefined, status: undefined},
           sell: {price: undefined, qty: undefined, status: undefined, max: undefined, min: undefined},
           stopLoss: {price: undefined, status: undefined},
+          lotSize: undefined,
           msg: [],
         },
         stock: {
@@ -54,7 +55,7 @@ class Ticket extends React.Component {
         config: {
           layout: 'normal',
         },
-        updatePrice: {isUpdate1: false, isUpdate2: false},
+        updatePrice: {isUpdate1: false, isUpdate2: false, interval: undefined},
       }
     }
     
@@ -86,7 +87,8 @@ class Ticket extends React.Component {
       
       else if ('action' in data) {
         if (data.action=='connect_reject') {this.connectReject(data)}
-        else if (data.action == 'exception' && data.msg_type == 'semipro_algo_err_msg') {obj = this.setError(obj, data)}
+        // else if (data.action == 'exception' && data.msg_type == 'semipro_algo_err_msg') {obj = this.setError(obj, data)}
+        else if (data.msg_type == 'semipro_algo_err_msg') {obj = this.setError(obj, data)}
         else if (data.action == 'stoplost') {obj = this.setStoploss(obj, data)}
       }
       
@@ -117,11 +119,17 @@ class Ticket extends React.Component {
     
     async function getUserSetting(that) {
       var data = await $.ajax({url: '/api/users/'+global.cookies['semipro-uname'], type: 'GET'})
+      var obj = $.extend(true, {}, that.getStates())
       if (data.result=='success') {
         that.setState({setting: data.data})
         // 票式數量
         if ('windowMax' in data.data && 'windowShow' in data.data)
           that.setState({noCell: {cur: data.data.windowShow, max: data.data.windowMax}})
+        // 
+        if ('isShowRecommend' in data.data && data.data.isShowRecommend.toLowerCase() == 'true') {
+          obj.visible.btnRecommender = true
+          that.setState({visible: obj.visible})
+        }
       }
     }
     getUserSetting(this)
@@ -172,7 +180,7 @@ class Ticket extends React.Component {
       }
       
       // 正股
-      if (typeof status1=='undefined' || status1=='recover' || status1=='xTrack' || status1=='aTrack') {
+      if (typeof status1=='undefined' || status1=='recover' || status1=='xTrack' || status1=='aTrack' || status1=='uTrack') {
         var ratio1 = data.underlying_price.m_Ask.m_uQuantity+data.underlying_price.m_Bid.m_uQuantity
         obj.cells[data.no].stock.code.code = data.underlying
         obj.cells[data.no].stock.priceTable = {
@@ -198,8 +206,9 @@ class Ticket extends React.Component {
       }
       
       // 輪
-      if (typeof status1 == 'undefined' || status1=='recover' || status1=='nTrack' || status1=='aTrack') {
+      if (typeof status1 == 'undefined' || status1=='recover' || status1=='nTrack' || status1=='aTrack' || status1=='uTrack') {
         obj.cells[data.no].wnt.code.status = 'success'
+        obj.cells[data.no].wnt.lotSize = parseInt(data.Lotsize)
         var ratio2 = data.warrant_price.m_Ask.m_uQuantity+data.warrant_price.m_Bid.m_uQuantity
         obj.cells[data.no].wnt.code.wtype = data.CallPut.toLowerCase()
         obj.cells[data.no].wnt.priceTable = {
@@ -222,10 +231,7 @@ class Ticket extends React.Component {
         position = formatInputUnit(obj.positions[data.code], true)
 
       // 輪 輸入框
-      var isUpdate1 = obj.cells[data.no].updatePrice.isUpdate1
-      var isUpdate2 = obj.cells[data.no].updatePrice.isUpdate2
-      
-      if ((typeof status1 == 'undefined' || status1 == 'nTrack' || status1 == 'aTrack') && (isUpdate1 == false && isUpdate2 == false)) {
+      if (typeof status1 == 'undefined' || status1 == 'nTrack' || status1 == 'aTrack') {
         obj.cells[data.no].wnt.buy.price = formatPrice2(data.warrant_price.m_Ask.m_iPrice)
         if (position<=0) {}
         obj.cells[data.no].wnt.sell.price = formatPrice2(data.warrant_price.m_Bid.m_iPrice)
@@ -241,7 +247,7 @@ class Ticket extends React.Component {
         obj.cells[data.no].wnt.sell.qty = formatInputUnit(qty, false)
       }
       // pTrack - 輪&正股 輸入框
-      if (status1 == 'pTrack' && (isUpdate1 == false && isUpdate2 == false)) {
+      if (status1 == 'pTrack') {
         // 正股 - 有價
         if ('pricemark' in data && data.pricemark.buyin > 0 && data.pricemark.sellout < 99999999999) {
           if (data.CallPut.toLowerCase() == 'p') {
@@ -261,10 +267,11 @@ class Ticket extends React.Component {
         if ('pricemark' in data) {
           obj.cells[data.no].wnt.buy.price = formatLong(data.pricemark.wask)
           obj.cells[data.no].wnt.sell.price = formatLong(data.pricemark.wbid)
+          obj.cells[data.no].wnt.stopLoss.price = formatLong(data.pricemark.wbid)
         }
       }
       // 正股 輸入框
-      if ((typeof status1 == 'undefined' || status1 == 'xTrack' || status1 == 'aTrack') && (isUpdate1 == false && isUpdate2 == false)) {
+      if (typeof status1 == 'undefined' || status1 == 'xTrack' || status1 == 'aTrack') {
         if (data.CallPut.toLowerCase() == 'p') {
           obj.cells[data.no].stock.buy.price = formatPrice2(data.underlying_price.m_Bid.m_iPrice)
           if (position<=0 || obj.cells[data.no].stock.status4 == 'open') {}
@@ -296,9 +303,15 @@ class Ticket extends React.Component {
         obj.cells[data.no].stock.pTrack = undefined
       if (obj.cells[data.no].updatePrice.isUpdate1 == true)
         obj.cells[data.no].updatePrice.isUpdate1 = false
-        
       
-      obj.cells[data.no].wnt.code.status1 = 'complete'
+      var isUpdate1 = obj.cells[data.no].updatePrice.isUpdate1
+      var isUpdate2 = obj.cells[data.no].updatePrice.isUpdate2
+      
+      if (isUpdate2 == true)
+        obj.cells[data.no].wnt.code.status1 = 'uTrack'
+      else
+        obj.cells[data.no].wnt.code.status1 = 'complete'
+      
       return obj
     }
     else
@@ -428,7 +441,12 @@ class Ticket extends React.Component {
           obj.cells[no].wnt.buy.status = 'close'
         }
       }
-      
+      else if (data.status.toLowerCase() == 'cancel' && data.side.toLowerCase() == 'buy') {
+        obj.cells[no].wnt.msg[0] = getTime()+''+data.reason
+        obj.cells[no].wnt.buy.status = 'close'
+        obj.cells[no].stock.action1 = 'stop'
+      }
+
       if (data.status.toLowerCase() == 'filled')
         obj.cells[no].wnt.position = formatInputUnit(formatLong(data.position), false)
 
@@ -643,6 +661,7 @@ class Ticket extends React.Component {
           lang={this.props.lang}
           getInstance={this.state.instance}
           data={this.state.cells[no]}
+          data2={this.state.setting}
           setStates={this.setStates}
           getStates={this.getStates}
         />
@@ -691,16 +710,6 @@ class Ticket extends React.Component {
         getStates={this.getStates}
       />}
       
-      {this.state.visible.order &&
-      <Order
-        key="order"
-        lang={this.props.lang}
-        data={this.state.orders}
-        data2={this.state.portfolio}
-        setStates={this.setStates}
-        getStates={this.getStates}
-      />}
-      
       {this.state.visible.command &&
       <Command
         key="command"
@@ -712,6 +721,16 @@ class Ticket extends React.Component {
       <div className="row">
       {cells}
       </div>
+      
+      {this.state.visible.order &&
+      <Order
+        key="order"
+        lang={this.props.lang}
+        data={this.state.orders}
+        data2={this.state.portfolio}
+        setStates={this.setStates}
+        getStates={this.getStates}
+      />}
       
       </React.Fragment>
     )

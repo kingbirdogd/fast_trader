@@ -21,6 +21,9 @@ class Cell extends React.Component {
       // 1.1 輸入中
       if (val.length<=obj.wnt.code.len) {
         var layout = obj.config.layout
+        if (obj.updatePrice.interval !== null)
+          clearInterval(obj.updatePrice.interval)
+        
         obj = this.props.getInstance()
         obj.config.layout = layout
         obj.wnt.code.code = val.replace(/[^0-9]/g, '')
@@ -33,23 +36,24 @@ class Cell extends React.Component {
     }
     
     // 2.0
-    var intUpdatePrice = null
     if (name == 'updatePrice2') {
-      if (obj.updatePrice.isUpdate2 == true)
+      if (obj.updatePrice.isUpdate2 == true) {
         obj.updatePrice.isUpdate2 = false
+        obj.wnt.code.status1 = 'complete'
+        // 2.1 kill
+        if (obj.updatePrice.interval !== null) {
+          clearInterval(obj.updatePrice.interval)
+          obj.updatePrice.interval = null
+        }
+      }
+      // 2.2 update
       else if (obj.updatePrice.isUpdate2 == false) {
-        /*obj.wnt.code.status1 = 'aTrack'
         obj.updatePrice.isUpdate2 = true
-        intUpdatePrice = setInterval(() => {
-          // 2.1
-          if (obj.updatePrice.isUpdate2 == false)
-            clearInterval(intUpdatePrice)
-          // 2.2
+        obj.wnt.code.status1 = 'uTrack'
+        obj.updatePrice.interval = setInterval(() => {
           var command = {cmd: 'get_warrant_detail', code: parseInt(val), algo_name: algoName, id: userId, no: no}
           sendWebsocket(JSON.stringify(command))
-          states.cells[no] = obj
-          this.props.setStates({states: obj})
-        }, 3000);*/
+        }, 1000);
       }
     }
     
@@ -138,6 +142,8 @@ class Cell extends React.Component {
       isErrorWntBuy = true, obj.wnt.msg[0] = getTime()+' Warrant buy price cannot be null or 0.'
     else if (!buy_qty || buy_qty==0)
       isErrorWntBuy = true, obj.wnt.msg[0] = getTime()+' Warrant buy qty cannot be null or 0.'
+    else if (!buy_qty || (buy_qty%formatLongV2(wnt.lotSize)) != 0)
+      isErrorWntBuy = true, obj.wnt.msg[0] = getTime()+' Warrant lot size is '+wnt.lotSize
     
     if (!sell_price || sell_price==0)
       isErrorWntSell = true, obj.wnt.msg[0] = getTime()+' Warrant sell price cannot be null or 0.'
@@ -382,7 +388,7 @@ class Cell extends React.Component {
     
     // 8.0
     if (name == 'updatePrice1') {
-      obj.wnt.code.status1 = 'aTrack'
+      obj.wnt.code.status1 = 'uTrack'
       obj.stock.aTrack = 'start'
       obj.updatePrice.isUpdate1 = true
       var command = {cmd: 'get_warrant_detail', code: parseInt(code), algo_name: algoName, id: userId, no: no}
@@ -566,6 +572,10 @@ class Cell extends React.Component {
     if (stock.xTrack == 'start') css_xTrack = 'btn-success'
     if (stock.pTrack == 'start') css_pTrack = 'btn-success'
     
+    var isShowPtrack = false
+    if ('isShowPtrack' in this.props.data2 && this.props.data2.isShowPtrack.toLowerCase() == 'true')
+      isShowPtrack = true
+    
     // 14.0 layout
     var isLayout1Disable = false, isLayout2Disable = false
     if (config.layout == 'normal') isLayout2Disable = true
@@ -739,7 +749,7 @@ class Cell extends React.Component {
     <div className="mb-1 mb-sm-1">
       <button className={classNames("btn btn-sm", css_nTrack)} name="nTrack" type="button" onClick={this.handleClick} disabled={isDisable}>nTrack</button>
       <button className={classNames("btn btn-sm", css_aTrack)} name="aTrack" type="button" onClick={this.handleClick} disabled={isDisable}>aTrack</button>
-      <button className={classNames("btn btn-sm", css_pTrack)} name="pTrack" type="button" onClick={this.handleClick} disabled={isDisable}>pTrack</button>
+      {isShowPtrack && <button className={classNames("btn btn-sm", css_pTrack)} name="pTrack" type="button" onClick={this.handleClick} disabled={isDisable}>pTrack</button>}
     </div>
     
     <div className="mb-1 mb-sm-1">
@@ -849,10 +859,10 @@ class Cell extends React.Component {
   
   <div className="d-flex d-block float-left">
     <button type="button" name="updatePrice1" className="btn btn-secondary" onClick={this.handleClick} disabled={isDisable}> Update </button>
-    {false && <div className="form-check">
+    <div className="form-check">
       <input className="form-check-input" type="checkbox" name="updatePrice2" value={wnt.code.code || ''} id="updatePrice2" checked={this.props.data.updatePrice.isUpdate2} onChange={this.handleChange} disabled={isDisable}></input>
       <label className="form-check-label" className="updatePrice2">3s</label>
-    </div>}
+    </div>
   </div>
   
   <div className="float-right">

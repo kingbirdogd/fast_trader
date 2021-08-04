@@ -46,7 +46,7 @@ class Status extends React.Component {
       else if (data2.recommender == true) data2.recommender = false
     }
     
-    this.props.setStates({isShow: data2})
+    this.props.setStates({visible: data2})
   }
   
   getText(lang) {
@@ -70,7 +70,7 @@ class Status extends React.Component {
             <button className={classNames("btn status-icon mr-2", iconStyle)} data-toggle="collapse" data-target="#status_detail" aria-expanded="false" aria-controls="status_detail">
               {connectStatus}
             </button>
-            <button name="recommender" className="btn status-icon btn-secondary" onClick={this.handleClick}> {text.recommender} </button>
+            {this.props.data2.btnRecommender && <button name="recommender" className="btn status-icon btn-secondary" onClick={this.handleClick}> {text.recommender} </button>}
             <div className="collapse" id="status_detail">
               <div className="card card-body">
                 {text.totalBytes}： {numberWithCommas(totalBytes)} Bytes <br />

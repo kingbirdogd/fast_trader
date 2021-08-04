@@ -126,6 +126,14 @@
   font-size: 12px;
 }
 
+#ticket .form-check {
+  padding-left: 12px;
+}
+
+#ticket .form-check-input {
+  margin-top: .2rem;
+}
+
 /* large */
 #ticket .cell.large {
   min-width: 548px;
@@ -158,6 +166,10 @@
   padding: 1px 6px;
 }
 
+#ticket .cell.large .form-check-input {
+  margin-top: .32rem;
+}
+
 /* xlarge */
 #ticket .cell.xlarge {
   min-width: 760px;
@@ -188,4 +200,14 @@
 
 #ticket .cell.xlarge button {
   padding: 1px 8px;
+}
+
+#ticket .cell.xlarge .form-check-input {
+  margin-top: .45rem;
+}
+
+@media only screen and (min-width: 768px) {
+  .div-order {
+    width: 760px;
+  }
 }
