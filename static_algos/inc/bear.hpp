@@ -252,13 +252,13 @@ private:
 				return _OBSetting->SellOut;
 
 			if(BULL == _Wtype){
-				if(_OBSetting->SellOut != 0){
+				if(_OBSetting->SellOut != 99999999){
 					return _OBSetting->SellOut - _SELL_OFFSET*100000;
 				}
 				return _OBSetting->SellOut;
 			}
 			if(BEAR == _Wtype){
-				if(_OBSetting->SellOut != 0){
+				if(_OBSetting->SellOut != 99999999){
 					return _OBSetting->SellOut + _SELL_OFFSET*100000;
 				}
 				return _OBSetting->SellOut;
@@ -273,13 +273,13 @@ private:
 
 
 			if(BULL == _Wtype){
-				if(_OBSetting->BuyIn != 99999999){
+				if(_OBSetting->BuyIn != 0){
 					return _OBSetting->BuyIn + _BUY_OFFSET*100000;
 				}
 				return _OBSetting->BuyIn;
 			}
 			if(BEAR == _Wtype){
-				if(_OBSetting->BuyIn != 99999999){
+				if(_OBSetting->BuyIn != 0){
 					return _OBSetting->BuyIn - _BUY_OFFSET*100000;
 				}
 				return _OBSetting->BuyIn;
