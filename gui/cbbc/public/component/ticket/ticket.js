@@ -240,11 +240,10 @@ class Ticket extends React.Component {
         }
       }
       if (typeof status1 == 'undefined') {
-        var qty = 10000
         if (position<=0) {
-          obj.cells[data.no].wnt.buy.qty = formatInputUnit(qty, false)
+          obj.cells[data.no].wnt.buy.qty = formatInputUnit(data.Lotsize, false)
         }
-        obj.cells[data.no].wnt.sell.qty = formatInputUnit(qty, false)
+        obj.cells[data.no].wnt.sell.qty = formatInputUnit(data.Lotsize, false)
       }
       // pTrack - 輪&正股 輸入框
       if (status1 == 'pTrack') {
@@ -367,7 +366,8 @@ class Ticket extends React.Component {
       else if (data.pair.auto_buy == true || data.pair.auto_sell == true) {
         obj.cells[no].stock.action1  = 'start'
         if (data.pair.max_sell_price > 0 && data.pair.min_sell_price > 0)
-          obj.cells[no].stock.action3  = 'start'
+          // obj.cells[no].stock.action3  = 'start'
+          var a=1
       }
       else
         obj.cells[no].stock.action1  = 'stop'
@@ -444,6 +444,7 @@ class Ticket extends React.Component {
       else if (data.status.toLowerCase() == 'cancel' && data.side.toLowerCase() == 'buy') {
         obj.cells[no].wnt.msg[0] = getTime()+''+data.reason
         obj.cells[no].wnt.buy.status = 'close'
+        obj.cells[no].wnt.sell.status = 'close'
         obj.cells[no].stock.action1 = 'stop'
       }
 

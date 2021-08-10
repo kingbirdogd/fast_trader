@@ -7,8 +7,7 @@ class Cbbc extends React.Component {
     this.state = {}
     
     this.state.config = {
-      defaultValue: ['bull', 'bear'],
-      value: this.props.config
+      defaultValue: ['bull', 'bear']
     }
     
     this.state.setting = {}
@@ -27,7 +26,8 @@ class Cbbc extends React.Component {
     var portfolios = []
     
     // 生成数据集
-    for(var i=0; i<4; i++) {
+    this.state.noCells = 100
+    for(var i=0; i<this.state.noCells; i++) {
       cells[i] = {}
       
       cells[i].action = {
@@ -37,7 +37,7 @@ class Cbbc extends React.Component {
         quantity: {value: '', feedback: '', valid: '', responseResult: ''},
         spread: {value: '', feedback: '', valid: 'number'},
         delta: {value: '', feedback: '', valid: ''},
-        status: {isSet: false, isStart: false, isPause: false, isStop: false, needToSetAgain: false, result: ''}
+        status: {isSet: false, isStart: false, isPause: false, isStop: false, needToSetAgain: false, result: ''},
       }
       
       cells[i].priceTable = {}
@@ -59,6 +59,9 @@ class Cbbc extends React.Component {
         size: {value: '', feedback: '', valid: 'string'}
       }
       
+      cells[i].underlying = {ucode: '', uname: ''}
+      cells[i].type = ''
+      
       orders[i] = []
       positions[i] = []
       portfolios[i] = []
@@ -69,8 +72,9 @@ class Cbbc extends React.Component {
     this.state.positions = positions
     this.state.portfolios = portfolios
     this.state.issuerList = getIssuer()
-    this.state.idxCells = {}
-    this.state.visible = {recommender: false, btnRecommender: false}
+    this.state.cellsConfig = []
+    
+    this.state.visible = {recommender: false, btnRecommender: true}
   }
   
   componentDidMount() {
@@ -83,8 +87,6 @@ class Cbbc extends React.Component {
       var data = JSON.parse(res)
       console.log(data)
       var obj = $.extend(true, {}, this.state)
-      for(var i in obj.cells)
-        obj.idxCells[obj.cells[i].action.code.value] = i
       if ('user_id' in data && (!obj.userId))
         obj = {userId: data.user_id}
       if ('action' in data) {
@@ -153,8 +155,8 @@ class Cbbc extends React.Component {
       if (data.result=='success') {
         that.setState({setting: data.data})
         if ('isShowRecommend' in data.data && data.data.isShowRecommend.toLowerCase() == 'true') {
-          obj.visible.btnRecommender = true
-          that.setState({visible: obj.visible})
+          // obj.visible.btnRecommender = true
+          // that.setState({visible: obj.visible})
         }
       }
     }
@@ -211,6 +213,10 @@ class Cbbc extends React.Component {
       state.cells[id].action.status.isStart = false
       state.cells[id].action.status.isStop = false
       state.cells[id].action.status.result = ''
+      if (pair.pair.wtype == 1)
+        state.cells[id].type = 'bull'
+      else if (pair.pair.wtype == 2)
+        state.cells[id].type = 'bear'
     }
     // 错误 code
     else if (('reason' in pair) && pair.reason.length>=0 && 
@@ -283,12 +289,12 @@ class Cbbc extends React.Component {
       else if (algo.includes('bear'))
         state.modules.bear = algo
     // 報價表
-    for (var i in state.config.value) {
+    for (var i in state.cellsConfig) {
       var code = state.cells[i].action.code.value
       // 已输入编号, 才要报价表
       if (code.length > 0) {
         var command = ['loadpricetable', code, state.prefix+i]
-        var command1 = {type: "algo_command", "key": state.modules[state.config.value[i]], command: command.join('|')}
+        var command1 = {type: "algo_command", "key": state.modules[state.cellsConfig[i].type], command: command.join('|')}
         sendWebsocket(JSON.stringify(command1))
       }
     }
@@ -306,9 +312,9 @@ class Cbbc extends React.Component {
       console.log({log: 'algo exist'})
     // 报价表
     async function loadPrice(state) {
-      for (var i in state.config.value) {
+      for (var i in state.cellsConfig) {
         var code = state.cells[i].action.code.value
-        var wtype = state.config.value[i]
+        var wtype = state.cellsConfig[i].type
         // 已输入编号, 才要报价表
         if (code.length > 0) {
           // 等待2秒, 避免过载
@@ -442,7 +448,12 @@ class Cbbc extends React.Component {
   // 初始化
   setRecoveryEnd(state, data) {
     state.recovery.isRecoveryEnd = true
-    return {recovery: state.recovery}
+    
+    for (var v of state.cells)
+      if (v.action.code.value)
+        state.cellsConfig.push({code: v.action.code.value, type: v.type, isVisable: true})
+    
+    return state
   }
   
   // 標的掛牌價
@@ -557,6 +568,7 @@ class Cbbc extends React.Component {
     if ('code' in data && 'CallPut' in data && 'underlying' in data && 'underlying_price' in data && 'warrant_price' in data) {
       if ('symbols' in data && data.symbols.length > 0)
         state.cells[data.no].action.symbol.value = data.symbols[0]
+      state.cells[data.no].underlying = {ucode: data.underlying, uname: getUnderlyingName2(data.underlying)}
     }
     return {cells: state.cells}
   }
@@ -573,18 +585,20 @@ class Cbbc extends React.Component {
   
   render() {
     let cells = [], wprices = []
-    for (let no in this.state.config.value) {
-      cells.push(
-        <Cell
-          key={"cell_"+no}
-          no={no}
-          type={this.state.config.value[no]}
-          data={this.state.cells[no]}
-          lang={this.props.lang}
-          setStates={this.setStates}
-          getStates={this.getStates}
-        />
-      )
+    for (let no in this.state.cellsConfig) {
+      if (this.state.cellsConfig[no].isVisable == true) {
+        cells.push(
+          <Cell
+            key={"cell_"+no}
+            no={no}
+            type={this.state.cellsConfig[no].type}
+            data={this.state.cells[no]}
+            lang={this.props.lang}
+            setStates={this.setStates}
+            getStates={this.getStates}
+          />
+        )
+      }
       wprices.push(this.state.cells[no].wPrice)
     }
     var style = (this.state.recovery.isRecoveryEnd) ? 'is_finish' : 'is_loading'
@@ -616,7 +630,7 @@ class Cbbc extends React.Component {
             key="position"
             data={this.state.positions}
             data2={wprices}
-            data3={this.state.idxCells}
+            data3={this.state.cellsConfig}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}
@@ -637,7 +651,7 @@ class Cbbc extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.19
+          Copyright © {curYear} Fast Trader v1.0.20
         </div>
       </React.Fragment>
       /*<Selector
@@ -657,4 +671,4 @@ class Cbbc extends React.Component {
 }
 
 var lang = global.cookies['cbbc-lang']
-ReactDOM.render(<Cbbc config={config} lang={lang} />, document.getElementById('cbbc'))
+ReactDOM.render(<Cbbc lang={lang} />, document.getElementById('cbbc'))

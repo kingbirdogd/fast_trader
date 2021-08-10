@@ -58,33 +58,28 @@ class Recommender extends React.Component {
       }
 
       // only cbbc
-      if ('Type' in curProduct && (curProduct.Type == 'RC' || curProduct.Type == 'RP')) {
-        for (var i in obj.config.value) {
-          if (((obj.config.value[i] == 'bull' && curProduct.Type == 'RC')         // fill bull
-                || (obj.config.value[i] == 'bear' && curProduct.Type == 'RP'))    // fill bear
-              && obj2[i].action.code.value == '') {                               // not empty
-              
-            if (curProduct.AskIssuerSize<=0)
-              curProduct.AskIssuerSize=0
-            
-            obj2[i].action.code.value = curProduct.Code.toString()
-            obj2[i].action.issuerSize.value = formatInputUnit(curProduct.AskIssuerSize*0.8, false)
-            obj2[i].action.quantity.value = formatInputUnit(10000, false)
-            obj2[i].action.spread.value = curProduct.Spread.toString()
-            obj2[i].action.delta.value = '0'
-            
-            if (curProduct.Type == 'RC')
-              var algoName = obj.modules.bull
-            else if (curProduct.Type == 'RP')
-              var algoName = obj.modules.bear
-            
-            var command1 = {algo_name: algoName, cmd: 'get_warrant_detail', code: parseInt(curProduct.Code), id: states.userId, no: parseInt(i)}
-            sendWebsocket(JSON.stringify(command1))
-            
-            break 
-          }
-        }
+      if ('Type' in curProduct && (curProduct.Type.toLowerCase() == 'rc' || curProduct.Type.toLowerCase() == 'rp')) {
+        var obj3 = $.extend(true, [], states.cellsConfig)
+        var i = obj3.length
         
+        if (curProduct.AskIssuerSize<=0)
+          curProduct.AskIssuerSize=0
+        obj2[i].action.code.value = curProduct.Code.toString()
+        obj2[i].action.issuerSize.value = formatInputUnit(curProduct.AskIssuerSize*0.8, false)
+        obj2[i].action.quantity.value = formatInputUnit(10000, false)
+        obj2[i].action.spread.value = curProduct.Spread.toString()
+        obj2[i].action.delta.value = '0'
+        
+        if (curProduct.Type.toLowerCase() == 'rc')
+          var algoName = obj.modules.bull, type = 'bull'
+        else if (curProduct.Type.toLowerCase() == 'rp')
+          var algoName = obj.modules.bear, type = 'bear'
+        
+        var command1 = {algo_name: algoName, cmd: 'get_warrant_detail', code: parseInt(curProduct.Code), id: states.userId, no: parseInt(i)}
+        sendWebsocket(JSON.stringify(command1))
+        
+        obj3.push({code: curProduct.Code.toString(), type: type, isVisable: true})
+        this.props.setStates({'cellsConfig': obj3})
       }
     }
     

@@ -19,6 +19,19 @@ class PriceTable extends React.Component {
     
   }
   
+  componentDidUpdate() {
+    ui.tablePrice = $(".price_table");
+    var obj = ui.tablePrice.niceScroll({
+      cursorcolor: '#797979',
+      autohidemode: true,
+      cursorwidth: 8
+    });
+    
+    ui.tablePrice.mouseover(function(){
+      ui.tablePrice.getNiceScroll().resize();
+    });
+  }
+  
   getText(lang) {
     var text = {
       en: {price: 'Price', bid: 'Bid', ask: 'Ask'},

@@ -6,8 +6,12 @@
   max-width: 1480px;
 }
 
-#cbbc .nav-tabs {
-  background-color: #f0f0f0;
+#cbbc .bg-yellow {
+  background-color: #ff9800;
+}
+
+#cbbc .bg-purple {
+  background-color: #6200ea;
 }
 
 #cbbc .nav-item {
@@ -16,6 +20,11 @@
 
 #cbbc .nav-item .nav-link {
   padding: .3rem 1rem;
+  border: None;
+}
+
+#cbbc .nav-item :not(.active) {
+  color: #fff;
 }
 
 #cbbc .tab-content {

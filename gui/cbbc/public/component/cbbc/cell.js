@@ -8,7 +8,25 @@ class Cell extends React.Component {
     getStates: PropTypes.func
   }
   
+  constructor(props) {
+    super(props)
+    this.state = {}
+    this.handleClose = this.handleClose.bind(this)
+  }
+  
   componentDidMount() {}
+  
+  handleClose() {
+    var states = this.props.getStates(),
+        obj = $.extend(true, [], states.cellsConfig),
+        no = this.props.no,
+        isStop = this.props.data.action.status.isStop
+        
+    if (isStop == true)
+      obj[no].isVisable = false
+    
+    this.props.setStates({cellsConfig: obj})
+  }
   
   getText(lang) {
     var text = {
@@ -25,13 +43,20 @@ class Cell extends React.Component {
     var isHide1 = {set: false, start: false, pause: false, stop: false}
     var isHide2 = {set: true, start: false, pause: false, stop: true}
     
+    var cssBg = ''
+    if (this.props.type == 'bull')
+      cssBg = 'bg-yellow'
+    else if (this.props.type == 'bear')
+      cssBg = 'bg-purple'
+    
     return(
       <div className="col-12 col-sm-6 col-md-3 mb-1">
-        <ul className="nav nav-tabs" id="cbbc_tab_001" role="tablist">
+        <ul className={classNames('nav nav-tabs',cssBg)} id="cbbc_tab_001" role="tablist">
           <li className="nav-item"> <a className="nav-link active" data-toggle="tab" href={"#type-"+no} role="tab" aria-selected="true"> {text[this.props.type]} </a> </li>
           <li className="nav-item"> <a className="nav-link" data-toggle="tab" href={"#price-table-"+no} role="tab" aria-selected="false"> {text.priceTable} </a> </li>
           <li className="nav-item"> <a className="nav-link" data-toggle="tab" href={"#setting-"+no} role="tab" aria-selected="false"> {text.setting} </a> </li>
           <li className="nav-item"> <a className="nav-link" data-toggle="tab" href={"#trade-"+no} role="tab" aria-selected="false"> {text.trade} </a> </li>
+          <li className="nav-item ml-auto" onClick={this.handleClose}> <i className="fa fa-times fa-lg mt-1 mr-1" aria-hidden="true"></i> </li>
         </ul>
         
         <div className="tab-content" id="cbbc_tab_content">

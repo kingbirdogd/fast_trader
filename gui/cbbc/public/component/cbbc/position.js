@@ -2,6 +2,7 @@ class Position extends React.Component {
   static propTypes = {
     data: PropTypes.array,
     data2: PropTypes.array,
+    data3: PropTypes.array,
     lang: PropTypes.string,
     setStates: PropTypes.func,
     getStates: PropTypes.func
@@ -75,7 +76,7 @@ class Position extends React.Component {
                 var bpSum = buyTurnover.reduce((a, b) => a + b, 0)
                 var bpAvg = (bpSum / buyTotalQuantity) || 0
                 
-                if (props.data2.length >= i && props.data2[i].bid > 0) {
+                if (props.data2.length > i && props.data2[i].bid > 0) {
                   // 輪 bid價
                   wbid = props.data2[i].bid
                   // 盈亏
@@ -115,7 +116,7 @@ class Position extends React.Component {
       price: formatLongV2(price),
       quantity: formatLongV2(buyQuantity),
       ref: states.prefix+no,
-      algo_name: states.modules[states.config.value[no]],
+      algo_name: states.modules[states.cellsConfig[no].type],
       id: parseInt(states.userId)
     }
     if (price>0)
@@ -142,8 +143,10 @@ class Position extends React.Component {
     for (const [code, d] of Object.entries(this.state.position)) {
       var style = (d.pnl==0) ? '' : (d.pnl>0) ? 'font-up' : 'font-down'
       var idx = no
-      if (code in this.props.data3)
-        idx = this.props.data3[code]
+      for (var i in this.props.data3) {
+        if (code == this.props.data3[i].code)
+          idx = i
+      }
       rows.push(
         <tr key={'position_'+no}>
           <td>{len-no}</td>

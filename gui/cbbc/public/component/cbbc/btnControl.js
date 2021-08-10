@@ -64,8 +64,8 @@ class BtnControl extends React.Component {
     
     // 样式
     btn.set.style = (d.isSet ? 'btn-primary' : 'btn-secondary')
-    btn.start.style = (d.isStart ? 'btn-warning' : 'btn-secondary')
-    btn.pause.style = (d.isPause ? 'btn-success' : 'btn-secondary')
+    btn.start.style = (d.isStart ? 'btn-success' : 'btn-secondary')
+    btn.pause.style = (d.isPause ? 'btn-warning' : 'btn-secondary')
     btn.stop.style = (d.isStop ? 'btn-danger' : 'btn-secondary')
     
     state.btn = btn
@@ -77,7 +77,7 @@ class BtnControl extends React.Component {
     var no = this.props.no
     var states = this.props.getStates()
     var obj = $.extend(true, {}, states.cells[no].action)
-    var wtype = $.extend(true, {}, states.config.value)
+    var wtype = $.extend(true, [], states.cellsConfig)
     
     // 校验数据
     var isError = false
@@ -113,7 +113,7 @@ class BtnControl extends React.Component {
       // Set指令
       if(!isError && name == 'isSet') {
         var format1 = (val) => {return parseFloat(formatInputUnit(val, true))}
-        var command = ['set', wtype[no], obj.symbol.value, obj.code.value, format1(obj.issuerSize.value), formatLongV2(format1(obj.quantity.value)), formatLongV2(obj.spread.value), states.prefix+no]
+        var command = ['set', wtype[no].type, obj.symbol.value, obj.code.value, format1(obj.issuerSize.value), formatLongV2(format1(obj.quantity.value)), formatLongV2(obj.spread.value), states.prefix+no]
         var command1 = {type: "algo_command", "key": states.modules[this.props.type], command: command.join('|')}
         sendWebsocket(JSON.stringify(command1))
       }
@@ -143,7 +143,7 @@ class BtnControl extends React.Component {
         var format1 = (val) => {return parseFloat(formatInputUnit(val, true))}
         var command1 = {
           cmd: "set",
-          wtype: wtype[no],
+          wtype: wtype[no].type,
           symbol: obj.symbol.value,
           warrant_code: parseInt(obj.code.value),
           issuersize: format1(obj.issuerSize.value),

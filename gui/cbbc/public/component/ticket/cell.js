@@ -283,7 +283,7 @@ class Cell extends React.Component {
         command1.min_sell_price = 0
         command1.max_sell_trriger = 0
         command1.min_sell_trriger = 0
-        sendWebsocket(JSON.stringify(command1))
+        // sendWebsocket(JSON.stringify(command1))
       }
       else {
         obj.stock.action2 = undefined
@@ -295,7 +295,7 @@ class Cell extends React.Component {
       if (!stock.action3) {
         obj.stock.action3 = 'start'
         command1.action = 'NOCHANGE'
-        sendWebsocket(JSON.stringify(command1))
+        // sendWebsocket(JSON.stringify(command1))
         
         obj.wnt.sell.max = wnt.sell.price
         obj.wnt.sell.min = wnt.sell.price
@@ -304,6 +304,18 @@ class Cell extends React.Component {
       }
       else {
         obj.stock.action3 = undefined
+        
+        var {command1, obj} = getAction(obj, command1, position)
+        command1.max_sell_price = formatLongV2(obj.wnt.sell.max)
+        command1.min_sell_price = formatLongV2(obj.wnt.sell.min)
+        command1.sell_price = formatLongV2(obj.wnt.sell.max)
+        
+        command1.max_sell_trriger = formatLongV2(obj.stock.sell.max)
+        command1.min_sell_trriger = formatLongV2(obj.stock.sell.min)
+        command1.sell_trriger = formatLongV2(obj.stock.sell.max)
+        
+        sendWebsocket(JSON.stringify(command1))
+        
         
         obj.wnt.sell.price = obj.wnt.sell.max
         // obj.wnt.sell.min = obj.wnt.sell.max
@@ -314,17 +326,6 @@ class Cell extends React.Component {
         // obj.stock.sell.min = obj.stock.sell.max
         obj.stock.sell.min = undefined
         obj.stock.sell.max = undefined
-        
-        var {command1, obj} = getAction(obj, command1, position)
-        command1.max_sell_price = 0
-        command1.min_sell_price = formatLongV2(obj.wnt.sell.min)
-        command1.sell_price = formatLongV2(obj.wnt.sell.price)
-        
-        command1.max_sell_trriger = 0
-        command1.min_sell_trriger = formatLongV2(obj.stock.sell.min)
-        command1.sell_trriger = formatLongV2(obj.stock.sell.price)
-        
-        sendWebsocket(JSON.stringify(command1))
       }
     }
     

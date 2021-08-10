@@ -27,7 +27,7 @@ class InputGroupTicket extends React.Component {
         command1.max_sell_price = formatLongV2(obj.wnt.sell.max)
         command1.min_sell_trriger = formatLongV2(obj.stock.sell.price)
         command1.max_sell_trriger = formatLongV2(obj.stock.sell.max)
-        sendWebsocket(JSON.stringify(command1))
+        // sendWebsocket(JSON.stringify(command1))
       }
       else if (obj.wnt.sell.status == 'open' || obj.wnt.buy.status == 'open') {
         command1.action = 'STOP'
