@@ -205,6 +205,25 @@ class Ticket extends React.Component {
         obj.cells[data.no].stock.status4 = 'close'
       }
       
+      // 檢查 match price
+      if (status1=='uTrack') {
+        var notMatchType = []
+        if (obj.cells[data.no].wnt.buy.price != formatPrice2(data.warrant_price.m_Ask.m_iPrice)) notMatchType.push('wnt_buy')
+        if (obj.cells[data.no].wnt.sell.price != formatPrice2(data.warrant_price.m_Bid.m_iPrice)) notMatchType.push('wnt_sell')
+        
+        if (data.CallPut.toLowerCase() == 'p') {
+          if (obj.cells[data.no].stock.buy.price != formatPrice2(data.underlying_price.m_Bid.m_iPrice)) notMatchType.push('stock_buy')
+          if (obj.cells[data.no].stock.sell.price != formatPrice2(data.underlying_price.m_Ask.m_iPrice)) notMatchType.push('stock_sell')
+        }
+        if (data.CallPut.toLowerCase() == 'c') {
+          if (obj.cells[data.no].stock.buy.price != formatPrice2(data.underlying_price.m_Bid.m_iPrice)) notMatchType.push('stock_buy')
+          if (obj.cells[data.no].stock.sell.price != formatPrice2(data.underlying_price.m_Bid.m_iPrice)) notMatchType.push('stock_sell')
+        }
+      
+        if (notMatchType.length > 0)
+          obj.cells[data.no].wnt.msg[0] = getTime()+' '+notMatchType.join(', ')+' not match'
+      }
+      
       // 輪
       if (typeof status1 == 'undefined' || status1=='recover' || status1=='nTrack' || status1=='aTrack' || status1=='uTrack') {
         obj.cells[data.no].wnt.code.status = 'success'
@@ -633,7 +652,7 @@ class Ticket extends React.Component {
       obj.cells[no].stock.sell.price = formatLong(data.stoplost)
       obj.cells[no].wnt.sell.max = formatLong(data.wbid)
       obj.cells[no].wnt.sell.price = formatLong(data.wbid)
-      obj.cells[no].wnt.msg[0] = getTime()+' Raise StopLost to'+formatLong(data.stoplost)
+      obj.cells[no].wnt.msg[0] = getTime()+' Raise StopLost to '+formatLong(data.stoplost)
     }
     return obj
   }

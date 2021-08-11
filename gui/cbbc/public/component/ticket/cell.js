@@ -53,7 +53,7 @@ class Cell extends React.Component {
         obj.updatePrice.interval = setInterval(() => {
           var command = {cmd: 'get_warrant_detail', code: parseInt(val), algo_name: algoName, id: userId, no: no}
           sendWebsocket(JSON.stringify(command))
-        }, 1000);
+        }, 3000);
       }
     }
     
@@ -70,7 +70,7 @@ class Cell extends React.Component {
     data.code = parseInt(wnt.code.code)
     data.buy_price = formatLongV2(wnt.buy.price)
     data.sell_price = formatLongV2(wnt.sell.price)
-    if (obj.stock.status2 == 'open') {
+    if (false && obj.stock.status2 == 'open') {
       data.max_sell_price = formatLongV2(wnt.sell.max)
       data.min_sell_price = (wnt.sell.min==0 || !wnt.sell.min || wnt.sell.price > wnt.sell.min) ? formatLongV2(wnt.sell.price) : formatLongV2(wnt.sell.min)
     } else {
@@ -94,7 +94,7 @@ class Cell extends React.Component {
       data.ucode = stock.code.code
     data.buy_trriger = formatLongV2(stock.buy.price)
     data.sell_trriger = formatLongV2(stock.sell.price)
-    if (obj.stock.status2 == 'open') {
+    if (false && obj.stock.status2 == 'open') {
       data.max_sell_trriger = formatLongV2(stock.sell.max)
       data.min_sell_trriger = (stock.sell.min==0 || !stock.sell.min || stock.sell.price > stock.sell.min) ? formatLongV2(stock.sell.price) : formatLongV2(stock.sell.min)
     } else {
@@ -246,16 +246,7 @@ class Cell extends React.Component {
     }
     else if (name=='stock.action1' && stock.action1 && (stock.action1=='start' || stock.action1=='fail')) {
       if (wnt.buy.status == 'open' || wnt.sell.status == 'open') {
-        obj.wnt.sell.max = undefined
-        obj.wnt.sell.min = undefined
-        obj.stock.sell.max = undefined
-        obj.stock.sell.min = undefined
-        
         command1.action = 'STOP'
-        command1.max_sell_price = 0
-        command1.min_sell_price = 0
-        command1.max_sell_trriger = 0
-        command1.min_sell_trriger = 0
         sendWebsocket(JSON.stringify(command1))
       }
       else if (wnt.stopLoss.status == 'start' && stock.action1 == 'start') {
@@ -273,17 +264,6 @@ class Cell extends React.Component {
     else if (name=='stock.action2' && stock.action1 && stock.action1=='start' && (wnt.sell.status == 'open' || wnt.buy.status == 'open')) {
       if (!stock.action2) {
         obj.stock.action2 = 'start'
-        obj.wnt.sell.max = undefined
-        obj.wnt.sell.min = undefined
-        obj.stock.sell.max = undefined
-        obj.stock.sell.min = undefined
-        
-        command1.action = 'NOCHANGE'
-        command1.max_sell_price = 0
-        command1.min_sell_price = 0
-        command1.max_sell_trriger = 0
-        command1.min_sell_trriger = 0
-        // sendWebsocket(JSON.stringify(command1))
       }
       else {
         obj.stock.action2 = undefined
@@ -294,8 +274,6 @@ class Cell extends React.Component {
     else if (name=='stock.action3' && stock.action1 && stock.action1=='start' && wnt.sell.status == 'open' && position > 0) {
       if (!stock.action3) {
         obj.stock.action3 = 'start'
-        command1.action = 'NOCHANGE'
-        // sendWebsocket(JSON.stringify(command1))
         
         obj.wnt.sell.max = wnt.sell.price
         obj.wnt.sell.min = wnt.sell.price
@@ -316,16 +294,13 @@ class Cell extends React.Component {
         
         sendWebsocket(JSON.stringify(command1))
         
-        
         obj.wnt.sell.price = obj.wnt.sell.max
-        // obj.wnt.sell.min = obj.wnt.sell.max
-        obj.wnt.sell.min = undefined
-        obj.wnt.sell.max = undefined
+        obj.wnt.sell.min = 0
+        obj.wnt.sell.max = 0
         
         obj.stock.sell.price = obj.stock.sell.max
-        // obj.stock.sell.min = obj.stock.sell.max
-        obj.stock.sell.min = undefined
-        obj.stock.sell.max = undefined
+        obj.stock.sell.min = 0
+        obj.stock.sell.max = 0
       }
     }
     
@@ -357,14 +332,6 @@ class Cell extends React.Component {
       
       var command = {cmd: 'get_warrant_detail', code: parseInt(code), algo_name: algoName, id: userId, no: no}
       sendWebsocket(JSON.stringify(command))
-      
-      /*if (wnt.sell.status == 'open' || wnt.buy.status == 'open') {
-        if (obj.stock.action1 == 'start')
-          command1.action = 'STOP'
-        else
-          command1.action = 'NOCHANGE'
-        sendWebsocket(JSON.stringify(command1))
-      }*/
       
       function initStatus(obj) {
         obj.wnt.buy.status = undefined

@@ -20,9 +20,12 @@ class Cell extends React.Component {
     var states = this.props.getStates(),
         obj = $.extend(true, [], states.cellsConfig),
         no = this.props.no,
+        isSet = this.props.data.action.status.isSet,
+        isStart = this.props.data.action.status.isStart,
+        isPause = this.props.data.action.status.isPause,
         isStop = this.props.data.action.status.isStop
         
-    if (isStop == true)
+    if ((isStop) || (!isSet && !isStart && !isPause && !isStop))
       obj[no].isVisable = false
     
     this.props.setStates({cellsConfig: obj})
@@ -45,9 +48,9 @@ class Cell extends React.Component {
     
     var cssBg = ''
     if (this.props.type == 'bull')
-      cssBg = 'bg-yellow'
-    else if (this.props.type == 'bear')
       cssBg = 'bg-purple'
+    else if (this.props.type == 'bear')
+      cssBg = 'bg-yellow'
     
     return(
       <div className="col-12 col-sm-6 col-md-3 mb-1">
