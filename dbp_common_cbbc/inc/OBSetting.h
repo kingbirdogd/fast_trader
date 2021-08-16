@@ -66,6 +66,7 @@ public:
 	unsigned long long LvLBid = -1;
 	unsigned long long RefWBid = -1;
 	unsigned long long RefWAsk = -1;
+	unsigned long long DiffPoint = -1;
 
 	unsigned long long ReadyBidBuy = 0;
 	unsigned long long ReadyAskBuy = 0;

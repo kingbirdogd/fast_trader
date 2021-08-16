@@ -1334,6 +1334,12 @@ std::string bear::set_param(unsigned int code, const std::string& type, const st
 	}else if(type == "SELLOFFSET"){
 		int _ivalue = static_cast<int>(ivalue);
 		p.set_SellOffset(_ivalue);
+	}else if(type == "SHOWPT"){
+		int _ivalue = static_cast<int>(ivalue);
+		if(_ivalue == 0)
+			p.enableShowPT(false);
+		else
+			p.enableShowPT(true);
 	}else{
 		return "INVALID TYPE";
 	}
