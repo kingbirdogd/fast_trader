@@ -1392,7 +1392,7 @@ private:
 					//}
 					//if(best_ask_qty >= _IssuerSize){
 
-						Log(std::string(" CODE = ") + std::to_string(code) + " Ask Change from " + to_string(_PriceInfo->Bestask) + " to " + to_string(best_ask_price));
+						//Log(std::string(" CODE = ") + std::to_string(code) + " Ask Change from " + to_string(_PriceInfo->Bestask) + " to " + to_string(best_ask_price));
 
 						_PriceInfo->PIBestask = _PriceInfo->IBestask;
 						_PriceInfo->IBestask = ibest_ask_price;
