@@ -1339,6 +1339,7 @@ private:
 					msg->warrant_code = _warrant_code;
 					msg->side = "BID";
 					msg->wprice = best_bid_price;
+					msg->diffpt = diffpoint;
 					ouputQueue.enqueue(msg);
 				}
 
@@ -1424,6 +1425,7 @@ private:
 					msg->warrant_code = _warrant_code;
 					msg->side = "ASK";
 					msg->wprice = best_ask_price;
+					msg->diffpt = diffpoint;
 					ouputQueue.enqueue(msg);
 				}
 
@@ -1574,11 +1576,13 @@ private:
 				unsigned long buyin = _CbbcPriceMark->buyIn(best_ask_price);
 				unsigned long long sellout = _CbbcPriceMark->sellOut(best_bid_price);
 				unsigned long long lvlBid = _CbbcPriceMark->sellOut(best_ask_price);
+				unsigned long long diffpoint = _CbbcPriceMark->leveldiff(best_ask_price);
 
 				_OBSetting->BuyIn = buyin;
 				_OBSetting->SellOut = sellout;
 				_OBSetting->LvLBid = lvlBid;
 				_OBSetting->Sensitivity = _CbbcPriceMark->getSensitivity();
+				_OBSetting->DiffPoint = diffpoint;
 
 /*
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _PriceInfo->LBestbid != best_bid_price && best_bid_price > 0 && best_bid_price > _PriceInfo->LBestbid){
@@ -1685,32 +1689,36 @@ private:
 							_PriceInfo->LastBidSeq = _PriceInfoU->BidSeq;
 
 							bool hasUpdate = _CbbcPriceMark->updateTableBid(ibest_bid_price, _PriceInfo->IBestbid, _PriceInfoU->FBestask, _PriceInfoU->PFBestask);
-							if(hasUpdate){
-								unsigned long long bkey = _CbbcPriceMark->getBidKey();
-								unsigned long long bprice = _CbbcPriceMark->getBidPrice();
-								if(bkey > 0 && bprice>0){
+							if(_SHOW_PT){
+								if(hasUpdate){
+									unsigned long long bkey = _CbbcPriceMark->getBidKey();
+									unsigned long long bprice = _CbbcPriceMark->getBidPrice();
+									if(bkey > 0 && bprice>0){
 
-									auto msg = algo_pricetable_msg_pool.get_obj();
-									msg->al = _algo;
-									msg->algo_name = _algo->_name;
-									msg->id = _algo->_u.get_id();
-									msg->ref = _Ref;
-									msg->warrant_code = _warrant_code;
-									msg->side = "BID";
-									msg->wkey = bkey;
-									msg->fprice = bprice;
-									ouputQueue.enqueue(msg);
+										auto msg = algo_pricetable_msg_pool.get_obj();
+										msg->al = _algo;
+										msg->algo_name = _algo->_name;
+										msg->id = _algo->_u.get_id();
+										msg->ref = _Ref;
+										msg->warrant_code = _warrant_code;
+										msg->side = "BID";
+										msg->wkey = bkey;
+										msg->fprice = bprice;
+										ouputQueue.enqueue(msg);
 
+									}
 								}
 							}
 
 							sellout = _CbbcPriceMark->sellOut(ibest_bid_price);
 							lvlBid = _CbbcPriceMark->sellOut(ibest_ask_price);
+							diffpoint = _CbbcPriceMark->leveldiff(ibest_ask_price);
 
 							if(sellout != _OBSetting->SellOut && _Action_Status != STAGE_STOP){
 
 								_OBSetting->SellOut = sellout;
 								_OBSetting->LvLBid = lvlBid;
+								_OBSetting->DiffPoint = diffpoint;
 
 							}
 						}
@@ -1750,6 +1758,7 @@ private:
 					msg->warrant_code = _warrant_code;
 					msg->side = "BID";
 					msg->wprice = best_bid_price;
+					msg->diffpt = diffpoint;
 					ouputQueue.enqueue(msg);
 				}
 
@@ -1763,31 +1772,35 @@ private:
 							_PriceInfo->LastAskSeq = _PriceInfoU->AskSeq;
 
 							bool hasUpdate = _CbbcPriceMark->updateTableAsk(ibest_ask_price, _PriceInfo->IBestask, _PriceInfoU->FBestbid, _PriceInfoU->PFBestbid);
-							if(hasUpdate){
-								unsigned long long bkey = _CbbcPriceMark->getAskKey();
-								unsigned long long bprice = _CbbcPriceMark->getAskPrice();
-								if(bkey > 0 && bprice>0){
+							if(_SHOW_PT){
+								if(hasUpdate){
+									unsigned long long bkey = _CbbcPriceMark->getAskKey();
+									unsigned long long bprice = _CbbcPriceMark->getAskPrice();
+									if(bkey > 0 && bprice>0){
 
-									auto msg = algo_pricetable_msg_pool.get_obj();
-									msg->al = _algo;
-									msg->algo_name = _algo->_name;
-									msg->id = _algo->_u.get_id();
-									msg->ref = _Ref;
-									msg->warrant_code = _warrant_code;
-									msg->side = "ASK";
-									msg->wkey = bkey;
-									msg->fprice = bprice;
-									ouputQueue.enqueue(msg);
+										auto msg = algo_pricetable_msg_pool.get_obj();
+										msg->al = _algo;
+										msg->algo_name = _algo->_name;
+										msg->id = _algo->_u.get_id();
+										msg->ref = _Ref;
+										msg->warrant_code = _warrant_code;
+										msg->side = "ASK";
+										msg->wkey = bkey;
+										msg->fprice = bprice;
+										ouputQueue.enqueue(msg);
 
+									}
 								}
 							}
 
 							buyin = _CbbcPriceMark->buyIn(ibest_ask_price);
 							lvlBid = _CbbcPriceMark->sellOut(ibest_ask_price);
+							diffpoint = _CbbcPriceMark->leveldiff(ibest_ask_price);
 
 							if(buyin != _OBSetting->BuyIn && _Action_Status != STAGE_STOP){
 								_OBSetting->BuyIn = buyin;
 								_OBSetting->LvLBid = lvlBid;
+								_OBSetting->DiffPoint = diffpoint;
 							}
 
 						}
@@ -1827,6 +1840,7 @@ private:
 					msg->warrant_code = _warrant_code;
 					msg->side = "ASK";
 					msg->wprice = best_ask_price;
+					msg->diffpt = diffpoint;
 					ouputQueue.enqueue(msg);
 				}
 
@@ -2737,12 +2751,14 @@ private:
 		std::string side;
 		unsigned long long wkey;
 		unsigned long long wprice;
+		unsigned long long diffpt;
 		algo_warrantprice_msg():
 			algo_msg_base(),
 			warrant_code(0),
 			side(""),
 			wkey(0),
-			wprice(0)
+			wprice(0),
+			diffpt(0)
 		{
 		}
 		virtual nlohmann::json to_json() const
@@ -2753,6 +2769,7 @@ private:
 			j["side"] = side;
 			j["wkey"] = wkey;
 			j["wprice"] = wprice;
+			j["diffpt"] = diffpt;
 			return j;
 		}
 		virtual void on_command()
