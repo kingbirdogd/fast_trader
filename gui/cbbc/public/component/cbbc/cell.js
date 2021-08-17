@@ -33,9 +33,9 @@ class Cell extends React.Component {
   
   getText(lang) {
     var text = {
-      en: { bull: 'Bull', bear: 'Bear', priceTable: 'Price Table', setting: 'Setting', trade: 'Trade'},
-      sc: { bull: '牛证', bear: '熊证', priceTable: '报价表', setting: '设置', trade: '买入/卖出'},
-      tc: { bull: '牛證', bear: '熊證', priceTable: '報價表', setting: '設置', trade: '買入/賣出'}
+      en: { bull: 'Bull', bear: 'Bear', priceTable: 'Price Table', setting: 'Setting', trade: 'Trade', undefined: 'Undefined'},
+      sc: { bull: '牛证', bear: '熊证', priceTable: '报价表', setting: '设置', trade: '买入/卖出', undefined: '未定义'},
+      tc: { bull: '牛證', bear: '熊證', priceTable: '報價表', setting: '設置', trade: '買入/賣出', undefined: '未定義'}
     }
     return text[lang]
   }
@@ -46,16 +46,19 @@ class Cell extends React.Component {
     var isHide1 = {set: false, start: false, pause: false, stop: false}
     var isHide2 = {set: true, start: false, pause: false, stop: true}
     
-    var cssBg = ''
+    var cssBg = '', content1 = ''
     if (this.props.type == 'bull')
-      cssBg = 'bg-purple'
+      cssBg = 'bg-purple', content1 = this.props.data.action.code.value
     else if (this.props.type == 'bear')
-      cssBg = 'bg-yellow'
+      cssBg = 'bg-yellow', content1 = this.props.data.action.code.value
+    else
+      cssBg = 'bg-gery', content1 = text[this.props.type]
+      
     
     return(
       <div className="col-12 col-sm-6 col-md-3 mb-1">
         <ul className={classNames('nav nav-tabs',cssBg)} id="cbbc_tab_001" role="tablist">
-          <li className="nav-item"> <a className="nav-link active" data-toggle="tab" href={"#type-"+no} role="tab" aria-selected="true"> {text[this.props.type]} </a> </li>
+          <li className="nav-item"> <a className="nav-link active" data-toggle="tab" href={"#type-"+no} role="tab" aria-selected="true"> {content1} </a> </li>
           <li className="nav-item"> <a className="nav-link" data-toggle="tab" href={"#price-table-"+no} role="tab" aria-selected="false"> {text.priceTable} </a> </li>
           <li className="nav-item"> <a className="nav-link" data-toggle="tab" href={"#setting-"+no} role="tab" aria-selected="false"> {text.setting} </a> </li>
           <li className="nav-item"> <a className="nav-link" data-toggle="tab" href={"#trade-"+no} role="tab" aria-selected="false"> {text.trade} </a> </li>

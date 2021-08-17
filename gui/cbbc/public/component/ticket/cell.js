@@ -6,6 +6,7 @@ class Cell extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleLayout = this.handleLayout.bind(this)
+    this.handleClose = this.handleClose.bind(this)
     this.initInputData = this.initInputData.bind(this)
   }
   
@@ -399,6 +400,18 @@ class Cell extends React.Component {
     this.props.setStates({states: obj})
   }
   
+  handleClose() {
+    var no = this.props.no,
+        states = this.props.getStates(),
+        obj = $.extend(true, {}, states.cells[this.props.no])
+    
+    if (obj.stock.action1 == 'stop')
+      obj.config.isVisable = false
+    
+    states.cells[no] = obj
+    this.props.setStates({states: obj})
+  }
+  
   render() {
     var wnt = $.extend(true, {}, this.props.data.wnt)
     var stock = $.extend(true, {}, this.props.data.stock)
@@ -559,7 +572,7 @@ class Cell extends React.Component {
   <div className="col-12 col-sm-12 mb-2 mb-sm-2">
   <div className={classNames("header d-flex justify-content-between", cssTitle)}>
     <span className={classNames('text-right', cssTitleFont)}> {title} </span> 
-    <span className="text-left"></span>
+    <span className="text-left ic-close" onClick={this.handleClose}> <i className="fa fa-times fa-lg ml-2 mr-2" aria-hidden="true"></i> </span>
   </div>
   </div>
   </div>

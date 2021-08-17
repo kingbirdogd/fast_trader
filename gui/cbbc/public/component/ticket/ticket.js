@@ -7,7 +7,7 @@ class Ticket extends React.Component {
     this.state = {}
     this.state.visible = {position: false, order: false, command: false, recommender: false, btnRecommender: false}
     this.state.modules = {bear: undefined, bull: undefined, call: undefined, put: undefined}
-    this.state.noCell = {cur: 8, max: 12}
+    this.state.noCell = {cur: 8, max: 20}
     this.state.sizeReceiptData = {totalBytes: 0, noPackage: 0, lastAliveTime: undefined}
     this.state.portfolio = []
     this.state.orders = []
@@ -53,7 +53,7 @@ class Ticket extends React.Component {
           tick: undefined,
         },
         config: {
-          layout: 'normal',
+          layout: 'normal', isVisable: true,
         },
         updatePrice: {isUpdate1: false, isUpdate2: false, interval: undefined},
       }
@@ -674,18 +674,20 @@ class Ticket extends React.Component {
     
     var cells = []
     for (var no=0; no<this.state.noCell.cur; no++) {
-      cells.push(
-        <Cell
-          key={"cell_"+no}
-          no={no}
-          lang={this.props.lang}
-          getInstance={this.state.instance}
-          data={this.state.cells[no]}
-          data2={this.state.setting}
-          setStates={this.setStates}
-          getStates={this.getStates}
-        />
-      )
+      if (this.state.cells[no].config.isVisable) {
+        cells.push(
+          <Cell
+            key={"cell_"+no}
+            no={no}
+            lang={this.props.lang}
+            getInstance={this.state.instance}
+            data={this.state.cells[no]}
+            data2={this.state.setting}
+            setStates={this.setStates}
+            getStates={this.getStates}
+          />
+        )
+      }
     }
     
     return(

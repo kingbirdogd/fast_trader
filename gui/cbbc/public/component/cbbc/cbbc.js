@@ -42,7 +42,7 @@ class Cbbc extends React.Component {
       
       cells[i].priceTable = {}
       
-      cells[i].wPrice = {bid: null, ask: null}
+      cells[i].wPrice = {bid: null, ask: null, diffpt: null}
       
       cells[i].setting = {
         inout: {value: '0', defaultValue: '', feedback: '', responseResult: '', valid: 'number_except_zero'},
@@ -52,6 +52,7 @@ class Cbbc extends React.Component {
         ptrange: {value: '0', defaultValue: '', feedback: '', responseResult: '', valid: 'number_except_zero'},
         buyoffset: {value: '0', defaultValue: '', feedback: '', responseResult: '', valid: 'number_except_zero'},
         selloffset: {value: '0', defaultValue: '', feedback: '', responseResult: '', valid: 'number_except_zero'},
+        showpt: {value: '0', defaultValue: '', feedback: '', responseResult: '', valid: 'number_except_zero'},
       }
       
       cells[i].trade = {
@@ -59,8 +60,7 @@ class Cbbc extends React.Component {
         size: {value: '', feedback: '', valid: 'string'}
       }
       
-      cells[i].underlying = {ucode: '', uname: ''}
-      cells[i].type = ''
+      cells[i].info = {ucode: '', uname: '', bidIssuerSize: '', askIssuerSize: '', spread: '', cratio: ''}
       
       orders[i] = []
       positions[i] = []
@@ -85,7 +85,8 @@ class Cbbc extends React.Component {
       this.state.sizeReceiptData.lastAliveTime = Date.now()
       
       var data = JSON.parse(res)
-      console.log(data)
+      if (data.action != 'connect_alive')
+        console.log(data)
       var obj = $.extend(true, {}, this.state)
       if ('user_id' in data && (!obj.userId))
         obj = {userId: data.user_id}
@@ -336,6 +337,16 @@ class Cbbc extends React.Component {
               algo_name: algo
             }
             sendWebsocket(JSON.stringify(command))
+            
+            var command2 = {
+              algo_name: state.modules[wtype],
+              cmd: "get_warrant_detail",
+              code: parseInt(code),
+              id: parseInt(state.userId),
+              no: i
+            }
+            sendWebsocket(JSON.stringify(command2))
+            
           }
           else if (!algo)
             console.log('Algo not found. Cannot load price table.')
@@ -449,10 +460,19 @@ class Cbbc extends React.Component {
   setRecoveryEnd(state, data) {
     state.recovery.isRecoveryEnd = true
     
-    for (var v of state.cells)
-      if (v.action.code.value)
-        state.cellsConfig.push({code: v.action.code.value, type: v.type, isVisable: true})
+    // 影射
+    var last = 0
+    for (var i in state.cells)
+      if (state.cells[i].action.code.value)
+        last = parseInt(i)+1
     
+    for(var i=0; i<last; i++) {
+      var v = state.cells[i]
+      if (v.action.code.value)
+        state.cellsConfig.push({code: v.action.code.value, type: v.type, isVisable: false})
+      else
+        state.cellsConfig.push({code: '', type: 'undefined', isVisable: false})
+    }
     return state
   }
   
@@ -460,6 +480,8 @@ class Cbbc extends React.Component {
   setWprice(state, data) {
     var id = data.ref.replace(state.prefix, ''), side = data.side.toLowerCase(), wprice = formatLong(data.wprice)
     state.cells[id].wPrice[side] = wprice
+    if ('diffpt' in data && data.diffpt < 99999999)
+      state.cells[id].wPrice.diffpt = data.diffpt/100000
     return {cells: state.cells}
   }
   
@@ -568,7 +590,15 @@ class Cbbc extends React.Component {
     if ('code' in data && 'CallPut' in data && 'underlying' in data && 'underlying_price' in data && 'warrant_price' in data) {
       if ('symbols' in data && data.symbols.length > 0)
         state.cells[data.no].action.symbol.value = data.symbols[0]
-      state.cells[data.no].underlying = {ucode: data.underlying, uname: getUnderlyingName2(data.underlying)}
+      state.cells[data.no].info.ucode = data.underlying
+      
+      if (getUnderlyingName2(data.underlying) != '')
+        state.cells[data.no].info.uname = getUnderlyingName2(data.underlying)
+      else
+        state.cells[data.no].info.uname = data.underlying
+      
+      state.cells[data.no].wPrice.ask = formatPrice2(data.warrant_price.m_Ask.m_iPrice)
+      state.cells[data.no].wPrice.bid = formatPrice2(data.warrant_price.m_Bid.m_iPrice)
     }
     return {cells: state.cells}
   }
@@ -625,6 +655,14 @@ class Cbbc extends React.Component {
             setStates={this.setStates}
             getStates={this.getStates}
           />}
+          <TradeTable
+            key="tradeTable"
+            data={this.state.cells}
+            data2={this.state.cellsConfig}
+            lang={this.props.lang}
+            setStates={this.setStates}
+            getStates={this.getStates}
+          />
           <div className='row'>{cells}</div>
           <Position
             key="position"
@@ -651,7 +689,7 @@ class Cbbc extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.20
+          Copyright © {curYear} Fast Trader v1.0.22
         </div>
       </React.Fragment>
       /*<Selector

@@ -64,9 +64,12 @@ class Recommender extends React.Component {
         
         if (curProduct.AskIssuerSize<=0)
           curProduct.AskIssuerSize=0
+        if (i>0 && obj2[i-1].action.code.value.length<5)
+          i--
         obj2[i].action.code.value = curProduct.Code.toString()
-        obj2[i].action.issuerSize.value = formatInputUnit(curProduct.AskIssuerSize*0.8, false)
-        obj2[i].action.quantity.value = formatInputUnit(10000, false)
+        var AskIssuerSize = parseInt(curProduct.AskIssuerSize*0.8/1000000)*1000000
+        obj2[i].action.issuerSize.value = formatInputUnit(AskIssuerSize, false)
+        obj2[i].action.quantity.value = formatInputUnit(curProduct.LotSize, false)
         obj2[i].action.spread.value = curProduct.Spread.toString()
         obj2[i].action.delta.value = '0'
         
@@ -78,7 +81,11 @@ class Recommender extends React.Component {
         var command1 = {algo_name: algoName, cmd: 'get_warrant_detail', code: parseInt(curProduct.Code), id: states.userId, no: parseInt(i)}
         sendWebsocket(JSON.stringify(command1))
         
-        obj3.push({code: curProduct.Code.toString(), type: type, isVisable: true})
+        // info
+        
+        
+        //
+        obj3.push({code: curProduct.Code.toString(), type: type, isVisable: false})
         this.props.setStates({'cellsConfig': obj3})
       }
     }
@@ -88,9 +95,9 @@ class Recommender extends React.Component {
   
   getText(lang) {
     var text = {
-      en: {ucode: 'Underlying', bear: 'Bear', bull: 'Bull', call: 'Call', put: 'Put', submit: 'Submit', code: 'Code', type: 'Type', name: 'Name', bid: 'Bid', ask: 'Ask', bidIssuerSize: 'Bid Issuer Size',  askIssuerSize: 'Ask Issuer Size', spread: 'Spread', cratio: 'Cratio', select: 'Select', tickCount: 'Tick Count', lastTradeTime: 'Last Trade Time'},
-      sc: {ucode: '标的', bear: '熊证', bull: '牛证', call: '认购', put: '认沽', submit: '提交', code: '编号', type: '种类', name: '名称', bid: '买入价', ask: '卖出价', bidIssuerSize: '买入量',  askIssuerSize: '卖出量', spread: '格数', cratio: '对冲值', select: '选择', tickCount: '小单/中单/大单', lastTradeTime: '最後交易时间'},
-      tc: {ucode: '正股', bear: '熊證', bull: '牛證', call: '認購', put: '認沽', submit: '提交', code: '編號', type: '種類', name: '名稱', bid: '買入價', ask: '賣出價', bidIssuerSize: '買入量',  askIssuerSize: '賣出量', spread: '格數', cratio: '對沖值', select: '選擇', tickCount: '小單/中單/大單', lastTradeTime: '最後交易時間'},
+      en: {ucode: 'Underlying', bear: 'Bear', bull: 'Bull', call: 'Call', put: 'Put', submit: 'Submit', code: 'Code', type: 'Type', name: 'Name', lotSize: 'Lot size', bid: 'Bid', ask: 'Ask', bidIssuerSize: 'Bid Issuer Size',  askIssuerSize: 'Ask Issuer Size', spread: 'Spread', cratio: 'Cratio', select: 'Select', tickCount: 'Tick Count', lastTradeTime: 'Last Trade Time'},
+      sc: {ucode: '标的', bear: '熊证', bull: '牛证', call: '认购', put: '认沽', submit: '提交', code: '编号', type: '种类', name: '名称', lotSize: '手数', bid: '买入价', ask: '卖出价', bidIssuerSize: '买入量',  askIssuerSize: '卖出量', spread: '格数', cratio: '对冲值', select: '选择', tickCount: '小单/中单/大单', lastTradeTime: '最後交易时间'},
+      tc: {ucode: '正股', bear: '熊證', bull: '牛證', call: '認購', put: '認沽', submit: '提交', code: '編號', type: '種類', name: '名稱', lotSize: '手數', bid: '買入價', ask: '賣出價', bidIssuerSize: '買入量',  askIssuerSize: '賣出量', spread: '格數', cratio: '對沖值', select: '選擇', tickCount: '小單/中單/大單', lastTradeTime: '最後交易時間'},
     }
     return text[lang]
   }
@@ -123,6 +130,7 @@ class Recommender extends React.Component {
           <td>{ucode}</td>
           <td>{p.Type}</td>
           <td>{p.Name}</td>
+          <td>{formatInputUnit(p.LotSize, false)}</td>
           <td>{p.Bid}</td>
           <td>{p.Ask}</td>
           <td>{formatInputUnit(p.BidIssuerSize, false)}</td>
@@ -138,7 +146,7 @@ class Recommender extends React.Component {
     if (this.state.products.length == 0) {
       productsHTML.push(
         <tr key={'product_0'}>
-          <td colSpan="12" className="text-center">No available products</td>
+          <td colSpan="13" className="text-center">No available products</td>
         </tr>
       )
     }
@@ -176,13 +184,14 @@ class Recommender extends React.Component {
     <col span="1" width="150px" />
     <col span="1" width="80px" />
     <col span="1" width="150px" />
+    <col span="1" width="80px" />
+    <col span="1" width="80px" />
+    <col span="1" width="80px" />
     <col span="1" width="100px" />
     <col span="1" width="100px" />
-    <col span="1" width="100px" />
-    <col span="1" width="100px" />
-    <col span="1" width="100px" />
-    <col span="1" width="100px" />
-    <col span="1" width="100px" />
+    <col span="1" width="80px" />
+    <col span="1" width="80px" />
+    <col span="1" width="80px" />
     <col span="1" width="100px" />
   </colgroup>
   <thead>
@@ -191,6 +200,7 @@ class Recommender extends React.Component {
     <th>{text.ucode}</th>
     <th>{text.type}</th>
     <th>{text.name}</th>
+    <th>{text.lotSize}</th>
     <th>{text.bid}</th>
     <th>{text.ask}</th>
     <th>{text.bidIssuerSize}</th>

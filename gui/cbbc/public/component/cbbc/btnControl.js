@@ -77,7 +77,7 @@ class BtnControl extends React.Component {
     var no = this.props.no
     var states = this.props.getStates()
     var obj = $.extend(true, {}, states.cells[no].action)
-    var wtype = $.extend(true, [], states.cellsConfig)
+    var obj2 = $.extend(true, [], states.cellsConfig)
     
     // 校验数据
     var isError = false
@@ -113,7 +113,7 @@ class BtnControl extends React.Component {
       // Set指令
       if(!isError && name == 'isSet') {
         var format1 = (val) => {return parseFloat(formatInputUnit(val, true))}
-        var command = ['set', wtype[no].type, obj.symbol.value, obj.code.value, format1(obj.issuerSize.value), formatLongV2(format1(obj.quantity.value)), formatLongV2(obj.spread.value), states.prefix+no]
+        var command = ['set', obj2[no].type, obj.symbol.value, obj.code.value, format1(obj.issuerSize.value), formatLongV2(format1(obj.quantity.value)), formatLongV2(obj.spread.value), states.prefix+no]
         var command1 = {type: "algo_command", "key": states.modules[this.props.type], command: command.join('|')}
         sendWebsocket(JSON.stringify(command1))
       }
@@ -143,7 +143,7 @@ class BtnControl extends React.Component {
         var format1 = (val) => {return parseFloat(formatInputUnit(val, true))}
         var command1 = {
           cmd: "set",
-          wtype: wtype[no].type,
+          wtype: obj2[no].type,
           symbol: obj.symbol.value,
           warrant_code: parseInt(obj.code.value),
           issuersize: format1(obj.issuerSize.value),

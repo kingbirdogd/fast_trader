@@ -85,6 +85,7 @@ class Setting extends React.Component {
         buyoffset: {label: 'Buy Offset', placeholder: ''},
         selloffset: {label: 'Sell Offset', placeholder: ''},
         priceTable: {label: 'Price Table'},
+        showpt: {label: 'Show Point', placeholder: ''},
         btn: {set: 'Set', reset: 'Reset'}
       },
       sc: {
@@ -97,6 +98,7 @@ class Setting extends React.Component {
         buyoffset: {label: '买入偏移', placeholder: ''},
         selloffset: {label: '賣出偏移', placeholder: ''},
         priceTable: {label: '报价表'},
+        showpt: {label: '颢示', placeholder: ''},
         btn: {set: '确定', reset: '重设'}
       },
       tc: {
@@ -109,6 +111,7 @@ class Setting extends React.Component {
         buyoffset: {label: '買入偏移', placeholder: ''},
         selloffset: {label: '賣出偏移', placeholder: ''},
         priceTable: {label: '報價表'},
+        showpt: {label: '顥示', placeholder: ''},
         btn: {set: '確定', reset: '重設'}
       }
     }
@@ -121,16 +124,6 @@ class Setting extends React.Component {
     var isDisabled = (this.props.data1.code.value.length>0) ? false : true
     return(
       <div className="tab-pane fade" id={"setting-"+no} role="tabpanel">
-      
-        <InputText 
-          key={"code_t_"+no}
-          no={no}
-          label={text.code.label}
-          name="code"
-          value={this.props.data1.code.value}
-          feedback={this.props.data1.code.feedback}
-          disabled={true}
-        />
       
         <InputTextWithBtn 
           key={"inout_"+no}
@@ -237,6 +230,21 @@ class Setting extends React.Component {
           onClick={this.handleClick}
         />
         
+        <InputTextWithBtn
+          key={"showpt_"+no}
+          no={no}
+          label={text.showpt.label}
+          name="showpt"
+          value={this.props.data2.showpt.value}
+          feedback={this.props.data2.showpt.feedback}
+          responseResult={this.props.data2.showpt.responseResult}
+          btnName={text.btn.set}
+          isDisabled={isDisabled}
+          isDisabledTv={false}
+          onChange={this.handleChange}
+          onClick={this.handleClick}
+        />
+        
         <BtnControl
           key={"btnControlPriceTb_"+no}
           no={no}
@@ -250,6 +258,17 @@ class Setting extends React.Component {
         
       </div>
     )
+    
+    /*<InputText 
+      key={"code_t_"+no}
+      no={no}
+      label={text.code.label}
+      name="code"
+      value={this.props.data1.code.value}
+      feedback={this.props.data1.code.feedback}
+      disabled={true}
+    />*/
+    
     /*<div className="form-group row">
       <label className="col-4 col-sm-4 col-form-label col-form-label-sm"> {text.priceTable.label} </label>
       <div className="col-8 col-sm-8">

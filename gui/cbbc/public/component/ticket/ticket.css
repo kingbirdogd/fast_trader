@@ -134,6 +134,10 @@
   margin-top: .2rem;
 }
 
+#ticket .ic-close {
+  color: #fff;
+}
+
 /* large */
 #ticket .cell.large {
   min-width: 548px;
