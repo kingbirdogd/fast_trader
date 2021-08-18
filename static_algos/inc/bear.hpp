@@ -2758,7 +2758,7 @@ private:
 			auto j = algo_msg_base::to_json();
 			j["msg_type"] = "listpair";
 			j["pairlist"] = nlohmann::json::array();
-			for (auto kv: self->_p_map) {
+			for (auto kv: al._p_map) {
 				j["pairlist"].push_back(kv.second.to_json());
 			}
 			return j;
