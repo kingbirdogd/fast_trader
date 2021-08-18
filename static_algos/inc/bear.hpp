@@ -195,6 +195,7 @@ private:
 			j["spread"] = _SPREAD;
 			j["wtype"] = _Wtype;
 			j["delta"] = _DELTA;
+			j["wname"] = _wname;
 			return j;
 		}
 		~pair() = default;
@@ -2745,6 +2746,32 @@ private:
 		}
 		virtual ~algo_pricetable_msg() = default;
 	};
+	struct algo_listpair_msg: public algo_msg_base
+	{
+		algo_listpair_msg():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["msg_type"] = "listpair";
+			j["pairlist"] = nlohmann::json::array();
+			for (const auto& kv: _p_map) {
+				j["pairlist"].push_back(kv.second.to_json());
+			}
+			return j;
+		}
+		virtual void on_command()
+		{
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_listpair_msg_pool.release_obj(this);
+		}
+		virtual ~algo_listpair_msg() = default;
+	};
 	struct algo_warrantprice_msg: public algo_msg_base
 	{
 		unsigned int warrant_code;
@@ -3021,6 +3048,7 @@ public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_portfolio_msg, 8192> algo_portfolio_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_warrantprice_msg, 8192> algo_warrantprice_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_pricetable_msg, 8192> algo_pricetable_msg_pool;
+	static repid_ring::spmc_ring_buffer_object_pool<algo_listpair_msg, 8192> algo_listpair_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_set_msg, 8192> algo_set_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_action_msg, 8192> algo_action_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_setposition, 8192> algo_setposition_pool;

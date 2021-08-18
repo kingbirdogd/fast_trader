@@ -1509,6 +1509,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 	algo_force_sell* pforce_sell = nullptr;
 	algo_setposition* palgo_setposition = nullptr;
 	algo_loadpricetable* ploadpricetable = nullptr;
+	algo_listpair_msg* plistpair = nullptr;
 	algo_param_msg* palgo_param_msg = nullptr;
 	try
 	{
@@ -1888,6 +1889,15 @@ algo_msg_base* bear::json_to_msg(json& json)
 			pAction_msg->code = json["warrant_code"].get<unsigned int>();
 			return pAction_msg;
 		}
+		else if(cmd == "listpair")
+		{
+			plistpair = algo_listpair_msg_pool.get_obj();
+			plistpair->al = this;
+			plistpair->algo_name = _name;
+			plistpair->id = _u.get_id();
+			plistpair->ref = ref;
+			return plistpair;
+		}
 		else if(cmd == "loadpricetable")
 		{
 			ploadpricetable = algo_loadpricetable_pool.get_obj();
@@ -2002,6 +2012,7 @@ rapid_ring::spmc_ring_buffer_object_pool<bear::algo_validate_msg, 8192> bear::al
 rapid_ring::spmc_ring_buffer_object_pool<bear::algo_portfolio_msg, 8192> bear::algo_portfolio_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<bear::algo_warrantprice_msg, 8192> bear::algo_warrantprice_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<bear::algo_pricetable_msg, 8192> bear::algo_pricetable_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<bear::algo_listpair_msg, 8192> bear::algo_listpair_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<bear::algo_setposition, 8192> bear::algo_setposition_pool;
 rapid_ring::spsc_ring_buffer_object_pool<bear::algo_set_msg, 8192> bear::algo_set_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<bear::algo_action_msg, 8192> bear::algo_action_msg_pool;
