@@ -2368,8 +2368,8 @@ private:
 private:
 	using pair_map = std::unordered_map<std::string, pair>;
 private:
-	//mutable pair_map _p_map;
-	pair_map _p_map;
+	mutable pair_map _p_map;
+	//pair_map _p_map;
 private:
 	struct action_resp
 	{
@@ -2749,6 +2749,7 @@ private:
 	};
 	struct algo_listpair_msg: public algo_msg_base
 	{
+		nlohmann::json pairlistarray;
 		algo_listpair_msg():
 			algo_msg_base()
 		{
@@ -2757,14 +2758,13 @@ private:
 		{
 			auto j = algo_msg_base::to_json();
 			j["msg_type"] = "listpair";
-			j["pairlist"] = nlohmann::json::array();
-			for (auto kv: al->_p_map) {
-				j["pairlist"].push_back(kv.second.to_json());
-			}
+			j["pairlist"] = pairlistarray;
 			return j;
 		}
 		virtual void on_command()
 		{
+			auto* self = dynamic_cast<bear*>(al);
+			pairlistarray = self->getPairlist();
 			ouputQueue.enqueue(this);
 		}
 		virtual void release()
@@ -3035,6 +3035,8 @@ public:
 	std::string force_buy(unsigned long long price, unsigned long long quantity, const std::string& ref);
 	std::string force_sell(unsigned long long price, unsigned long long quantity, const std::string& ref);
 	std::string set_position(unsigned long long price, unsigned long long quantity, const std::string& ref);
+	nlohmann::json getPairlist();
+
 	virtual void Log(std::string msg);
 	virtual void handle_command(algo_msg_base&);
 	virtual algo_msg_base* json_to_msg(json& msg);

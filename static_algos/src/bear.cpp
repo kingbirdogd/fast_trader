@@ -1447,6 +1447,17 @@ std::string bear::force_sell(unsigned long long price, unsigned long long quanti
 	return "SUCCESS";
 }
 
+nlohmann::json bear::getPairlist()
+{
+	nlohmann::json aarray;
+	aarray = nlohmann::json::array();
+	for (auto kv: _p_map) {
+		aarray["pairlist"].push_back(kv.second.to_json());
+	}
+
+	return aarray;
+}
+
 std::string bear::set_position(unsigned long long price, unsigned long long quantity, const std::string& ref)
 {
 	auto it = _p_map.find(ref);
