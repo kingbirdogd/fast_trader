@@ -2368,7 +2368,8 @@ private:
 private:
 	using pair_map = std::unordered_map<std::string, pair>;
 private:
-	mutable pair_map _p_map;
+	//mutable pair_map _p_map;
+	pair_map _p_map;
 private:
 	struct action_resp
 	{
@@ -2757,7 +2758,7 @@ private:
 			auto j = algo_msg_base::to_json();
 			j["msg_type"] = "listpair";
 			j["pairlist"] = nlohmann::json::array();
-			for (auto kv: this->_p_map) {
+			for (auto kv: self->_p_map) {
 				j["pairlist"].push_back(kv.second.to_json());
 			}
 			return j;
