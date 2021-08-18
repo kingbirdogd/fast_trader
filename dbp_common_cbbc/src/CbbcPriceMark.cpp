@@ -449,7 +449,7 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 
 						pAskMark[wask] = fprice;
 						askkey = wask;
-						paskprice = asprice;
+						paskprice = askprice;
 						askprice = fprice;
 
 						if(paskprice > 0){
