@@ -1354,6 +1354,7 @@ private:
 					msg->buyin = buyin;
 					msg->sellout = sellout;
 					msg->lvlbid = lvlBid;
+					msg->iprice = ibest_bid_price;
 					ouputQueue.enqueue(msg);
 				}
 
@@ -1448,6 +1449,7 @@ private:
 					msg->buyin = buyin;
 					msg->sellout = sellout;
 					msg->lvlbid = lvlBid;
+					msg->iprice = ibest_ask_price;
 					ouputQueue.enqueue(msg);
 				}
 
@@ -1791,6 +1793,7 @@ private:
 					msg->buyin = buyin;
 					msg->sellout = sellout;
 					msg->lvlbid = lvlBid;
+					msg->iprice = ibest_bid_price;
 					ouputQueue.enqueue(msg);
 				}
 
@@ -1880,6 +1883,7 @@ private:
 					msg->buyin = buyin;
 					msg->sellout = sellout;
 					msg->lvlbid = lvlBid;
+					msg->iprice = ibest_ask_price;
 					ouputQueue.enqueue(msg);
 				}
 
@@ -2823,6 +2827,7 @@ private:
 		unsigned long long lvlbid;
 		unsigned long long diffbid;
 		unsigned long long diffask;
+		unsigned long long iprice;
 		algo_warrantprice_msg():
 			algo_msg_base(),
 			warrant_code(0),
@@ -2834,7 +2839,8 @@ private:
 			sellout(0),
 			lvlbid(0),
 			diffbid(0),
-			diffask(0)
+			diffask(0),
+			iprice(0)
 		{
 		}
 		virtual nlohmann::json to_json() const
@@ -2851,6 +2857,7 @@ private:
 			j["lvlbid"] = lvlbid;
 			j["diffbid"] = diffbid;
 			j["diffask"] = diffask;
+			j["iprice"] = iprice;
 			return j;
 		}
 		virtual void on_command()
