@@ -3048,7 +3048,7 @@ public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_portfolio_msg, 8192> algo_portfolio_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_warrantprice_msg, 8192> algo_warrantprice_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_pricetable_msg, 8192> algo_pricetable_msg_pool;
-	static repid_ring::spmc_ring_buffer_object_pool<algo_listpair_msg, 8192> algo_listpair_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_listpair_msg, 8192> algo_listpair_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_set_msg, 8192> algo_set_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_action_msg, 8192> algo_action_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_setposition, 8192> algo_setposition_pool;
