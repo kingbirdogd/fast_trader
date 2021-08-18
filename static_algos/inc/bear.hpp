@@ -1163,6 +1163,8 @@ private:
 				unsigned long long sellout = _CbbcPriceMark->sellOut(best_bid_price);
 				unsigned long long lvlBid = _CbbcPriceMark->sellOut(best_ask_price);
 				unsigned long long diffpoint = _CbbcPriceMark->leveldiff(best_ask_price);
+				unsigned long long diffbidpts = _CbbcPriceMark->diffbidpoints();
+				unsigned long long diffaskpts = _CbbcPriceMark->diffaskpoints();
 
 				_OBSetting->BuyIn = buyin;
 				_OBSetting->SellOut = sellout;
@@ -1271,8 +1273,9 @@ private:
 							_PriceInfo->LastBidSeq = _PriceInfoU->BidSeq;
 							//_algo->log_info(std::string(" WCODE ") + std::to_string(code) + " DO Mark BID");
 							bool hasUpdate = _CbbcPriceMark->updateTableBid(ibest_bid_price, _PriceInfo->IBestbid, _PriceInfoU->FBestbid, _PriceInfoU->PFBestbid);
-							if(_SHOW_PT){
-								if(hasUpdate){
+							if(hasUpdate){
+								if(_SHOW_PT){
+
 									unsigned long long bkey = _CbbcPriceMark->getBidKey();
 									unsigned long long bprice = _CbbcPriceMark->getBidPrice();
 									if(bkey > 0 && bprice>0){
@@ -1289,7 +1292,12 @@ private:
 									ouputQueue.enqueue(msg);
 									}
 								}
+
+								diffbidpts = _CbbcPriceMark->diffbidpoints();
+								diffaskpts = _CbbcPriceMark->diffaskpoints();
 							}
+
+
 
 							sellout = _CbbcPriceMark->sellOut(ibest_bid_price);
 							lvlBid = _CbbcPriceMark->sellOut(ibest_ask_price);
@@ -1341,6 +1349,11 @@ private:
 					msg->side = "BID";
 					msg->wprice = best_bid_price;
 					msg->diffpt = diffpoint;
+					msg->diffbid = diffbidpts;
+					msg->diffask = diffaskpts;
+					msg->buyin = buyin;
+					msg->sellout = sellout;
+					msg->lvlbid = lvlBid;
 					ouputQueue.enqueue(msg);
 				}
 
@@ -1355,8 +1368,9 @@ private:
 
 							_PriceInfo->LastAskSeq = _PriceInfoU->AskSeq;
 							bool hasUpdate = _CbbcPriceMark->updateTableAsk(ibest_ask_price, _PriceInfo->IBestask, _PriceInfoU->FBestask, _PriceInfoU->PFBestask);
-							if(_SHOW_PT){
-								if(hasUpdate){
+							if(hasUpdate){
+								if(_SHOW_PT){
+
 									unsigned long long bkey = _CbbcPriceMark->getAskKey();
 									unsigned long long bprice = _CbbcPriceMark->getAskPrice();
 									if(bkey > 0 && bprice>0){
@@ -1375,6 +1389,8 @@ private:
 
 									}
 								}
+								diffbidpts = _CbbcPriceMark->diffbidpoints();
+								diffaskpts = _CbbcPriceMark->diffaskpoints();
 							}
 
 							buyin = _CbbcPriceMark->buyIn(ibest_ask_price);
@@ -1427,6 +1443,11 @@ private:
 					msg->side = "ASK";
 					msg->wprice = best_ask_price;
 					msg->diffpt = diffpoint;
+					msg->diffbid = diffbidpts;
+					msg->diffask = diffaskpts;
+					msg->buyin = buyin;
+					msg->sellout = sellout;
+					msg->lvlbid = lvlBid;
 					ouputQueue.enqueue(msg);
 				}
 
@@ -1578,6 +1599,8 @@ private:
 				unsigned long long sellout = _CbbcPriceMark->sellOut(best_bid_price);
 				unsigned long long lvlBid = _CbbcPriceMark->sellOut(best_ask_price);
 				unsigned long long diffpoint = _CbbcPriceMark->leveldiff(best_ask_price);
+				unsigned long long diffbidpts = _CbbcPriceMark->diffbidpoints();
+				unsigned long long diffaskpts = _CbbcPriceMark->diffaskpoints();
 
 				_OBSetting->BuyIn = buyin;
 				_OBSetting->SellOut = sellout;
@@ -1690,8 +1713,8 @@ private:
 							_PriceInfo->LastBidSeq = _PriceInfoU->BidSeq;
 
 							bool hasUpdate = _CbbcPriceMark->updateTableBid(ibest_bid_price, _PriceInfo->IBestbid, _PriceInfoU->FBestask, _PriceInfoU->PFBestask);
-							if(_SHOW_PT){
-								if(hasUpdate){
+							if(hasUpdate){
+								if(_SHOW_PT){
 									unsigned long long bkey = _CbbcPriceMark->getBidKey();
 									unsigned long long bprice = _CbbcPriceMark->getBidPrice();
 									if(bkey > 0 && bprice>0){
@@ -1709,6 +1732,9 @@ private:
 
 									}
 								}
+
+								diffbidpts = _CbbcPriceMark->diffbidpoints();
+								diffaskpts = _CbbcPriceMark->diffaskpoints();
 							}
 
 							sellout = _CbbcPriceMark->sellOut(ibest_bid_price);
@@ -1760,6 +1786,11 @@ private:
 					msg->side = "BID";
 					msg->wprice = best_bid_price;
 					msg->diffpt = diffpoint;
+					msg->diffbid = diffbidpts;
+					msg->diffask = diffaskpts;
+					msg->buyin = buyin;
+					msg->sellout = sellout;
+					msg->lvlbid = lvlBid;
 					ouputQueue.enqueue(msg);
 				}
 
@@ -1773,8 +1804,8 @@ private:
 							_PriceInfo->LastAskSeq = _PriceInfoU->AskSeq;
 
 							bool hasUpdate = _CbbcPriceMark->updateTableAsk(ibest_ask_price, _PriceInfo->IBestask, _PriceInfoU->FBestbid, _PriceInfoU->PFBestbid);
-							if(_SHOW_PT){
-								if(hasUpdate){
+							if(hasUpdate){
+								if(_SHOW_PT){
 									unsigned long long bkey = _CbbcPriceMark->getAskKey();
 									unsigned long long bprice = _CbbcPriceMark->getAskPrice();
 									if(bkey > 0 && bprice>0){
@@ -1792,6 +1823,8 @@ private:
 
 									}
 								}
+								diffbidpts = _CbbcPriceMark->diffbidpoints();
+								diffaskpts = _CbbcPriceMark->diffaskpoints();
 							}
 
 							buyin = _CbbcPriceMark->buyIn(ibest_ask_price);
@@ -1842,6 +1875,11 @@ private:
 					msg->side = "ASK";
 					msg->wprice = best_ask_price;
 					msg->diffpt = diffpoint;
+					msg->diffbid = diffbidpts;
+					msg->diffask = diffaskpts;
+					msg->buyin = buyin;
+					msg->sellout = sellout;
+					msg->lvlbid = lvlBid;
 					ouputQueue.enqueue(msg);
 				}
 
@@ -2780,13 +2818,23 @@ private:
 		unsigned long long wkey;
 		unsigned long long wprice;
 		unsigned long long diffpt;
+		unsigned long long buyin;
+		unsigned long long sellout;
+		unsigned long long lvlbid;
+		unsigned long long diffbid;
+		unsigned long long diffask;
 		algo_warrantprice_msg():
 			algo_msg_base(),
 			warrant_code(0),
 			side(""),
 			wkey(0),
 			wprice(0),
-			diffpt(0)
+			diffpt(0),
+			buyin(0),
+			sellout(0),
+			lvlbid(0),
+			diffbid(0),
+			diffask(0)
 		{
 		}
 		virtual nlohmann::json to_json() const
@@ -2798,6 +2846,11 @@ private:
 			j["wkey"] = wkey;
 			j["wprice"] = wprice;
 			j["diffpt"] = diffpt;
+			j["buyin"] = buyin;
+			j["sellout"] = sellout;
+			j["lvlbid"] = lvlbid;
+			j["diffbid"] = diffbid;
+			j["diffask"] = diffask;
 			return j;
 		}
 		virtual void on_command()

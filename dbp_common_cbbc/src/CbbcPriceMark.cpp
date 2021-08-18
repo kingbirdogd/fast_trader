@@ -211,7 +211,18 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 
 					pBidMark[wbid] = fprice;
 					bidkey = wbid;
+
+					pbidprice = bidprice;
 					bidprice = fprice;
+
+
+					if(pbidprice > 0){
+						if(bidprice > pbidprice)
+							diffbidpts = (bidprice - pbidprice);
+						else
+							diffbidpts = (pbidprice - bidprice);
+					}
+
 
 					return true;
 				}
@@ -254,7 +265,19 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 
 				pBidMark[pwbid] = pfprice;
 				bidkey = pwbid;
+				pbidprice = bidprice;
 				bidprice = pfprice;
+
+
+				if(pbidprice > 0){
+					if(bidprice > pbidprice)
+						diffbidpts = (bidprice - pbidprice);
+					else
+						diffbidpts = (pbidprice - bidprice);
+				}
+
+
+
 				return true;
 			}
 		}
@@ -281,7 +304,16 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 
 					pBidMark[wbid] = fprice;
 					bidkey = wbid;
+					pbidprice = bidprice;
 					bidprice = fprice;
+
+
+					if(pbidprice > 0){
+						if(bidprice > pbidprice)
+							diffbidpts = (bidprice - pbidprice);
+						else
+							diffbidpts = (pbidprice - bidprice);
+					}
 
 					return true;
 				}
@@ -321,7 +353,17 @@ bool CbbcPriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid,
 
 				pBidMark[pwbid] = pfprice;
 				bidkey = pwbid;
+				pbidprice = bidprice;
 				bidprice = pfprice;
+
+
+				if(pbidprice > 0){
+					if(bidprice > pbidprice)
+						diffbidpts = (bidprice - pbidprice);
+					else
+						diffbidpts = (pbidprice - bidprice);
+				}
+
 
 				return true;
 			}
@@ -371,7 +413,17 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 
 				pAskMark[pwask] = pfprice;
 				askkey = pwask;
+				paskprice = askprice;
 				askprice = pfprice;
+
+
+				if(paskprice > 0){
+					if(askprice > paskprice)
+						diffaskpts = (askprice - paskprice);
+					else
+						diffaskpts = (paskprice - askprice);
+				}
+
 
 				return true;
 			}
@@ -397,7 +449,16 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 
 						pAskMark[wask] = fprice;
 						askkey = wask;
+						paskprice = asprice;
 						askprice = fprice;
+
+						if(paskprice > 0){
+							if(askprice > paskprice)
+								diffaskpts = (askprice - paskprice);
+							else
+								diffaskpts = (paskprice - askprice);
+						}
+
 
 						return true;
 					}
@@ -443,7 +504,15 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 
 				pAskMark[pwask] = pfprice;
 				askkey = pwask;
+				paskprice = askprice;
 				askprice = pfprice;
+
+				if(paskprice > 0){
+					if(askprice > paskprice)
+						diffaskpts = (askprice - paskprice);
+					else
+						diffaskpts = (paskprice - askprice);
+				}
 
 				return true;
 			}
@@ -472,7 +541,17 @@ bool CbbcPriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask
 */
 						pAskMark[wask] = fprice;
 						askkey = wask;
+						paskprice = askprice;
 						askprice = fprice;
+
+						if(paskprice > 0){
+							if(askprice > paskprice)
+								diffaskpts = (askprice - paskprice);
+							else
+								diffaskpts = (paskprice - askprice);
+						}
+
+
 						return true;
 					}
 				}
@@ -775,6 +854,17 @@ unsigned long long CbbcPriceMark::leveldiff(unsigned long long buyprice){
 	return static_cast<unsigned long long>(abs(cal_ptrange));
 	//return 0;
 }
+
+unsigned long long CbbcPriceMark::diffbidpoints()
+{
+	return diffbidpts;
+}
+
+unsigned long long CbbcPriceMark::diffaskpoints()
+{
+	return diffaskpts;
+}
+
 
 /*
 unsigned long long CbbcPriceMark::level(unsigned long long wprice){

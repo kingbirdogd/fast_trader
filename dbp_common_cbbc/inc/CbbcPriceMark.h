@@ -65,6 +65,13 @@ private:
 	unsigned long long bidprice = 0;
 	unsigned long long askprice = 0;
 
+	unsigned long long pbidprice = 0;
+	unsigned long long paskprice = 0;
+
+	unsigned long long diffbidpts = 0;
+	unsigned long long diffaskpts = 0;
+
+
 	unsigned long long sensitivity = 0;
 
 public:
@@ -89,6 +96,9 @@ public:
 	unsigned long long buyIn(unsigned long long wprice);
 	unsigned long long sellOut(unsigned long long wprice);
 	unsigned long long leveldiff(unsigned long long buyprice);
+
+	unsigned long long diffbidpoints();
+	unsigned long long diffaskpoints();
 
 	unsigned long long getSensitivity();
 
