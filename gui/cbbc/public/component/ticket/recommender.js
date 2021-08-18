@@ -82,7 +82,7 @@ class Recommender extends React.Component {
         sendWebsocket(JSON.stringify(command1))
         
         // info
-        
+        obj2[i].info.issuer = this.state.issuer
         
         //
         obj3.push({code: curProduct.Code.toString(), type: type, isVisable: false})

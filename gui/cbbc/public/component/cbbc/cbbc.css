@@ -110,6 +110,12 @@
   border: 1px solid #e6e6e6;
 }
 
+#cbbc .table-trade {
+  overflow-y: hidden;
+  min-height: 182px;
+  height: auto;
+}
+
 #cbbc .table-portfolio.table-sm td, #cbbc .table-portfolio.table-sm th,
 #cbbc .table-order.table-sm td, #cbbc .table-order.table-sm th,
 #cbbc .table-position.table-sm td, #cbbc .table-position.table-sm th,

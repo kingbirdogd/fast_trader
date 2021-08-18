@@ -60,7 +60,7 @@ class Cbbc extends React.Component {
         size: {value: '', feedback: '', valid: 'string'}
       }
       
-      cells[i].info = {ucode: '', uname: '', bidIssuerSize: '', askIssuerSize: '', spread: '', cratio: ''}
+      cells[i].info = {issuer: '', ucode: '', uname: '', bidIssuerSize: '', askIssuerSize: '', spread: '', cratio: ''}
       
       orders[i] = []
       positions[i] = []
@@ -218,6 +218,8 @@ class Cbbc extends React.Component {
         state.cells[id].type = 'bull'
       else if (pair.pair.wtype == 2)
         state.cells[id].type = 'bear'
+      
+      state.cells[id].info.issuer = pair.pair.wname.substring(0, 2)
     }
     // 错误 code
     else if (('reason' in pair) && pair.reason.length>=0 && 
@@ -481,7 +483,13 @@ class Cbbc extends React.Component {
     var id = data.ref.replace(state.prefix, ''), side = data.side.toLowerCase(), wprice = formatLong(data.wprice)
     state.cells[id].wPrice[side] = wprice
     if ('diffpt' in data && data.diffpt < 99999999)
-      state.cells[id].wPrice.diffpt = data.diffpt/100000
+      state.cells[id].wPrice.diffpt = formatPrice(data.diffpt)
+    
+    state.cells[id].wPrice.buyin = formatPrice(data.buyin)
+    state.cells[id].wPrice.sellout = formatPrice(data.sellout)
+    state.cells[id].wPrice.diffask = formatPrice(data.diffask)
+    state.cells[id].wPrice.diffbid = formatPrice(data.diffbid)
+    
     return {cells: state.cells}
   }
   
