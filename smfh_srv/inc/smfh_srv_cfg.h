@@ -200,10 +200,18 @@ inline static void loadLog(json& _json)
 }
 
 bool compareSymbol(std::string s1, std::string s2){
-	if(s1.back() > s2.back())
+
+	bool yeargt = false;
+	if(s1.back() < s2.back())
 		return true;
 
-	return (s1.compare(s2) < 0);
+
+	if(s2.back() > s1.back()){
+		yeargt = true;
+	}
+
+
+	return (s1.compare(s2) < 0 && !yeargt);
 }
 
 inline static bool loadUsers(json& _json)
