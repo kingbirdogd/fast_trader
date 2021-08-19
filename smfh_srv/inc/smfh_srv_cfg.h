@@ -1596,6 +1596,10 @@ inline static bool loadDefinition(json& _json)
 													std::sort(hsiVec.begin(), hsiVec.end(), compareSymbol);
 													std::sort(hstecVec.begin(), hstecVec.end(), compareSymbol);
 
+													for(auto itxxx = std::begin(hsiVec); itxxx != std::end(hsiVec); ++itxxx) {
+														flush_printf(">>TEST hsiVec Wcode = %s \n", (*itxxx).c_str());
+													}
+
 												}
 												else if (304 == uMsgType)
 												{
