@@ -442,7 +442,7 @@ inline static bool loadDefinition(json& _json)
 
 
 			for(auto itxxx = std::begin(hsiVec); itxxx != std::end(hsiVec); ++itxxx) {
-			    flush_printf("tm:%llu, hsiVec Wcode = %s \n", (*itxxx).c_str());
+			    flush_printf(">>TEST hsiVec Wcode = %s \n", (*itxxx).c_str());
 			}
 
 
