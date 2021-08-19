@@ -200,7 +200,7 @@ inline static void loadLog(json& _json)
 }
 
 bool compareSymbol(std::string s1, std::string s2){
-	if(s1.back()< s2.back())
+	if(s1.back() > s2.back())
 		return true;
 
 	return (s1.compare(s2) < 0);
@@ -439,6 +439,13 @@ inline static bool loadDefinition(json& _json)
 			std::sort(hsceiVec.begin(), hsceiVec.end(), compareSymbol);
 			std::sort(hsiVec.begin(), hsiVec.end(), compareSymbol);
 			std::sort(hstecVec.begin(), hstecVec.end(), compareSymbol);
+
+
+			for(auto itxxx = std::begin(hsiVec); itxxx != std::end(hsiVec); ++itxxx) {
+			    flush_printf("tm:%llu, hsiVec Wcode = %s \n", (*itxxx).c_str());
+			}
+
+
 
 
 			for (auto it = warrent.begin(); it != warrent.end(); ++it)
