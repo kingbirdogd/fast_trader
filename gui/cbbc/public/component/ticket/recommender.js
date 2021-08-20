@@ -58,7 +58,12 @@ class Recommender extends React.Component {
       }
 
       // only cbbc
-      if ('Type' in curProduct && (curProduct.Type.toLowerCase() == 'rc' || curProduct.Type.toLowerCase() == 'rp')) {
+      var isProductExist = false
+      for (var v of this.props.data2) {
+        if (v.code == curProduct.Code.toString())
+          isProductExist = true
+      }
+      if ('Type' in curProduct && (curProduct.Type.toLowerCase() == 'rc' || curProduct.Type.toLowerCase() == 'rp') && (!isProductExist)) {
         var obj3 = $.extend(true, [], states.cellsConfig)
         var i = obj3.length
         

@@ -126,9 +126,9 @@ class TradeTable extends React.Component {
   
   getText(lang) {
     var text = {
-      en: {id: 'ID', ucode: 'Underlying', issuer: 'Issuer', code: 'Code', wtype: 'Type', name: 'Name', lotSize: 'Lot size', bid: 'Bid', diffpt: 'Diff Point', ask: 'Ask', action: 'Action', bull: 'Bull', bear: 'Bear', set: 'Set', start: 'Start', pause: 'Pause', stop: 'Stop', show: 'Show', hide: 'Hide', quantity: 'Quantity', delta: 'Delta', buyin: 'Buy In', sellout: 'Sell Out', diffbid: 'Diff Bid', diffask: 'Diff Ask'},
-      sc: {id: 'ID', ucode: '标的', issuer: '发行人', code: '牛熊证', wtype: '种类', name: '名称', lotSize: '手数', bid: '买入价', diffpt: '打和点', ask: '卖出价', action: '操作', bull: '牛证', bear: '熊证', set: '设置', start: '开始', pause: '暂停', stop: '停止', show: '显示', hide: '隱藏', quantity: '申购份数', delta: '对冲值', buyin: '期货买入价', sellout: '期货卖出价', diffbid: '相差买入点', sellout: '相差卖出点'},
-      tc: {id: 'ID', ucode: '正股', issuer: '發行人', code: '牛熊證', wtype: '種類', name: '名稱', lotSize: '手數', bid: '買入價', diffpt: '打和點', ask: '賣出價', action: '操作', bull: '牛證', bear: '熊證', set: '設置', start: '開始', pause: '暫停', stop: '停止', show: '顯示', hide: '隐藏', quantity: '買入額', delta: '對沖值', buyin: '期貨買入價', sellout: '期貨賣出價', diffbid: '相差買入點', sellout: '相差賣出點'},
+      en: {id: 'ID', ucode: 'Underlying', issuer: 'Issuer', code: 'Code', wtype: 'Type', name: 'Name', lotSize: 'Lot size', bid: 'Bid', diffpt: 'Diff Point', ask: 'Ask', action: 'Action', bull: 'Bull', bear: 'Bear', set: 'Set', start: 'Start', pause: 'Pause', stop: 'Stop', show: 'Show', hide: 'Hide', quantity: 'Quantity', delta: 'Delta', buyin: 'Buy In', sellout: 'Sell Out', diffbid: 'Diff Bid', diffask: 'Diff Ask', lvlbid: 'Lv. Bid'},
+      sc: {id: 'ID', ucode: '标的', issuer: '发行人', code: '牛熊证', wtype: '种类', name: '名称', lotSize: '手数', bid: '买入价', diffpt: '打和点', ask: '卖出价', action: '操作', bull: '牛证', bear: '熊证', set: '设置', start: '开始', pause: '暂停', stop: '停止', show: '显示', hide: '隱藏', quantity: '申购份数', delta: '对冲值', buyin: '期货买入价', sellout: '期货卖出价', diffbid: '相差买入点', sellout: '相差卖出点', lvlbid: ''},
+      tc: {id: 'ID', ucode: '正股', issuer: '發行人', code: '牛熊證', wtype: '種類', name: '名稱', lotSize: '手數', bid: '買入價', diffpt: '打和點', ask: '賣出價', action: '操作', bull: '牛證', bear: '熊證', set: '設置', start: '開始', pause: '暫停', stop: '停止', show: '顯示', hide: '隐藏', quantity: '買入額', delta: '對沖值', buyin: '期貨買入價', sellout: '期貨賣出價', diffbid: '相差買入點', sellout: '相差賣出點', lvlbid: ''},
     }
     return text[lang]
   }
@@ -212,6 +212,12 @@ class TradeTable extends React.Component {
           }
 
           // html
+          var iPriceAsk = '', iPriceBid = ''
+          if (v.wPrice.ipriceBid)
+            iPriceBid = ' ('+v.wPrice.ipriceBid+')'
+          if (v.wPrice.ipriceAsk)
+            iPriceAsk = ' ('+v.wPrice.ipriceAsk+')'
+          
           rows.push(
             <tr key={'trade_'+i}>
               <td>{no}</td>
@@ -221,11 +227,12 @@ class TradeTable extends React.Component {
               <td>{v.info.uname}</td>
               <td>{v.action.quantity.value}</td>
               
+              <td>{v.wPrice.lvlbid}</td>
               <td>{v.wPrice.sellout}</td>
               <td>{v.wPrice.diffbid}</td>
-              <td>{v.wPrice.bid}</td>
+              <td>{v.wPrice.bid} {iPriceBid}</td>
               <td>{v.wPrice.diffpt}</td>
-              <td>{v.wPrice.ask}</td>
+              <td>{v.wPrice.ask} {iPriceAsk}</td>
               <td>{v.wPrice.buyin}</td>
               <td>{v.wPrice.diffask}</td>
               
@@ -285,8 +292,9 @@ class TradeTable extends React.Component {
           <col span="1" width="80px" />
           <col span="1" width="80px" />
           <col span="1" width="80px" />
+          <col span="1" width="100px" />
           <col span="1" width="80px" />
-          <col span="1" width="80px" />
+          <col span="1" width="100px" />
           <col span="1" width="80px" />
           <col span="1" width="80px" />
           
@@ -304,6 +312,7 @@ class TradeTable extends React.Component {
           <th>{text.ucode}</th>
           <th>{text.lotSize}</th>
           
+          <th>{text.lvlbid}</th>
           <th>{text.sellout}</th>
           <th>{text.diffbid}</th>
           <th>{text.bid}</th>

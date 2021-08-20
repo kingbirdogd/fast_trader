@@ -42,7 +42,7 @@ class Cbbc extends React.Component {
       
       cells[i].priceTable = {}
       
-      cells[i].wPrice = {bid: null, ask: null, diffpt: null}
+      cells[i].wPrice = {bid: null, ask: null, diffpt: null, ipriceBid: null, ipriceAsk: null, lvlbid: null}
       
       cells[i].setting = {
         inout: {value: '0', defaultValue: '', feedback: '', responseResult: '', valid: 'number_except_zero'},
@@ -60,7 +60,7 @@ class Cbbc extends React.Component {
         size: {value: '', feedback: '', valid: 'string'}
       }
       
-      cells[i].info = {issuer: '', ucode: '', uname: '', bidIssuerSize: '', askIssuerSize: '', spread: '', cratio: ''}
+      cells[i].info = {issuer: '', ucode: '', uname: ''}
       
       orders[i] = []
       positions[i] = []
@@ -482,13 +482,21 @@ class Cbbc extends React.Component {
   setWprice(state, data) {
     var id = data.ref.replace(state.prefix, ''), side = data.side.toLowerCase(), wprice = formatLong(data.wprice)
     state.cells[id].wPrice[side] = wprice
-    if ('diffpt' in data && data.diffpt < 99999999)
-      state.cells[id].wPrice.diffpt = formatPrice(data.diffpt)
     
     state.cells[id].wPrice.buyin = formatPrice(data.buyin)
     state.cells[id].wPrice.sellout = formatPrice(data.sellout)
     state.cells[id].wPrice.diffask = formatPrice(data.diffask)
     state.cells[id].wPrice.diffbid = formatPrice(data.diffbid)
+    
+    if ('diffpt' in data && data.diffpt < 99999999)
+      state.cells[id].wPrice.diffpt = formatPrice(data.diffpt)
+    if ('lvlbid' in data && data.lvlbid != 99999999)
+      state.cells[id].wPrice.lvlbid = formatPrice(data.lvlbid)
+    
+    if (data.side.toLowerCase() == 'ask')
+      state.cells[id].wPrice.ipriceAsk = formatLong(data.iprice)
+    else if (data.side.toLowerCase() == 'bid')
+      state.cells[id].wPrice.ipriceBid = formatLong(data.iprice)
     
     return {cells: state.cells}
   }
@@ -659,6 +667,7 @@ class Cbbc extends React.Component {
           <Recommender
             key="recommender"
             data={this.state.issuerList}
+            data2={this.state.cellsConfig}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}
@@ -697,7 +706,7 @@ class Cbbc extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.22
+          Copyright © {curYear} Fast Trader v1.0.23
         </div>
       </React.Fragment>
       /*<Selector
