@@ -42,7 +42,7 @@ class Cbbc extends React.Component {
       
       cells[i].priceTable = {}
       
-      cells[i].wPrice = {bid: null, ask: null, diffpt: null, ipriceBid: null, ipriceAsk: null, lvlbid: null}
+      cells[i].wPrice = {bid: null, ask: null, diffpt: null, ipriceBid: null, ipriceAsk: null, lvlbid: null, ipriceAskIsWrong: false, ipriceBidIsWrong: false}
       
       cells[i].setting = {
         inout: {value: '0', defaultValue: '', feedback: '', responseResult: '', valid: 'number_except_zero'},
@@ -493,10 +493,16 @@ class Cbbc extends React.Component {
     if ('lvlbid' in data && data.lvlbid != 99999999)
       state.cells[id].wPrice.lvlbid = formatPrice(data.lvlbid)
     
-    if (data.side.toLowerCase() == 'ask')
-      state.cells[id].wPrice.ipriceAsk = formatLong(data.iprice)
-    else if (data.side.toLowerCase() == 'bid')
-      state.cells[id].wPrice.ipriceBid = formatLong(data.iprice)
+    if (data.side.toLowerCase() == 'ask' && data.iprice > 0)
+      state.cells[id].wPrice.ipriceAsk = formatLong(data.iprice), state.cells[id].wPrice.ipriceAskIsWrong = false
+    else if (data.side.toLowerCase() == 'ask' && data.iprice == 0)
+      state.cells[id].wPrice.ipriceAskIsWrong = true
+    
+    else if (data.side.toLowerCase() == 'bid' && data.iprice > 0)
+      state.cells[id].wPrice.ipriceBid = formatLong(data.iprice), state.cells[id].wPrice.ipriceBidIsWrong = false
+    else if (data.side.toLowerCase() == 'bid' && data.iprice == 0)
+      state.cells[id].wPrice.ipriceBidIsWrong = true
+
     
     return {cells: state.cells}
   }

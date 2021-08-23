@@ -213,10 +213,17 @@ class TradeTable extends React.Component {
 
           // html
           var iPriceAsk = '', iPriceBid = ''
+          var cssAsk = '', cssBid = ''
+          
+          if (v.wPrice.ipriceAskIsWrong)
+            cssAsk = "text-danger font-weight-bold"
+          if (v.wPrice.ipriceBidIsWrong)
+            cssBid = "text-danger font-weight-bold"
+          
           if (v.wPrice.ipriceBid)
-            iPriceBid = ' ('+v.wPrice.ipriceBid+')'
+            iPriceBid = <span className={cssBid}>({v.wPrice.ipriceBid})</span> 
           if (v.wPrice.ipriceAsk)
-            iPriceAsk = ' ('+v.wPrice.ipriceAsk+')'
+            iPriceAsk =  <span className={cssAsk}>({v.wPrice.ipriceAsk})</span>
           
           rows.push(
             <tr key={'trade_'+i}>
@@ -230,7 +237,7 @@ class TradeTable extends React.Component {
               <td>{v.wPrice.lvlbid}</td>
               <td>{v.wPrice.sellout}</td>
               <td>{v.wPrice.diffbid}</td>
-              <td>{v.wPrice.bid} {iPriceBid}</td>
+              <td>{iPriceBid} {v.wPrice.bid}</td>
               <td>{v.wPrice.diffpt}</td>
               <td>{v.wPrice.ask} {iPriceAsk}</td>
               <td>{v.wPrice.buyin}</td>
