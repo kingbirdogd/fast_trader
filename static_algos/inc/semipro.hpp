@@ -563,11 +563,17 @@ private:
 			{
 
 
+				unsigned long long faction = best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity + 1;
+				if(faction == 0){
+					faction = 1;
+				}
 
-
+				/*
 				auto buyratio = static_cast<unsigned long long>(((best_ask_vol- tradable.m_AccumulateBuyQuantity+1)*100) / (best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity + 1));
 				auto sellratio = static_cast<unsigned long long>(((best_bid_vol-tradable.m_AccumulateSellQuantity+1)*100) / (best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity + 1));
-
+				 */
+				auto buyratio = static_cast<unsigned long long>(((best_ask_vol- tradable.m_AccumulateBuyQuantity+1)*100) / (faction));
+				auto sellratio = static_cast<unsigned long long>(((best_bid_vol-tradable.m_AccumulateSellQuantity+1)*100) / (faction));
 
 				auto trade_quantity = static_cast<long long>(tradable.m_AccumulateBuyQuantity);
 				diff = static_cast<long long>(tradable.m_Ask[0].m_uQuantity) - static_cast<long long>(_early_buy_qty);
