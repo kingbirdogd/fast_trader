@@ -60,6 +60,11 @@ and reboot
     node set_user.js user_name=M300317 password=68317801
     
     node set_user.js user_name=M315448 password=Ww202012
+    
+    
+    
+    
+    
   
   
   
@@ -86,6 +91,13 @@ and reboot
   #192.168.104.88
  node set_user.js user_name=demo002 password=12345678  
  
+ 
+ 
+ 
+ node set_user.js user_name=kdemo001 password=12345678  
+ node set_user.js user_name=kdemo002 password=12345678
+ node set_user.js user_name=kdemo003 password=12345678
+ node set_user.js user_name=sdemo001 password=12345678
   		
   		
   David Task

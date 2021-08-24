@@ -56,9 +56,9 @@
 			"BUY_POWER":5000000,
 			"ALGOS":
 			{
-				"leo_s1algo":
+				"leo_bear":
 				{
-					"lib": "s1algo",
+					"lib": "bear",
 					"params":
 					{
 					}
@@ -136,6 +136,78 @@
 			"ALGOS":
 			{
 				"kenny_semipro":
+				{
+					"lib": "semipro",
+					"params":
+					{
+					}
+				}
+			}
+		},
+		{
+			"ID":18,
+			"IP":"192.168.104.88",
+			"PORT":35101,
+			"USER":"P990098",
+			"PASS":"pass",
+			"BUY_POWER":5000000,
+			"ALGOS":
+			{
+				"kdemo001_bear":
+				{
+					"lib": "bear",
+					"params":
+					{
+					}
+				}
+			}
+		},
+		{
+			"ID":19,
+			"IP":"192.168.104.88",
+			"PORT":35101,
+			"USER":"P990098",
+			"PASS":"pass",
+			"BUY_POWER":5000000,
+			"ALGOS":
+			{
+				"kdemo002_bear":
+				{
+					"lib": "bear",
+					"params":
+					{
+					}
+				}
+			}
+		},
+		{
+			"ID":20,
+			"IP":"192.168.104.88",
+			"PORT":35101,
+			"USER":"P990098",
+			"PASS":"pass",
+			"BUY_POWER":5000000,
+			"ALGOS":
+			{
+				"kdemo003_bear":
+				{
+					"lib": "bear",
+					"params":
+					{
+					}
+				}
+			}
+		},
+		{
+			"ID":21,
+			"IP":"192.168.104.88",
+			"PORT":35101,
+			"USER":"P990098",
+			"PASS":"pass",
+			"BUY_POWER":5000000,
+			"ALGOS":
+			{
+				"sdemo001_semipro":
 				{
 					"lib": "semipro",
 					"params":
@@ -347,8 +419,7 @@
 		{"Channel":"OmddftChannel"},
 		{"Channel":"SWOmdcChannel"},
 		{"Channel":"PriceTableChannel"},
-		{"Channel":"OmddPriceTableChannel"},
-		{"Channel":"S1Channel"}
+		{"Channel":"OmddPriceTableChannel"}
 		
 	]
 }
