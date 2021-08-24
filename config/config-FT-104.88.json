@@ -92,13 +92,6 @@
 			"BUY_POWER":5000000,
 			"ALGOS":
 			{
-				"demo002_semi":
-				{
-					"lib": "semi",
-					"params":
-					{
-					}
-				},
 				"demo002_semipro":
 				{
 					"lib": "semipro",
