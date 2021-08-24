@@ -563,8 +563,8 @@ private:
 			{
 
 
-				unsigned long long faction = best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity + 1;
-				if(faction == 0){
+				long long faction = static_cast<unsigned long long>(best_bid_vol + best_ask_vol - tradable.m_AccumulateBuyQuantity - tradable.m_AccumulateSellQuantity + 1);
+				if(faction <= 0){
 					faction = 1;
 				}
 
