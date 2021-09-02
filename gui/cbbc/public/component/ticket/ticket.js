@@ -206,22 +206,34 @@ class Ticket extends React.Component {
       }
       
       // 檢查 match price
-      if (status1=='uTrack') {
+      if (status1=='uTrack' && obj.cells[data.no].stock.action1 == 'start') {
+        var msg = ''
+        
+        // sell
+        if (data.CallPut.toLowerCase() == 'p' && formatInputUnit(obj.cells[data.no].wnt.position, true) > 0 && formatPrice2(data.underlying_price.m_Bid.m_iPrice) > obj.cells[data.no].stock.sell.price)
+          msg += getTime()+' underlying price raise higher than trigger sell \n'
+        if (data.CallPut.toLowerCase() == 'c' && formatInputUnit(obj.cells[data.no].wnt.position, true) > 0 && formatPrice2(data.underlying_price.m_Ask.m_iPrice) < obj.cells[data.no].stock.sell.price)
+          msg += getTime()+' underlying price drop lower than trigger sell \n'
+        
+        //
         var notMatchType = []
-        if (obj.cells[data.no].wnt.buy.price != formatPrice2(data.warrant_price.m_Ask.m_iPrice)) notMatchType.push('wnt_buy')
-        if (obj.cells[data.no].wnt.sell.price != formatPrice2(data.warrant_price.m_Bid.m_iPrice)) notMatchType.push('wnt_sell')
+        // if (obj.cells[data.no].wnt.buy.status == 'open' && obj.cells[data.no].wnt.buy.price != formatPrice2(data.warrant_price.m_Ask.m_iPrice)) notMatchType.push('wnt_buy')
+        // if (obj.cells[data.no].wnt.sell.status == 'open' && obj.cells[data.no].wnt.sell.price != formatPrice2(data.warrant_price.m_Bid.m_iPrice)) notMatchType.push('wnt_sell')
         
         if (data.CallPut.toLowerCase() == 'p') {
-          if (obj.cells[data.no].stock.buy.price != formatPrice2(data.underlying_price.m_Bid.m_iPrice)) notMatchType.push('stock_buy')
-          if (obj.cells[data.no].stock.sell.price != formatPrice2(data.underlying_price.m_Ask.m_iPrice)) notMatchType.push('stock_sell')
+          if (obj.cells[data.no].wnt.buy.status == 'open' && obj.cells[data.no].stock.buy.price != formatPrice2(data.underlying_price.m_Bid.m_iPrice)) notMatchType.push('stock_buy')
+          if (obj.cells[data.no].wnt.sell.status == 'open' && obj.cells[data.no].stock.sell.price != formatPrice2(data.underlying_price.m_Ask.m_iPrice)) notMatchType.push('stock_sell')
         }
         if (data.CallPut.toLowerCase() == 'c') {
-          if (obj.cells[data.no].stock.buy.price != formatPrice2(data.underlying_price.m_Bid.m_iPrice)) notMatchType.push('stock_buy')
-          if (obj.cells[data.no].stock.sell.price != formatPrice2(data.underlying_price.m_Bid.m_iPrice)) notMatchType.push('stock_sell')
+          if (obj.cells[data.no].wnt.buy.status == 'open' && obj.cells[data.no].stock.buy.price != formatPrice2(data.underlying_price.m_Ask.m_iPrice)) notMatchType.push('stock_buy')
+          if (obj.cells[data.no].wnt.sell.status == 'open' && obj.cells[data.no].stock.sell.price != formatPrice2(data.underlying_price.m_Bid.m_iPrice)) notMatchType.push('stock_sell')
         }
-      
-        if (notMatchType.length > 0)
-          obj.cells[data.no].wnt.msg[0] = getTime()+' '+notMatchType.join(', ')+' not match'
+        if (notMatchType.length > 0 && msg == '') {
+          // msg += getTime()+' '+notMatchType.join(', ')+' not match \n'
+          msg = getTime()+' underlying price not match'
+        }
+        
+        obj.cells[data.no].wnt.msg[0] = msg
       }
       
       // 輪
@@ -510,8 +522,8 @@ class Ticket extends React.Component {
       obj.portfolio = []
       for (var p of data.portfolio) {
         obj.portfolio.push({
-          averagebuy: formatPrice(p.averagebuy),
-          averagesell: formatPrice(p.averagesell),
+          averagebuy: formatPrice2(p.averagebuy),
+          averagesell: formatPrice2(p.averagesell),
           buyturnover: parseFloat(p.buyturnover)/1000000,
           buyvolume: formatPrice(p.buyvolume),
           code: p.code,

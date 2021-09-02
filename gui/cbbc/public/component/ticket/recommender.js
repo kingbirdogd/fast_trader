@@ -63,7 +63,7 @@ class Recommender extends React.Component {
         if (v.code == curProduct.Code.toString())
           isProductExist = true
       }
-      if ('Type' in curProduct && (curProduct.Type.toLowerCase() == 'rc' || curProduct.Type.toLowerCase() == 'rp') && (!isProductExist)) {
+      if ('Type' in curProduct && (curProduct.Type.toLowerCase() == 'rc' || curProduct.Type.toLowerCase() == 'rp' || curProduct.Type.toLowerCase() == 'ec' || curProduct.Type.toLowerCase() == 'ep') && (!isProductExist)) {
         var obj3 = $.extend(true, [], states.cellsConfig)
         var i = obj3.length
         
@@ -72,6 +72,7 @@ class Recommender extends React.Component {
         if (i>0 && obj2[i-1].action.code.value.length<5)
           i--
         obj2[i].action.code.value = curProduct.Code.toString()
+        obj2[i].action.symbol.value = curProduct.UCode.toString()
         var AskIssuerSize = parseInt(curProduct.AskIssuerSize*0.8/1000000)*1000000
         obj2[i].action.issuerSize.value = formatInputUnit(AskIssuerSize, false)
         obj2[i].action.quantity.value = formatInputUnit(curProduct.LotSize, false)
@@ -81,6 +82,10 @@ class Recommender extends React.Component {
         if (curProduct.Type.toLowerCase() == 'rc')
           var algoName = obj.modules.bull, type = 'bull'
         else if (curProduct.Type.toLowerCase() == 'rp')
+          var algoName = obj.modules.bear, type = 'bear'
+        else if (curProduct.Type.toLowerCase() == 'ec')
+          var algoName = obj.modules.bull, type = 'bull'
+        else if (curProduct.Type.toLowerCase() == 'ep')
           var algoName = obj.modules.bear, type = 'bear'
         
         var command1 = {algo_name: algoName, cmd: 'get_warrant_detail', code: parseInt(curProduct.Code), id: states.userId, no: parseInt(i)}

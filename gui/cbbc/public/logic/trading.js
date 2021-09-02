@@ -162,29 +162,32 @@ const formatInput2 = (value) => {
 }
 
 const formatInputUnit = (value, is_change_digital) => {
-  var val = value.toString().toLowerCase(), temp = parseFloat(val)
+  if (typeof value !== 'undefined') {
+    var val = value.toString().toLowerCase(), temp = parseFloat(val)
 
-  if (is_change_digital)
-    if (val.includes('k'))
-      return temp * 1000;
-    else if (val.includes('m'))
-      return temp * 1000000;
-    else if (val.includes('b'))
-      return temp * 1000000000
-    else
-      return temp
-  
-  else if (!is_change_digital)
-    if (val.includes('k') || val.includes('m') || val.includes('b'))
-      return value;
-    else if (temp >= 1000000000)
-      return (temp/1000000000)+'b'
-    else if (temp >= 1000000)
-      return (temp/1000000)+'m'
-    else if (temp >= 1000)
-      return (temp/1000)+'k'
-    else
-      return temp
+    if (is_change_digital)
+      if (val.includes('k'))
+        return temp * 1000;
+      else if (val.includes('m'))
+        return temp * 1000000;
+      else if (val.includes('b'))
+        return temp * 1000000000
+      else
+        return temp
+    
+    else if (!is_change_digital)
+      if (val.includes('k') || val.includes('m') || val.includes('b'))
+        return value;
+      else if (temp >= 1000000000)
+        return (temp/1000000000)+'b'
+      else if (temp >= 1000000)
+        return (temp/1000000)+'m'
+      else if (temp >= 1000)
+        return (temp/1000)+'k'
+      else
+        return temp
+  }
+  return value
 }
 
 function getSpread(val){

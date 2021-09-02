@@ -639,7 +639,7 @@ private:
 				{
 					if (_position > 0)
 					{
-						if (_auto_sell)
+						if (_auto_sell && !_auto_buy)
 						{
 							_algo->Log("Code = " + to_string(_warrant_code) + " Action=SELL Price=" + to_string(_sell_price) + " Position=" + to_string(_position));
 							if(sell(_sell_price) == sell_result::SUCCESS){
@@ -742,7 +742,7 @@ private:
 					if (_position > 0)
 					{
 
-						if (_auto_sell)
+						if (_auto_sell && !_auto_buy)
 						{
 							if(sell(_sell_price) == sell_result::SUCCESS){
 #ifndef NOT_MEASURE

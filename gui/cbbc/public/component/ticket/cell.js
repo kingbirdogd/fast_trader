@@ -223,7 +223,7 @@ class Cell extends React.Component {
       if (obj.wnt.buy.status == 'open' && obj.wnt.sell.status == 'open' && position <= 0)
         command1.action = 'AUTO'
       else if (obj.wnt.buy.status == 'open' && obj.wnt.sell.status == 'open' && position > 0)
-        command1.action = 'BUY'
+        command1.action = 'AUTO'
       else if (obj.wnt.buy.status == 'open')
         command1.action = 'BUY'
       else if (obj.wnt.sell.status == 'open' && position > 0)
@@ -348,7 +348,7 @@ class Cell extends React.Component {
         sendWebsocket(JSON.stringify(command5))
         obj = initStatus(obj)
       }
-      else if (!(obj.stock.action2 == 'start' || obj.stock.action3 == 'start')) {
+      else if (obj.stock.action1 == 'start' && !(obj.stock.action2 == 'start' || obj.stock.action3 == 'start')) {
         command1.action = 'STOP'
         sendWebsocket(JSON.stringify(command1))
         obj = initStatus(obj)

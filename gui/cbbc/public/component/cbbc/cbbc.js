@@ -42,7 +42,7 @@ class Cbbc extends React.Component {
       
       cells[i].priceTable = {}
       
-      cells[i].wPrice = {bid: null, ask: null, diffpt: null, ipriceBid: null, ipriceAsk: null, lvlbid: null, ipriceAskIsWrong: false, ipriceBidIsWrong: false}
+      cells[i].wPrice = {bid: null, ask: null, diffpt: null, ipriceBid: null, ipriceAsk: null, lvlbid: null, ipriceAskIsWrong: false, ipriceBidIsWrong: false, diffbid: null, diffask: null}
       
       cells[i].setting = {
         inout: {value: '0', defaultValue: '', feedback: '', responseResult: '', valid: 'number_except_zero'},
@@ -60,7 +60,7 @@ class Cbbc extends React.Component {
         size: {value: '', feedback: '', valid: 'string'}
       }
       
-      cells[i].info = {issuer: '', ucode: '', uname: ''}
+      cells[i].info = {issuer: '', ucode: '', uname: '', wname: ''}
       
       orders[i] = []
       positions[i] = []
@@ -220,6 +220,7 @@ class Cbbc extends React.Component {
         state.cells[id].type = 'bear'
       
       state.cells[id].info.issuer = pair.pair.wname.substring(0, 2)
+      state.cells[id].info.wname = pair.pair.wname
     }
     // 错误 code
     else if (('reason' in pair) && pair.reason.length>=0 && 
@@ -485,8 +486,10 @@ class Cbbc extends React.Component {
     
     state.cells[id].wPrice.buyin = formatPrice(data.buyin)
     state.cells[id].wPrice.sellout = formatPrice(data.sellout)
-    state.cells[id].wPrice.diffask = formatPrice(data.diffask)
-    state.cells[id].wPrice.diffbid = formatPrice(data.diffbid)
+    if (formatPrice(data.diffask) > 3 || data.diffask == null)
+      state.cells[id].wPrice.diffask = formatPrice(data.diffask)
+    if (formatPrice(data.diffbid) > 3 || data.diffbid == null)
+      state.cells[id].wPrice.diffbid = formatPrice(data.diffbid)
     
     if ('diffpt' in data && data.diffpt < 99999999)
       state.cells[id].wPrice.diffpt = formatPrice(data.diffpt)
