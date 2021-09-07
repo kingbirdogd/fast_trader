@@ -445,6 +445,9 @@ private:
 							newWarrant->BuyIn = _OBSetting->BuyIn;
 							newWarrant->SellOut = _OBSetting->SellOut;
 							newWarrant->LvlBid = _OBSetting->LvLBid;
+							newWarrant->o_buytime = 0;
+							newWarrant->o_soldtime = 0;
+							newWarrant->o_leveltime = 0;
 							//newWarrant->Wtype = _wtype;
 							//newWarrant->Issuer = _issuer;
 							//newWarrant->StockName = _wname;
@@ -1218,16 +1221,29 @@ private:
 				*/
 
 
-				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Win_Tick >= 0){
+
+
+
+
+				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START){
+
+
 
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 
+
+
+
 					unsigned long long refSpread = _SPREAD;
 					unsigned long long rwinPrice = (unsigned long long) (warrant->BuyPrice + _Win_Tick * refSpread);
-
 					unsigned long long bp = warrant->BuyPrice;
 
+					if(warrant->o_leveltime == 0 && bp == best_bid_price){
+						warrant->o_leveltime = DateUtil::getCurrentSystemTime();
+					}
+
 					if(_Win_Tick == 0){
+
 						if(best_bid_price >= bp && bp > 0){
 							Log(std::string(" CODE = ") + std::to_string(code) + " on bull book SEll Win Tick = 0 " + to_string(best_bid_price)  + " Warrant Buy Price = " + to_string(warrant->BuyPrice)  );
 							warrant->SellPrice = best_bid_price;
@@ -1242,8 +1258,8 @@ private:
 							_Status = STATUS_SELLING;
 							doSell(warrant);
 						}
-					}else{
-						if(_Win_Tick > 0){
+					}else if(_Win_Tick > 0){
+
 							if(best_bid_price >= rwinPrice && bp > 0){
 								Log(std::string(" CODE = ") + std::to_string(code) + " on bull book SEll Win Tick > 0 " + to_string(best_bid_price)  + " Warrant Buy Price = " + to_string(warrant->BuyPrice)  );
 								warrant->SellPrice = best_bid_price;
@@ -1259,7 +1275,7 @@ private:
 								doSell(warrant);
 
 							}
-						}
+
 					}
 				}
 
@@ -1657,14 +1673,22 @@ private:
 				*/
 
 
-				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _Win_Tick >= 0){
+				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START){
 
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
+
+
+
 
 					unsigned long long refSpread = _SPREAD;
 					unsigned long long rwinPrice = (unsigned long long) (warrant->BuyPrice + _Win_Tick * refSpread);
 
 					unsigned long long bp = warrant->BuyPrice;
+
+
+					if(warrant->o_leveltime == 0 && bp == best_bid_price){
+						warrant->o_leveltime = DateUtil::getCurrentSystemTime();
+					}
 
 					if(_Win_Tick == 0){
 						if(best_bid_price >= bp && bp > 0){
@@ -1681,8 +1705,8 @@ private:
 							doSell(warrant);
 
 						}
-					}else{
-						if(_Win_Tick > 0){
+					}else if(_Win_Tick > 0){
+//						if(_Win_Tick > 0){
 							if(best_bid_price >= rwinPrice && bp > 0){
 
 								Log(std::string(" CODE = ") + std::to_string(code) + " on bear book Sell Win Tick > 0 " + to_string(best_bid_price) + " Warrant Buy Price = " + to_string(warrant->BuyPrice)  );
@@ -1700,7 +1724,7 @@ private:
 								doSell(warrant);
 
 							}
-						}
+						//}
 					}
 				}
 
@@ -1991,12 +2015,16 @@ private:
 						obsw->Quantity += odr.filled_quantity;
 						obsw->OrderId = odr.order_id;
 
+						obsw->o_buytime = DateUtil::getCurrentSystemTime();
+
 
 						obsw->Status = STATUS_AVAILABLE;
 						obsw->hasPosition = true;
 
 						_OBSetting->hasPosition = true;
 						_Status = STATUS_AVAILABLE;
+
+
 
 
 						auto msg = algo_order_msg_pool.get_obj();
@@ -2064,7 +2092,7 @@ private:
 						obsw->Status = STATUS_SOLD;
 						obsw->SoldTime = string(odr.transaction_tm);
 						obsw->SellPrice = odr.match_price;
-
+						obsw->o_soldtime = DateUtil::getCurrentSystemTime();
 						obsw->Strategy = "Bear Algo";
 
 						if(obsw->Quantity == odr.filled_quantity){
@@ -2104,6 +2132,7 @@ private:
 							pmsg->quantity = obsw->Quantity;
 							pmsg->buytime = obsw->BuyTime;
 							pmsg->selltime= obsw->SoldTime;
+							pmsg->leveltime = difftime(obsw->o_leveltime, obsw->o_buytime);
 							ouputQueue.enqueue(pmsg);
 
 
@@ -3037,6 +3066,7 @@ private:
 		std::string wtype;
 		std::string issuer;
 		std::string wname;
+		double leveltime;
 
 		algo_portfolio_msg():
 			algo_msg_base()
@@ -3056,6 +3086,7 @@ private:
 			j["sellime"] = selltime;
 			j["quantity"] = quantity;
 			j["recovery"] = true;
+			j["leveltime"] = leveltime;
 			return j;
 		}
 		virtual void on_command()

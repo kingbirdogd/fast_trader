@@ -150,6 +150,11 @@ struct warrant{
 	unsigned long long o_tm;
 #endif
 
+	time_t o_buytime;
+	time_t o_leveltime;
+	time_t o_soldtime;
+
+
 	//string StockName;
 	string Issuer;
 	//string Wtype;

@@ -439,6 +439,8 @@ void bear::on_omdc_trade(const Tradable& tradable)
 
 				}
 			}else{
+
+				/*
 				for (const auto& p : it->second)
 				{
 
@@ -448,7 +450,7 @@ void bear::on_omdc_trade(const Tradable& tradable)
 							p->doSellLevel();
 						}
 					}
-				}
+				}*/
 			}
 
 		}
@@ -484,6 +486,7 @@ void bear::on_omdc_trade(const Tradable& tradable)
 					}
 				}
 			}else{
+				/*
 				for (const auto& p : it->second)
 				{
 
@@ -494,7 +497,7 @@ void bear::on_omdc_trade(const Tradable& tradable)
 						}
 					}
 
-				}
+				}*/
 			}
 
 		}
