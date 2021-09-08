@@ -126,6 +126,10 @@
   font-size: 12px;
 }
 
+#ticket .form-recommend .height-adj {
+  height: 38px;
+}
+
 #ticket .form-check {
   padding-left: 12px;
 }

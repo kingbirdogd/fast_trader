@@ -415,16 +415,22 @@ class Cbbc extends React.Component {
   // 買賣
   setOnOrder(state, data) {
     var id = data.ref.replace(state.prefix, '')
+    
+    var futurePrice = '/'
+    if (data.side.toLowerCase() == 'buy' && 'buyin' in data)
+      futurePrice = formatPrice(data.buyin)
+    else if (data.side.toLowerCase() == 'sell' && 'sellout' in data)
+      futurePrice = formatPrice(data.sellout)
+    
     var arr = {
-      code: data.warrant_code, 
-      // side: data.action.toLowerCase(),
+      code: data.warrant_code,
       side: data.side.toLowerCase(),
       status: data.status,
       transactionTm: ((data.transaction_time) ? formatDate(data.transaction_time) : getCurDateTime()),
       matchPrice: formatLong(data.filled_price), 
       matchQuantity: formatLong(data.filled_quantity),
       totalPrice: formatLong(data.filled_price)*formatLong(data.filled_quantity),
-      futurePrice: ('sellout' in data) ? formatPrice(data.sellout) : ('buyin' in data) ? formatPrice(data.buyin) : '',
+      futurePrice: futurePrice,
       reason: ('reason' in data) ? data.reason: '',
       wtype: data.wtype,
       issuer: data.issuer
@@ -715,7 +721,7 @@ class Cbbc extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.23
+          Copyright © {curYear} Fast Trader v1.0.25
         </div>
       </React.Fragment>
       /*<Selector

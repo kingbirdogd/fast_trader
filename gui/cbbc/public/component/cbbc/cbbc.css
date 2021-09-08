@@ -129,6 +129,10 @@
   height: 110px;
 }
 
+#cbbc .form-recommend .height-adj {
+  height: 38px;
+}
+
 #cbbc .is-invalid {
   border: 1px solid #ff0000 !important;
 }
@@ -244,5 +248,13 @@
 
 #cbbc .form-recommend input,
 #cbbc .form-recommend .form-control{
+  font-size: 12px;
+}
+
+#cbbc .toggle.btn {
+  min-height: 24px;
+}
+
+#cbbc .toggle.btn label {
   font-size: 12px;
 }

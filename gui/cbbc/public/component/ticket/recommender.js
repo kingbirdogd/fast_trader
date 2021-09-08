@@ -1,6 +1,8 @@
 class Recommender extends React.Component {
   static propTypes = {
     data: PropTypes.object,
+    data2: PropTypes.array,
+    data3: PropTypes.string,
     lang: PropTypes.string,
     setStates: PropTypes.func,
     getStates: PropTypes.func
@@ -8,8 +10,11 @@ class Recommender extends React.Component {
   
   constructor(props) {
     super(props)
-    this.state = {underlying: '1', issuer: 'BI', type: 'EC', products: []}
+    this.state = {underlying: 'HSI', issuer: 'BI', type: 'EC', cratio: '', products: []}
+    if (this.props.data3)
+      this.state.underlying = this.props.data3
     this.handleChange = this.handleChange.bind(this)
+    this.handleMultiSelect = this.handleMultiSelect.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleSelect = this.handleSelect.bind(this)
   }
@@ -29,11 +34,22 @@ class Recommender extends React.Component {
       this.setState({'issuer': value})
     else if (name == 'type')
       this.setState({'type': value})
+    else if (name == 'cratio')
+      this.setState({'cratio': value})
+  }
+  
+  handleMultiSelect(event) {
+    var issuer = []
+    for (var v of event)
+      issuer.push(v.value)
+    this.setState({'issuer': issuer.join(',')})
   }
   
   handleClick(event) {
     async function getData(that) {
       var url = 'https://chart.dbpower.com.hk/buysellchart/cbbc_router.php?action=spread&underlying='+that.state.underlying+'&issuer='+that.state.issuer+'&type='+that.state.type+'&sort=tt&spread=1&format=json'
+      if (that.state.cratio != '' && that.state.cratio.length > 0)
+        url += '&cratio='+that.state.cratio
       var data = await $.ajax({url: "./cross-data", type: "post", data:{url: url}})
       if (data != '')
         that.setState({products: JSON.parse(data)})
@@ -92,7 +108,8 @@ class Recommender extends React.Component {
         sendWebsocket(JSON.stringify(command1))
         
         // info
-        obj2[i].info.issuer = this.state.issuer
+        console.log(curProduct)
+        obj2[i].info.issuer = curProduct.Name.substring(0, 2)
         
         //
         obj3.push({code: curProduct.Code.toString(), type: type, isVisable: false})
@@ -122,6 +139,9 @@ class Recommender extends React.Component {
           {k} ({v[this.props.lang]})
         </option>)
     }
+    /*<div className="form-group col-3 col-sm-3 col-md-2 mb-2">
+      <select name="issuer" className="form-control" onChange={this.handleChange}> {issuerHTML} </select>
+    </div>*/
     
     var productsHTML = []
     for (var i in this.state.products) {
@@ -161,29 +181,75 @@ class Recommender extends React.Component {
       )
     }
     
+    var selOptions = []
+    for (const [k, v] of Object.entries(this.props.data)) {
+      selOptions.push({value: k, label: k+' ('+v[this.props.lang]+') '})
+    }
+    const customStyles = {
+      option: (provided, state) => ({
+        ...provided,
+        padding: 5,
+        fontSize: 12,
+      }),
+      menu: (provided, state) => ({
+        ...provided,
+      }),
+      input: (provided, state) => ({
+        ...provided,
+        padding: 0
+      }),
+      control: base => ({
+        ...base,
+        boxShadow: 'none',
+        fontSize: 14,
+      }),
+      singleValue: (provided, state) => {
+        const opacity = 1;
+        const transition = 'opacity 300ms';
+        return { ...provided, opacity, transition };
+      }
+    }
+    
     return(
 <div className='row'>
-<div className="col-12 col-sm-12 col-md-12 mb-2">
+<div className="col-12 col-sm-12 col-md-12 mb-1">
 
 <div className="form-row form-recommend">
-  <div className="form-group col-3 col-sm-3 col-md-2 mb-2">
-    <input type="text" name="underlying" className="form-control" onChange={this.handleChange} defaultValue={this.state.underlying} />
+  <div className="form-group col-3 col-sm-3 col-md-1 mb-2">
+    <input type="text" name="underlying" className="form-control height-adj" onChange={this.handleChange} defaultValue={this.state.underlying} />
   </div>
   
-  <div className="form-group col-4 col-sm-3 col-md-2 mb-2">
-    <select name="issuer" className="form-control" onChange={this.handleChange}> {issuerHTML} </select>
+  <div className="form-group col-9 col-sm-9 col-md-6 mb-2">
+  <Select
+    key="selector_recommender"
+    options={selOptions}
+    onChange={this.handleMultiSelect}
+    styles={customStyles}
+    placeholder=""
+    isClearable={false}
+    isMulti
+  />
   </div>
   
-  <div className="form-group col-3 col-sm-3 col-md-2 mb-2">
-    <select name="type" className="form-control" onChange={this.handleChange}>
+  <div className="form-group col-6 col-sm-6 col-md-1 mb-2">
+    <select name="type" className="form-control height-adj" onChange={this.handleChange}>
     <option value="EC">{text.call}</option>
     <option value="EP">{text.put}</option>
     <option value="RC">{text.bull}</option>
     <option value="RP">{text.bear}</option>
+    <option value="ECRC">{text.call}, {text.bull}</option>
+    <option value="EPRP">{text.put}, {text.bear}</option>
+    <option value="ECEPRCRP">{text.call}, {text.put}, {text.bull}, {text.bear}</option>
     </select>
   </div>
   
-  <button name="send" type="button" className="btn btn-sm btn-secondary mb-2" onClick={this.handleClick}>{text.submit}</button>
+  <div className="form-group col-6 col-sm-6 col-md-1 mb-2">
+    <input type="text" name="cratio" className="form-control height-adj" onChange={this.handleChange} defaultValue={this.state.cratio} />
+  </div>
+  
+  <div className="form-group col-6 col-sm-6 col-md-1 mb-2">
+    <button name="send" type="button" className="btn btn-sm btn-secondary mb-0 height-adj" onClick={this.handleClick}>{text.submit}</button>
+  </div>
 </div>
 </div>
 

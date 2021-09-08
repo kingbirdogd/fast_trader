@@ -61,7 +61,7 @@ class OrderList extends React.Component {
       var d = this.state.onOrder[i]
       var style = (d.side=='buy') ? 'font-up' : (d.side=='sell') ? 'font-down' : ''
       var prefixPrice = (d.side=='') ? '' : (d.side=='sell') ? '+' : '-'
-      var futurePrice = (d.futurePrice<100000 && d.futurePrice!=0) ? parseFloat(d.futurePrice).toFixed(2) : ''
+      var futurePrice = (/*d.futurePrice<100000 &&*/ d.futurePrice!=0) ? parseFloat(d.futurePrice).toFixed(2) : ''
       var reason = (d.reason.length==0 || d.reason=='') ? '' : '('+d.reason+')'
       rows.push(
         <tr key={'portfolio_'+i}>

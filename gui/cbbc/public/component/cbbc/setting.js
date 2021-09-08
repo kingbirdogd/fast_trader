@@ -86,7 +86,7 @@ class Setting extends React.Component {
         selloffset: {label: 'Sell Offset', placeholder: ''},
         priceTable: {label: 'Price Table'},
         showpt: {label: 'Show Point', placeholder: ''},
-        btn: {set: 'Set', reset: 'Reset'}
+        btn: {set: 'Set', reset: 'Reset', on: 'On', off: 'Off'}
       },
       sc: {
         inout: {label: '价内/价外', placeholder: ''},
@@ -99,7 +99,7 @@ class Setting extends React.Component {
         selloffset: {label: '賣出偏移', placeholder: ''},
         priceTable: {label: '报价表'},
         showpt: {label: '颢示', placeholder: ''},
-        btn: {set: '确定', reset: '重设'}
+        btn: {set: '确定', reset: '重设', on: '开启', off: '停止'}
       },
       tc: {
         inout: {label: '價內/價外', placeholder: ''},
@@ -112,7 +112,7 @@ class Setting extends React.Component {
         selloffset: {label: '賣出偏移', placeholder: ''},
         priceTable: {label: '報價表'},
         showpt: {label: '顥示', placeholder: ''},
-        btn: {set: '確定', reset: '重設'}
+        btn: {set: '確定', reset: '重設', on: '開啟', off: '停止'}
       }
     }
     return text[lang]
@@ -125,6 +125,7 @@ class Setting extends React.Component {
     return(
       <div className="tab-pane fade" id={"setting-"+no} role="tabpanel">
       
+        {false &&
         <InputTextWithBtn 
           key={"inout_"+no}
           no={no}
@@ -138,7 +139,7 @@ class Setting extends React.Component {
           isDisabledTv={false}
           onChange={this.handleChange}
           onClick={this.handleClick}
-        />
+        />}
         
         <InputTextWithBtn 
           key={"wintick_"+no}
@@ -155,6 +156,7 @@ class Setting extends React.Component {
           onClick={this.handleClick}
         />
         
+        {false &&
         <InputTextWithBtn
           key={"inlvl_"+no}
           no={no}
@@ -168,7 +170,7 @@ class Setting extends React.Component {
           isDisabledTv={false}
           onChange={this.handleChange}
           onClick={this.handleClick}
-        />
+        />}
         
         <InputTextWithBtn
           key={"stoplost_"+no}
@@ -185,6 +187,7 @@ class Setting extends React.Component {
           onClick={this.handleClick}
         />
         
+        {false &&
         <InputTextWithBtn
           key={"ptrange_"+no}
           no={no}
@@ -198,7 +201,7 @@ class Setting extends React.Component {
           isDisabledTv={false}
           onChange={this.handleChange}
           onClick={this.handleClick}
-        />
+        />}
         
         <InputTextWithBtn
           key={"buyoffset_"+no}
@@ -230,19 +233,23 @@ class Setting extends React.Component {
           onClick={this.handleClick}
         />
         
-        <InputTextWithBtn
-          key={"showpt_"+no}
+        <InputToggle
+          key={"showpt_toogle_"+no}
           no={no}
           label={text.showpt.label}
           name="showpt"
           value={this.props.data2.showpt.value}
           feedback={this.props.data2.showpt.feedback}
           responseResult={this.props.data2.showpt.responseResult}
-          btnName={text.btn.set}
+          btnName1={text.btn.on}
+          btnName2={text.btn.off}
+          type={this.props.type}
           isDisabled={isDisabled}
           isDisabledTv={false}
           onChange={this.handleChange}
           onClick={this.handleClick}
+          setStates={this.props.setStates}
+          getStates={this.props.getStates}
         />
         
         <BtnControl
@@ -258,6 +265,21 @@ class Setting extends React.Component {
         
       </div>
     )
+    
+    /*<InputTextWithBtn
+      key={"showpt_"+no}
+      no={no}
+      label={text.showpt.label}
+      name="showpt"
+      value={this.props.data2.showpt.value}
+      feedback={this.props.data2.showpt.feedback}
+      responseResult={this.props.data2.showpt.responseResult}
+      btnName={text.btn.set}
+      isDisabled={isDisabled}
+      isDisabledTv={false}
+      onChange={this.handleChange}
+      onClick={this.handleClick}
+    />*/
     
     /*<InputText 
       key={"code_t_"+no}

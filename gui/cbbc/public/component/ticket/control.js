@@ -76,7 +76,7 @@ class Control extends React.Component {
     return(
       <React.Fragment>
 
-<div className="col-12 col-sm-6 col-md-3 mb-2 mb-sm-0">
+<div className="col-12 col-sm-6 col-md-6 mb-2 mb-sm-0">
   <button type="button" name="subtract" className="btn btn-sm btn-secondary" onClick={this.handleClick}>-</button>
   <span className="ml-1 mr-1">{this.props.data1.cur}</span>
   <button type="button" name="add" className="btn btn-sm btn-secondary" onClick={this.handleClick}>+</button>

@@ -222,18 +222,21 @@ class Ticket extends React.Component {
         
         if (data.CallPut.toLowerCase() == 'p') {
           if (obj.cells[data.no].wnt.buy.status == 'open' && obj.cells[data.no].stock.buy.price != formatPrice2(data.underlying_price.m_Bid.m_iPrice)) notMatchType.push('stock_buy')
-          if (obj.cells[data.no].wnt.sell.status == 'open' && obj.cells[data.no].stock.sell.price != formatPrice2(data.underlying_price.m_Ask.m_iPrice)) notMatchType.push('stock_sell')
+          if (obj.cells[data.no].wnt.sell.status == 'open' && formatPrice2(data.underlying_price.m_Ask.m_iPrice) > obj.cells[data.no].stock.sell.price) notMatchType.push('stock_sell')
         }
         if (data.CallPut.toLowerCase() == 'c') {
           if (obj.cells[data.no].wnt.buy.status == 'open' && obj.cells[data.no].stock.buy.price != formatPrice2(data.underlying_price.m_Ask.m_iPrice)) notMatchType.push('stock_buy')
-          if (obj.cells[data.no].wnt.sell.status == 'open' && obj.cells[data.no].stock.sell.price != formatPrice2(data.underlying_price.m_Bid.m_iPrice)) notMatchType.push('stock_sell')
+          if (obj.cells[data.no].wnt.sell.status == 'open' && formatPrice2(data.underlying_price.m_Bid.m_iPrice) < obj.cells[data.no].stock.sell.price) notMatchType.push('stock_sell')
         }
         if (notMatchType.length > 0 && msg == '') {
           // msg += getTime()+' '+notMatchType.join(', ')+' not match \n'
           msg = getTime()+' underlying price not match'
         }
         
-        obj.cells[data.no].wnt.msg[0] = msg
+        if (obj.cells[data.no].wnt.msg[0].length > 0 && msg.length == 0)
+          var not_clean_msg = true
+        else
+          obj.cells[data.no].wnt.msg[0] = msg
       }
       
       // 輪
@@ -730,6 +733,7 @@ class Ticket extends React.Component {
       <Recommender
         key="recommender"
         data={this.state.issuerList}
+        data3="1"
         lang={this.props.lang}
         setStates={this.setStates}
         getStates={this.getStates}

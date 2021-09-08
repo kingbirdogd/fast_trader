@@ -53,7 +53,7 @@ class Status extends React.Component {
     var iconStyle = (isAlive) ? 'btn-success': 'btn-danger'
     return(
 
-      <div className="col-12 col-sm-6 col-md-9">
+      <div className="col-12 col-sm-6 col-md-6">
         <div className="status float-sm-right">
           <button className={classNames("btn btn-sm status-icon", iconStyle)} data-toggle="collapse" data-target="#status_detail" aria-expanded="false" aria-controls="status_detail">
             {connectStatus}
