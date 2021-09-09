@@ -203,15 +203,13 @@ bool compareSymbol(std::string s1, std::string s2){
 
 	bool yeargt = false;
 	if(s1.back() < s2.back())
-		return false;
+		return true;
 
-
-	if(s2.back() > s1.back()){
-		yeargt = true;
+	if(s1.back() == s2.back()){
+		return s1.compare(s2) < 0;
 	}
 
-
-	return (s1.compare(s2) < 0 && !yeargt);
+	return false;
 }
 
 inline static bool loadUsers(json& _json)
