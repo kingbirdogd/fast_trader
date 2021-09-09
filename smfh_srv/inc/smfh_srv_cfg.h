@@ -203,7 +203,7 @@ bool compareSymbol(std::string s1, std::string s2){
 
 	bool yeargt = false;
 	if(s1.back() < s2.back())
-		return true;
+		return false;
 
 
 	if(s2.back() > s1.back()){
