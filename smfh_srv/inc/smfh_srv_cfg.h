@@ -1600,12 +1600,18 @@ inline static bool loadDefinition(json& _json)
 													flush_printf("tm:%llu, Finish Omdd Definition Refresh \n\n", dbp::tools::srv::current());
 													OmddDefReady = true;
 
+
+													for(auto itxxx = std::begin(hsiVec); itxxx != std::end(hsiVec); ++itxxx) {
+														flush_printf(">>Org TEST hsiVec Wcode = %s \n", (*itxxx).c_str());
+													}
+
+
 													std::sort(hsceiVec.begin(), hsceiVec.end(), compareSymbol);
 													std::sort(hsiVec.begin(), hsiVec.end(), compareSymbol);
 													std::sort(hstecVec.begin(), hstecVec.end(), compareSymbol);
 
 													for(auto itxxx = std::begin(hsiVec); itxxx != std::end(hsiVec); ++itxxx) {
-														flush_printf(">>TEST hsiVec Wcode = %s \n", (*itxxx).c_str());
+														flush_printf(">>Sort TEST hsiVec Wcode = %s \n", (*itxxx).c_str());
 													}
 
 												}
