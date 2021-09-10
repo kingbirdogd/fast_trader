@@ -700,6 +700,9 @@ private:
 							newWarrant->BuyIn = _OBSetting->BuyIn;
 							newWarrant->SellOut = _OBSetting->SellOut;
 							newWarrant->LvlBid = _OBSetting->LvLBid;
+							newWarrant->o_buytime = 0;
+							newWarrant->o_soldtime = 0;
+							newWarrant->o_leveltime = 0;
 							//newWarrant->Wtype = _wtype;
 							//newWarrant->Issuer = _issuer;
 							//newWarrant->StockName = _wname;
