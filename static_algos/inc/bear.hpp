@@ -2037,6 +2037,7 @@ private:
 						msg->ref = _Ref;
 						msg->orderid = odr.order_id;
 						msg->warrant_code = _warrant_code;
+						msg->ucode = _Underlying_code;
 						msg->issuer = _issuer;
 						msg->wname = _wname;
 						msg->wtype = _wtype;
@@ -2051,6 +2052,7 @@ private:
 						msg->lvlbid = obsw->LvlBid;
 						msg->status = "filled";
 						msg->transaction_time = obsw->BuyTime;
+						msg->leveltime = -1;
 						ouputQueue.enqueue(msg);
 
 					}
@@ -2067,6 +2069,7 @@ private:
 							msg->ref = _Ref;
 							msg->orderid = odr.order_id;
 							msg->warrant_code = _warrant_code;
+							msg->ucode = _Underlying_code;
 
 							msg->issuer = _issuer;
 							msg->wname = _wname;
@@ -2078,6 +2081,7 @@ private:
 							msg->buyin = warrant->BuyIn;
 							msg->status = "cancel";
 							msg->reason = string(odr.reject_reason);
+							msg->leveltime = -1;
 							ouputQueue.enqueue(msg);
 
 							_OBSetting->TradeTime = DateUtil::getCurrentSystemTime();
@@ -2098,6 +2102,12 @@ private:
 						obsw->o_soldtime = DateUtil::getCurrentSystemTime();
 						obsw->Strategy = "Bear Algo";
 
+						double leveltime = difftime(obsw->o_leveltime, obsw->o_buytime);
+						if(obsw->o_leveltime == 0){
+							leveltime = -1;
+						}
+
+
 						if(obsw->Quantity == odr.filled_quantity){
 
 							auto msg = algo_order_msg_pool.get_obj();
@@ -2107,6 +2117,7 @@ private:
 							msg->ref = _Ref;
 							msg->orderid = odr.order_id;
 							msg->warrant_code = _warrant_code;
+							msg->ucode = _Underlying_code;
 							msg->issuer = _issuer;
 							msg->wname = _wname;
 							msg->wtype = _wtype;
@@ -2118,6 +2129,7 @@ private:
 							msg->transaction_time = obsw->SoldTime;
 							msg->sellout = obsw->SellOut;
 							msg->status = "filled";
+							msg->leveltime = leveltime;
 							ouputQueue.enqueue(msg);
 
 
@@ -2127,6 +2139,7 @@ private:
 							pmsg->id = _algo->_u.get_id();
 							pmsg->ref = _Ref;
 							pmsg->warrant_code = _warrant_code;
+							pmsg->ucode = _Underlying_code;
 							pmsg->issuer = _issuer;
 							pmsg->wname = _wname;
 							pmsg->wtype = _wtype;
@@ -2135,7 +2148,7 @@ private:
 							pmsg->quantity = obsw->Quantity;
 							pmsg->buytime = obsw->BuyTime;
 							pmsg->selltime= obsw->SoldTime;
-							pmsg->leveltime = difftime(obsw->o_leveltime, obsw->o_buytime);
+							pmsg->leveltime = leveltime;
 							ouputQueue.enqueue(pmsg);
 
 
@@ -2153,6 +2166,7 @@ private:
 							msg->ref = _Ref;
 							msg->orderid = odr.order_id;
 							msg->warrant_code = _warrant_code;
+							msg->ucode = _Underlying_code;
 							msg->issuer = _issuer;
 							msg->wname = _wname;
 							msg->wtype = _wtype;
@@ -2164,6 +2178,7 @@ private:
 							msg->transaction_time = obsw->SoldTime;
 							msg->sellout = obsw->SellOut;
 							msg->status = "Partial filled";
+							msg->leveltime = leveltime;
 							ouputQueue.enqueue(msg);
 
 							auto pmsg = algo_portfolio_msg_pool.get_obj();
@@ -2172,6 +2187,7 @@ private:
 							pmsg->id = _algo->_u.get_id();
 							pmsg->ref = _Ref;
 							pmsg->warrant_code = _warrant_code;
+							pmsg->ucode = _Underlying_code;
 							pmsg->issuer = _issuer;
 							pmsg->wname = _wname;
 							pmsg->wtype = _wtype;
@@ -2180,6 +2196,7 @@ private:
 							pmsg->quantity = odr.filled_quantity;
 							pmsg->buytime = obsw->BuyTime;
 							pmsg->selltime= obsw->SoldTime;
+							pmsg->leveltime = leveltime;
 							ouputQueue.enqueue(pmsg);
 
 							obsw->Quantity = obsw->Quantity - odr.filled_quantity;
@@ -2199,6 +2216,12 @@ private:
 					{
 						warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 
+						double leveltime = difftime(warrant->o_leveltime, warrant->o_buytime);
+						if(warrant->o_leveltime == 0){
+							leveltime = -1;
+						}
+
+
 						auto msg = algo_order_msg_pool.get_obj();
 						msg->al = _algo;
 						msg->algo_name = _algo->_name;
@@ -2206,6 +2229,7 @@ private:
 						msg->ref = _Ref;
 						msg->orderid = odr.order_id;
 						msg->warrant_code = _warrant_code;
+						msg->ucode = _Underlying_code;
 						msg->issuer = _issuer;
 						msg->wname = _wname;
 						msg->wtype = _wtype;
@@ -2215,7 +2239,11 @@ private:
 						msg->transaction_time =  string(odr.transaction_tm);
 						msg->sellout = warrant->SellOut;
 						msg->status = "cancel";
+						msg->leveltime = leveltime;
 						msg->reason = string(odr.reject_reason);
+
+
+
 						ouputQueue.enqueue(msg);
 
 						if(_Status == STATUS_SELLING){
@@ -2959,6 +2987,7 @@ private:
 	{
 		unsigned long long orderid;
 		unsigned int warrant_code;
+		unsigned int ucode;
 		std::string action;
 		std::string side;
 		unsigned long long order_price;
@@ -2974,6 +3003,8 @@ private:
 		std::string issuer;
 		std::string wtype;
 		std::string wname;
+		double leveltime;
+
 
 		algo_order_msg():
 			algo_msg_base()
@@ -2984,6 +3015,7 @@ private:
 			auto j = algo_msg_base::to_json();
 			j["orderid"] = orderid;
 			j["warrant_code"] = warrant_code;
+			j["ucode"] = ucode;
 			j["action"] = "order";
 			j["side"] = side;
 			j["wtype"] = wtype;
@@ -3004,6 +3036,7 @@ private:
 			}
 			j["status"] = status;
 			j["transaction_time"] = string(transaction_time);
+			j["leveltime"] = leveltime;
 
 			j["reason"] = string(reason);
 			//j["recovery"] = true;
@@ -3061,6 +3094,7 @@ private:
 	{
 		unsigned long long orderid;
 		unsigned int warrant_code;
+		unsigned int ucode;
 		unsigned long long buy_price;
 		unsigned long long sell_price;
 		unsigned long long quantity;
@@ -3080,6 +3114,7 @@ private:
 			auto j = algo_msg_base::to_json();
 			j["action"] = "portfolio";
 			j["warrant_code"] = warrant_code;
+			j["ucode"] = ucode;
 			j["buy_price"] = buy_price;
 			j["wtype"] = wtype;
 			j["issuer"] = issuer;
