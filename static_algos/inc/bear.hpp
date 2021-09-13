@@ -481,7 +481,7 @@ private:
 					Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) + " BuyPrice = " + to_string(newWarrant->BuyPrice) +  " Level Diff =  " + to_string(leveldiff));
 
 
-					if(within1spread || leveldiff > 300000){
+					//if(within1spread || leveldiff > 300000){
 
 						Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Sell " + "udiff = " + to_string(udiff) );
 
@@ -534,9 +534,9 @@ private:
 							doSell(newWarrant);
 						}
 						//}
-					}else{
-						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Spread Width > 1 =  " + std::to_string(b) + " | " + std::to_string(a) );
-					}
+					//}else{
+					//	Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Spread Width > 1 =  " + std::to_string(b) + " | " + std::to_string(a) );
+					//}
 				}
 			}
 
@@ -737,7 +737,7 @@ private:
 					Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) + " BuyPrice = " + to_string(newWarrant->BuyPrice) +  " Level Diff =  " + to_string(leveldiff));
 
 					//if(within1spread || diff >= 0){
-					if(within1spread || leveldiff > 300000){
+					//if(within1spread || leveldiff > 300000){
 
 						Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Sell " + "udiff = " + to_string(udiff) );
 
@@ -809,9 +809,9 @@ private:
 							doSell(newWarrant);
 						}
 						//}
-					}else{
-						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Spread Width > 1 =  " + std::to_string(b) + " | " + std::to_string(a) );
-					}
+					//}else{
+					//	Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " Spread Width > 1 =  " + std::to_string(b) + " | " + std::to_string(a) );
+					//}
 				}
 			}
 
