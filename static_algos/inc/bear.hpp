@@ -2038,6 +2038,7 @@ private:
 						msg->orderid = odr.order_id;
 						msg->warrant_code = _warrant_code;
 						msg->ucode = _Underlying_code;
+						msg->uname = _Symbol;
 						msg->issuer = _issuer;
 						msg->wname = _wname;
 						msg->wtype = _wtype;
@@ -2070,6 +2071,7 @@ private:
 							msg->orderid = odr.order_id;
 							msg->warrant_code = _warrant_code;
 							msg->ucode = _Underlying_code;
+							msg->uname = _Symbol;
 
 							msg->issuer = _issuer;
 							msg->wname = _wname;
@@ -2118,6 +2120,7 @@ private:
 							msg->orderid = odr.order_id;
 							msg->warrant_code = _warrant_code;
 							msg->ucode = _Underlying_code;
+							msg->uname = _Symbol;
 							msg->issuer = _issuer;
 							msg->wname = _wname;
 							msg->wtype = _wtype;
@@ -2140,6 +2143,7 @@ private:
 							pmsg->ref = _Ref;
 							pmsg->warrant_code = _warrant_code;
 							pmsg->ucode = _Underlying_code;
+							pmsg->uname = _Symbol;
 							pmsg->issuer = _issuer;
 							pmsg->wname = _wname;
 							pmsg->wtype = _wtype;
@@ -2169,6 +2173,7 @@ private:
 							msg->ucode = _Underlying_code;
 							msg->issuer = _issuer;
 							msg->wname = _wname;
+							msg->uname = _Symbol;
 							msg->wtype = _wtype;
 							msg->side = "SELL";
 							msg->filled_price = odr.match_price;
@@ -2190,6 +2195,7 @@ private:
 							pmsg->ucode = _Underlying_code;
 							pmsg->issuer = _issuer;
 							pmsg->wname = _wname;
+							pmsg->uname = _Symbol;
 							pmsg->wtype = _wtype;
 							pmsg->buy_price = obsw->BuyPrice;
 							pmsg->sell_price = obsw->SellPrice;
@@ -2232,6 +2238,7 @@ private:
 						msg->ucode = _Underlying_code;
 						msg->issuer = _issuer;
 						msg->wname = _wname;
+						msg->uname = _Symbol;
 						msg->wtype = _wtype;
 						msg->side = "SELL";
 						msg->order_price = warrant->SellPrice;
@@ -3003,6 +3010,7 @@ private:
 		std::string issuer;
 		std::string wtype;
 		std::string wname;
+		std::string uname;
 		double leveltime;
 
 
@@ -3021,6 +3029,7 @@ private:
 			j["wtype"] = wtype;
 			j["issuer"] = issuer;
 			j["wname"] = wname;
+			j["uname"] = uname;
 			if(side == "BUY"){
 				j["buyin"] = buyin;
 				j["sellout"] = sellout;
@@ -3103,6 +3112,7 @@ private:
 		std::string wtype;
 		std::string issuer;
 		std::string wname;
+		std::string uname;
 		double leveltime;
 
 		algo_portfolio_msg():
