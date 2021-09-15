@@ -1343,6 +1343,12 @@ std::string bear::set_param(unsigned int code, const std::string& type, const st
 			p.enableShowPT(false);
 		else
 			p.enableShowPT(true);
+	}else if(type == "LVLON"){
+		int _ivalue = static_cast<int>(ivalue);
+		if(_ivalue == 0)
+			p.set_LvlOn(false);
+		else
+			p.set_LvlOn(true);
 	}else{
 		return "INVALID TYPE";
 	}

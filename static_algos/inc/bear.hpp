@@ -130,6 +130,7 @@ private:
 		std::string _issuer;
 		std::string _wtype;
 		std::string _wname;
+		bool _LVL_ON = true;
 
 	public:
 		pair
@@ -487,7 +488,7 @@ private:
 
 						if(_Stop_Lost > 0){
 
-							if(_PriceInfo->Bestbid >= newWarrant->BuyPrice){
+							if(_PriceInfo->Bestbid > newWarrant->BuyPrice){
 
 								newWarrant->DBid = trade_price;
 
@@ -499,6 +500,21 @@ private:
 								_Status = STATUS_SELLING;
 
 								doSell(newWarrant);
+							}else if(_PriceInfo->Bestbid == newWarrant->BuyPrice){
+
+								if(_LVL_ON){
+
+									newWarrant->DBid = trade_price;
+
+									newWarrant->Status = STATUS_SELLING;
+									newWarrant->SellPrice = _PriceInfo->Bestbid;
+									newWarrant->SellQty = newWarrant->Quantity;
+									newWarrant->SellOut = _OBSetting->SellOut;
+
+									_Status = STATUS_SELLING;
+
+									doSell(newWarrant);
+								}
 							}else{
 
 								long long diff = static_cast<long long>(newWarrant->BuyPrice) - static_cast<long long>(_PriceInfo->Bestbid);
@@ -520,6 +536,12 @@ private:
 
 
 						}else{
+
+							if(!_LVL_ON){
+								if(_PriceInfo->Bestbid == newWarrant->BuyPrice){
+									return;
+								}
+							}
 
 
 							newWarrant->DBid = trade_price;
@@ -764,7 +786,6 @@ private:
 						if(_Stop_Lost > 0){
 
 							if(_PriceInfo->Bestbid >= newWarrant->BuyPrice){
-
 								newWarrant->DBid = trade_price;
 
 								newWarrant->Status = STATUS_SELLING;
@@ -775,6 +796,22 @@ private:
 								_Status = STATUS_SELLING;
 
 								doSell(newWarrant);
+
+							}else if(_PriceInfo->Bestbid == newWarrant->BuyPrice){
+
+								if(_LVL_ON){
+									newWarrant->DBid = trade_price;
+
+									newWarrant->Status = STATUS_SELLING;
+									newWarrant->SellPrice = _PriceInfo->Bestbid;
+									newWarrant->SellQty = newWarrant->Quantity;
+									newWarrant->SellOut = _OBSetting->SellOut;
+
+									_Status = STATUS_SELLING;
+
+									doSell(newWarrant);
+								}
+
 							}else{
 
 								long long diff = static_cast<long long>(newWarrant->BuyPrice) - static_cast<long long>(_PriceInfo->Bestbid);
@@ -796,6 +833,13 @@ private:
 
 
 						}else{
+
+
+							if(!_LVL_ON){
+								if(_PriceInfo->Bestbid == newWarrant->BuyPrice){
+									return;
+								}
+							}
 
 							newWarrant->DBid = trade_price;
 
@@ -2393,6 +2437,9 @@ private:
 		{
 			_SPREAD = spread;
 		}
+		void set_LvlOn(bool seton){
+			_LVL_ON = seton;
+		}
 		void enableShowPT(bool enable){
 			_SHOW_PT = enable;
 		}
@@ -3124,6 +3171,7 @@ private:
 			auto j = algo_msg_base::to_json();
 			j["action"] = "portfolio";
 			j["warrant_code"] = warrant_code;
+			j["uname"] = uname;
 			j["ucode"] = ucode;
 			j["buy_price"] = buy_price;
 			j["wtype"] = wtype;
