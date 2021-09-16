@@ -1337,6 +1337,12 @@ std::string bear::set_param(unsigned int code, const std::string& type, const st
 	}else if(type == "SELLOFFSET"){
 		int _ivalue = static_cast<int>(ivalue);
 		p.set_SellOffset(_ivalue);
+	}else if(type == "RTDATA"){
+		int _ivalue = static_cast<int>(ivalue);
+		if(_ivalue == 0)
+			p.set_RealData(false);
+		else
+			p.set_RealData(true);
 	}else if(type == "SHOWPT"){
 		int _ivalue = static_cast<int>(ivalue);
 		if(_ivalue == 0)

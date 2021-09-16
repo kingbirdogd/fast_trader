@@ -131,6 +131,7 @@ private:
 		std::string _wtype;
 		std::string _wname;
 		bool _LVL_ON = true;
+		bool _REAL_DATA = false;
 
 	public:
 		pair
@@ -1403,6 +1404,8 @@ private:
 					_PriceInfo->PBestbid = _PriceInfo->Bestbid;
 					_PriceInfo->Bestbid = best_bid_price;
 
+					if(_REAL_DATA){
+
 					auto msg = algo_warrantprice_msg_pool.get_obj();
 					msg->al = _algo;
 					msg->algo_name = _algo->_name;
@@ -1419,6 +1422,8 @@ private:
 					msg->lvlbid = lvlBid;
 					msg->iprice = ibest_bid_price;
 					ouputQueue.enqueue(msg);
+
+					}
 				}
 
 
@@ -1498,6 +1503,8 @@ private:
 					_PriceInfo->PBestask = _PriceInfo->Bestask;
 					_PriceInfo->Bestask = best_ask_price;
 
+					if(_REAL_DATA){
+
 					auto msg = algo_warrantprice_msg_pool.get_obj();
 					msg->al = _algo;
 					msg->algo_name = _algo->_name;
@@ -1514,6 +1521,8 @@ private:
 					msg->lvlbid = lvlBid;
 					msg->iprice = ibest_ask_price;
 					ouputQueue.enqueue(msg);
+
+					}
 				}
 
 
@@ -1850,6 +1859,8 @@ private:
 					_PriceInfo->PBestbid = _PriceInfo->Bestbid;
 					_PriceInfo->Bestbid = best_bid_price;
 
+					if(_REAL_DATA){
+
 					auto msg = algo_warrantprice_msg_pool.get_obj();
 					msg->al = _algo;
 					msg->algo_name = _algo->_name;
@@ -1866,6 +1877,8 @@ private:
 					msg->lvlbid = lvlBid;
 					msg->iprice = ibest_bid_price;
 					ouputQueue.enqueue(msg);
+
+					}
 				}
 
 
@@ -1940,6 +1953,8 @@ private:
 					_PriceInfo->PBestask = _PriceInfo->Bestask;
 					_PriceInfo->Bestask = best_ask_price;
 
+					if(_REAL_DATA){
+
 					auto msg = algo_warrantprice_msg_pool.get_obj();
 					msg->al = _algo;
 					msg->algo_name = _algo->_name;
@@ -1956,6 +1971,8 @@ private:
 					msg->lvlbid = lvlBid;
 					msg->iprice = ibest_ask_price;
 					ouputQueue.enqueue(msg);
+
+					}
 				}
 
 
@@ -2442,6 +2459,9 @@ private:
 		}
 		void enableShowPT(bool enable){
 			_SHOW_PT = enable;
+		}
+		void set_RealData(bool enable){
+			_REAL_DATA = enable;
 		}
 
 		unsigned long long getSpread()
