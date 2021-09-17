@@ -134,3 +134,7 @@ input, textarea, select, textarea:focus, input:focus, select:focus, .form-contro
 #panel .nav-item{
   font-size: 13px;
 }
+
+.form-control::placeholder {
+  color: #999;
+}

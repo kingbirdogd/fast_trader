@@ -86,6 +86,8 @@ class Setting extends React.Component {
         selloffset: {label: 'Sell Offset', placeholder: ''},
         priceTable: {label: 'Price Table'},
         showpt: {label: 'Show Point', placeholder: ''},
+        lvlon: {label: 'Level On', placeholder: ''},
+        rtData: {label: 'Real Time Data', placeholder: ''},
         btn: {set: 'Set', reset: 'Reset', on: 'On', off: 'Off'}
       },
       sc: {
@@ -99,6 +101,8 @@ class Setting extends React.Component {
         selloffset: {label: '賣出偏移', placeholder: ''},
         priceTable: {label: '报价表'},
         showpt: {label: '颢示', placeholder: ''},
+        lvlon: {label: '打和', placeholder: ''},
+        rtData: {label: '即时数据', placeholder: ''},
         btn: {set: '确定', reset: '重设', on: '开启', off: '停止'}
       },
       tc: {
@@ -112,6 +116,8 @@ class Setting extends React.Component {
         selloffset: {label: '賣出偏移', placeholder: ''},
         priceTable: {label: '報價表'},
         showpt: {label: '顥示', placeholder: ''},
+        lvlon: {label: '打和', placeholder: ''},
+        rtData: {label: '即時數據', placeholder: ''},
         btn: {set: '確定', reset: '重設', on: '開啟', off: '停止'}
       }
     }
@@ -121,7 +127,7 @@ class Setting extends React.Component {
   render() {
     var no = this.props.no
     var text = this.getText(this.props.lang)
-    var isDisabled = (this.props.data1.code.value.length>0) ? false : true
+    var isDisabled = (this.props.data1.code.value.length>0 && (this.props.data1.status.isSet || this.props.data1.status.isStart || this.props.data1.status.isPause || this.props.data1.status.isStop)) ? false : true
     return(
       <div className="tab-pane fade" id={"setting-"+no} role="tabpanel">
       
@@ -241,6 +247,44 @@ class Setting extends React.Component {
           value={this.props.data2.showpt.value}
           feedback={this.props.data2.showpt.feedback}
           responseResult={this.props.data2.showpt.responseResult}
+          btnName1={text.btn.on}
+          btnName2={text.btn.off}
+          type={this.props.type}
+          isDisabled={isDisabled}
+          isDisabledTv={false}
+          onChange={this.handleChange}
+          onClick={this.handleClick}
+          setStates={this.props.setStates}
+          getStates={this.props.getStates}
+        />
+        
+        <InputToggle
+          key={"lvlon_toogle_"+no}
+          no={no}
+          label={text.lvlon.label}
+          name="lvlon"
+          value={this.props.data2.lvlon.value}
+          feedback={this.props.data2.lvlon.feedback}
+          responseResult={this.props.data2.lvlon.responseResult}
+          btnName1={text.btn.on}
+          btnName2={text.btn.off}
+          type={this.props.type}
+          isDisabled={isDisabled}
+          isDisabledTv={false}
+          onChange={this.handleChange}
+          onClick={this.handleClick}
+          setStates={this.props.setStates}
+          getStates={this.props.getStates}
+        />
+        
+        <InputToggle
+          key={"rtData_"+no}
+          no={no}
+          label={text.rtData.label}
+          name="rtData"
+          value={this.props.data2.rtData.value}
+          feedback={this.props.data2.rtData.feedback}
+          responseResult={this.props.data2.rtData.responseResult}
           btnName1={text.btn.on}
           btnName2={text.btn.off}
           type={this.props.type}

@@ -132,6 +132,7 @@ class Cell extends React.Component {
     var {name, val, no, states, userId, algoName, obj} = this.initData()
     var wnt = $.extend(true, {}, obj.wnt),
         stock = $.extend(true, {}, obj.stock)
+    playClickSound()
     
     // 1.0 输入框
     var inputData = this.initInputData(obj, no, userId, algoName, null)
@@ -531,6 +532,10 @@ class Cell extends React.Component {
     if (stock.action1 == 'start' && wnt.sell.status == 'open' && parseInt(wnt.position) > 0)
       isStockAction3Disable = false
     
+    var action1Text = 'start'
+    if (this.props.data.stock.action1 == 'start')
+      action1Text = 'stop'
+    
     if (stock.action2 == 'start') cssStockAction2 = 'btn-success', isStockAction2Disable = false, cssStockAction3 = 'btn-secondary', isStockAction3Disable = true, cssStockAction4 = 'btn-secondary', isStockAction4Disable = true
     if (stock.action3 == 'start') cssStockAction3 = 'btn-success', isStockAction3Disable = false, cssStockAction2 = 'btn-secondary', isStockAction2Disable = true, cssStockAction4 = 'btn-secondary', isStockAction4Disable = true
     if (stock.action4 == 'start') cssStockAction4 = 'btn-success', isStockAction4Disable = true
@@ -827,7 +832,7 @@ class Cell extends React.Component {
   </div>
   
   <div className="col-3 col-sm-3 pl-2 pl-sm-2 pr-0 pr-sm-0">
-    <button className={classNames("btn btn-sm mb-1 mb-sm-1", cssStockAction1)} name="stock.action1" type="button" onClick={this.handleClick} disabled={isStockAction1Disable}> {capitalize(this.props.data.stock.action1) || 'Start'} </button> <br />
+    <button className={classNames("btn btn-sm mb-1 mb-sm-1", cssStockAction1)} name="stock.action1" type="button" onClick={this.handleClick} disabled={isStockAction1Disable}> {capitalize(action1Text) || 'Start'} </button> <br />
     <button className={classNames("btn btn-sm mb-1 mb-sm-1", cssStockAction2)} name="stock.action2" type="button" onClick={this.handleClick} disabled={isStockAction2Disable}> {capitalize(this.props.data.stock.action2) || 'Amend'} </button> <br />
     <button className={classNames("btn btn-sm mb-1 mb-sm-1", cssStockAction3)} name="stock.action3" type="button" onClick={this.handleClick} disabled={isStockAction3Disable}> {capitalize(this.props.data.stock.action3) || 'Mon&Amend'} </button> <br />
     <button className={classNames("btn btn-sm mb-1 mb-sm-1", cssStockAction4)} name="stock.action4" type="button" onClick={this.handleClick} disabled={isStockAction4Disable}>Force</button> <br />

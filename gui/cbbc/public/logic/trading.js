@@ -304,3 +304,10 @@ function getIssuer() {
       VT: {sc: '瑞通', tc: '瑞通', en: '瑞通'}
     }
 }
+
+function playClickSound() {
+  var audioElement = document.createElement('audio');
+  audioElement.setAttribute('src', '/sound/Mouse-Click-00-m-FesliyanStudios.com.mp3');
+  audioElement.setAttribute('autoplay', 'autoplay');
+  audioElement.play();
+}

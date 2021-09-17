@@ -53,6 +53,8 @@ class Cbbc extends React.Component {
         buyoffset: {value: '0', defaultValue: '', feedback: '', responseResult: '', valid: 'number_except_zero'},
         selloffset: {value: '0', defaultValue: '', feedback: '', responseResult: '', valid: 'number_except_zero'},
         showpt: {value: '0', defaultValue: '', feedback: '', responseResult: '', valid: 'number_except_zero'},
+        lvlon: {value: '1', defaultValue: '', feedback: '', responseResult: '', valid: 'number_except_zero'},
+        rtData: {value: '0', defaultValue: '', feedback: '', responseResult: '', valid: 'number_except_zero'},
       }
       
       cells[i].trade = {
@@ -404,7 +406,8 @@ class Cbbc extends React.Component {
       buyPrice: formatLong(data.buy_price), buyTime: formatDate(data.buytime),
       sellPrice: formatLong(data.sell_price), soldTime: formatDate(data.sellime),
       profitLoss: (formatLong(data.sell_price)-formatLong(data.buy_price))*formatLong(data.quantity),
-      issuer: data.issuer, wtype: data.wtype
+      issuer: data.issuer, wtype: data.wtype,
+      levelTime: data.leveltime,
     }
     if(!(id in state.portfolios))
       state.portfolios[id] = []
@@ -433,7 +436,8 @@ class Cbbc extends React.Component {
       futurePrice: futurePrice,
       reason: ('reason' in data) ? data.reason: '',
       wtype: data.wtype,
-      issuer: data.issuer
+      issuer: data.issuer,
+      underlying: data.uname
     }
     
     if (!(id in state.orders))
@@ -628,6 +632,9 @@ class Cbbc extends React.Component {
       else
         state.cells[data.no].info.uname = data.underlying
       
+      // if (state.cells[data.no].action.symbol.value == 'HSIH2') state.cells[data.no].action.symbol.value = 'HSIU1'
+      // if (state.cells[data.no].info.uname == 'HSIH2') state.cells[data.no].info.uname = 'HSIU1'
+      
       state.cells[data.no].wPrice.ask = formatPrice2(data.warrant_price.m_Ask.m_iPrice)
       state.cells[data.no].wPrice.bid = formatPrice2(data.warrant_price.m_Bid.m_iPrice)
     }
@@ -701,6 +708,7 @@ class Cbbc extends React.Component {
             data={this.state.positions}
             data2={wprices}
             data3={this.state.cellsConfig}
+            data4={this.state.cells}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}
@@ -721,7 +729,7 @@ class Cbbc extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.25
+          Copyright © {curYear} Fast Trader v1.0.27
         </div>
       </React.Fragment>
       /*<Selector

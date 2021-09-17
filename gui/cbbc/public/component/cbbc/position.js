@@ -3,6 +3,7 @@ class Position extends React.Component {
     data: PropTypes.array,
     data2: PropTypes.array,
     data3: PropTypes.array,
+    data4: PropTypes.array,
     lang: PropTypes.string,
     setStates: PropTypes.func,
     getStates: PropTypes.func
@@ -13,6 +14,7 @@ class Position extends React.Component {
     this.state = {}
     this.state.position = {}
     this.handleForceSell = this.handleForceSell.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
   
   static getDerivedStateFromProps(props, state) {
@@ -92,7 +94,8 @@ class Position extends React.Component {
                   pnl: pnl,
                   wbid: wbid,
                   issuer: item1.issuer,
-                  wtype: item1.wtype
+                  wtype: item1.wtype,
+                  underlying: item1.underlying
                 }
               }
             }
@@ -107,8 +110,12 @@ class Position extends React.Component {
     var no = event.target.attributes.getNamedItem('data-no').value
     var code = parseInt(event.target.name)
     var price = parseFloat(this.state.position[code].wbid)
+    var price2 = parseFloat(this.props.data4[no].trade.price.value)
     var buyQuantity = parseFloat(this.state.position[code].buyQuantity)
     var states = this.props.getStates()
+    
+    if (price2 > 0)
+      price = price2
     
     var command = {
       cmd: 'force_sell',
@@ -123,14 +130,24 @@ class Position extends React.Component {
       sendWebsocket(JSON.stringify(command))
   }
   
+  handleChange() {
+    var no = event.target.attributes.getNamedItem('data-no').value
+    var {name, value} = event.target
+    
+    // 校验数据
+    var states = this.props.getStates()
+    var obj = $.extend(true, {}, states.cells[no].trade)
+    obj[name].value = value
+    obj[name].feedback = validate(this.props.lang, obj[name].valid, value, false)
+    states.cells[no].trade = obj
+    this.props.setStates(states)
+  }
+  
   getText(lang) {
     var text = {
-      en: {position: 'Position', buyPrice: 'Buy Price', buyQuantity: 'Buy Quantity', sellPrice: 'Sell Price', 
-            sellQuantity: 'Sell Quantity', id: 'ID', code: 'Code', transactionTm: 'Last Update Time', pnl: 'Gain', forceSell: 'Sell', bidPrice:'Wnt Price', wtype: 'Type', issuer: 'Issuer'},
-      sc: {position: '持仓', buyPrice: '买入价', buyQuantity: '买入单位', sellPrice: '卖出价', 
-            sellQuantity: '卖出单位', id: 'ID', code: '牛熊证', transactionTm: '交易时间', pnl: '盈亏', forceSell: '卖出', bidPrice: '轮证卖出价', wtype: '种类', issuer: '发行人'},
-      tc: {position: '持倉', buyPrice: '買入價', buyQuantity: '買入單位', sellPrice: '賣出價', 
-            sellQuantity: '賣出單位', id: 'ID', code: '牛熊證', transactionTm: '交易時間', pnl: '盈虧', forceSell: '賣出', bidPrice: '輪證賣出價', wtype: '種類', issuer: '發行人'}
+      en: {position: 'Position', buyPrice: 'Buy Price', buyQuantity: 'Buy Quantity', sellPrice: 'Sell Price', sellQuantity: 'Sell Quantity', id: 'ID', code: 'Code', transactionTm: 'Last Update Time', pnl: 'Gain', forceSell: 'Sell', bidPrice:'Wnt Price', wtype: 'Type', issuer: 'Issuer', underlying: 'Underlying', option: 'Option'},
+      sc: {position: '持仓', buyPrice: '买入价', buyQuantity: '买入单位', sellPrice: '卖出价', sellQuantity: '卖出单位', id: 'ID', code: '牛熊证', transactionTm: '交易时间', pnl: '盈亏', forceSell: '卖出', bidPrice: '轮证卖出价', wtype: '种类', issuer: '发行人', underlying: '标的', option: '自选'},
+      tc: {position: '持倉', buyPrice: '買入價', buyQuantity: '買入單位', sellPrice: '賣出價', sellQuantity: '賣出單位', id: 'ID', code: '牛熊證', transactionTm: '交易時間', pnl: '盈虧', forceSell: '賣出', bidPrice: '輪證賣出價', wtype: '種類', issuer: '發行人', underlying: '正股', option: '自選'}
     }
     return text[lang]
   }
@@ -147,10 +164,16 @@ class Position extends React.Component {
         if (code == this.props.data3[i].code)
           idx = i
       }
+      
+      var css1 = ''
+      if (this.props.data4[idx].trade.price.feedback)
+        css1 = 'is-invalid'
+      
       rows.push(
         <tr key={'position_'+no}>
           <td>{len-no}</td>
           <td>{code}</td>
+          <td>{d.underlying}</td>
           <td>{d.issuer}</td>
           <td>{d.wtype}</td>
           <td>{ parseFloat(d.buyPrice).toFixed(4) }</td>
@@ -160,6 +183,16 @@ class Position extends React.Component {
           <td>{ numberWithCommas(d.sellQuantity) }</td>
           <td className={style}>{ parseFloat(d.pnl).toFixed(4) }</td>
           <td>{d.transactionTm}</td>
+          <td>
+            <input 
+              name="price"
+              data-no={idx}
+              type="text"
+              className={classNames("form-control form-control-sm", css1)}
+              onChange={this.handleChange}
+              value={this.props.data4[idx].trade.price.value}
+              placeholder={text.option} />
+          </td>
           <td>
             <button
               name={code}
@@ -182,6 +215,7 @@ class Position extends React.Component {
             <colgroup>
               <col span="1" width="50px" />
               <col span="1" width="50px" />
+              <col span="1" width="100px" />
               <col span="1" width="50px" />
               <col span="1" width="50px" />
               <col span="1" width="150px" />
@@ -191,12 +225,14 @@ class Position extends React.Component {
               <col span="1" width="150px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />
-              <col span="1" width="150px" />
+              <col span="1" width="100px" />
+              <col span="1" width="100px" />
             </colgroup>
             <thead>
               <tr>
                 <th>{text.id}</th>
                 <th>{text.code}</th>
+                <th>{text.underlying}</th>
                 <th>{text.issuer}</th>
                 <th>{text.wtype}</th>
                 <th>{text.buyPrice}</th>
@@ -206,6 +242,7 @@ class Position extends React.Component {
                 <th>{text.sellQuantity}</th>
                 <th>{text.pnl}</th>
                 <th>{text.transactionTm}</th>
+                <th>{text.sellPrice}</th>
                 <th></th>
               </tr>
             </thead>

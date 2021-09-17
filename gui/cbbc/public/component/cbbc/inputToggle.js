@@ -25,8 +25,9 @@ class InputToggle extends React.Component {
       off: that.props.btnName2
     });
     
-    var id = this.props.name+'_'+this.props.no
-    $('#'+id).change(function() {
+    var id = that.props.name+'_'+that.props.no
+    ui[id] = $('#'+id)
+    ui[id].change(function() {
       var name = $(this).data('name'),
           no = parseInt($(this).data('no')),
           wtype = $(this).data('wtype'),
@@ -56,6 +57,18 @@ class InputToggle extends React.Component {
       }
       sendWebsocket(JSON.stringify(command1))
     })
+  }
+  
+  componentDidUpdate() {
+    if (this.props.value == 1)
+      var state = 'on'
+    else
+      var state = 'off'
+    
+    var id = this.props.name+'_'+this.props.no
+    if (id in ui) {
+      ui[id].bootstrapToggle(state, true)
+    }
   }
   
   render() {
@@ -98,7 +111,8 @@ class InputToggle extends React.Component {
           />
         </div>
         <div className="col-5 col-sm-5"></div>
-        <div className="col-7 col-sm-7">
+        <div className="col-4 col-sm-4"></div>
+        <div className="col-3 col-sm-3">
           <div className="invalid-feedback d-block">
             {this.props.feedback}
           </div>

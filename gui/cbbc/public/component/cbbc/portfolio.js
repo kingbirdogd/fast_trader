@@ -10,6 +10,11 @@ class Portfolio extends React.Component {
     super(props)
     this.state = {}
     this.state.portfolio = {}
+    this.handleExport = this.handleExport.bind(this)
+  }
+  
+  componentDidMount() {
+    $('[data-toggle="tooltip"]').tooltip()
   }
   
   static getDerivedStateFromProps(props, state) {
@@ -30,7 +35,7 @@ class Portfolio extends React.Component {
             datas[item.code].push(item)
           // 牛熊证，总买入价，总卖出价, 总买入单位, 总盈亏, 最后卖出时时
           for (const [code, datas1] of Object.entries(datas)) {
-            var noExecution=0, totalBuyPrice=0, totalSellPrice=0, totalQuantity=0, totalProfitLoss=0, lastSoldTime=null, totalWin=0, totalLoss=0, totalDraw=0, issuer=null, wtype=null
+            var noExecution=0, totalBuyPrice=0, totalSellPrice=0, totalQuantity=0, totalProfitLoss=0, lastSoldTime=null, totalWin=0, totalLoss=0, totalDraw=0, issuer=null, wtype=null, levelTime=0
             for (var item1 of datas1) {
               noExecution+=1
               totalBuyPrice+=item1.buyPrice
@@ -43,6 +48,7 @@ class Portfolio extends React.Component {
               totalDraw = (item1.sellPrice==item1.buyPrice) ? totalDraw+1 : totalDraw
               issuer = item1.issuer
               wtype = item1.wtype
+              levelTime += item1.levelTime
             }
             // 平均
             state.portfolio[code] = {
@@ -56,7 +62,8 @@ class Portfolio extends React.Component {
               totalLoss: totalLoss,
               totalDraw: totalDraw,
               issuer: issuer,
-              wtype: wtype
+              wtype: wtype,
+              levelTime: levelTime/noExecution
             }
           }
         }
@@ -65,16 +72,20 @@ class Portfolio extends React.Component {
     return state
   }
   
+  handleExport() {
+    event.preventDefault()
+  }
+  
   getText(lang) {
     var text = {
       en: {
-        id: 'ID', portfolio: 'Portfolio', buyPrice: 'Avg Buy Price', code: 'Code', quantity: 'Total Quantity', ref: 'Ref', sellPrice: 'Avg Sell Price', soldTime: 'Last Update Time', profitLoss : 'Total P&L', noExecution: 'No. Execution', totalWin: 'Win', totalLoss: 'Loss', totalDraw: 'Draw', wtype: 'Type', issuer: 'Issuer'
+        id: 'ID', portfolio: 'Portfolio', buyPrice: 'Avg Buy Price', code: 'Code', quantity: 'Total Quantity', ref: 'Ref', sellPrice: 'Avg Sell Price', soldTime: 'Last Update Time', profitLoss : 'Total P&L', noExecution: 'No. Execution', totalWin: 'Win', totalLoss: 'Loss', totalDraw: 'Draw', wtype: 'Type', issuer: 'Issuer', levelTime: 'Level Time', save: 'Export'
       },
       sc: {
-        id: 'ID', portfolio: '明细表', buyPrice: '平均买入价', code: '牛能证', quantity: '总买入单位', ref: 'Ref', sellPrice: '平均卖出价', soldTime: '最后卖出时间', profitLoss : '总盈亏', noExecution: '执行次数', totalWin: '赢', totalLoss: '亏', totalDraw: '平', wtype: '种类', issuer: '发行人'
+        id: 'ID', portfolio: '明细表', buyPrice: '平均买入价', code: '牛能证', quantity: '总买入单位', ref: 'Ref', sellPrice: '平均卖出价', soldTime: '最后卖出时间', profitLoss : '总盈亏', noExecution: '执行次数', totalWin: '赢', totalLoss: '亏', totalDraw: '平', wtype: '种类', issuer: '发行人', levelTime: '打和时间', save: '汇出'
       },
       tc: {
-        id: 'ID', portfolio: '賺蝕紀錄', buyPrice: '平均買入價', code: '牛能證', quantity: '總買入單位', ref: 'Ref', sellPrice: '平均賣出價', soldTime: '最後賣出時間', profitLoss : '總盈虧', noExecution: '執行次數', totalWin: '贏', totalLoss: '虧', totalDraw: '平', wtype: '種類', issuer: '發行人'
+        id: 'ID', portfolio: '賺蝕紀錄', buyPrice: '平均買入價', code: '牛能證', quantity: '總買入單位', ref: 'Ref', sellPrice: '平均賣出價', soldTime: '最後賣出時間', profitLoss : '總盈虧', noExecution: '執行次數', totalWin: '贏', totalLoss: '虧', totalDraw: '平', wtype: '種類', issuer: '發行人', levelTime: '打和時間', save: '匯出'
       }
     }
     return text[lang]
@@ -101,12 +112,14 @@ class Portfolio extends React.Component {
           <td>{d.totalLoss}</td>
           <td>{d.totalDraw}</td>
           <td>{d.noExecution}</td>
+          <td>{parseFloat(d.levelTime).toFixed(4)}</td>
           <td>{d.lastSoldTime}</td>
         </tr>
       )
       no+=1
     }
     
+    // <a href="" onClick={this.handleExport}>({text.save} CSV)</a>
     return(
       <div className="row">
         <div className="col-12">
@@ -126,6 +139,7 @@ class Portfolio extends React.Component {
               <col span="1" width="50px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />
+              <col span="1" width="150px" />
             </colgroup>
             <thead>
               <tr>
@@ -141,6 +155,7 @@ class Portfolio extends React.Component {
                 <th>{text.totalLoss}</th>
                 <th>{text.totalDraw}</th>
                 <th>{text.noExecution}</th>
+                <th><span data-toggle="tooltip" data-placement="top" title="Level Time"> {text.levelTime}</span></th>
                 <th>{text.soldTime}</th>
               </tr>
             </thead>

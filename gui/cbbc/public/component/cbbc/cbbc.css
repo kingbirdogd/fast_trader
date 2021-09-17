@@ -1,9 +1,9 @@
 #cbbc.container {
-  max-width: 1480px;
+  max-width: 1680px;
 }
 
 #cbbc.container .row {
-  max-width: 1480px;
+  max-width: 1680px;
 }
 
 #cbbc .bg-yellow {
@@ -127,6 +127,12 @@
 #cbbc .table-position,
 #cbbc .table-recommand {
   height: 110px;
+}
+
+.table-trade th:nth-child(7), .table-trade th:nth-child(15), .table-trade th:nth-child(18), .table-trade th:nth-child(23), 
+.table-trade td:nth-child(7), .table-trade td:nth-child(15), .table-trade td:nth-child(18), .table-trade td:nth-child(23) {
+  border-left: 2px solid #333;
+  padding-left: 4px !important;
 }
 
 #cbbc .form-recommend .height-adj {

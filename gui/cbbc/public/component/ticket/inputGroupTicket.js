@@ -58,6 +58,7 @@ class InputGroupTicket extends React.Component {
   handleClick() {
     var {name, no, key, states, obj} = this.initData(this, event)
     var val = this.props.data1
+    playClickSound()
     
     // 1.0 差價
     var qtySpread = 10000
