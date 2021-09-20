@@ -2037,7 +2037,7 @@ rapid_ring::spsc_ring_buffer_object_pool<bear::algo_loadpricetable, 8192> bear::
 rapid_ring::spmc_ring_buffer_object_pool<bear::algo_validate_msg, 8192> bear::algo_validate_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<bear::algo_portfolio_msg, 8192> bear::algo_portfolio_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<bear::algo_warrantprice_msg, 8192> bear::algo_warrantprice_msg_pool;
-rapid_ring::spmc_ring_buffer_object_pool<bear::algo_leveltprice_msg, 8192> bear::algo_levelprice_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<bear::algo_levelprice_msg, 8192> bear::algo_levelprice_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<bear::algo_pricetable_msg, 8192> bear::algo_pricetable_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<bear::algo_listpair_msg, 8192> bear::algo_listpair_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<bear::algo_setposition, 8192> bear::algo_setposition_pool;
