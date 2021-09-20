@@ -450,6 +450,8 @@ private:
 							newWarrant->o_buytime = 0;
 							newWarrant->o_soldtime = 0;
 							newWarrant->o_leveltime = 0;
+							newWarrant->o_wintime = 0;
+							newWarrant->o_lvlfuture = 0;
 							//newWarrant->Wtype = _wtype;
 							//newWarrant->Issuer = _issuer;
 							//newWarrant->StockName = _wname;
@@ -726,6 +728,8 @@ private:
 							newWarrant->o_buytime = 0;
 							newWarrant->o_soldtime = 0;
 							newWarrant->o_leveltime = 0;
+							newWarrant->o_wintime = 0;
+							newWarrant->o_lvlfuture = 0;
 							//newWarrant->Wtype = _wtype;
 							//newWarrant->Issuer = _issuer;
 							//newWarrant->StockName = _wname;
@@ -786,7 +790,7 @@ private:
 
 						if(_Stop_Lost > 0){
 
-							if(_PriceInfo->Bestbid >= newWarrant->BuyPrice){
+							if(_PriceInfo->Bestbid > newWarrant->BuyPrice){
 								newWarrant->DBid = trade_price;
 
 								newWarrant->Status = STATUS_SELLING;
@@ -1288,6 +1292,21 @@ private:
 
 					if(warrant->o_leveltime == 0 && bp == best_bid_price){
 						warrant->o_leveltime = DateUtil::getCurrentSystemTime();
+						warrant->o_lvlfuture = _PriceInfoU->FBestbid;
+
+						auto msg = algo_levelprice_msg_pool.get_obj();
+						msg->al = _algo;
+						msg->algo_name = _algo->_name;
+						msg->id = _algo->_u.get_id();
+						msg->ref = _Ref;
+						msg->warrant_code = _warrant_code;
+						msg->lvlbid = lvlBid;
+						msg->fprice = warrant->o_lvlfuture;
+						ouputQueue.enqueue(msg);
+					}
+
+					if(warrant->o_wintime == 0 && best_bid_price > bp && bp > 0){
+						warrant->o_wintime = DateUtil::getCurrentSystemTime();
 					}
 
 					if(_Win_Tick == 0){
@@ -1734,8 +1753,6 @@ private:
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 
 
-
-
 					unsigned long long refSpread = _SPREAD;
 					unsigned long long rwinPrice = (unsigned long long) (warrant->BuyPrice + _Win_Tick * refSpread);
 
@@ -1744,6 +1761,21 @@ private:
 
 					if(warrant->o_leveltime == 0 && bp == best_bid_price){
 						warrant->o_leveltime = DateUtil::getCurrentSystemTime();
+						warrant->o_lvlfuture = _PriceInfoU->FBestask;
+
+						auto msg = algo_levelprice_msg_pool.get_obj();
+						msg->al = _algo;
+						msg->algo_name = _algo->_name;
+						msg->id = _algo->_u.get_id();
+						msg->ref = _Ref;
+						msg->warrant_code = _warrant_code;
+						msg->lvlbid = lvlBid;
+						msg->fprice = warrant->o_lvlfuture;
+						ouputQueue.enqueue(msg);
+					}
+
+					if(warrant->o_wintime == 0 && best_bid_price > bp && bp > 0){
+						warrant->o_wintime = DateUtil::getCurrentSystemTime();
 					}
 
 					if(_Win_Tick == 0){
@@ -3004,6 +3036,43 @@ private:
 		}
 		virtual ~algo_warrantprice_msg() = default;
 	};
+
+	struct algo_levelprice_msg: public algo_msg_base
+	{
+		unsigned int warrant_code;
+		unsigned long long wprice;
+		unsigned long long lvlbid;
+		unsigned long long fprice;
+
+		algo_levelprice_msg():
+			algo_msg_base(),
+			warrant_code(0),
+			wprice(0),
+			lvlbid(0),
+			fprice(0)
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["msg_type"] = "wprice";
+			j["warrant_code"] = warrant_code;
+			j["wprice"] = wprice;
+			j["lvlbid"] = lvlbid;
+			j["fprice"] = fprice;
+			return j;
+		}
+		virtual void on_command()
+		{
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_levelprice_msg_pool.release_obj(this);
+		}
+		virtual ~algo_levelprice_msg() = default;
+	};
+
 	struct algo_validate_msg: public algo_msg_base
 	{
 		unsigned int warrant_code;
@@ -3257,6 +3326,7 @@ public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_validate_msg, 8192> algo_validate_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_portfolio_msg, 8192> algo_portfolio_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_warrantprice_msg, 8192> algo_warrantprice_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_levelprice_msg, 8192> algo_levelprice_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_pricetable_msg, 8192> algo_pricetable_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_listpair_msg, 8192> algo_listpair_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_set_msg, 8192> algo_set_msg_pool;

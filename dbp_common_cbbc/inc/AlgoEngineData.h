@@ -153,6 +153,9 @@ struct warrant{
 	time_t o_buytime;
 	time_t o_leveltime;
 	time_t o_soldtime;
+	time_t o_wintime;
+
+	unsigned long long o_lvlfuture;
 
 
 	//string StockName;
