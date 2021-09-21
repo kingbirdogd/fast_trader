@@ -2147,6 +2147,7 @@ private:
 						msg->status = "filled";
 						msg->transaction_time = obsw->BuyTime;
 						msg->leveltime = -1;
+						msg->wintime = -1;
 						ouputQueue.enqueue(msg);
 
 					}
@@ -2177,6 +2178,7 @@ private:
 							msg->status = "cancel";
 							msg->reason = string(odr.reject_reason);
 							msg->leveltime = -1;
+							msg->wintime = -1;
 							ouputQueue.enqueue(msg);
 
 							_OBSetting->TradeTime = DateUtil::getCurrentSystemTime();
@@ -2198,8 +2200,12 @@ private:
 						obsw->Strategy = "Bear Algo";
 
 						double leveltime = difftime(obsw->o_leveltime, obsw->o_buytime);
+						double wintime = difftime(obsw->o_wintime, obsw->o_buytime);
 						if(obsw->o_leveltime == 0){
 							leveltime = -1;
+						}
+						if(obsw->o_wintime == 0){
+							wintime = -1;
 						}
 
 
@@ -2226,6 +2232,7 @@ private:
 							msg->sellout = obsw->SellOut;
 							msg->status = "filled";
 							msg->leveltime = leveltime;
+							msg->wintime = wintime;
 							ouputQueue.enqueue(msg);
 
 
@@ -2246,6 +2253,7 @@ private:
 							pmsg->buytime = obsw->BuyTime;
 							pmsg->selltime= obsw->SoldTime;
 							pmsg->leveltime = leveltime;
+							pmsg->wintime = wintime;
 							ouputQueue.enqueue(pmsg);
 
 
@@ -2277,6 +2285,7 @@ private:
 							msg->sellout = obsw->SellOut;
 							msg->status = "Partial filled";
 							msg->leveltime = leveltime;
+							msg->wintime = wintime;
 							ouputQueue.enqueue(msg);
 
 							auto pmsg = algo_portfolio_msg_pool.get_obj();
@@ -2296,6 +2305,7 @@ private:
 							pmsg->buytime = obsw->BuyTime;
 							pmsg->selltime= obsw->SoldTime;
 							pmsg->leveltime = leveltime;
+							pmsg->wintime = wintime;
 							ouputQueue.enqueue(pmsg);
 
 							obsw->Quantity = obsw->Quantity - odr.filled_quantity;
@@ -2316,8 +2326,12 @@ private:
 						warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 
 						double leveltime = difftime(warrant->o_leveltime, warrant->o_buytime);
+						double wintime = difftime(warrant->o_wintime, warrant->o_buytime);
 						if(warrant->o_leveltime == 0){
 							leveltime = -1;
+						}
+						if(warrant->o_wintime == 0){
+							wintime = -1;
 						}
 
 
@@ -2340,6 +2354,7 @@ private:
 						msg->sellout = warrant->SellOut;
 						msg->status = "cancel";
 						msg->leveltime = leveltime;
+						msg->wintime = wintime;
 						msg->reason = string(odr.reject_reason);
 
 
@@ -3055,7 +3070,7 @@ private:
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
-			j["msg_type"] = "wprice";
+			j["msg_type"] = "lvlprice";
 			j["warrant_code"] = warrant_code;
 			j["wprice"] = wprice;
 			j["lvlbid"] = lvlbid;
@@ -3148,6 +3163,7 @@ private:
 		std::string wname;
 		std::string uname;
 		double leveltime;
+		double wintime;
 
 
 		algo_order_msg():
@@ -3182,6 +3198,7 @@ private:
 			j["status"] = status;
 			j["transaction_time"] = string(transaction_time);
 			j["leveltime"] = leveltime;
+			j["wintime"] = wintime;
 
 			j["reason"] = string(reason);
 			//j["recovery"] = true;
@@ -3250,6 +3267,7 @@ private:
 		std::string wname;
 		std::string uname;
 		double leveltime;
+		double wintime;
 
 		algo_portfolio_msg():
 			algo_msg_base()
@@ -3272,6 +3290,7 @@ private:
 			j["quantity"] = quantity;
 			j["recovery"] = true;
 			j["leveltime"] = leveltime;
+			j["wintime"] = leveltime;
 			return j;
 		}
 		virtual void on_command()
