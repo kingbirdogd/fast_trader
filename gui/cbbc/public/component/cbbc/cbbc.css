@@ -1,9 +1,9 @@
 #cbbc.container {
-  max-width: 1680px;
+  max-width: 1620px;
 }
 
 #cbbc.container .row {
-  max-width: 1680px;
+  max-width: 1620px;
 }
 
 #cbbc .bg-yellow {
@@ -110,9 +110,14 @@
   border: 1px solid #e6e6e6;
 }
 
+#cbbc .overflow-x {
+  overflow-x: auto;
+}
+
 #cbbc .table-trade {
   overflow-y: hidden;
   min-height: 182px;
+  min-width: 100%;
   height: auto;
 }
 
@@ -129,8 +134,14 @@
   height: 110px;
 }
 
-.table-trade th:nth-child(7), .table-trade th:nth-child(15), .table-trade th:nth-child(18), .table-trade th:nth-child(23), 
-.table-trade td:nth-child(7), .table-trade td:nth-child(15), .table-trade td:nth-child(18), .table-trade td:nth-child(23) {
+.table-trade th:nth-child(7), .table-trade th:nth-child(15), .table-trade th:nth-child(18), .table-trade th:nth-child(22), .table-trade th:nth-child(27), .table-trade th:nth-child(30), 
+.table-trade td:nth-child(7), .table-trade td:nth-child(15), .table-trade td:nth-child(18), .table-trade td:nth-child(22), .table-trade td:nth-child(27), .table-trade td:nth-child(30) {
+  border-left: 2px solid #333;
+  padding-left: 4px !important;
+}
+
+.table-portfolio th:nth-child(9), .table-portfolio th:nth-child(13), .table-portfolio th:nth-child(15),
+.table-portfolio td:nth-child(9), .table-portfolio td:nth-child(13), .table-portfolio td:nth-child(15) {
   border-left: 2px solid #333;
   padding-left: 4px !important;
 }

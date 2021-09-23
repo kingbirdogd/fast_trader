@@ -46,14 +46,20 @@ class Status extends React.Component {
       else if (data2.recommender == true) data2.recommender = false
     }
     
+    if (name == 'realTimeData') {
+      if (data2.realTimeData == false) data2.realTimeData = true
+      else if (data2.realTimeData == true) data2.realTimeData = false
+    }
+      
+    
     this.props.setStates({visible: data2})
   }
   
   getText(lang) {
     var text = {
-      en: {totalBytes: 'Data Transferred', noPackage: 'Data packet', lastAliveTime: 'Last Connect Time', connect: 'Connected', close: 'Closed', recommender: 'Product Recommender'},
-      sc: {totalBytes: '使用量', noPackage: '数据包', lastAliveTime: '最後连接时间', connect: '连接中', close: '已掉线', recommender: '产品推荐'},
-      tc: {totalBytes: '使用量', noPackage: '數據包', lastAliveTime: '最後連接時間', connect: '连接中', close: '已掉线', recommender: '產品推薦'}
+      en: {totalBytes: 'Data Transferred', noPackage: 'Data packet', lastAliveTime: 'Last Connect Time', connect: 'Connected', close: 'Closed', recommender: 'Product Recommender', realTimeData: 'Real Time Data'},
+      sc: {totalBytes: '使用量', noPackage: '数据包', lastAliveTime: '最後连接时间', connect: '连接中', close: '已掉线', recommender: '产品推荐', realTimeData: '即市数据'},
+      tc: {totalBytes: '使用量', noPackage: '數據包', lastAliveTime: '最後連接時間', connect: '连接中', close: '已掉线', recommender: '產品推薦', realTimeData: '即市數據'}
     }
     return text[lang]
   }
@@ -62,15 +68,20 @@ class Status extends React.Component {
     var text = this.getText(this.props.lang)
     var {isAlive, totalBytes, noPackage, lastAliveTime} = this.state
     var connectStatus = (isAlive) ? text.connect : text.close
-    var iconStyle = (isAlive) ? 'btn-success': 'btn-danger'
+    var style1 = (isAlive) ? 'btn-success': 'btn-danger'
+    var style2 = (this.props.data2.recommender) ? 'btn-dark' : 'btn-secondary'
+    var style3 = (this.props.data2.realTimeData) ? 'btn-dark' : 'btn-secondary'
+    
     return(
       <div className='row'>
         <div className="col-12 col-sm-6 col-md-3 mb-3">
           <div className="status">
-            <button className={classNames("btn status-icon mr-2", iconStyle)} data-toggle="collapse" data-target="#status_detail" aria-expanded="false" aria-controls="status_detail">
+            <button className={classNames("btn status-icon mr-2", style1)} data-toggle="collapse" data-target="#status_detail" aria-expanded="false" aria-controls="status_detail">
               {connectStatus}
             </button>
-            {this.props.data2.btnRecommender && <button name="recommender" className="btn status-icon btn-secondary" onClick={this.handleClick}> {text.recommender} </button>}
+            {this.props.data2.btnRecommender && <button name="recommender" className={classNames("btn status-icon mr-2", style2)} onClick={this.handleClick}> {text.recommender} </button>}
+            <button name="realTimeData" className={classNames("btn status-icon", style3)} onClick={this.handleClick}> {text.realTimeData} </button>
+            
             <div className="collapse" id="status_detail">
               <div className="card card-body">
                 {text.totalBytes}： {numberWithCommas(totalBytes)} Bytes <br />

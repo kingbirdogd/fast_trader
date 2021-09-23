@@ -12,10 +12,13 @@
   font-size: 11px;
 }
 
-#ticket textarea {
+#ticket textarea, #ticket .textarea {
   width: 100%;
   resize: none;
   border: 1px solid #ccc !important;
+  height: 38px;
+  padding: 2px;
+  color: #666;
 }
 
 #ticket .cell {

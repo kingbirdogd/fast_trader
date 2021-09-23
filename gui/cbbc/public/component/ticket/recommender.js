@@ -90,10 +90,9 @@ class Recommender extends React.Component {
           curProduct = this.state.products[i]
       }
 
-      // only cbbc
       var isProductExist = false
       for (var v of this.props.data2) {
-        if (v.code == curProduct.Code.toString())
+        if (v.code == curProduct.Code.toString() && v.isVisable2 == true)
           isProductExist = true
       }
       if ('Type' in curProduct && (curProduct.Type.toLowerCase() == 'rc' || curProduct.Type.toLowerCase() == 'rp' || curProduct.Type.toLowerCase() == 'ec' || curProduct.Type.toLowerCase() == 'ep') && (!isProductExist)) {
@@ -128,7 +127,7 @@ class Recommender extends React.Component {
         obj2[i].info.issuer = curProduct.Name.substring(0, 2)
         
         //
-        obj3.push({code: curProduct.Code.toString(), type: type, isVisable: false})
+        obj3.push({code: curProduct.Code.toString(), type: type, isVisable: false, isVisable2: true})
         this.props.setStates({'cellsConfig': obj3})
       }
     }
@@ -174,7 +173,7 @@ class Recommender extends React.Component {
           <td>{p.Cratio}</td>
           <td>{p.CountTickB.replaceAll(':', ' : ')}</td>
           <td>{p.CountTickA.replaceAll(':', ' : ')}</td>
-          <td>{p.Level.replaceAll('|', ' | ')}</td>
+          <td>{p.Level.replaceAll('|', ', ').replace('(', '').replace(')', '')}</td>
           <td>{p.Turnover}</td>
           <td>{moment(p.LastTradeTime,'hhmmss').format('hh:mm:ss')}</td>
         </tr>

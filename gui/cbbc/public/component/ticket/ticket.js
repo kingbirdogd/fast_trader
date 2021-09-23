@@ -211,9 +211,9 @@ class Ticket extends React.Component {
         
         // sell
         if (data.CallPut.toLowerCase() == 'p' && formatInputUnit(obj.cells[data.no].wnt.position, true) > 0 && formatPrice2(data.underlying_price.m_Bid.m_iPrice) > obj.cells[data.no].stock.sell.price)
-          msg += getTime()+' underlying price raise higher than trigger sell \n'
+          msg += getTime()+' <span class="text-danger">underlying price raise higher than trigger sell \n</span>'
         if (data.CallPut.toLowerCase() == 'c' && formatInputUnit(obj.cells[data.no].wnt.position, true) > 0 && formatPrice2(data.underlying_price.m_Ask.m_iPrice) < obj.cells[data.no].stock.sell.price)
-          msg += getTime()+' underlying price drop lower than trigger sell \n'
+          msg += getTime()+' <span class="text-danger">underlying price drop lower than trigger sell \n</span>'
         
         //
         var notMatchType = []
@@ -233,7 +233,7 @@ class Ticket extends React.Component {
           msg = getTime()+' underlying price not match'
         }
         
-        if (obj.cells[data.no].wnt.msg[0].length > 0 && msg.length == 0)
+        if (obj.cells[data.no].wnt.msg[0] && obj.cells[data.no].wnt.msg[0].length > 0 && msg.length == 0)
           var not_clean_msg = true
         else
           obj.cells[data.no].wnt.msg[0] = msg

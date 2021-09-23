@@ -35,7 +35,7 @@ class Portfolio extends React.Component {
             datas[item.code].push(item)
           // 牛熊证，总买入价，总卖出价, 总买入单位, 总盈亏, 最后卖出时时
           for (const [code, datas1] of Object.entries(datas)) {
-            var noExecution=0, totalBuyPrice=0, totalSellPrice=0, totalQuantity=0, totalProfitLoss=0, lastSoldTime=null, totalWin=0, totalLoss=0, totalDraw=0, issuer=null, wtype=null, levelTime=0
+            var noExecution=0, totalBuyPrice=0, totalSellPrice=0, totalQuantity=0, totalProfitLoss=0, lastSoldTime=null, totalWin=0, totalLoss=0, totalDraw=0, issuer=null, wtype=null, levelTimeWin=[0, 0, 0], levelTimeLoss=[0, 0, 0], wintime=[0,0,0], winTick=[0,0,0], lossTick=[0,0,0]
             for (var item1 of datas1) {
               noExecution+=1
               totalBuyPrice+=item1.buyPrice
@@ -48,7 +48,57 @@ class Portfolio extends React.Component {
               totalDraw = (item1.sellPrice==item1.buyPrice) ? totalDraw+1 : totalDraw
               issuer = item1.issuer
               wtype = item1.wtype
-              levelTime += item1.levelTime
+              
+              var lvlTime = Math.abs(item1.levelTime)
+              var _wintime = Math.abs(item1.wintime)
+              var tick = Math.abs((item1.sellPrice-item1.buyPrice)/0.001)
+              
+              // win + break even
+              if (item1.sellPrice >= item1.buyPrice) {
+                // only win
+                if (item1.sellPrice > item1.buyPrice) {
+                  // lvl time
+                  if (lvlTime > 0 && lvlTime <= 1)
+                    levelTimeWin[0] += 1
+                  else if (lvlTime > 1 && lvlTime <= 2)
+                    levelTimeWin[1] += 1
+                  else if (lvlTime >= 3)
+                    levelTimeWin[2] += 1
+
+                  // win time
+                  if (_wintime>=0 && _wintime<=1)
+                    wintime[0] += 1
+                  else if (_wintime>1 && _wintime<=2)
+                    wintime[1] += 1
+                  else if (_wintime>=3)
+                    wintime[2] += 1
+                }
+                
+                // win tick
+                if (tick>0 && tick <=1)
+                  winTick[0] += 1
+                else if (tick>1 && tick <=2)
+                  winTick[1] += 1
+                else if (tick>=3)
+                  winTick[3] += 1
+              }
+              // loss
+              else if (item1.sellPrice < item1.buyPrice) {
+                if (lvlTime > 0 && lvlTime <= 1)
+                  levelTimeLoss[0] += 1
+                else if (lvlTime > 1 && lvlTime <= 2)
+                  levelTimeLoss[1] += 1
+                else if (lvlTime >= 3)
+                  levelTimeLoss[2] += 1
+                
+                // loss tick
+                if (tick>0 && tick <=1)
+                  lossTick[0] += 1
+                else if (tick>1 && tick <=2)
+                  lossTick[1] += 1
+                else if (tick>=3)
+                  lossTick[3] += 1
+              }
             }
             // 平均
             state.portfolio[code] = {
@@ -63,7 +113,11 @@ class Portfolio extends React.Component {
               totalDraw: totalDraw,
               issuer: issuer,
               wtype: wtype,
-              levelTime: levelTime/noExecution
+              levelTimeWin: levelTimeWin.join(', '),
+              levelTimeLoss: levelTimeLoss.join(', '),
+              wintime: wintime.join(', '),
+              winTick: winTick.join(', '),
+              lossTick: lossTick.join(', ')
             }
           }
         }
@@ -79,13 +133,13 @@ class Portfolio extends React.Component {
   getText(lang) {
     var text = {
       en: {
-        id: 'ID', portfolio: 'Portfolio', buyPrice: 'Avg Buy Price', code: 'Code', quantity: 'Total Quantity', ref: 'Ref', sellPrice: 'Avg Sell Price', soldTime: 'Last Update Time', profitLoss : 'Total P&L', noExecution: 'No. Execution', totalWin: 'Win', totalLoss: 'Loss', totalDraw: 'Draw', wtype: 'Type', issuer: 'Issuer', levelTime: 'Level Time', save: 'Export'
+        id: 'ID', portfolio: 'Portfolio', buyPrice: 'Avg Buy Price', code: 'Code', quantity: 'Total Quantity', ref: 'Ref', sellPrice: 'Avg Sell Price', soldTime: 'Last Update Time', profitLoss : 'Total P&L', noExecution: 'No. Exec', totalWin: 'Win', totalLoss: 'Loss', totalDraw: 'Draw', wtype: 'Type', issuer: 'Issuer', levelTime: 'Lvl Time', save: 'Export', breakEven: 'Break Even', winTick: 'Win Tick', lossTick: 'Loss Tick', winTime: 'Win Time', lossTime: 'Loss Time'
       },
       sc: {
-        id: 'ID', portfolio: '明细表', buyPrice: '平均买入价', code: '牛能证', quantity: '总买入单位', ref: 'Ref', sellPrice: '平均卖出价', soldTime: '最后卖出时间', profitLoss : '总盈亏', noExecution: '执行次数', totalWin: '赢', totalLoss: '亏', totalDraw: '平', wtype: '种类', issuer: '发行人', levelTime: '打和时间', save: '汇出'
+        id: 'ID', portfolio: '明细表', buyPrice: '平均买入价', code: '牛能证', quantity: '总买入单位', ref: 'Ref', sellPrice: '平均卖出价', soldTime: '最后卖出时间', profitLoss : '总盈亏', noExecution: '执行次数', totalWin: '赢', totalLoss: '亏', totalDraw: '平', wtype: '种类', issuer: '发行人', levelTime: '打和时间', save: '汇出', breakEven: '打和', winTick: '盈利格数', lossTick: '亏蚀格數', winTime: '嬴利时间', lossTime: '亏蚀時間'
       },
       tc: {
-        id: 'ID', portfolio: '賺蝕紀錄', buyPrice: '平均買入價', code: '牛能證', quantity: '總買入單位', ref: 'Ref', sellPrice: '平均賣出價', soldTime: '最後賣出時間', profitLoss : '總盈虧', noExecution: '執行次數', totalWin: '贏', totalLoss: '虧', totalDraw: '平', wtype: '種類', issuer: '發行人', levelTime: '打和時間', save: '匯出'
+        id: 'ID', portfolio: '賺蝕紀錄', buyPrice: '平均買入價', code: '牛能證', quantity: '總買入單位', ref: 'Ref', sellPrice: '平均賣出價', soldTime: '最後賣出時間', profitLoss : '總盈虧', noExecution: '執行次數', totalWin: '贏', totalLoss: '虧', totalDraw: '平', wtype: '種類', issuer: '發行人', levelTime: '打和時間', save: '匯出', breakEven: '打和', winTick: '盈利格數', lossTick: '虧蝕格數', winTime: '嬴利時間', lossTime: '亏蚀時間'
       }
     }
     return text[lang]
@@ -108,11 +162,19 @@ class Portfolio extends React.Component {
           <td>{ parseFloat(d.avgSellPrice).toFixed(4) }</td>
           <td>{ numberWithCommas(d.totalQuantity) }</td>
           <td className={style}>{ numberWithCommas(parseFloat(d.totalProfitLoss).toFixed(2)) }</td>
+          
           <td>{d.totalWin}</td>
           <td>{d.totalLoss}</td>
           <td>{d.totalDraw}</td>
           <td>{d.noExecution}</td>
-          <td>{parseFloat(d.levelTime).toFixed(4)}</td>
+          
+          <td>{d.winTick}</td>
+          <td>{d.lossTick}</td>
+          
+          <td>{d.levelTimeWin}</td>
+          <td>{d.levelTimeLoss}</td>
+          <td>{d.wintime}</td>
+          
           <td>{d.lastSoldTime}</td>
         </tr>
       )
@@ -130,15 +192,23 @@ class Portfolio extends React.Component {
               <col span="1" width="50px" />
               <col span="1" width="50px" />
               <col span="1" width="50px" />
-              <col span="1" width="150px" />
-              <col span="1" width="150px" />
-              <col span="1" width="150px" />
-              <col span="1" width="150px" />
-              <col span="1" width="50px" />
-              <col span="1" width="50px" />
-              <col span="1" width="50px" />
-              <col span="1" width="150px" />
-              <col span="1" width="150px" />
+              <col span="1" width="100px" />
+              <col span="1" width="100px" />
+              <col span="1" width="100px" />
+              <col span="1" width="100px" />
+              
+              <col span="1" width="60px" />
+              <col span="1" width="60px" />
+              <col span="1" width="60px" />
+              <col span="1" width="60px" />
+              
+              <col span="1" width="80px" />
+              <col span="1" width="80px" />
+              
+              <col span="1" width="100px" />
+              <col span="1" width="100px" />
+              <col span="1" width="100px" />
+              
               <col span="1" width="150px" />
             </colgroup>
             <thead>
@@ -151,11 +221,19 @@ class Portfolio extends React.Component {
                 <th>{text.sellPrice}</th>
                 <th>{text.quantity}</th>
                 <th>{text.profitLoss}</th>
+                
                 <th>{text.totalWin}</th>
                 <th>{text.totalLoss}</th>
                 <th>{text.totalDraw}</th>
                 <th>{text.noExecution}</th>
-                <th><span data-toggle="tooltip" data-placement="top" title="Level Time"> {text.levelTime}</span></th>
+                
+                <th><span data-toggle="tooltip" data-placement="top" title="<1 tick | 1~2 ticks | >3 ticks"> {text.winTick}</span></th>
+                <th><span data-toggle="tooltip" data-placement="top" title="<1 tick | 1~2 ticks | >3 ticks"> {text.lossTick}</span></th>
+                
+                <th><span data-toggle="tooltip" data-placement="top" title="<1s | 1~2s | >3s"> {text.levelTime} ({text.totalWin})</span></th>
+                <th><span data-toggle="tooltip" data-placement="top" title="<1s | 1~2s | >3s"> {text.levelTime} ({text.totalLoss})</span></th>
+                <th><span data-toggle="tooltip" data-placement="top" title="0<1s | 1~2s | >3s"> {text.winTime}</span></th>
+                
                 <th>{text.soldTime}</th>
               </tr>
             </thead>

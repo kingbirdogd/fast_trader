@@ -3,7 +3,6 @@ class Position extends React.Component {
     data: PropTypes.array,
     data2: PropTypes.array,
     data3: PropTypes.array,
-    data4: PropTypes.array,
     lang: PropTypes.string,
     setStates: PropTypes.func,
     getStates: PropTypes.func

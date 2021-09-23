@@ -182,6 +182,8 @@ class Cell extends React.Component {
       }
       obj.stock.action2 = undefined
       obj.stock.action3 = undefined
+      
+      obj.wnt.buy.qty = formatInputUnit(obj.wnt.buy.qty, false)
     }
     
     // 3.1 買賣
@@ -691,7 +693,7 @@ class Cell extends React.Component {
 
   <div className="row">
   <div className="col-12 col-sm-12">
-    <textarea rows="2" value={htmlMsg} disabled></textarea>
+    <div className="textarea" dangerouslySetInnerHTML={{__html: htmlMsg}}></div>
   </div>
   </div>
 

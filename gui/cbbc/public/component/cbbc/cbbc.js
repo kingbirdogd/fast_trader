@@ -76,7 +76,7 @@ class Cbbc extends React.Component {
     this.state.issuerList = getIssuer()
     this.state.cellsConfig = []
     
-    this.state.visible = {recommender: false, btnRecommender: true}
+    this.state.visible = {recommender: false, btnRecommender: true, realTimeData: false}
   }
   
   componentDidMount() {
@@ -408,6 +408,7 @@ class Cbbc extends React.Component {
       profitLoss: (formatLong(data.sell_price)-formatLong(data.buy_price))*formatLong(data.quantity),
       issuer: data.issuer, wtype: data.wtype,
       levelTime: data.leveltime,
+      wintime: data.wintime
     }
     if(!(id in state.portfolios))
       state.portfolios[id] = []
@@ -437,7 +438,9 @@ class Cbbc extends React.Component {
       reason: ('reason' in data) ? data.reason: '',
       wtype: data.wtype,
       issuer: data.issuer,
-      underlying: data.uname
+      underlying: data.uname,
+      leveltime: data.leveltime,
+      wintime: data.wintime
     }
     
     if (!(id in state.orders))
@@ -482,9 +485,9 @@ class Cbbc extends React.Component {
     for(var i=0; i<last; i++) {
       var v = state.cells[i]
       if (v.action.code.value)
-        state.cellsConfig.push({code: v.action.code.value, type: v.type, isVisable: false})
+        state.cellsConfig.push({code: v.action.code.value, type: v.type, isVisable: false, isVisable2: true})
       else
-        state.cellsConfig.push({code: '', type: 'undefined', isVisable: false})
+        state.cellsConfig.push({code: '', type: 'undefined', isVisable: false, isVisable2: true})
     }
     return state
   }
@@ -698,6 +701,9 @@ class Cbbc extends React.Component {
             key="tradeTable"
             data={this.state.cells}
             data2={this.state.cellsConfig}
+            data3={this.state.visible}
+            data4={this.state.orders}
+            data5={this.state.portfolios}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}
