@@ -1302,6 +1302,7 @@ private:
 						msg->warrant_code = _warrant_code;
 						msg->lvlbid = lvlBid;
 						msg->fprice = warrant->o_lvlfuture;
+						msg->wprice = best_bid_price;
 						ouputQueue.enqueue(msg);
 					}
 
@@ -1771,6 +1772,7 @@ private:
 						msg->warrant_code = _warrant_code;
 						msg->lvlbid = lvlBid;
 						msg->fprice = warrant->o_lvlfuture;
+						msg->wprice = best_bid_price;
 						ouputQueue.enqueue(msg);
 					}
 
