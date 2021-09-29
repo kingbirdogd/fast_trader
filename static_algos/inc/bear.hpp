@@ -452,6 +452,8 @@ private:
 							newWarrant->o_leveltime = 0;
 							newWarrant->o_wintime = 0;
 							newWarrant->o_lvlfuture = 0;
+							newWarrant->wincount = 0;
+							newWarrant->lvlcount = 0;
 							//newWarrant->Wtype = _wtype;
 							//newWarrant->Issuer = _issuer;
 							//newWarrant->StockName = _wname;
@@ -730,6 +732,8 @@ private:
 							newWarrant->o_leveltime = 0;
 							newWarrant->o_wintime = 0;
 							newWarrant->o_lvlfuture = 0;
+							newWarrant->wincount = 0;
+							newWarrant->lvlcount = 0;
 							//newWarrant->Wtype = _wtype;
 							//newWarrant->Issuer = _issuer;
 							//newWarrant->StockName = _wname;
@@ -1290,9 +1294,14 @@ private:
 					unsigned long long rwinPrice = (unsigned long long) (warrant->BuyPrice + _Win_Tick * refSpread);
 					unsigned long long bp = warrant->BuyPrice;
 
-					if(warrant->o_leveltime == 0 && bp == best_bid_price){
-						warrant->o_leveltime = DateUtil::getCurrentSystemTime();
-						warrant->o_lvlfuture = _PriceInfoU->FBestbid;
+					//if(warrant->o_leveltime == 0 && bp == best_bid_price){
+					if(bp == best_bid_price && best_bid_price>0 && _PriceInfo->Bestbid>0 && _PriceInfo->Bestbid != best_bid_price && best_bid_price>_PriceInfo->Bestbid){
+					//if(bp == best_bid_price && best_bid_price > _PriceInfo->Bestbid){
+						if(warrant->o_leveltime == 0){
+							warrant->o_leveltime = DateUtil::getCurrentSystemTime();
+							warrant->o_lvlfuture = _PriceInfoU->FBestbid;
+						}
+						warrant->lvlcount++;
 
 						auto msg = algo_levelprice_msg_pool.get_obj();
 						msg->al = _algo;
@@ -1302,12 +1311,22 @@ private:
 						msg->warrant_code = _warrant_code;
 						msg->lvlbid = lvlBid;
 						msg->fprice = warrant->o_lvlfuture;
+						msg->wfprice = warrant->o_winfuture;
 						msg->wprice = best_bid_price;
+						msg->lcount = warrant->lvlcount;
+						msg->wcount = warrant->wincount;
 						ouputQueue.enqueue(msg);
 					}
 
-					if(warrant->o_wintime == 0 && best_bid_price > bp && bp > 0){
-						warrant->o_wintime = DateUtil::getCurrentSystemTime();
+
+					if(best_bid_price > bp && bp > 0 && _PriceInfo->Bestbid>0  && _PriceInfo->Bestbid != best_bid_price && best_bid_price>_PriceInfo->Bestbid){
+					//if(warrant->o_wintime == 0 && best_bid_price > bp && bp > 0){
+						if(warrant->o_wintime == 0 ){
+							warrant->o_wintime = DateUtil::getCurrentSystemTime();
+							warrant->o_winfuture = _PriceInfoU->FBestbid;
+						}
+
+						warrant->wincount++;
 					}
 
 					if(_Win_Tick == 0){
@@ -1760,9 +1779,16 @@ private:
 					unsigned long long bp = warrant->BuyPrice;
 
 
-					if(warrant->o_leveltime == 0 && bp == best_bid_price){
-						warrant->o_leveltime = DateUtil::getCurrentSystemTime();
-						warrant->o_lvlfuture = _PriceInfoU->FBestask;
+					//if(warrant->o_leveltime == 0 && bp == best_bid_price){
+					if(bp == best_bid_price && best_bid_price>0 && _PriceInfo->Bestbid>0 && _PriceInfo->Bestbid != best_bid_price && best_bid_price>_PriceInfo->Bestbid){
+
+
+						if(warrant->o_leveltime == 0){
+							warrant->o_leveltime = DateUtil::getCurrentSystemTime();
+							warrant->o_lvlfuture = _PriceInfoU->FBestask;
+						}
+
+						warrant->lvlcount++;
 
 						auto msg = algo_levelprice_msg_pool.get_obj();
 						msg->al = _algo;
@@ -1772,12 +1798,21 @@ private:
 						msg->warrant_code = _warrant_code;
 						msg->lvlbid = lvlBid;
 						msg->fprice = warrant->o_lvlfuture;
+						msg->wfprice = warrant->o_winfuture;
 						msg->wprice = best_bid_price;
+						msg->lcount = warrant->lvlcount;
+						msg->wcount = warrant->wincount;
 						ouputQueue.enqueue(msg);
 					}
 
-					if(warrant->o_wintime == 0 && best_bid_price > bp && bp > 0){
-						warrant->o_wintime = DateUtil::getCurrentSystemTime();
+					//if(warrant->o_wintime == 0 && best_bid_price > bp && bp > 0){
+					if(best_bid_price > bp && bp > 0 && _PriceInfo->Bestbid>0  && _PriceInfo->Bestbid != best_bid_price && best_bid_price>_PriceInfo->Bestbid){
+						if(warrant->o_wintime == 0 ){
+							warrant->o_wintime = DateUtil::getCurrentSystemTime();
+							warrant->o_winfuture = _PriceInfoU->FBestask;
+						}
+
+						warrant->wincount++;
 					}
 
 					if(_Win_Tick == 0){
@@ -2150,6 +2185,8 @@ private:
 						msg->transaction_time = obsw->BuyTime;
 						msg->leveltime = -1;
 						msg->wintime = -1;
+						msg->lvlcount = 0;
+						msg->wincount = 0;
 						ouputQueue.enqueue(msg);
 
 					}
@@ -2181,6 +2218,8 @@ private:
 							msg->reason = string(odr.reject_reason);
 							msg->leveltime = -1;
 							msg->wintime = -1;
+							msg->lvlcount = 0;
+							msg->wincount = 0;
 							ouputQueue.enqueue(msg);
 
 							_OBSetting->TradeTime = DateUtil::getCurrentSystemTime();
@@ -2235,6 +2274,10 @@ private:
 							msg->status = "filled";
 							msg->leveltime = leveltime;
 							msg->wintime = wintime;
+							msg->lvlcount = obsw->lvlcount;
+							msg->wincount = obsw->wincount;
+
+
 							ouputQueue.enqueue(msg);
 
 
@@ -2256,6 +2299,8 @@ private:
 							pmsg->selltime= obsw->SoldTime;
 							pmsg->leveltime = leveltime;
 							pmsg->wintime = wintime;
+							pmsg->lvlcount = obsw->lvlcount;
+							pmsg->wincount = obsw->wincount;
 							ouputQueue.enqueue(pmsg);
 
 
@@ -2288,6 +2333,8 @@ private:
 							msg->status = "Partial filled";
 							msg->leveltime = leveltime;
 							msg->wintime = wintime;
+							msg->lvlcount = obsw->lvlcount;
+							msg->wincount = obsw->wincount;
 							ouputQueue.enqueue(msg);
 
 							auto pmsg = algo_portfolio_msg_pool.get_obj();
@@ -2308,6 +2355,8 @@ private:
 							pmsg->selltime= obsw->SoldTime;
 							pmsg->leveltime = leveltime;
 							pmsg->wintime = wintime;
+							pmsg->lvlcount = obsw->lvlcount;
+							pmsg->wincount = obsw->wincount;
 							ouputQueue.enqueue(pmsg);
 
 							obsw->Quantity = obsw->Quantity - odr.filled_quantity;
@@ -3060,13 +3109,19 @@ private:
 		unsigned long long wprice;
 		unsigned long long lvlbid;
 		unsigned long long fprice;
+		unsigned long long wfprice;
+		int lcount;
+		int wcount;
 
 		algo_levelprice_msg():
 			algo_msg_base(),
 			warrant_code(0),
 			wprice(0),
 			lvlbid(0),
-			fprice(0)
+			fprice(0),
+			wfprice(0),
+			lcount(0),
+			wcount(0)
 		{
 		}
 		virtual nlohmann::json to_json() const
@@ -3077,6 +3132,9 @@ private:
 			j["wprice"] = wprice;
 			j["lvlbid"] = lvlbid;
 			j["fprice"] = fprice;
+			j["wfprice"] = wfprice;
+			j["lcount"] = lcount;
+			j["wcount"] = wcount;
 			return j;
 		}
 		virtual void on_command()
@@ -3166,6 +3224,8 @@ private:
 		std::string uname;
 		double leveltime;
 		double wintime;
+		int lvlcount;
+		int wincount;
 
 
 		algo_order_msg():
@@ -3201,7 +3261,8 @@ private:
 			j["transaction_time"] = string(transaction_time);
 			j["leveltime"] = leveltime;
 			j["wintime"] = wintime;
-
+			j["lvlcount"] = lvlcount;
+			j["wincount"] = wincount;
 			j["reason"] = string(reason);
 			//j["recovery"] = true;
 			return j;
@@ -3270,6 +3331,8 @@ private:
 		std::string uname;
 		double leveltime;
 		double wintime;
+		int lvlcount;
+		int wincount;
 
 		algo_portfolio_msg():
 			algo_msg_base()
@@ -3293,6 +3356,8 @@ private:
 			j["recovery"] = true;
 			j["leveltime"] = leveltime;
 			j["wintime"] = leveltime;
+			j["lvlcount"] = lvlcount;
+			j["wincount"] = wincount;
 			return j;
 		}
 		virtual void on_command()

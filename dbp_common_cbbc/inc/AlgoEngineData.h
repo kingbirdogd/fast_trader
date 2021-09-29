@@ -155,7 +155,12 @@ struct warrant{
 	time_t o_soldtime;
 	time_t o_wintime;
 
+
+	int wincount;
+	int lvlcount;
+
 	unsigned long long o_lvlfuture;
+	unsigned long long o_winfuture;
 
 
 	//string StockName;
