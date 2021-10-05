@@ -133,6 +133,11 @@ private:
 		bool _LVL_ON = true;
 		bool _REAL_DATA = false;
 
+		unsigned long long lvlfuture;
+		int lvltime;
+		int lvlcount;
+
+
 	public:
 		pair
 		(
@@ -200,6 +205,27 @@ private:
 			j["wname"] = _wname;
 			return j;
 		}
+		std::string to_log() const
+		{
+			std::string message =
+					to_string(_warrant_code) +"," +
+					_wtype + "," +
+					to_string(_PriceInfoU->LastTradeSide) + "," +
+					to_string(_PriceInfoU->LastTradePrice) + "," +
+					to_string(_PriceInfoU->LastTradeQty) + "," +
+					to_string(_PriceInfoU->FBestbid) + "," +
+					to_string(_PriceInfoU->FBestask) + "," +
+					to_string(_OBSetting->BuyIn) + "," +
+					to_string(_OBSetting->SellOut) + "," +
+					to_string(_OBSetting->LvlBid) + "," +
+					to_string(_PriceInfo->Bestbid) + "," +
+					to_string(_PriceInfo->Bestask) + "," +
+					to_string(lvlcount) + "," +
+					to_string(lvltime) + "," +
+					to_string(lvlfuture) + "," +
+					";"
+			return message;
+		}
 		~pair() = default;
 		pair(const pair&) = default;
 		pair(pair&&) = default;
@@ -212,6 +238,9 @@ private:
 			_OBSetting->BuyIn = 0;
 			_OBSetting->SellOut = 99999999;
 			_OBSetting->DiffPoint = 9999999;
+			lvlfuture = 0;
+			lvlcount = 0;
+			lvltime = 0;
 		}
 		unsigned long long default_buy_price()
 		{
@@ -318,7 +347,13 @@ private:
 
 			Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " on_trade" + " Status = " + std::to_string(_Status) + " Bestbid = " + std::to_string(_PriceInfo->Bestbid)  + " Bestask = " + std::to_string(_PriceInfo->Bestask) + " Trade price = " +  std::to_string(trade_price) );
 
+			auto trade_quantity = static_cast<unsigned long long>(tradable.m_AccumulateSellQuantity);
 
+			_PriceInfoU->LastTradePrice = trade_price;
+			_PriceInfoU->LastTradeSide = tradable.m_TradeSide;
+			_PriceInfoU->LastTradeQty = trade_quantity;
+
+			to_Log();
 
 
 			if(BUY_ORDER == tradable.m_TradeSide){
@@ -435,6 +470,8 @@ private:
 						//if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn && fallback){
 						if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn && _OBSetting->SellOut > _OBSetting->BuyIn && issuerPrice){
 
+							to_Log();
+
 							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Buy "  + " udiff = " + to_string(udiff));
 
 							warrant* newWarrant = new warrant;
@@ -490,9 +527,13 @@ private:
 					Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) + " BuyPrice = " + to_string(newWarrant->BuyPrice) +  " Level Diff =  " + to_string(leveldiff));
 
 
+
+
 					//if(within1spread || leveldiff > 300000){
 
 						Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Sell " + "udiff = " + to_string(udiff) );
+
+						to_Log();
 
 						if(_Stop_Lost > 0){
 
@@ -585,11 +626,17 @@ private:
 
 			unsigned long long udiff = _PriceInfoU->FBestask - _PriceInfoU->FBestbid;
 
+			auto trade_quantity = static_cast<unsigned long long>(tradable.m_AccumulateSellQuantity);
 
+			_PriceInfoU->LastTradePrice = trade_price;
+			_PriceInfoU->LastTradeSide = tradable.m_TradeSide;
+			_PriceInfoU->LastTradeQty = trade_quantity;
 
 
 
 			Log(std::string("bear.hpp->on_bull_trade CODE = ") + std::to_string(_warrant_code) +  " on_trade" + " Status = " + std::to_string(_Status) + " Bestbid = " + std::to_string(_PriceInfo->Bestbid)  + " Bestask = " + std::to_string(_PriceInfo->Bestask) + " Trade Price = " + to_string(trade_price) + "Trade Side = " + to_string(tradable.m_TradeSide) + " STATUS = " + to_string(_Status));
+
+			to_Log();
 
 			if(SELL_ORDER == tradable.m_TradeSide ){
 
@@ -605,6 +652,8 @@ private:
 					if(_OBSetting->SellOut != 99999999 && _OBSetting->BuyIn != 0){
 						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " _INOUT=" + std::to_string(_INOUT) +  " _LVLRANGE=" + std::to_string(_LVLRANGE) +  " _PTRANGE=" + std::to_string(_PTRANGE) );
 						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " BuyIn=" + std::to_string(_OBSetting->BuyIn) +  " SellOut=" + std::to_string(_OBSetting->SellOut) +  " LvlBid=" + std::to_string(_OBSetting->LvLBid) );
+
+						to_Log();
 
 						/*
 						if(_INOUT > 0){
@@ -717,6 +766,8 @@ private:
 
 							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Buy " + "udiff = " + to_string(udiff) );
 
+							to_Log();
+
 							warrant* newWarrant = new warrant;
 							newWarrant->Date = DateUtil::getToday();
 							newWarrant->Code = _warrant_code;
@@ -774,6 +825,8 @@ private:
 					//if(within1spread || leveldiff > 300000){
 
 						Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Sell " + "udiff = " + to_string(udiff) );
+
+						to_Log();
 
 						//warrant* newWarrant = _OBSetting->getRelatedWarrant(_warrant_code);
 

@@ -110,6 +110,11 @@ struct priceinfo{
 	long LastAskSeq;
 	long LastTBidSeq;
 	long LastTAskSeq;
+
+	unsigned long long LastTradePrice;
+	int LastTradeSide;
+	unsigned long long LastTradeQty;
+
 };
 
 struct warrant{
