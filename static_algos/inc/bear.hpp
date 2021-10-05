@@ -2193,7 +2193,7 @@ private:
 						msg->lvlprice = 0;
 						msg->winprice = 0;
 
-						Log(msg.to_json().dump());
+						Log(msg->to_json().dump());
 
 						ouputQueue.enqueue(msg);
 
@@ -2231,7 +2231,7 @@ private:
 							msg->lvlprice = 0;
 							msg->winprice = 0;
 
-							Log(msg.to_json().dump());
+							Log(msg->to_json().dump());
 
 							ouputQueue.enqueue(msg);
 
@@ -2293,7 +2293,7 @@ private:
 							msg->winprice = obsw->o_winfuture;
 
 
-							Log(msg.to_json().dump());
+							Log(msg->to_json().dump());
 
 							ouputQueue.enqueue(msg);
 
@@ -2356,7 +2356,7 @@ private:
 							msg->winprice = obsw->o_winfuture;
 
 
-							Log(msg.to_json().dump());
+							Log(msg->to_json().dump());
 
 
 							ouputQueue.enqueue(msg);
@@ -2436,7 +2436,7 @@ private:
 						msg->winprice = warrant->o_winfuture;
 						msg->reason = string(odr.reject_reason);
 
-						Log(msg.to_json().dump());
+						Log(msg->to_json().dump());
 
 						ouputQueue.enqueue(msg);
 
