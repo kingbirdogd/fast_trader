@@ -217,7 +217,7 @@ private:
 					to_string(_PriceInfoU->FBestask) + "," +
 					to_string(_OBSetting->BuyIn) + "," +
 					to_string(_OBSetting->SellOut) + "," +
-					to_string(_OBSetting->LvlBid) + "," +
+					to_string(_OBSetting->LvLBid) + "," +
 					to_string(_PriceInfo->Bestbid) + "," +
 					to_string(_PriceInfo->Bestask) + "," +
 					to_string(lvlcount) + "," +
