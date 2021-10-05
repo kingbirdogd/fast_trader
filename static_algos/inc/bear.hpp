@@ -318,6 +318,9 @@ private:
 
 			Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " on_trade" + " Status = " + std::to_string(_Status) + " Bestbid = " + std::to_string(_PriceInfo->Bestbid)  + " Bestask = " + std::to_string(_PriceInfo->Bestask) + " Trade price = " +  std::to_string(trade_price) );
 
+
+
+
 			if(BUY_ORDER == tradable.m_TradeSide){
 
 				if(_Status == STATUS_DONE && (currentTime > (_OBSetting->TradeTime + 1))){
@@ -2187,6 +2190,11 @@ private:
 						msg->wintime = -1;
 						msg->lvlcount = 0;
 						msg->wincount = 0;
+						msg->lvlprice = 0;
+						msg->winprice = 0;
+
+						Log(msg.to_json().dump());
+
 						ouputQueue.enqueue(msg);
 
 					}
@@ -2220,6 +2228,11 @@ private:
 							msg->wintime = -1;
 							msg->lvlcount = 0;
 							msg->wincount = 0;
+							msg->lvlprice = 0;
+							msg->winprice = 0;
+
+							Log(msg.to_json().dump());
+
 							ouputQueue.enqueue(msg);
 
 							_OBSetting->TradeTime = DateUtil::getCurrentSystemTime();
@@ -2276,7 +2289,11 @@ private:
 							msg->wintime = wintime;
 							msg->lvlcount = obsw->lvlcount;
 							msg->wincount = obsw->wincount;
+							msg->lvlprice = obsw->o_lvlfuture;
+							msg->winprice = obsw->o_winfuture;
 
+
+							Log(msg.to_json().dump());
 
 							ouputQueue.enqueue(msg);
 
@@ -2335,6 +2352,13 @@ private:
 							msg->wintime = wintime;
 							msg->lvlcount = obsw->lvlcount;
 							msg->wincount = obsw->wincount;
+							msg->lvlprice = obsw->o_lvlfuture;
+							msg->winprice = obsw->o_winfuture;
+
+
+							Log(msg.to_json().dump());
+
+
 							ouputQueue.enqueue(msg);
 
 							auto pmsg = algo_portfolio_msg_pool.get_obj();
@@ -2406,9 +2430,13 @@ private:
 						msg->status = "cancel";
 						msg->leveltime = leveltime;
 						msg->wintime = wintime;
+						msg->lvlcount = warrant->lvlcount;
+						msg->wincount = warrant->wincount;
+						msg->lvlprice = warrant->o_lvlfuture;
+						msg->winprice = warrant->o_winfuture;
 						msg->reason = string(odr.reject_reason);
 
-
+						Log(msg.to_json().dump());
 
 						ouputQueue.enqueue(msg);
 
@@ -3226,6 +3254,8 @@ private:
 		double wintime;
 		int lvlcount;
 		int wincount;
+		unsigned long long lvlprice;
+		unsigned long long winprice;
 
 
 		algo_order_msg():
@@ -3263,10 +3293,13 @@ private:
 			j["wintime"] = wintime;
 			j["lvlcount"] = lvlcount;
 			j["wincount"] = wincount;
+			j["lvlprice"] = lvlprice;
+			j["winprice"] = winprice;
 			j["reason"] = string(reason);
 			//j["recovery"] = true;
 			return j;
 		}
+
 		virtual void on_command()
 		{
 			ouputQueue.enqueue(this);
