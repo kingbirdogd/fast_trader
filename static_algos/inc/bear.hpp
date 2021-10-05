@@ -222,8 +222,7 @@ private:
 					to_string(_PriceInfo->Bestask) + "," +
 					to_string(lvlcount) + "," +
 					to_string(lvltime) + "," +
-					to_string(lvlfuture) + "," +
-					";"
+					to_string(lvlfuture);
 			return message;
 		}
 		~pair() = default;
