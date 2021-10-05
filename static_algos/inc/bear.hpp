@@ -205,7 +205,7 @@ private:
 			j["wname"] = _wname;
 			return j;
 		}
-		std::string to_log() const
+		std::string to_Log() const
 		{
 			std::string message =
 					to_string(_warrant_code) +"," +
