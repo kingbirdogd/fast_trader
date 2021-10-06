@@ -352,7 +352,7 @@ private:
 			_PriceInfoU->LastTradeSide = tradable.m_TradeSide;
 			_PriceInfoU->LastTradeQty = trade_quantity;
 
-			to_Log();
+			Log(to_Log());
 
 
 			if(BUY_ORDER == tradable.m_TradeSide){
@@ -469,7 +469,7 @@ private:
 						//if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn && fallback){
 						if(within1spread && _OBSetting->SellOut != 99999999 && _OBSetting->BuyIn && _OBSetting->SellOut > _OBSetting->BuyIn && issuerPrice){
 
-							to_Log();
+							Log(to_Log());
 
 							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Buy "  + " udiff = " + to_string(udiff));
 
@@ -532,7 +532,7 @@ private:
 
 						Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Sell " + "udiff = " + to_string(udiff) );
 
-						to_Log();
+						Log(to_Log());
 
 						if(_Stop_Lost > 0){
 
@@ -635,7 +635,7 @@ private:
 
 			Log(std::string("bear.hpp->on_bull_trade CODE = ") + std::to_string(_warrant_code) +  " on_trade" + " Status = " + std::to_string(_Status) + " Bestbid = " + std::to_string(_PriceInfo->Bestbid)  + " Bestask = " + std::to_string(_PriceInfo->Bestask) + " Trade Price = " + to_string(trade_price) + "Trade Side = " + to_string(tradable.m_TradeSide) + " STATUS = " + to_string(_Status));
 
-			to_Log();
+			Log(to_Log());
 
 			if(SELL_ORDER == tradable.m_TradeSide ){
 
@@ -652,7 +652,7 @@ private:
 						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " _INOUT=" + std::to_string(_INOUT) +  " _LVLRANGE=" + std::to_string(_LVLRANGE) +  " _PTRANGE=" + std::to_string(_PTRANGE) );
 						Log(std::string(" CODE = ") + std::to_string(_warrant_code) +  " BuyIn=" + std::to_string(_OBSetting->BuyIn) +  " SellOut=" + std::to_string(_OBSetting->SellOut) +  " LvlBid=" + std::to_string(_OBSetting->LvLBid) );
 
-						to_Log();
+						Log(to_Log());
 
 						/*
 						if(_INOUT > 0){
@@ -765,7 +765,7 @@ private:
 
 							Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Do Buy " + "udiff = " + to_string(udiff) );
 
-							to_Log();
+							Log(to_Log());
 
 							warrant* newWarrant = new warrant;
 							newWarrant->Date = DateUtil::getToday();
@@ -825,7 +825,7 @@ private:
 
 						Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code) +  " Normal Do Sell " + "udiff = " + to_string(udiff) );
 
-						to_Log();
+						Log(to_Log());
 
 						//warrant* newWarrant = _OBSetting->getRelatedWarrant(_warrant_code);
 
