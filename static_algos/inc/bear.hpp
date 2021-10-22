@@ -3119,19 +3119,19 @@ private:
 			j["bearbuy"] = bearbuy;
 			j["bearsell"] = bearsell;
 
-			j["bullr1s"]=bullr1s,
-			j["bullr1e"]=bullr1e,
-			j["bullr2s"]=bullr2s,
-			j["bullr2e"]=bullr2e,
-			j["bullr3s"]=bullr3s,
-			j["bullr3e"]=bullr3e,
+			j["bullr1s"]=bullr1s;
+			j["bullr1e"]=bullr1e;
+			j["bullr2s"]=bullr2s;
+			j["bullr2e"]=bullr2e;
+			j["bullr3s"]=bullr3s;
+			j["bullr3e"]=bullr3e;
 
-			j["bearr1s"]=bearr1s,
-			j["bearr1e"]=bearr1e,
-			j["bearr2s"]=bearr2s,
-			j["bearr2e"]=bearr2e,
-			j["bearr3s"]=bearr3s,
-			j["bearr3e"]=bearr3e,
+			j["bearr1s"]=bearr1s;
+			j["bearr1e"]=bearr1e;
+			j["bearr2s"]=bearr2s;
+			j["bearr2e"]=bearr2e;
+			j["bearr3s"]=bearr3s;
+			j["bearr3e"]=bearr3e;
 
 			if(result){
 				j["result"] = "SUCCESS";
