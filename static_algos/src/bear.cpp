@@ -20,7 +20,7 @@ bear::bear(user& u, const std::string& name):
 	sparam = new strategy1;
 	sparam->bullbuy = false;
 	sparam->bullsell = false;
-	sparam->bearlbuy = false;
+	sparam->bearbuy = false;
 	sparam->bearsell = false;
 	sparam->bullr1s = 0;sparam->bullr1e = 0;
 	sparam->bullr2s = 0;sparam->bullr2e = 0;
