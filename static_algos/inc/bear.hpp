@@ -3088,7 +3088,7 @@ private:
 
 		bool result;
 
-		algo_param_msg():
+		algo_strategy1_msg():
 			algo_msg_base(),
 			bullbuy(false),
 			bullsell(false),
