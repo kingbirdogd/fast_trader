@@ -98,6 +98,7 @@ private:
 	mutable inout_map buyin_map;
 	mutable inout_map sellout_map;
 	ThreadLogger* logger;
+	strategy1* sparam;
 private:
 	class pair
 	{
@@ -1285,6 +1286,28 @@ private:
 				_OBSetting->LvLBid = lvlBid;
 				_OBSetting->Sensitivity = _CbbcPriceMark->getSensitivity();
 				_OBSetting->DiffPoint = diffpoint;
+
+
+				if(_algo->sparam->isReady && _algo->sparam->bullsell){
+					if(_Status == STATUS_AVAILABLE){
+						warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
+						//if(warrant->BuyPrice > _PriceInfo->LBestbid && warrant->BuyPrice > best_bid_price){
+							Log(std::string(" CODE = ") + std::to_string(code) + " SEll on_bull_book force sell (bull sell) " );
+							warrant->SellPrice = best_bid_price;
+							warrant->Status = STATUS_SELLING;
+							warrant->SellQty = warrant->Quantity;
+
+							if(_OBSetting->SellOut == 99999999){
+								warrant->SellOut = _PriceInfoU->FBestbid;
+							}else{
+								warrant->SellOut = _OBSetting->SellOut;
+							}
+							_Status = STATUS_SELLING;
+							doSell(warrant);
+						//}
+					}
+				}
+
 /*
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _PriceInfo->LBestbid != best_bid_price && best_bid_price > 0 && best_bid_price > _PriceInfo->LBestbid){
 					warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
@@ -1775,6 +1798,26 @@ private:
 				_OBSetting->LvLBid = lvlBid;
 				_OBSetting->Sensitivity = _CbbcPriceMark->getSensitivity();
 				_OBSetting->DiffPoint = diffpoint;
+
+				if(_algo->sparam->isReady && _algo->sparam->bearsell){
+					if(_Status == STATUS_AVAILABLE){
+						warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
+						//if(warrant->BuyPrice > _PriceInfo->LBestbid && warrant->BuyPrice > best_bid_price){
+							Log(std::string(" CODE = ") + std::to_string(code) + " SEll on_bull_book force sell (bear sell) " );
+							warrant->SellPrice = best_bid_price;
+							warrant->Status = STATUS_SELLING;
+							warrant->SellQty = warrant->Quantity;
+
+							if(_OBSetting->SellOut == 99999999){
+								warrant->SellOut = _PriceInfoU->FBestbid;
+							}else{
+								warrant->SellOut = _OBSetting->SellOut;
+							}
+							_Status = STATUS_SELLING;
+							doSell(warrant);
+						//}
+					}
+				}
 
 /*
 				if(_Status == STATUS_AVAILABLE  && _Action_Status == STAGE_START && _PriceInfo->LBestbid != best_bid_price && best_bid_price > 0 && best_bid_price > _PriceInfo->LBestbid){
@@ -3022,6 +3065,105 @@ private:
 		}
 		virtual ~algo_loadpricetable() = default;
 	};
+	struct algo_strategy1_msg: public algo_msg_base
+	{
+		bool bullbuy;
+		bool bullsell;
+		bool bearbuy;
+		bool bearsell;
+
+		unsigned long long bullr1s,
+		unsigned long long bullr1e,
+		unsigned long long bullr2s,
+		unsigned long long bullr2e,
+		unsigned long long bullr3s,
+		unsigned long long bullr3e,
+
+		unsigned long long bearr1s,
+		unsigned long long bearr1e,
+		unsigned long long bearr2s,
+		unsigned long long bearr2e,
+		unsigned long long bearr3s,
+		unsigned long long bearr3e,
+
+		bool result;
+
+		algo_param_msg():
+			algo_msg_base(),
+			bullbuy(false),
+			bullsell(false),
+			bearbuy(false),
+			bearsell(false),
+			bullr1s(0),
+			bullr1e(0),
+			bullr2s(0),
+			bullr2e(0),
+			bullr3s(0),
+			bullr3e(0),
+
+			bearr1s(0),
+			bearr1e(0),
+			bearr2s(0),
+			bearr2e(0),
+			bearr3s(0),
+			bearr3e(0),
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["msg_type"] = "algo_strategy1_msg";
+			j["bullbuy"] = bullbuy;
+			j["bullsell"] = bullsell;
+			j["bearbuy"] = bearbuy;
+			j["bearsell"] = bearsell;
+
+			j["bullr1s"]=bullr1s,
+			j["bullr1e"]=bullr1e,
+			j["bullr2s"]=bullr2s,
+			j["bullr2e"]=bullr2e,
+			j["bullr3s"]=bullr3s,
+			j["bullr3e"]=bullr3e,
+
+			j["bearr1s"]=bearr1s,
+			j["bearr1e"]=bearr1e,
+			j["bearr2s"]=bearr2s,
+			j["bearr2e"]=bearr2e,
+			j["bearr3s"]=bearr3s,
+			j["bearr3e"]=bearr3e,
+
+			if(result){
+				j["result"] = "SUCCESS";
+				j["recovery"] = true;
+			}else{
+				j["result"] = "FAIL";
+				j["reason"] = result;
+			}
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<bear*>(al);
+
+			if(result){
+
+			}
+
+
+			result = self->set_param(code, type, value, ref);
+
+			ouputQueue.enqueue(this);
+
+
+		}
+		virtual void release()
+		{
+			algo_strategy1_msg_pool.release_obj(this);
+		}
+		virtual ~algo_strategy1_msg() = default;
+	};
+
+
 	struct algo_param_msg: public algo_msg_base
 	{
 		unsigned int code;
@@ -3482,6 +3624,7 @@ public:
 	std::string force_buy(unsigned long long price, unsigned long long quantity, const std::string& ref);
 	std::string force_sell(unsigned long long price, unsigned long long quantity, const std::string& ref);
 	std::string set_position(unsigned long long price, unsigned long long quantity, const std::string& ref);
+	std::string setStrategy1(const strategy1& param);
 	nlohmann::json getPairlist();
 
 	virtual void Log(std::string msg);
@@ -3491,6 +3634,7 @@ public:
 public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_err_msg, 8192> algo_err_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_param_msg, 8192> algo_param_msg_pool;
+	static rapid_ring::spsc_ring_buffer_object_pool<algo_strategy1_msg, 8192> algo_strategy1_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_loadpricetable, 8192> algo_loadpricetable_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_positionorder_msg, 8192> algo_positionorder_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_order_msg, 8192> algo_order_msg_pool;

@@ -15,6 +15,22 @@ bear::bear(user& u, const std::string& name):
 {
 	logger = new ThreadLogger("log/" + name + DateUtil::getToday() + ".log");
 	logger->start();
+
+
+	sparam = new strategy1;
+	sparam->bullbuy = false;
+	sparam->bullsell = false;
+	sparam->bearlbuy = false;
+	sparam->bearsell = false;
+	sparam->bullr1s = 0;sparam->bullr1e = 0;
+	sparam->bullr2s = 0;sparam->bullr2e = 0;
+	sparam->bullr3s = 0;sparam->bullr3e = 0;
+	sparam->bearr1s = 0;sparam->bearr1e = 0;
+	sparam->bearr2s = 0;sparam->bearr2e = 0;
+	sparam->bearr3s = 0;sparam->bearr3e = 0;
+	sparam->isReady = true;
+
+	Log("Init Strategy 1");
 }
 
 void bear::on_omdc_book(const Tradable& tradable)
@@ -205,7 +221,10 @@ void bear::on_omdc_book(const Tradable& tradable)
 				}
 */
 				if(it->second->getWtype() == BULL){
+
+
 					it->second->on_bull_book(tradable);
+
 				}else{
 					it->second->on_bear_book(tradable);
 				}
@@ -663,12 +682,16 @@ void bear::on_omdd_trade(const Tradable& tradable)
 					if(p->getWtype() == BULL){
 						if((p->getLvlBid() == trade_price && p->isLevel()) || (p->getSellOut() == trade_price) || (best_bid_price > p->getSellOut() && p->getSellOut() > best_bid_price1))
 						{
-							p->on_bull_trade(tradable);
+							if(sparam->isready && sparam->bullbuy &&  (  trade_price > sparam->bullr1s  && trade_price < sparam->bullr1e )){
+								p->on_bull_trade(tradable);
+							}
 						}
 					}else{
 						if(p->getBuyIn() == trade_price && (p->status() == STATUS_READY || p->status() == STATUS_DONE) && p->action_status() == STAGE_START)
 						{
-							p->on_bear_trade(tradable);
+							if(sparam->isready && sparam->bearbuy &&  ( sparam->bearr1s > trade_price && trade_price > sparam->bearr1e )){
+								p->on_bear_trade(tradable);
+							}
 						}
 					}
 /*
@@ -720,12 +743,16 @@ void bear::on_omdd_trade(const Tradable& tradable)
 						//Log(" Code = " + to_string(tradable.m_Code) + " Trade Price = " + to_string(trade_price) + " Buyin = " + to_string(p->getBuyIn()) + " sTATUS = " + to_string(p->status()));
 						if(p->getBuyIn() == trade_price  && (p->status() == STATUS_READY || p->status() == STATUS_DONE) && p->action_status() == STAGE_START)
 						{
-							p->on_bull_trade(tradable);
+							if(sparam->isready && sparam->bullbuy &&  ( trade_price > sparam->bullr1s && trade_price < sparam->bullr1e )){
+								p->on_bull_trade(tradable);
+							}
 						}
 					}else{
 						if((p->getLvlBid() == trade_price && p->isLevel()) || (p->getSellOut() == trade_price) || (best_ask_price < p->getSellOut() && p->getSellOut() < best_ask_price1))
 						{
-							p->on_bear_trade(tradable);
+							if(sparam->isready && sparam->bearbuy &&  ( sparam->bearr1s > trade_price && trade_price > sparam->bearr1e )){
+								p->on_bear_trade(tradable);
+							}
 						}
 					}
 /*
@@ -1234,6 +1261,24 @@ bear::action_resp bear::set_stop(unsigned int code, const std::string& ref){
 	return a_resp;
 }
 
+
+std::string bear::setStrategy1(strategy1& param ){
+	sparam->isReady = false;
+	sparam->bullbuy = param.bullbuy;
+	sparam->bullsell = param.bullsell;
+	sparam->bearlbuy = param.bearbuy;
+	sparam->bearsell = param.bearsell;
+	sparam->bullr1s = param.bullr1s;sparam->bullr1e = param.bullr1e;
+	sparam->bullr2s = param.bullr2s;sparam->bullr2e = param.bullr2e;
+	sparam->bullr3s = param.bullr3s;sparam->bullr3e = param.bullr3e;
+	sparam->bearr1s = param.bearr1s;sparam->bearr1e = param.bearr1e;
+	sparam->bearr2s = param.bearr2s;sparam->bearr2e = param.bearr2e;
+	sparam->bearr3s = param.bearr3s;sparam->bearr3e = param.bearr3e;
+
+	sparam->isReady = true;
+
+}
+
 std::string bear::load_pricetable(unsigned int code, const std::string& ref){
 
 	auto it = _p_map.find(ref);
@@ -1537,6 +1582,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 	algo_loadpricetable* ploadpricetable = nullptr;
 	algo_listpair_msg* plistpair = nullptr;
 	algo_param_msg* palgo_param_msg = nullptr;
+	algo_strategy1_msg* palgo_strategy1_msg = nullptr;
 	try
 	{
 
@@ -1924,6 +1970,89 @@ algo_msg_base* bear::json_to_msg(json& json)
 			plistpair->ref = ref;
 			return plistpair;
 		}
+		else if(cmd == "strategy1")
+		{
+			palgo_strategy1_msg = algo_strategy1_msg_pool.get_obj();
+			palgo_strategy1_msg->al = this;
+			palgo_strategy1_msg->algo_name = _name;
+			palgo_strategy1_msg->id = _u.get_id();
+			palgo_strategy1_msg->ref = ref;
+
+			palgo_strategy1_msg->bullbuy = json["bullbuy"].get<bool>();
+			palgo_strategy1_msg->bullsell = json["bullsell"].get<bool>();
+			palgo_strategy1_msg->bearbuy = json["bearbuy"].get<bool>();
+			palgo_strategy1_msg->bearsell = json["bearsell"].get<bool>();
+
+			unsigned long long bullr1s = json["bullr1s"].get<unsigned long long>();
+			unsigned long long bullr1e = json["bullr1e"].get<unsigned long long>();
+			unsigned long long bullr2s = json["bullr2s"].get<unsigned long long>();
+			unsigned long long bullr2e = json["bullr2e"].get<unsigned long long>();
+			unsigned long long bullr3s = json["bullr3s"].get<unsigned long long>();
+			unsigned long long bullr3e = json["bullr3e"].get<unsigned long long>();
+
+			unsigned long long bearr1s = json["bearr1s"].get<unsigned long long>();
+			unsigned long long bearr1e = json["bearr1e"].get<unsigned long long>();
+			unsigned long long bearr2s = json["bearr2s"].get<unsigned long long>();
+			unsigned long long bearr2e = json["bearr2e"].get<unsigned long long>();
+			unsigned long long bearr3s = json["bearr3s"].get<unsigned long long>();
+			unsigned long long bearr3e = json["bearr3e"].get<unsigned long long>();
+
+			bool fail = false;
+
+			if(bullr1s != 0 && bullr1e != 0 && !fail){
+				if(bullr1e < bullr1s){
+					fail = true;
+				}
+			}
+			if(bullr2s != 0 && bullr2e != 0 && !fail){
+				if(bullr2e < bullr2s){
+					fail = true;
+				}
+			}
+			if(bullr3s != 0 && bullr3e != 0 && !fail){
+				if(bullr3e < bullr3s){
+					fail = true;
+				}
+			}
+			if(bearr1s != 0 && bearr1e != 0 && !fail){
+				if(bearr1e > bearr1s){
+					fail = true;
+				}
+			}
+			if(bearr2s != 0 && bearr2e != 0 && !fail){
+				if(bearr2e > bearr2s){
+					fail = true;
+				}
+			}
+			if(bearr3s != 0 && bearr3e != 0 && !fail){
+				if(bearr3e > bearr3s){
+					fail = true;
+				}
+			}
+
+			if(!fail){
+				palgo_strategy1_msg->result = true;
+			}else{
+				palgo_strategy1_msg->result = false;
+			}
+
+			palgo_strategy1_msg->bullr1s = bullr1s;
+			palgo_strategy1_msg->bullr1e = bullr1e;
+			palgo_strategy1_msg->bullr2s = bullr2s;
+			palgo_strategy1_msg->bullr2e = bullr2e;
+			palgo_strategy1_msg->bullr3s = bullr3s;
+			palgo_strategy1_msg->bullr3e = bullr3e;
+
+			palgo_strategy1_msg->bearr1s = bearr1s;
+			palgo_strategy1_msg->bearr1e = bearr1e;
+			palgo_strategy1_msg->bearr2s = bearr2s;
+			palgo_strategy1_msg->bearr2e = bearr2e;
+			palgo_strategy1_msg->bearr3s = bearr3s;
+			palgo_strategy1_msg->bearr3e = bearr3e;
+
+
+			return palgo_strategy1_msg;
+		}
 		else if(cmd == "loadpricetable")
 		{
 			ploadpricetable = algo_loadpricetable_pool.get_obj();
@@ -2020,6 +2149,8 @@ algo_msg_base* bear::json_to_msg(json& json)
 			ploadpricetable->release();
 		if(palgo_param_msg)
 			palgo_param_msg->release();
+		if(palgo_strategy1_msg)
+			palgo_strategy1_msg->release();
 		return msg;
 	}
 }
@@ -2031,6 +2162,7 @@ std::string bear::get_lib_name()
 
 rapid_ring::spmc_ring_buffer_object_pool<bear::algo_err_msg, 8192> bear::algo_err_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<bear::algo_param_msg, 8192> bear::algo_param_msg_pool;
+rapid_ring::spsc_ring_buffer_object_pool<bear::algo_strategy1_msg, 8192> bear::algo_strategy1_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<bear::algo_positionorder_msg, 8192> bear::algo_positionorder_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<bear::algo_order_msg, 8192> bear::algo_order_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<bear::algo_loadpricetable, 8192> bear::algo_loadpricetable_pool;

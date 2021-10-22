@@ -54,7 +54,29 @@ inline static unsigned long long calWeightedPrice(unsigned long long bid1, unsig
 using namespace std;
 
 
+struct strategy1{
 
+	bool bullbuy;
+	bool bullsell;
+	bool bearbuy;
+	bool bearsell;
+
+	unsigned long long bullr1s;
+	unsigned long long bullr1e;
+	unsigned long long bullr2s;
+	unsigned long long bullr2e;
+	unsigned long long bullr3s;
+	unsigned long long bullr3e;
+
+	unsigned long long bearr1s;
+	unsigned long long bearr1e;
+	unsigned long long bearr2s;
+	unsigned long long bearr2e;
+	unsigned long long bearr3s;
+	unsigned long long bearr3e;
+
+	bool isReady;
+};
 
 struct priceinfo{
 
