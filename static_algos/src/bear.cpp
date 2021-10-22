@@ -1262,7 +1262,8 @@ bear::action_resp bear::set_stop(unsigned int code, const std::string& ref){
 }
 
 
-std::string bear::setStrategy1(strategy1& param ){
+std::string bear::setStrategy1(const strategy1& param ){
+
 	sparam->isReady = false;
 	sparam->bullbuy = param.bullbuy;
 	sparam->bullsell = param.bullsell;
