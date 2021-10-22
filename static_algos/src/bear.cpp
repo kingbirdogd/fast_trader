@@ -1277,6 +1277,7 @@ std::string bear::setStrategy1(strategy1& param ){
 
 	sparam->isReady = true;
 
+	return "SUCCESS";
 }
 
 std::string bear::load_pricetable(unsigned int code, const std::string& ref){
