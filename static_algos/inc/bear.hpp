@@ -3106,9 +3106,10 @@ private:
 			bearr2s(0),
 			bearr2e(0),
 			bearr3s(0),
-			bearr3e(0),
+			bearr3e(0)
 		{
 		}
+
 		virtual nlohmann::json to_json() const
 		{
 			auto j = algo_msg_base::to_json();
