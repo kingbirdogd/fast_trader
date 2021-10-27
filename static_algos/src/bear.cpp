@@ -1267,7 +1267,7 @@ std::string bear::setStrategy1(const strategy1& param ){
 
 	sparam->isReady = false;
 
-	Log(to_string(p.warrant_code()) + std::string("setStrategy1 isReady = ") + to_string(sparam->isReady));
+	Log(std::string("setStrategy1 isReady = ") + to_string(sparam->isReady));
 
 	sparam->isEnable = param.isEnable;
 	sparam->bullbuy = param.bullbuy;
@@ -1282,20 +1282,20 @@ std::string bear::setStrategy1(const strategy1& param ){
 	sparam->bearr3s = param.bearr3s;sparam->bearr3e = param.bearr3e;
 
 
-	Log(to_string(p.warrant_code()) + std::string("setStrategy1 isEnable = ") + to_string(sparam->isEnable));
-	Log(to_string(p.warrant_code()) + std::string("setStrategy1 bullbuy = ") + to_string(sparam->bullbuy));
-	Log(to_string(p.warrant_code()) + std::string("setStrategy1 bullsell = ") + to_string(sparam->bullsell));
-	Log(to_string(p.warrant_code()) + std::string("setStrategy1 bearbuy = ") + to_string(sparam->bearbuy));
-	Log(to_string(p.warrant_code()) + std::string("setStrategy1 bearsell = ") + to_string(sparam->bearsell));
-	Log(to_string(p.warrant_code()) + std::string("setStrategy1 bullr1s = ") + to_string(sparam->bullr1s));
-	Log(to_string(p.warrant_code()) + std::string("setStrategy1 bullr1e = ") + to_string(sparam->bullr1e));
-	Log(to_string(p.warrant_code()) + std::string("setStrategy1 bearr1s = ") + to_string(sparam->bearr1s));
-	Log(to_string(p.warrant_code()) + std::string("setStrategy1 bearr1e = ") + to_string(sparam->bearr1e));
+	Log(std::string("setStrategy1 isEnable = ") + to_string(sparam->isEnable));
+	Log(std::string("setStrategy1 bullbuy = ") + to_string(sparam->bullbuy));
+	Log(std::string("setStrategy1 bullsell = ") + to_string(sparam->bullsell));
+	Log(std::string("setStrategy1 bearbuy = ") + to_string(sparam->bearbuy));
+	Log(std::string("setStrategy1 bearsell = ") + to_string(sparam->bearsell));
+	Log(std::string("setStrategy1 bullr1s = ") + to_string(sparam->bullr1s));
+	Log(std::string("setStrategy1 bullr1e = ") + to_string(sparam->bullr1e));
+	Log(std::string("setStrategy1 bearr1s = ") + to_string(sparam->bearr1s));
+	Log(std::string("setStrategy1 bearr1e = ") + to_string(sparam->bearr1e));
 
 	sparam->isReady = true;
 
 
-	Log(to_string(p.warrant_code()) + std::string("setStrategy1 isReady = ") + to_string(sparam->isReady));
+	Log(std::string("setStrategy1 isReady = ") + to_string(sparam->isReady));
 
 
 	return "SUCCESS";
