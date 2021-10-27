@@ -1267,7 +1267,7 @@ std::string bear::setStrategy1(const strategy1& param ){
 
 	sparam->isReady = false;
 
-	sparam->isEnable =param.enable;
+	sparam->isEnable =param.isEnable;
 	sparam->bullbuy = param.bullbuy;
 	sparam->bullsell = param.bullsell;
 	sparam->bearbuy = param.bearbuy;
