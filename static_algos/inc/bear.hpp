@@ -1288,7 +1288,7 @@ private:
 				_OBSetting->DiffPoint = diffpoint;
 
 
-				if(_algo->sparam->isReady && _algo->sparam->bullsell){
+				if(_algo->sparam->isReady && _algo->sparam->bullsell && _algo->sparam->isEnable){
 					if(_Status == STATUS_AVAILABLE){
 						warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 						//if(warrant->BuyPrice > _PriceInfo->LBestbid && warrant->BuyPrice > best_bid_price){
@@ -1799,7 +1799,7 @@ private:
 				_OBSetting->Sensitivity = _CbbcPriceMark->getSensitivity();
 				_OBSetting->DiffPoint = diffpoint;
 
-				if(_algo->sparam->isReady && _algo->sparam->bearsell){
+				if(_algo->sparam->isReady && _algo->sparam->bearsell && _algo->sparam->isEnable){
 					if(_Status == STATUS_AVAILABLE){
 						warrant* warrant = _OBSetting->getRelatedWarrant(_warrant_code);
 						//if(warrant->BuyPrice > _PriceInfo->LBestbid && warrant->BuyPrice > best_bid_price){
@@ -3067,6 +3067,8 @@ private:
 	};
 	struct algo_strategy1_msg: public algo_msg_base
 	{
+		bool enable;
+
 		bool bullbuy;
 		bool bullsell;
 		bool bearbuy;
@@ -3090,6 +3092,7 @@ private:
 
 		algo_strategy1_msg():
 			algo_msg_base(),
+			enable(false),
 			bullbuy(false),
 			bullsell(false),
 			bearbuy(false),
@@ -3114,6 +3117,7 @@ private:
 		{
 			auto j = algo_msg_base::to_json();
 			j["msg_type"] = "algo_strategy1_msg";
+			j["enable"] = enable;
 			j["bullbuy"] = bullbuy;
 			j["bullsell"] = bullsell;
 			j["bearbuy"] = bearbuy;
@@ -3149,6 +3153,7 @@ private:
 			if(result){
 
 				strategy1 sg1;
+				sg1.isEnable = enable;
 				sg1.bullbuy = bullbuy;
 				sg1.bullsell = bullsell;
 				sg1.bearbuy = bearbuy;

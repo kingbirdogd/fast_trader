@@ -29,6 +29,7 @@ bear::bear(user& u, const std::string& name):
 	sparam->bearr2s = 0;sparam->bearr2e = 0;
 	sparam->bearr3s = 0;sparam->bearr3e = 0;
 	sparam->isReady = true;
+	sparam->isEnable = false;
 
 	Log("Init Strategy 1");
 }
@@ -682,14 +683,14 @@ void bear::on_omdd_trade(const Tradable& tradable)
 					if(p->getWtype() == BULL){
 						if((p->getLvlBid() == trade_price && p->isLevel()) || (p->getSellOut() == trade_price) || (best_bid_price > p->getSellOut() && p->getSellOut() > best_bid_price1))
 						{
-							if(sparam->isReady && sparam->bullbuy &&  (  trade_price > sparam->bullr1s  && trade_price < sparam->bullr1e )){
+							if((sparam->isReady && sparam->bullbuy &&  (  trade_price > sparam->bullr1s  && trade_price < sparam->bullr1e )) || (sparam->isReady && sparam->bullr1s == 0 && sparam->bullr1e == 0 && sparam->bullbuy) || !sparam->isEnable){
 								p->on_bull_trade(tradable);
 							}
 						}
 					}else{
 						if(p->getBuyIn() == trade_price && (p->status() == STATUS_READY || p->status() == STATUS_DONE) && p->action_status() == STAGE_START)
 						{
-							if(sparam->isReady && sparam->bearbuy &&  ( sparam->bearr1s > trade_price && trade_price > sparam->bearr1e )){
+							if((sparam->isReady && sparam->bearbuy &&  ( sparam->bearr1s > trade_price && trade_price > sparam->bearr1e )) || (sparam->isReady && sparam->bearr1s == 0 && sparam->bearr1e == 0 && sparam->bearbuy) || !sparam->isEnable){
 								p->on_bear_trade(tradable);
 							}
 						}
@@ -743,14 +744,14 @@ void bear::on_omdd_trade(const Tradable& tradable)
 						//Log(" Code = " + to_string(tradable.m_Code) + " Trade Price = " + to_string(trade_price) + " Buyin = " + to_string(p->getBuyIn()) + " sTATUS = " + to_string(p->status()));
 						if(p->getBuyIn() == trade_price  && (p->status() == STATUS_READY || p->status() == STATUS_DONE) && p->action_status() == STAGE_START)
 						{
-							if(sparam->isReady && sparam->bullbuy &&  ( trade_price > sparam->bullr1s && trade_price < sparam->bullr1e )){
+							if((sparam->isReady && sparam->bullbuy &&  ( trade_price > sparam->bullr1s && trade_price < sparam->bullr1e )) || (sparam->isReady && sparam->bullr1s == 0 && sparam->bullr1e == 0 && sparam->bullbuy) || !sparam->isEnable){
 								p->on_bull_trade(tradable);
 							}
 						}
 					}else{
 						if((p->getLvlBid() == trade_price && p->isLevel()) || (p->getSellOut() == trade_price) || (best_ask_price < p->getSellOut() && p->getSellOut() < best_ask_price1))
 						{
-							if(sparam->isReady && sparam->bearbuy &&  ( sparam->bearr1s > trade_price && trade_price > sparam->bearr1e )){
+							if((sparam->isReady && sparam->bearbuy &&  ( sparam->bearr1s > trade_price && trade_price > sparam->bearr1e ))  || (sparam->isReady && sparam->bearr1s == 0 && sparam->bearr1e == 0 && sparam->bearbuy) || !sparam->isEnable ){
 								p->on_bear_trade(tradable);
 							}
 						}
@@ -1265,6 +1266,8 @@ bear::action_resp bear::set_stop(unsigned int code, const std::string& ref){
 std::string bear::setStrategy1(const strategy1& param ){
 
 	sparam->isReady = false;
+
+	sparam->isEnable =param.enable;
 	sparam->bullbuy = param.bullbuy;
 	sparam->bullsell = param.bullsell;
 	sparam->bearbuy = param.bearbuy;

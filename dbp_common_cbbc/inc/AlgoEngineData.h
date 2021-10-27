@@ -76,6 +76,7 @@ struct strategy1{
 	unsigned long long bearr3e;
 
 	bool isReady;
+	bool isEnable;
 };
 
 struct priceinfo{
