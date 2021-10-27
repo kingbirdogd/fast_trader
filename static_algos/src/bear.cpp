@@ -1987,6 +1987,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 			palgo_strategy1_msg->bullsell = json["bullsell"].get<bool>();
 			palgo_strategy1_msg->bearbuy = json["bearbuy"].get<bool>();
 			palgo_strategy1_msg->bearsell = json["bearsell"].get<bool>();
+			palgo_strategy1_msg->enable = json["enable"].get<bool>();
 
 			unsigned long long bullr1s = json["bullr1s"].get<unsigned long long>();
 			unsigned long long bullr1e = json["bullr1e"].get<unsigned long long>();
