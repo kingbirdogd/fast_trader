@@ -3158,15 +3158,15 @@ private:
 				sg1.bullsell = bullsell;
 				sg1.bearbuy = bearbuy;
 				sg1.bearsell = bearsell;
-				sg1.bullr1s = bullr1s;
-				sg1.bullr1e = bullr1e;
+				sg1.bullr1s = bullr1s * 100000;
+				sg1.bullr1e = bullr1e * 100000;
 				sg1.bullr2s = bullr2s;
 				sg1.bullr2e = bullr2e;
 				sg1.bullr3s = bullr3s;
 				sg1.bullr3e = bullr3e;
 
-				sg1.bearr1s = bearr1s;
-				sg1.bearr1e = bearr1e;
+				sg1.bearr1s = bearr1s * 100000;
+				sg1.bearr1e = bearr1e * 100000;
 				sg1.bearr2s = bearr2s;
 				sg1.bearr2e = bearr2e;
 				sg1.bearr3s = bearr3s;
