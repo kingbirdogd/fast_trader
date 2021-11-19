@@ -15,28 +15,53 @@ class TradeTable extends React.Component {
     this.handleClick2 = this.handleClick2.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.state = {}
+    global.dtTradeTable = null
+    global.dtTradeTableSort = [1, 'asc']
   }
   
   static getDerivedStateFromProps(props, state) {
+    if (global.dtTradeTable)
+      global.dtTradeTable.destroy()
+    
     return state
   }
   
   componentDidUpdate() {
     var tb = $('.table-trade')
+    
     var w = 0
     $('.table-trade > colgroup > col').each(function(k, v) {
       if(!($(this).hasClass('d-none')))
         w += parseInt($(this).attr('width'))
     })
-    $('.table-trade').css({width: w+'px'})
+    tb.css({width: w+'px'})
+    
+    global.dtTradeTable = tb.DataTable({
+      paging: false,
+      searching: false,
+      info: false,
+      order: [global.dtTradeTableSort],
+      columnDefs: [{
+        targets: [0,2,3,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33],
+        orderable: false,
+      }],
+      fnDrawCallback: function(oSettings) {
+        global.dtTradeTableSort = [oSettings.aaSorting[0][0], oSettings.aaSorting[0][1]]
+      },
+    })
+  }
+  
+  componentDidMount() {
+    
   }
   
   handleClick() {
     var no = event.target.attributes.getNamedItem('data-no').value,
         name = event.target.name,
         states = this.props.getStates(),
-        obj = $.extend(true, {}, states.cells[no].action),
+        obj = $.extend(true, [], states.cells[no].action),
         obj2 = $.extend(true, [], states.cellsConfig),
+        obj3 = $.extend(true, [], states.cells),
         type = obj2[no].type
         
     // 校验数据
@@ -110,6 +135,14 @@ class TradeTable extends React.Component {
         algo_name: states.modules[type]
       }
       sendWebsocket(JSON.stringify(command1))
+      
+      //
+      for (var k of ['wintick', 'stoplost', 'buyoffset', 'selloffset']) {
+        obj3[no].setting[k].value = '0'
+        obj3[no].setting[k].feedback = ''
+        obj3[no].setting[k].responseResult = ''
+      }
+      this.props.setStates({cells: obj3})
     }
   }
   
@@ -204,15 +237,20 @@ class TradeTable extends React.Component {
   
   getText(lang) {
     var text = {
-      en: {id: 'ID', ucode: 'Underlying', issuer: 'Issuer', code: 'Code', wtype: 'Type', name: 'Name', lotSize: 'Lot size', bid: 'Bid', diffpt: 'Diff Point', ask: 'Ask', action: 'Action', bull: 'Bull', bear: 'Bear', put: 'Put', call: 'Call', set2: 'Set', set: 'Set', start: 'Start', pause: 'Pause', stop: 'Stop', show: 'Show', hide: 'Hide', quantity: 'Quantity', delta: 'Delta', buyin: 'Buy In', sellout: 'Sell Out', diffbid: 'Diff Bid', diffask: 'Diff Ask', lvlbid: 'Lv. Bid', wintick: 'WT', stoplost: 'SL', buyoffset: 'BO', selloffset: 'SO', lvlon: 'Level On', on: 'On', off: 'Off', rtData: 'Real Time', remove: 'Remove', netQty: 'Net Qty', turnover: 'Turnover', lastTradeTime: 'Last Trade Time', oneLvlTime: '1st Level Time', display: 'Display'},
-      sc: {id: 'ID', ucode: '标的', issuer: '发行人', code: '牛熊证', wtype: '种类', name: '名称', lotSize: '手数', bid: '买入价', diffpt: '打和点', ask: '卖出价', action: '操作', bull: '牛证', bear: '熊证', put: '认沽', call: '认购', set2: '设置', set: '设置', start: '开始', pause: '暂停', stop: '停止', show: '显示', hide: '隱藏', quantity: '申购份数', delta: '对冲值', buyin: '期货买入价', sellout: '期货卖出价', diffbid: '相差买入点', sellout: '相差卖出点', lvlbid: '', wintick: '止盈', stoplost: '止蚀', buyoffset: '买入偏移', selloffset: '賣出偏移', lvlon: '打和', on: '开启', off: '停止', rtData: '即时数据', remove: '删除', netQty: '剩馀单位', turnover: '成交量', lastTradeTime: '最後交易时间', oneLvlTime: '1st 打和时间', display: '显示'},
-      tc: {id: 'ID', ucode: '正股', issuer: '發行人', code: '牛熊證', wtype: '種類', name: '名稱', lotSize: '手數', bid: '買入價', diffpt: '打和點', ask: '賣出價', action: '操作', bull: '牛證', bear: '熊證', put: '認沽', call: '認購', set2: '設置', set: '設置', start: '開始', pause: '暫停', stop: '停止', show: '顯示', hide: '隐藏', quantity: '買入額', delta: '對沖值', buyin: '期貨買入價', sellout: '期貨賣出價', diffbid: '相差買入點', sellout: '相差賣出點', lvlbid: '', wintick: '止盈', stoplost: '止蝕', buyoffset: '買入偏移', selloffset: '賣出偏移', lvlon: '打和', on: '開啟', off: '停止', rtData: '即時數據', remove: '刪除', netQty: '剩餘單位', turnover: '成交量', lastTradeTime: '最後交易時間', oneLvlTime: '1st 打和時間', display: '顯示'},
+      en: {id: 'ID', ucode: 'Underlying', issuer: 'Issuer', code: 'Code', wtype: 'Type', name: 'Name', lotSize: 'Lot size', bid: 'Bid', diffpt: 'Diff Point', ask: 'Ask', action: 'Action', bull: 'Bull', bear: 'Bear', put: 'Put', call: 'Call', set2: 'Set', set: 'Set', start: 'Start', pause: 'Pause', stop: 'Stop', show: 'Show', hide: 'Hide', quantity: 'Quantity', delta: 'Delta', buyin: 'Buy In', sellout: 'Sell Out', diffbid: 'Diff Bid', diffask: 'Diff Ask', lvlbid: 'Lv. Bid', wintick: 'WT', stoplost: 'SL', buyoffset: 'BO', selloffset: 'SO', lvlon: 'Level On', on: 'On', off: 'Off', rtData: 'Real Time', remove: 'Remove', netQty: 'Net Qty', turnover: 'Turnover', lastTradeTime: 'Last Trade Time', oneLvlTime: '1st Level Time', display: 'Display', futurePrice: 'Future Price', wntPrice: 'Warrant Price', buyPrice: 'Buy Price', controlWindow: 'Control'},
+      sc: {id: 'ID', ucode: '标的', issuer: '发行人', code: '牛熊证', wtype: '种类', name: '名称', lotSize: '手数', bid: '买入价', diffpt: '打和点', ask: '卖出价', action: '操作', bull: '牛证', bear: '熊证', put: '认沽', call: '认购', set2: '设置', set: '设置', start: '开始', pause: '暂停', stop: '停止', show: '显示', hide: '隱藏', quantity: '申购份数', delta: '对冲值', buyin: '期货买入价', sellout: '期货卖出价', diffbid: '相差买入点', sellout: '相差卖出点', lvlbid: '', wintick: '止盈', stoplost: '止蚀', buyoffset: '买入偏移', selloffset: '賣出偏移', lvlon: '打和', on: '开启', off: '停止', rtData: '即时数据', remove: '删除', netQty: '剩馀单位', turnover: '成交量', lastTradeTime: '最後交易时间', oneLvlTime: '1st 打和时间', display: '显示', futurePrice: '期货价格', wntPrice: '产品价格', buyPrice: '买入价', controlWindow: '执行视窗'},
+      tc: {id: 'ID', ucode: '正股', issuer: '發行人', code: '牛熊證', wtype: '種類', name: '名稱', lotSize: '手數', bid: '買入價', diffpt: '打和點', ask: '賣出價', action: '操作', bull: '牛證', bear: '熊證', put: '認沽', call: '認購', set2: '設置', set: '設置', start: '開始', pause: '暫停', stop: '停止', show: '顯示', hide: '隐藏', quantity: '買入額', delta: '對沖值', buyin: '期貨買入價', sellout: '期貨賣出價', diffbid: '相差買入點', sellout: '相差賣出點', lvlbid: '', wintick: '止盈', stoplost: '止蝕', buyoffset: '買入偏移', selloffset: '賣出偏移', lvlon: '打和', on: '開啟', off: '停止', rtData: '即時數據', remove: '刪除', netQty: '剩餘單位', turnover: '成交量', lastTradeTime: '最後交易時間', oneLvlTime: '1st 打和時間', display: '顯示', futurePrice: '期貨價格', wntPrice: '產品價格', buyPrice: '買入價', controlWindow: '執行視窗'},
     }
     return text[lang]
   }
   
   render() {
     var text = this.getText(this.props.lang)
+    
+    // realtime data
+    var cssRealTime = ''
+    if (!this.props.data3.realTimeData || this.props.data3.realTimeData == false)
+      cssRealTime = 'd-none'
     
     var rows = [], no = 1
     for (var i in this.props.data) {
@@ -336,38 +374,38 @@ class TradeTable extends React.Component {
           }
           
           var btns = []
-          for (const [k, v] of Object.entries(btn)) {
+          for (const [k2, v2] of Object.entries(btn)) {
             btns.push(
               <button
-                key={k}
-                name={'is'+capitalize(k)}
+                key={k2}
+                name={'is'+capitalize(k2)}
                 data-no={i}
                 type="button"
-                className={classNames('btn btn-sm mr-1', v.style)}
-                disabled={v.isDisabled}
+                className={classNames('btn btn-sm mr-1', v2.style)}
+                disabled={v2.isDisabled}
                 onClick={this.handleClick}>
-                  {text[k]}
+                  {text[k2]}
               </button>
             )
           }
           
           // trade info
-          var turnover = 0, lastTradeTime = '-', netQty = 0, oneLvlTime = '-'
+          var turnover = 0, lastTradeTime = '-', netQty = 0, oneLvlTime = '-', buyPrice = '-'
           
           if (this.props.data4.length >= i) {
             for (var v3 of this.props.data4[i]) {
               lastTradeTime = v3.transactionTm
               
               if (v3.side == 'buy')
-                netQty += parseInt(v3.matchQuantity)
+                netQty += parseInt(v3.matchQuantity), buyPrice = parseFloat(v3.matchPrice)
               else if (v3.side == 'sell')
-                netQty -= parseInt(v3.matchQuantity)
+                netQty -= parseInt(v3.matchQuantity), buyPrice = '-'
             }
           }
           
           if (this.props.data5.length >= i) {
             for (var v2 of this.props.data5[i]) {
-              turnover += parseFloat(v2.sellPrice) * parseInt(v2.quantity)
+              turnover += parseFloat((parseFloat(v2.sellPrice) * parseInt(v2.quantity)).toFixed(2))
               lastTradeTime = v2.soldTime
               oneLvlTime = v2.levelTime
             }
@@ -380,9 +418,32 @@ class TradeTable extends React.Component {
           
           if (netQty==0)
             netQty = '-'
-          else
+          else if (netQty>0)
             netQty = numberWithCommas(netQty)
-
+          else
+            netQty = '-'
+          
+          // 
+          var type = '', futurePrice = '-', wntPrice = '-'
+          if ('type' in v) {
+            type = v.type.toLowerCase()
+            if (type == 'bull' || type == 'call') {
+              if (v.wPrice.sellout)
+                futurePrice = v.wPrice.sellout
+              wntPrice = v.wPrice.ask
+            }
+            else if (type == 'bear' || type == 'put') {
+              if (v.wPrice.buyin)
+                futurePrice = v.wPrice.buyin
+              wntPrice = v.wPrice.bid
+            }
+          }
+          
+          var lvlbid = '-'
+          if (v.wPrice.lvlbid)
+            lvlbid = v.wPrice.lvlbid
+          
+          
           // html
           var iPriceAsk = '', iPriceBid = ''
           var cssAsk = '', cssBid = ''
@@ -403,68 +464,27 @@ class TradeTable extends React.Component {
           else if (v.info.wname.includes('@') && config.type == 'bull')
             wtype = text.call
           
-          // realtime data
-          var cssRealTime = ''
-          if (!this.props.data3.realTimeData || this.props.data3.realTimeData == false)
-            cssRealTime = 'd-none'
-          
           rows.push(
             <tr key={'trade_'+i}>
+              <td>
+              <button
+                key='remove'
+                name='remove'
+                data-no={i}
+                type="button"
+                className={classNames('btn btn-sm mr-1', btn2.remove.style)}
+                disabled={btn2.remove.isDisabled}
+                onClick={this.handleClick2}>
+                  {text.remove}
+                </button>
+              </td>
+              
               <td>{no}</td>
               <td>{v.action.code.value}</td>
               <td>{v.info.issuer}</td>
               <td>{wtype}</td>
               <td>{v.info.uname}</td>
               <td>{v.action.quantity.value}</td>
-              
-              <td className={cssRealTime}>{v.wPrice.lvlbid}</td>
-              <td className={cssRealTime}>{v.wPrice.sellout}</td>
-              <td className={cssRealTime}>{v.wPrice.diffbid}</td>
-              <td className={cssRealTime}>{iPriceBid} {v.wPrice.bid}</td>
-              <td className={cssRealTime}>{v.wPrice.diffpt}</td>
-              <td className={cssRealTime}>{v.wPrice.ask} {iPriceAsk}</td>
-              <td className={cssRealTime}>{v.wPrice.buyin}</td>
-              <td className={cssRealTime}>{v.wPrice.diffask}</td>
-              
-              <td>
-              <button
-                name='show'
-                data-no={i}
-                type="button"
-                className={classNames("btn btn-sm mr-1", cssShow)}
-                onClick={this.handleClick}>
-                  {isShow}
-              </button>
-              </td>
-              
-              <td>
-              <button
-                name='lvlon'
-                data-no={i}
-                type="button"
-                className={classNames("btn btn-sm mr-1", lvlOn.style)}
-                disabled={lvlOn.isDisabled}
-                onClick={this.handleClick2}>
-                  {lvlOn.text}
-              </button>
-              </td>
-              
-              <td>
-              <button
-                name='rtData'
-                data-no={i}
-                type="button"
-                className={classNames("btn btn-sm mr-1", rtData.style)}
-                disabled={rtData.isDisabled}
-                onClick={this.handleClick2}>
-                  {rtData.text}
-              </button>
-              </td>
-              
-              <td>{netQty}</td>
-              <td>{turnover}</td>
-              <td>{lastTradeTime}</td>
-              <td>{oneLvlTime}</td>
               
               <td>
               <input 
@@ -549,16 +569,56 @@ class TradeTable extends React.Component {
               
               <td>
               <button
-                key='remove'
-                name='remove'
+                name='show'
                 data-no={i}
                 type="button"
-                className={classNames('btn btn-sm mr-1', btn2.remove.style)}
-                disabled={btn2.remove.isDisabled}
-                onClick={this.handleClick2}>
-                  {text.remove}
-                </button>
+                className={classNames("btn btn-sm mr-1", cssShow)}
+                onClick={this.handleClick}>
+                  {isShow}
+              </button>
               </td>
+              
+              <td>
+              <button
+                name='lvlon'
+                data-no={i}
+                type="button"
+                className={classNames("btn btn-sm mr-1", lvlOn.style)}
+                disabled={lvlOn.isDisabled}
+                onClick={this.handleClick2}>
+                  {lvlOn.text}
+              </button>
+              </td>
+              
+              <td>
+              <button
+                name='rtData'
+                data-no={i}
+                type="button"
+                className={classNames("btn btn-sm mr-1", rtData.style)}
+                disabled={rtData.isDisabled}
+                onClick={this.handleClick2}>
+                  {rtData.text}
+              </button>
+              </td>
+              
+              <td className={cssRealTime}>{v.wPrice.lvlbid}</td>
+              <td className={cssRealTime}>{v.wPrice.sellout}</td>
+              <td className={cssRealTime}>{v.wPrice.diffbid}</td>
+              <td className={cssRealTime}>{iPriceBid} {v.wPrice.bid}</td>
+              <td className={cssRealTime}>{v.wPrice.diffpt}</td>
+              <td className={cssRealTime}>{v.wPrice.ask} {iPriceAsk}</td>
+              <td className={cssRealTime}>{v.wPrice.buyin}</td>
+              <td className={cssRealTime}>{v.wPrice.diffask}</td>
+              
+              <td>{buyPrice}</td>
+              <td>{wntPrice}</td>
+              <td>{futurePrice}</td>
+              <td>{lvlbid}</td>
+              <td>{netQty}</td>
+              <td>{turnover}</td>
+              <td>{lastTradeTime}</td>
+              <td>{oneLvlTime}</td>
             </tr>
           )
           no++
@@ -569,32 +629,17 @@ class TradeTable extends React.Component {
     return(
       <div className='row'>
       <div className="col-12 overflow-x mb-2">
+      <h6>{text.controlWindow}</h6>
       <table className="table table-sm table-striped table-light table-trade">
         <colgroup>
+          <col span="1" width="60px" />
+        
           <col span="1" width="20px" />
-          <col span="1" width="50px" />
-          <col span="1" width="50px" />
-          <col span="1" width="50px" />
+          <col span="1" width="40px" />
+          <col span="1" width="40px" />
+          <col span="1" width="40px" />
           <col span="1" width="120px" />
-          <col span="1" width="60px" />
-          
-          <col span="1" width="60px" className={cssRealTime} />
-          <col span="1" width="60px" className={cssRealTime} />
-          <col span="1" width="60px" className={cssRealTime} />
-          <col span="1" width="80px" className={cssRealTime} />
-          <col span="1" width="60px" className={cssRealTime} />
-          <col span="1" width="80px" className={cssRealTime} />
-          <col span="1" width="60px" className={cssRealTime} />
-          <col span="1" width="60px" className={cssRealTime} />
-          
-          <col span="1" width="60px" />
-          <col span="1" width="60px" />
-          <col span="1" width="60px" />
-          
-          <col span="1" width="60px" />
-          <col span="1" width="60px" />
-          <col span="1" width="120px" />
-          <col span="1" width="90px" />
+          <col span="1" width="40px" />
           
           <col span="1" width="50px" />
           <col span="1" width="50px" />
@@ -605,34 +650,39 @@ class TradeTable extends React.Component {
           <col span="1" width="60px" />
           <col span="1" width="60px" />
           <col span="1" width="190px" />
+          
+          <col span="1" width="40px" />
+          <col span="1" width="40px" />
+          <col span="1" width="40px" />
+          
+          <col span="1" width="60px" className={cssRealTime} />
+          <col span="1" width="60px" className={cssRealTime} />
+          <col span="1" width="60px" className={cssRealTime} />
+          <col span="1" width="80px" className={cssRealTime} />
+          <col span="1" width="60px" className={cssRealTime} />
+          <col span="1" width="80px" className={cssRealTime} />
+          <col span="1" width="60px" className={cssRealTime} />
+          <col span="1" width="60px" className={cssRealTime} />
+          
+          <col span="1" width="60px" />
+          <col span="1" width="60px" />
+          <col span="1" width="60px" />
+          <col span="1" width="60px" />
+          <col span="1" width="60px" />
+          <col span="1" width="60px" />
+          <col span="1" width="120px" />
           <col span="1" width="60px" />
         </colgroup>
         <thead>
           <tr>
+          <th>{text.display}</th>
+          
           <th>{text.id}</th>
           <th>{text.code}</th>
           <th>{text.issuer}</th>
           <th>{text.wtype}</th>
           <th>{text.ucode}</th>
           <th>{text.lotSize}</th>
-          
-          <th className={cssRealTime}>{text.lvlbid}</th>
-          <th className={cssRealTime}>{text.sellout}</th>
-          <th className={cssRealTime}>{text.diffbid}</th>
-          <th className={cssRealTime}>{text.bid}</th>
-          <th className={cssRealTime}>{text.diffpt}</th>
-          <th className={cssRealTime}>{text.ask}</th>
-          <th className={cssRealTime}>{text.buyin}</th>
-          <th className={cssRealTime}>{text.diffask}</th>
-          
-          <th>{text.show}</th>
-          <th>{text.lvlon}</th>
-          <th>{text.rtData}</th>
-          
-          <th>{text.netQty}</th>
-          <th>{text.turnover}</th>
-          <th>{text.lastTradeTime}</th>
-          <th>{text.oneLvlTime}</th>
           
           <th>{text.wintick}</th>
           <th>{text.stoplost}</th>
@@ -643,7 +693,28 @@ class TradeTable extends React.Component {
           <th>{text.quantity}</th>
           <th>{text.delta}</th>
           <th>{text.action}</th>
-          <th>{text.display}</th>
+          
+          <th>{text.show}</th>
+          <th>{text.lvlon}</th>
+          <th>{text.rtData}</th>
+          
+          <th className={cssRealTime}>{text.lvlbid}</th>
+          <th className={cssRealTime}>{text.sellout}</th>
+          <th className={cssRealTime}>{text.diffbid}</th>
+          <th className={cssRealTime}>{text.bid}</th>
+          <th className={cssRealTime}>{text.diffpt}</th>
+          <th className={cssRealTime}>{text.ask}</th>
+          <th className={cssRealTime}>{text.buyin}</th>
+          <th className={cssRealTime}>{text.diffask}</th>
+          
+          <th>{text.buyPrice}</th>
+          <th>{text.wntPrice}</th>
+          <th>{text.futurePrice}</th>
+          <th>{text.lvlbid}</th>
+          <th>{text.netQty}</th>
+          <th>{text.turnover}</th>
+          <th>{text.lastTradeTime}</th>
+          <th>{text.oneLvlTime}</th>
           
           </tr>
         </thead>

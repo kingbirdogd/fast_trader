@@ -733,6 +733,7 @@ class Ticket extends React.Component {
       <Recommender
         key="recommender"
         data={this.state.issuerList}
+        data2={[]}
         data3="1"
         lang={this.props.lang}
         setStates={this.setStates}

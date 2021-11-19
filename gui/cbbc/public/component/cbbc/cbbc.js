@@ -76,7 +76,23 @@ class Cbbc extends React.Component {
     this.state.issuerList = getIssuer()
     this.state.cellsConfig = []
     
-    this.state.visible = {recommender: false, btnRecommender: true, realTimeData: false}
+    this.state.visible = {recommender: false, recommenderV2: false, btnRecommender: true, realTimeData: false, strategy1: false}
+    this.state.windowRecommend = null
+    
+    this.state.strategy1 = {
+      bullbuy: {value: false, feedback: ''},
+      bullsell: {value: false, feedback: ''},
+      bearbuy: {value: false, feedback: ''},
+      bearsell: {value: false, feedback: ''},
+      enable: {value: false, feedback: ''},
+      no: 3,
+    }
+    for (var i=1; i<this.state.strategy1.no+1; i++) {
+      this.state.strategy1['bullr'+i+'s'] = {value: '', feedback: '', valid: 'number_except_zero', responseResult: ''}
+      this.state.strategy1['bullr'+i+'e'] = {value: '', feedback: '', valid: 'number_except_zero', responseResult: ''}
+      this.state.strategy1['bearr'+i+'s'] = {value: '', feedback: '', valid: 'number_except_zero', responseResult: ''}
+      this.state.strategy1['bearr'+i+'e'] = {value: '', feedback: '', valid: 'number_except_zero', responseResult: ''}
+    }
   }
   
   componentDidMount() {
@@ -129,6 +145,8 @@ class Cbbc extends React.Component {
         else if (data.msg_type=='algo_param_msg') {obj = this.setParam(obj, data)}
         else if (data.msg_type=='cbbc_algo_force_buy') {obj = this.checkForce(obj, data)}
         else if (data.msg_type=='cbbc_algo_force_sell') {obj = this.checkForce(obj, data)}
+        else if (data.msg_type=='lvlprice') {obj = this.setLvlPrice(obj, data)}
+        else if (data.msg_type=='algo_strategy1_msg') {obj = this.setStrategy1(obj, data)}
       }
       // 接口v2
       else if ('action_type' in data) {
@@ -408,7 +426,9 @@ class Cbbc extends React.Component {
       profitLoss: (formatLong(data.sell_price)-formatLong(data.buy_price))*formatLong(data.quantity),
       issuer: data.issuer, wtype: data.wtype,
       levelTime: data.leveltime,
-      wintime: data.wintime
+      wintime: data.wintime,
+      lvlcount: data.lvlcount,
+      underlying: data.uname,
     }
     if(!(id in state.portfolios))
       state.portfolios[id] = []
@@ -440,7 +460,9 @@ class Cbbc extends React.Component {
       issuer: data.issuer,
       underlying: data.uname,
       leveltime: data.leveltime,
-      wintime: data.wintime
+      wintime: data.wintime,
+      lvlcount: data.lvlcount,
+      wincount: data.wincount
     }
     
     if (!(id in state.orders))
@@ -520,6 +542,28 @@ class Cbbc extends React.Component {
       state.cells[id].wPrice.ipriceBidIsWrong = true
 
     
+    return {cells: state.cells}
+  }
+  
+  //
+  setLvlPrice(state, data) {
+    var id = data.ref.replace(state.prefix, '')
+    if ('fprice' in data && 'lvlbid' in data && 'wprice' in data) {
+      if (data.lvlbid != 99999999)
+        state.cells[id].wPrice.lvlbid = formatPrice(data.lvlbid)
+      
+      if (state.cellsConfig.length >= id && state.cellsConfig[id]) {
+        var wtype = state.cellsConfig[id].type.toLowerCase()
+        if (wtype == 'bull' || wtype == 'call') {
+          state.cells[id].wPrice.sellout = formatPrice(data.fprice)
+          if(data.wprice>0) state.cells[id].wPrice['ask'] = formatLong(data.wprice)
+        }
+        else if (wtype == 'bear' || wtype == 'put') {
+          state.cells[id].wPrice.buyin = formatPrice(data.fprice)
+          if (data.wprice>0) state.cells[id].wPrice['bid'] = formatLong(data.wprice)
+        }
+      }
+    }
     return {cells: state.cells}
   }
   
@@ -628,6 +672,8 @@ class Cbbc extends React.Component {
     if ('code' in data && 'CallPut' in data && 'underlying' in data && 'underlying_price' in data && 'warrant_price' in data) {
       if ('symbols' in data && data.symbols.length > 0)
         state.cells[data.no].action.symbol.value = data.symbols[0]
+      else if (!('symbols' in data) && 'underlying' in data)
+        state.cells[data.no].action.symbol.value = data.underlying.toString()
       state.cells[data.no].info.ucode = data.underlying
       
       if (getUnderlyingName2(data.underlying) != '')
@@ -642,6 +688,24 @@ class Cbbc extends React.Component {
       state.cells[data.no].wPrice.bid = formatPrice2(data.warrant_price.m_Bid.m_iPrice)
     }
     return {cells: state.cells}
+  }
+  
+  setStrategy1(state, data) {
+    for (var [k, v] of Object.entries(data)) {
+      if (k in state.strategy1) {
+        
+        if (parseInt(v)==0)
+          state.strategy1[k].value = ''
+        else
+          state.strategy1[k].value = v
+        
+        if (parseInt(v)>0)
+          state.strategy1[k].responseResult = 'success'
+        else
+          state.strategy1[k].responseResult = ''
+      }
+    }
+    return {strategy1: state.strategy1}
   }
   
   // 強制登出
@@ -684,31 +748,30 @@ class Cbbc extends React.Component {
             key="status"
             data={this.state.sizeReceiptData}
             data2={this.state.visible}
+            data3={this.state.cellsConfig}
+            window1={this.state.windowRecommend}
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}
           />
+          {this.state.visible.strategy1 &&
+          <Strategy1
+            key="Strategy1"
+            data={this.state.strategy1}
+            lang={this.props.lang}
+            setStates={this.setStates}
+            getStates={this.getStates}
+          />}
           {this.state.visible.recommender &&
           <Recommender
             key="recommender"
             data={this.state.issuerList}
             data2={this.state.cellsConfig}
+            data3="HSI"
             lang={this.props.lang}
             setStates={this.setStates}
             getStates={this.getStates}
           />}
-          <TradeTable
-            key="tradeTable"
-            data={this.state.cells}
-            data2={this.state.cellsConfig}
-            data3={this.state.visible}
-            data4={this.state.orders}
-            data5={this.state.portfolios}
-            lang={this.props.lang}
-            setStates={this.setStates}
-            getStates={this.getStates}
-          />
-          <div className='row'>{cells}</div>
           <Position
             key="position"
             data={this.state.positions}
@@ -719,6 +782,18 @@ class Cbbc extends React.Component {
             setStates={this.setStates}
             getStates={this.getStates}
           />
+          <TradeTable
+            key="tradeTable"
+            data={this.state.cells}
+            data2={this.state.cellsConfig}
+            data3={this.state.visible}
+            data4={this.state.positions}
+            data5={this.state.portfolios}
+            lang={this.props.lang}
+            setStates={this.setStates}
+            getStates={this.getStates}
+          />
+          <div className='row'>{cells}</div>
           <Portfolio
             key="portfolio"
             data={this.state.portfolios}
@@ -735,7 +810,7 @@ class Cbbc extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.27
+          Copyright © {curYear} Fast Trader v1.0.30
         </div>
       </React.Fragment>
       /*<Selector

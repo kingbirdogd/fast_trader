@@ -128,14 +128,9 @@
 #cbbc .table-trade.table-sm td, #cbbc .table-trade.table-sm th {
   padding: .1rem;
 }
-
-#cbbc .table-position,
-#cbbc .table-recommand {
-  height: 110px;
-}
-
-.table-trade th:nth-child(7), .table-trade th:nth-child(15), .table-trade th:nth-child(18), .table-trade th:nth-child(22), .table-trade th:nth-child(27), .table-trade th:nth-child(30), 
-.table-trade td:nth-child(7), .table-trade td:nth-child(15), .table-trade td:nth-child(18), .table-trade td:nth-child(22), .table-trade td:nth-child(27), .table-trade td:nth-child(30) {
+ 
+.table-trade th:nth-child(2), .table-trade th:nth-child(8), .table-trade th:nth-child(13), .table-trade th:nth-child(16), .table-trade th:nth-child(19), .table-trade th:nth-child(27),
+.table-trade td:nth-child(2), .table-trade td:nth-child(8), .table-trade td:nth-child(13), .table-trade td:nth-child(16), .table-trade td:nth-child(19), .table-trade td:nth-child(27) {
   border-left: 2px solid #333;
   padding-left: 4px !important;
 }
