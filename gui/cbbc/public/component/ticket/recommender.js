@@ -23,7 +23,7 @@ class Recommender extends React.Component {
     this.handleMultiSelect2 = this.handleMultiSelect2.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleSelect = this.handleSelect.bind(this)
-    global.sort = [15, 'desc']
+    global.sort = []
     global.lastRenderTime = null
   }
   
@@ -73,7 +73,7 @@ class Recommender extends React.Component {
         type: 'num',
         targets: [5, 6]
       }],
-      order: [global.sort],
+      order: global.sort,
       fnDrawCallback: function(oSettings) {
         global.sort = [oSettings.aaSorting[0][0], oSettings.aaSorting[0][1]]
       },
