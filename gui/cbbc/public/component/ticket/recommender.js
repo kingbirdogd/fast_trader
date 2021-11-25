@@ -409,6 +409,7 @@ class Recommender extends React.Component {
         
         // info
         obj2[i].info.issuer = curProduct.Name.substring(0, 2)
+        obj2[i].info.wname = curProduct.Name
         
         //
         obj3.push({code: curProduct.Code.toString(), type: type, isVisable: false, isVisable2: true})

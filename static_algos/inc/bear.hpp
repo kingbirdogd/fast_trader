@@ -537,7 +537,7 @@ private:
 
 						if(_Stop_Lost > 0){
 
-							if(_PriceInfo->Bestbid > newWarrant->BuyPrice){
+							if(_PriceInfo->Bestbid > newWarrant->BuyPrice && _Win_Tick <= 0){
 
 								newWarrant->DBid = trade_price;
 
@@ -549,7 +549,7 @@ private:
 								_Status = STATUS_SELLING;
 
 								doSell(newWarrant);
-							}else if(_PriceInfo->Bestbid == newWarrant->BuyPrice){
+							}else if(_PriceInfo->Bestbid == newWarrant->BuyPrice  && _Win_Tick <= 0){
 
 								if(_LVL_ON){
 
@@ -592,17 +592,36 @@ private:
 								}
 							}
 
+							if(_WIN_Tick > 0){
 
-							newWarrant->DBid = trade_price;
+								long long diff = static_cast<long long>(_PriceInfo->Bestbid) - static_cast<long long>(newWarrant->BuyPrice);
+								long long rwinPrice =  static_cast<long long>(_SPREAD * _Win_Tick);
 
-							newWarrant->Status = STATUS_SELLING;
-							newWarrant->SellPrice = _PriceInfo->Bestbid;
-							newWarrant->SellQty = newWarrant->Quantity;
-							newWarrant->SellOut = _OBSetting->SellOut;
+								if(diff >= rwinPrice){
+									newWarrant->DBid = trade_price;
 
-							_Status = STATUS_SELLING;
+									newWarrant->Status = STATUS_SELLING;
+									newWarrant->SellPrice = _PriceInfo->Bestbid;
+									newWarrant->SellQty = newWarrant->Quantity;
+									newWarrant->SellOut = _OBSetting->SellOut;
 
-							doSell(newWarrant);
+									_Status = STATUS_SELLING;
+
+									doSell(newWarrant);
+								}
+							}else{
+
+								newWarrant->DBid = trade_price;
+
+								newWarrant->Status = STATUS_SELLING;
+								newWarrant->SellPrice = _PriceInfo->Bestbid;
+								newWarrant->SellQty = newWarrant->Quantity;
+								newWarrant->SellOut = _OBSetting->SellOut;
+
+								_Status = STATUS_SELLING;
+
+								doSell(newWarrant);
+							}
 						}
 						//}
 					//}else{
@@ -850,7 +869,7 @@ private:
 
 						if(_Stop_Lost > 0){
 
-							if(_PriceInfo->Bestbid > newWarrant->BuyPrice){
+							if(_PriceInfo->Bestbid > newWarrant->BuyPrice  && _Win_Tick <= 0){
 								newWarrant->DBid = trade_price;
 
 								newWarrant->Status = STATUS_SELLING;
@@ -862,7 +881,7 @@ private:
 
 								doSell(newWarrant);
 
-							}else if(_PriceInfo->Bestbid == newWarrant->BuyPrice){
+							}else if(_PriceInfo->Bestbid == newWarrant->BuyPrice && _Win_Tick <= 0){
 
 								if(_LVL_ON){
 									newWarrant->DBid = trade_price;
@@ -905,6 +924,27 @@ private:
 									return;
 								}
 							}
+
+							if(_WIN_Tick > 0){
+
+								long long diff = static_cast<long long>(_PriceInfo->Bestbid) - static_cast<long long>(newWarrant->BuyPrice);
+								long long rwinPrice =  static_cast<long long>(_SPREAD * _Win_Tick);
+
+								if(diff >= rwinPrice){
+									newWarrant->DBid = trade_price;
+
+									newWarrant->Status = STATUS_SELLING;
+									newWarrant->SellPrice = _PriceInfo->Bestbid;
+									newWarrant->SellQty = newWarrant->Quantity;
+									newWarrant->SellOut = _OBSetting->SellOut;
+
+									_Status = STATUS_SELLING;
+
+									doSell(newWarrant);
+								}
+							}else{
+
+
 
 							newWarrant->DBid = trade_price;
 

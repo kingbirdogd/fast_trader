@@ -17,6 +17,7 @@ class TradeTable extends React.Component {
     this.state = {}
     global.dtTradeTable = null
     global.dtTradeTableSort = [1, 'asc']
+    global.dtTradeTableForces = null
   }
   
   static getDerivedStateFromProps(props, state) {
@@ -47,6 +48,12 @@ class TradeTable extends React.Component {
       }],
       fnDrawCallback: function(oSettings) {
         global.dtTradeTableSort = [oSettings.aaSorting[0][0], oSettings.aaSorting[0][1]]
+      },
+      initComplete: function(settings, json) {
+        if (global.dtTradeTableForces) {
+          var temp = global.dtTradeTableForces.split(',')
+          $('input[name='+temp[0]+'][data-no='+temp[1]+']').focus()
+        }
       },
     })
   }
@@ -205,6 +212,7 @@ class TradeTable extends React.Component {
     var no = event.target.attributes.getNamedItem('data-no').value
     var {name, value} = event.target
     var states = this.props.getStates()
+    global.dtTradeTableForces = name+','+no
     
     if (name == 'quantity' || name == 'delta') {
       var obj = $.extend(true, {}, states.cells[no])
