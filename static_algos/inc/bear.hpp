@@ -592,7 +592,7 @@ private:
 								}
 							}
 
-							if(_WIN_Tick > 0){
+							if(_Win_Tick > 0){
 
 								long long diff = static_cast<long long>(_PriceInfo->Bestbid) - static_cast<long long>(newWarrant->BuyPrice);
 								long long rwinPrice =  static_cast<long long>(_SPREAD * _Win_Tick);
@@ -925,7 +925,7 @@ private:
 								}
 							}
 
-							if(_WIN_Tick > 0){
+							if(_Win_Tick > 0){
 
 								long long diff = static_cast<long long>(_PriceInfo->Bestbid) - static_cast<long long>(newWarrant->BuyPrice);
 								long long rwinPrice =  static_cast<long long>(_SPREAD * _Win_Tick);
