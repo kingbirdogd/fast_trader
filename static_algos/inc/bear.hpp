@@ -946,16 +946,17 @@ private:
 
 
 
-							newWarrant->DBid = trade_price;
+								newWarrant->DBid = trade_price;
 
-							newWarrant->Status = STATUS_SELLING;
-							newWarrant->SellPrice = _PriceInfo->Bestbid;
-							newWarrant->SellQty = newWarrant->Quantity;
-							newWarrant->SellOut = _OBSetting->SellOut;
+								newWarrant->Status = STATUS_SELLING;
+								newWarrant->SellPrice = _PriceInfo->Bestbid;
+								newWarrant->SellQty = newWarrant->Quantity;
+								newWarrant->SellOut = _OBSetting->SellOut;
 
-							_Status = STATUS_SELLING;
+								_Status = STATUS_SELLING;
 
-							doSell(newWarrant);
+								doSell(newWarrant);
+							}
 						}
 						//}
 					//}else{
