@@ -466,11 +466,15 @@ class TradeTable extends React.Component {
           if (v.wPrice.ipriceAsk)
             iPriceAsk =  <span className={cssAsk}>({v.wPrice.ipriceAsk})</span>
           
-          var wtype = text[config.type]
+          var wtype = text[config.type], wtypeOrder = 0
           if (v.info.wname.includes('@') && config.type == 'bear')
-            wtype = text.put
+            wtype = text.put, wtypeOrder = 2
           else if (v.info.wname.includes('@') && config.type == 'bull')
-            wtype = text.call
+            wtype = text.call, wtypeOrder = 1
+          else if (config.type == 'bear')
+            wtypeOrder = 4
+          else if (config.type == 'bull')
+            wtypeOrder = 3
           
           rows.push(
             <tr key={'trade_'+i}>
@@ -490,7 +494,7 @@ class TradeTable extends React.Component {
               <td>{no}</td>
               <td>{v.action.code.value}</td>
               <td>{v.info.issuer}</td>
-              <td>{wtype}</td>
+              <td data-order={wtypeOrder}>{wtype}</td>
               <td>{v.info.uname}</td>
               <td>{v.action.quantity.value}</td>
               

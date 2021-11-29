@@ -61,6 +61,40 @@ class Recommender extends React.Component {
       global.dt = null
     }
     
+    function formatVol(val) {
+      var multipliers = {k:  1000, m: 1000000}
+      for (var [k, v] of Object.entries(multipliers)) {
+        if (val.toString().toLowerCase().includes(k)) {
+          val = parseFloat(val) * v
+          break
+        }
+      }
+      return val
+    }
+    
+    jQuery.extend(jQuery.fn.dataTableExt.oSort,{
+      "num-vol-asc": function(a,b){
+        a = formatVol(a), b = formatVol(b)
+        if(a<b){
+          return -1
+        } else if(a>b){
+          return 1
+        } else{
+          return 0
+        }
+      },
+      "num-vol-desc": function(a,b){
+        a = formatVol(a), b = formatVol(b)
+        if(a>b){
+          return -1
+        } else if(a<b){
+          return 1
+        } else{
+          return 0
+        } 
+      }
+    })
+    
     var text = that.getText(that.props.lang)
     global.dt = $('.table-recommand').DataTable({
       paging: false,
@@ -75,7 +109,8 @@ class Recommender extends React.Component {
       }],
       order: global.sort,
       fnDrawCallback: function(oSettings) {
-        global.sort = [oSettings.aaSorting[0][0], oSettings.aaSorting[0][1]]
+        if (oSettings.length > 0 && oSettings[0].length > 0)
+          global.sort = [oSettings.aaSorting[0][0], oSettings.aaSorting[0][1]]
       },
       columns: [
         {data: '0'},
@@ -95,6 +130,9 @@ class Recommender extends React.Component {
         {data: '14'},
         {data: '15'},
         {data: '16'},
+      ],
+      columnDefs: [
+        {type: 'num-vol', targets: 14},
       ],
       /*orderFixed: {
         pre: [[16, 'desc']]
