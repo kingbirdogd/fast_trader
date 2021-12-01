@@ -1119,6 +1119,30 @@ std::string bear::set_pair(pair&& p)
 
 	Log("set_pair 3");
 
+	auto itPoftfolio = portfolioMap.find(warrant_code);
+	if(itPoftfolio.end() == portfolioMap){
+
+		auto newportfolio = new portfolio;
+		newportfolio->code = warrant_code;
+		newportfolio->issuer = p._issuer;
+		newportfolio->wtype = p._wtype;
+		newportfolio->avgBuy;
+		newportfolio->avgSell;
+		newportfolio->totalQty;
+		newportfolio->win = 0;
+		newportfolio->lost = 0;
+		newportfolio->draw = 0;
+		newportfolio->win1 = 0;
+		newportfolio->win2 = 0;
+		newportfolio->win3 = 0;
+		newportfolio->lost1 = 0;
+		newportfolio->lost2 = 0;
+		newportfolio->lost3 = 0;
+
+		portfolioMap[warrant_code] = newportfolio;
+	}
+
+
 	//bool result = subscribe_omdc_book(warrant_code, true);
 	//if(!result){
 		//json["result"] = "FAIL";
@@ -1535,6 +1559,61 @@ nlohmann::json bear::getPairlist()
 	aarray = nlohmann::json::array();
 	for (auto kv: _p_map) {
 		aarray["pairlist"].push_back(kv.second.to_json());
+	}
+
+	return aarray;
+}
+
+
+nlohmann::json bear::getPortfoliolist(){
+	nlohmann::json aarray;
+	aarray = nlohmann::json::array();
+	for (auto kv: portfolioMap) {
+
+		auto _pf = kv.second;
+		json j;
+		j["warrant_code"] = _pf->code
+				;
+		j["issuer"] = _pf->issuer;
+		j["avgbuy"] = _pf->avgBuy;
+		j["avgsell"] = _pf->avgSell;
+		j["quantity"] = _pf->totalQty;
+		j["buytunrover"] = _pf->buytunrover;
+		j["sellturnover"] = _pf->selltunrover;
+		j["win"] = _pf->avgBuy;
+		j["draw"] = _pf->avgBuy;
+		j["lost"] = _pf->avgBuy;
+		return j;
+
+		aarray["portfoliolist"].push_back(j);
+	}
+
+	return aarray;
+}
+
+nlohmann::json bear::getPositionlist(){
+	nlohmann::json aarray;
+	aarray = nlohmann::json::array();
+	for (auto kv: _p_map) {
+
+		auto p = kv.second;
+
+		if(p._Status == STATUS_AVAILABLE){
+			warrant* obsw = p._OBSetting->getRelatedWarrant(p._warrant_code);
+			json j;
+			j["warrant_code"] = p._warrant_code;
+			j["issuer"] = p._issuer;
+			j["wtype"] = p._wtype;
+			j["buyprice"] = obsw->BuyPrice;
+			j["sellprice"] = obsw->SellPrice;
+			j["buyqty"] = obsw->BuyQty;
+			j["sellqty"] = obsw->SellQty;
+			j["wprice"] = p._PriceInfo->Bestbid;
+
+			//return j;
+
+			aarray["positionlist"].push_back(j);
+		}
 	}
 
 	return aarray;

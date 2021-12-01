@@ -50,9 +50,33 @@ class TradeTable extends React.Component {
         global.dtTradeTableSort = [oSettings.aaSorting[0][0], oSettings.aaSorting[0][1]]
       },
       initComplete: function(settings, json) {
+        // auto focus
+        $('body').off('mousemove').on('mousemove', function(evt) {
+          var obj = $(evt.target)
+          var elements = ['wintick', 'stoplost', 'buyoffset', 'selloffset', 'quantity', 'delta']
+          
+          if (obj.length && obj.is('input') && obj.is('[name]') && obj.is('[data-no]')
+                && elements.includes(obj.attr('name').toString().toLowerCase())
+                && obj.parent().parent().parent().parent().hasClass('table-trade')) {
+            var name = obj.attr('name'), no = obj.attr('data-no')
+            global.dtTradeTableForces = name+','+no
+            $('.table-trade input[name='+name+'][data-no='+no+']').focus()
+            $('.table-trade input[name='+name+'][data-no='+no+']').select()
+          }
+          else {
+            // deselect
+            if (global.dtTradeTableForces) {
+              var temp = global.dtTradeTableForces.split(',')
+              $('.table-trade input[name='+temp[0]+'][data-no='+temp[1]+']').blur()
+            }
+            global.dtTradeTableForces = null
+          }
+        })
+        
+        // auto focus after refresh datatable
         if (global.dtTradeTableForces) {
           var temp = global.dtTradeTableForces.split(',')
-          $('input[name='+temp[0]+'][data-no='+temp[1]+']').focus()
+          $('.table-trade input[name='+temp[0]+'][data-no='+temp[1]+']').focus()
         }
       },
     })
@@ -212,7 +236,6 @@ class TradeTable extends React.Component {
     var no = event.target.attributes.getNamedItem('data-no').value
     var {name, value} = event.target
     var states = this.props.getStates()
-    global.dtTradeTableForces = name+','+no
     
     if (name == 'quantity' || name == 'delta') {
       var obj = $.extend(true, {}, states.cells[no])

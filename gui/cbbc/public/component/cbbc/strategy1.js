@@ -30,9 +30,6 @@ class Strategy1 extends React.Component {
     var states = this.props.getStates(),
         obj = $.extend(true, {}, this.props.data),
         text = this.getText(this.props.lang)
-    
-    // avoid to focus on trade table field
-    global.dtTradeTableForces = null
         
     obj[name].value = formatInput2(value)
     obj[name].feedback = validate(this.props.lang, obj[name].valid, obj[name].value, false)
