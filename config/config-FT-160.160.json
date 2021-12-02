@@ -75,12 +75,12 @@
 		"OMDD":
 		[
 			{
-				"InterfaceIp": "10.123.132.176",
+				"InterfaceIp": "10.123.132.160",
 				"MulticastIp": "239.1.1.153",
 				"MulticastPort": 51003
 			},
 			{
-				"InterfaceIp": "10.123.132.176",
+				"InterfaceIp": "10.123.132.160",
 				"MulticastIp": "239.1.1.158",
 				"MulticastPort": 51003
 			}
