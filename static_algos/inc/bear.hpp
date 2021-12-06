@@ -2333,7 +2333,7 @@ private:
 
 						Log(msg->to_json().dump());
 
-						_algo->_orderhistory.put_back(msg->to_order());
+						_algo->_orderhistory.push_back(msg->to_order());
 
 						ouputQueue.enqueue(msg);
 
@@ -2373,7 +2373,7 @@ private:
 
 							Log(msg->to_json().dump());
 
-							_algo->_orderhistory.put_back(msg->to_order());
+							_algo->_orderhistory.push_back(msg->to_order());
 
 							ouputQueue.enqueue(msg);
 
@@ -2437,7 +2437,7 @@ private:
 
 							Log(msg->to_json().dump());
 
-							_algo->_orderhistory.put_back(msg->to_order());
+							_algo->_orderhistory.push_back(msg->to_order());
 
 							ouputQueue.enqueue(msg);
 
@@ -2521,7 +2521,7 @@ private:
 
 
 							Log(msg->to_json().dump());
-							_algo->_orderhistory.put_back(msg->to_order());
+							_algo->_orderhistory.push_back(msg->to_order());
 
 
 							ouputQueue.enqueue(msg);
@@ -2602,7 +2602,7 @@ private:
 						msg->reason = string(odr.reject_reason);
 
 						Log(msg->to_json().dump());
-						_algo->_orderhistory.put_back(msg->to_order());
+						_algo->_orderhistory.push_back(msg->to_order());
 
 						ouputQueue.enqueue(msg);
 
