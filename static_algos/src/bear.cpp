@@ -1565,7 +1565,7 @@ nlohmann::json bear::getPairlist()
 }
 
 
-/*
+
 
 nlohmann::json bear::getPortfoliolist(){
 	nlohmann::json aarray;
@@ -1621,7 +1621,7 @@ nlohmann::json bear::getPositionlist(){
 	return aarray;
 }
 
-*/
+
 
 std::string bear::set_position(unsigned long long price, unsigned long long quantity, const std::string& ref)
 {
