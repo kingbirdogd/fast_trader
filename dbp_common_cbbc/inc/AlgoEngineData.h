@@ -242,7 +242,7 @@ struct aorder{
 	string reason;
 };
 
-struct portfolio{
+struct cbbcportfolio{
 	int id;
 	unsigned long long code;
 	string issuer;
