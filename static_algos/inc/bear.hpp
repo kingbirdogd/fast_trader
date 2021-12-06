@@ -2476,8 +2476,8 @@ private:
 							portfolio->sellturnover += obsw->SellPrice * obsw->Quantity;
 							portfolio->totalQty += obsw->Quantity;
 
-							portfolio->avgBuy = static_cast<unsigned long long>(portfolio->buyturnover/portfolio->Quantity);
-							portfolio->avgSell = static_cast<unsigned long long>(portfolio->sellturnover/portfolio->Quantity);
+							portfolio->avgBuy = static_cast<unsigned long long>(portfolio->buyturnover/portfolio->totalQty);
+							portfolio->avgSell = static_cast<unsigned long long>(portfolio->sellturnover/portfolio->totalQty);
 							portfolio->win +=    (obsw->SellPrice > obsw->BuyPrice) ? 1:0;
 							portfolio->draw +=    ((obsw->SellPrice == obsw->BuyPrice)) ? 1:0;
 							portfolio->lost +=    ((obsw->BuyPrice > obsw->SellPrice)) ? 1:0;
