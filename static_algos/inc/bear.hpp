@@ -3600,7 +3600,7 @@ private:
 		{
 			aorder _order;
 			_order.orderid = orderid;
-			_order.warrant_code"] = warrant_code;
+			_order.warrant_code = warrant_code;
 			_order.ucode = ucode;
 			_order.action = "order";
 			_order.side = side;
