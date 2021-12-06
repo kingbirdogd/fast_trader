@@ -1580,8 +1580,8 @@ nlohmann::json bear::getPortfoliolist(){
 		j["avgbuy"] = _pf->avgBuy;
 		j["avgsell"] = _pf->avgSell;
 		j["quantity"] = _pf->totalQty;
-		j["buytunrover"] = _pf->buytunrover;
-		j["sellturnover"] = _pf->selltunrover;
+		j["buytunrover"] = _pf->buyturnover;
+		j["sellturnover"] = _pf->sellturnover;
 		j["win"] = _pf->avgBuy;
 		j["draw"] = _pf->avgBuy;
 		j["lost"] = _pf->avgBuy;
