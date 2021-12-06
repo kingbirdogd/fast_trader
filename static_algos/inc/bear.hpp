@@ -2870,7 +2870,7 @@ private:
 			if(result == "SUCCESS")
 			{
 				j["result"] = "SUCCESS";
-				j["recovery"] = true;
+				//j["recovery"] = true;
 			}else{
 				j["result"] = "FAIL";
 				j["reason"] = result;
@@ -2917,7 +2917,7 @@ private:
 				j["previous_action_status"] = _resp.previous_action;
 				j["new_action_status"] = _resp.action;
 				j["result"] = result;
-				j["recovery"] = true;
+				//j["recovery"] = true;
 			}else{
 				j["action_type"] = action;
 				j["reason"] = reason;
@@ -3210,7 +3210,7 @@ private:
 
 			if(result){
 				j["result"] = "SUCCESS";
-				j["recovery"] = true;
+				//j["recovery"] = true;
 			}else{
 				j["result"] = "FAIL";
 				j["reason"] = result;
@@ -3282,7 +3282,7 @@ private:
 			j["value"] = value;
 			if(result == "SUCCESS"){
 				j["result"] = result;
-				j["recovery"] = true;
+				//j["recovery"] = true;
 			}else{
 				j["result"] = "FAIL";
 				j["reason"] = result;
