@@ -86,7 +86,7 @@ private:
 	using md_map = std::unordered_map<unsigned int, std::unordered_set<pair*>>;
 	using rmd_map = std::unordered_map<std::string, std::unordered_set<pair*>>;
 	using inout_map = std::map<unsigned long long, std::unordered_set<pair*>>;
-	std::unordered_map<unsigned int, portfolio*> portfolioMap;
+	std::unordered_map<unsigned int, cbbcportfolio*> portfolioMap;
 	friend class pair;
 private:
 	order_map _o_map;
