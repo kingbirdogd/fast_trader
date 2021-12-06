@@ -2333,7 +2333,7 @@ private:
 
 						Log(msg->to_json().dump());
 
-						_orderhistory.put_back(msg->to_order());
+						lgo->_u._orderhistory.put_back(msg->to_order());
 
 						ouputQueue.enqueue(msg);
 
