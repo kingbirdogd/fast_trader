@@ -224,7 +224,6 @@ struct aorder{
 	string issuer;
 	string wname;
 	string uname;
-	string side;
 	unsigned long long buyin;
 	unsigned long long sellout;
 	unsigned long long lvlbid;
