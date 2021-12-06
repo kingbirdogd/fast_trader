@@ -86,6 +86,7 @@ private:
 	using md_map = std::unordered_map<unsigned int, std::unordered_set<pair*>>;
 	using rmd_map = std::unordered_map<std::string, std::unordered_set<pair*>>;
 	using inout_map = std::map<unsigned long long, std::unordered_set<pair*>>;
+	std::unordered_map<unsigned int, portfolio*> portfolioMap;
 	friend class pair;
 private:
 	order_map _o_map;
@@ -99,6 +100,7 @@ private:
 	mutable inout_map sellout_map;
 	ThreadLogger* logger;
 	strategy1* sparam;
+	vector<aorder> _orderhistory;
 private:
 	class pair
 	{
@@ -2331,6 +2333,8 @@ private:
 
 						Log(msg->to_json().dump());
 
+						_orderhistory.put_back(msg->to_order());
+
 						ouputQueue.enqueue(msg);
 
 					}
@@ -2368,6 +2372,8 @@ private:
 							msg->winprice = 0;
 
 							Log(msg->to_json().dump());
+
+							_orderhistory.put_back(msg->to_order());
 
 							ouputQueue.enqueue(msg);
 
@@ -2431,6 +2437,8 @@ private:
 
 							Log(msg->to_json().dump());
 
+							_orderhistory.put_back(msg->to_order());
+
 							ouputQueue.enqueue(msg);
 
 
@@ -2455,6 +2463,26 @@ private:
 							pmsg->lvlcount = obsw->lvlcount;
 							pmsg->wincount = obsw->wincount;
 							ouputQueue.enqueue(pmsg);
+
+
+
+
+
+
+
+							auto portfolio =  _algo->portfolioMap[_warrant_code];
+
+							portfolio->buyturnover += obsw->BuyPrice * obsw->Quantity;
+							portfolio->sellturnover += obsw->SellPrice * obsw->Quantity;
+							portfolio->totalQty += obsw->Quantity;
+
+							portfolio->avgBuy = static_cast<unsigned long long>(portfolio->buyturnover/portfolio->Quantity);
+							portfolio->avgSell = static_cast<unsigned long long>(portfolio->sellturnover/portfolio->Quantity);
+							portfolio->win +=    (obsw->SellPrice > obsw->BuyPrice) ? 1:0;
+							portfolio->draw +=    ((obsw->SellPrice == obsw->BuyPrice)) ? 1:0;
+							portfolio->lost +=    ((obsw->BuyPrice > obsw->SellPrice)) ? 1:0;
+
+							portfolio->lasttradetime = obsw->SoldTime;
 
 
 							_OBSetting->TradeTime = DateUtil::getCurrentSystemTime();
@@ -2493,6 +2521,7 @@ private:
 
 
 							Log(msg->to_json().dump());
+							_orderhistory.put_back(msg->to_order());
 
 
 							ouputQueue.enqueue(msg);
@@ -2573,6 +2602,7 @@ private:
 						msg->reason = string(odr.reject_reason);
 
 						Log(msg->to_json().dump());
+						_orderhistory.put_back(msg->to_order());
 
 						ouputQueue.enqueue(msg);
 
@@ -3311,6 +3341,8 @@ private:
 	struct algo_listpair_msg: public algo_msg_base
 	{
 		nlohmann::json pairlistarray;
+		nlohmann::json portfoliolistarray;
+		nlohmann::json positionlistarray;
 		algo_listpair_msg():
 			algo_msg_base()
 		{
@@ -3320,12 +3352,17 @@ private:
 			auto j = algo_msg_base::to_json();
 			j["msg_type"] = "listpair";
 			j["pairlist"] = pairlistarray;
+			j["portfoliolist"] = pairlistarray;
+			j["positionlist"] = pairlistarray;
+
 			return j;
 		}
 		virtual void on_command()
 		{
 			auto* self = dynamic_cast<bear*>(al);
 			pairlistarray = self->getPairlist();
+			portfoliolistarray = self->getPortfoliolist();
+			positionlistarray = self->getPositionlist();
 			ouputQueue.enqueue(this);
 		}
 		virtual void release()
@@ -3559,6 +3596,40 @@ private:
 			return j;
 		}
 
+		virtual aorder to_order()
+		{
+			aorder _order;
+			_order.orderid = orderid;
+			_order.warrant_code"] = warrant_code;
+			_order.ucode = ucode;
+			_order.action = "order";
+			_order.side = side;
+			_order.wtype = wtype;
+			_order.issuer = issuer;
+			_order.wname = wname;
+			_order.uname = uname;
+			_order.side = side;
+			_order.buyin = buyin;
+			_order.sellout = sellout;
+			_order.lvlbid = lvlbid;
+			_order.order_price = order_price;
+			_order.order_quantity = order_quantity;
+			_order.status = status;
+			_order.filled_price = filled_price;
+			_order.filled_quantity = filled_quantity;
+			_order.transaction_time = string(transaction_time);
+			_order.leveltime = leveltime;
+			_order.wintime = wintime;
+			_order.lvlcount = lvlcount;
+			_order.wincount = wincount;
+			_order.lvlprice = lvlprice;
+			_order.winprice = winprice;
+			_order.reason = string(reason);
+
+			return _order;
+		}
+
+
 		virtual void on_command()
 		{
 			ouputQueue.enqueue(this);
@@ -3691,6 +3762,8 @@ public:
 	std::string set_position(unsigned long long price, unsigned long long quantity, const std::string& ref);
 	std::string setStrategy1(const strategy1& param);
 	nlohmann::json getPairlist();
+	nlohmann::json getPortfoliolist();
+	nlohmann::json getPositionlist();
 
 	virtual void Log(std::string msg);
 	virtual void handle_command(algo_msg_base&);

@@ -215,6 +215,57 @@ struct warrant{
 	int NoOfTrade;
 };
 
+struct aorder{
+	int orderid;
+	unsigned int warrant_code;
+	unsigned int ucode;
+	string side;
+	string wtype;
+	string issuer;
+	string wname;
+	string uname;
+	string side;
+	unsigned long long buyin;
+	unsigned long long sellout;
+	unsigned long long lvlbid;
+	unsigned long long order_price;
+	unsigned long long order_quantity;
+	unsigned long long filled_price;
+	unsigned long long filled_quantity;
+	string status;
+	string transaction_time;
+	int leveltime;
+	int wintime;
+	int lvlcount;
+	int wincount;
+	unsigned long long lvlprice;
+	unsigned long long winprice;
+	string reason;
+};
+
+struct portfolio{
+	int id;
+	unsigned long long code;
+	string issuer;
+	string wtype;
+	unsigned long long avgBuy;
+	unsigned long long avgSell;
+	unsigned long long totalQty;
+	long win;
+	long loss;
+	long draw;
+	long execution;
+	int win1;
+	int win2;
+	int win3;
+	int lost1;
+	int lost2;
+	int lost3;
+	string lasttradetime;
+	unsigned long long buyturnover;
+	unsigned long long sellturnover;
+};
+
 struct product{
 	string algoid;
 	unsigned int code;
