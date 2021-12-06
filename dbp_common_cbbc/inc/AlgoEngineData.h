@@ -240,6 +240,7 @@ struct aorder{
 	unsigned long long lvlprice;
 	unsigned long long winprice;
 	string reason;
+	string action;
 };
 
 struct cbbcportfolio{
