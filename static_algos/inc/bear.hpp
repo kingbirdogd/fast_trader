@@ -3359,8 +3359,8 @@ private:
 			auto j = algo_msg_base::to_json();
 			j["msg_type"] = "listpair";
 			j["pairlist"] = pairlistarray;
-			j["portfoliolist"] = pairlistarray;
-			j["positionlist"] = pairlistarray;
+			j["portfoliolist"] = portfoliolistarray;
+			j["positionlist"] = positionlistarray;
 
 			return j;
 		}

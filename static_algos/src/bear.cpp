@@ -1556,7 +1556,7 @@ std::string bear::force_sell(unsigned long long price, unsigned long long quanti
 nlohmann::json bear::getPairlist()
 {
 	nlohmann::json aarray;
-	aarray = nlohmann::json::array();
+	aarray["pairlist"] = nlohmann::json::array();
 	for (auto kv: _p_map) {
 		aarray["pairlist"].push_back(kv.second.to_json());
 	}
@@ -1569,7 +1569,7 @@ nlohmann::json bear::getPairlist()
 
 nlohmann::json bear::getPortfoliolist(){
 	nlohmann::json aarray;
-	aarray = nlohmann::json::array();
+	aarray["portfoliolist"] = nlohmann::json::array();
 	for (auto kv: portfolioMap) {
 
 		auto _pf = kv.second;
@@ -1595,7 +1595,7 @@ nlohmann::json bear::getPortfoliolist(){
 
 nlohmann::json bear::getPositionlist(){
 	nlohmann::json aarray;
-	aarray = nlohmann::json::array();
+	aarray["positionlist"] = nlohmann::json::array();
 	for (auto kv: _p_map) {
 
 		auto p = kv.second;
