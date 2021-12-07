@@ -206,6 +206,13 @@ private:
 			j["wtype"] = _Wtype;
 			j["delta"] = _DELTA;
 			j["wname"] = _wname;
+			j["win_tick"] = _Win_Tick;
+			j["stoplost"] = _Stop_Lost;
+			j["buyoffset"] = _BUY_OFFSET;
+			j["selloffset"] = _SELL_OFFSET;
+			j["show_pt"] = _SHOW_PT;
+			j["real_data"] = _REAL_DATA;
+			j["action_status"] = _Action_Status;
 			return j;
 		}
 		std::string to_Log() const
