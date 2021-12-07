@@ -213,6 +213,7 @@ private:
 			j["show_pt"] = _SHOW_PT;
 			j["real_data"] = _REAL_DATA;
 			j["action_status"] = _Action_Status;
+			j["ref"] = _Ref;
 			return j;
 		}
 		std::string to_Log() const
