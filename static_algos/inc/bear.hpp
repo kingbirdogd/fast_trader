@@ -3673,7 +3673,7 @@ private:
 			j["filled_price"] = filled_price;
 			j["filled_quantity"] = filled_quantity;
 			j["status"] = status;
-			j["recovery"] = true;
+			//j["recovery"] = true;
 			return j;
 		}
 		virtual void on_command()
