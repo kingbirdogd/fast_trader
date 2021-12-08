@@ -1589,6 +1589,7 @@ private:
 					msg->sellout = sellout;
 					msg->lvlbid = lvlBid;
 					msg->iprice = ibest_bid_price;
+					msg->ttTime = string(DateUtil::getCurrentTime());
 					ouputQueue.enqueue(msg);
 
 					}
@@ -1688,6 +1689,7 @@ private:
 					msg->sellout = sellout;
 					msg->lvlbid = lvlBid;
 					msg->iprice = ibest_ask_price;
+					msg->ttTime = string(DateUtil::getCurrentTime());
 					ouputQueue.enqueue(msg);
 
 					}
@@ -2094,6 +2096,7 @@ private:
 					msg->sellout = sellout;
 					msg->lvlbid = lvlBid;
 					msg->iprice = ibest_bid_price;
+					msg->ttTime = string(DateUtil::getCurrentTime());
 					ouputQueue.enqueue(msg);
 
 					}
@@ -2188,6 +2191,7 @@ private:
 					msg->sellout = sellout;
 					msg->lvlbid = lvlBid;
 					msg->iprice = ibest_ask_price;
+					msg->ttTime = string(DateUtil::getCurrentTime());
 					ouputQueue.enqueue(msg);
 
 					}
@@ -3392,6 +3396,7 @@ private:
 		unsigned long long diffbid;
 		unsigned long long diffask;
 		unsigned long long iprice;
+		string ttTime;
 		algo_warrantprice_msg():
 			algo_msg_base(),
 			warrant_code(0),
@@ -3422,6 +3427,7 @@ private:
 			j["diffbid"] = diffbid;
 			j["diffask"] = diffask;
 			j["iprice"] = iprice;
+			j["tt"] = ttTime;
 			j["recovery"] = false;
 			return j;
 		}
