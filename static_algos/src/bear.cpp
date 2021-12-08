@@ -1118,7 +1118,7 @@ std::string bear::set_pair(pair&& p)
 	}
 
 	Log("set_pair 3");
-/*
+
 	auto itPoftfolio = portfolioMap.find(warrant_code);
 	if(itPoftfolio.end() == portfolioMap){
 
@@ -1142,7 +1142,7 @@ std::string bear::set_pair(pair&& p)
 		portfolioMap[warrant_code] = newportfolio;
 	}
 
-*/
+
 	//bool result = subscribe_omdc_book(warrant_code, true);
 	//if(!result){
 		//json["result"] = "FAIL";
