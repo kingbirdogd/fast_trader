@@ -1122,7 +1122,7 @@ std::string bear::set_pair(pair&& p)
 	auto itPoftfolio = portfolioMap.find(warrant_code);
 	if(itPoftfolio == portfolioMap.end()){
 
-		auto newportfolio = new portfolio;
+		auto newportfolio = new cbbcportfolio;
 		newportfolio->code = warrant_code;
 		newportfolio->issuer = p._issuer;
 		newportfolio->wtype = p._wtype;
@@ -1138,6 +1138,10 @@ std::string bear::set_pair(pair&& p)
 		newportfolio->lost1 = 0;
 		newportfolio->lost2 = 0;
 		newportfolio->lost3 = 0;
+
+		newportfolio->lasttradetime = "";
+		newportfolio->buyturnover = 0;
+		newportfolio->sellturnover = 0;
 
 		portfolioMap[warrant_code] = newportfolio;
 	}
