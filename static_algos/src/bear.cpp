@@ -1130,7 +1130,7 @@ std::string bear::set_pair(pair&& p)
 		newportfolio->avgSell;
 		newportfolio->totalQty;
 		newportfolio->win = 0;
-		newportfolio->lost = 0;
+		newportfolio->loss = 0;
 		newportfolio->draw = 0;
 		newportfolio->win1 = 0;
 		newportfolio->win2 = 0;
