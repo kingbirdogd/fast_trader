@@ -3422,6 +3422,7 @@ private:
 			j["diffbid"] = diffbid;
 			j["diffask"] = diffask;
 			j["iprice"] = iprice;
+			j["recovery"] = false;
 			return j;
 		}
 		virtual void on_command()
