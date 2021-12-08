@@ -3607,7 +3607,7 @@ private:
 			j["lvlprice"] = lvlprice;
 			j["winprice"] = winprice;
 			j["reason"] = string(reason);
-			//j["recovery"] = true;
+			j["recovery"] = false;
 			return j;
 		}
 
@@ -3731,7 +3731,7 @@ private:
 			j["sell_price"] = sell_price;
 			j["sellime"] = selltime;
 			j["quantity"] = quantity;
-			//j["recovery"] = true;
+			j["recovery"] = false;
 			j["leveltime"] = leveltime;
 			j["wintime"] = leveltime;
 			j["lvlcount"] = lvlcount;
