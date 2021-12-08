@@ -1120,7 +1120,7 @@ std::string bear::set_pair(pair&& p)
 	Log("set_pair 3");
 
 	auto itPoftfolio = portfolioMap.find(warrant_code);
-	if(itPoftfolio.end() == portfolioMap){
+	if(itPoftfolio == portfolioMap.end()){
 
 		auto newportfolio = new portfolio;
 		newportfolio->code = warrant_code;
