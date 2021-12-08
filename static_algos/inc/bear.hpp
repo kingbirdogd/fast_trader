@@ -3724,7 +3724,7 @@ private:
 			j["sell_price"] = sell_price;
 			j["sellime"] = selltime;
 			j["quantity"] = quantity;
-			j["recovery"] = true;
+			//j["recovery"] = true;
 			j["leveltime"] = leveltime;
 			j["wintime"] = leveltime;
 			j["lvlcount"] = lvlcount;
