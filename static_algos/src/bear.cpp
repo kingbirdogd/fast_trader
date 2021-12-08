@@ -1126,9 +1126,9 @@ std::string bear::set_pair(pair&& p)
 		newportfolio->code = warrant_code;
 		newportfolio->issuer = p._issuer;
 		newportfolio->wtype = p._wtype;
-		newportfolio->avgBuy;
-		newportfolio->avgSell;
-		newportfolio->totalQty;
+		newportfolio->avgBuy = 0;
+		newportfolio->avgSell = 0;
+		newportfolio->totalQty = 0;
 		newportfolio->win = 0;
 		newportfolio->loss = 0;
 		newportfolio->draw = 0;
