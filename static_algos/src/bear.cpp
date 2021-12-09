@@ -2297,7 +2297,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 			palgo_strategy1_msg->release();
 		if(ptradelist)
 			ptradelist->release();
-		if(listpair)
+		if(plistpair)
 			plistpair->release();
 
 		return msg;
