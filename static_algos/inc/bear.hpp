@@ -100,7 +100,7 @@ private:
 	mutable inout_map sellout_map;
 	ThreadLogger* logger;
 	strategy1* sparam;
-	vector<aorder> _orderhistory;
+	vector<json> _orderhistory;
 private:
 	class pair
 	{
@@ -2343,9 +2343,9 @@ private:
 						msg->lvlprice = 0;
 						msg->winprice = 0;
 
-						Log(msg->to_json().dump());
+						//Log(msg->to_json().dump());
 
-						_algo->_orderhistory.push_back(msg->to_order());
+						_algo->_orderhistory.push_back(msg->to_json());
 
 						ouputQueue.enqueue(msg);
 
@@ -2383,9 +2383,9 @@ private:
 							msg->lvlprice = 0;
 							msg->winprice = 0;
 
-							Log(msg->to_json().dump());
+							//Log(msg->to_json().dump());
 
-							_algo->_orderhistory.push_back(msg->to_order());
+							_algo->_orderhistory.push_back(msg->to_json());
 
 							ouputQueue.enqueue(msg);
 
@@ -2447,9 +2447,9 @@ private:
 							msg->winprice = obsw->o_winfuture;
 
 
-							Log(msg->to_json().dump());
+							//Log(msg->to_json().dump());
 
-							_algo->_orderhistory.push_back(msg->to_order());
+							_algo->_orderhistory.push_back(msg->to_json());
 
 							ouputQueue.enqueue(msg);
 
@@ -2532,8 +2532,8 @@ private:
 							msg->winprice = obsw->o_winfuture;
 
 
-							Log(msg->to_json().dump());
-							_algo->_orderhistory.push_back(msg->to_order());
+							//Log(msg->to_json().dump());
+							_algo->_orderhistory.push_back(msg->to_json());
 
 
 							ouputQueue.enqueue(msg);
@@ -2613,8 +2613,8 @@ private:
 						msg->winprice = warrant->o_winfuture;
 						msg->reason = string(odr.reject_reason);
 
-						Log(msg->to_json().dump());
-						_algo->_orderhistory.push_back(msg->to_order());
+						//Log(msg->to_json().dump());
+						_algo->_orderhistory.push_back(msg->to_json());
 
 						ouputQueue.enqueue(msg);
 
@@ -2887,6 +2887,7 @@ private:
 				j["result"] = "FAIL";
 				j["reason"] = result;
 			}
+			j["recovery"] = false;
 			return j;
 		}
 		virtual void on_command()
@@ -2935,6 +2936,7 @@ private:
 				j["reason"] = reason;
 				j["result"] = result;
 			}
+			j["recovery"] = false;
 			return j;
 		}
 		virtual void on_command()
@@ -2982,6 +2984,7 @@ private:
 			j["action"] = action;
 			j["result"] = result;
 			j["reason"] = reason;
+			j["recovery"] = false;
 			return j;
 		}
 		virtual void on_command()
@@ -3022,6 +3025,7 @@ private:
 				j["result"] = "FAIL";
 				j["reason"] = result;
 			}
+			j["recovery"] = false;
 			return j;
 		}
 		virtual void on_command()
@@ -3065,6 +3069,7 @@ private:
 				j["result"] = "FAIL";
 				j["reason"] = result;
 			}
+			j["recovery"] = false;
 			return j;
 		}
 		virtual void on_command()
@@ -3101,6 +3106,7 @@ private:
 			j["price"] = price;
 			j["quantity"] = quantity;
 			j["result"] = result;
+			j["recovery"] = false;
 			return j;
 		}
 		virtual void on_command()
@@ -3131,6 +3137,7 @@ private:
 			j["msg_type"] = "algo_loadpricetable";
 			j["warrant_code"] = code;
 			j["result"] = result;
+			j["recovery"] = false;
 			return j;
 		}
 		virtual void on_command()
@@ -3227,6 +3234,7 @@ private:
 				j["result"] = "FAIL";
 				j["reason"] = result;
 			}
+			j["recovery"] = false;
 			return j;
 		}
 		virtual void on_command()
@@ -3299,6 +3307,7 @@ private:
 				j["result"] = "FAIL";
 				j["reason"] = result;
 			}
+			j["recovery"] = false;
 			return j;
 		}
 		virtual void on_command()
@@ -3338,6 +3347,7 @@ private:
 			j["side"] = side;
 			j["wkey"] = wkey;
 			j["fprice"] = fprice;
+			j["recovery"] = false;
 			return j;
 		}
 		virtual void on_command()
@@ -3366,6 +3376,7 @@ private:
 			j["pairlist"] = pairlistarray;
 			j["portfoliolist"] = portfoliolistarray;
 			j["positionlist"] = positionlistarray;
+			j["recovery"] = false;
 
 			return j;
 		}
@@ -3375,6 +3386,35 @@ private:
 			pairlistarray = self->getPairlist();
 			portfoliolistarray = self->getPortfoliolist();
 			positionlistarray = self->getPositionlist();
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_listpair_msg_pool.release_obj(this);
+		}
+		virtual ~algo_listpair_msg() = default;
+	};
+	struct algo_tradelist_msg: public algo_msg_base
+	{
+		nlohmann::json tradelistarray;
+		int size = 20;
+		algo_listpair_msg():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["msg_type"] = "tradelist";
+			j["tradelist"] = tradelistarray;
+			j["recovery"] = false;
+
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<bear*>(al);
+			tradelistarray = self->getTradelist(size);
 			ouputQueue.enqueue(this);
 		}
 		virtual void release()
@@ -3474,6 +3514,7 @@ private:
 			j["wfprice"] = wfprice;
 			j["lcount"] = lcount;
 			j["wcount"] = wcount;
+			j["recovery"] = false;
 			return j;
 		}
 		virtual void on_command()
@@ -3680,6 +3721,7 @@ private:
 			j["filled_price"] = filled_price;
 			j["filled_quantity"] = filled_quantity;
 			j["status"] = status;
+			j["recovery"] = false;
 			//j["recovery"] = true;
 			return j;
 		}
@@ -3736,6 +3778,7 @@ private:
 			j["wintime"] = leveltime;
 			j["lvlcount"] = lvlcount;
 			j["wincount"] = wincount;
+			j["recovery"] = false;
 			return j;
 		}
 		virtual void on_command()
@@ -3779,6 +3822,7 @@ public:
 	nlohmann::json getPairlist();
 	nlohmann::json getPortfoliolist();
 	nlohmann::json getPositionlist();
+	nlohmann::json getTradelist(int size);
 
 	virtual void Log(std::string msg);
 	virtual void handle_command(algo_msg_base&);
@@ -3797,6 +3841,7 @@ public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_levelprice_msg, 8192> algo_levelprice_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_pricetable_msg, 8192> algo_pricetable_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_listpair_msg, 8192> algo_listpair_msg_pool;
+	static rapid_ring::spmc_ring_buffer_object_pool<algo_tradelist_msg, 8192> algo_tradelist_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_set_msg, 8192> algo_set_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_action_msg, 8192> algo_action_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_setposition, 8192> algo_setposition_pool;

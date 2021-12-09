@@ -1589,7 +1589,7 @@ nlohmann::json bear::getPortfoliolist(){
 		j["win"] = _pf->avgBuy;
 		j["draw"] = _pf->avgBuy;
 		j["lost"] = _pf->avgBuy;
-		return j;
+		//return j;
 
 		aarray["portfoliolist"].push_back(j);
 	}
@@ -1619,6 +1619,26 @@ nlohmann::json bear::getPositionlist(){
 			//return j;
 
 			aarray["positionlist"].push_back(j);
+		}
+	}
+
+	return aarray;
+}
+
+nlohmann::json bear::getTradelist(int size){
+	nlohmann::json aarray;
+	aarray["tradelist"] = nlohmann::json::array();
+
+	int count = 0;
+	for(auto& i :  vec | views::reverse)
+	for(auto& _ord : _orderhistory | views::reverse ) {
+		count++;
+
+		aarray["tradelist"].push_back(_ord);
+
+		if(size > 0){
+			if(count >= size)
+				break;
 		}
 	}
 
@@ -1692,6 +1712,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 	algo_listpair_msg* plistpair = nullptr;
 	algo_param_msg* palgo_param_msg = nullptr;
 	algo_strategy1_msg* palgo_strategy1_msg = nullptr;
+	algo_tradelist_msg* ptradelist = nullptr;
 	try
 	{
 
@@ -2079,6 +2100,16 @@ algo_msg_base* bear::json_to_msg(json& json)
 			plistpair->ref = ref;
 			return plistpair;
 		}
+		else if(cmd == "tradelist")
+		{
+			ptradelist = algo_tradelist_msg_pool.get_obj();
+			ptradelist->al = this;
+			ptradelist->algo_name = _name;
+			ptradelist->id = _u.get_id();
+			ptradelist->ref = ref;
+			ptradelist->size = json["size"].get<int>();
+			return ptradelist;
+		}
 		else if(cmd == "strategy1")
 		{
 			palgo_strategy1_msg = algo_strategy1_msg_pool.get_obj();
@@ -2261,6 +2292,11 @@ algo_msg_base* bear::json_to_msg(json& json)
 			palgo_param_msg->release();
 		if(palgo_strategy1_msg)
 			palgo_strategy1_msg->release();
+		if(ptradelist)
+			ptradelist->release();
+		if(listpair)
+			plistpair->release();
+
 		return msg;
 	}
 }
@@ -2282,6 +2318,7 @@ rapid_ring::spmc_ring_buffer_object_pool<bear::algo_warrantprice_msg, 8192> bear
 rapid_ring::spmc_ring_buffer_object_pool<bear::algo_levelprice_msg, 8192> bear::algo_levelprice_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<bear::algo_pricetable_msg, 8192> bear::algo_pricetable_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<bear::algo_listpair_msg, 8192> bear::algo_listpair_msg_pool;
+rapid_ring::spmc_ring_buffer_object_pool<bear::algo_tradelist_msg, 8192> bear::algo_tradelist_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<bear::algo_setposition, 8192> bear::algo_setposition_pool;
 rapid_ring::spsc_ring_buffer_object_pool<bear::algo_set_msg, 8192> bear::algo_set_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<bear::algo_action_msg, 8192> bear::algo_action_msg_pool;
