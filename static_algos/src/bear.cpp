@@ -1,7 +1,7 @@
 #include <bear.hpp>
 
 #include <vector>
-#include <ranges>
+
 
 //std::unordered_map<unsigned int, priceinfo*> bear::uprice_map;
 
@@ -1632,10 +1632,11 @@ nlohmann::json bear::getTradelist(int size){
 
 	int count = 0;
 	//for(auto& i :  vec | views::reverse)
-	for(auto& _ord : _orderhistory | views::reverse ) {
+	for (auto it = _orderhistory.rbegin(); it != _orderhistory.rend(); it++)
+	//for(auto& _ord : _orderhistory | views::reverse ) {
 		count++;
 
-		aarray["tradelist"].push_back(_ord);
+		aarray["tradelist"].push_back(*it);
 
 		if(size > 0){
 			if(count >= size)
