@@ -3398,7 +3398,7 @@ private:
 	{
 		nlohmann::json tradelistarray;
 		int size = 20;
-		algo_listpair_msg():
+		algo_tradelist_msg():
 			algo_msg_base()
 		{
 		}
