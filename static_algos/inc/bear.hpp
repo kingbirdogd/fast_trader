@@ -3419,9 +3419,9 @@ private:
 		}
 		virtual void release()
 		{
-			algo_listpair_msg_pool.release_obj(this);
+			algo_tradelist_msg_pool.release_obj(this);
 		}
-		virtual ~algo_listpair_msg() = default;
+		virtual ~algo_tradelist_msg() = default;
 	};
 	struct algo_warrantprice_msg: public algo_msg_base
 	{
