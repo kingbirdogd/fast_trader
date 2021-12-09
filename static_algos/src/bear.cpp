@@ -1630,7 +1630,7 @@ nlohmann::json bear::getTradelist(int size){
 	aarray["tradelist"] = nlohmann::json::array();
 
 	int count = 0;
-	for(auto& i :  vec | views::reverse)
+	//for(auto& i :  vec | views::reverse)
 	for(auto& _ord : _orderhistory | views::reverse ) {
 		count++;
 
