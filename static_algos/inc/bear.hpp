@@ -3178,6 +3178,8 @@ private:
 		unsigned long long bearr3s;
 		unsigned long long bearr3e;
 
+		bool isread;
+
 		bool result;
 
 		algo_strategy1_msg():
@@ -3199,7 +3201,8 @@ private:
 			bearr2s(0),
 			bearr2e(0),
 			bearr3s(0),
-			bearr3e(0)
+			bearr3e(0),
+			isread(false)
 		{
 		}
 
@@ -3227,6 +3230,8 @@ private:
 			j["bearr3s"]=bearr3s;
 			j["bearr3e"]=bearr3e;
 
+			j["isread"]=isread;
+
 			if(result){
 				j["result"] = "SUCCESS";
 				//j["recovery"] = true;
@@ -3244,6 +3249,34 @@ private:
 			if(result){
 
 				strategy1 sg1;
+
+				if(isread){
+					strategy1 st1 = self->getStrategy1();
+					enable = st1.enable;
+
+					bullbuy = st1.bullbuy;
+					bullsell = st1.bullsell;
+					bearbuy = st1.bearbuy;
+					bearsell; = st1.bearsell;
+
+					bullr1s = st1.bullr1s;
+					bullr1e = st1.bullr1e;
+					bullr2s = st1.bullr2s;
+					bullr2e = st1.bullr2e;
+					bullr3s = st1.bullr3s;
+					bullr3e = st1.bullr3e;
+
+					bearr1s = st1.bearr1s;
+					bearr1e = st1.bearr1e;
+					bearr2s = st1.bearr2s;
+					bearr2e = st1.bearr2e;
+					bearr3s = st1.bearr3s;
+					bearr3e = st1.bearr3e;
+
+
+
+				}else{
+
 				sg1.isEnable = enable;
 				sg1.bullbuy = bullbuy;
 				sg1.bullsell = bullsell;
@@ -3264,7 +3297,7 @@ private:
 				sg1.bearr3e = bearr3e;
 
 				self->setStrategy1(sg1);
-
+				}
 			}
 
 			ouputQueue.enqueue(this);
@@ -3819,6 +3852,7 @@ public:
 	std::string force_sell(unsigned long long price, unsigned long long quantity, const std::string& ref);
 	std::string set_position(unsigned long long price, unsigned long long quantity, const std::string& ref);
 	std::string setStrategy1(const strategy1& param);
+	strategy1 getStrategy1();
 	nlohmann::json getPairlist();
 	nlohmann::json getPortfoliolist();
 	nlohmann::json getPositionlist();

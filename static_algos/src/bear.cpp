@@ -1330,6 +1330,34 @@ std::string bear::setStrategy1(const strategy1& param ){
 	return "SUCCESS";
 }
 
+strategy1 bear::getStrategy1(){
+	strategy1 st1;
+
+	st1.bullbuy = sparam->bullbuy;
+	st1.bullsell = sparam->bullsell;
+	st1.bearbuy = sparam->bearbuy;
+	st1.bearsell = sparam->bearsell;
+
+	st1.bullr1s = sparam->bullr1s;
+	st1.bullr1e = sparam->bullr1e;
+	st1.bullr2s = sparam->bullr2s;
+	st1.bullr2e = sparam->bullr2e;
+	st1.bullr3s = sparam->bullr3s;
+	st1.bullr3e = sparam->bullr3e;
+
+	st1.bearr1s = sparam->bearr1s;
+	st1.bearr1e = sparam->bearr1e;
+	st1.bearr2s = sparam->bearr2s;
+	st1.bearr2e = sparam->bearr2e;
+	st1.bearr3s = sparam->bearr3s;
+	st1.bearr3e = sparam->bearr3e;
+
+	st1.isReady = sparam->isReady;
+	st1.isEnable = sparam->isEnable;
+
+	return st1;
+}
+
 std::string bear::load_pricetable(unsigned int code, const std::string& ref){
 
 	auto it = _p_map.find(ref);
@@ -2121,6 +2149,16 @@ algo_msg_base* bear::json_to_msg(json& json)
 			palgo_strategy1_msg->id = _u.get_id();
 			palgo_strategy1_msg->ref = ref;
 
+
+			palgo_strategy1_msg->isread = json["isread"].get<bool>();
+			if(palgo_strategy1_msg->isread){
+
+
+
+			}else{
+
+
+
 			palgo_strategy1_msg->bullbuy = json["bullbuy"].get<bool>();
 			palgo_strategy1_msg->bullsell = json["bullsell"].get<bool>();
 			palgo_strategy1_msg->bearbuy = json["bearbuy"].get<bool>();
@@ -2194,6 +2232,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 			palgo_strategy1_msg->bearr3s = bearr3s;
 			palgo_strategy1_msg->bearr3e = bearr3e;
 
+			}
 
 			return palgo_strategy1_msg;
 		}
