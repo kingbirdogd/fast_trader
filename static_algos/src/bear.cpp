@@ -2153,7 +2153,7 @@ algo_msg_base* bear::json_to_msg(json& json)
 			palgo_strategy1_msg->isread = json["isread"].get<bool>();
 			if(palgo_strategy1_msg->isread){
 
-
+				palgo_strategy1_msg->result = true;
 
 			}else{
 
