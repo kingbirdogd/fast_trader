@@ -1589,7 +1589,7 @@ nlohmann::json bear::getPortfoliolist(){
 		j["win"] = _pf->win;
 		j["draw"] = _pf->draw;
 		j["loss"] = _pf->loss;
-		j["lasttradetime"] = lasttradetime;
+		j["lasttradetime"] = _pf->lasttradetime;
 		//return j;
 
 		aarray["portfoliolist"].push_back(j);
