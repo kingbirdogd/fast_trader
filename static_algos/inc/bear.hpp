@@ -3252,7 +3252,7 @@ private:
 
 				if(isread){
 					strategy1 st1 = self->getStrategy1();
-					enable = st1.enable;
+					enable = st1.isEnable;
 
 					bullbuy = st1.bullbuy;
 					bullsell = st1.bullsell;
