@@ -3257,7 +3257,7 @@ private:
 					bullbuy = st1.bullbuy;
 					bullsell = st1.bullsell;
 					bearbuy = st1.bearbuy;
-					bearsell; = st1.bearsell;
+					bearsell = st1.bearsell;
 
 					bullr1s = st1.bullr1s;
 					bullr1e = st1.bullr1e;
