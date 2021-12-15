@@ -559,7 +559,7 @@ private:
 								_Status = STATUS_SELLING;
 
 								doSell(newWarrant);
-							}else if(_PriceInfo->Bestbid == newWarrant->BuyPrice  && _Win_Tick <= 0){
+							}else if(_PriceInfo->Bestbid == newWarrant->BuyPrice){
 
 								if(_LVL_ON){
 
@@ -891,7 +891,7 @@ private:
 
 								doSell(newWarrant);
 
-							}else if(_PriceInfo->Bestbid == newWarrant->BuyPrice && _Win_Tick <= 0){
+							}else if(_PriceInfo->Bestbid == newWarrant->BuyPrice){
 
 								if(_LVL_ON){
 									newWarrant->DBid = trade_price;
