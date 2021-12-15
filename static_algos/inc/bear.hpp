@@ -604,6 +604,23 @@ private:
 
 							if(_Win_Tick > 0){
 
+								if(_LVL_ON){
+									if(_PriceInfo->Bestbid == newWarrant->BuyPrice){
+										newWarrant->DBid = trade_price;
+
+										newWarrant->Status = STATUS_SELLING;
+										newWarrant->SellPrice = _PriceInfo->Bestbid;
+										newWarrant->SellQty = newWarrant->Quantity;
+										newWarrant->SellOut = _OBSetting->SellOut;
+
+										_Status = STATUS_SELLING;
+
+										doSell(newWarrant);
+
+										return;
+									}
+								}
+
 								long long diff = static_cast<long long>(_PriceInfo->Bestbid) - static_cast<long long>(newWarrant->BuyPrice);
 								long long rwinPrice =  static_cast<long long>(_SPREAD * _Win_Tick);
 
@@ -936,6 +953,23 @@ private:
 							}
 
 							if(_Win_Tick > 0){
+
+								if(_LVL_ON){
+									if(_PriceInfo->Bestbid == newWarrant->BuyPrice){
+										newWarrant->DBid = trade_price;
+
+										newWarrant->Status = STATUS_SELLING;
+										newWarrant->SellPrice = _PriceInfo->Bestbid;
+										newWarrant->SellQty = newWarrant->Quantity;
+										newWarrant->SellOut = _OBSetting->SellOut;
+
+										_Status = STATUS_SELLING;
+
+										doSell(newWarrant);
+
+										return;
+									}
+								}
 
 								long long diff = static_cast<long long>(_PriceInfo->Bestbid) - static_cast<long long>(newWarrant->BuyPrice);
 								long long rwinPrice =  static_cast<long long>(_SPREAD * _Win_Tick);
