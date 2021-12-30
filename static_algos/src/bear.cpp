@@ -1501,19 +1501,36 @@ std::string bear::force_buy(unsigned long long price, unsigned long long quantit
 	newWarrant->Date = DateUtil::getToday();
 	newWarrant->Code = p.warrant_code();
 	newWarrant->Status = STATUS_READY;
-	newWarrant->BuyPrice = price;
+
+
+	if(price == 0){
+		newWarrant->BuyPrice = p._PriceInfo->Bestask;
+	}else{
+		newWarrant->BuyPrice = price;
+	}
 	newWarrant->UCode = p.underlying_code();
-	newWarrant->BuyQty = quantity;
+
+
+	if(quantity == 0){
+		newWarrant->BuyQty = p._Quantity;
+	}else{
+		newWarrant->BuyQty = quantity;
+	}
+
 	newWarrant->Quantity = 0;
 	newWarrant->Name = std::to_string(p.warrant_code());
 	newWarrant->BuyIn = 0;
 	newWarrant->SellOut = 0;
 
+
+
+
+
 	//this->log_info(to_string(p.warrant_code()) + std::string("Status = ") + to_string(p.status()));
 
-	if(p.status() != STATUS_READY && p.status() != STATUS_AVAILABLE){
-		return "Invalid order status";
-	}
+	//if(p.status() != STATUS_READY && p.status() != STATUS_AVAILABLE){
+	//	return "Invalid order status";
+	//}
 
 	OBSetting* obs = p.getOBS();
 	if(!obs->isExist(p.warrant_code())){
