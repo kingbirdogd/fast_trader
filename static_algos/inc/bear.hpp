@@ -212,6 +212,7 @@ private:
 			j["selloffset"] = _SELL_OFFSET;
 			j["show_pt"] = _SHOW_PT;
 			j["real_data"] = _REAL_DATA;
+			j["lvl_on"] = _LVL_ON;
 			j["action_status"] = _Action_Status;
 			j["ref"] = _Ref;
 			return j;
