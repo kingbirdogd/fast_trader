@@ -928,6 +928,9 @@ private:
 
 								long long diff = static_cast<long long>(newWarrant->BuyPrice) - static_cast<long long>(_PriceInfo->Bestbid);
 								long long rwinPrice =  static_cast<long long>(_SPREAD * _Stop_Lost);
+
+								Log(DateUtil::getCurrentTime() + std::string(" CODE = ") + std::to_string(_warrant_code)  + " Buy:" + to_string(newWarrant->BuyPrice) + " Bid:" + to_string(_PriceInfo->Bestbid) + " diff:" + to_string(diff) + " RefPrice: " + to_string(rwinPrice));
+
 								if(diff >= rwinPrice ){
 
 									newWarrant->DBid = trade_price;
