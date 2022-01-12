@@ -62,6 +62,13 @@
 					"params":
 					{
 					}
+				},
+				"leo_s1algo":
+				{
+					"lib": "s1algo",
+					"params":
+					{
+					}
 				}
 			}
 		},
