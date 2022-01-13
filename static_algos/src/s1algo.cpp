@@ -2237,10 +2237,17 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					PriceMark* spm = pricemarkMap[code];
 
 					string tTable = spm->printTable(obs->StopLostPrice);
-
+					Log("NEW");
 					Log("Warrant Code = " + to_string(code) + " Price Table");
 					Log(tTable);
 
+
+					Log("SellOUT Table");
+
+					string t2Table = spm->printIndexTable();
+					Log(t2Table);
+
+					Log("SellOUT Table End");
 					//unsigned long long maxwspread = spm->getMaxBidAskSpread();
 					//Log("Warrant Code = " + to_string(code) + " Max Spread = " + to_string(maxwspread));
 
@@ -2292,6 +2299,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					msg->warrant_code = code;
 					msg->ucode = ucode;
 					msg->side = "BUY";
+					msg->issuer = obsw->Issuer
 					msg->filled_price = filledprice;
 					msg->filled_quantity = odr.filled_quantity;
 					msg->order_price = obsw->BuyPrice;
@@ -2317,6 +2325,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					}
 
 					Log("Filed Buy Warrant Code =  " + to_string(code) + " UCode = " + to_string(ucode) + " Status = " + to_string(obs->Status));
+					Log("NEW END");
 				}
 				if (dbp::top::order_status::canceled == status || dbp::top::order_status::rejected == status)
 				{
@@ -2334,6 +2343,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						msg->warrant_code = code;
 						msg->ucode = ucode;
 						msg->side = "BUY";
+						msg->issuer = wobs->Issuer
 						msg->stoplost = 0;
 						msg->order_price = odr.ori_price;
 						msg->order_quantity = wobs->BuyQuantity;
@@ -2393,6 +2403,8 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 
 					Log("warrant* obsw is empty  = " + to_string(code));
 
+
+
 					obsw->Status = STATUS_SOLD;
 					//obsw->Status = STATUS_SOLD;
 					obsw->SoldTime = std::string(odr.transaction_tm);
@@ -2425,6 +2437,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						msg->warrant_code = code;
 						msg->ucode = ucode;
 						msg->side = "SELL";
+						msg->issuer = obsw->Issuer
 						msg->stoplost = 0;
 						msg->filled_price = odr.match_price;
 						msg->filled_quantity = odr.filled_quantity;
@@ -2469,6 +2482,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						msg->warrant_code = code;
 						msg->ucode = ucode;
 						msg->side = "SELL";
+						msg->issuer = obsw->Issuer
 						msg->stoplost = 0;
 						msg->filled_price = odr.match_price;
 						msg->filled_quantity = odr.filled_quantity;
@@ -2545,6 +2559,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						msg->warrant_code = code;
 						msg->ucode = ucode;
 						msg->side = "SELL";
+						msg->issuer = wobs->Issuer
 						msg->stoplost = 0;
 						msg->order_price = odr.ori_price;
 						msg->order_quantity = wobs->Quantity;
