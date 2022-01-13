@@ -2391,8 +2391,10 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 				{
 					warrant* obsw = obs->removeWarrantOrCbbc(code);
 
+					Log("warrant* obsw is empty  = " + to_string(code));
+
 					obsw->Status = STATUS_SOLD;
-					obsw->Status = STATUS_SOLD;
+					//obsw->Status = STATUS_SOLD;
 					obsw->SoldTime = std::string(odr.transaction_tm);
 					obsw->SellPrice = odr.match_price;
 
