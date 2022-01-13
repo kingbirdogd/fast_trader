@@ -143,24 +143,6 @@
 					}
 				}
 			}
-		},
-		{
-			"ID":20,
-			"IP":"192.168.104.88",
-			"PORT":35101,
-			"USER":"P990098",
-			"PASS":"pass",
-			"BUY_POWER":5000000,
-			"ALGOS":
-			{
-				"kdemo003_bear":
-				{
-					"lib": "bear",
-					"params":
-					{
-					}
-				}
-			}
 		}
 	],
 	"Definition":
