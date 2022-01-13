@@ -91,24 +91,6 @@
 			}
 		},
 		{
-			"ID":15,
-			"IP":"192.168.104.88",
-			"PORT":35101,
-			"USER":"P990098",
-			"PASS":"pass",
-			"BUY_POWER":5000000,
-			"ALGOS":
-			{
-				"demo002_semipro":
-				{
-					"lib": "semipro",
-					"params":
-					{
-					}
-				}
-			}
-		},
-		{
 			"ID":5,
 			"IP":"192.168.104.88",
 			"PORT":35101,
@@ -174,24 +156,6 @@
 				"kdemo003_bear":
 				{
 					"lib": "bear",
-					"params":
-					{
-					}
-				}
-			}
-		},
-		{
-			"ID":21,
-			"IP":"192.168.104.88",
-			"PORT":35101,
-			"USER":"P990098",
-			"PASS":"pass",
-			"BUY_POWER":5000000,
-			"ALGOS":
-			{
-				"sdemo001_semipro":
-				{
-					"lib": "semipro",
 					"params":
 					{
 					}
