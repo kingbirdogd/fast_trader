@@ -75,6 +75,7 @@ private:
 		unsigned int ucode;
 		std::string action;
 		std::string side;
+		std::string issuer;
 		unsigned long long order_price;
 		unsigned long long order_quantity;
 		unsigned long long filled_price;
@@ -105,6 +106,7 @@ private:
 			j["ucode"] = ucode;
 			j["action"] = "order";
 			j["side"] = side;
+			j["issuer"] = issuer;
 			j["order_price"] = order_price;
 			j["order_quantity"] = order_quantity;
 			if(status == "filled" || status == "Partial filled"){
