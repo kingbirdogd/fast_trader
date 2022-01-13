@@ -2299,7 +2299,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					msg->warrant_code = code;
 					msg->ucode = ucode;
 					msg->side = "BUY";
-					msg->issuer = obsw->Issuer
+					msg->issuer = obsw->Issuer;
 					msg->filled_price = filledprice;
 					msg->filled_quantity = odr.filled_quantity;
 					msg->order_price = obsw->BuyPrice;
@@ -2343,7 +2343,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						msg->warrant_code = code;
 						msg->ucode = ucode;
 						msg->side = "BUY";
-						msg->issuer = wobs->Issuer
+						msg->issuer = wobs->Issuer;
 						msg->stoplost = 0;
 						msg->order_price = odr.ori_price;
 						msg->order_quantity = wobs->BuyQuantity;
@@ -2437,7 +2437,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						msg->warrant_code = code;
 						msg->ucode = ucode;
 						msg->side = "SELL";
-						msg->issuer = obsw->Issuer
+						msg->issuer = obsw->Issuer;
 						msg->stoplost = 0;
 						msg->filled_price = odr.match_price;
 						msg->filled_quantity = odr.filled_quantity;
@@ -2482,7 +2482,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						msg->warrant_code = code;
 						msg->ucode = ucode;
 						msg->side = "SELL";
-						msg->issuer = obsw->Issuer
+						msg->issuer = obsw->Issuer;
 						msg->stoplost = 0;
 						msg->filled_price = odr.match_price;
 						msg->filled_quantity = odr.filled_quantity;
@@ -2559,7 +2559,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						msg->warrant_code = code;
 						msg->ucode = ucode;
 						msg->side = "SELL";
-						msg->issuer = wobs->Issuer
+						msg->issuer = wobs->Issuer;
 						msg->stoplost = 0;
 						msg->order_price = odr.ori_price;
 						msg->order_quantity = wobs->Quantity;
