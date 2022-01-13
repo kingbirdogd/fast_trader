@@ -364,6 +364,7 @@
 	[
 		{"Channel":"OmddftChannel"},
 		{"Channel":"SWOmdcChannel"},
+		{"Channel":"S1Channel"},
 		{"Channel":"PriceTableChannel"},
 		{"Channel":"OmddPriceTableChannel"}
 		
