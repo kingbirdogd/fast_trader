@@ -924,6 +924,7 @@ bool s1algo::setSelectedIssuer(std::string action, std::string issuer){
 					selectedIssuer.insert(myPair.first);
 				}
 			}
+			Log("Selected Issuer = ALL");
 			return true;
 		}else{
 			auto it = selectedIssuer.find(issuer);
@@ -937,6 +938,7 @@ bool s1algo::setSelectedIssuer(std::string action, std::string issuer){
 	if(action == "remove"){
 		if(issuer == "ALL"){
 			selectedIssuer.clear();
+			Log("Remove Issuer = ALL");
 			return true;
 		}else{
 			auto it = selectedIssuer.find(issuer);
@@ -986,50 +988,69 @@ bool s1algo::setSelectedUnderlying(std::string action, unsigned int ucode){
 	//	return false;
 
 	if(action == "select"){
-		auto it = unselectedUCode.find(ucode);
-		if(it != unselectedUCode.end()){
-			unselectedUCode.erase(ucode);
-			Log("Selected Underlying = " + to_string(ucode));
+		if(ucode == 0){
+			unselectedUCode.clear();
+			Log("Selected Underlying = ALL(0)");
 			return true;
+		}else{
+			auto it = unselectedUCode.find(ucode);
+			if(it != unselectedUCode.end()){
+				unselectedUCode.erase(ucode);
+				Log("Selected Underlying = " + to_string(ucode));
+				return true;
+			}
 		}
 	}
 	if(action == "remove"){
-		auto it = unselectedUCode.find(ucode);
-		if(it == unselectedUCode.end()){
-			unselectedUCode.insert(ucode);
-			Log("Unselected Underlying = " + to_string(ucode));
-/*
-			auto itob  = obMap.find(ucode);
-			if(itob != obMap.end()){
-				OBSetting* obs = itob->second;
-				if(obs->Status == STATUS_READY){
 
-
-					auto pmsg = algo_signal_msg_pool.get_obj();
-					pmsg->al = this;
-					pmsg->algo_name = this->_name;
-					pmsg->id = this->_u.get_id();
-					pmsg->ref = to_string(code);
-					pmsg->code = code;
-					pmsg->detect_ask = 0;
-					pmsg->selected = false;
-					ouputQueue.enqueue(pmsg);
-
-					obs->removeAllWarrants();
-					obs->detected = false;
-
-					signalCount--;
-
-					if(signalCount <= 0){
-						lastReadyTime = 0;
-						Log("No Detected Signal");
-					}
-
-					Log("Code = " + to_string(code) + " Reset Signal 3X");
+		if(ucode == 0){
+			for (auto itr = availableUCode.begin(); itr != availableUCode.end(); ++itr) {
+			    /* ... process *itr ... */
+				auto it = unselectedUCode.find(*itr);
+				if(it == unselectedUCode.end()){
+					unselectedUCode.insert(*itr);
 				}
+				Log("Unselected Underlying = ALL (0)");
 			}
-*/
 			return true;
+		}else{
+			auto it = unselectedUCode.find(ucode);
+			if(it == unselectedUCode.end()){
+				unselectedUCode.insert(ucode);
+				Log("Unselected Underlying = " + to_string(ucode));
+	/*
+				auto itob  = obMap.find(ucode);
+				if(itob != obMap.end()){
+					OBSetting* obs = itob->second;
+					if(obs->Status == STATUS_READY){
+
+
+						auto pmsg = algo_signal_msg_pool.get_obj();
+						pmsg->al = this;
+						pmsg->algo_name = this->_name;
+						pmsg->id = this->_u.get_id();
+						pmsg->ref = to_string(code);
+						pmsg->code = code;
+						pmsg->detect_ask = 0;
+						pmsg->selected = false;
+						ouputQueue.enqueue(pmsg);
+
+						obs->removeAllWarrants();
+						obs->detected = false;
+
+						signalCount--;
+
+						if(signalCount <= 0){
+							lastReadyTime = 0;
+							Log("No Detected Signal");
+						}
+
+						Log("Code = " + to_string(code) + " Reset Signal 3X");
+					}
+				}
+	*/
+				return true;
+			}
 		}
 	}
 	return false;
