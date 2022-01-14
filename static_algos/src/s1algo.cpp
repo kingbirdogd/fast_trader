@@ -917,19 +917,34 @@ bool s1algo::setSelectedIssuer(std::string action, std::string issuer){
 		return false;
 
 	if(action == "select"){
-		auto it = selectedIssuer.find(issuer);
-		if(it == selectedIssuer.end()){
-			selectedIssuer.insert(issuer);
-			Log("Selected Issuer = " + issuer);
+		if(issuer == "ALL"){
+			for ( const auto &myPair : selectionTypeMap ) {
+				auto it = selectedIssuer.find(myPair.first);
+				if(it == selectedIssuer.end()){
+					selectedIssuer.insert(myPair.first);
+				}
+			}
 			return true;
+		}else{
+			auto it = selectedIssuer.find(issuer);
+			if(it == selectedIssuer.end()){
+				selectedIssuer.insert(issuer);
+				Log("Selected Issuer = " + issuer);
+				return true;
+			}
 		}
 	}
 	if(action == "remove"){
-		auto it = selectedIssuer.find(issuer);
-		if(it != selectedIssuer.end()){
-			selectedIssuer.erase(issuer);
-			Log("Remove Issuer = " + issuer);
+		if(issuer == "ALL"){
+			selectedIssuer.clear();
 			return true;
+		}else{
+			auto it = selectedIssuer.find(issuer);
+			if(it != selectedIssuer.end()){
+				selectedIssuer.erase(issuer);
+				Log("Remove Issuer = " + issuer);
+				return true;
+			}
 		}
 	}
 	return false;
@@ -2265,7 +2280,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					unsigned long long sellout = spm->sellOut(obsw->RefWBid);
 					unsigned long long lvlbid = spm->sellOut(obsw->RefWAsk);
 
-					Log("Do Buy Warrant Code =  " + to_string(code) + " Buy Price:" + to_string(filledprice) + " Sellout = " + to_string(sellout) + " lvlbid = " + to_string(lvlbid));
+					Log("Do Buy Warrant Code =  " + to_string(code) + " Buy Price:" + to_string(filledprice) + " RefBid:" + to_string(obsw->RefWBid) + " Sellout = " + to_string(sellout) + " lvlbid = " + to_string(lvlbid));
 
 					if(sellout == 99999999){
 						spm->setSellout(obsw->RefWBid, obs->StopLostPrice);
