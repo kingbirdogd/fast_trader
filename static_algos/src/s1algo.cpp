@@ -2467,7 +2467,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 					unsigned long long t_btrade = dbp::tools::srv::current();
 
 
-					if(obs->forceDetected){
+					if(obs->forcedetected){
 						wobsArray[i]->RefWAsk = wbest_ask_price;
 						wobsArray[i]->RefWBid = wbest_bid_price;
 						wobsArray[i]->UBid = obs->StopLostPrice;
