@@ -197,7 +197,7 @@ private:
 			j["action"] = "signal";
 			j["code"] = code;
 			j["detected_ask"] = detect_ask;
-			j["forcedetected"] = forcedetect;
+			j["forcedetected"] = forcedetected;
 			if(selected){
 				j["detected"] = true;
 			}else{
