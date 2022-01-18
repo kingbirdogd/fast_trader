@@ -1363,7 +1363,7 @@ bool s1algo::forceDetected(unsigned int ucode, unsigned long long detectprice, u
 			obs->detected = true;
 			obs->forcedetected = true;
 
-			Log("Code = " + to_string(code) + " Has Signal @ " + to_string(best_ask_price) + " Mid = " + to_string(signal->MidPrice) + " WeightedPrice = " + to_string(signal->WeightedPrice));
+			Log("Code = " + to_string(code) + " Has Signal @ " + to_string(best_ask_price) );
 
 			signalCount++;
 
