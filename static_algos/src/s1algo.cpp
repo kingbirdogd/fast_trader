@@ -1310,7 +1310,7 @@ bool s1algo::forceDetected(unsigned int ucode, unsigned long long detectprice, u
 	if(detectprice >= best_ask_price){
 		obs->DetectedAsk = detectprice;
 		obs->StopLostPrice = stoplost;
-		obs->ReadyBidBuy = signal->ReadyBidBuy;
+		obs->ReadyBidBuy = 0;
 
 
 
