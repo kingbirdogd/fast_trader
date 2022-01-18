@@ -652,6 +652,7 @@ private:
 		unsigned int ucode;
 		unsigned long long detectprice;
 		unsigned long long stoplost;
+		bool result;
 		algo_force_detect():
 			algo_msg_base()
 		{
