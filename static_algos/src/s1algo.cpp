@@ -1257,7 +1257,7 @@ bool s1algo::force_sell(unsigned int ucode, unsigned int code, unsigned long lon
 bool s1algo::forceDetected(unsigned int ucode, unsigned long long detectprice, unsigned long long stoplost){
 
 
-	Log("Enter Force Detect = " + to_string(ucode) + " price = " + to_string(detectprice) + " Stoplost = " + stoplost);
+	Log("Enter Force Detect = " + to_string(ucode) + " price = " + to_string(detectprice) + " Stoplost = " + to_string(stoplost));
 
 	auto itucode = unselectedUCode.find(ucode);
 	if(itucode != unselectedUCode.end() ){
