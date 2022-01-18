@@ -1285,7 +1285,8 @@ bool s1algo::forceDetected(unsigned int ucode, unsigned long long detectprice, u
 
 
 	unsigned long long best_bid_price = 0;
-	unsigned long long best_ask_price = 0
+	unsigned long long best_ask_price = 0;
+
 	auto it = stockWarrantomdcMap.find(ucode);
 	if (stockWarrantomdcMap.end() != it)
 	{
