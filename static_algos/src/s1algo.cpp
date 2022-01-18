@@ -3060,7 +3060,7 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 	algo_underlyingaction_msg* pUnderlyingAction_msg = nullptr;
 	algo_warrantaction_msg* pWarrantAction_msg = nullptr;
 	algo_force_sell* pforce_sell = nullptr;
-	algo_pforce_detect* pforce_detect = nullptr;
+	algo_force_detect* pforce_detect = nullptr;
 	algo_issuerlist_msg* pissuerlist = nullptr;
 	algo_underlyinglist_msg* punderlyinglist = nullptr;
 	algo_pause_msg* ppause = nullptr;
