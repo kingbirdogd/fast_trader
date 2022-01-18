@@ -1336,7 +1336,7 @@ bool s1algo::forceDetected(unsigned int ucode, unsigned long long detectprice, u
 			int type = getSelectionType(issuer);
 
 			if(SELECT_NORMAL == type){
-				selectedWarrant = getSelectedWarrantFromMarketByIssuer2(issuer,code, best_bid_price, best_ask_price);
+				selectedWarrant = getSelectedWarrantFromMarketByIssuer2(issuer,ucode, best_bid_price, best_ask_price);
 			}
 
 			if(selectedWarrant.size() == 0)
