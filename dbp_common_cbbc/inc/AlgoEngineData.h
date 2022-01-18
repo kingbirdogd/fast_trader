@@ -213,6 +213,7 @@ struct warrant{
 	bool isPause;
 
 	int NoOfTrade;
+	int PriceMode;
 };
 
 struct aorder{

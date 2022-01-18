@@ -34,6 +34,7 @@ public:
 	string Date;
 	unsigned int Code;
 	bool detected = false;
+	bool forcedetected = false;
 	bool hasPosition = false;
 	unsigned long long BuyPrice;
 	string BuyTime;

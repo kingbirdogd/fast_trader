@@ -450,77 +450,12 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			bool hasSignal = signal->hasSignal;
 			unsigned long long DetectAsk = signal->DetectAsk;
 
-
-
-
 			if(obs->detected){
 
-				if(best_ask_price != obs->DetectedAsk && obs->Status == STATUS_READY){
-					//obs->Status = STATUS_NEW;
-					auto pmsg = algo_signal_msg_pool.get_obj();
-					pmsg->al = this;
-					pmsg->algo_name = this->_name;
-					pmsg->id = this->_u.get_id();
-					pmsg->ref = to_string(code);
-					pmsg->code = code;
-					pmsg->detect_ask = 0;
-					pmsg->selected = false;
-					ouputQueue.enqueue(pmsg);
+				if(obs->forcedetected){
 
-					obs->removeAllWarrants();
-					obs->detected = false;
-
-					//unsigned long long detecttime = dbp::tools::srv::current();
-					//unsigned long long diff = detecttime - signal->m_SignalTime;
-
-					//Log("Reset1 Signal Time Diff = " + to_string(diff) + " ---d= " + to_string(detecttime) + " ---s= " + to_string(signal->m_SignalTime));
-
-
-					Log("Code = " + to_string(code) + " Reset Signal 1");
-
-					signalCount--;
-
-					if(signalCount <= 0){
-						lastReadyTime = 0;
-						Log("No Detected Signal");
-					}
-
-					//Log("Pass1");
-					return;
-				}
-				if(!hasSignal  && obs->Status == STATUS_READY){
-					auto pmsg = algo_signal_msg_pool.get_obj();
-					pmsg->al = this;
-					pmsg->algo_name = this->_name;
-					pmsg->id = this->_u.get_id();
-					pmsg->ref = to_string(code);
-					pmsg->code = code;
-					pmsg->detect_ask = 0;
-					pmsg->selected = false;
-					ouputQueue.enqueue(pmsg);
-
-					obs->removeAllWarrants();
-					obs->detected = false;
-
-					signalCount--;
-
-					//unsigned long long detecttime = dbp::tools::srv::current();
-					//unsigned long long diff = detecttime - signal->m_SignalTime;
-
-					//Log("Reset2 Signal Time Diff = " + to_string(diff) + " ---d= " + to_string(detecttime) + " ---s= " + to_string(signal->m_SignalTime));
-
-					if(signalCount <= 0){
-						lastReadyTime = 0;
-						Log("No Detected Signal");
-					}
-
-					Log("Code = " + to_string(code) + " Reset Signal 2");
-					//Log("Pass2");
-				}
-
-				auto itucode = unselectedUCode.find(code);
-				if(itucode != unselectedUCode.end() ){
-					if(obs->Status == STATUS_READY){
+					if(best_ask_price > obs->DetectedAsk && obs->Status == STATUS_READY){
+						//obs->Status = STATUS_NEW;
 						auto pmsg = algo_signal_msg_pool.get_obj();
 						pmsg->al = this;
 						pmsg->algo_name = this->_name;
@@ -533,6 +468,15 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 						obs->removeAllWarrants();
 						obs->detected = false;
+						obs->forcedetected = false;
+
+						//unsigned long long detecttime = dbp::tools::srv::current();
+						//unsigned long long diff = detecttime - signal->m_SignalTime;
+
+						//Log("Reset1 Signal Time Diff = " + to_string(diff) + " ---d= " + to_string(detecttime) + " ---s= " + to_string(signal->m_SignalTime));
+
+
+						Log("Code = " + to_string(code) + " Reset Signal 1");
 
 						signalCount--;
 
@@ -541,38 +485,191 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							Log("No Detected Signal");
 						}
 
-						Log("Code = " + to_string(code) + " Reset Signal 3");
+						//Log("Pass1");
+						return;
+					}
+
+					auto itucode = unselectedUCode.find(code);
+					if(itucode != unselectedUCode.end() ){
+						if(obs->Status == STATUS_READY){
+							auto pmsg = algo_signal_msg_pool.get_obj();
+							pmsg->al = this;
+							pmsg->algo_name = this->_name;
+							pmsg->id = this->_u.get_id();
+							pmsg->ref = to_string(code);
+							pmsg->code = code;
+							pmsg->detect_ask = 0;
+							pmsg->selected = false;
+							ouputQueue.enqueue(pmsg);
+
+							obs->removeAllWarrants();
+							obs->detected = false;
+							obs->forcedetected = false;
+
+							signalCount--;
+
+							if(signalCount <= 0){
+								lastReadyTime = 0;
+								Log("No Detected Signal");
+							}
+
+							Log("Code = " + to_string(code) + " Reset Signal 3");
+							//Log("Pass2");
+						}
+					}
+
+
+					time_t currentTime = DateUtil::getCurrentSystemTime();
+					if(currentTime > undetectedTime && obs->Status == STATUS_READY){
+
+						auto pmsg = algo_signal_msg_pool.get_obj();
+						pmsg->al = this;
+						pmsg->algo_name = this->_name;
+						pmsg->id = this->_u.get_id();
+						pmsg->ref = to_string(code);
+						pmsg->code = code;
+						pmsg->detect_ask = 0;
+						pmsg->selected = false;
+						ouputQueue.enqueue(pmsg);
+
+						obs->removeAllWarrants();
+						obs->detected = false;
+						obs->forcedetected = false;
+
+						signalCount--;
+
+						if(signalCount <= 0){
+							lastReadyTime = 0;
+							Log("No Detected Signal");
+						}
+
+						Log("Code = " + to_string(code) + " Reset Signal 4");
+					}
+				}else{
+
+					if(best_ask_price != obs->DetectedAsk && obs->Status == STATUS_READY){
+						//obs->Status = STATUS_NEW;
+						auto pmsg = algo_signal_msg_pool.get_obj();
+						pmsg->al = this;
+						pmsg->algo_name = this->_name;
+						pmsg->id = this->_u.get_id();
+						pmsg->ref = to_string(code);
+						pmsg->code = code;
+						pmsg->detect_ask = 0;
+						pmsg->selected = false;
+						ouputQueue.enqueue(pmsg);
+
+						obs->removeAllWarrants();
+						obs->detected = false;
+						obs->forcedetected = false;
+
+						//unsigned long long detecttime = dbp::tools::srv::current();
+						//unsigned long long diff = detecttime - signal->m_SignalTime;
+
+						//Log("Reset1 Signal Time Diff = " + to_string(diff) + " ---d= " + to_string(detecttime) + " ---s= " + to_string(signal->m_SignalTime));
+
+
+						Log("Code = " + to_string(code) + " Reset Signal 1");
+
+						signalCount--;
+
+						if(signalCount <= 0){
+							lastReadyTime = 0;
+							Log("No Detected Signal");
+						}
+
+						//Log("Pass1");
+						return;
+					}
+					if(!hasSignal  && obs->Status == STATUS_READY){
+						auto pmsg = algo_signal_msg_pool.get_obj();
+						pmsg->al = this;
+						pmsg->algo_name = this->_name;
+						pmsg->id = this->_u.get_id();
+						pmsg->ref = to_string(code);
+						pmsg->code = code;
+						pmsg->detect_ask = 0;
+						pmsg->selected = false;
+						ouputQueue.enqueue(pmsg);
+
+						obs->removeAllWarrants();
+						obs->detected = false;
+						obs->forcedetected = false;
+
+						signalCount--;
+
+						//unsigned long long detecttime = dbp::tools::srv::current();
+						//unsigned long long diff = detecttime - signal->m_SignalTime;
+
+						//Log("Reset2 Signal Time Diff = " + to_string(diff) + " ---d= " + to_string(detecttime) + " ---s= " + to_string(signal->m_SignalTime));
+
+						if(signalCount <= 0){
+							lastReadyTime = 0;
+							Log("No Detected Signal");
+						}
+
+						Log("Code = " + to_string(code) + " Reset Signal 2");
 						//Log("Pass2");
 					}
-				}
 
+					auto itucode = unselectedUCode.find(code);
+					if(itucode != unselectedUCode.end() ){
+						if(obs->Status == STATUS_READY){
+							auto pmsg = algo_signal_msg_pool.get_obj();
+							pmsg->al = this;
+							pmsg->algo_name = this->_name;
+							pmsg->id = this->_u.get_id();
+							pmsg->ref = to_string(code);
+							pmsg->code = code;
+							pmsg->detect_ask = 0;
+							pmsg->selected = false;
+							ouputQueue.enqueue(pmsg);
 
-				time_t currentTime = DateUtil::getCurrentSystemTime();
-				if(currentTime > undetectedTime && obs->Status == STATUS_READY){
+							obs->removeAllWarrants();
+							obs->detected = false;
+							obs->forcedetected = false;
 
-					auto pmsg = algo_signal_msg_pool.get_obj();
-					pmsg->al = this;
-					pmsg->algo_name = this->_name;
-					pmsg->id = this->_u.get_id();
-					pmsg->ref = to_string(code);
-					pmsg->code = code;
-					pmsg->detect_ask = 0;
-					pmsg->selected = false;
-					ouputQueue.enqueue(pmsg);
+							signalCount--;
 
-					obs->removeAllWarrants();
-					obs->detected = false;
+							if(signalCount <= 0){
+								lastReadyTime = 0;
+								Log("No Detected Signal");
+							}
 
-					signalCount--;
-
-					if(signalCount <= 0){
-						lastReadyTime = 0;
-						Log("No Detected Signal");
+							Log("Code = " + to_string(code) + " Reset Signal 3");
+							//Log("Pass2");
+						}
 					}
 
-					Log("Code = " + to_string(code) + " Reset Signal 4");
-				}
 
+					time_t currentTime = DateUtil::getCurrentSystemTime();
+					if(currentTime > undetectedTime && obs->Status == STATUS_READY){
+
+						auto pmsg = algo_signal_msg_pool.get_obj();
+						pmsg->al = this;
+						pmsg->algo_name = this->_name;
+						pmsg->id = this->_u.get_id();
+						pmsg->ref = to_string(code);
+						pmsg->code = code;
+						pmsg->detect_ask = 0;
+						pmsg->selected = false;
+						ouputQueue.enqueue(pmsg);
+
+						obs->removeAllWarrants();
+						obs->detected = false;
+						obs->forcedetected = false;
+
+						signalCount--;
+
+						if(signalCount <= 0){
+							lastReadyTime = 0;
+							Log("No Detected Signal");
+						}
+
+						Log("Code = " + to_string(code) + " Reset Signal 4");
+					}
+
+				}
 
 				return;
 			}
@@ -1157,6 +1254,122 @@ bool s1algo::force_sell(unsigned int ucode, unsigned int code, unsigned long lon
 	return false;
 }
 
+bool s1algo::forceDetected(unsigned int ucode, unsigned long long detectprice, unsigned long long stoplost){
+
+	auto itucode = unselectedUCode.find(code);
+	if(itucode != unselectedUCode.end() ){
+
+		unselectedUCode.remove(code);
+
+		//return;
+	}
+
+	if(MarketStatus == MARKET_PAUSE)
+		return;
+
+	if(MarketStatus == MARKET_NODETECT)
+		return;
+
+	//Log("Code = " + to_string(code) + " Has Signal 1");
+
+	time_t currentTime = DateUtil::getCurrentSystemTime();
+	if(currentTime > undetectedTime){
+		return;
+	}
+
+
+	unsigned long long best_bid_price = 0;
+	unsigned long long best_ask_price = 0
+	auto it = stockWarrantomdcMap.find(ucode);
+	if (stockWarrantomdcMap.end() != it)
+	{
+		auto& tradable = it->second;
+		if (0 != tradable.m_Ask[0].m_iPrice)
+		{
+			best_ask_price = static_cast<unsigned long long>(tradable.m_Ask[0].m_iPrice) * 100000;
+			best_bid_price = static_cast<unsigned long long>(tradable.m_Bid[0].m_iPrice) * 100000;
+		}
+	}
+
+	if(detectprice >= best_ask_price){
+		obs->DetectedAsk = detectprice;
+		obs->StopLostPrice = stoplost;
+		obs->ReadyBidBuy = signal->ReadyBidBuy;
+
+
+
+		obs->UAskSpread = spreadTable.getSpread(obs->SpreadTableCode, best_ask_price-1);
+
+		auto pmsg = algo_signal_msg_pool.get_obj();
+		pmsg->al = this;
+		pmsg->algo_name = this->_name;
+		pmsg->id = this->_u.get_id();
+		pmsg->ref = to_string(code);
+		pmsg->code = code;
+		pmsg->detect_ask = obs->DetectedAsk;
+		pmsg->selected = true;
+
+		int selectcount = 0;
+
+		for(auto f : selectedIssuer) {
+			string issuer = f;
+
+			vector<warrant*> selectedWarrant;
+
+
+			int type = getSelectionType(issuer);
+
+			if(SELECT_NORMAL == type){
+				selectedWarrant = getSelectedWarrantFromMarketByIssuer2(issuer,code, best_bid_price, best_ask_price);
+			}
+
+			if(selectedWarrant.size() == 0)
+				continue;
+
+			for(unsigned int i=0; i<selectedWarrant.size(); i++){
+				warrant* w = selectedWarrant[i];
+
+				Log("Issuer = " + issuer + " Selected Code = " + to_string(w->Code));
+
+				w->Status = STATUS_READY;
+				obs->addWarrantOrCbbc(w);
+
+				std::string wStr = to_string(w->Code) + "|" + w->Name + "|" + to_string(w->RefWAsk);
+				pmsg->detectedlist.insert(wStr);
+				selectcount++;
+			}
+		}
+
+		if(selectcount > 0){
+
+			ouputQueue.enqueue(pmsg);
+			obs->Status = STATUS_READY;
+			obs->detected = true;
+			obs->forcedetected = true;
+
+			Log("Code = " + to_string(code) + " Has Signal @ " + to_string(best_ask_price) + " Mid = " + to_string(signal->MidPrice) + " WeightedPrice = " + to_string(signal->WeightedPrice));
+
+			signalCount++;
+
+
+			if(signalCount <= 0){
+				signalCount = 1;
+				lastReadyTime = DateUtil::getCurrentSystemTime();
+			}
+
+			Log(" No of Detected Signal = " + to_string(signalCount));
+			//signalCount = 1;
+
+			return true;
+
+		}else{
+			algo_signal_msg_pool.release_obj(pmsg);
+		}
+	}
+
+	return false;
+}
+
 vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer, unsigned int underlying, unsigned long long ubid, unsigned long long uask)
 {
 
@@ -1312,6 +1525,184 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer(std::string issuer
 				newWarrant->SellOut = 0;
 				newWarrant->LvlBid = 0;
 				newWarrant->isPause = false;
+				newWarrant->PriceMode = 0;
+
+
+				selectedWarrant.push_back(newWarrant);
+				//}
+			}
+		//}
+	}
+	unsigned int ssize = selectedWarrant.size();
+	if(selectedWarrant.size() > (unsigned int)MaxBuyNoWarrant){
+
+		Log("Accepted Size = " + to_string(ssize));
+		std::sort (selectedWarrant.begin(), selectedWarrant.end(), myfunction1);
+		for(unsigned int i=MaxBuyNoWarrant; i<ssize; i++){
+			delete selectedWarrant[i];
+		}
+		selectedWarrant.erase(selectedWarrant.begin()+MaxBuyNoWarrant, selectedWarrant.end());
+		Log("Maximum selected = " + to_string(MaxBuyNoWarrant) + " " + issuer + " Selected = " + to_string(selectedWarrant.size()) + " on " + to_string(underlying) );
+	}
+	return selectedWarrant;
+}
+
+vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer2(std::string issuer, unsigned int underlying, unsigned long long ubid, unsigned long long uask)
+{
+
+	//long long uspread =  static_cast<long long>(uask/100000 - ubid/100000);
+	unsigned long long uspread =  uask - ubid;
+
+
+
+	vector<warrant*> selectedWarrant;
+	unordered_set<unsigned int> warrantVector = ivLoader.getWarrantByIssuer(issuer,underlying);
+	if(warrantVector.size() == 0){
+		return selectedWarrant;
+	}
+
+	for (const auto &n: warrantVector) {
+
+
+		unsigned long long wbest_bid_price = warrantPriceMap[n]->Bestbid;
+		unsigned long long wbest_ask_price = warrantPriceMap[n]->Bestask;
+		unsigned long long wBidQty = warrantPriceMap[n]->BidQty;
+		unsigned long long wAskQty = warrantPriceMap[n]->AskQty;
+
+
+
+		//auto it2 = omdcMap.find(n);
+		//if(it2 != omdcMap.end()){
+			//auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
+			//auto wbest_ask_price = static_cast<unsigned long long>(it2->second.m_Ask[0].m_iPrice) * 100000;
+
+			COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[n];
+			string SpreadTableCode = omdcdef.SpreadTableCode;
+
+
+			auto unswit = unSelectedWarrant.find(n);
+			if(unswit != unSelectedWarrant.end()){
+				continue;
+			}
+
+			unsigned int Lotsize = omdcdef.LotSize;
+			if(Lotsize > 10000){
+				continue;
+			}
+
+
+			if(wbest_bid_price < 4000000){
+				continue;
+			}
+/*
+			if(wbest_ask_price >= 25000000 ){
+				continue;
+			}*/
+
+			PriceMark* spm = pricemarkMap[n];
+
+			if(wbest_bid_price == 0 || wbest_ask_price == 0 || wBidQty<spm->getIssuerBidQty() || wAskQty<spm->getIssuerAskQty()){
+				continue;
+			}
+
+			if(wBidQty < 1000000 || wAskQty < 1000000)
+				continue;
+/*
+			unsigned long long buyin = spm->buyIn(wbest_ask_price);
+			unsigned long long sellout = spm->sellOut(wbest_bid_price);
+
+			if(sellout == 99999999 || buyin == 0){
+				continue;
+			}
+*/
+
+			//unsigned long long stoplostsellout = spm->sellOut(wbest_bid_price);
+			//if(stoplostsellout == 99999999){
+			//	spm->setSellout(wbest_bid_price, ubid);
+			//}
+
+			unsigned long long refwspread = spm->getMaxBidAskSpread();
+
+			unsigned long long wspread = wbest_ask_price - wbest_bid_price;
+
+			WarrantIv wiv = ivLoader.getWarrantIv(n);
+
+			if(wspread <= 0){
+				continue;
+			}
+
+			if(wiv.Code == 0){
+				continue;
+			}
+			if(wiv.Egearing < 4){
+				continue;
+			}
+
+			float fuspread = static_cast<float>(uspread/100000)/1000.0f;
+			//Log("USPREAD = " + to_string(fuspread));
+			float fwspread = static_cast<float>(wspread/100000)/1000.0f;
+			//Log("WSPREAD = " + to_string(fwspread));
+
+			unsigned long long _wspread = spreadTable.getSpread(SpreadTableCode, wbest_bid_price);
+
+			if(_wspread == 0)
+				continue;
+
+
+
+			int noofspread = static_cast<int>(wspread / _wspread);
+
+			if(refwspread>0){
+				noofspread = static_cast<int>(refwspread / _wspread);
+			}
+
+			bool acceptspread = CSelectedWarrant.isSpreadAccept(noofspread, wbest_bid_price);
+			if(!acceptspread){
+				continue;
+			}
+
+			//bool accept = CSelectedWarrant.isAccept(uspread, wiv.Delta, wiv.Cratio, wspread, 2);
+			bool accept = CSelectedWarrant.isAccept(fuspread, wiv.Delta, wiv.Cratio, fwspread, 2);
+
+			if(accept){
+
+				//auto itdef = omdcAdditionDefinitionsMap.find(wiv.Code);
+				//unsigned long long lotsize = 0;
+				//if(itdef != omdcAdditionDefinitionsMap.end()){
+				unsigned long long lotsize = static_cast<unsigned long long>(omdcdef.LotSize);
+
+				unsigned long long betsize = algoBet.fixQuantityBySpread(wbest_ask_price, lotsize, wspread)*100000000ull;
+
+				if(lotsize > betsize)
+					continue;
+
+				if(lotsize == 0)
+					continue;
+
+				warrant* newWarrant = new warrant;
+				newWarrant->Date = DateUtil::getToday();
+				newWarrant->Code = n;
+				newWarrant->Name = omdcdef.SecuritySortName;
+				//newWarrant->Status = STATUS_READY;
+				newWarrant->Egearing = wiv.Egearing;
+				newWarrant->UCode = underlying;
+				newWarrant->RefWBid = wbest_bid_price;
+				newWarrant->RefWAsk = wbest_ask_price;
+				//newWarrant->BuyQuantity = algoBet.fixQuantity(wbest_ask_price, lotsize)*100000000ull;
+				//newWarrant->BuyQuantity = algoBet.fixQuantityBySpread(wbest_ask_price, lotsize, wspread)*100000000ull;
+				newWarrant->BuyQuantity = betsize;
+				newWarrant->Quantity = 0;
+				newWarrant->Issuer = wiv.Issuer;
+				newWarrant->Status = STATUS_READY;
+				newWarrant->UBid = ubid;
+				newWarrant->UAsk = uask;
+				newWarrant->isWinSell = false;
+				newWarrant->isWinOrLvlSell = false;
+				newWarrant->BuyIn = 0;
+				newWarrant->SellOut = 0;
+				newWarrant->LvlBid = 0;
+				newWarrant->isPause = false;
+				newWarrant->PriceMode = 1;
 
 
 				selectedWarrant.push_back(newWarrant);
@@ -1481,7 +1872,7 @@ vector<warrant*> s1algo::getWinpriceWarrantFromMarketByIssuer(std::string issuer
 			newWarrant->SellOut = 0;
 			newWarrant->LvlBid = 0;
 			newWarrant->isPause = false;
-
+			newWarrant->PriceMode = 0;
 
 			selectedWarrant.push_back(newWarrant);
 				//}
@@ -2058,6 +2449,13 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 
 
 					unsigned long long t_btrade = dbp::tools::srv::current();
+
+
+					if(obs->forceDetected){
+						wobsArray[i]->RefWAsk = wbest_ask_price;
+						wobsArray[i]->RefWBid = wbest_bid_price;
+						wobsArray[i]->UBid = obs->StopLostPrice;
+					}
 
 					wobsArray[i]->Status = STATUS_PENDING;
 					wobsArray[i]->StopLostPrice = wobsArray[i]->UBid;
@@ -2646,6 +3044,7 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 	algo_underlyingaction_msg* pUnderlyingAction_msg = nullptr;
 	algo_warrantaction_msg* pWarrantAction_msg = nullptr;
 	algo_force_sell* pforce_sell = nullptr;
+	algo_pforce_detect* pforce_detect = nullptr;
 	algo_issuerlist_msg* pissuerlist = nullptr;
 	algo_underlyinglist_msg* punderlyinglist = nullptr;
 	algo_pause_msg* ppause = nullptr;
@@ -2752,6 +3151,18 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			pforce_sell->price = json["price"].get<unsigned long long>();
 			return pforce_sell;
 		}
+		else if(cmd == "force_detect")
+		{
+			pforce_detect = algo_force_detect_pool.get_obj();
+			pforce_detect->al = this;
+			pforce_detect->algo_name = _name;
+			pforce_detect->id = _u.get_id();
+			pforce_detect->ref = ref;
+			pforce_detect->ucode = json["ucode"].get<unsigned int>();
+			pforce_detect->detectprice = json["detectprice"].get<unsigned long long>();
+			pforce_detect->stoplost = json["stoplost"].get<unsigned long long>();
+			return pforce_detect;
+		}
 		else if(cmd == "pause")
 		{
 			Log(json.dump());
@@ -2820,6 +3231,8 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			pMarketStatus_msg->release();
 		if (pforce_sell)
 			pforce_sell->release();
+		if(pforce_detect)
+			pforce_detect->release();
 		if (pSetBet_msg)
 			pSetBet_msg->release();
 		if(pIssuerAction_msg)
@@ -2875,6 +3288,7 @@ rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_lvlsell_msg, 8192> s1algo:
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_winsell_msg, 8192> s1algo::algo_winsell_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_winlvlsell_msg, 8192> s1algo::algo_winlvlsell_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_force_sell, 8192> s1algo::algo_force_sell_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_force_detect, 8192> s1algo::algo_force_detect_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_warrantprice_msg, 8192> s1algo::algo_warrantprice_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_issuerlist_msg, 8192> s1algo::algo_issuerlist_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_underlyinglist_msg, 8192> s1algo::algo_underlyinglist_msg_pool;

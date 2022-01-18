@@ -647,6 +647,42 @@ private:
 		}
 		virtual ~algo_warrantaction_msg() = default;
 	};
+	struct algo_force_detect: public algo_msg_base
+	{
+		unsigned int ucode;
+		unsigned long long detectprice;
+		unsigned long long stoplost;
+		algo_force_detect():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["action"] = "force_detect";
+			j["ucode"] = ucode;
+			j["detectprice"] = detectprice;
+			j["stoplost"] = stoplost
+			if(result){
+				j["result"] = "SUCCESS";
+			}else{
+				j["result"] = "FAIL";
+				j["reason"] = result;
+			}
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<s1algo*>(al);
+			result = self->forceDetected(ucode, detectprice, stoplost);
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_force_detect_pool.release_obj(this);
+		}
+		virtual ~algo_force_detect() = default;
+	};
 	struct algo_force_sell: public algo_msg_base
 	{
 		unsigned int code;
@@ -861,7 +897,7 @@ public:
 	s1algo& operator= (algo&&) = delete;
 
 
-
+	virtual vector<warrant*> getSelectedWarrantFromMarketByIssuer2(std::string issuercode, unsigned int underlying, unsigned long long ubid, unsigned long long uask);
 	virtual vector<warrant*> getSelectedWarrantFromMarketByIssuer(std::string issuercode, unsigned int underlying, unsigned long long ubid, unsigned long long uask);
 	virtual vector<warrant*> getWinpriceWarrantFromMarketByIssuer(std::string issuercode, unsigned int underlying, unsigned long long ubid, unsigned long long uask);
 
@@ -897,6 +933,7 @@ public:
 	virtual bool checkPrice(unsigned int code, unsigned long long ubid, unsigned long long uask);
 	virtual bool force_sell(unsigned int ucode, unsigned int code, unsigned long long price);
 	virtual bool setSelectedWarrant(std::string action, unsigned int code);
+	virtual bool forceDetected(unsigned int ucode, unsigned long long detectprice, unsigned long long stoplost);
 
 public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_err_msg, 8192> algo_err_msg_pool;
@@ -915,6 +952,7 @@ public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_lvlsell_msg, 8192> algo_lvlsell_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_winlvlsell_msg, 8192> algo_winlvlsell_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_force_sell, 8192> algo_force_sell_pool;
+	static rapid_ring::spsc_ring_buffer_object_pool<algo_force_detect, 8192> algo_force_detect_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_warrantprice_msg, 8192> algo_warrantprice_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_issuerlist_msg, 8192> algo_issuerlist_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_underlyinglist_msg, 8192> algo_underlyinglist_msg_pool;
