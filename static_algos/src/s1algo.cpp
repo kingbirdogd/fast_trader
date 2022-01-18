@@ -1320,7 +1320,7 @@ bool s1algo::forceDetected(unsigned int ucode, unsigned long long detectprice, u
 		pmsg->al = this;
 		pmsg->algo_name = this->_name;
 		pmsg->id = this->_u.get_id();
-		pmsg->ref = to_string(code);
+		pmsg->ref = to_string(ucode);
 		pmsg->code = code;
 		pmsg->detect_ask = obs->DetectedAsk;
 		pmsg->selected = true;
