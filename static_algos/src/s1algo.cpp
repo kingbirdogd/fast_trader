@@ -1264,18 +1264,24 @@ bool s1algo::forceDetected(unsigned int ucode, unsigned long long detectprice, u
 		//return;
 	}
 
+	/*
 	if(MarketStatus == MARKET_PAUSE)
 		return;
 
 	if(MarketStatus == MARKET_NODETECT)
 		return;
 
+		*/
+
 	//Log("Code = " + to_string(code) + " Has Signal 1");
 
+
+	/*
 	time_t currentTime = DateUtil::getCurrentSystemTime();
 	if(currentTime > undetectedTime){
 		return;
 	}
+	*/
 
 
 	unsigned long long best_bid_price = 0;
