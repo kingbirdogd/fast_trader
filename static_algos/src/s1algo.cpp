@@ -1298,7 +1298,7 @@ bool s1algo::forceDetected(unsigned int ucode, unsigned long long detectprice, u
 		}
 	}
 
-	auto itobs = obMap.find(p->UCode);
+	auto itobs = obMap.find(ucode);
 	if(itobs == obMap.end()){
 		return false;
 	}
