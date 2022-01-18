@@ -1298,6 +1298,15 @@ bool s1algo::forceDetected(unsigned int ucode, unsigned long long detectprice, u
 		}
 	}
 
+	auto itobs = obMap.find(p->UCode);
+	if(itobs == obMap.end()){
+		return false;
+	}
+
+	OBSetting* obs = itobs->second;
+	if(obs == nullptr)
+		return false;
+
 	if(detectprice >= best_ask_price){
 		obs->DetectedAsk = detectprice;
 		obs->StopLostPrice = stoplost;
