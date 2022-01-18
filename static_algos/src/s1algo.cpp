@@ -1259,7 +1259,7 @@ bool s1algo::forceDetected(unsigned int ucode, unsigned long long detectprice, u
 	auto itucode = unselectedUCode.find(ucode);
 	if(itucode != unselectedUCode.end() ){
 
-		unselectedUCode.remove(code);
+		unselectedUCode.erase(code);
 
 		//return;
 	}
