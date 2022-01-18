@@ -461,7 +461,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						pmsg->algo_name = this->_name;
 						pmsg->id = this->_u.get_id();
 						pmsg->ref = to_string(code);
-						pmsg->forcedected = true;
+						pmsg->forcedetected = true;
 						pmsg->code = code;
 						pmsg->detect_ask = 0;
 						pmsg->selected = false;
@@ -499,7 +499,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							pmsg->id = this->_u.get_id();
 							pmsg->ref = to_string(code);
 							pmsg->code = code;
-							pmsg->forcedected = true;
+							pmsg->forcedetected = true;
 							pmsg->detect_ask = 0;
 							pmsg->selected = false;
 							ouputQueue.enqueue(pmsg);
@@ -530,7 +530,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						pmsg->id = this->_u.get_id();
 						pmsg->ref = to_string(code);
 						pmsg->code = code;
-						pmsg->forcedected = true;
+						pmsg->forcedetected = true;
 						pmsg->detect_ask = 0;
 						pmsg->selected = false;
 						ouputQueue.enqueue(pmsg);
@@ -558,7 +558,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						pmsg->id = this->_u.get_id();
 						pmsg->ref = to_string(code);
 						pmsg->code = code;
-						pmsg->forcedected = false;
+						pmsg->forcedetected = false;
 						pmsg->detect_ask = 0;
 						pmsg->selected = false;
 						ouputQueue.enqueue(pmsg);
@@ -592,7 +592,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						pmsg->id = this->_u.get_id();
 						pmsg->ref = to_string(code);
 						pmsg->code = code;
-						pmsg->forcedected = false;
+						pmsg->forcedetected = false;
 						pmsg->detect_ask = 0;
 						pmsg->selected = false;
 						ouputQueue.enqueue(pmsg);
@@ -626,7 +626,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							pmsg->id = this->_u.get_id();
 							pmsg->ref = to_string(code);
 							pmsg->code = code;
-							pmsg->forcedected = false;
+							pmsg->forcedetected = false;
 							pmsg->detect_ask = 0;
 							pmsg->selected = false;
 							ouputQueue.enqueue(pmsg);
@@ -657,7 +657,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						pmsg->id = this->_u.get_id();
 						pmsg->ref = to_string(code);
 						pmsg->code = code;
-						pmsg->forcedected = false;
+						pmsg->forcedetected = false;
 						pmsg->detect_ask = 0;
 						pmsg->selected = false;
 						ouputQueue.enqueue(pmsg);
@@ -757,7 +757,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						pmsg->id = this->_u.get_id();
 						pmsg->ref = to_string(code);
 						pmsg->code = code;
-						pmsg->forcedected = false;
+						pmsg->forcedetected = false;
 						pmsg->detect_ask = obs->DetectedAsk;
 						pmsg->selected = true;
 
@@ -1339,7 +1339,7 @@ bool s1algo::forceDetected(unsigned int ucode, unsigned long long detectprice, u
 		pmsg->id = this->_u.get_id();
 		pmsg->ref = to_string(ucode);
 		pmsg->code = ucode;
-		pmsg->forcedected = true;
+		pmsg->forcedetected = true;
 		pmsg->detect_ask = obs->DetectedAsk;
 		pmsg->selected = true;
 

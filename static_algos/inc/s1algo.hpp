@@ -185,7 +185,7 @@ private:
 		unsigned long long detect_ask;
 		bool selected;
 		unordered_set<std::string> detectedlist;
-		bool forcedetect;
+		bool forcedetected;
 
 		algo_signal_msg():
 			algo_msg_base()
@@ -197,7 +197,7 @@ private:
 			j["action"] = "signal";
 			j["code"] = code;
 			j["detected_ask"] = detect_ask;
-			j["forcedetect"] = forcedetect;
+			j["forcedetected"] = forcedetect;
 			if(selected){
 				j["detected"] = true;
 			}else{
