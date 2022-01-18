@@ -662,7 +662,7 @@ private:
 			j["action"] = "force_detect";
 			j["ucode"] = ucode;
 			j["detectprice"] = detectprice;
-			j["stoplost"] = stoplost
+			j["stoplost"] = stoplost;
 			if(result){
 				j["result"] = "SUCCESS";
 			}else{
