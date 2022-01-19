@@ -2755,7 +2755,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					obsw->LvlBid = lvlbid;
 
 					Log("Warrant Code = " + to_string(code) + " PCB@" + to_string(pcb) + " @WBid = " + to_string(wbest_bid_price) );
-					Log("U Code = " + to_string(ucode) + " UBID@" + to_string(obs->UBid) + " UASK = " + to_string(ossss->UAsk) );
+					Log("U Code = " + to_string(ucode) + " UBID@" + to_string(obs->UBid) + " UASK = " + to_string(obs->UAsk) );
 					//}
 
 
