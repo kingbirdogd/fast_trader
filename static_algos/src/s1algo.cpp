@@ -2768,7 +2768,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 
 
 					obsw->StopLostPrice = pcb;
-					if(pcb2 < obsw->StopLostPrice){
+					if(pcb2 < obsw->StopLostPrice && pcb2 != 99999999){
 						obsw->StopLostPrice = pcb2;
 					}
 					obsw->RefWBid = wbest_bid_price;
