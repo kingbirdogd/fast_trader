@@ -2302,6 +2302,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 									continue;
 								}
 
+								/*
 								if(wbest_bid_price > wobsArray[i]->BuyPrice){
 									wobsArray[i]->Status = STATUS_SELLING;
 
@@ -2313,7 +2314,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 									}
 									Log("2 2: Do Sell Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wbest_bid_price));
 									continue;
-								}
+								}*/
 
 
 							}
