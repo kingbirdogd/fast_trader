@@ -49,6 +49,8 @@ private:
 	map<unsigned long long,unsigned long long> pDnAskMark;
 	map<unsigned long long,unsigned long long> pDnBidMark;
 
+	map<long long,int > pSpreadCountMap;
+
 	SpreadTable spreadTable;
 
 	unsigned long long bidkey = 0;

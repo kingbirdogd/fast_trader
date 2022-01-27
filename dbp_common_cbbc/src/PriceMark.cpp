@@ -170,8 +170,24 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 						return false;
 					}
 					pBidMark[wbid] = fprice;
+
+					if(bidkey != wbid && bidprice != fprice && bidkey > 0 && bidprice > 0){
+						long long diff = abs(static_cast<long long>(fprice) -  static_cast<long long>(bidprice));
+
+						auto itdiff = pSpreadCountMap.find(diff);
+						if(itdiff == pSpreadCountMap.end()){
+							pSpreadCountMap[diff] = 1;
+						}else{
+							//int c =  pSpreadCountMap[diff];
+							pSpreadCountMap[diff]++;
+						}
+
+					}
+
 					bidkey = wbid;
 					bidprice = fprice;
+
+
 
 					unsigned long long spread = spreadTable.getSpread("01", fprice + 1llu);
 					unsigned long long refask = fprice+spread;
@@ -220,6 +236,21 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 				pDnBidMark[pwbid] = pfprice;
 
 				pBidMark[pwbid] = pfprice;
+
+				if(bidkey != pwbid && bidprice != pfprice && bidkey > 0 && bidprice > 0){
+					long long diff = abs(static_cast<long long>(pfprice) - static_cast<long long>(bidprice));
+
+					auto itdiff = pSpreadCountMap.find(diff);
+					if(itdiff == pSpreadCountMap.end()){
+						pSpreadCountMap[diff] = 1;
+					}else{
+						//int c =  pSpreadCountMap[diff];
+						pSpreadCountMap[diff]++;
+					}
+
+				}
+
+
 				bidkey = pwbid;
 				bidprice = pfprice;
 
@@ -246,6 +277,24 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 					if(itp != pBidMark.end()){
 						return false;
 					}
+
+					if(bidkey != wbid && bidprice != fprice && bidkey > 0 && bidprice > 0){
+						//unsigned long long diff = pfprice - bidprice;
+
+						long long diff = abs(static_cast<long long>(fprice) - static_cast<long long>(bidprice));
+
+						auto itdiff = pSpreadCountMap.find(diff);
+						if(itdiff == pSpreadCountMap.end()){
+							pSpreadCountMap[diff] = 1;
+						}else{
+							//int c =  pSpreadCountMap[diff];
+							pSpreadCountMap[diff]++;
+						}
+
+					}
+
+
+
 					pBidMark[wbid] = fprice;
 					bidkey = wbid;
 					bidprice = fprice;
@@ -302,6 +351,23 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 					}
 				}
 			*/
+
+				if(bidkey != pwbid && bidprice != pfprice && bidkey > 0 && bidprice > 0){
+					//unsigned long long diff = pfprice - bidprice;
+
+					long long diff = abs(static_cast<long long>(pfprice) - static_cast<long long>(bidprice));
+
+					auto itdiff = pSpreadCountMap.find(diff);
+					if(itdiff == pSpreadCountMap.end()){
+						pSpreadCountMap[diff] = 1;
+					}else{
+						//int c =  pSpreadCountMap[diff];
+						pSpreadCountMap[diff]++;
+					}
+
+				}
+
+
 				pDnBidMark[pwbid] = pfprice;
 
 				pBidMark[pwbid] = pfprice;
@@ -338,6 +404,22 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 					}
 				}
 				*/
+				if(askkey != pwask && askprice != pfprice && askkey > 0 && askprice > 0){
+					//unsigned long long diff = pfprice - bidprice;
+
+					long long diff = abs(static_cast<long long>(pfprice) - static_cast<long long>(askkey));
+
+					auto itdiff = pSpreadCountMap.find(diff);
+					if(itdiff == pSpreadCountMap.end()){
+						pSpreadCountMap[diff] = 1;
+					}else{
+						//int c =  pSpreadCountMap[diff];
+						pSpreadCountMap[diff]++;
+					}
+
+				}
+
+
 
 				pUpAskMark[pwask] = pfprice;
 
@@ -369,6 +451,22 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 					if(itp != pAskMark.end()){
 						return false;
 					}
+
+					if(askkey != wask && askprice != fprice && askkey > 0 && askprice > 0){
+						//unsigned long long diff = pfprice - bidprice;
+
+						long long diff = abs(static_cast<long long>(fprice) - static_cast<long long>(askkey));
+
+						auto itdiff = pSpreadCountMap.find(diff);
+						if(itdiff == pSpreadCountMap.end()){
+							pSpreadCountMap[diff] = 1;
+						}else{
+							//int c =  pSpreadCountMap[diff];
+							pSpreadCountMap[diff]++;
+						}
+
+					}
+
 					pAskMark[wask] = fprice;
 					askkey = wask;
 					askprice = fprice;
@@ -421,6 +519,22 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 					}
 				}*/
 
+				if(askkey != pwask && askprice != pfprice && askkey > 0 && askprice > 0){
+					//unsigned long long diff = pfprice - bidprice;
+
+					long long diff = abs(static_cast<long long>(pfprice) - static_cast<long long>(askkey));
+
+					auto itdiff = pSpreadCountMap.find(diff);
+					if(itdiff == pSpreadCountMap.end()){
+						pSpreadCountMap[diff] = 1;
+					}else{
+						//int c =  pSpreadCountMap[diff];
+						pSpreadCountMap[diff]++;
+					}
+
+				}
+
+
 				pUpAskMark[pwask] = pfprice;
 
 				pAskMark[pwask] = pfprice;
@@ -449,6 +563,23 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 					if(itp != pAskMark.end()){
 						return false;
 					}
+
+					if(askkey != wask && askprice != fprice && askkey > 0 && askprice > 0){
+						//unsigned long long diff = pfprice - bidprice;
+
+						long long diff = abs(static_cast<long long>(fprice) - static_cast<long long>(askkey));
+
+						auto itdiff = pSpreadCountMap.find(diff);
+						if(itdiff == pSpreadCountMap.end()){
+							pSpreadCountMap[diff] = 1;
+						}else{
+							//int c =  pSpreadCountMap[diff];
+							pSpreadCountMap[diff]++;
+						}
+
+					}
+
+
 					pAskMark[wask] = fprice;
 					askkey = wask;
 					askprice = fprice;
