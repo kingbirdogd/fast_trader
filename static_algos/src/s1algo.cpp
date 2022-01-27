@@ -2722,7 +2722,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 
 					Log("Spread Count Start");
 					string t3Table = spm->printCount();
-
+					Log(t3Table);
 					Log("Spread Count End");
 					//unsigned long long maxwspread = spm->getMaxBidAskSpread();
 					//Log("Warrant Code = " + to_string(code) + " Max Spread = " + to_string(maxwspread));
