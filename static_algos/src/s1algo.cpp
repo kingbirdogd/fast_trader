@@ -1696,7 +1696,7 @@ vector<warrant*> s1algo::getSelectedWarrantFromMarketByIssuer2(std::string issue
 			}
 
 			//bool accept = CSelectedWarrant.isAccept(uspread, wiv.Delta, wiv.Cratio, wspread, 2);
-			bool accept = CSelectedWarrant.isAccept(fuspread, wiv.Delta, wiv.Cratio, fwspread, 2);
+			bool accept = CSelectedWarrant.isAccept(fuspread, wiv.Delta, wiv.Cratio, fwspread, 3);
 
 			if(accept){
 

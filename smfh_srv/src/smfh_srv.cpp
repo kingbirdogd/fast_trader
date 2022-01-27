@@ -102,6 +102,7 @@ inline void decode()
 			auto itpm = pricemarkMap.find(code);
 			if(pricemarkMap.end() == itpm)
 			{
+				j["table"] = "";
 				j["error"] = std::string("No such Pricetable : ") + std::to_string(code);
 				output(j);
 				return;
@@ -109,6 +110,7 @@ inline void decode()
 			else
 			{
 				j["table"] = itpm->second->printTable();
+				j["error"] = "";
 				output(j);
 				return;
 			}
