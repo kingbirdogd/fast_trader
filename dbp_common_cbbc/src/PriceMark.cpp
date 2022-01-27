@@ -900,6 +900,22 @@ string PriceMark::printTable(){
 	return data;
 }
 
+string PriceMark::printCount(){
+	string data = "Spread Count = " + to_string(pcode) + "\n";
+	int i=0;
+	for (auto it = pSpreadCountMap.begin(); it != pSpreadCountMap.end(); ++it ){
+			long long key = it->first;
+			int value = it->second;
+			if(i>0){
+				data += "\n";
+			}
+			data = to_string(key) + "-" + to_string(value);
+
+			i++;
+	}
+	return data;
+}
+
 string PriceMark::printIndexTable(){
 
 	string data = "Warrant Code = " + to_string(pcode) + " Price Table\n";

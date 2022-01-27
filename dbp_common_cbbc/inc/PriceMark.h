@@ -111,6 +111,7 @@ public:
 	string printIndexTable2();
 	string printTableJson();
 	string printIndexTableJson();
+	string printCount();
 
 	unsigned long long getMaxBidAskSpread();
 };
