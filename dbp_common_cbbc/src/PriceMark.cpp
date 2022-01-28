@@ -895,6 +895,60 @@ unsigned long long PriceMark::sellOut(unsigned long long wprice){
 	if(bdn != pBidMark.end()){
 		sellOutDnBid = pBidMark[wprice];
 	}
+
+	if(sellOutDnBid == 99999999){
+		if(wprice < SmallestSellout){
+			unsigned long long spread = spreadTable.getSpread("01", SmallestSellout - 1llu);
+
+			int lcount = (SmallestSellout - wprice) / spread + 2;
+
+
+			unsigned long long so = SmallestSellout;
+			unsigned long long sp =  pBidMark[SmallestSellout];
+			for(int a = 1; a<lcount; a++){
+				pBidMark[so - spread*a] = sp - DiffSpread*a;
+				//sp = sp - DiffSpread;
+				if((so - spread*a) == wprice){
+					sellOutDnBid =  sp - DiffSpread*a;
+				}
+				//pBidMark[so] = sp;
+			}
+			//sellOutDnBid = pBidMark[wprice];
+
+		}else if(LargestSellOut > wprice && wprice < SmallestSellout){
+			unsigned long long spread = spreadTable.getSpread("01", LargestSellOut - 1llu);
+
+			int lcount = (LargestSellOut - SmallestSellout) / spread;
+
+
+			unsigned long long so = LargestSellOut;
+			unsigned long long sp =  pBidMark[LargestSellOut];
+			for(int a = 1; a<lcount; a++){
+
+
+				auto bd2 = pBidMark.find(so - spread*a);
+				if(bd2 == pBidMark.end()){
+
+
+					pBidMark[so - spread*a] = sp - DiffSpread*a;
+
+					if((so - spread*a) == wprice){
+						sellOutDnBid =  sp - DiffSpread*a;
+					}
+				}
+
+				//sp = sp - DiffSpread;
+
+
+				//pBidMark[so] = sp;
+			}
+			sellOutDnBid = pBidMark[wprice];
+		}
+	}
+
+
+
+
 	return sellOutDnBid;
 }
 
