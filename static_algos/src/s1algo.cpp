@@ -2747,15 +2747,16 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 
 					Log("PCB2 = " + to_string(pcb2));
 
+					unsigned long long pcb2plus1 = 99999999;
 					if(pcb2 != 99999999){
 
 						unsigned long long _uspread = spreadTable.getSpread(obs->SpreadTableCode, obsw->UBid);
 
-						pcb2 = pcb2 + _uspread;
-						Log("PCB2 + 1 Spread = " + to_string(pcb2));
+						pcb2plus1 = pcb2 + _uspread;
+						Log("PCB2 + 1 Spread = " + to_string(pcb2plus1));
 					}
 
-					Log("NEW PCB2 = " + to_string(pcb2));
+					Log("NEW PCB2 = " + to_string(pcb2) + " PCB2 Plus 1 = " + pcb2plus1 );
 
 
 					//unsigned long long buyin = spm->buyIn(wbest_ask_price);
@@ -2773,9 +2774,12 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					//obsw->LvlBid = lvlbid;
 
 					obsw->StopLostPrice = pcb;
-					if(pcb2 < obsw->StopLostPrice && pcb2 != 99999999){
+					if(pcb2plus1 < obsw->StopLostPrice && pcb2plus1 != 99999999){
+						obsw->StopLostPrice = pcb2plus1;
+					}else if(pcb2plus1 > obsw->StopLostPrice && pcb2plus1 != 99999999){
 						obsw->StopLostPrice = pcb2;
 					}
+
 					obsw->RefWBid = wbest_bid_price;
 					obsw->LvlBid = lvlbid;
 
