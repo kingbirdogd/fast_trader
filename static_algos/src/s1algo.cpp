@@ -2744,14 +2744,18 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					unsigned long long _wspread = spreadTable.getSpread("01", wbest_bid_price);
 
 					unsigned long long pcb2 = spm->sellOut(wbest_bid_price - _wspread);
+
+					Log("PCB2 = " + to_string(pcb2));
+
 					if(pcb2 != 99999999){
 
 						unsigned long long _uspread = spreadTable.getSpread(obs->SpreadTableCode, obsw->UBid);
 
 						pcb2 = pcb2 + _uspread;
+						Log("PCB2 + 1 Spread = " + to_string(pcb2));
 					}
 
-					Log("PCB2 = " + to_string(pcb2));
+					Log("NEW PCB2 = " + to_string(pcb2));
 
 
 					//unsigned long long buyin = spm->buyIn(wbest_ask_price);
@@ -2768,13 +2772,6 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					//obsw->SellOut = sellout;
 					//obsw->LvlBid = lvlbid;
 
-
-
-
-
-
-
-
 					obsw->StopLostPrice = pcb;
 					if(pcb2 < obsw->StopLostPrice && pcb2 != 99999999){
 						obsw->StopLostPrice = pcb2;
@@ -2782,6 +2779,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					obsw->RefWBid = wbest_bid_price;
 					obsw->LvlBid = lvlbid;
 
+					Log("Warrant Code = " + to_string(code) + " StopLost " + to_string(obsw->StopLostPrice);
 					Log("Warrant Code = " + to_string(code) + " PCB@" + to_string(pcb) + " @WBid = " + to_string(wbest_bid_price) );
 					Log("U Code = " + to_string(ucode) + " UBID@" + to_string(obsw->UBid) + " UASK = " + to_string(obsw->UAsk) );
 					//}
