@@ -915,14 +915,14 @@ unsigned long long PriceMark::sellOut(unsigned long long wprice){
 			}
 			//sellOutDnBid = pBidMark[wprice];
 
-		}else if(LargestSellOut > wprice && wprice < SmallestSellout){
+		}else if(LargestSellout > wprice && wprice < SmallestSellout){
 			unsigned long long spread = spreadTable.getSpread("01", LargestSellOut - 1llu);
 
-			int lcount = (LargestSellOut - SmallestSellout) / spread;
+			int lcount = (LargestSellout - SmallestSellout) / spread;
 
 
 			unsigned long long so = LargestSellOut;
-			unsigned long long sp =  pBidMark[LargestSellOut];
+			unsigned long long sp =  pBidMark[LargestSellout];
 			for(int a = 1; a<lcount; a++){
 
 
@@ -942,7 +942,7 @@ unsigned long long PriceMark::sellOut(unsigned long long wprice){
 
 				//pBidMark[so] = sp;
 			}
-			sellOutDnBid = pBidMark[wprice];
+			//sellOutDnBid = pBidMark[wprice];
 		}
 	}
 
