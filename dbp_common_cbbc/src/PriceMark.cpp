@@ -407,7 +407,7 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 				if(askkey != pwask && askprice != pfprice && askkey > 0 && askprice > 0){
 					//unsigned long long diff = pfprice - bidprice;
 
-					long long diff = abs(static_cast<long long>(pfprice) - static_cast<long long>(askkey));
+					long long diff = abs(static_cast<long long>(pfprice) - static_cast<long long>(askprice));
 
 					auto itdiff = pSpreadCountMap.find(diff);
 					if(itdiff == pSpreadCountMap.end()){
@@ -455,7 +455,7 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 					if(askkey != wask && askprice != fprice && askkey > 0 && askprice > 0){
 						//unsigned long long diff = pfprice - bidprice;
 
-						long long diff = abs(static_cast<long long>(fprice) - static_cast<long long>(askkey));
+						long long diff = abs(static_cast<long long>(fprice) - static_cast<long long>(askprice));
 
 						auto itdiff = pSpreadCountMap.find(diff);
 						if(itdiff == pSpreadCountMap.end()){
@@ -522,7 +522,7 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 				if(askkey != pwask && askprice != pfprice && askkey > 0 && askprice > 0){
 					//unsigned long long diff = pfprice - bidprice;
 
-					long long diff = abs(static_cast<long long>(pfprice) - static_cast<long long>(askkey));
+					long long diff = abs(static_cast<long long>(pfprice) - static_cast<long long>(askprice));
 
 					auto itdiff = pSpreadCountMap.find(diff);
 					if(itdiff == pSpreadCountMap.end()){
@@ -567,7 +567,7 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 					if(askkey != wask && askprice != fprice && askkey > 0 && askprice > 0){
 						//unsigned long long diff = pfprice - bidprice;
 
-						long long diff = abs(static_cast<long long>(fprice) - static_cast<long long>(askkey));
+						long long diff = abs(static_cast<long long>(fprice) - static_cast<long long>(askprice));
 
 						auto itdiff = pSpreadCountMap.find(diff);
 						if(itdiff == pSpreadCountMap.end()){
