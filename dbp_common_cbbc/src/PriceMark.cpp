@@ -916,7 +916,7 @@ unsigned long long PriceMark::sellOut(unsigned long long wprice){
 			//sellOutDnBid = pBidMark[wprice];
 
 		}else if(LargestSellout > wprice && wprice < SmallestSellout){
-			unsigned long long spread = spreadTable.getSpread("01", LargestSellOut - 1llu);
+			unsigned long long spread = spreadTable.getSpread("01", LargestSellout - 1llu);
 
 			int lcount = (LargestSellout - SmallestSellout) / spread;
 
