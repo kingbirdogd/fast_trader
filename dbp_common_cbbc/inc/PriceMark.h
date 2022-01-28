@@ -59,6 +59,11 @@ private:
 	unsigned long long askprice = 0;
 	unsigned long long BidIssuerQty;
 	unsigned long long AskIssuerQty;
+	unsigned long long DiffSpread = 0;
+	int MaxSpreadCount = 0;
+	unsigned long long SmallestSellout = 0;
+	unsigned long long LargestSellout = 0;
+
 public:
 	PriceMark(unsigned int code, int wtype);
 	virtual ~PriceMark();
@@ -99,6 +104,9 @@ public:
 	unsigned long long getAskKey();
 	unsigned long long getBidPrice();
 	unsigned long long getAskPrice();
+
+	unsigned long long getSmallestSellout();
+	unsigned long long getLargestSellout();
 
 	unsigned long long getIssuerBidQty();
 	unsigned long long getIssuerAskQty();

@@ -182,11 +182,27 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 							pSpreadCountMap[diff]++;
 						}
 
+						if(pSpreadCountMap[diff] > MaxSpreadCount){
+							DiffSpread = diff;
+							MaxSpreadCount = pSpreadCountMap[diff];
+						}
 					}
 
 					bidkey = wbid;
 					bidprice = fprice;
 
+					if(SmallestSellout == 0){
+						SmallestSellout = bidkey;
+						LargestSellout = bidkey;
+					}else{
+						if(bidkey < SmallestSellout){
+							SmallestSellout = bidkey;
+						}
+						if(bidkey > LargestSellout){
+							LargestSellout = bidkey;
+						}
+
+					}
 
 
 					unsigned long long spread = spreadTable.getSpread("01", fprice + 1llu);
@@ -248,11 +264,28 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 						pSpreadCountMap[diff]++;
 					}
 
+					if(pSpreadCountMap[diff] > MaxSpreadCount){
+						DiffSpread = diff;
+						MaxSpreadCount = pSpreadCountMap[diff];
+					}
 				}
 
 
 				bidkey = pwbid;
 				bidprice = pfprice;
+
+				if(SmallestSellout == 0){
+					SmallestSellout = bidkey;
+					LargestSellout = bidkey;
+				}else{
+					if(bidkey < SmallestSellout){
+						SmallestSellout = bidkey;
+					}
+					if(bidkey > LargestSellout){
+						LargestSellout = bidkey;
+					}
+
+				}
 
 				unsigned long long spread = spreadTable.getSpread("01", pfprice + 1llu);
 				unsigned long long refask = pfprice+spread;
@@ -291,6 +324,10 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 							pSpreadCountMap[diff]++;
 						}
 
+						if(pSpreadCountMap[diff] > MaxSpreadCount){
+							DiffSpread = diff;
+							MaxSpreadCount = pSpreadCountMap[diff];
+						}
 					}
 
 
@@ -298,6 +335,18 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 					pBidMark[wbid] = fprice;
 					bidkey = wbid;
 					bidprice = fprice;
+
+					if(SmallestSellout == 0){
+						SmallestSellout = bidkey;
+						LargestSellout = bidkey;
+					}else{
+						if(bidkey < SmallestSellout){
+							SmallestSellout = bidkey;
+						}
+						if(bidkey > LargestSellout){
+							LargestSellout = bidkey;
+						}
+					}
 
 					unsigned long long spread = spreadTable.getSpread("01", fprice - 1llu);
 					unsigned long long refbid = fprice-spread;
@@ -365,6 +414,11 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 						pSpreadCountMap[diff]++;
 					}
 
+					if(pSpreadCountMap[diff] > MaxSpreadCount){
+						DiffSpread = diff;
+						MaxSpreadCount = pSpreadCountMap[diff];
+					}
+
 				}
 
 
@@ -373,6 +427,19 @@ bool PriceMark::updateBid(unsigned long long wbid, unsigned long long pwbid, uns
 				pBidMark[pwbid] = pfprice;
 				bidkey = pwbid;
 				bidprice = pfprice;
+
+				if(SmallestSellout == 0){
+					SmallestSellout = bidkey;
+					LargestSellout = bidkey;
+				}else{
+					if(bidkey < SmallestSellout){
+						SmallestSellout = bidkey;
+					}
+					if(bidkey > LargestSellout){
+						LargestSellout = bidkey;
+					}
+
+				}
 
 				unsigned long long spread = spreadTable.getSpread("01", pfprice - 1llu);
 				unsigned long long refbid = pfprice-spread;
@@ -417,6 +484,10 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 						pSpreadCountMap[diff]++;
 					}
 
+					if(pSpreadCountMap[diff] > MaxSpreadCount){
+						DiffSpread = diff;
+						MaxSpreadCount = pSpreadCountMap[diff];
+					}
 				}
 
 
@@ -465,6 +536,10 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 							pSpreadCountMap[diff]++;
 						}
 
+						if(pSpreadCountMap[diff] > MaxSpreadCount){
+							DiffSpread = diff;
+							MaxSpreadCount = pSpreadCountMap[diff];
+						}
 					}
 
 					pAskMark[wask] = fprice;
@@ -532,6 +607,10 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 						pSpreadCountMap[diff]++;
 					}
 
+					if(pSpreadCountMap[diff] > MaxSpreadCount){
+						DiffSpread = diff;
+						MaxSpreadCount = pSpreadCountMap[diff];
+					}
 				}
 
 
@@ -577,6 +656,10 @@ bool PriceMark::updateAsk(unsigned long long wask, unsigned long long  pwask, un
 							pSpreadCountMap[diff]++;
 						}
 
+						if(pSpreadCountMap[diff] > MaxSpreadCount){
+							DiffSpread = diff;
+							MaxSpreadCount = pSpreadCountMap[diff];
+						}
 					}
 
 
@@ -821,6 +904,14 @@ void PriceMark::setSellout(unsigned long long wprice, unsigned long long uprice)
 		return;
 
 	pBidMark[wprice] = uprice;
+}
+
+unsigned long long PriceMark::getSmallestSellout(){
+	return SmallestSellout;
+}
+
+unsigned long long PriceMark::getLargestSellout(){
+	return LargestSellout;
 }
 
 unsigned long long PriceMark::getIssuerIize(){
