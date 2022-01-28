@@ -2756,7 +2756,7 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 						Log("PCB2 + 1 Spread = " + to_string(pcb2plus1));
 					}
 
-					Log("NEW PCB2 = " + to_string(pcb2) + " PCB2 Plus 1 = " + pcb2plus1 );
+					Log("NEW PCB2 = " + to_string(pcb2) + " PCB2 Plus 1 = " + to_string(pcb2plus1) );
 
 
 					//unsigned long long buyin = spm->buyIn(wbest_ask_price);
