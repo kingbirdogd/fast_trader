@@ -921,7 +921,7 @@ unsigned long long PriceMark::sellOut(unsigned long long wprice){
 			int lcount = (LargestSellout - SmallestSellout) / spread;
 
 
-			unsigned long long so = LargestSellOut;
+			unsigned long long so = LargestSellout;
 			unsigned long long sp =  pBidMark[LargestSellout];
 			for(int a = 1; a<lcount; a++){
 
