@@ -2732,6 +2732,8 @@ void s1algo::handler_order(const dbp::top::enhance_order& odr)
 					unsigned long long pcb = spm->sellOut(wbest_bid_price);
 
 					Log("PCB = " + to_string(pcb));
+					Log("Smallest PCB = " + to_string(spm->getSmallestSellout()));
+					Log("Largest PCB = " + to_string(spm->getLargestSellout()));
 
 					if(pcb == 99999999){
 						pcb = obs->StopLostPrice;
