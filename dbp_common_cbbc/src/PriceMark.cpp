@@ -909,7 +909,7 @@ string PriceMark::printCount(){
 			if(i>0){
 				data += "\n";
 			}
-			data = to_string(key) + "-" + to_string(value);
+			data += to_string(key) + "-" + to_string(value);
 
 			i++;
 	}
