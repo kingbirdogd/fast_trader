@@ -2052,6 +2052,7 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 							//unsigned long long t_start = dbp::tools::srv::current();
 
 							unsigned long long wbest_bid_price = warrantPriceMap[wobsArray[i]->Code]->Bestbid;
+							unsigned long long wbest_ask_price = warrantPriceMap[wobsArray[i]->Code]->Bestask;
 							unsigned long long wbest_bid_qty = warrantPriceMap[wobsArray[i]->Code]->BidQty;
 							long long wbest_bid_diff = warrantPriceMap[wobsArray[i]->Code]->DiffBid;
 							long long wbest_bid_seq = warrantPriceMap[wobsArray[i]->Code]->BidSeq;
