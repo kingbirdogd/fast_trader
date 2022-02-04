@@ -2149,8 +2149,15 @@ void s1algo::on_omdc_trade(const Tradable& tradable)
 								}
 
 
-								if(wbest_bid_qty < issuerSize80(bidIssuerQty) || wbest_bid_diff < -500000)
+								if(wbest_bid_qty < issuerSize80(bidIssuerQty))
 									continue;
+
+								if(wbest_ask_price > wobsArray[i]->BuyPrice){
+									continue;
+								}
+
+								//if(wbest_bid_qty < issuerSize80(bidIssuerQty) || wbest_bid_diff < -500000)
+//									continue;
 
 
 
