@@ -18,9 +18,9 @@ class SignalTable extends React.Component {
   
   getText(lang) {
     var text = {
-      en: {id: 'ID', ucode: 'Underlying', ask: 'ask', wnt: 'wnt', reset: 'Reset'},
-      sc: {id: 'ID', ucode: '相关资产', ask: '卖牌', wnt: '轮证', reset: '重設'},
-      tc: {id: 'ID', ucode: '相關資產', ask: '賣牌', wnt: '輪証', reset: '重设'},
+      en: {id: 'ID', ucode: 'Underlying', ask: 'ask', wnt: 'wnt', reset: 'Reset', detect: 'Detect'},
+      sc: {id: 'ID', ucode: '相关资产', ask: '卖牌', wnt: '轮证', reset: '重設', detect: '监察'},
+      tc: {id: 'ID', ucode: '相關資產', ask: '賣牌', wnt: '輪証', reset: '重设', detect: '監察'},
     }
     return text[lang]
   }
@@ -47,6 +47,7 @@ class SignalTable extends React.Component {
       no++
       var uname = getUnderlyingName2(ucode)
       var ucode1 = formatCode(ucode, 4)
+      var isDetect = (d.isForceDetect) ? '('+text.detect+')' : ''
       //
       var rows2 = [], exist_products = []
       for (var d2 of d.detectedlist) {
@@ -66,7 +67,7 @@ class SignalTable extends React.Component {
       rows1.push(
         <tr key={'signal_'+no}>
           <td>{no}</td>
-          <td>{ucode1} {uname}</td>
+          <td>{ucode1} {uname} {isDetect}</td>
           <td>{d.ask}</td>
           {rows2}
           <td>

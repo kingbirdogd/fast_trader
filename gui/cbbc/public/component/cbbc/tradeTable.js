@@ -53,11 +53,12 @@ class TradeTable extends React.Component {
         // auto focus
         $('body').off('mousemove').on('mousemove', function(evt) {
           var obj = $(evt.target)
-          var elements = ['wintick', 'stoplost', 'buyoffset', 'selloffset', 'quantity', 'delta']
+          var container = obj.parent().parent().parent().parent()
+          var elements = ['wintick', 'stoplost', 'buyoffset', 'selloffset', 'quantity', 'delta', 'forcebuyprice']
           
           if (obj.length && obj.is('input') && obj.is('[name]') && obj.is('[data-no]')
                 && elements.includes(obj.attr('name').toString().toLowerCase())
-                && obj.parent().parent().parent().parent().hasClass('table-trade')) {
+                && (container.hasClass('table-trade') || container.parent().hasClass('table-trade'))) {
             var name = obj.attr('name'), no = obj.attr('data-no')
             global.dtTradeTableForces = name+','+no
             $('.table-trade input[name='+name+'][data-no='+no+']').focus()
@@ -109,8 +110,20 @@ class TradeTable extends React.Component {
     if (name == 'show') {
       if (obj2[no].isVisable == true)
         obj2[no].isVisable = false
-      else if (obj2[no].isVisable == false)
+      else if (obj2[no].isVisable == false) {
         obj2[no].isVisable = true
+        // price table
+        var command = {
+          cmd: "loadpricetable",
+          action: "loadpricetable",
+          warrant_code: parseInt(obj.code.value),
+          ref: states.prefix+no,
+          id: parseInt(states.userId),
+          algo_name: states.modules[states.cells[no].type]
+        }
+        if (Object.keys(states.cells[no].priceTable).length == 0)
+          sendWebsocket(JSON.stringify(command))
+      }
       this.props.setStates({cellsConfig: obj2})
     }
     
@@ -230,6 +243,28 @@ class TradeTable extends React.Component {
       obj2[no].isVisable2 = false
       this.props.setStates({cellsConfig: obj2})
     }
+    
+    else if (name == 'forceBuyEnable') {
+      if (obj.cells[no].trade.isEnableForce.buy == true)
+        obj.cells[no].trade.isEnableForce.buy = false
+      else 
+        obj.cells[no].trade.isEnableForce.buy = true
+      
+      this.props.setStates({cells: obj.cells})
+    }
+    
+    else if (name == 'forceBuy') {
+      var command1 = {
+        cmd: 'force_buy',
+        warrant_code: parseInt(code),
+        price: formatLongV2(states.cells[no].trade.price.value),
+        quantity: formatLongV2(formatInputUnit(obj.cells[no].action.quantity.value, true)),
+        ref: obj.prefix+no,
+        algo_name: obj.modules[obj.cells[no].type],
+        id: parseInt(obj.userId)
+      }
+      sendWebsocket(JSON.stringify(command1))
+    }
   }
   
   handleChange() {
@@ -264,13 +299,24 @@ class TradeTable extends React.Component {
       
       this.props.setStates({cells: states.cells})
     }
+    
+    else if (name == 'forceBuyPrice') {
+      var obj = $.extend(true, {}, states.cells[no].trade)
+      var name = 'price'
+      obj[name].value = value
+      obj[name].feedback = validate(this.props.lang, obj[name].valid, value, true)
+      obj[name].responseResult = ''
+      states.cells[no].trade = obj
+      
+      this.props.setStates({cells: states.cells})
+    }
   }
   
   getText(lang) {
     var text = {
-      en: {id: 'ID', ucode: 'Underlying', issuer: 'Issuer', code: 'Code', wtype: 'Type', name: 'Name', lotSize: 'Lot size', bid: 'Bid', diffpt: 'Diff Point', ask: 'Ask', action: 'Action', bull: 'Bull', bear: 'Bear', put: 'Put', call: 'Call', set2: 'Set', set: 'Set', start: 'Start', pause: 'Pause', stop: 'Stop', show: 'Show', hide: 'Hide', quantity: 'Quantity', delta: 'Delta', buyin: 'Buy In', sellout: 'Sell Out', diffbid: 'Diff Bid', diffask: 'Diff Ask', lvlbid: 'Lv. Bid', wintick: 'WT', stoplost: 'SL', buyoffset: 'BO', selloffset: 'SO', lvlon: 'Level On', on: 'On', off: 'Off', rtData: 'Real Time', remove: 'Remove', netQty: 'Net Qty', turnover: 'Turnover', lastTradeTime: 'Last Trade Time', oneLvlTime: '1st Level Time', display: 'Display', futurePrice: 'Future Price', wntPrice: 'Warrant Price', buyPrice: 'Buy Price', controlWindow: 'Control'},
-      sc: {id: 'ID', ucode: '标的', issuer: '发行人', code: '牛熊证', wtype: '种类', name: '名称', lotSize: '手数', bid: '买入价', diffpt: '打和点', ask: '卖出价', action: '操作', bull: '牛证', bear: '熊证', put: '认沽', call: '认购', set2: '设置', set: '设置', start: '开始', pause: '暂停', stop: '停止', show: '显示', hide: '隱藏', quantity: '申购份数', delta: '对冲值', buyin: '期货买入价', sellout: '期货卖出价', diffbid: '相差买入点', sellout: '相差卖出点', lvlbid: '', wintick: '止盈', stoplost: '止蚀', buyoffset: '买入偏移', selloffset: '賣出偏移', lvlon: '打和', on: '开启', off: '停止', rtData: '即时数据', remove: '删除', netQty: '剩馀单位', turnover: '成交量', lastTradeTime: '最後交易时间', oneLvlTime: '1st 打和时间', display: '显示', futurePrice: '期货价格', wntPrice: '产品价格', buyPrice: '买入价', controlWindow: '执行视窗'},
-      tc: {id: 'ID', ucode: '正股', issuer: '發行人', code: '牛熊證', wtype: '種類', name: '名稱', lotSize: '手數', bid: '買入價', diffpt: '打和點', ask: '賣出價', action: '操作', bull: '牛證', bear: '熊證', put: '認沽', call: '認購', set2: '設置', set: '設置', start: '開始', pause: '暫停', stop: '停止', show: '顯示', hide: '隐藏', quantity: '買入額', delta: '對沖值', buyin: '期貨買入價', sellout: '期貨賣出價', diffbid: '相差買入點', sellout: '相差賣出點', lvlbid: '', wintick: '止盈', stoplost: '止蝕', buyoffset: '買入偏移', selloffset: '賣出偏移', lvlon: '打和', on: '開啟', off: '停止', rtData: '即時數據', remove: '刪除', netQty: '剩餘單位', turnover: '成交量', lastTradeTime: '最後交易時間', oneLvlTime: '1st 打和時間', display: '顯示', futurePrice: '期貨價格', wntPrice: '產品價格', buyPrice: '買入價', controlWindow: '執行視窗'},
+      en: {id: 'ID', ucode: 'Underlying', issuer: 'Issuer', code: 'Code', wtype: 'Type', name: 'Name', lotSize: 'Lot size', bid: 'Bid', diffpt: 'Diff Point', ask: 'Ask', action: 'Action', bull: 'Bull', bear: 'Bear', put: 'Put', call: 'Call', set2: 'Set', set: 'Set', start: 'Start', pause: 'Pause', stop: 'Stop', show: 'Show', hide: 'Hide', quantity: 'Quantity', delta: 'Delta', buyin: 'Buy In', sellout: 'Sell Out', diffbid: 'Diff Bid', diffask: 'Diff Ask', lvlbid: 'Lv. Bid', wintick: 'WT', stoplost: 'SL', buyoffset: 'BO', selloffset: 'SO', lvlon: 'Level On', on: 'On', off: 'Off', rtData: 'Real Time', remove: 'Remove', netQty: 'Net Qty', turnover: 'Turnover', lastTradeTime: 'Last Trade Time', oneLvlTime: '1st Level Time', display: 'Display', futurePrice: 'Future Price', wntPrice: 'Warrant Price', buyPrice: 'Buy Price', controlWindow: 'Control', forceBuy: 'Force Buy', buy: 'Buy', bestPrice: 'Best Ask'},
+      sc: {id: 'ID', ucode: '标的', issuer: '发行人', code: '牛熊证', wtype: '种类', name: '名称', lotSize: '手数', bid: '买入价', diffpt: '打和点', ask: '卖出价', action: '操作', bull: '牛证', bear: '熊证', put: '认沽', call: '认购', set2: '设置', set: '设置', start: '开始', pause: '暂停', stop: '停止', show: '显示', hide: '隱藏', quantity: '申购份数', delta: '对冲值', buyin: '期货买入价', sellout: '期货卖出价', diffbid: '相差买入点', sellout: '相差卖出点', lvlbid: '', wintick: '止盈', stoplost: '止蚀', buyoffset: '买入偏移', selloffset: '賣出偏移', lvlon: '打和', on: '开启', off: '停止', rtData: '即时数据', remove: '删除', netQty: '剩馀单位', turnover: '成交量', lastTradeTime: '最後交易时间', oneLvlTime: '1st 打和时间', display: '显示', futurePrice: '期货价格', wntPrice: '产品价格', buyPrice: '买入价', controlWindow: '执行视窗', forceBuy: '现价买入', buy: '買入', bestPrice: '最优价格'},
+      tc: {id: 'ID', ucode: '正股', issuer: '發行人', code: '牛熊證', wtype: '種類', name: '名稱', lotSize: '手數', bid: '買入價', diffpt: '打和點', ask: '賣出價', action: '操作', bull: '牛證', bear: '熊證', put: '認沽', call: '認購', set2: '設置', set: '設置', start: '開始', pause: '暫停', stop: '停止', show: '顯示', hide: '隐藏', quantity: '買入額', delta: '對沖值', buyin: '期貨買入價', sellout: '期貨賣出價', diffbid: '相差買入點', sellout: '相差賣出點', lvlbid: '', wintick: '止盈', stoplost: '止蝕', buyoffset: '買入偏移', selloffset: '賣出偏移', lvlon: '打和', on: '開啟', off: '停止', rtData: '即時數據', remove: '刪除', netQty: '剩餘單位', turnover: '成交量', lastTradeTime: '最後交易時間', oneLvlTime: '1st 打和時間', display: '顯示', futurePrice: '期貨價格', wntPrice: '產品價格', buyPrice: '買入價', controlWindow: '執行視窗', forceBuy: '現價買入', buy: '買入', bestPrice: '最優價格'},
     }
     return text[lang]
   }
@@ -474,6 +520,24 @@ class TradeTable extends React.Component {
           if (v.wPrice.lvlbid)
             lvlbid = v.wPrice.lvlbid
           
+          // force action
+          var forceBtn = {
+            buyEnable: {style: 'btn-secondary', text: text.off, isDisabled: false},
+            buy: {style: 'btn-secondary', text: text.buy, isDisabled: true},
+            buyPrice: {style: '', isDisabled: true},
+          }
+          if (d.isStop===true || (!d.isSet===true && !d.isStart===true && !d.isPause===true && !d.isStop===true)) {
+            forceBtn.buyEnable.isDisabled = true
+          }
+          else if (v.trade.isEnableForce.buy == true) {
+            forceBtn.buyEnable.style = 'btn-success', forceBtn.buyEnable.text = text.on
+            forceBtn.buy.isDisabled = false
+            forceBtn.buyPrice.isDisabled = false
+          }
+          if (v.trade.price.feedback) {
+            forceBtn.buyPrice.style = 'is-invalid'
+            forceBtn.buy.isDisabled = true
+          }
           
           // html
           var iPriceAsk = '', iPriceBid = ''
@@ -645,6 +709,38 @@ class TradeTable extends React.Component {
               <td className={cssRealTime}>{v.wPrice.ask} {iPriceAsk}</td>
               <td className={cssRealTime}>{v.wPrice.buyin}</td>
               <td className={cssRealTime}>{v.wPrice.diffask}</td>
+              <td className={cssRealTime}>
+                <div className="d-flex">
+                <button
+                  name="forceBuyEnable" 
+                  data-no={i} type="button"
+                  className={classNames("btn btn-sm mr-1", forceBtn.buyEnable.style)}
+                  disabled={forceBtn.buyEnable.isDisabled}
+                  onClick={this.handleClick2}>
+                    {forceBtn.buyEnable.text}
+                </button>
+                
+                <input
+                  type="text"
+                  name="forceBuyPrice"
+                  className={classNames("form-control form-control-sm", forceBtn.buyPrice.style)}
+                  data-no={i}
+                  value={v.trade.price.value}
+                  disabled={forceBtn.buyPrice.isDisabled}
+                  placeholder={text.bestPrice}
+                  onChange={this.handleChange} />
+                
+                <button
+                  name="forceBuy"
+                  data-no={i}
+                  type="button"
+                  className={classNames("btn btn-sm mr-1", forceBtn.buy.style)}
+                  disabled={forceBtn.buy.isDisabled}
+                  onClick={this.handleClick2}>
+                    {forceBtn.buy.text}
+                </button>
+                </div>
+              </td>
               
               <td>{buyPrice}</td>
               <td>{wntPrice}</td>
@@ -698,6 +794,7 @@ class TradeTable extends React.Component {
           <col span="1" width="80px" className={cssRealTime} />
           <col span="1" width="60px" className={cssRealTime} />
           <col span="1" width="60px" className={cssRealTime} />
+          <col span="1" width="160px" className={cssRealTime} />
           
           <col span="1" width="60px" />
           <col span="1" width="60px" />
@@ -741,6 +838,7 @@ class TradeTable extends React.Component {
           <th className={cssRealTime}>{text.ask}</th>
           <th className={cssRealTime}>{text.buyin}</th>
           <th className={cssRealTime}>{text.diffask}</th>
+          <th className={cssRealTime}>{text.forceBuy}</th>
           
           <th>{text.buyPrice}</th>
           <th>{text.wntPrice}</th>

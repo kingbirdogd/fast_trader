@@ -87,6 +87,11 @@ class FullAuto extends React.Component {
       this.state.wntType[k] = {normal: true, winPrice: null}
     
     this.sendUWarrantlist = this.sendUWarrantlist.bind(this)
+    
+    this.state.detectForce = {
+      price: {value: '', feedback: '', responseResult: '', valid: 'number'},
+      stoploss: {value: '', feedback: '', responseResult: '', valid: 'number'}
+    }
   }
   
   componentDidMount() {
@@ -492,7 +497,8 @@ class FullAuto extends React.Component {
       futurePrice: ('sellout' in data) ? formatPrice(data.sellout) : ('buyin' in data) ? formatPrice(data.buyin) : '',
       stoplost: (data.stoplost) ? formatLong(data.stoplost) : '',
       reason: ('reason' in data) ? data.reason: '',
-      wbid: formatLong(data.wbid)
+      wbid: formatLong(data.wbid),
+      issuer: data.issuer
     }
     
     if (!(id in state.orders))
@@ -684,6 +690,8 @@ class FullAuto extends React.Component {
         state.issuer.responseResult = 'success'
         if(data.selectaction=='select')
           state.issuer.selected.push(data.issuer)
+        else if (data.selectaction=='remove' && data.issuer.toLowerCase() == 'all')
+          state.issuer.selected = []
         else if (data.selectaction=='remove')
           state.issuer.selected.splice(state.issuer.selected.indexOf(data.issuer), 1)
       }
@@ -742,7 +750,19 @@ class FullAuto extends React.Component {
     
     if ('result' in data && 'selectaction' in data && data.result.toLowerCase()=='success') {
       var ucode = formatCode(data.ucode, 5)
-      if (data.selectaction == 'select') {
+      
+      if (data.selectaction == 'select' && ucode == '00000') {
+        if (state.underlyingList)
+          state.underlying.selected = state.underlyingList
+        state.underlying.removed = []
+      }
+      else if (data.selectaction == 'remove' && ucode == '00000') {
+        if (state.underlyingList)
+          state.underlying.removed = state.underlyingList
+        state.underlying.selected = []
+      }
+      
+      else if (data.selectaction == 'select') {
         // 預設1 default select
         state.underlying.selected.push(ucode)
         // 預設2 default remove
@@ -770,6 +790,7 @@ class FullAuto extends React.Component {
         if (!(data.ref in state.signal)) state.signal[data.ref] = {}
         //
         state.signal[data.ref].ask = formatLong(data.detected_ask)
+        state.signal[data.ref].isForceDetect = data.forcedetected
         var detectedlist = []
         //
         for (var v of data.detectedlist) {
@@ -1001,6 +1022,7 @@ class FullAuto extends React.Component {
             data={this.state.underlyingList}
             data2={this.state.underlying}
             data3={this.state.underlyingDefault}
+            data4={this.state.detectForce}
             func={this.sendUWarrantlist}
             lang={this.props.lang}
             setStates={this.setStates}
@@ -1068,7 +1090,7 @@ class FullAuto extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.33
+          Copyright © {curYear} Fast Trader v1.0.34
         </div>
       </React.Fragment>
       /*

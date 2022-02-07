@@ -14,6 +14,8 @@ class UnderlyingSelector extends React.Component {
     this.state = {}
     this.handleChange = this.handleChange.bind(this)
     this.handleAction = this.handleAction.bind(this)
+    this.handleDetect = this.handleDetect.bind(this)
+    this.handleChange2 = this.handleChange2.bind(this)
   }
   
   static getDerivedStateFromProps(props, state) {
@@ -48,15 +50,44 @@ class UnderlyingSelector extends React.Component {
     var ucode = parseInt(states.underlying.curUnderlying)
     var algoName = (states.modules.call) ? states.modules.call : states.modules.put
     
+    if (action.toString().toLowerCase() == 'removeall')
+      action = 'remove', ucode = 0
+    else if (action.toString().toLowerCase() == 'selectall')
+      action = 'select', ucode = 0
+    
     var command = {cmd: 'selectunderlying', algo_name: algoName, id: userId, ref: 'uid_'+userId.toString(), ucode: ucode, action: action}
     sendWebsocket(JSON.stringify(command))
   }
   
+  handleDetect() {
+    var name = event.target.name
+    var states = this.props.getStates()
+    var userId = parseInt(states.userId)
+    var algoName = (states.modules.call) ? states.modules.call : states.modules.put
+    var obj1 = $.extend(true, {}, states.detectForce),
+        obj2 = $.extend(true, {}, states.underlying)
+    var detectprice = parseFloat(formatLongV2(obj1.price.value)), stoplost = parseFloat(formatLongV2(obj1.stoploss.value)), ucode = parseInt(obj2.curUnderlying)
+    
+    var command = {cmd: 'force_detect', algo_name: algoName, id: userId, ref: 'uid_'+userId.toString(), ucode: ucode, detectprice: detectprice, stoplost: stoplost}
+    sendWebsocket(JSON.stringify(command))
+  }
+  
+  handleChange2() {
+    var {name, value} = event.target
+    var states = this.props.getStates()
+
+    var obj1 = $.extend(true, {}, states.detectForce)
+    obj1[name].value = value
+    obj1[name].feedback = validate(this.props.lang, obj1[name].valid, value, true)
+    obj1[name].responseResult = ''
+    this.props.setStates({detectForce: obj1})
+  }
+  
   getText(lang) {
     var text = {
-      en: {select: 'Select', remove: 'Remove', removed: 'Removed', optionDefault: 'Select Underlying'},
-      sc: {select: '选择', remove: '删除', removed: '已删除', optionDefault: '选择相关资产'},
-      tc: {select: '選擇', remove: '刪除', removed: '已刪除', optionDefault: '選擇相關資產'},
+      en: {select: 'Select', remove: 'Remove', removed: 'Removed', optionDefault: 'Select Underlying', removeAll: 'Remove All', selectAll: 'Select All', detect: 'Detect', price: 'Price', stoploss: 'Stop Loss'},
+      sc: {select: '选择', remove: '删除', removed: '已删除', optionDefault: '选择相关资产', removeAll: '删除所有', selectAll: '选择所有', detect: '监察', price: '价格', stoploss: '止损点'},
+      tc: {select: '選擇', remove: '刪除', removed: '已刪除', optionDefault: '選擇相關資產', removeAll: '刪除所有', selectAll: '選擇所有', detect: '監察', price: '價格', stoploss: '止損點'},
     }
     return text[lang]
   }
@@ -65,6 +96,7 @@ class UnderlyingSelector extends React.Component {
     var text = this.getText(this.props.lang)
     var {curUnderlying, curState, feedback, responseResult, selected, removed} = this.props.data2
     var defaultOption = this.props.data3
+    var data4 = this.props.data4
     
     // 
     if (!curUnderlying) var selectedValue='default'
@@ -125,17 +157,90 @@ class UnderlyingSelector extends React.Component {
       var btnSelectStyle = 'btn-secondary', btnSelectIsDisable = true
       var btnRemoveStyle = 'btn-danger', btnRemoveIsDisable = false
     }
+    
+    //
+    var btnRemoveAllStyle = 'btn-secondary', btnRemoveAllIsDisable = false
+    var btnSelectAllStyle = 'btn-secondary', btnSelectAllIsDisable = false
+    
+    // a1 only
+    var href = window.location.pathname, html1 = '', html2 = ''
+    if (href.includes('a1')) {
+      var btnDetectIsDisable = false, styleDetectPrice = '', styleDetectStoploss = ''
+      if (data4.price.value.toString().length == 0 || data4.stoploss.value.toString().length == 0 || 
+          data4.price.feedback.toString().length > 0 || data4.stoploss.feedback.toString().length > 0 ||
+          curUnderlying === null || curUnderlying.toString().length == 0)
+        btnDetectIsDisable = true
+      if (data4.price.feedback.toString().length > 0)
+        styleDetectPrice = 'is-invalid'
+      if (data4.stoploss.feedback.toString().length > 0)
+        styleDetectStoploss = 'is-invalid'
+      
+      html1 = 
+      <React.Fragment>
+      <button
+        name="selectAll"
+        type="button"
+        className={classNames('btn btn-sm', btnSelectAllStyle)}
+        disabled={btnSelectAllIsDisable}
+        onClick={this.handleAction}>
+          {text.selectAll}
+      </button>
+      
+      <button
+        name="removeAll"
+        type="button"
+        className={classNames('btn btn-sm', btnRemoveAllStyle)}
+        disabled={btnRemoveAllIsDisable}
+        onClick={this.handleAction}>
+          {text.removeAll}
+      </button>
+      </React.Fragment>
+      
+      html2 =
+      <React.Fragment>
+      <div className="form-group col-3 col-sm-2 col-md-2">
+      <input
+        name="price"
+        className={classNames("form-control", styleDetectPrice)}
+        onChange={this.handleChange2}
+        value={data4.price.value}
+        placeHolder={text.price}
+        autoComplete="off"/>
+      </div>
+      
+      <div className="form-group col-3 col-sm-2 col-md-2">
+      <input
+        name="stoploss"
+        className={classNames("form-control", styleDetectStoploss)}
+        onChange={this.handleChange2}
+        value={data4.stoploss.value}
+        placeHolder={text.stoploss}
+        autoComplete="off"/>
+      </div>
+      
+      <div className="form-group col-1 col-sm-1 col-md-1">
+      <button
+        name="detect"
+        className={classNames('btn btn-sm btn-secondary', '')}
+        disabled={btnDetectIsDisable}
+        onClick={this.handleDetect}>
+          {text.detect}
+      </button>
+      </div>
+      </React.Fragment>
+    }
 
     return(
       <div className='row'>
-      <div className="col-12 col-sm-6 col-md-6 mb-3">
+      <div className="col-12 col-sm-12 col-md-12 mb-3">
       
       <div className="form-row">
-      <div className="form-group col-12 col-sm-6 col-md-6">
-        <select className="form-control" id="underlyingSelector" onChange={this.handleChange} value={selectedValue}>
-          {optionHTML}
-        </select>
-      </div>
+        <div className="form-group col-4 col-sm-3 col-md-3">
+          <select className="form-control" id="underlyingSelector" onChange={this.handleChange} value={selectedValue}>
+            {optionHTML}
+          </select>
+        </div>
+        {html2}
       </div>
       
       <button
@@ -155,6 +260,8 @@ class UnderlyingSelector extends React.Component {
         onClick={this.handleAction}>
           {text.remove}
       </button>
+      
+      {html1}
       
       {hint}
         

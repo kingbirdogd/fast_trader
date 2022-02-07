@@ -161,16 +161,16 @@ class Action extends React.Component {
     
     // 按鈕
     var isbBtnDisabled = true
-    if(d.isPause===true)
+    if(d.isSet===true || d.isPause===true)
       isbBtnDisabled = false
-    else if (d.isSet===true || d.isStart===true || d.isStop===true)
+    else if (d.isStart===true || d.isStop===true)
       isbBtnDisabled = true
     
     // 文字框
     var isTvDisabled2 = true
-    if (d.isSet===true || d.isStart===true)
+    if (d.isStart===true)
       isTvDisabled2 = true
-    else if (d.isPause===true || d.isStop===true || (d.isSet===false && d.isStart===false && d.isPause===false && d.isStop===false))
+    else if (d.isSet===true || d.isPause===true || d.isStop===true || (d.isSet===false && d.isStart===false && d.isPause===false && d.isStop===false))
       isTvDisabled2 = false
     
     return(

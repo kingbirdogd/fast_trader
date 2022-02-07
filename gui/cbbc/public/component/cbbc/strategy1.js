@@ -149,7 +149,8 @@ class Strategy1 extends React.Component {
       cmd: 'strategy1',
       algo_name: states.modules[Object.keys(states.modules)[0]],
       id : states.userId,
-      ref: states.prefix+'0'
+      ref: states.prefix+'0',
+      isread: false
     }
     for (var [k, v] of Object.entries(obj)) {
       if (typeof v == 'object' && 'value' in v && v.value.toString().length > 0)

@@ -12,11 +12,29 @@ class PriceTable extends React.Component {
   
   constructor(props) {
     super(props)
-    this.handleAction = this.handleAction.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
   
-  handleAction() {
+  handleClick() {
+    var no = event.target.attributes.getNamedItem('data-no').value
+    var name = event.target.name
     
+    var states = this.props.getStates()
+    var obj = $.extend(true, [], states.cells),
+        obj2 = $.extend(true, [], states.cells[no].action)
+    
+    obj[no].priceTable = {}
+    this.props.setStates({cells: obj})
+    
+    var command = {
+      cmd: "loadpricetable",
+      action: "loadpricetable",
+      warrant_code: parseInt(obj2.code.value),
+      ref: states.prefix+no,
+      id: parseInt(states.userId),
+      algo_name: states.modules[states.cells[no].type]
+    }
+    sendWebsocket(JSON.stringify(command))
   }
   
   componentDidUpdate() {
@@ -34,9 +52,9 @@ class PriceTable extends React.Component {
   
   getText(lang) {
     var text = {
-      en: {price: 'Price', bid: 'Bid', ask: 'Ask'},
-      sc: {price: '现价', bid: '买入', ask: '卖出'},
-      tc: {price: '現價', bid: '買入', ask: '賣出'},
+      en: {price: 'Price', bid: 'Bid', ask: 'Ask', loadPrice: 'Load Price Table'},
+      sc: {price: '现价', bid: '买入', ask: '卖出', loadPrice: '抓取报价盘口'},
+      tc: {price: '現價', bid: '買入', ask: '賣出', loadPrice: '抓取報價盤口'},
     }
     return text[lang]
   }
@@ -82,6 +100,15 @@ class PriceTable extends React.Component {
           </tbody>
         </table>
         </div>
+        
+        <div className="btn_trade_control">
+          <div className="form-group row">
+            <div className="col-6 col-sm-6 mt-0 mt-sm-0">
+              <button name="loadPrice" type="button" class="btn btn-sm btn-block btn-secondary" data-no={no} onClick={this.handleClick}>{text.loadPrice}</button>
+            </div>
+          </div>
+        </div>
+        
         <BtnControl
           key={"btnControlPriceTb_"+no}
           no={no}

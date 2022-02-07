@@ -312,9 +312,9 @@ function playClickSound() {
   audioElement.play();
 }
 
-const fakeFormSubmit = (url, fields) => {
+const fakeFormSubmit = (fields) => {
   var $form = $('<form>', {
-    action: url,
+    action: 'https://chart.dbpower.com.hk/PHPExcel/download.php',
     method: 'post'
   });
   $.each(fields, function(key, val) {
@@ -325,4 +325,26 @@ const fakeFormSubmit = (url, fields) => {
     }).appendTo($form);
   });
   $form.appendTo('body').submit();
+}
+
+function formatTableData(key) {
+  var tb = $(key),
+      data = []
+      
+  tb.find('tr').each(function() {
+    var row = []
+    // header
+    $(this).find('th').each(function() {
+      if ($(this).html().includes('span'))
+        row.push($(this).children().html().replaceAll(',', ''))
+      else
+        row.push($(this).html().replaceAll(',', ''))
+    })
+    // content
+    $(this).find('td').each(function() {
+      row.push($(this).html().replaceAll(',', ''))
+    })
+    data.push(row)
+  })
+  return JSON.stringify(data).replaceAll('"', '').replaceAll('[[', '').replaceAll(']]', '').replaceAll('],[', '|')
 }

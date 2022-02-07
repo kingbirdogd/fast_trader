@@ -60,7 +60,7 @@ class Position extends React.Component {
                   sellQuantity = item1.remainQuantity
                 }
               }
-
+              
               // 已平倉
               if (buyTotalQuantity-sellTotalQuantity<=0) {
                 buyTotalQuantity=0, buyQuantity=0, buyTurnover=[]

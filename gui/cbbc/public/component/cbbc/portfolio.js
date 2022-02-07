@@ -37,15 +37,25 @@ class Portfolio extends React.Component {
           for (const [code, datas1] of Object.entries(datas)) {
             var noExecution=0, totalBuyPrice=0, totalSellPrice=0, totalQuantity=0, totalProfitLoss=0, lastSoldTime=null, totalWin=0, totalLoss=0, totalDraw=0, issuer=null, wtype=null, levelTimeWin=[0, 0, 0], levelTimeLoss=[0, 0, 0], wintime=[0,0,0], winTick=[0,0,0], lossTick=[0,0,0], lvlCount=[0,0,0], underlying=null
             for (var item1 of datas1) {
-              noExecution+=1
               totalBuyPrice+=item1.buyPrice
               totalSellPrice+=item1.sellPrice
               totalQuantity+=item1.quantity
               totalProfitLoss+=item1.profitLoss
               lastSoldTime=item1.soldTime
-              totalWin = (item1.sellPrice>item1.buyPrice) ? totalWin+1 : totalWin
-              totalLoss = (item1.sellPrice<item1.buyPrice) ? totalLoss+1 : totalLoss
-              totalDraw = (item1.sellPrice==item1.buyPrice) ? totalDraw+1 : totalDraw
+              
+              if ('type' in item1 && item1.type == 'init') {
+                totalWin = item1.totalWin
+                totalLoss = item1.totalLoss
+                totalDraw = item1.totalDraw
+                noExecution = item1.totalWin + item1.totalLoss + item1.totalDraw
+              }
+              else {
+                totalWin = (item1.sellPrice>item1.buyPrice) ? totalWin+1 : totalWin
+                totalLoss = (item1.sellPrice<item1.buyPrice) ? totalLoss+1 : totalLoss
+                totalDraw = (item1.sellPrice==item1.buyPrice) ? totalDraw+1 : totalDraw
+                noExecution+=1
+              }
+              
               issuer = item1.issuer
               wtype = item1.wtype
               underlying = item1.underlying
@@ -139,31 +149,10 @@ class Portfolio extends React.Component {
   
   handleClick() {
     event.preventDefault()
-    
-    var tb = $('.table-portfolio'),
-        data = []
-        
-    tb.find('tr').each(function() {
-      var row = []
-      // header
-      $(this).find('th').each(function() {
-        if ($(this).html().includes('span'))
-          row.push($(this).children().html().replaceAll(',', ''))
-        else
-          row.push($(this).html().replaceAll(',', ''))
-      })
-      // content
-      $(this).find('td').each(function() {
-        row.push($(this).html().replaceAll(',', ''))
-      })
-      data.push(row)
-    })
-    
-    var url = 'https://chart.dbpower.com.hk/PHPExcel/download.php'
     var title = 'portfolio'
     var name = title+'_'+moment().format('YYYYMMDD')
-    var data = JSON.stringify(data).replaceAll('"', '').replaceAll('[[', '').replaceAll(']]', '').replaceAll('],[', '|')
-    fakeFormSubmit(url, {name: name, title: title, data: data})
+    var data = formatTableData('.table-portfolio')
+    fakeFormSubmit({name: name, title: title, data: data})
   }
   
   getText(lang) {

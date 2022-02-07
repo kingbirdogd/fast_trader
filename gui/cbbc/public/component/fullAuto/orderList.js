@@ -42,13 +42,13 @@ class OrderList extends React.Component {
   getText(lang) {
     var text = {
       en: {
-        orderList: 'Order List', ucode: 'Underlying', code: 'Code', filledQuantity: 'Filled Quantity', matchPrice: 'Price', matchQuantity: 'Quantity', price: 'Price', quantity: 'Quantity', rejectReason: 'Reject Reason', remainQuantity: 'Remain Quantity', result: 'Result', side: 'Side', status: 'Status', transactionTm:'Transaction Time', totalPrice: 'Turnover', onOrder: 'Order', ref: 'Ref', id: 'ID', futurePrice: 'Future Price'
+        orderList: 'Order List', ucode: 'Underlying', code: 'Code', filledQuantity: 'Filled Quantity', matchPrice: 'Price', matchQuantity: 'Quantity', price: 'Price', quantity: 'Quantity', rejectReason: 'Reject Reason', remainQuantity: 'Remain Quantity', result: 'Result', side: 'Side', status: 'Status', transactionTm:'Transaction Time', totalPrice: 'Turnover', onOrder: 'Order', ref: 'Ref', id: 'ID', futurePrice: 'Future Price', issuer: 'Issuer'
       },
       sc: {
-        orderList: '买卖纪录', ucode: '相关资产', code: '牛熊证', filledQuantity: '交割单位', matchPrice: '成交价', matchQuantity: '成交单位', price: '买入价', quantity: '买入单位', rejectReason: '备注', remainQuantity: '剩馀单位', result: '结果', side: '方向', status: '状态', transactionTm:'交易时间', totalPrice: '成交额', onOrder: '成交纪录', ref: 'Ref', id: 'ID', futurePrice: '期货现价'
+        orderList: '买卖纪录', ucode: '相关资产', code: '牛熊证', filledQuantity: '交割单位', matchPrice: '成交价', matchQuantity: '成交单位', price: '买入价', quantity: '买入单位', rejectReason: '备注', remainQuantity: '剩馀单位', result: '结果', side: '方向', status: '状态', transactionTm:'交易时间', totalPrice: '成交额', onOrder: '成交纪录', ref: 'Ref', id: 'ID', futurePrice: '期货现价', issuer: '发行人'
       },
       tc: {
-        orderList: '買賣紀錄', ucode: '相關資產', code: '牛熊證', filledQuantity: '交割單位', matchPrice: '成交價', matchQuantity: '成交單位', price: '買入價', quantity: '買入單位', rejectReason: '備注', remainQuantity: '剩餘單位', result: '結果', side: '方向', status: '狀態', transactionTm:'交易時間', totalPrice: '成交額', onOrder: '成交紀錄', ref: 'Ref', id: 'ID', futurePrice: '期貨現價'
+        orderList: '買賣紀錄', ucode: '相關資產', code: '牛熊證', filledQuantity: '交割單位', matchPrice: '成交價', matchQuantity: '成交單位', price: '買入價', quantity: '買入單位', rejectReason: '備注', remainQuantity: '剩餘單位', result: '結果', side: '方向', status: '狀態', transactionTm:'交易時間', totalPrice: '成交額', onOrder: '成交紀錄', ref: 'Ref', id: 'ID', futurePrice: '期貨現價', issuer: '發行人'
       }
     }
     return text[lang]
@@ -75,6 +75,7 @@ class OrderList extends React.Component {
           <td>{len-i}</td>
           <td>{d.code}</td>
           <td>{ucode} {uname}</td>
+          <td>{d.issuer}</td>
           <td>{ parseFloat(d.matchPrice).toFixed(4) }</td>
           <td>{ numberWithCommas(d.matchQuantity) }</td>
           <td>{ numberWithCommas(parseFloat(d.totalPrice).toFixed(2)) }</td>
@@ -95,6 +96,7 @@ class OrderList extends React.Component {
               <col span="1" width="50px" />
               <col span="1" width="100px" />
               <col span="1" width="200px" />
+              <col span="1" width="50px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />
               <col span="1" width="150px" />
@@ -108,6 +110,7 @@ class OrderList extends React.Component {
                 <th>{text.id}</th>
                 <th>{text.code}</th>
                 <th>{text.ucode}</th>
+                <th>{text.issuer}</th>
                 <th>{text.matchPrice}</th>
                 <th>{text.matchQuantity}</th>
                 <th>{text.totalPrice}</th>

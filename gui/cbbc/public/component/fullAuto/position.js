@@ -113,7 +113,8 @@ class Position extends React.Component {
             ucode: ucode,
             wbid: wbid,
             stoplost: stoplost,
-            pnl: pnl
+            pnl: pnl,
+            issuer: item1.issuer
           }
         }
       }
@@ -211,11 +212,11 @@ class Position extends React.Component {
   getText(lang) {
     var text = {
       en: {position: 'Position', ucode: 'Underlying', buyPrice: 'Buy Price', buyQuantity: 'Buy Quantity', sellPrice: 'Sell Price', 
-            sellQuantity: 'Sell Quantity', id: 'ID', code: 'Code', transactionTm: 'Last Update Time', warrantPrice: 'Wnt Price', stopLost: 'Stop Lost', pnl: 'Gain', forceSell: 'Sell', ws: 'WS', wls: 'WLS', pause: 'Pause'},
+            sellQuantity: 'Sell Quantity', id: 'ID', code: 'Code', transactionTm: 'Last Update Time', warrantPrice: 'Wnt Price', stopLost: 'Stop Lost', pnl: 'Gain', forceSell: 'Sell', ws: 'WS', wls: 'WLS', pause: 'Pause', issuer: 'Issuer'},
       sc: {position: '持仓', ucode: '相关资产', buyPrice: '买入价', buyQuantity: '买入单位', sellPrice: '卖出价', 
-            sellQuantity: '卖出单位', id: 'ID', code: '牛熊证', transactionTm: '交易时间', warrantPrice: '轮证现价', stopLost: '止损价', pnl: '盈亏', forceSell: '卖出', ws: '赚/卖', wls: '赚/平/卖', pause: '暂停'},
+            sellQuantity: '卖出单位', id: 'ID', code: '牛熊证', transactionTm: '交易时间', warrantPrice: '轮证现价', stopLost: '止损价', pnl: '盈亏', forceSell: '卖出', ws: '赚/卖', wls: '赚/平/卖', pause: '暂停', issuer: '发行人'},
       tc: {position: '持倉', ucode: '相關資產', buyPrice: '買入價', buyQuantity: '買入單位', sellPrice: '賣出價', 
-            sellQuantity: '賣出單位', id: 'ID', code: '牛熊證', transactionTm: '交易時間', warrantPrice: '輪證現價', stopLost: '止蝕價', pnl: '盈虧', forceSell: '賣出', ws: '賺/賣', wls: '賺/平/賣', pause: '暫停'}
+            sellQuantity: '賣出單位', id: 'ID', code: '牛熊證', transactionTm: '交易時間', warrantPrice: '輪證現價', stopLost: '止蝕價', pnl: '盈虧', forceSell: '賣出', ws: '賺/賣', wls: '賺/平/賣', pause: '暫停', issuer: '發行人'}
     }
     return text[lang]
   }
@@ -271,6 +272,7 @@ class Position extends React.Component {
           <td>{no+1}</td>
           <td>{code}</td>
           <td>{ucode} {uname}</td>
+          <td>{d.issuer}</td>
           <td>{ parseFloat(d.buyPrice).toFixed(4) }</td>
           <td> { parseFloat(d.wbid).toFixed(3)} </td>
           <td>{ parseFloat(d.sellPrice).toFixed(4)}</td>
@@ -330,6 +332,7 @@ class Position extends React.Component {
               <col span="1" width="50px" />
               <col span="1" width="100px" />
               <col span="1" width="200px" />
+              <col span="1" width="50px" />
               <col span="1" width="100px" />
               <col span="1" width="100px" />
               <col span="1" width="100px" />
@@ -345,6 +348,7 @@ class Position extends React.Component {
                 <th>{text.id}</th>
                 <th>{text.code}</th>
                 <th>{text.ucode}</th>
+                <th>{text.issuer}</th>
                 <th>{text.buyPrice}</th>
                 <th>{text.warrantPrice}</th>
                 <th>{text.sellPrice}</th>

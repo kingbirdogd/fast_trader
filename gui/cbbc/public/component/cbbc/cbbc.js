@@ -59,7 +59,8 @@ class Cbbc extends React.Component {
       
       cells[i].trade = {
         price: {value: '', feedback: '', valid: 'number_except_zero'},
-        size: {value: '', feedback: '', valid: 'string'}
+        size: {value: '', feedback: '', valid: 'string'},
+        isEnableForce: {buy: false, sell: false}
       }
       
       cells[i].info = {issuer: '', ucode: '', uname: '', wname: ''}
@@ -147,6 +148,8 @@ class Cbbc extends React.Component {
         else if (data.msg_type=='cbbc_algo_force_sell') {obj = this.checkForce(obj, data)}
         else if (data.msg_type=='lvlprice') {obj = this.setLvlPrice(obj, data)}
         else if (data.msg_type=='algo_strategy1_msg') {obj = this.setStrategy1(obj, data)}
+        else if (data.msg_type=='listpair') {obj = this.setListPair(obj, data)}
+        else if (data.msg_type=='tradelist') {obj = this.setTradelist(obj, data)}
       }
       // 接口v2
       else if ('action_type' in data) {
@@ -182,6 +185,180 @@ class Cbbc extends React.Component {
       }
     }
     getUserSetting(this)
+  }
+  
+  // 影射
+  mapCellsConfig(state) {
+    var last = 0
+    for (var i in state.cells)
+      if (state.cells[i].action.code.value)
+        last = parseInt(i)+1
+    
+    for(var i=0; i<last; i++) {
+      var v = state.cells[i]
+      if (v.action.code.value)
+        state.cellsConfig.push({code: v.action.code.value, type: v.type, isVisable: false, isVisable2: true})
+      else
+        state.cellsConfig.push({code: '', type: 'undefined', isVisable: false, isVisable2: true})
+    }
+    return state
+  }
+  
+  //
+  setListPair(state, data) {
+    
+    if ('pairlist' in data && 'pairlist' in data.pairlist && data.pairlist.pairlist.length > 0) {
+      for (var pair of data.pairlist.pairlist) {
+        var id = pair.ref.replace(state.prefix, '')
+        //
+        state.cells[id].action.code.value = pair.warrant_code.toString()
+        state.cells[id].action.symbol.value = pair.symbol.toString()
+        state.cells[id].action.issuerSize.value = formatInputUnit(pair.issuer_size, false).toString()
+        state.cells[id].action.quantity.value = formatInputUnit(formatLong(pair.buy_quantity), false).toString()
+        state.cells[id].action.spread.value = formatInputUnit(formatLong(pair.spread), false).toString()
+        state.cells[id].action.delta.value = pair.delta.toFixed(4)
+        
+        state.cells[id].action.status.isSet = false
+        state.cells[id].action.status.isPause = false
+        state.cells[id].action.status.isStart = false
+        state.cells[id].action.status.isStop = false
+        if (pair.action_status == -1)
+          state.cells[id].action.status.isSet = true
+        else if (pair.action_status == 0)
+          state.cells[id].action.status.isStop = true
+        else if (pair.action_status == 1)
+          state.cells[id].action.status.isStart = true
+        else if (pair.action_status == 2)
+          state.cells[id].action.status.isPause = true
+        
+        state.cells[id].action.status.result = ''
+        
+        if (pair.wtype == 1)
+          state.cells[id].type = 'bull'
+        else if (pair.wtype == 2)
+          state.cells[id].type = 'bear'
+        
+        state.cells[id].info.issuer = pair.wname.substring(0, 2)
+        state.cells[id].info.ucode = pair.symbol
+        state.cells[id].info.uname = (getUnderlyingName2(pair.symbol)) ? getUnderlyingName2(pair.symbol) : pair.symbol
+        state.cells[id].info.wname = pair.wname
+        
+        // setting
+        if (parseInt(pair.win_tick) == -1)
+          state.cells[id].setting.wintick.value = 0
+        else
+          state.cells[id].setting.wintick.value = parseInt(pair.win_tick), state.cells[id].setting.wintick.responseResult = 'success'
+        
+        if (parseInt(pair.stoplost) == -1)
+          state.cells[id].setting.stoplost.value = 0
+        else
+          state.cells[id].setting.stoplost.value = parseInt(pair.stoplost), state.cells[id].setting.stoplost.responseResult = 'success'
+        
+        state.cells[id].setting.buyoffset.value = parseInt(pair.buyoffset)
+        if (parseInt(pair.buyoffset) > 0)
+          state.cells[id].setting.buyoffset.responseResult = 'success'
+        
+        state.cells[id].setting.selloffset.value = parseInt(pair.selloffset)
+        if (parseInt(pair.selloffset) > 0)
+          state.cells[id].setting.selloffset.responseResult = 'success'
+        
+        state.cells[id].setting.lvlon.value = (pair.lvl_on) ? "1" : "0"
+        state.cells[id].setting.rtData.value = (pair.real_data) ? "1" : "0"
+        state.cells[id].setting.showpt.value = (pair.show_pt) ? "1" : "0"
+      }
+    }
+    
+    // positions
+    if ('positionlist' in data && 'positionlist' in data.positionlist && data.positionlist.positionlist.length > 0) {
+      for (var pair of data.positionlist.positionlist) {
+        var id = '', underlying = ''
+        for (var temp of data.pairlist.pairlist) {
+          if (pair.warrant_code == temp.warrant_code) {
+            id = temp.ref.replace(state.prefix, '')
+            underlying = (getUnderlyingName2(temp.symbol)) ? getUnderlyingName2(temp.symbol) : temp.symbol
+          }
+        }
+        
+        if (!(id in state.positions))
+          state.positions[id] = []
+        
+        var arr = {
+          code: pair.warrant_code,
+          side: 'buy',
+          status: 'filled',
+          transactionTm: '',
+          matchPrice: formatLong(pair.buyprice),
+          matchQuantity: formatLong(pair.buyqty),
+          totalPrice: formatLong(pair.buyprice)*formatLong(pair.buyqty),
+          futurePrice: '',
+          reason: ('reason' in pair) ? pair.reason: '',
+          wtype: pair.wtype,
+          issuer: pair.issuer,
+          underlying: underlying,
+          leveltime: '',
+          wintime: '',
+          lvlcount: '',
+          wincount: '',
+        }
+        // state.positions[id].push(arr)
+      }
+    }
+    
+    // portfolios
+    if ('portfoliolist' in data && 'portfoliolist' in data.portfoliolist && data.portfoliolist.portfoliolist.length > 0) {
+      for (var pair of data.portfoliolist.portfoliolist) {
+        var id = '', underlying = '', issuer = '', wtype = ''
+        for (var temp of data.pairlist.pairlist) {
+          if (pair.warrant_code == temp.warrant_code) {
+            id = temp.ref.replace(state.prefix, '')
+            issuer = temp.wname.substring(0, 2)
+            underlying = temp.symbol
+            
+            if (temp.wtype == 1 && temp.wname.includes('@'))
+              wtype = 'EC'
+            else if (temp.wtype == 2 && temp.wname.includes('@'))
+              wtype = 'EP'
+            else if (temp.wtype == 1)
+              wtype = 'RC'
+            else if (temp.wtype == 2)
+              wtype = 'RP'
+          }
+        }
+        
+        if (!(id in state.portfolios))
+          state.portfolios[id] = []
+        
+        if (pair.avgbuy && pair.avgsell && pair.quantity) {
+          var arr = {
+            ref: '',
+            mode: '',
+            key: '',
+            code: pair.warrant_code,
+            quantity: formatLong(pair.quantity),
+            buyPrice: formatLong(pair.avgbuy),
+            buyTime: '',
+            sellPrice: formatLong(pair.avgsell),
+            soldTime: formatDate(pair.lasttradetime),
+            // profitLoss: (formatLong(pair.avgbuy)-formatLong(pair.avgsell))*formatLong(pair.quantity),
+            profitLoss: (pair.sellturnover-pair.buytunrover)/(100000000*100000000),
+            issuer: issuer,
+            wtype: wtype,
+            levelTime: '',
+            wintime: '',
+            lvlcount: '',
+            underlying: underlying,
+            totalWin: pair.win,
+            totalLoss: pair.loss,
+            totalDraw: pair.draw,
+            type: 'init'
+          }
+          state.portfolios[id].push(arr)
+        }
+      }
+    }
+    
+    state = this.mapCellsConfig(state)
+    return state
   }
   
   // 盘口 set pairs v1
@@ -334,6 +511,15 @@ class Cbbc extends React.Component {
     // 沒有cbbc algo
     if ( (state.modules.bull != null && state.modules.bull.includes('bear')) && (state.modules.bear != null && state.modules.bear.includes('bear')) )
       console.log({log: 'algo exist'})
+    //
+    var command1 = {cmd: 'listpair', id: parseInt(state.userId), algo_name: algo, ref: state.prefix+'0'}
+    sendWebsocket(JSON.stringify(command1))
+    //
+    var command1 = {cmd: 'tradelist', id: parseInt(state.userId), algo_name: algo, ref: state.prefix+'0', size: 99999999}
+    sendWebsocket(JSON.stringify(command1))
+    //
+    var command1 = {cmd: 'strategy1', id: parseInt(state.userId), algo_name: algo, ref: state.prefix+'0', isread: true}
+    sendWebsocket(JSON.stringify(command1))
     // 报价表
     async function loadPrice(state) {
       for (var i in state.cellsConfig) {
@@ -478,6 +664,51 @@ class Cbbc extends React.Component {
     return state
   }
   
+  setTradelist(state, data1) {
+    if ('tradelist' in data1 && 'tradelist' in data1.tradelist && data1.tradelist.tradelist.length > 0) {
+      for (var data of data1.tradelist.tradelist.reverse()) {
+        var id = data.ref.replace(state.prefix, '')
+        
+        var futurePrice = '/'
+        if (data.side.toLowerCase() == 'buy' && 'buyin' in data)
+          futurePrice = formatPrice(data.buyin)
+        else if (data.side.toLowerCase() == 'sell' && 'sellout' in data)
+          futurePrice = formatPrice(data.sellout)
+        
+        var arr = {
+          code: data.warrant_code,
+          side: data.side.toLowerCase(),
+          status: data.status,
+          transactionTm: ((data.transaction_time) ? formatDate(data.transaction_time) : getCurDateTime()),
+          matchPrice: formatLong(data.filled_price), 
+          matchQuantity: formatLong(data.filled_quantity),
+          totalPrice: formatLong(data.filled_price)*formatLong(data.filled_quantity),
+          futurePrice: futurePrice,
+          reason: ('reason' in data) ? data.reason: '',
+          wtype: data.wtype,
+          issuer: data.issuer,
+          underlying: data.uname,
+          leveltime: data.leveltime,
+          wintime: data.wintime,
+          lvlcount: data.lvlcount,
+          wincount: data.wincount
+        }
+        
+        if (!(id in state.orders))
+          state.orders[id] = []
+        if (!(id in state.positions))
+          state.positions[id] = []
+        
+        // 真實買賣
+        if (data.transaction_time)
+          state.orders[id].push(arr)
+        // 真實買賣+借仓(用戶另外set prsitions)
+        state.positions[id].push(arr)
+      }
+    }
+    return state
+  }
+  
   // 倉位 (已经没有这个功能)
   setPosition(state, data) {
     /*var id = data.ref.replace(state.prefix, '')
@@ -497,21 +728,7 @@ class Cbbc extends React.Component {
   // 初始化
   setRecoveryEnd(state, data) {
     state.recovery.isRecoveryEnd = true
-    
-    // 影射
-    var last = 0
-    for (var i in state.cells)
-      if (state.cells[i].action.code.value)
-        last = parseInt(i)+1
-    
-    for(var i=0; i<last; i++) {
-      var v = state.cells[i]
-      if (v.action.code.value)
-        state.cellsConfig.push({code: v.action.code.value, type: v.type, isVisable: false, isVisable2: true})
-      else
-        state.cellsConfig.push({code: '', type: 'undefined', isVisable: false, isVisable2: true})
-    }
-    return state
+    return this.mapCellsConfig(state)
   }
   
   // 標的掛牌價
@@ -696,6 +913,8 @@ class Cbbc extends React.Component {
         
         if (parseInt(v)==0)
           state.strategy1[k].value = ''
+        else if (Number.isInteger(v) && data.isread == true)
+          state.strategy1[k].value = formatPrice(v)
         else
           state.strategy1[k].value = v
         
@@ -810,7 +1029,7 @@ class Cbbc extends React.Component {
           />
         </div>
         <div className="footer text-center">
-          Copyright © {curYear} Fast Trader v1.0.30
+          Copyright © {curYear} Fast Trader v1.0.35
         </div>
       </React.Fragment>
       /*<Selector

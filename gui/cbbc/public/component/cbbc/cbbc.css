@@ -79,7 +79,7 @@
 #cbbc .price_table {
   overflow:auto;
   display: block;
-  height: 255px;
+  height: 216px;
   width: calc(100% + 12px);
   font-size: 11px;
   margin-top: -4px;
@@ -129,8 +129,8 @@
   padding: .1rem;
 }
  
-.table-trade th:nth-child(2), .table-trade th:nth-child(8), .table-trade th:nth-child(13), .table-trade th:nth-child(16), .table-trade th:nth-child(19), .table-trade th:nth-child(27),
-.table-trade td:nth-child(2), .table-trade td:nth-child(8), .table-trade td:nth-child(13), .table-trade td:nth-child(16), .table-trade td:nth-child(19), .table-trade td:nth-child(27) {
+.table-trade th:nth-child(2), .table-trade th:nth-child(8), .table-trade th:nth-child(13), .table-trade th:nth-child(16), .table-trade th:nth-child(19), .table-trade th:nth-child(28),
+.table-trade td:nth-child(2), .table-trade td:nth-child(8), .table-trade td:nth-child(13), .table-trade td:nth-child(16), .table-trade td:nth-child(19), .table-trade td:nth-child(28) {
   border-left: 2px solid #333;
   padding-left: 4px !important;
 }
