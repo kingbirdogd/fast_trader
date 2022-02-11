@@ -20,6 +20,7 @@ s1algo::s1algo(user& u, const std::string& name):
 	selectionTypeMap["BP"] = SELECT_NORMAL;
 	selectionTypeMap["CS"] = SELECT_NORMAL;
 	selectionTypeMap["CT"] = SELECT_NORMAL;
+	selectionTypeMap["DS"] = SELECT_NORMAL;
 	selectionTypeMap["EA"] = SELECT_NORMAL;
 	selectionTypeMap["GJ"] = SELECT_NORMAL;
 	selectionTypeMap["GS"] = SELECT_NORMAL;
