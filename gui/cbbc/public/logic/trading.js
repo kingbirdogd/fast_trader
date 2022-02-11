@@ -290,6 +290,7 @@ function getIssuer() {
       BP: {sc: '法巴', tc: '法巴', en: '法巴'},
       CS: {sc: '瑞信', tc: '瑞信', en: '瑞信'},
       CT: {sc: '花旗', tc: '花旗', en: '花旗'},
+      DS: {sc: '星展', tc: '星展', en: '星展'},
       EA: {sc: '東亞', tc: '東亞', en: '東亞'},
       GJ: {sc: '国君', tc: '國君', en: '国君'},
       GS: {sc: '高盛', tc: '高盛', en: '高盛'},
@@ -298,7 +299,6 @@ function getIssuer() {
       JP: {sc: '摩通', tc: '摩通', en: '摩通'},
       MB: {sc: '麦银', tc: '麥銀', en: '麦银'},
       MS: {sc: '摩利', tc: '摩利', en: '摩利'},
-      SC: {sc: '渣打', tc: '渣打', en: '渣打'},
       SG: {sc: '法兴', tc: '法興', en: '法兴'},
       UB: {sc: '瑞银', tc: '瑞銀', en: '瑞银'},
       VT: {sc: '瑞通', tc: '瑞通', en: '瑞通'}
