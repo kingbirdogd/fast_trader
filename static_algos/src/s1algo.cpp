@@ -246,7 +246,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 				 	*/
 				s1signal* s1 = s1SignalMap[p->UCode];
 
-				warrant* obsw = obs->getRelatedWarrant(code);
+				//warrant* obsw = obs->getRelatedWarrant(code);
 				//PriceMark* spm = pricemarkMap[code];
 
 
@@ -255,7 +255,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					warrant* obsw = obs->getRelatedWarrant(code);
 					PriceMark* spm = pricemarkMap[code];
 
-					if(up->Bestbid > obsw->StopLostPrice && best_bid_price > obsw->RefWBid  && best_bid_price>obsw->BuyPrice){
+					if(up->Bestbid > obsw->StopLostPrice && best_bid_price > obsw->RefWBid  && best_bid_price > obsw->BuyPrice){
 
 						Log("bid->Quantity0 = " + to_string(up->BidQty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost));
 						Log("Security Code = " + to_string(p->UCode) + " Rise Stop Lost Price from " + to_string(obsw->StopLostPrice) + " To " + to_string(up->Bestbid));
