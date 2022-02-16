@@ -98,6 +98,20 @@ s1algo::s1algo(user& u, const std::string& name):
 		COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[ucode];
 		obMap[ucode]->SpreadTableCode = omdcdef.SpreadTableCode;
 
+
+		underlyingPriceMap[ucode] = new priceinfo();
+		underlyingPriceMap[ucode]->Bestbid = 0;
+		underlyingPriceMap[ucode]->Bestask = 0;
+		underlyingPriceMap[ucode]->PBestbid = 0;
+		underlyingPriceMap[ucode]->PBestask = 0;
+		underlyingPriceMap[ucode]->BidSeq = 1;
+		underlyingPriceMap[ucode]->LastBidSeq = 0;
+		underlyingPriceMap[ucode]->UCode = 0;
+
+		underlyingPriceMap[ucode]->Lotsize = static_cast<unsigned long long>(omdcdef.LotSize);
+
+
+
 		Log("Init = " + to_string(ucode) + " OBSetting and SpreadCode = " + obMap[ucode]->SpreadTableCode);
 	}
 
@@ -146,77 +160,151 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		if(p->Bestbid != best_bid_price && best_bid_price>0){
 			p->PBestbid = p->Bestbid;
 
-			if(obs->warrantStatus(code, STATUS_AVAILABLE) || obs->warrantStatus(code, STATUS_SELLING)){
-				//if(obs->isExist(code)){
-
-				warrant* w = obs->getRelatedWarrant(code);
-				if(w->isWinSell){
-					if(w->BuyPrice > 0 && best_bid_price > 0){
-						if(best_bid_price > w->BuyPrice && w->Status == STATUS_AVAILABLE){
-							Log("Warrant Code = " + to_string(code) + " Do Quick Win Sell @ " + to_string(best_bid_price) + " Buy Price = " + to_string(w->BuyPrice));
-							w->Status = STATUS_SELLING;
-							bool result = doWarrantAction(w, dbp::top::order_side::sell, best_bid_price, w->Quantity);
-							if(!result){
-								obs->setRelatedWarrantStatus(w->Code, STATUS_AVAILABLE);
-							}
-						}
-					}
-				}
-				if(w->isWinOrLvlSell){
-					if(w->BuyPrice > 0 && best_bid_price > 0){
-						if(best_bid_price >= w->BuyPrice && w->Status == STATUS_AVAILABLE){
-							Log("Warrant Code = " + to_string(code) + " Do Quick Win Lvl Sell @ " + to_string(best_bid_price) + " Buy Price = " + to_string(w->BuyPrice));
-							w->Status = STATUS_SELLING;
-							bool result = doWarrantAction(w, dbp::top::order_side::sell, best_bid_price, w->Quantity);
-							if(!result){
-								obs->setRelatedWarrantStatus(w->Code, STATUS_AVAILABLE);
-							}
-						}
-					}
-				}
-
-				if(w->BuyPrice > 0 && best_bid_price > 0){
-					if(best_bid_price == w->BuyPrice && w->Status == STATUS_AVAILABLE){
-						PriceMark* spm = pricemarkMap[code];
-						unsigned long long lvlbid = spm->sellOut(best_bid_price);
-						if(lvlbid != 0 && lvlbid != 99999999){
-							w->LvlBid = lvlbid;
-							Log("Warrant Code = " + to_string(code) + " Lvl Bid @ " + to_string(best_bid_price) + " UBid = " + to_string(lvlbid));
-						}
-					}
-				}
-
-				auto msg = algo_warrantprice_msg_pool.get_obj();
-				msg->al = this;
-				msg->algo_name = _name;
-				msg->id = _u.get_id();
-				msg->ref = std::to_string(code);
-				msg->warrant_code = code;
-				msg->side = "BID";
-				msg->wprice = best_bid_price;
-				ouputQueue.enqueue(msg);
-
-				Log("UCODE = " + to_string(p->UCode) + " Warrant Code = " + to_string(code) + " WBid Change from " + to_string(p->PBestbid) + " To " + to_string(best_bid_price) + " WBidQty = " + to_string(best_bid_qty));
-				//}
-			}
 			p->Bestbid = best_bid_price;
 			p->DiffBid = static_cast<long long>(best_bid_price) - static_cast<long long>(p->PBestbid);
 			p->BidSeq++;
+
+
+			if(obs->hasPosition){
+
+				if(obs->warrantStatus(code, STATUS_AVAILABLE) || obs->warrantStatus(code, STATUS_SELLING)){
+					//if(obs->isExist(code)){
+
+					warrant* w = obs->getRelatedWarrant(code);
+					if(w->isWinSell){
+						if(w->BuyPrice > 0 && best_bid_price > 0){
+							if(best_bid_price > w->BuyPrice && w->Status == STATUS_AVAILABLE){
+								Log("Warrant Code = " + to_string(code) + " Do Quick Win Sell @ " + to_string(best_bid_price) + " Buy Price = " + to_string(w->BuyPrice));
+								w->Status = STATUS_SELLING;
+								bool result = doWarrantAction(w, dbp::top::order_side::sell, best_bid_price, w->Quantity);
+								if(!result){
+									obs->setRelatedWarrantStatus(w->Code, STATUS_AVAILABLE);
+								}
+							}
+						}
+					}
+					if(w->isWinOrLvlSell){
+						if(w->BuyPrice > 0 && best_bid_price > 0){
+							if(best_bid_price >= w->BuyPrice && w->Status == STATUS_AVAILABLE){
+								Log("Warrant Code = " + to_string(code) + " Do Quick Win Lvl Sell @ " + to_string(best_bid_price) + " Buy Price = " + to_string(w->BuyPrice));
+								w->Status = STATUS_SELLING;
+								bool result = doWarrantAction(w, dbp::top::order_side::sell, best_bid_price, w->Quantity);
+								if(!result){
+									obs->setRelatedWarrantStatus(w->Code, STATUS_AVAILABLE);
+								}
+							}
+						}
+					}
+
+					if(w->BuyPrice > 0 && best_bid_price > 0){
+						if(best_bid_price == w->BuyPrice && w->Status == STATUS_AVAILABLE){
+							PriceMark* spm = pricemarkMap[code];
+							unsigned long long lvlbid = spm->sellOut(best_bid_price);
+							if(lvlbid != 0 && lvlbid != 99999999){
+								w->LvlBid = lvlbid;
+								Log("Warrant Code = " + to_string(code) + " Lvl Bid @ " + to_string(best_bid_price) + " UBid = " + to_string(lvlbid));
+							}
+						}
+					}
+
+					auto msg = algo_warrantprice_msg_pool.get_obj();
+					msg->al = this;
+					msg->algo_name = _name;
+					msg->id = _u.get_id();
+					msg->ref = std::to_string(code);
+					msg->warrant_code = code;
+					msg->side = "BID";
+					msg->wprice = best_bid_price;
+					ouputQueue.enqueue(msg);
+
+					Log("UCODE = " + to_string(p->UCode) + " Warrant Code = " + to_string(code) + " WBid Change from " + to_string(p->PBestbid) + " To " + to_string(best_bid_price) + " WBidQty = " + to_string(best_bid_qty));
+					//}
+				}
+				//raise stoplost
+
+
+
+				priceinfo* up =  underlyingPriceMap[p->UCode];
+
+				unsigned long long spread = spreadTable.getSpread(obs->SpreadTableCode, up->Bestbid-1);
+				unsigned long long diffu = up->Bestbid - obs->StopLostPrice;
+				unsigned long long diffw = up->Bestbid - obs->getHighestStopLostPrice();
+
+				if(spread == 0)
+					return;
+
+				int countspreadu = static_cast<int>(diffu/spread);
+				int countspreadw = static_cast<int>(diffw/spread);
+
+				s1signal* s1 = s1SignalMap[p->UCode];
+				if( ((countspreadw > 0) || (countspreadu > 0) || (up->Bestbid > obs->StopLostPrice && up->BidQty > s1->RaiseStopLost)) && ((obs->Status == STATUS_AVAILABLE))){
+					unsigned long long oldstoplost = obs->StopLostPrice;
+					if(countspreadu > 0){
+						if(up->BidQty > s1->RaiseStopLost){
+							obs->StopLostPrice = up->Bestbid;
+						}
+					}
+
+					if(obs->StopLostPrice > oldstoplost){
+						Log("bid->Quantity0 = " + to_string(up->BidQty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost));
+						Log("Security Code = " + to_string(p->UCode) + " Rise Stop Lost Price from " + to_string(oldstoplost) + " To " + to_string(obs->StopLostPrice));
+					}
+
+
+
+					if(countspreadw > 0){
+						warrant* obsw = obs->getRelatedWarrant(code);
+						PriceMark* spm = pricemarkMap[code];
+
+										//unsigned long long wbest_bid_price = warrantPriceMap[obsw[i]->Code]->Bestbid;
+
+										//auto it2 = omdcMap.find(obsw[i]->Code);
+										//if(it2 != omdcMap.end()){
+										//	auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
+											//auto wbest_ask_price = static_cast<unsigned long long>(it->second.m_Ask[0].m_iPrice) * 100000;
+
+						unsigned long long lvlbid = spm->sellOut(obsw->BuyPrice);
+
+						if(lvlbid != 0 && lvlbid != 99999999){
+							obsw->LvlBid = lvlbid;
+						}
+
+						unsigned long long fpcb = spm->sellOut(best_bid_price);
+
+
+						if(fpcb > obsw->StopLostPrice  && fpcb <= obs->StopLostPrice && fpcb <= up->Bestbid && best_bid_price>obsw->RefWBid && best_bid_price>obsw->BuyPrice){
+							obsw->StopLostPrice = fpcb;
+							obsw->RefWBid = best_bid_price;
+
+							auto msg = algo_stoplost_msg_pool.get_obj();
+							msg->al = this;
+							msg->algo_name = _name;
+							msg->id = _u.get_id();
+							msg->ref = to_string(code);
+							msg->code = code;
+							msg->stoplost = fpcb;
+							msg->wbid = best_bid_price;
+							ouputQueue.enqueue(msg);
+						}
+					}
+
+			}
+
 		}
 		p->BidQty = best_bid_qty;
 
+
 		if(p->Bestask != best_ask_price && best_ask_price>0){
 			p->PBestask = p->Bestask;
-			/*
-			if(obs->Status == STATUS_READY || obs->Status == STATUS_AVAILABLE || obs->Status == STATUS_PENDING){
-				if(obs->isExist(code)){
-					Log("UCODE = " + to_string(p->UCode) + " Warrant Code = " + to_string(code) + " WAsk Change from " + to_string(p->PBestask) + " To " + to_string(best_ask_price));
-				}
-			}
-			*/
 			p->Bestask = best_ask_price;
 		}
 		p->AskQty = best_ask_qty;
+
+
+
+
+
+
 
 		/*
 		time_t currentTime = DateUtil::getCurrentSystemTime();
@@ -257,8 +345,27 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		//p->BidQty = best_bid_qty;
 		//p->AskQty = best_ask_qty;
 		return;
+	}else{
+
+		auto itu = underlyingPriceMap.find(code);
+		if(itu != underlyingPriceMap.end()){
+			priceinfo* p = itu->second;
+
+			if(p->Bestbid != best_bid_price && best_bid_price>0){
+				p->PBestbid = p->Bestbid;
+				p->Bestbid = best_bid_price;
+			}
+			p->BidQty = best_bid_qty;
+
+			if(p->Bestask != best_ask_price && best_ask_price>0){
+				p->PBestask = p->Bestask;
+				p->Bestask = best_ask_price;
+			}
+			p->AskQty = best_ask_qty;
+		}
 	}
 
+		/*
 	auto itob = obMap.find(code);
 	if(itob != obMap.end())
 	{
@@ -267,97 +374,6 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 		if(obs->hasPosition)
 		{
-
-/*
-			unsigned long long  bid_price1 = 0ull;
-			unsigned long long  ask_price1 = 0ull;
-			unsigned long long  bid_price2 = 0ull;
-			unsigned long long  ask_price2 = 0ull;
-			unsigned long long  bid_price3 = 0ull;
-			unsigned long long  ask_price3 = 0ull;
-			unsigned long long  best_bid_vol1 = 0ull;
-			unsigned long long  best_ask_vol1 = 0ull;
-			unsigned long long  best_bid_vol2 = 0ull;
-			unsigned long long  best_ask_vol2 = 0ull;
-			unsigned long long  best_bid_vol3 = 0ull;
-			unsigned long long  best_ask_vol3 = 0ull;
-
-			auto itpdata = pricedataMap.find(code);
-			if(itpdata != pricedataMap.end()){
-				pricedata* pd = itpdata->second;
-				bid_price1 = pd->Bestbid1;
-				ask_price1 = pd->Bestask1;
-				bid_price2 = pd->Bestbid2;
-				ask_price2 = pd->Bestask2;
-				bid_price3 = pd->Bestbid3;
-				ask_price3 = pd->Bestask3;
-				best_bid_vol1 = pd->BestBidQty1;
-				best_ask_vol1 = pd->BestAskQty1;
-				best_bid_vol2 = pd->BestBidQty2;
-				best_ask_vol2 = pd->BestAskQty2;
-				best_bid_vol3 = pd->BestBidQty3;
-				best_ask_vol3 = pd->BestAskQty3;
-			}
-
-			unsigned long long wp = calWeightedPrice(bid_price1,bid_price2,bid_price3,
-							best_bid_vol1, best_bid_vol2, best_bid_vol3,
-							ask_price1,ask_price2,ask_price3,
-							best_ask_vol1, best_ask_vol2, best_ask_vol3
-				);
-			wp = wp * 100000;
-
-			unsigned long long mid = (best_bid_price + best_ask_price)/2;
-
-*/
-
-			//Log("Code = " + to_string(code) + " BestBid : " + to_string(bid_price1) + " BestAsk : " + to_string(ask_price1) + " WP : " + to_string(wp));
-
-
-			/*
-			auto itpdata = pricedataMap.find(code);
-			if(itpdata != pricedataMap.end()){
-				pricedata* pd = itpdata->second;
-
-				unsigned long long bid_price1 = pd->Bestbid1;
-				unsigned long long ask_price1 = pd->Bestask1;
-				unsigned long long bid_price2 = pd->Bestbid2;
-				unsigned long long ask_price2 = pd->Bestask2;
-				unsigned long long bid_price3 = pd->Bestbid3;
-				unsigned long long ask_price3 = pd->Bestask3;
-				unsigned long long best_bid_vol1 = pd->BestBidQty1;
-				unsigned long long best_ask_vol1 = pd->BestAskQty1;
-				unsigned long long best_bid_vol2 = pd->BestBidQty2;
-				unsigned long long best_ask_vol2 = pd->BestAskQty2;
-				unsigned long long best_bid_vol3 = pd->BestBidQty3;
-				unsigned long long best_ask_vol3 = pd->BestAskQty3;
-
-				unsigned long long wp = calWeightedPrice(bid_price1,bid_price2,bid_price3,
-								best_bid_vol1, best_bid_vol2, best_bid_vol3,
-								ask_price1,ask_price2,ask_price3,
-								best_ask_vol1, best_ask_vol2, best_ask_vol3
-					);
-				wp = wp * 100000;
-
-				Log("Detected Code = " + to_string(code) + " BestBid : " + to_string(bid_price1) + " BestAsk : " + to_string(ask_price1) + " WP : " + to_string(wp));
-
-			}
-*/
-
-
-			/*
-			if(obs->SpreadTableCode == ""){
-				Log("Code = " + to_string(code) + " Empty Spread Table ");
-				COmdcAdditionDefinitions omdcdef = omdcAdditionDefinitionsMap[code];
-				obs->SpreadTableCode = omdcdef.SpreadTableCode;
-			}
-			*/
-
-			/*
-			if(signalCount <= 0){
-				signalCount = 1;
-				lastReadyTime = DateUtil::getCurrentSystemTime();
-				Log("No of Detected Signal = " + to_string(signalCount));
-			}*/
 
 			unsigned long long spread = spreadTable.getSpread(obs->SpreadTableCode, best_bid_price-1);
 			unsigned long long diffu = best_bid_price - obs->StopLostPrice;
@@ -373,14 +389,12 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 			if( ((countspreadw > 0) || (countspreadu > 0) || (best_bid_price > obs->StopLostPrice && best_bid_qty > s1->RaiseStopLost)) && ((obs->Status == STATUS_AVAILABLE))){
 				unsigned long long oldstoplost = obs->StopLostPrice;
 				if(countspreadu > 0){
-					//if(best_bid_qty > s1->RaiseStopLost && wp>mid){
 					if(best_bid_qty > s1->RaiseStopLost){
 						obs->StopLostPrice = best_bid_price;
 					}
 				}
 
 				if(obs->StopLostPrice > oldstoplost){
-					//Log("bid->Quantity0 = " + to_string(best_bid_qty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost) + " WP = " + to_string(wp) + " mid = " + to_string(mid));
 					Log("bid->Quantity0 = " + to_string(best_bid_qty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost));
 					Log("Security Code = " + to_string(code) + " Rise Stop Lost Price from " + to_string(oldstoplost) + " To " + to_string(obs->StopLostPrice));
 				}
@@ -393,18 +407,15 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 						unsigned long long wbest_bid_price = warrantPriceMap[obsw[i]->Code]->Bestbid;
 
-						//auto it2 = omdcMap.find(obsw[i]->Code);
-						//if(it2 != omdcMap.end()){
-						//	auto wbest_bid_price = static_cast<unsigned long long>(it2->second.m_Bid[0].m_iPrice) * 100000;
-							//auto wbest_ask_price = static_cast<unsigned long long>(it->second.m_Ask[0].m_iPrice) * 100000;
-
 						unsigned long long lvlbid = spm->sellOut(obsw[i]->BuyPrice);
 
 						if(lvlbid != 0 && lvlbid != 99999999){
 							obsw[i]->LvlBid = lvlbid;
 						}
 
+
 						unsigned long long fpcb = spm->sellOut(wbest_bid_price);
+
 						if(fpcb > obsw[i]->StopLostPrice  && fpcb <= obs->StopLostPrice && fpcb <= best_bid_price && wbest_bid_price>obsw[i]->RefWBid && wbest_bid_price>obsw[i]->BuyPrice){
 							obsw[i]->StopLostPrice = fpcb;
 							obsw[i]->RefWBid = wbest_bid_price;
@@ -419,30 +430,12 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							msg->wbid = wbest_bid_price;
 							ouputQueue.enqueue(msg);
 						}
-						/*
-						else if(fpcb > obsw[i]->StopLostPrice && fpcb <= obs->StopLostPrice && fpcb > best_bid_price && wbest_bid_price>obsw[i]->RefWBid){
-							obsw[i]->StopLostPrice = best_bid_price;
-							obsw[i]->RefWBid = wbest_bid_price;
-
-							auto msg = algo_stoplost_msg_pool.get_obj();
-							msg->al = this;
-							msg->algo_name = _name;
-							msg->id = _u.get_id();
-							msg->ref = to_string(code);
-							msg->code = code;
-							msg->stoplost = fpcb;
-							msg->wbid = wbest_bid_price;
-							ouputQueue.enqueue(msg);
-						}
-						*/
-
-						//}
 
 					}
 				}
 			}
 			return;
-		}
+		}*/
 
 		auto it = s1SignalMap.find(code);
 		if(it != s1SignalMap.end()){

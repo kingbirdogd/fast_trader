@@ -61,6 +61,7 @@ public:
 	time_t undetectedTime;
 	time_t soldendTime;
 	std::unordered_map<unsigned int, priceinfo*> warrantPriceMap;
+	std::unordered_map<unsigned int, priceinfo*> underlyingPriceMap;
 	ThreadLogger* logger;
 	int MaxBuyNoWarrant;
 
