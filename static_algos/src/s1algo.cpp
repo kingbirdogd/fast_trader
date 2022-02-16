@@ -226,62 +226,64 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 					Log("UCODE = " + to_string(p->UCode) + " Warrant Code = " + to_string(code) + " WBid Change from " + to_string(p->PBestbid) + " To " + to_string(best_bid_price) + " WBidQty = " + to_string(best_bid_qty));
 					//}
-				}
+
 				//raise stoplost
 
 
 
-				priceinfo* up =  underlyingPriceMap[p->UCode];
+					priceinfo* up =  underlyingPriceMap[p->UCode];
 
-				/*
-				unsigned long long spread = spreadTable.getSpread(obs->SpreadTableCode, up->Bestbid-1);
-				unsigned long long diffu = up->Bestbid - obs->StopLostPrice;
-				unsigned long long diffw = up->Bestbid - obs->getHighestStopLostPrice();
+					/*
+					unsigned long long spread = spreadTable.getSpread(obs->SpreadTableCode, up->Bestbid-1);
+					unsigned long long diffu = up->Bestbid - obs->StopLostPrice;
+					unsigned long long diffw = up->Bestbid - obs->getHighestStopLostPrice();
 
-				if(spread == 0)
-					return;
+					if(spread == 0)
+						return;
 
-				int countspreadu = static_cast<int>(diffu/spread);
-				int countspreadw = static_cast<int>(diffw/spread);
-				 	*/
-				s1signal* s1 = s1SignalMap[p->UCode];
+					int countspreadu = static_cast<int>(diffu/spread);
+					int countspreadw = static_cast<int>(diffw/spread);
+						*/
+					s1signal* s1 = s1SignalMap[p->UCode];
 
-				//warrant* obsw = obs->getRelatedWarrant(code);
-				//PriceMark* spm = pricemarkMap[code];
+					//warrant* obsw = obs->getRelatedWarrant(code);
+					//PriceMark* spm = pricemarkMap[code];
 
 
-				if( (up->Bestbid > obs->StopLostPrice && up->BidQty > s1->RaiseStopLost ) && (obs->Status == STATUS_AVAILABLE)) {
+					if( (up->Bestbid > obs->StopLostPrice && up->BidQty > s1->RaiseStopLost ) && (obs->Status == STATUS_AVAILABLE)) {
 
-					warrant* obsw = obs->getRelatedWarrant(code);
-					PriceMark* spm = pricemarkMap[code];
+						warrant* obsw = obs->getRelatedWarrant(code);
+						PriceMark* spm = pricemarkMap[code];
 
-					if(up->Bestbid > obsw->StopLostPrice && best_bid_price > obsw->RefWBid  && best_bid_price > obsw->BuyPrice){
+						if(up->Bestbid > obsw->StopLostPrice && best_bid_price > obsw->RefWBid  && best_bid_price > obsw->BuyPrice){
 
-						Log("bid->Quantity0 = " + to_string(up->BidQty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost));
-						Log("Security Code = " + to_string(p->UCode) + " Rise Stop Lost Price from " + to_string(obsw->StopLostPrice) + " To " + to_string(up->Bestbid));
-						Log("Warrant Code = " + to_string(code) + " Rise Stop Lost Price from " + to_string(obsw->RefWBid) + " To " + to_string(best_bid_price));
+							Log("bid->Quantity0 = " + to_string(up->BidQty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost));
+							Log("Security Code = " + to_string(p->UCode) + " Rise Stop Lost Price from " + to_string(obsw->StopLostPrice) + " To " + to_string(up->Bestbid));
+							Log("Warrant Code = " + to_string(code) + " Rise Stop Lost Price from " + to_string(obsw->RefWBid) + " To " + to_string(best_bid_price));
 
-						obsw->StopLostPrice = up->Bestbid;
-						obsw->RefWBid = best_bid_price;
+							obsw->StopLostPrice = up->Bestbid;
+							obsw->RefWBid = best_bid_price;
 
-						auto msg = algo_stoplost_msg_pool.get_obj();
-						msg->al = this;
-						msg->algo_name = _name;
-						msg->id = _u.get_id();
-						msg->ref = to_string(code);
-						msg->code = code;
-						msg->stoplost = up->Bestbid;
-						msg->wbid = best_bid_price;
-						ouputQueue.enqueue(msg);
+							auto msg = algo_stoplost_msg_pool.get_obj();
+							msg->al = this;
+							msg->algo_name = _name;
+							msg->id = _u.get_id();
+							msg->ref = to_string(code);
+							msg->code = code;
+							msg->stoplost = up->Bestbid;
+							msg->wbid = best_bid_price;
+							ouputQueue.enqueue(msg);
+						}
+
+						obs->StopLostPrice = obs->getHighestStopLostPrice();
+					}else if(up->Bestbid < obs->getHighestStopLostPrice() ){
+
+						Log("Security Code = " + to_string(p->UCode) + "Ubid below Stop lost : " + to_string(up->Bestbid) + " Large Stoplost " + to_string(obs->getHighestStopLostPrice()));
+
 					}
 
-					obs->StopLostPrice = obs->getHighestStopLostPrice();
-				}else if(up->Bestbid < obs->getHighestStopLostPrice() ){
-
-					Log("Security Code = " + to_string(p->UCode) + "Ubid below Stop lost : " + to_string(up->Bestbid) + " Large Stoplost " + to_string(obs->getHighestStopLostPrice()));
 
 				}
-
 
 /*
 				if( ((countspreadw > 0) || (countspreadu > 0) || (up->Bestbid > obs->StopLostPrice && up->BidQty > s1->RaiseStopLost)) && ((obs->Status == STATUS_AVAILABLE))){
