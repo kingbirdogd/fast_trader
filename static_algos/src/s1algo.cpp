@@ -250,7 +250,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 				//PriceMark* spm = pricemarkMap[code];
 
 
-				if( (up->Bestbid > obs->StopLostPrice && up->BidQty > s1->RaiseStopLost ) && ((obs->Status == STATUS_AVAILABLE)) {
+				if( (up->Bestbid > obs->StopLostPrice && up->BidQty > s1->RaiseStopLost ) && (obs->Status == STATUS_AVAILABLE)) {
 
 					warrant* obsw = obs->getRelatedWarrant(code);
 					PriceMark* spm = pricemarkMap[code];
