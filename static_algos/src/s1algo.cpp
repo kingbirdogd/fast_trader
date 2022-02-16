@@ -157,6 +157,13 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		if(obs == nullptr)
 			return;
 
+		p->AskQty = best_ask_qty;
+		if(p->Bestask != best_ask_price && best_ask_price>0){
+			p->PBestask = p->Bestask;
+			p->Bestask = best_ask_price;
+		}
+
+		p->BidQty = best_bid_qty;
 		if(p->Bestbid != best_bid_price && best_bid_price>0){
 			p->PBestbid = p->Bestbid;
 
@@ -226,6 +233,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 				priceinfo* up =  underlyingPriceMap[p->UCode];
 
+				/*
 				unsigned long long spread = spreadTable.getSpread(obs->SpreadTableCode, up->Bestbid-1);
 				unsigned long long diffu = up->Bestbid - obs->StopLostPrice;
 				unsigned long long diffw = up->Bestbid - obs->getHighestStopLostPrice();
@@ -235,8 +243,38 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 				int countspreadu = static_cast<int>(diffu/spread);
 				int countspreadw = static_cast<int>(diffw/spread);
-
+				 	*/
 				s1signal* s1 = s1SignalMap[p->UCode];
+
+				warrant* obsw = obs->getRelatedWarrant(code);
+				//PriceMark* spm = pricemarkMap[code];
+
+
+				if( (up->Bestbid > obs->StopLostPrice && up->BidQty > s1->RaiseStopLost ) && ((obs->Status == STATUS_AVAILABLE)) {
+
+					warrant* obsw = obs->getRelatedWarrant(code);
+					PriceMark* spm = pricemarkMap[code];
+
+					if(up->Bestbid > obsw->StopLostPrice && best_bid_price > obsw->RefWBid  && best_bid_price>obsw->BuyPrice){
+						obsw->StopLostPrice = up->Bestbid;
+						obsw->RefWBid = best_bid_price;
+
+						auto msg = algo_stoplost_msg_pool.get_obj();
+						msg->al = this;
+						msg->algo_name = _name;
+						msg->id = _u.get_id();
+						msg->ref = to_string(code);
+						msg->code = code;
+						msg->stoplost = fpcb;
+						msg->wbid = best_bid_price;
+						ouputQueue.enqueue(msg);
+					}
+
+					obs->StopLostPrice = obs->getHighestStopLostPrice();
+				}
+
+
+/*
 				if( ((countspreadw > 0) || (countspreadu > 0) || (up->Bestbid > obs->StopLostPrice && up->BidQty > s1->RaiseStopLost)) && ((obs->Status == STATUS_AVAILABLE))){
 					unsigned long long oldstoplost = obs->StopLostPrice;
 					if(countspreadu > 0){
@@ -290,15 +328,11 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 
 			}
 
-		}
-		p->BidQty = best_bid_qty;
+		}*/
 
 
-		if(p->Bestask != best_ask_price && best_ask_price>0){
-			p->PBestask = p->Bestask;
-			p->Bestask = best_ask_price;
-		}
-		p->AskQty = best_ask_qty;
+
+
 
 
 
