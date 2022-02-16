@@ -365,13 +365,14 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		}
 	}
 
-		/*
+
 	auto itob = obMap.find(code);
 	if(itob != obMap.end())
 	{
 		//Log("on_omdc_book code = " + to_string(tradable.m_Code) + " OBSetting");
 		OBSetting* obs = itob->second;
 
+		/*
 		if(obs->hasPosition)
 		{
 
