@@ -256,6 +256,11 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					PriceMark* spm = pricemarkMap[code];
 
 					if(up->Bestbid > obsw->StopLostPrice && best_bid_price > obsw->RefWBid  && best_bid_price>obsw->BuyPrice){
+
+						Log("bid->Quantity0 = " + to_string(up->BidQty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost));
+						Log("Security Code = " + to_string(p->UCode) + " Rise Stop Lost Price from " + to_string(obsw->StopLostPrice) + " To " + to_string(up->Bestbid));
+						Log("Warrant Code = " + to_string(code) + " Rise Stop Lost Price from " + to_string(obsw->RefWBid) + " To " + to_string(best_bid_price));
+
 						obsw->StopLostPrice = up->Bestbid;
 						obsw->RefWBid = best_bid_price;
 
@@ -271,6 +276,10 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					}
 
 					obs->StopLostPrice = obs->getHighestStopLostPrice();
+				}else if(up->Bestbid < obs->getHighestStopLostPrice() ){
+
+					Log("Security Code = " + to_string(p->UCode) + "Ubid below Stop lost : " + to_string(up->Bestbid) + " Large Stoplost " + to_string(obs->getHighestStopLostPrice()));
+
 				}
 
 
