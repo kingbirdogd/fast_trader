@@ -344,24 +344,25 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 		//p->Bestask = best_ask_price;
 		//p->BidQty = best_bid_qty;
 		//p->AskQty = best_ask_qty;
-		return;
-	}else{
+			return;
+		}else{
 
-		auto itu = underlyingPriceMap.find(code);
-		if(itu != underlyingPriceMap.end()){
-			priceinfo* p = itu->second;
+			auto itu = underlyingPriceMap.find(code);
+			if(itu != underlyingPriceMap.end()){
+				priceinfo* p = itu->second;
 
-			if(p->Bestbid != best_bid_price && best_bid_price>0){
-				p->PBestbid = p->Bestbid;
-				p->Bestbid = best_bid_price;
+				if(p->Bestbid != best_bid_price && best_bid_price>0){
+					p->PBestbid = p->Bestbid;
+					p->Bestbid = best_bid_price;
+				}
+				p->BidQty = best_bid_qty;
+
+				if(p->Bestask != best_ask_price && best_ask_price>0){
+					p->PBestask = p->Bestask;
+					p->Bestask = best_ask_price;
+				}
+				p->AskQty = best_ask_qty;
 			}
-			p->BidQty = best_bid_qty;
-
-			if(p->Bestask != best_ask_price && best_ask_price>0){
-				p->PBestask = p->Bestask;
-				p->Bestask = best_ask_price;
-			}
-			p->AskQty = best_ask_qty;
 		}
 	}
 
