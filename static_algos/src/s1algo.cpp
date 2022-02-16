@@ -265,7 +265,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						msg->id = _u.get_id();
 						msg->ref = to_string(code);
 						msg->code = code;
-						msg->stoplost = fpcb;
+						msg->stoplost = up->Bestbid;
 						msg->wbid = best_bid_price;
 						ouputQueue.enqueue(msg);
 					}
