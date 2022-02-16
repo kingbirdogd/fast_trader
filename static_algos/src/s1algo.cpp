@@ -250,12 +250,12 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 					//PriceMark* spm = pricemarkMap[code];
 
 
-					if( (up->Bestbid > obs->StopLostPrice && up->BidQty > s1->RaiseStopLost ) && (obs->Status == STATUS_AVAILABLE)) {
+					//if( (up->Bestbid > obs->StopLostPrice && up->BidQty > s1->RaiseStopLost ) && (obs->Status == STATUS_AVAILABLE)) {
 
 						warrant* obsw = obs->getRelatedWarrant(code);
 						PriceMark* spm = pricemarkMap[code];
 
-						if(up->Bestbid > obsw->StopLostPrice && best_bid_price > obsw->RefWBid  && best_bid_price > obsw->BuyPrice){
+						if(up->Bestbid > obsw->StopLostPrice && best_bid_price > obsw->RefWBid  && best_bid_price > obsw->BuyPrice ){
 
 							Log("bid->Quantity0 = " + to_string(up->BidQty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost));
 							Log("Security Code = " + to_string(p->UCode) + " Rise Stop Lost Price from " + to_string(obsw->StopLostPrice) + " To " + to_string(up->Bestbid));
@@ -276,11 +276,24 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						}
 
 						obs->StopLostPrice = obs->getHighestStopLostPrice();
-					}else if(up->Bestbid < obs->getHighestStopLostPrice() ){
+
+					}else if(up->Bestbid < obsw->StopLostPrice && best_bid_price < obsw->RefWBid){
+						unsigned long long pcb = spm->sellOut(best_bid_price);
+
+
+						Log("Security Code = " + to_string(p->UCode) + "Ubid below Stop lost : Ubid " + to_string(up->Bestbid) + "  Stoplost " + to_string(obsw->StopLostPrice));
+						Log("Warrant Code = " + to_string(pcode) + "wbid below ref wStop lost : wbid " + to_string(best_bid_price) + "  wStoplost " + to_string(obsw->RefWBid));
+
+						//Log("bid->Quantity0 = " + to_string(up->BidQty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost));
+						//Log("Security Code = " + to_string(p->UCode) + " Rise Stop Lost Price from " + to_string(oldstoplost) + " To " + to_string(obs->StopLostPrice));
+
+					}
+					/*
+					else if(up->Bestbid < obs->getHighestStopLostPrice() ){
 
 						Log("Security Code = " + to_string(p->UCode) + "Ubid below Stop lost : " + to_string(up->Bestbid) + " Large Stoplost " + to_string(obs->getHighestStopLostPrice()));
 
-					}
+					}*/
 
 
 				}
