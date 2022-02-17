@@ -255,6 +255,9 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						warrant* obsw = obs->getRelatedWarrant(code);
 						PriceMark* spm = pricemarkMap[code];
 
+						Log("Warrant Code = " + to_string(code) + " StopLost = " + to_string(obsw->StopLostPrice) + " WStopLost = " + to_string(obsw->RefWBid) + " UBid = " + to_string(up->Bestbid) + " WBid=" + to_string(best_bid_price));
+
+
 						if(up->Bestbid > obsw->StopLostPrice && best_bid_price > obsw->RefWBid  && best_bid_price > obsw->BuyPrice ){
 
 							Log("bid->Quantity0 = " + to_string(up->BidQty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost));
@@ -280,9 +283,9 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							unsigned long long pcb = spm->sellOut(best_bid_price);
 
 
-							Log("Security Code = " + to_string(code) + "New PCB : Ubid " + to_string(pcb) + "  Wbid " + to_string(best_bid_price));
-							Log("Security Code = " + to_string(p->UCode) + "Ubid below Stop lost : Ubid " + to_string(up->Bestbid) + "  Stoplost " + to_string(obsw->StopLostPrice));
-							Log("Warrant Code = " + to_string(code) + "wbid below ref wStop lost : wbid " + to_string(best_bid_price) + "  wStoplost " + to_string(obsw->RefWBid));
+							Log("Security Code = " + to_string(code) + " New PCB : Ubid " + to_string(pcb) + "  Wbid " + to_string(best_bid_price));
+							Log("Security Code = " + to_string(p->UCode) + " Ubid below Stop lost : Ubid " + to_string(up->Bestbid) + "  Stoplost " + to_string(obsw->StopLostPrice));
+							Log("Warrant Code = " + to_string(code) + " wbid below ref wStop lost : wbid " + to_string(best_bid_price) + "  wStoplost " + to_string(obsw->RefWBid));
 
 							//Log("bid->Quantity0 = " + to_string(up->BidQty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost));
 							//Log("Security Code = " + to_string(p->UCode) + " Rise Stop Lost Price from " + to_string(oldstoplost) + " To " + to_string(obs->StopLostPrice));
