@@ -287,9 +287,28 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							Log("Security Code = " + to_string(p->UCode) + " Ubid below Stop lost : Ubid " + to_string(up->Bestbid) + "  Stoplost " + to_string(obsw->StopLostPrice));
 							Log("Warrant Code = " + to_string(code) + " wbid below ref wStop lost : wbid " + to_string(best_bid_price) + "  wStoplost " + to_string(obsw->RefWBid));
 
-							//Log("bid->Quantity0 = " + to_string(up->BidQty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost));
-							//Log("Security Code = " + to_string(p->UCode) + " Rise Stop Lost Price from " + to_string(oldstoplost) + " To " + to_string(obs->StopLostPrice));
 
+							if(pcb < obsw->StopLostPrice && pcb < up->Bestbid) {
+								Log("Security Code = " + to_string(code) + " New StopLost : Ubid " + to_string(pcb) + "  Wbid " + to_string(best_bid_price));
+
+								obsw->StopLostPrice = pcb;
+								obsw->RefWBid = best_bid_price;
+
+								auto msg = algo_stoplost_msg_pool.get_obj();
+								msg->al = this;
+								msg->algo_name = _name;
+								msg->id = _u.get_id();
+								msg->ref = to_string(code);
+								msg->code = code;
+								msg->stoplost = up->Bestbid;
+								msg->wbid = best_bid_price;
+								ouputQueue.enqueue(msg);
+
+								obs->StopLostPrice = obs->getHighestStopLostPrice();
+
+							//	Log("bid->Quantity0 = " + to_string(up->BidQty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost));
+							//Log("Security Code = " + to_string(p->UCode) + " Rise Stop Lost Price from " + to_string(oldstoplost) + " To " + to_string(obs->StopLostPrice));
+							}
 						}
 					/*
 					else if(up->Bestbid < obs->getHighestStopLostPrice() ){
