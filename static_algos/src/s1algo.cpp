@@ -280,6 +280,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 							unsigned long long pcb = spm->sellOut(best_bid_price);
 
 
+							Log("Security Code = " + to_string(code) + "New PCB : Ubid " + to_string(pcb) + "  Wbid " + to_string(best_bid_price));
 							Log("Security Code = " + to_string(p->UCode) + "Ubid below Stop lost : Ubid " + to_string(up->Bestbid) + "  Stoplost " + to_string(obsw->StopLostPrice));
 							Log("Warrant Code = " + to_string(code) + "wbid below ref wStop lost : wbid " + to_string(best_bid_price) + "  wStoplost " + to_string(obsw->RefWBid));
 
