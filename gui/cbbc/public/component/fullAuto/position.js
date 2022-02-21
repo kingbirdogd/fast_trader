@@ -55,7 +55,7 @@ class Position extends React.Component {
           buyQuantity = item1.matchQuantity
           ucode = item1.ucode
           wbid = item1.wbid
-          stoplost = (item1.ucode in props.data4) ? props.data4[item1.ucode].stoplost : item1.stoplost
+          stoplost = (code in props.data4) ? props.data4[code].stoplost : item1.stoplost
         }
         else if (item1.side=='sell') {
           sellTotalPrice += item1.matchPrice
