@@ -300,7 +300,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 								msg->id = _u.get_id();
 								msg->ref = to_string(code);
 								msg->code = code;
-								msg->stoplost = up->Bestbid;
+								msg->stoplost = pcb;
 								msg->wbid = best_bid_price;
 								ouputQueue.enqueue(msg);
 
@@ -1333,6 +1333,115 @@ bool s1algo::force_sell(unsigned int ucode, unsigned int code, unsigned long lon
 				}
 
 			}
+		}
+	}
+	return false;
+}
+
+bool s1algo::force_buy(unsigned int ucode){
+	auto it  = obMap.find(ucode);
+	if(it != obMap.end()){
+		OBSetting* obs = it->second;
+		if(!obs->hasPosition){
+
+			if(obs->detected){
+
+				if(obs->forcedetected){
+					vector<warrant*> wobsArray = obs->getRelatedWarrant();
+
+					for(unsigned int i=0; i<wobsArray.size(); i++){
+
+						unsigned long long wbest_ask_price = warrantPriceMap[wobsArray[i]->Code]->Bestask;
+						unsigned long long wbest_bid_price = warrantPriceMap[wobsArray[i]->Code]->Bestbid;
+						unsigned long long wAskQty = warrantPriceMap[wobsArray[i]->Code]->AskQty;
+						unsigned long long lotsize =  warrantPriceMap[wobsArray[i]->Code]->Lotsize;
+						unsigned long long wspread = wbest_ask_price - wbest_bid_price;
+
+						wobsArray[i]->RefWAsk = wbest_ask_price;
+						wobsArray[i]->RefWBid = wbest_bid_price;
+						wobsArray[i]->UBid = obs->StopLostPrice;
+
+
+						wobsArray[i]->Status = STATUS_PENDING;
+						wobsArray[i]->StopLostPrice = wobsArray[i]->UBid;
+
+						bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::buy, wobsArray[i]->RefWAsk, wobsArray[i]->BuyQuantity);
+						//bool result = doWarrantAction(wobsArray[i], dbp::top::order_side::buy, wbest_ask_price, wobsArray[i]->BuyQuantity);
+						if(!result){
+							warrant* w = obs->removeWarrantOrCbbc(wobsArray[i]->Code);
+							delete w;
+
+							continue;
+						}
+
+						#ifndef NOT_MEASURE
+							wobsArray[i]->pkg_tm = tradable.m_PkgTime;
+							wobsArray[i]->m_tm = tradable.m_MsgTime;
+							wobsArray[i]->t_tm = dbp::tools::srv::current();
+						#endif
+											//unsigned long long t_docheck = t_btrade - t_check;
+
+
+						unsigned long long t_end = dbp::tools::srv::current();
+
+						unsigned long long t_doorder = t_end - t_btrade;
+
+											//unsigned long long t_diff = t_end - t_start;
+
+											//Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wobsArray[i]->RefWAsk) + " time = " + to_string(t_diff) + " TCheck = " + to_string(t_docheck) + " TOrder = " + to_string(t_doorder));
+						Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wobsArray[i]->RefWAsk) + " Wbid = " + to_string(wbest_bid_price)  + " Wask = " + to_string(wbest_ask_price) + " TTrade = " + to_string(t_doorder));
+					}
+
+					if(obs->hasWarrants()){
+						Log("Ready Buy Enter :obs->hasWarrants() ");
+						//if(algoActionInterface->enableIB()){
+						if(obs->hasRelatedWarrant(STATUS_PENDING)){
+
+							Log("Ready Buy Enter :obs->hasRelatedWarrant(STATUS_PENDING)");
+							obs->Status = STATUS_PENDING;
+							obs->hasPosition = false;
+							obs->BuyPrice = ask_price;
+							obs->StopLostPrice = bid_price;
+							obs->HighestStopLost = bid_price;
+							obs->BuyTime = DateUtil::getCurrentTime();
+							obs->TradeTime = DateUtil::getCurrentSystemTime();
+
+							//algoActionInterface->showLog("Ready Buy Enter :obs->Status=STATUS_PENDING");
+						}else{
+							Log("Ready Buy Enter :obs->hasRelatedWarrant(STATUS_PENDING) False");
+						}
+							//}
+					}else{
+						Log("Ready Buy Enter :obs->hasWarrants() false ");
+						obs->removeAllWarrants();
+
+						auto pmsg = algo_signal_msg_pool.get_obj();
+						pmsg->al = this;
+						pmsg->algo_name = this->_name;
+						pmsg->id = this->_u.get_id();
+						pmsg->ref = to_string(obs->Code);
+						pmsg->code = obs->Code;
+						pmsg->detect_ask = 0;
+						pmsg->selected = false;
+						ouputQueue.enqueue(pmsg);
+
+
+						obs->detected = false;
+
+						signalCount--;
+
+
+						if(signalCount <= 0){
+							lastReadyTime = 0;
+							Log("No Detected Signal");
+						}
+
+					}
+
+				}
+
+			}
+
 		}
 	}
 	return false;
@@ -3195,6 +3304,7 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 	algo_underlyingaction_msg* pUnderlyingAction_msg = nullptr;
 	algo_warrantaction_msg* pWarrantAction_msg = nullptr;
 	algo_force_sell* pforce_sell = nullptr;
+	algo_force_buy* pforce_buy = nullptr;
 	algo_force_detect* pforce_detect = nullptr;
 	algo_issuerlist_msg* pissuerlist = nullptr;
 	algo_underlyinglist_msg* punderlyinglist = nullptr;
@@ -3302,6 +3412,16 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			pforce_sell->price = json["price"].get<unsigned long long>();
 			return pforce_sell;
 		}
+		else if(cmd == "force_buy")
+		{
+			pforce_buy = algo_force_sell_pool.get_obj();
+			pforce_buy->al = this;
+			pforce_buy->algo_name = _name;
+			pforce_buy->id = _u.get_id();
+			pforce_buy->ref = ref;
+			pforce_buy->ucode = json["ucode"].get<unsigned int>();
+			return pforce_buy;
+		}
 		else if(cmd == "force_detect")
 		{
 			pforce_detect = algo_force_detect_pool.get_obj();
@@ -3382,6 +3502,8 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 			pMarketStatus_msg->release();
 		if (pforce_sell)
 			pforce_sell->release();
+		if (pforce_buy)
+			pforce_buy->release();
 		if(pforce_detect)
 			pforce_detect->release();
 		if (pSetBet_msg)
@@ -3439,6 +3561,7 @@ rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_lvlsell_msg, 8192> s1algo:
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_winsell_msg, 8192> s1algo::algo_winsell_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_winlvlsell_msg, 8192> s1algo::algo_winlvlsell_msg_pool;
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_force_sell, 8192> s1algo::algo_force_sell_pool;
+rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_force_buy, 8192> s1algo::algo_force_buy_pool;
 rapid_ring::spsc_ring_buffer_object_pool<s1algo::algo_force_detect, 8192> s1algo::algo_force_detect_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_warrantprice_msg, 8192> s1algo::algo_warrantprice_msg_pool;
 rapid_ring::spmc_ring_buffer_object_pool<s1algo::algo_issuerlist_msg, 8192> s1algo::algo_issuerlist_msg_pool;

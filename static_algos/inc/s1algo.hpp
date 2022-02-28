@@ -725,6 +725,39 @@ private:
 		}
 		virtual ~algo_force_sell() = default;
 	};
+	struct algo_force_buy: public algo_msg_base
+	{
+		unsigned int ucode;
+		bool result;
+		algo_force_buy():
+			algo_msg_base()
+		{
+		}
+		virtual nlohmann::json to_json() const
+		{
+			auto j = algo_msg_base::to_json();
+			j["action"] = "force_buy";
+			j["ucode"] = ucode;
+			if(result){
+				j["result"] = "SUCCESS";
+			}else{
+				j["result"] = "FAIL";
+				j["reason"] = result;
+			}
+			return j;
+		}
+		virtual void on_command()
+		{
+			auto* self = dynamic_cast<s1algo*>(al);
+			result = self->force_buy(ucode);
+			ouputQueue.enqueue(this);
+		}
+		virtual void release()
+		{
+			algo_force_buy_pool.release_obj(this);
+		}
+		virtual ~algo_force_buy() = default;
+	};
 	struct algo_warrantprice_msg: public algo_msg_base
 	{
 		unsigned int warrant_code;
@@ -937,6 +970,7 @@ public:
 	virtual void forcesold();
 	virtual bool checkPrice(unsigned int code, unsigned long long ubid, unsigned long long uask);
 	virtual bool force_sell(unsigned int ucode, unsigned int code, unsigned long long price);
+	virtual bool force_buy(unsigned int ucode);
 	virtual bool setSelectedWarrant(std::string action, unsigned int code);
 	virtual bool forceDetected(unsigned int ucode, unsigned long long detectprice, unsigned long long stoplost);
 
@@ -957,6 +991,7 @@ public:
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_lvlsell_msg, 8192> algo_lvlsell_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_winlvlsell_msg, 8192> algo_winlvlsell_msg_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_force_sell, 8192> algo_force_sell_pool;
+	static rapid_ring::spsc_ring_buffer_object_pool<algo_force_buy, 8192> algo_force_buy_pool;
 	static rapid_ring::spsc_ring_buffer_object_pool<algo_force_detect, 8192> algo_force_detect_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_warrantprice_msg, 8192> algo_warrantprice_msg_pool;
 	static rapid_ring::spmc_ring_buffer_object_pool<algo_issuerlist_msg, 8192> algo_issuerlist_msg_pool;
