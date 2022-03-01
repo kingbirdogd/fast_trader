@@ -1382,14 +1382,10 @@ bool s1algo::force_buy(unsigned int ucode){
 											//unsigned long long t_docheck = t_btrade - t_check;
 
 
-						unsigned long long t_end = dbp::tools::srv::current();
 
-						unsigned long long t_doorder = t_end - t_btrade;
-
-											//unsigned long long t_diff = t_end - t_start;
 
 											//Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wobsArray[i]->RefWAsk) + " time = " + to_string(t_diff) + " TCheck = " + to_string(t_docheck) + " TOrder = " + to_string(t_doorder));
-						Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wobsArray[i]->RefWAsk) + " Wbid = " + to_string(wbest_bid_price)  + " Wask = " + to_string(wbest_ask_price) + " TTrade = " + to_string(t_doorder));
+						Log("Do Buy Warrant Code =  " + to_string(wobsArray[i]->Code) + " @ " + to_string(wobsArray[i]->RefWAsk) + " Wbid = " + to_string(wbest_bid_price)  + " Wask = " + to_string(wbest_ask_price) );
 					}
 
 					if(obs->hasWarrants()){
