@@ -1374,9 +1374,10 @@ bool s1algo::force_buy(unsigned int ucode){
 							continue;
 						}
 
+
 						#ifndef NOT_MEASURE
-							wobsArray[i]->pkg_tm = tradable.m_PkgTime;
-							wobsArray[i]->m_tm = tradable.m_MsgTime;
+							wobsArray[i]->pkg_tm = 0;
+							wobsArray[i]->m_tm = 0;
 							wobsArray[i]->t_tm = dbp::tools::srv::current();
 						#endif
 											//unsigned long long t_docheck = t_btrade - t_check;
