@@ -282,32 +282,33 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						else if(up->Bestbid < obsw->StopLostPrice && best_bid_price < obsw->RefWBid){
 							unsigned long long pcb = spm->sellOut(best_bid_price);
 
+							if(pcb != 99999999){
+								Log("Security Code = " + to_string(code) + " New PCB : Ubid " + to_string(pcb) + "  Wbid " + to_string(best_bid_price));
+								Log("Security Code = " + to_string(p->UCode) + " Ubid below Stop lost : Ubid " + to_string(up->Bestbid) + "  Stoplost " + to_string(obsw->StopLostPrice));
+								Log("Warrant Code = " + to_string(code) + " wbid below ref wStop lost : wbid " + to_string(best_bid_price) + "  wStoplost " + to_string(obsw->RefWBid));
 
-							Log("Security Code = " + to_string(code) + " New PCB : Ubid " + to_string(pcb) + "  Wbid " + to_string(best_bid_price));
-							Log("Security Code = " + to_string(p->UCode) + " Ubid below Stop lost : Ubid " + to_string(up->Bestbid) + "  Stoplost " + to_string(obsw->StopLostPrice));
-							Log("Warrant Code = " + to_string(code) + " wbid below ref wStop lost : wbid " + to_string(best_bid_price) + "  wStoplost " + to_string(obsw->RefWBid));
 
+								if(pcb < obsw->StopLostPrice && pcb < up->Bestbid) {
+									Log("Security Code = " + to_string(code) + " New StopLost : Ubid " + to_string(pcb) + "  Wbid " + to_string(best_bid_price));
 
-							if(pcb < obsw->StopLostPrice && pcb < up->Bestbid) {
-								Log("Security Code = " + to_string(code) + " New StopLost : Ubid " + to_string(pcb) + "  Wbid " + to_string(best_bid_price));
+									obsw->StopLostPrice = pcb;
+									obsw->RefWBid = best_bid_price;
 
-								obsw->StopLostPrice = pcb;
-								obsw->RefWBid = best_bid_price;
+									auto msg = algo_stoplost_msg_pool.get_obj();
+									msg->al = this;
+									msg->algo_name = _name;
+									msg->id = _u.get_id();
+									msg->ref = to_string(code);
+									msg->code = code;
+									msg->stoplost = pcb;
+									msg->wbid = best_bid_price;
+									ouputQueue.enqueue(msg);
 
-								auto msg = algo_stoplost_msg_pool.get_obj();
-								msg->al = this;
-								msg->algo_name = _name;
-								msg->id = _u.get_id();
-								msg->ref = to_string(code);
-								msg->code = code;
-								msg->stoplost = pcb;
-								msg->wbid = best_bid_price;
-								ouputQueue.enqueue(msg);
+									obs->StopLostPrice = obs->getHighestStopLostPrice();
 
-								obs->StopLostPrice = obs->getHighestStopLostPrice();
-
-							//	Log("bid->Quantity0 = " + to_string(up->BidQty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost));
-							//Log("Security Code = " + to_string(p->UCode) + " Rise Stop Lost Price from " + to_string(oldstoplost) + " To " + to_string(obs->StopLostPrice));
+								//	Log("bid->Quantity0 = " + to_string(up->BidQty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost));
+								//Log("Security Code = " + to_string(p->UCode) + " Rise Stop Lost Price from " + to_string(oldstoplost) + " To " + to_string(obs->StopLostPrice));
+								}
 							}
 						}
 					/*
