@@ -1397,9 +1397,9 @@ bool s1algo::force_buy(unsigned int ucode){
 							Log("Ready Buy Enter :obs->hasRelatedWarrant(STATUS_PENDING)");
 							obs->Status = STATUS_PENDING;
 							obs->hasPosition = false;
-							obs->BuyPrice = ask_price;
-							obs->StopLostPrice = bid_price;
-							obs->HighestStopLost = bid_price;
+							obs->BuyPrice = obs->DetectedAsk;
+							//obs->StopLostPrice = bid_price;
+							obs->HighestStopLost = obs->StopLostPrice;
 							obs->BuyTime = DateUtil::getCurrentTime();
 							obs->TradeTime = DateUtil::getCurrentSystemTime();
 
