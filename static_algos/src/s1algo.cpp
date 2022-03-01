@@ -3411,7 +3411,7 @@ algo_msg_base* s1algo::json_to_msg(json& json)
 		}
 		else if(cmd == "force_buy")
 		{
-			pforce_buy = algo_force_sell_pool.get_obj();
+			pforce_buy = algo_force_buy_pool.get_obj();
 			pforce_buy->al = this;
 			pforce_buy->algo_name = _name;
 			pforce_buy->id = _u.get_id();
