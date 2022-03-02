@@ -258,7 +258,7 @@ void s1algo::on_omdc_book(const Tradable& tradable)
 						Log("Warrant Code = " + to_string(code) + " StopLost = " + to_string(obsw->StopLostPrice) + " WStopLost = " + to_string(obsw->RefWBid) + " UBid = " + to_string(up->Bestbid) + " WBid=" + to_string(best_bid_price));
 
 
-						if(up->Bestbid > obsw->StopLostPrice && best_bid_price > obsw->RefWBid  && best_bid_price > obsw->BuyPrice ){
+						if(up->Bestbid > obsw->StopLostPrice && best_bid_price > obsw->RefWBid  && best_bid_price >= obsw->BuyPrice ){
 
 							Log("bid->Quantity0 = " + to_string(up->BidQty) + " as->RaiseStopLost = " + to_string(s1->RaiseStopLost));
 							Log("Security Code = " + to_string(p->UCode) + " Rise Stop Lost Price from " + to_string(obsw->StopLostPrice) + " To " + to_string(up->Bestbid));
