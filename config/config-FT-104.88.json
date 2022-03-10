@@ -87,57 +87,10 @@
 					"params":
 					{
 					}
-				}
-			}
-		},
-		{
-			"ID":5,
-			"IP":"192.168.104.88",
-			"PORT":35101,
-			"USER":"P990098",
-			"PASS":"pass",
-			"BUY_POWER":5000000,
-			"ALGOS":
-			{
-				"kenny_semipro":
+				},
+				"demo001_semi":
 				{
-					"lib": "semipro",
-					"params":
-					{
-					}
-				}
-			}
-		},
-		{
-			"ID":18,
-			"IP":"192.168.104.88",
-			"PORT":35101,
-			"USER":"P990098",
-			"PASS":"pass",
-			"BUY_POWER":5000000,
-			"ALGOS":
-			{
-				"kdemo001_bear":
-				{
-					"lib": "bear",
-					"params":
-					{
-					}
-				}
-			}
-		},
-		{
-			"ID":19,
-			"IP":"192.168.104.88",
-			"PORT":35101,
-			"USER":"P990098",
-			"PASS":"pass",
-			"BUY_POWER":5000000,
-			"ALGOS":
-			{
-				"kdemo002_bear":
-				{
-					"lib": "bear",
+					"lib": "semi",
 					"params":
 					{
 					}
@@ -344,11 +297,9 @@
 	},
 	"ActivateChannel":
 	[
-		{"Channel":"OmddftChannel"},
 		{"Channel":"SWOmdcChannel"},
 		{"Channel":"S1Channel"},
-		{"Channel":"PriceTableChannel"},
-		{"Channel":"OmddPriceTableChannel"}
+		{"Channel":"PriceTableChannel"}
 		
 	]
 }
