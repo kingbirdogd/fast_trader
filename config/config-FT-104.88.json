@@ -56,13 +56,6 @@
 			"BUY_POWER":5000000,
 			"ALGOS":
 			{
-				"leo_bear":
-				{
-					"lib": "bear",
-					"params":
-					{
-					}
-				},
 				"leo_s1algo":
 				{
 					"lib": "s1algo",
