@@ -69,6 +69,20 @@
 					"params":
 					{
 					}
+				},
+				"leo_semi":
+				{
+					"lib": "semi",
+					"params":
+					{
+					}
+				},
+				"leo_semipro":
+				{
+					"lib": "semipro",
+					"params":
+					{
+					}
 				}
 			}
 		},
